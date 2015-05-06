@@ -29,7 +29,7 @@ public class DepthOfFieldCamera extends CameraBase implements Camera {
    public Point getWorldPointForPixel(double x, double y) {
 
       Point point = getDefaultOrientationWorldPointForPixel(x, y);
-
+      // comment test
       ConvertToWorldCoordinates(point);
 
       return point;
