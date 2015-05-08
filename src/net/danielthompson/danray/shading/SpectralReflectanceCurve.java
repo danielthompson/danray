@@ -1,16 +1,12 @@
 package net.danielthompson.danray.shading;
 
 /**
- * Created by daniel on 3/17/15.
+ * Created by daniel on 5/6/15.
  */
-public class Spectrum {
-
+public class SpectralReflectanceCurve {
    public float[] Buckets;
 
-   public Spectrum() {
+   public SpectralReflectanceCurve() {
       Buckets = new float[48];
    }
-
-
-
 }

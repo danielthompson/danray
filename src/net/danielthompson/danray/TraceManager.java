@@ -8,6 +8,7 @@ import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Scene;
 import net.danielthompson.danray.structures.Statistics;
 import net.danielthompson.danray.structures.Vector;
+import net.danielthompson.danray.tracers.Tracer;
 import net.danielthompson.danray.ui.CountCanvas;
 import net.danielthompson.danray.ui.InfoJFrame;
 import net.danielthompson.danray.ui.MainCanvas;

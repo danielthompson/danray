@@ -1,4 +1,4 @@
-package net.danielthompson.danray;
+package net.danielthompson.danray.tracers;
 
 import net.danielthompson.danray.lights.Radiatable;
 import net.danielthompson.danray.shading.Blender;
@@ -59,7 +59,7 @@ public class Tracer {
 
       if (closestStateToRay.Drawable instanceof Radiatable) {
 
-         colorWithStatistics.Color = closestStateToRay.Drawable.GetMaterial().getColor();
+         colorWithStatistics.Color = closestStateToRay.Drawable.GetMaterial().Color;
          return colorWithStatistics;
       }
 
@@ -123,7 +123,7 @@ public class Tracer {
          }
       }
 
-      float[] hsbColor = Color.RGBtoHSB(objectMaterial.getColor().getRed(), objectMaterial.getColor().getGreen(), objectMaterial.getColor().getBlue(), null);
+      float[] hsbColor = Color.RGBtoHSB(objectMaterial.Color.getRed(), objectMaterial.Color.getGreen(), objectMaterial.Color.getBlue(), null);
 
       hsbColor[2] = (float)brightness;
 

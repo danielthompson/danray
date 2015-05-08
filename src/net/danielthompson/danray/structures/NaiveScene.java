@@ -30,9 +30,7 @@ public class NaiveScene extends Scene {
 
    public NaiveScene(Camera camera) {
       super(camera);
-      _drawables = new ArrayList<>();
-      _radiatables = new ArrayList<>();
-      _planes = new ArrayList<>();
+
    }
 
    @Override

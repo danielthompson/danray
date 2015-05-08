@@ -1,7 +1,7 @@
 package net.danielthompson.danray.runners;
 
 import net.danielthompson.danray.TraceManager;
-import net.danielthompson.danray.Tracer;
+import net.danielthompson.danray.tracers.Tracer;
 import net.danielthompson.danray.presets.RenderQualityPreset;
 import net.danielthompson.danray.shading.Blender;
 import net.danielthompson.danray.structures.ColorWithStatistics;

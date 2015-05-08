@@ -6,6 +6,7 @@ import net.danielthompson.danray.lights.SpectralRadiatable;
 import net.danielthompson.danray.shapes.Drawable;
 import net.danielthompson.danray.states.IntersectionState;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,6 +22,10 @@ public abstract class Scene {
 
    public Scene(Camera camera) {
       Camera = camera;
+      _drawables = new ArrayList<>();
+      _radiatables = new ArrayList<>();
+      //_planes = new ArrayList<>();
+      SpectralRadiatables = new ArrayList<>();
    }
 
    public abstract void addDrawableObject(Drawable drawable);

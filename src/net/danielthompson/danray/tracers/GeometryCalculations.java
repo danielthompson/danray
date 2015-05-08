@@ -1,4 +1,4 @@
-package net.danielthompson.danray;
+package net.danielthompson.danray.tracers;
 
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.*;

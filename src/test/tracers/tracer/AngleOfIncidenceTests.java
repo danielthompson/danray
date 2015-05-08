@@ -1,7 +1,7 @@
-package test.tracer;
+package test.tracers.tracer;
 
-import net.danielthompson.danray.GeometryCalculations;
-import net.danielthompson.danray.Tracer;
+import net.danielthompson.danray.tracers.GeometryCalculations;
+import net.danielthompson.danray.tracers.Tracer;
 import net.danielthompson.danray.shapes.ImplicitPlane;
 import net.danielthompson.danray.structures.Normal;
 import net.danielthompson.danray.structures.Point;

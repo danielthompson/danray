@@ -1,17 +1,14 @@
-package net.danielthompson.danray;
+package net.danielthompson.danray.tracers;
 
-import net.danielthompson.danray.lights.Radiatable;
 import net.danielthompson.danray.lights.SpectralRadiatable;
-import net.danielthompson.danray.shading.Blender;
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
+import net.danielthompson.danray.shading.SpectralReflectanceCurve;
 import net.danielthompson.danray.shapes.Drawable;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Scene;
-
-import java.awt.*;
 
 
 /**
@@ -34,8 +31,6 @@ public class SpectralTracer {
    public SpectralPowerDistribution GetSPDForRay(Ray ray, int depth) {
 
       SpectralPowerDistribution sampleSPD = new SpectralPowerDistribution();
-
-      double brightness = 0;
 
       IntersectionState closestStateToRay = _scene.GetClosestDrawableToRay(ray);
 
@@ -98,12 +93,18 @@ public class SpectralTracer {
          }
       }
 
+      // compute the interaction of the incoming SPD with the object's SRC
+
+      SpectralReflectanceCurve curve = objectMaterial.SpectralReflectanceCurve;
+
+      SpectralPowerDistribution reflectedSPD = incomingSpectralPowerDistribution.reflectOff(curve);
+
       // base case
       if (depth >= _maxDepth) {
         ;
 
       }
-      return incomingSpectralPowerDistribution;
+      return reflectedSPD;
       // recursive case
       /* else {
 

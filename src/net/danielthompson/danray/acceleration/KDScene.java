@@ -33,10 +33,6 @@ public class KDScene extends Scene {
 
    public KDScene(Camera camera) {
       super(camera);
-
-      _drawables = new ArrayList<>();
-      _radiatables = new ArrayList<>();
-      _planes = new ArrayList<>();
    }
 
    @Override

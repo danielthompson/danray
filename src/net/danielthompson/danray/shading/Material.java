@@ -9,21 +9,23 @@ import java.awt.Color;
  * Time: 5:42 PM
  */
 public class Material {
-   private Color _color;
+   public Color Color;
+
+   public SpectralReflectanceCurve SpectralReflectanceCurve;
+
    private double _reflectivity;
    private double _transparency;
    private double _indexOfRefraction;
    private double _specular;
 
 
-
-
+/*
    public Color getColor() {
-      return _color;
+      return Color;
    }
-
+*/
    public void setColor(Color color) {
-      _color = color;
+      Color = color;
    }
 
    public double getReflectivity() {
@@ -67,7 +69,7 @@ public class Material {
    }
 
    public Material (Color color, double reflectivity, double transparency, double indexOfRefraction, double specular) {
-      _color = color;
+      Color = color;
       _reflectivity = reflectivity;
       _transparency = transparency;
       _indexOfRefraction = indexOfRefraction;
