@@ -42,7 +42,7 @@ public class SimpleTests {
 
       SpectralPowerDistribution lightSPD = new SpectralPowerDistribution();
       for (int i = 0; i < lightSPD.Buckets.length; i++) {
-         lightSPD.Buckets[i] = 5000.0f;
+         lightSPD.Buckets[i] = 500000.0f;
       }
 
       SpectralSphereLight light = new SpectralSphereLight(10, null, lightSPD);

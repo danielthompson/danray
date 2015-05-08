@@ -46,7 +46,7 @@ public class SpectralPowerDistribution {
       float tristimulusValue = 0.0f;
 
       for (int i = 0; i < Buckets.length; i++) {
-         tristimulusValue = func.Buckets[i] * Buckets[i];
+         tristimulusValue += func.Buckets[i] * Buckets[i];
       }
 
       return tristimulusValue;
