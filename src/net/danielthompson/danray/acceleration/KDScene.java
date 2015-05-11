@@ -56,11 +56,12 @@ public class KDScene extends Scene {
       // all rays by definition hit the root node
       statistics = new Statistics();
 
-      IntersectionState state = TraverseTreeBetter(rootNode, ray);
+      IntersectionState state = TraverseTree(rootNode, ray);
 
-      IntersectionState planeState = GetClosestPlaneToRay(ray);
 
-      if (planeState != null && planeState.Hits) {
+      //IntersectionState planeState = GetClosestPlaneToRay(ray);
+
+      /*if (planeState != null && planeState.Hits) {
          if (state != null && state.Hits) {
             if (planeState.TMin < state.TMin)
                return planeState;
@@ -69,7 +70,7 @@ public class KDScene extends Scene {
 
          }
          return planeState;
-      }
+      }*/
       return state;
    }
 
@@ -86,7 +87,7 @@ public class KDScene extends Scene {
 
       List<Drawable> totalDrawables = new ArrayList<>();
 
-      totalDrawables.addAll(_planes);
+      //totalDrawables.addAll(_planes);
       totalDrawables.addAll(drawables);
 
       return GetClosestDrawableToRay(totalDrawables, ray);

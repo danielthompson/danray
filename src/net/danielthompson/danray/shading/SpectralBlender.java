@@ -13,14 +13,19 @@ import java.awt.color.ColorSpace;
  */
 public class SpectralBlender {
 
-   public static int FilmSpeed = 100;
+   public static float FilmSpeed = 100;
 
    public static float FilmSpeedMultiplier = FilmSpeed / 100f;
 
+   public static void setFilmSpeed(float speed) {
+      FilmSpeed = speed;
+      FilmSpeedMultiplier = FilmSpeed / 100f;
+   }
+
    public static Color Convert(SpectralPowerDistribution spd) {
-      float triX = spd.apply(StandardObserverColorMatchingFunction.XBar);
-      float triY = spd.apply(StandardObserverColorMatchingFunction.YBar);
-      float triZ = spd.apply(StandardObserverColorMatchingFunction.ZBar);
+      float triX = spd.apply(StandardObserverColorMatchingFunction.XBar) * StandardObserverColorMatchingFunction.OneOverYBarSum;
+      float triY = spd.apply(StandardObserverColorMatchingFunction.YBar) * StandardObserverColorMatchingFunction.OneOverYBarSum;
+      float triZ = spd.apply(StandardObserverColorMatchingFunction.ZBar) * StandardObserverColorMatchingFunction.OneOverYBarSum;
 
       return ConvertTristumulus(triX, triY, triZ);
 
@@ -37,15 +42,43 @@ public class SpectralBlender {
       float minZ = cs.getMinValue(2);
       float maxZ = cs.getMaxValue(2);
 
+      X *= FilmSpeedMultiplier;
+      Y *= FilmSpeedMultiplier;
+      Z *= FilmSpeedMultiplier;
 
-      float rgb[] = cs.toRGB(new float[] {X, Y, Z});
+      float xyz[] = new float[3];
+      if (X < minX)
+         xyz[0] = minX;
+      else if (X > maxX)
+         xyz[0] = maxX;
+      else
+         xyz[0] = X;
+
+      if (Y < minY)
+         xyz[1] = minY;
+      else if (Y > maxY) {
+         xyz[0] = maxX;
+         xyz[1] = maxY;
+         xyz[2] = maxZ;
+      }
+      else
+         xyz[1] = Y;
+
+      if (Z < minZ)
+         xyz[2] = minZ;
+      else if (Z > maxZ)
+         xyz[2] = maxZ;
+      else
+         xyz[2] = Z;
+      
+      float rgb[] = cs.toRGB(xyz);
 
       float R = rgb[0] * 255;
       float G = rgb[1] * 255;
       float B = rgb[2] * 255;
 
 /*
-      float var_X = X * FilmSpeedMultiplier; // triX from 0 to  95.047      (Observer = 2°, Illuminant = D65)
+      float var_X = X * FilmSpeedMultiplier; // triX from 0 to  95.047      (Observer = 2ï¿½, Illuminant = D65)
       float var_Y = Y * FilmSpeedMultiplier; // triY from 0 to 100.000
       float var_Z = Z * FilmSpeedMultiplier; // triZ from 0 to 108.883
 

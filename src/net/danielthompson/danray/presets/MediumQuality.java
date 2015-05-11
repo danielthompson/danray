@@ -6,12 +6,12 @@ package net.danielthompson.danray.presets;
 public class MediumQuality implements RenderQualityPreset {
    private final int _x = 1280 , _y = 720;
    private final int _maxDepth = 6;
-   private final int _samplesPerPixel = 2;
-   private final int _superSamplesPerPixel = 1;
+   private final int _samplesPerPixel = 4;
+   private final int _superSamplesPerPixel = 4;
    private final int _airIndexOfRefraction = 1;
    private final int _threads = 8;
    private final boolean _useDepthOfField = false;
-   private final float _convergenceTerminationThreshold = .8f;
+   private final float _convergenceTerminationThreshold = .9f;
 
    @Override
    public int getX() {

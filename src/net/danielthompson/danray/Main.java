@@ -25,7 +25,7 @@ public class Main {
       Scene scene;
 
       //scene = SceneBuilder.ManyRandomSpheres(_preset.getX(), _preset.getY());
-      scene = SceneBuilder.ManyRegularSpheres(_preset.getX(), _preset.getY());
+      //scene = SceneBuilder.ManyRegularSpheres(_preset.getX(), _preset.getY());
       //scene = SceneBuilder.SomeRegularSpheres(_preset.getX(), _preset.getY());
       //scene = SceneBuilder.SpheresInAnXPattern(_preset.getX(), _preset.getY());
       //scene = SceneBuilder.AreaLightSourceTest(_preset.getX(), _preset.getY());
@@ -37,6 +37,7 @@ public class Main {
       //scene = SceneBuilder.DiffuseAndSpecularSpheres(_preset.getX(), _preset.getY());
       //scene = SceneBuilder.TwoSpheresWithLights(_preset.getX(), _preset.getY());
       //scene = SceneBuilder.TwoTransparentReflectiveSpheresWithLights(_preset.getX(), _preset.getY());
+      scene = SceneBuilder.SpectralLemon(_preset.getX(), _preset.getY());
 
       TracerOptions options = parseArgs(args);
 

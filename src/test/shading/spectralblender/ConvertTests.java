@@ -1,8 +1,6 @@
 package test.shading.spectralblender;
 
-import net.danielthompson.danray.shading.Blender;
-import net.danielthompson.danray.shading.SpectralBlender;
-import net.danielthompson.danray.shading.SpectralPowerDistribution;
+import net.danielthompson.danray.shading.*;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -28,7 +26,7 @@ public class ConvertTests {
    public void testConvert1() throws Exception {
       SpectralPowerDistribution spd = new SpectralPowerDistribution();
       for (int i = 0; i < spd.Buckets.length; i++) {
-         spd.Buckets[i] = .01f * (i);
+         spd.Buckets[i] = (48 - i) * 2;
       }
 
       Color c = SpectralBlender.Convert(spd);
@@ -39,11 +37,35 @@ public class ConvertTests {
 
    @Test
    public void testConvertTristimulus() throws Exception {
-      float x = .5f;
-      float y = .5f;
-      float z = .6f;
+      float x = 3f;
+      float y = 3f;
+      float z = 3f;
+
+      SpectralBlender.setFilmSpeed(1);
 
       Color c = SpectralBlender.ConvertTristumulus(x, y, z);
+
+      System.out.println("");
+   }
+
+   @Test
+   public void testD65OnLemon() throws Exception {
+      SpectralBlender.setFilmSpeed(.1f);
+
+      for (float i = 0; i < 20f; i += .05f) {
+
+         SpectralPowerDistribution d65 = new SpectralPowerDistribution(RelativeSpectralPowerDistributionLibrary.D65, i);
+
+         SpectralReflectanceCurve lemon = SpectralReflectanceCurveLibrary.LemonSkin;
+
+         SpectralPowerDistribution result = d65.reflectOff(lemon);
+
+
+
+         Color c = SpectralBlender.Convert(result);
+
+         System.out.println("power = " + i + ", color = " + c.toString());
+      }
 
       System.out.println("");
    }

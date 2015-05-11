@@ -3,12 +3,16 @@ package net.danielthompson.danray;
 import net.danielthompson.danray.presets.RenderQualityPreset;
 import net.danielthompson.danray.presets.TracerOptions;
 import net.danielthompson.danray.runners.PixelRunner;
+import net.danielthompson.danray.runners.SpectralPixelRunner;
+import net.danielthompson.danray.runners.SpectralTilePixelRunner;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Scene;
 import net.danielthompson.danray.structures.Statistics;
 import net.danielthompson.danray.structures.Vector;
+import net.danielthompson.danray.tracers.SpectralTracer;
 import net.danielthompson.danray.tracers.Tracer;
+import net.danielthompson.danray.ui.CanvasUpdateTimerTask;
 import net.danielthompson.danray.ui.CountCanvas;
 import net.danielthompson.danray.ui.InfoJFrame;
 import net.danielthompson.danray.ui.MainCanvas;
@@ -24,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Timer;
 
 /**
  * Created by daniel on 3/4/14.
@@ -44,6 +49,9 @@ public class TraceManager {
 */
    private InfoJFrame _infoJFrame;
 
+   private CanvasUpdateTimerTask _updateTask;
+   private Timer _timer;
+
    private RenderQualityPreset _qualityPreset;
    private TracerOptions _tracerOptions;
    private final float _samplesInverse;
@@ -59,6 +67,7 @@ public class TraceManager {
    Scene _scene;
 
    Tracer _tracer;
+   SpectralTracer _spectralTracer;
 
    int _xPointer;
    int _yPointer;
@@ -78,6 +87,8 @@ public class TraceManager {
       _samplesInverse = 1.0f / (renderQualityPreset.getSuperSamplesPerPixel() * renderQualityPreset.getSamplesPerPixel());
       _scene = scene;
       _tracer = new Tracer(_scene, renderQualityPreset.getMaxDepth());
+      _spectralTracer = new SpectralTracer(_scene, 1);
+      _timer = new Timer();
 
       Logger.AddOutput(System.out);
       CreateOutputDirectory();
@@ -101,6 +112,9 @@ public class TraceManager {
 
    public void Render() {
       SetupWindows();
+
+
+
 
       for (int i = 0; i < _scene.numFrames; i++) {
 
@@ -170,12 +184,16 @@ public class TraceManager {
          if (_infoJFrame == null) {
             _infoJFrame = new InfoJFrame(this);
             _infoJFrame.pack();
+            _infoJFrame.setLocation(_traceFrame.getWidth() + 10, 0);
             _infoJFrame.setVisible(true);
 
          }
          _infoJFrame.setCameraOrigin(_scene.Camera.getOrigin().X, _scene.Camera.getOrigin().Y, _scene.Camera.getOrigin().Z);
          _infoJFrame.setCameraDirection(_scene.Camera.getDirection().X, _scene.Camera.getDirection().Y, _scene.Camera.getDirection().Z);
 
+         _updateTask = new CanvasUpdateTimerTask(_traceCanvas, _traceGraphics, _countCanvas, _countGraphics);
+
+         _timer.schedule(_updateTask, 0, 800);
       }
 
    }
@@ -252,7 +270,8 @@ public class TraceManager {
 
       _scene.Camera.setFrame(frame);
 
-      Runnable runner = new PixelRunner(this, _tracer, _scene, _qualityPreset, frame);
+      //Runnable runner = new PixelRunner(this, _tracer, _scene, _qualityPreset, frame);
+      Runnable runner = new SpectralTilePixelRunner(this, _spectralTracer, _scene, _qualityPreset, frame);
 
       if (_qualityPreset.getNumberOfThreads() <= 1) {
          runner.run();
@@ -459,7 +478,7 @@ public class TraceManager {
    }
 
    public void Trace(int[] pixel) {
-      PixelRunner runner = new PixelRunner(this, _tracer, _scene, _qualityPreset, 0);
+      SpectralPixelRunner runner = new SpectralPixelRunner(this, _spectralTracer, _scene, _qualityPreset, 0);
       runner.trace(pixel);
    }
 

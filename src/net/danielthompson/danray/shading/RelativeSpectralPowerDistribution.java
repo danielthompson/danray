@@ -3,11 +3,10 @@ package net.danielthompson.danray.shading;
 /**
  * Created by daniel on 5/5/15.
  */
-public class RelativeSpectralPowerDistribution {
-   public float[] Buckets;
+public class RelativeSpectralPowerDistribution extends Spectrum {
 
    public RelativeSpectralPowerDistribution() {
-      Buckets = new float[50];
+      super();
    }
 
    public RelativeSpectralPowerDistribution(SpectralPowerDistribution spd) {

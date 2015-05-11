@@ -20,7 +20,7 @@ public class SpectralTracer {
    int _maxDepth;
 
    private final double factor = 1.0;
-   private final double iterations = 2.0;
+   private final double iterations = 128.0;
    private final double adjustment = factor / iterations;
 
    public SpectralTracer(Scene scene, int maxDepth) {
@@ -82,7 +82,7 @@ public class SpectralTracer {
                   if (angleOfIncidencePercentage >= 0 && angleOfIncidencePercentage <= 100) {
                      SpectralPowerDistribution currentIncomingSPD = radiatable.getSpectralPowerDistribution();
                      double scaleFactor = adjustment * angleOfIncidencePercentage * oneOverDistanceFromLightSource;
-                     currentIncomingSPD.scale(scaleFactor);
+                     currentIncomingSPD = SpectralPowerDistribution.scale(currentIncomingSPD, scaleFactor);
 
                      incomingSpectralPowerDistribution.add(currentIncomingSPD);
 

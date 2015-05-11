@@ -9,8 +9,9 @@ import net.danielthompson.danray.cameras.apertures.SquareAperture;
 import net.danielthompson.danray.imports.WavefrontObjectImporter;
 import net.danielthompson.danray.lights.PointLight;
 import net.danielthompson.danray.lights.Radiatable;
+import net.danielthompson.danray.lights.SpectralSphereLight;
 import net.danielthompson.danray.lights.SphereLight;
-import net.danielthompson.danray.shading.Material;
+import net.danielthompson.danray.shading.*;
 import net.danielthompson.danray.shapes.*;
 import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.structures.Point;
@@ -46,6 +47,197 @@ public class SceneBuilder {
 
       Radiatable light = new PointLight(lightOrigin, lumens);
       scene.addRadiatableObject(light);
+
+      return scene;
+   }
+
+   public static Scene SpectralLemon(int x, int y) {
+
+      CameraSettings settings = new CameraSettings();
+      settings.X = x;
+      settings.Y = y;
+      settings.FocalLength = 1200;
+      settings.Rotation = 0;
+      settings.ZoomFactor = 1;
+      settings.FocusDistance = 500;
+      settings.Aperture = new CircleAperture(20);
+
+      Point origin = new Point(0, 0, 5000);
+      Vector direction = new Vector(0, 0, -1);
+      settings.Orientation = new Ray(origin, direction);
+
+      Camera camera = new SimplePointableCamera(settings);
+
+      Scene scene = new NaiveScene(camera);
+
+      // right light
+
+      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(RelativeSpectralPowerDistributionLibrary.Sunset, 50f);
+
+      Material material = new Material();
+
+
+      SpectralSphereLight light = new SpectralSphereLight(10, null, lightSPD);
+      light.Origin = new Point(1000, 0, 1500);
+      light.Radius = 200;
+
+      //scene._drawables.add(light);
+      scene.SpectralRadiatables.add(light);
+
+      // left light
+
+      lightSPD = new SpectralPowerDistribution(RelativeSpectralPowerDistributionLibrary.Sunset, 250f);
+
+      light = new SpectralSphereLight(10, null, lightSPD);
+      light.Origin = new Point(-2000, 0, 4000);
+      light.Radius = 200;
+
+      scene.SpectralRadiatables.add(light);
+
+      // left wall
+
+      Material boxMaterial = new Material();
+      boxMaterial.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.LemonSkin;
+
+      ArrayList<Transform> list = new ArrayList<>();
+      list.add(Transform.Translate(new Vector(-1500, 0, 0)));
+      list.add(Transform.Scale(1.0, 1000.0, 1000.0));
+
+      Transform[] transforms = GetCompositeTransforms(list);
+
+      Transform objectToWorld = transforms[0];
+      Transform worldToObject = transforms[1];
+
+      Point p0 = new Point(-1, -1, -1);
+      Point p1 = new Point(1, 1, 1);
+      Box box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
+      scene._drawables.add(box);
+
+      // right wall
+
+      boxMaterial = new Material();
+      boxMaterial.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.LemonSkin;
+
+      list = new ArrayList<>();
+      list.add(Transform.Translate(new Vector(1500, 0, 0)));
+      list.add(Transform.Scale(1.0, 1000.0, 1000.0));
+
+      transforms = GetCompositeTransforms(list);
+
+      objectToWorld = transforms[0];
+      worldToObject = transforms[1];
+
+      p0 = new Point(-1, -1, -1);
+      p1 = new Point(1, 1, 1);
+      box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
+      scene._drawables.add(box);
+
+      // back wall
+
+      boxMaterial = new Material();
+      boxMaterial.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.Grass;
+
+      list = new ArrayList<>();
+      list.add(Transform.Translate(new Vector(0, 0, -1000)));
+      list.add(Transform.Scale(1500.0, 1000.0, 1));
+
+      transforms = GetCompositeTransforms(list);
+
+      objectToWorld = transforms[0];
+      worldToObject = transforms[1];
+
+      p0 = new Point(-1, -1, -1);
+      p1 = new Point(1, 1, 1);
+      box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
+
+      scene._drawables.add(box);
+
+      // floor
+
+      boxMaterial = new Material();
+      boxMaterial.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.Grass;
+
+      list = new ArrayList<>();
+      list.add(Transform.Translate(new Vector(0, -1000, 0)));
+      list.add(Transform.Scale(1500.0, 1, 1000));
+
+      transforms = GetCompositeTransforms(list);
+
+      objectToWorld = transforms[0];
+      worldToObject = transforms[1];
+
+      p0 = new Point(-1, -1, -1);
+      p1 = new Point(1, 1, 1);
+      box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
+
+      scene._drawables.add(box);
+
+      // ceiling
+
+      boxMaterial = new Material();
+      boxMaterial.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.Grass;
+
+      list = new ArrayList<>();
+      list.add(Transform.Translate(new Vector(0, 1000, 0)));
+      list.add(Transform.Scale(1500.0, 1, 1000));
+
+      transforms = GetCompositeTransforms(list);
+
+      objectToWorld = transforms[0];
+      worldToObject = transforms[1];
+
+      p0 = new Point(-1, -1, -1);
+      p1 = new Point(1, 1, 1);
+      box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
+
+      scene._drawables.add(box);
+
+      // top left little box
+
+      boxMaterial = new Material();
+      boxMaterial.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.Orange;
+
+      p0 = new Point(-700, 200, 1000);
+      p1 = new Point(-200, 700, 1500);
+      box = new Box(p0, p1, boxMaterial);
+
+      scene._drawables.add(box);
+
+      // bottom right little box
+
+      boxMaterial = new Material();
+      boxMaterial.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.LightBlue;
+
+      p0 = new Point(200, -700, 1000);
+      p1 = new Point(700, -200, 1500);
+      box = new Box(p0, p1, boxMaterial);
+
+      scene._drawables.add(box);
+
+
+      material = new Material();
+
+      material.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.Grass;
+
+      list = new ArrayList<>();
+      list.add(Transform.Translate(new Vector(-400, 50, 1000)));
+      list.add(Transform.RotateY(90));
+      list.add(Transform.RotateZ(90));
+
+      list.add(Transform.Scale(50.0, 1000.0, 50.0));
+
+      transforms = GetCompositeTransforms(list);
+
+      objectToWorld = transforms[0];
+      worldToObject = transforms[1];
+
+      Cylinder cylinder = new Cylinder(1, 1, worldToObject, objectToWorld, material);
+
+      scene.addDrawableObject(cylinder);
+
+
+
+      SpectralBlender.setFilmSpeed(1600f);
 
       return scene;
    }

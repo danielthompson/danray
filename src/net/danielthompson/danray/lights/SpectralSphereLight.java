@@ -25,6 +25,13 @@ public class SpectralSphereLight extends SphereLight implements SpectralRadiatab
    public SpectralSphereLight(double power, Material material, SpectralPowerDistribution spd) {
       super(power, material);
       this.SPD = spd;
+
+
+
+      if (material == null) {
+         this._material = new Material();
+
+      }
    }
 
    @Override
