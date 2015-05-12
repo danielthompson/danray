@@ -58,12 +58,12 @@ public class SceneBuilder {
       settings.Y = y;
       settings.FocalLength = 1200;
       settings.Rotation = 0;
-      settings.ZoomFactor = 1;
+      settings.ZoomFactor =  1.5;
       settings.FocusDistance = 500;
       settings.Aperture = new CircleAperture(20);
 
       Point origin = new Point(-100, 0, 5000);
-      Vector direction = new Vector(.1, 0, -1);
+      Vector direction = new Vector(.1, -.1, -1);
       settings.Orientation = new Ray(origin, direction);
 
       Camera camera = new SimplePointableCamera(settings);
@@ -72,27 +72,28 @@ public class SceneBuilder {
 
       // right light
 
-      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(RelativeSpectralPowerDistributionLibrary.Sunset, 50f);
+      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(RelativeSpectralPowerDistributionLibrary.Sunset, 500f);
 
       Material material = new Material();
 
 
       SpectralSphereLight light = new SpectralSphereLight(10, null, lightSPD);
-      light.Origin = new Point(1000, 0, 1500);
+      light.Origin = new Point(800, 0, 1600);
       light.Radius = 200;
 
-      //scene._drawables.add(light);
+      scene._drawables.add(light);
       scene.SpectralRadiatables.add(light);
 
       // left light
 
-      lightSPD = new SpectralPowerDistribution(RelativeSpectralPowerDistributionLibrary.Sunset, 50f);
+      lightSPD = new SpectralPowerDistribution(RelativeSpectralPowerDistributionLibrary.Sunset, 500f);
 
       light = new SpectralSphereLight(10, null, lightSPD);
       light.Origin = new Point(-2000, 0, 4000);
       light.Radius = 200;
 
-      //scene.SpectralRadiatables.add(light);
+      scene.SpectralRadiatables.add(light);
+      scene._drawables.add(light);
 
       // left wall
 
@@ -116,6 +117,7 @@ public class SceneBuilder {
       // right wall
 
       boxMaterial = new Material();
+      boxMaterial.setReflectivity(.5);
       boxMaterial.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.LemonSkin;
 
       list = new ArrayList<>();
@@ -208,8 +210,8 @@ public class SceneBuilder {
       boxMaterial = new Material();
       boxMaterial.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.LightBlue;
 
-      p0 = new Point(200, -700, 1000);
-      p1 = new Point(700, -200, 1500);
+      p0 = new Point(800, -1000, 0);
+      p1 = new Point(1300, -500, 500);
       box = new Box(p0, p1, boxMaterial);
 
       scene._drawables.add(box);

@@ -31,6 +31,17 @@ public class SpectralBlender {
 
    }
 
+   public static SpectralPowerDistribution BlendWeighted(SpectralPowerDistribution dist1, double weight1, SpectralPowerDistribution dist2, double weight2) {
+      SpectralPowerDistribution blend = new SpectralPowerDistribution();
+
+      for (int i = 0; i < dist1.Buckets.length; i++) {
+         blend.Buckets[i] = (float)(dist1.Buckets[i] * weight1 + dist2.Buckets[i] * weight2);
+      }
+
+      return blend;
+
+   }
+
    public static Color ConvertTristumulus(float X, float Y, float Z) {
 
       ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_CIEXYZ);

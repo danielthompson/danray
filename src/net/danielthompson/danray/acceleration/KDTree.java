@@ -54,93 +54,119 @@ public class KDTree {
 
       // base case
 
-      if (node.getObjects().size() < maxLeafSize) {
+      if (node.getObjects().size() <= maxLeafSize) {
          return;
       }
 
       // recursive case
 
       else {
+         KDAxis[] axes = new KDAxis[3];
+         axes[0] = node.getBoundingBox().getLargestExtent();
+         axes[1] = getNextAxis(axes[0]);
+         axes[2] = getNextAxis(axes[1]);
 
-         KDAxis axis = node.getBoundingBox().getLargestExtent();
-         node.Axis = axis;
-
-         BoundingBox box = node.getBoundingBox();
-
-         double separator = getSplit(node.getObjects(), axis, box);
-         node.setSeparator(separator);
+         boolean foundGoodSplit = false;
 
          List<Drawable> lessThanList = new ArrayList<Drawable>();
-         List<Drawable> greaterThanOrEqualToList = new ArrayList<Drawable>();
+         List<Drawable> greaterThanList = new ArrayList<Drawable>();
 
-         for (Drawable drawable : node.getObjects()) {
-            BoundingBox drawableBox = drawable.GetWorldBoundingBox();
-            double lowerBound = drawableBox.getLowerBoundInAxis(axis);
+         KDAxis axis = axes[0];
+         BoundingBox box = node.getBoundingBox();
 
-            double upperBound = drawableBox.getUpperBoundInAxis(axis);
+         double separator = 0;
 
-            if (upperBound < separator)
-               lessThanList.add(drawable);
+         for (int i = 0; i < axes.length; i++) {
 
-            else if (lowerBound >= separator)
-               greaterThanOrEqualToList.add(drawable);
+            axis = axes[i];
 
-            else {
-               lessThanList.add(drawable);
-               greaterThanOrEqualToList.add(drawable);
-            }
+            node.Axis = axis;
 
-         }
+            separator = getSplit(node.getObjects(), axis, box);
+            node.setSeparator(separator);
 
-         if (lessThanList.size() == greaterThanOrEqualToList.size()) {
+            for (Drawable drawable : node.getObjects()) {
+               BoundingBox drawableBox = drawable.GetWorldBoundingBox();
+               double lowerBound = drawableBox.getLowerBoundInAxis(axis);
 
-            //Collections.sort(lessThanList, null);
-            //Collections.sort(greaterThanOrEqualToList, null);
+               double upperBound = drawableBox.getUpperBoundInAxis(axis);
 
-            boolean same = true;
+               if (upperBound <= separator)
+                  lessThanList.add(drawable);
 
-            Iterator<Drawable> p1 = lessThanList.iterator();
-            Iterator<Drawable> p2 = greaterThanOrEqualToList.iterator();
+               else if (lowerBound >= separator)
+                  greaterThanList.add(drawable);
 
-            while (p1.hasNext() && p2.hasNext()) {
-               Drawable d1 = p1.next();
-               Drawable d2 = p2.next();
-
-               if (d1 != d2) {
-                  same = false;
-                  break;
+               else {
+                  lessThanList.add(drawable);
+                  greaterThanList.add(drawable);
                }
+
             }
 
-            if (same)
-               return;
+            // check to see if it's a good split
+
+            if (lessThanList.size() == 0 || greaterThanList.size() == 0)
+               continue;
+
+            if (lessThanList.size() >= node.getObjects().size() || greaterThanList.size() >= node.getObjects().size())
+               continue;
+
+            if (lessThanList.size() == greaterThanList.size()) {
+
+               //Collections.sort(lessThanList, null);
+               //Collections.sort(greaterThanList, null);
+
+               boolean same = true;
+
+               Iterator<Drawable> p1 = lessThanList.iterator();
+               Iterator<Drawable> p2 = greaterThanList.iterator();
+
+               while (p1.hasNext() && p2.hasNext()) {
+                  Drawable d1 = p1.next();
+                  Drawable d2 = p2.next();
+
+                  if (d1 != d2) {
+                     same = false;
+                     break;
+                  }
+               }
+
+               if (same)
+                  continue;
+            }
+
+            foundGoodSplit = true;
+            break;
          }
 
-         node.setLeftChild(new KDNode(lessThanList, getNextAxis(axis)));
-         node.setRightChild(new KDNode(greaterThanOrEqualToList, getNextAxis(axis)));
+         if (foundGoodSplit) {
+            node.setLeftChild(new KDNode(lessThanList, getNextAxis(axis)));
+            node.setRightChild(new KDNode(greaterThanList, getNextAxis(axis)));
 
-         // create new bounding boxes for each child node
+            // create new bounding boxes for each child node
 
-         BoundingBox[] boxes = SubdivideBoundingBox(box, axis, separator);
+            BoundingBox[] boxes = SubdivideBoundingBox(box, axis, separator);
 
-         BoundingBox box1 = ReduceBoundingBox(boxes[0], lessThanList);
+            BoundingBox box1 = ReduceBoundingBox(boxes[0], lessThanList);
 
-         node.getLeftChild().setBoundingBox(box1);
+            node.getLeftChild().setBoundingBox(box1);
 
-         BoundingBox box2 = ReduceBoundingBox(boxes[1], greaterThanOrEqualToList);
+            BoundingBox box2 = ReduceBoundingBox(boxes[1], greaterThanList);
 
-         node.getRightChild().setBoundingBox(box2);
+            node.getRightChild().setBoundingBox(box2);
 
-         if (depth > 20) {
-            ;
-         }
+            if (depth > 20) {
+               ;
+            }
 
-         if (depth < maxDepth) {
+            if (depth < maxDepth) {
 
-            if (node.getLeftChild().getObjects().size() != node.getObjects().size())
-               BuildKDTree(node.getLeftChild(), depth + 1);
-            if (node.getRightChild().getObjects().size() != node.getObjects().size())
-               BuildKDTree(node.getRightChild(), depth + 1);
+               if (node.getLeftChild().getObjects().size() != node.getObjects().size())
+                  BuildKDTree(node.getLeftChild(), depth + 1);
+               if (node.getRightChild().getObjects().size() != node.getObjects().size())
+                  BuildKDTree(node.getRightChild(), depth + 1);
+            }
          }
       }
    }
@@ -204,7 +230,7 @@ public class KDTree {
 
          }
 
-         if (box.getUpperBoundInAxis(axis) - max > min - box.getLowerBoundInAxis(axis)) {
+         if (box.getUpperBoundInAxis(axis) - max >= min - box.getLowerBoundInAxis(axis)) {
 
             return max;
 
@@ -228,7 +254,7 @@ public class KDTree {
 
       }
       else {
-         median = objects.get(objects.size() / 2).getMedian(axis);
+         median = objects.get((objects.size() / 2) + 1).getMedian(axis);
       }
 
       return median;

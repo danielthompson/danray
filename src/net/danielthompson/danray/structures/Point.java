@@ -28,6 +28,8 @@ public class Point {
       }
    }
 
+
+
    public void setAxis(KDAxis axis, double value) {
       switch (axis) {
          case X:

@@ -87,7 +87,7 @@ public class TraceManager {
       _samplesInverse = 1.0f / (renderQualityPreset.getSuperSamplesPerPixel() * renderQualityPreset.getSamplesPerPixel());
       _scene = scene;
       _tracer = new Tracer(_scene, renderQualityPreset.getMaxDepth());
-      _spectralTracer = new SpectralTracer(_scene, 1);
+      _spectralTracer = new SpectralTracer(_scene, renderQualityPreset.getMaxDepth());
       _timer = new Timer();
 
       Logger.AddOutput(System.out);

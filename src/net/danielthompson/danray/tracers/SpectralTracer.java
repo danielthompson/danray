@@ -2,14 +2,12 @@ package net.danielthompson.danray.tracers;
 
 import net.danielthompson.danray.lights.SpectralRadiatable;
 import net.danielthompson.danray.shading.Material;
+import net.danielthompson.danray.shading.SpectralBlender;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.shading.SpectralReflectanceCurve;
 import net.danielthompson.danray.shapes.Drawable;
 import net.danielthompson.danray.states.IntersectionState;
-import net.danielthompson.danray.structures.Point;
-import net.danielthompson.danray.structures.Ray;
-import net.danielthompson.danray.structures.Scene;
-import net.danielthompson.danray.structures.Vector;
+import net.danielthompson.danray.structures.*;
 
 
 /**
@@ -44,13 +42,12 @@ public class SpectralTracer {
             return sampleSPD;
          }
       }
-/*
-      if (closestStateToRay.Drawable instanceof Radiatable) {
 
-         colorWithStatistics.Color = closestStateToRay.Drawable.GetMaterial().getColor();
-         return colorWithStatistics;
+      if (closestStateToRay.Drawable instanceof SpectralRadiatable) {
+
+         return ((SpectralRadiatable) closestStateToRay.Drawable).getSpectralPowerDistribution();
       }
-*/
+
       Drawable closestDrawable = closestStateToRay.Drawable;
 
       if (closestDrawable == null) {
@@ -78,7 +75,7 @@ public class SpectralTracer {
             //origin.Plus(lightRayFromCurrentRadiatableToClosestDrawable.Direction.);
             IntersectionState potentialOccluder = _scene.GetClosestDrawableToRay(lightRayFromCurrentRadiatableToClosestDrawable);
 
-            if (potentialOccluder == null || potentialOccluder.Drawable.equals(closestStateToRay.Drawable) || potentialOccluder.Drawable.equals(radiatable)) {
+            if (potentialOccluder == null || (potentialOccluder.Drawable.equals(closestStateToRay.Drawable) && Constants.WithinDelta(potentialOccluder.IntersectionPoint, closestStateToRay.IntersectionPoint)) || potentialOccluder.Drawable.equals(radiatable)) {
 
                //double oneOverDistanceFromLightSource = Tracer.FastInverseSQRT(radiatableLocation.SquaredDistanceBetween(closestStateToRay.IntersectionPoint));
                double oneOverDistanceFromLightSource = 1 / Math.sqrt(radiatableLocation.SquaredDistanceBetween(closestStateToRay.IntersectionPoint));
@@ -105,38 +102,44 @@ public class SpectralTracer {
 
       SpectralReflectanceCurve curve = objectMaterial.SpectralReflectanceCurve;
 
-      SpectralPowerDistribution reflectedSPD = incomingSpectralPowerDistribution.reflectOff(curve);
+      SpectralPowerDistribution objectSPD = incomingSpectralPowerDistribution.reflectOff(curve);
 
       // base case
       if (depth >= _maxDepth) {
-        ;
+         return objectSPD;
 
       }
-      return reflectedSPD;
+      //return reflectedSPD;
       // recursive case
-      /* else {
+      else {
 
          depth++;
          // reflected color
 
-         ColorWithStatistics reflectedColor = null;
+         SpectralPowerDistribution reflectedSPD = null;
 
-         if (objectMaterial.getReflectivity() > 0) {
-            //Vector reflectedRay = GetReflectedRayPerturbed(closestStateToRay.IntersectionPoint, closestStateToRay.Normal, ray, objectMaterial.getDiffuse());
+         double reflectivity = objectMaterial.getReflectivity();
+
+         if (reflectivity > 0) {
+            //Ray reflectedRay = GeometryCalculations.GetReflectedRayPerturbed(closestStateToRay.IntersectionPoint, closestStateToRay.Normal, ray, objectMaterial.getDiffuse());
             Ray reflectedRay = GeometryCalculations.GetReflectedRay(closestStateToRay.IntersectionPoint, closestStateToRay.Normal, ray);
 
-            reflectedColor = GetColorForRay(reflectedRay, depth, oldIndexOfRefraction);
-            colorWithStatistics.Statistics.Add(reflectedColor.Statistics);
+            reflectedSPD = GetSPDForRay(reflectedRay, depth/*, oldIndexOfRefraction*/);
+            //colorWithStatistics.Statistics.Add(reflectedColor.Statistics);
 
             // refracted color
-
+            /*
             if (reflectedColor.Color == Color.magenta) {
                colorWithStatistics.Color = calculatedColor;
                return colorWithStatistics;
+
             }
+            */
+            SpectralPowerDistribution blended = SpectralBlender.BlendWeighted(objectSPD, 1 - reflectivity, reflectedSPD, reflectivity);
+            return blended;
          }
 
-
+         /*
 
          ColorWithStatistics refractedColor = null;
 
@@ -146,14 +149,14 @@ public class SpectralTracer {
             refractedColor = GetColorForRay(refractedRay, depth, closestStateToRay.Drawable.GetMaterial().getIndexOfRefraction());
             colorWithStatistics.Statistics.Add(refractedColor.Statistics);
          }
+         */
 
-         float reflectivity = (float)objectMaterial.getReflectivity();
-         float transparency = (float)objectMaterial.getTransparency();
-         Color[] colors = new Color[] {calculatedColor, reflectedColor == null ? null : reflectedColor.Color, refractedColor == null ? null : refractedColor.Color };
-         float[] weights = new float[] { (float)objectMaterial.getDiffuse(), reflectivity, transparency};
-         Color blended = Blender.BlendRGB(colors, weights);
-         colorWithStatistics.Color = blended;
-         return colorWithStatistics;
+         //float transparency = (float)objectMaterial.getTransparency();
+         //Color[] colors = new Color[] {calculatedColor, reflectedColor == null ? null : reflectedColor.Color, refractedColor == null ? null : refractedColor.Color };
+         //float[] weights = new float[] { (float)objectMaterial.getDiffuse(), reflectivity, transparency};
+         //SpectralPowerDistribution blended = SpectralBlender.BlendWeighted(objectSPD, 1 - reflectivity, reflectedSPD, reflectivity);
+
+         //return blended;
          /*
          Color blended;
          if (refractedColor == null || refractedColor == Color.magenta) {
@@ -163,10 +166,11 @@ public class SpectralTracer {
             blended = Blender.BlendRGB(calculatedColor, reflectedColor, reflectivity, refractedColor, transparency);
          }
          return blended;*/
+         return objectSPD;
 
 
-/*
-      //}
+
+      }
       //return new ColorWithStatistics(Color.magenta, null); */
       
 
