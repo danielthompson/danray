@@ -9,6 +9,7 @@ import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Scene;
+import net.danielthompson.danray.structures.Vector;
 
 
 /**
@@ -68,6 +69,13 @@ public class SpectralTracer {
             Point radiatableLocation = radiatable.getRandomPointOnSurface();
 
             Ray lightRayFromCurrentRadiatableToClosestDrawable = intersectionPoint.CreateVectorFrom(radiatableLocation);
+
+            // move the origin slightly outwards, in case we self-intersect
+            Point origin = lightRayFromCurrentRadiatableToClosestDrawable.Origin;
+            Vector direction = lightRayFromCurrentRadiatableToClosestDrawable.Direction;
+            Vector offset = Vector.Scale(direction, -.0000001);
+            origin.Plus(offset);
+            //origin.Plus(lightRayFromCurrentRadiatableToClosestDrawable.Direction.);
             IntersectionState potentialOccluder = _scene.GetClosestDrawableToRay(lightRayFromCurrentRadiatableToClosestDrawable);
 
             if (potentialOccluder == null || potentialOccluder.Drawable.equals(closestStateToRay.Drawable) || potentialOccluder.Drawable.equals(radiatable)) {

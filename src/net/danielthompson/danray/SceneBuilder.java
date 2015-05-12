@@ -62,8 +62,8 @@ public class SceneBuilder {
       settings.FocusDistance = 500;
       settings.Aperture = new CircleAperture(20);
 
-      Point origin = new Point(0, 0, 5000);
-      Vector direction = new Vector(0, 0, -1);
+      Point origin = new Point(-100, 0, 5000);
+      Vector direction = new Vector(.1, 0, -1);
       settings.Orientation = new Ray(origin, direction);
 
       Camera camera = new SimplePointableCamera(settings);
@@ -86,13 +86,13 @@ public class SceneBuilder {
 
       // left light
 
-      lightSPD = new SpectralPowerDistribution(RelativeSpectralPowerDistributionLibrary.Sunset, 250f);
+      lightSPD = new SpectralPowerDistribution(RelativeSpectralPowerDistributionLibrary.Sunset, 50f);
 
       light = new SpectralSphereLight(10, null, lightSPD);
       light.Origin = new Point(-2000, 0, 4000);
       light.Radius = 200;
 
-      scene.SpectralRadiatables.add(light);
+      //scene.SpectralRadiatables.add(light);
 
       // left wall
 
