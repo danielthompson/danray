@@ -29,6 +29,17 @@ public class BoundingBox implements Boundable {
       return Math.abs((point2.X - point1.X) *   (point2.Y - point1.Y) * (point2.Z - point1.Z));
    }
 
+   public double getSurfaceArea() {
+      double xLength = Math.abs(point2.X - point1.X);
+      double yLength = Math.abs(point2.Y - point1.Y);
+      double zLength = Math.abs(point2.Z - point1.Z);
+
+      double surfaceArea = 2 * (xLength * yLength + xLength * zLength + yLength * zLength);
+
+      return surfaceArea;
+
+   }
+
    public KDAxis getLargestExtent() {
       double x = point2.X - point1.X;
       double y = point2.Y - point1.Y;
@@ -59,6 +70,8 @@ public class BoundingBox implements Boundable {
       double median = (point1.getAxis(axis) + point2.getAxis(axis)) / 2.0;
       return median;
    }
+
+
 
    @Override
    public IntersectionState GetHitInfo(Ray ray) {

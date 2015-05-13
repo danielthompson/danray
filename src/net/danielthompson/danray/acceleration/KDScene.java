@@ -56,7 +56,7 @@ public class KDScene extends Scene {
       // all rays by definition hit the root node
       statistics = new Statistics();
 
-      IntersectionState state = TraverseTree(rootNode, ray);
+      IntersectionState state = TraverseTreeBetter(rootNode, ray);
 
 
       //IntersectionState planeState = GetClosestPlaneToRay(ray);
@@ -329,7 +329,7 @@ public class KDScene extends Scene {
 
    @Override
    public String Compile() {
-      rootNode = KDTree.BuildKDTree(_drawables, 5, 2);
+      rootNode = KDTree.BuildKDTree(_drawables, 5, 3);
       return "kd-tree min depth " + rootNode.GetMinDepth() + ", max depth " + rootNode.GetMaxDepth();
    }
 

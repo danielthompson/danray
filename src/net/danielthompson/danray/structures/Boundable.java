@@ -13,6 +13,8 @@ public interface Boundable {
    public double GetVolume();
    public BoundingBox GetWorldBoundingBox();
 
+
+
    public double getMedian(KDAxis axis);
 
    IntersectionState GetHitInfo(Ray ray);
