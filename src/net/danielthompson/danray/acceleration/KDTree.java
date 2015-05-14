@@ -45,7 +45,7 @@ public class KDTree {
 
       rootNode.setBoundingBox(initialBoundingBox);
 
-      BuildKDTree(rootNode, 1);
+      BuildKDTreeSAH(rootNode, 1);
 
       return rootNode;
    }
@@ -258,6 +258,200 @@ public class KDTree {
                   BuildKDTree(leftNode, depth + 1);
                if (rightNode.getObjects().size() != node.getObjects().size())
                   BuildKDTree(rightNode, depth + 1);
+            }
+         }
+      }
+   }
+
+
+   private static class KDAxisHeuristicImproved {
+      public KDAxis Axis;
+      public double SurfaceAreaHeuristic;
+      public double Separator;
+   }
+
+   private static void BuildKDTreeSAH(KDNode node, int depth) {
+
+      // base case
+
+      if (node.getObjects().size() <= maxLeafSize) {
+         //node.Axis = null;
+         return;
+      }
+
+      // recursive case
+
+      else {
+
+         List<KDAxisHeuristicImproved> heuristicList = new ArrayList<>();
+
+         boolean foundGoodSplit = false;
+
+         List<KDAxis> axes = new ArrayList<>();
+         axes.add(node.getBoundingBox().getLargestExtent());
+         axes.add(getNextAxis(axes.get(0)));
+         axes.add(getNextAxis(axes.get(1)));
+
+         for (KDAxis axis : axes) {
+            BoundingEdge[] splits = getSortedBoundingEdges(node.getObjects(), axis);
+            for (int i = 0; i < splits.length; i++) {
+               double split = splits[i].Value;
+
+               BoundingBox lessThanBoundingBox = null;
+               BoundingBox greaterThanBoundingBox = null;
+
+               List<Drawable> lessThanList = new ArrayList<>();
+               List<Drawable> greaterThanList = new ArrayList<>();
+
+               for (Drawable drawable : node.getObjects()) {
+                  BoundingBox drawableBox = drawable.GetWorldBoundingBox();
+                  double lowerBound = drawableBox.getLowerBoundInAxis(axis);
+                  double upperBound = drawableBox.getUpperBoundInAxis(axis);
+
+                  if (upperBound <= split) {
+                     if (lessThanBoundingBox == null)
+                        lessThanBoundingBox = drawableBox;
+                     else
+                        lessThanBoundingBox = BoundingBox.GetBoundingBox(lessThanBoundingBox, drawableBox);
+                     lessThanList.add(drawable);
+                  }
+
+                  else if (lowerBound >= split) {
+                     if (greaterThanBoundingBox == null)
+                        greaterThanBoundingBox = drawableBox;
+                     else
+                        greaterThanBoundingBox = BoundingBox.GetBoundingBox(greaterThanBoundingBox, drawableBox);
+                     greaterThanList.add(drawable);
+                  }
+                  else {
+                     if (lessThanBoundingBox == null)
+                        lessThanBoundingBox = drawableBox;
+                     else
+                        lessThanBoundingBox = BoundingBox.GetBoundingBox(lessThanBoundingBox, drawableBox);
+
+                     if (greaterThanBoundingBox == null)
+                        greaterThanBoundingBox = drawableBox;
+                     else
+                        greaterThanBoundingBox = BoundingBox.GetBoundingBox(greaterThanBoundingBox, drawableBox);
+
+                     lessThanList.add(drawable);
+                     greaterThanList.add(drawable);
+                  }
+
+               }
+
+               if (lessThanList.size() == 0 || greaterThanList.size() == 0)
+                  continue;
+
+               if (lessThanList.size() >= node.getObjects().size() || greaterThanList.size() >= node.getObjects().size())
+                  continue;
+
+               if (lessThanList.size() == greaterThanList.size()) {
+
+                  //Collections.sort(lessThanList, null);
+                  //Collections.sort(greaterThanList, null);
+
+                  boolean same = true;
+
+                  Iterator<Drawable> p1 = lessThanList.iterator();
+                  Iterator<Drawable> p2 = greaterThanList.iterator();
+
+                  while (p1.hasNext() && p2.hasNext()) {
+                     Drawable d1 = p1.next();
+                     Drawable d2 = p2.next();
+
+                     if (d1 != d2) {
+                        same = false;
+                        break;
+                     }
+                  }
+
+                  if (same)
+                     continue;
+               }
+
+               foundGoodSplit = true;
+
+               double leftSAH = lessThanBoundingBox.getSurfaceArea() / lessThanList.size();
+               double rightSAH = greaterThanBoundingBox.getSurfaceArea() / greaterThanList.size();
+
+               KDAxisHeuristicImproved heuristic = new KDAxisHeuristicImproved();
+               heuristic.Axis = axis;
+               heuristic.Separator = split;
+               heuristic.SurfaceAreaHeuristic = leftSAH + rightSAH;
+               heuristicList.add(heuristic);
+
+            }
+
+         }
+
+         if (foundGoodSplit && heuristicList.size() > 0) {
+
+            KDAxisHeuristicImproved best = heuristicList.get(0);
+
+            for (KDAxisHeuristicImproved heuristic : heuristicList) {
+               if (heuristic.SurfaceAreaHeuristic < best.SurfaceAreaHeuristic)
+                  best = heuristic;
+            }
+
+            List<Drawable> lessThanList = new ArrayList<>();
+            List<Drawable> greaterThanList = new ArrayList<>();
+
+            for (Drawable drawable : node.getObjects()) {
+               BoundingBox drawableBox = drawable.GetWorldBoundingBox();
+               double lowerBound = drawableBox.getLowerBoundInAxis(best.Axis);
+               double upperBound = drawableBox.getUpperBoundInAxis(best.Axis);
+
+               if (upperBound <= best.Separator) {
+                  lessThanList.add(drawable);
+               }
+
+               else if (lowerBound >= best.Separator) {
+                  greaterThanList.add(drawable);
+               }
+               else {
+                  lessThanList.add(drawable);
+                  greaterThanList.add(drawable);
+               }
+
+            }
+
+            BoundingBox[] boxes = SubdivideBoundingBox(node.getBoundingBox(), best.Axis, best.Separator);
+
+            KDNode leftNode = new KDNode(lessThanList, getNextAxis(best.Axis));
+            leftNode.setBoundingBox(boxes[0]);
+
+            KDNode rightNode = new KDNode(greaterThanList, getNextAxis(best.Axis));
+            rightNode.setBoundingBox(boxes[1]);
+
+            node.setLeftChild(leftNode);
+            node.setRightChild(rightNode);
+            node.setSeparator(best.Separator);
+            node.Axis = best.Axis;
+
+            /*
+            // create new bounding boxes for each child node
+
+            BoundingBox[] boxes = SubdivideBoundingBox(box, axis, separator);
+
+            BoundingBox box1 = ReduceBoundingBox(boxes[0], lessThanList);
+
+            node.getLeftChild().setBoundingBox(box1);
+
+            BoundingBox box2 = ReduceBoundingBox(boxes[1], greaterThanList);
+
+            node.getRightChild().setBoundingBox(box2);
+            */
+            if (depth > 20) {
+               ;
+            }
+
+            if (depth < maxDepth) {
+
+               if (leftNode.getObjects().size() != node.getObjects().size())
+                  BuildKDTreeSAH(leftNode, depth + 1);
+               if (rightNode.getObjects().size() != node.getObjects().size())
+                  BuildKDTreeSAH(rightNode, depth + 1);
             }
          }
       }

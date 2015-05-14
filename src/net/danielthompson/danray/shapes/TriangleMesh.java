@@ -22,6 +22,11 @@ public class TriangleMesh implements Drawable {
 
    private Tuple _rotation;
 
+   public int ID;
+   public int getID() {
+      return ID;
+   }
+
    private BoundingBox _boundingBox;
 
    public TriangleMesh(List<Point> vertices, List<List<Point>> faces) {

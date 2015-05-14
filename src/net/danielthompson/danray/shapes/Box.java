@@ -11,6 +11,11 @@ public class Box extends BoundingBox implements Drawable {
 
    private Material _material;
 
+   public int ID;
+   public int getID() {
+      return ID;
+   }
+
    public Transform ObjectToWorld;
    private Transform WorldToObject;
 
@@ -159,6 +164,10 @@ public class Box extends BoundingBox implements Drawable {
    @Override
    public double BRDF(IntersectionState state, Ray cameraRay, Ray lightRay) {
       return 0;
+   }
+
+   public String toString() {
+      return ID + "";
    }
 
 }

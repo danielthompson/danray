@@ -22,6 +22,11 @@ public class Triangle implements Drawable, Radiatable{
 
    private Point _normalDirection;
 
+   public int ID;
+   public int getID() {
+      return ID;
+   }
+
    private Material _material;
 
    public Triangle(Point vertex0, Point vertex1, Point vertex2, Material material) {

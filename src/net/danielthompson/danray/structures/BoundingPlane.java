@@ -12,6 +12,11 @@ public class BoundingPlane implements Boundable {
    protected Point _origin;
    protected Normal _normal;
 
+   public int ID;
+   public int getID() {
+      return ID;
+   }
+
    public BoundingPlane(Point origin, Normal normal) {
       _origin = origin;
       _normal = normal;

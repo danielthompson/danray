@@ -38,4 +38,8 @@ public class SpectralSphereLight extends SphereLight implements SpectralRadiatab
    public SpectralPowerDistribution getSpectralPowerDistribution() {
       return SPD;
    }
+
+   public String toString() {
+      return ID + "";
+   }
 }

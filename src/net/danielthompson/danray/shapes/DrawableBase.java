@@ -11,6 +11,8 @@ import net.danielthompson.danray.structures.Ray;
  */
 public abstract class DrawableBase implements Drawable {
 
+   public int ID;
+
    @Override
    public double GetVolume() {
       return 0;
@@ -21,6 +23,9 @@ public abstract class DrawableBase implements Drawable {
       return null;
    }
 
+   public int getID() {
+      return ID;
+   }
 
    public BoundingBox GetObjectBoundingBox() {
       return null;

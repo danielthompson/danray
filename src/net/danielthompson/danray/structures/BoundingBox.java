@@ -12,9 +12,25 @@ public class BoundingBox implements Boundable {
    public Point point1;
    public Point point2;
 
+   public int ID;
+   public int getID() {
+      return ID;
+   }
+
    public BoundingBox (Point point1, Point point2) {
       this.point1 = point1;
       this.point2 = point2;
+   }
+
+   public boolean isPointInside(Point p) {
+      return (
+            (p.X >= point1.X || Constants.WithinDelta(p.X, point1.X))
+         && (p.Y >= point1.Y || Constants.WithinDelta(p.Y, point1.Y))
+         && (p.Z >= point1.Z || Constants.WithinDelta(p.Z, point1.Z))
+         && (p.X <= point2.X || Constants.WithinDelta(p.X, point2.X))
+         && (p.Y <= point2.Y || Constants.WithinDelta(p.Y, point2.Y))
+         && (p.Z <= point2.Z || Constants.WithinDelta(p.Z, point2.Z))
+      );
    }
 
    public double getUpperBoundInAxis(KDAxis axis) {
@@ -26,7 +42,7 @@ public class BoundingBox implements Boundable {
    }
 
    public double GetVolume() {
-      return Math.abs((point2.X - point1.X) *   (point2.Y - point1.Y) * (point2.Z - point1.Z));
+      return Math.abs((point2.X - point1.X) * (point2.Y - point1.Y) * (point2.Z - point1.Z));
    }
 
    public double getSurfaceArea() {

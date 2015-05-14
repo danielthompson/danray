@@ -16,6 +16,11 @@ public class PointLight implements Radiatable {
    private double _lumens;
    private Point _location;
 
+   public int ID;
+   public int getID() {
+      return ID;
+   }
+
    public PointLight(Point location, double lumens) {
       _lumens = lumens;
       _location = location;

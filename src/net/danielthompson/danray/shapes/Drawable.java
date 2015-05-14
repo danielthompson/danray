@@ -12,12 +12,6 @@ import net.danielthompson.danray.structures.Ray;
  * Time: 5:45 PM
  */
 public interface Drawable extends Boundable {
-
-   public Material GetMaterial();
-
-
+   Material GetMaterial();
    double BRDF(IntersectionState state, Ray cameraRay, Ray lightRay);
-
-
-
 }

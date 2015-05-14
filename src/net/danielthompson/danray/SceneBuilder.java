@@ -28,6 +28,11 @@ import java.util.*;
  */
 public class SceneBuilder {
 
+   public static int nextID = 0;
+   public static int getNextID() {
+      return nextID++;
+   }
+
    public static KDScene OneSphere(int x, int y) {
 
       KDScene scene = new KDScene(null);
@@ -68,7 +73,7 @@ public class SceneBuilder {
 
       Camera camera = new SimplePointableCamera(settings);
 
-      Scene scene = new NaiveScene(camera);
+      Scene scene = new KDScene(camera);
 
       // right light
 
@@ -80,6 +85,8 @@ public class SceneBuilder {
       SpectralSphereLight light = new SpectralSphereLight(10, null, lightSPD);
       light.Origin = new Point(800, 0, 1600);
       light.Radius = 200;
+
+      light.ID = getNextID();
 
       scene._drawables.add(light);
       scene.SpectralRadiatables.add(light);
@@ -93,7 +100,7 @@ public class SceneBuilder {
       light.Radius = 200;
 
       scene.SpectralRadiatables.add(light);
-      scene._drawables.add(light);
+      //scene._drawables.add(light);
 
       // left wall
 
@@ -112,6 +119,7 @@ public class SceneBuilder {
       Point p0 = new Point(-1, -1, -1);
       Point p1 = new Point(1, 1, 1);
       Box box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
+      box.ID = getNextID();
       scene._drawables.add(box);
 
       // right wall
@@ -132,6 +140,7 @@ public class SceneBuilder {
       p0 = new Point(-1, -1, -1);
       p1 = new Point(1, 1, 1);
       box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
+      box.ID = getNextID();
       scene._drawables.add(box);
 
       // back wall
@@ -150,8 +159,9 @@ public class SceneBuilder {
 
       p0 = new Point(-1, -1, -1);
       p1 = new Point(1, 1, 1);
-      box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
 
+      box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
+      box.ID = getNextID();
       scene._drawables.add(box);
 
       // floor
@@ -170,7 +180,9 @@ public class SceneBuilder {
 
       p0 = new Point(-1, -1, -1);
       p1 = new Point(1, 1, 1);
+
       box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
+      box.ID = getNextID();
 
       scene._drawables.add(box);
 
@@ -191,7 +203,7 @@ public class SceneBuilder {
       p0 = new Point(-1, -1, -1);
       p1 = new Point(1, 1, 1);
       box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
-
+      box.ID = getNextID();
       scene._drawables.add(box);
 
       // top left little box
@@ -199,11 +211,25 @@ public class SceneBuilder {
       boxMaterial = new Material();
       boxMaterial.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.Orange;
 
-      p0 = new Point(-700, 200, 1000);
-      p1 = new Point(-200, 700, 1500);
-      box = new Box(p0, p1, boxMaterial);
+      for (int i = 0; i < 10; i++) {
+         for (int j = 0; j < 10; j++) {
+            list = new ArrayList<>();
+            list.add(Transform.Translate(new Vector(i * 120 - 800, j * 120 - 800, i * j * 20)));
+            list.add(Transform.Scale(50, 50, 50));
+            transforms = GetCompositeTransforms(list);
 
-      scene._drawables.add(box);
+            objectToWorld = transforms[0];
+            worldToObject = transforms[1];
+
+            p0 = new Point(-1, -1, -1);
+            p1 = new Point(1, 1, 1);
+            box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
+            box.ID = getNextID();
+            scene._drawables.add(box);
+
+         }
+      }
+
 
       // bottom right little box
 
@@ -213,7 +239,7 @@ public class SceneBuilder {
       p0 = new Point(800, -1000, 0);
       p1 = new Point(1300, -500, 500);
       box = new Box(p0, p1, boxMaterial);
-
+      box.ID = getNextID();
       scene._drawables.add(box);
 
 
@@ -235,7 +261,7 @@ public class SceneBuilder {
 
       Cylinder cylinder = new Cylinder(1, 1, worldToObject, objectToWorld, material);
 
-      scene.addDrawableObject(cylinder);
+      //scene.addDrawableObject(cylinder);
 
 
 

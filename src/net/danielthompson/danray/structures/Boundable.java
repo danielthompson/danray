@@ -13,7 +13,7 @@ public interface Boundable {
    public double GetVolume();
    public BoundingBox GetWorldBoundingBox();
 
-
+   public int getID();
 
    public double getMedian(KDAxis axis);
 
