@@ -91,19 +91,14 @@ public class KDScene extends Scene {
 
    private IntersectionState GetClosestDrawableInNode(KDNode node, Ray ray) {
       IntersectionState closestStateToRay = null;
-      statistics = new Statistics();
+      //statistics = new Statistics();
       for (Drawable drawable : node.getObjects()) {
          IntersectionState state = drawable.GetHitInfo(ray);
-         statistics.DrawableIntersections++;
-         state.Statistics = statistics;
+         //statistics.DrawableIntersections++;
+         //state.Statistics = statistics;
 
-         if (state.Hits /*&& node.getBoundingBox().isPointInside(state.IntersectionPoint)*/) {
-            if (closestStateToRay == null) {
-               closestStateToRay = state;
-            }
-            if (state.TMin < closestStateToRay.TMin) {
-               closestStateToRay = state;
-            }
+         if (state.Hits && (closestStateToRay == null || state.TMin < closestStateToRay.TMin)) {
+            closestStateToRay = state;
          }
       }
 

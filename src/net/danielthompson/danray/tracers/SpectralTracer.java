@@ -135,8 +135,13 @@ public class SpectralTracer {
 
             }
             */
-            SpectralPowerDistribution blended = SpectralBlender.BlendWeighted(objectSPD, 1 - reflectivity, reflectedSPD, reflectivity);
-            return blended;
+
+
+            //SpectralPowerDistribution blended = SpectralBlender.BlendWeighted(objectSPD, 1 - reflectivity, reflectedSPD, reflectivity);
+            incomingSpectralPowerDistribution.add(reflectedSPD);
+            objectSPD = incomingSpectralPowerDistribution.reflectOff(curve);
+            //SpectralPowerDistribution blended = SpectralBlender.BlendWeighted(objectSPD, 1 - reflectivity, reflectedSPD, reflectivity);
+            return objectSPD;
          }
 
          /*

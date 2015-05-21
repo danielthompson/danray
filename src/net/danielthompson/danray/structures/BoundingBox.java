@@ -96,17 +96,80 @@ public class BoundingBox implements Boundable {
 
       IntersectionState state = new IntersectionState();
       state.Hits = true;
-
+/*
       double[] directions = new double[3];
       directions[0] = ray.Direction.X;
       directions[1] = ray.Direction.Y;
-      directions[2] = ray.Direction.Z;
+      directions[2] = ray.Direction.Z;*/
 
-      KDAxis[] axes = new KDAxis[3];
-      axes[0] = KDAxis.X;
-      axes[1] = KDAxis.Y;
-      axes[2] = KDAxis.Z;
+      // x
 
+      double rayInverse = 1.0 / ray.Direction.X;
+      double tNear = (point1.X - ray.Origin.X) * rayInverse;
+      double tFar = (point2.X - ray.Origin.X) * rayInverse;
+      if (tNear > tFar) {
+         double swap = tNear;
+         tNear = tFar;
+         tFar = swap;
+      }
+
+      minBoundNearT = (tNear > minBoundNearT) ? tNear : minBoundNearT;
+      maxBoundFarT = (tFar < maxBoundFarT) ? tFar : maxBoundFarT;
+      if (minBoundNearT > maxBoundFarT) {
+         state.Hits = false;
+         return state;
+      }
+      //else {
+         state.TMin = minBoundNearT;
+         state.TMax = maxBoundFarT;
+      //}
+
+      // y
+
+      rayInverse = 1.0 / ray.Direction.Y;
+      tNear = (point1.Y - ray.Origin.Y) * rayInverse;
+      tFar = (point2.Y - ray.Origin.Y) * rayInverse;
+      if (tNear > tFar) {
+         double swap = tNear;
+         tNear = tFar;
+         tFar = swap;
+      }
+
+      minBoundNearT = (tNear > minBoundNearT) ? tNear : minBoundNearT;
+      maxBoundFarT = (tFar < maxBoundFarT) ? tFar : maxBoundFarT;
+      if (minBoundNearT > maxBoundFarT) {
+         state.Hits = false;
+         return state;
+      }
+      //else {
+         state.TMin = minBoundNearT;
+         state.TMax = maxBoundFarT;
+      //}
+
+      // z
+
+      rayInverse = 1.0 / ray.Direction.Z;
+      tNear = (point1.Z - ray.Origin.Z) * rayInverse;
+      tFar = (point2.Z - ray.Origin.Z) * rayInverse;
+      if (tNear > tFar) {
+         double swap = tNear;
+         tNear = tFar;
+         tFar = swap;
+      }
+
+      minBoundNearT = (tNear > minBoundNearT) ? tNear : minBoundNearT;
+      maxBoundFarT = (tFar < maxBoundFarT) ? tFar : maxBoundFarT;
+      if (minBoundNearT > maxBoundFarT) {
+         state.Hits = false;
+         return state;
+      }
+      //else {
+         state.TMin = minBoundNearT;
+         state.TMax = maxBoundFarT;
+      //}
+
+      return state;
+      /*
       for (int i = 0; i < 3; i++) {
          KDAxis axis = axes[i];
          double rayInverse = 1.0 / directions[i];
@@ -128,14 +191,14 @@ public class BoundingBox implements Boundable {
             state.TMin = minBoundNearT;
             state.TMax = maxBoundFarT;
          }
-      }
+      }*/
       /*
       if (state.Hits) {
 
          ray.MinT = state.TMin;
          ray.MaxT = state.TMax;
       }*/
-      return state;
+      //return state;
    }
 
    @Override

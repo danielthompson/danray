@@ -63,12 +63,12 @@ public class SceneBuilder {
       settings.Y = y;
       settings.FocalLength = 1200;
       settings.Rotation = 0;
-      settings.ZoomFactor =  1.5;
+      settings.ZoomFactor =  3;
       settings.FocusDistance = 500;
       settings.Aperture = new CircleAperture(20);
 
-      Point origin = new Point(-100, 0, 5000);
-      Vector direction = new Vector(.1, -.1, -1);
+      Point origin = new Point(0, 0, 3700);
+      Vector direction = new Vector(0, 0, -1);
       settings.Orientation = new Ray(origin, direction);
 
       Camera camera = new SimplePointableCamera(settings);
@@ -77,7 +77,7 @@ public class SceneBuilder {
 
       // right light
 
-      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(RelativeSpectralPowerDistributionLibrary.Sunset, 500f);
+      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(RelativeSpectralPowerDistributionLibrary.D65, 500f);
 
       Material material = new Material();
 
