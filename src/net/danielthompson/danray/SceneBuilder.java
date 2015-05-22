@@ -63,7 +63,7 @@ public class SceneBuilder {
       settings.Y = y;
       settings.FocalLength = 1200;
       settings.Rotation = 0;
-      settings.ZoomFactor =  3;
+      settings.ZoomFactor =  1;
       settings.FocusDistance = 500;
       settings.Aperture = new CircleAperture(20);
 
@@ -77,14 +77,14 @@ public class SceneBuilder {
 
       // right light
 
-      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(RelativeSpectralPowerDistributionLibrary.D65, 500f);
+      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(RelativeSpectralPowerDistributionLibrary.D65, 50f);
 
       Material material = new Material();
 
 
       SpectralSphereLight light = new SpectralSphereLight(10, null, lightSPD);
-      light.Origin = new Point(800, 0, 1600);
-      light.Radius = 200;
+      light.Origin = new Point(0, 0, 6500);
+      light.Radius = 1000;
 
       light.ID = getNextID();
 
@@ -99,7 +99,7 @@ public class SceneBuilder {
       light.Origin = new Point(-2000, 0, 4000);
       light.Radius = 200;
 
-      scene.SpectralRadiatables.add(light);
+      //scene.SpectralRadiatables.add(light);
       //scene._drawables.add(light);
 
       // left wall
@@ -109,7 +109,7 @@ public class SceneBuilder {
 
       ArrayList<Transform> list = new ArrayList<>();
       list.add(Transform.Translate(new Vector(-1500, 0, 0)));
-      list.add(Transform.Scale(1.0, 1000.0, 1000.0));
+      list.add(Transform.Scale(1.0, 1000.0, 10000.0));
 
       Transform[] transforms = GetCompositeTransforms(list);
 
@@ -130,7 +130,7 @@ public class SceneBuilder {
 
       list = new ArrayList<>();
       list.add(Transform.Translate(new Vector(1500, 0, 0)));
-      list.add(Transform.Scale(1.0, 1000.0, 1000.0));
+      list.add(Transform.Scale(1.0, 1000.0, 10000.0));
 
       transforms = GetCompositeTransforms(list);
 
@@ -143,13 +143,34 @@ public class SceneBuilder {
       box.ID = getNextID();
       scene._drawables.add(box);
 
-      // back wall
+      // front wall
 
       boxMaterial = new Material();
       boxMaterial.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.Grass;
 
       list = new ArrayList<>();
       list.add(Transform.Translate(new Vector(0, 0, -1000)));
+      list.add(Transform.Scale(1500.0, 1000.0, 1));
+
+      transforms = GetCompositeTransforms(list);
+
+      objectToWorld = transforms[0];
+      worldToObject = transforms[1];
+
+      p0 = new Point(-1, -1, -1);
+      p1 = new Point(1, 1, 1);
+
+      box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
+      box.ID = getNextID();
+      scene._drawables.add(box);
+
+      // back wall
+
+      boxMaterial = new Material();
+      boxMaterial.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.Grass;
+
+      list = new ArrayList<>();
+      list.add(Transform.Translate(new Vector(0, 0, 10000)));
       list.add(Transform.Scale(1500.0, 1000.0, 1));
 
       transforms = GetCompositeTransforms(list);
@@ -171,7 +192,7 @@ public class SceneBuilder {
 
       list = new ArrayList<>();
       list.add(Transform.Translate(new Vector(0, -1000, 0)));
-      list.add(Transform.Scale(1500.0, 1, 1000));
+      list.add(Transform.Scale(1500.0, 1, 10000));
 
       transforms = GetCompositeTransforms(list);
 
@@ -193,7 +214,7 @@ public class SceneBuilder {
 
       list = new ArrayList<>();
       list.add(Transform.Translate(new Vector(0, 1000, 0)));
-      list.add(Transform.Scale(1500.0, 1, 1000));
+      list.add(Transform.Scale(1500.0, 1, 10000));
 
       transforms = GetCompositeTransforms(list);
 
@@ -204,7 +225,7 @@ public class SceneBuilder {
       p1 = new Point(1, 1, 1);
       box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
       box.ID = getNextID();
-      scene._drawables.add(box);
+      //scene._drawables.add(box);
 
       // top left little box
 

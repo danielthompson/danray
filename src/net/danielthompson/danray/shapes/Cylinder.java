@@ -255,9 +255,4 @@ public class Cylinder extends DrawableBase {
    }
 
 
-
-   @Override
-   public double BRDF(IntersectionState state, Ray cameraRay, Ray lightRay) {
-      return 0;
-   }
 }

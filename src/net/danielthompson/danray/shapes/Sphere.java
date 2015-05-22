@@ -37,11 +37,6 @@ public class Sphere extends DrawableBase {
    }
 
    @Override
-   public double BRDF(IntersectionState state, Ray cameraRay, Ray lightRay) {
-      return 0.0;
-   }
-
-   @Override
    public Material GetMaterial() {
       return _material;
    }

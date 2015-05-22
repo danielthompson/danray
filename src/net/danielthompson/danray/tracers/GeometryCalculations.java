@@ -68,14 +68,43 @@ public class GeometryCalculations {
       return reflectedRay;
    }
 
-   public static Ray GetReflectedRayPerturbed(Point intersectionPoint, Ray normal, Ray incomingRay, double perturbation) {
-      double factor = incomingRay.Direction.Dot(normal.Direction) * 2;
-      Vector scaled = normal.Scale(factor);
+   public static Ray GetReflectedRayPerturbed(Point intersectionPoint, Normal normal, Ray incomingRay, double perturbation) {
+      double factor = incomingRay.Direction.Dot(normal) * 2;
+      Vector scaled = new Vector(Normal.Scale(normal, factor));
       Vector direction = Vector.Minus(new Vector(0, 0, 0), Vector.Minus(scaled, incomingRay.Direction));
 
       Vector perturbationDirection = new Vector(Math.random()*perturbation, Math.random()*perturbation, Math.random()*perturbation);
 
+      if (perturbationDirection.Dot(normal) < 0)
+         perturbationDirection.Scale(-1);
+
       Point offsetIntersection = Point.Plus(intersectionPoint, Vector.Scale(direction, .0000001));
+
+      direction.Plus(perturbationDirection);
+
+      //Point direction = normal.ScaleFromOrigin(incomingRay.Direction.Dot(normal.Direction) * 2).Minus(incomingRay.Direction);
+      Ray reflectedRay = new Ray(offsetIntersection, direction);
+      return reflectedRay;
+   }
+
+
+   public static Ray GetReflectedRayPerturbedFromNormal(Point intersectionPoint, Normal normal, Ray incomingRay, double perturbation) {
+      double factor = incomingRay.Direction.Dot(normal) * 2;
+      Vector scaled = new Vector(Normal.Scale(normal, factor));
+      Vector direction = Vector.Minus(new Vector(0, 0, 0), Vector.Minus(scaled, incomingRay.Direction));
+
+      double x = (Math.random() - .5) * 2 * perturbation + normal.X;
+      double y = (Math.random() - .5) * 2 * perturbation + normal.Y;
+      double z = (Math.random() - .5) * 2 * perturbation + normal.Z;
+
+      Vector perturbationPointOffset = new Vector(x, y, z);
+
+      Point offsetIntersection = Point.Plus(intersectionPoint, Vector.Scale(direction, .0000001));
+
+      Point perturbedDirectionPoint = Point.Plus(offsetIntersection, perturbationPointOffset);
+
+      Vector perturbationDirection = Point.Minus(perturbedDirectionPoint, offsetIntersection);
+
 
       direction.Plus(perturbationDirection);
 

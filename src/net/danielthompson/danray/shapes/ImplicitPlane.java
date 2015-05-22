@@ -36,10 +36,5 @@ public class ImplicitPlane extends BoundingPlane implements Drawable {
       return state;
    }
 
-   @Override
-   public double BRDF(IntersectionState state, Ray cameraRay, Ray lightRay) {
-      return 0;
-   }
-
 
 }

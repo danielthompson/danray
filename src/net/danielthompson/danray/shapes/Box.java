@@ -179,11 +179,6 @@ public class Box extends BoundingBox implements Drawable {
       return _material;
    }
 
-   @Override
-   public double BRDF(IntersectionState state, Ray cameraRay, Ray lightRay) {
-      return 0;
-   }
-
    public String toString() {
       return ID + "";
    }

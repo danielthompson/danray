@@ -117,11 +117,6 @@ public class TriangleMesh implements Drawable {
    */
 
    @Override
-   public double BRDF(IntersectionState state, Ray cameraRay, Ray lightRay) {
-      return 0;
-   }
-
-   @Override
    public double GetVolume() {
       return 0;
    }
