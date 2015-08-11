@@ -4,10 +4,46 @@ import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.*;
 import org.apache.commons.math3.util.FastMath;
 
+import java.util.Random;
+
 /**
  * Created by daniel on 3/17/15.
  */
 public class GeometryCalculations {
+
+   public static double[][] RandomSpherePoints = getRandomSpherePoints();
+
+   private static final int maxRandomSpherePoints = 65535;
+
+   private static volatile int randomSpherePointer = 0;
+
+   private static final Object mutex = new Object();
+
+   private static double[][] getRandomSpherePoints() {
+      double[][] n = new double[maxRandomSpherePoints][3];
+      Random r = new Random();
+      for (int i = 0; i < n.length; i++) {
+         double[] p = randomPointOnSphere(r);
+         Vector v = new Vector(p[0], p[1], p[2]);
+         v.Normalize();
+         n[i] = new double[] {v.X, v.Y, v.Z};
+      }
+
+      return n;
+    }
+
+   public static double[] randomPointOnSphere(Random rnd)
+   {
+      double x, y, z, d2;
+      do {
+         x = rnd.nextGaussian();
+         y = rnd.nextGaussian();
+         z = rnd.nextGaussian();
+         d2 = x*x + y*y + z*z;
+      } while (d2 <= Double.MIN_NORMAL);
+      double s = Math.sqrt(1.0 / d2);
+      return new double[] {x*s, y*s, z*s};
+   }
 
    private static double angleOfIncidencePercentageFactor = 10. / 9.;
 
@@ -87,6 +123,27 @@ public class GeometryCalculations {
       return reflectedRay;
    }
 
+
+   public static Ray GetRandomRayInNormalHemisphere(Point intersectionPoint, Normal normal) {
+
+      double[] xyz;
+
+      synchronized (mutex) {
+         if (randomSpherePointer >= maxRandomSpherePoints)
+            randomSpherePointer = 0;
+         xyz = RandomSpherePoints[randomSpherePointer++];
+      }
+
+      Vector direction = new Vector(xyz[0], xyz[1], xyz[2]);
+
+      if (direction.Dot(normal) < 0)
+         direction.Scale(-1);
+
+      Point offsetIntersection = Point.Plus(intersectionPoint, Vector.Scale(direction, .0000001));
+
+      Ray randomRay = new Ray(offsetIntersection, direction);
+      return randomRay;
+   }
 
    public static Ray GetReflectedRayPerturbedFromNormal(Point intersectionPoint, Normal normal, Ray incomingRay, double perturbation) {
       double factor = incomingRay.Direction.Dot(normal) * 2;

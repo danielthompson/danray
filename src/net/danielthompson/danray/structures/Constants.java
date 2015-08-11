@@ -15,8 +15,6 @@ public class Constants {
 
    public static boolean WithinDelta(double number, double target, double delta) {
 
-      //return number == target;
-
       if (number > target) {
          return (delta >= number - target);
       }
@@ -25,6 +23,6 @@ public class Constants {
    }
 
    public static boolean WithinDelta(Point p1, Point p2) {
-      return (WithinDelta(p1.X, p2.X) && WithinDelta(p1.Y, p2.Y) && WithinDelta(p1.Z, p2.Z));
+      return (WithinDelta(p1.X, p2.X, NumericalDelta) && WithinDelta(p1.Y, p2.Y, NumericalDelta) && WithinDelta(p1.Z, p2.Z, NumericalDelta));
    }
 }

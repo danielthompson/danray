@@ -3,13 +3,15 @@ package net.danielthompson.danray;
 import net.danielthompson.danray.presets.RenderQualityPreset;
 import net.danielthompson.danray.presets.TracerOptions;
 import net.danielthompson.danray.runners.PixelRunner;
-import net.danielthompson.danray.runners.SpectralPixelRunner;
 import net.danielthompson.danray.runners.SpectralTilePixelRunner;
+import net.danielthompson.danray.shading.SpectralBlender;
+import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Scene;
 import net.danielthompson.danray.structures.Statistics;
 import net.danielthompson.danray.structures.Vector;
+import net.danielthompson.danray.tracers.SpectralPathTracer;
 import net.danielthompson.danray.tracers.SpectralTracer;
 import net.danielthompson.danray.tracers.Tracer;
 import net.danielthompson.danray.ui.CanvasUpdateTimerTask;
@@ -38,6 +40,16 @@ public class TraceManager {
    private MainCanvas _traceCanvas;
    private Graphics _traceGraphics;
    private Frame _traceFrame;
+
+   private float[][][] _tracePixelXYZ;
+
+   private float _minX;
+   private float _minY;
+   private float _minZ;
+
+   private float _maxX;
+   private float _maxY;
+   private float _maxZ;
 
    private BufferedImage _countImage;
    private CountCanvas _countCanvas;
@@ -87,7 +99,7 @@ public class TraceManager {
       _samplesInverse = 1.0f / (renderQualityPreset.getSuperSamplesPerPixel() * renderQualityPreset.getSamplesPerPixel());
       _scene = scene;
       _tracer = new Tracer(_scene, renderQualityPreset.getMaxDepth());
-      _spectralTracer = new SpectralTracer(_scene, renderQualityPreset.getMaxDepth());
+      _spectralTracer = new SpectralPathTracer(_scene, renderQualityPreset.getMaxDepth());
       _timer = new Timer();
 
       Logger.AddOutput(System.out);
@@ -122,6 +134,7 @@ public class TraceManager {
 
          SetupFrame();
          Trace(i);
+         //ToneMap(i);
          Log(i);
          Save(_traceImage, "trace" + getOutputString(i));
          Save(_countImage, "count" + getOutputString(i));
@@ -229,6 +242,7 @@ public class TraceManager {
 
       _countImage = new BufferedImage(_qualityPreset.getX(), _qualityPreset.getY(), BufferedImage.TYPE_INT_RGB);
       _traceImage = new BufferedImage(_qualityPreset.getX(), _qualityPreset.getY(), BufferedImage.TYPE_INT_RGB);
+      _tracePixelXYZ = new float[_qualityPreset.getX()][_qualityPreset.getY()][3];
 
       for (int i = 0; i < _qualityPreset.getX(); ++i)
          for (int j = 0; j < _qualityPreset.getY(); ++j)
@@ -251,6 +265,9 @@ public class TraceManager {
       _xPointer = 0;
       _yPointer = 0;
 
+      _minX = _minY = _minZ = Float.MAX_VALUE;
+      _maxX = _maxY = _maxZ = -Float.MAX_VALUE;
+
       Logger.Log("image is " + _qualityPreset.getX() + " x " + _qualityPreset.getY() );
       Logger.Log("pixel threshold: " + _qualityPreset.getConvergenceTerminationThreshold());
       Logger.Log("samples: " + _qualityPreset.getSamplesPerPixel() + "; super samples: " + _qualityPreset.getSuperSamplesPerPixel());
@@ -260,7 +277,7 @@ public class TraceManager {
    }
 
    public void TeardownFrame() {
-      ;
+;
    }
 
    public void Trace(int frame) {
@@ -296,6 +313,85 @@ public class TraceManager {
       }
 
       Main.Finished = true;
+   }
+
+   public void ToneMap(int frame) {
+
+      Logger.Log("Starting tone mapping...");
+
+      final float min = 0;
+      final float max = 1.9999695f;
+
+      final float xScale = max / (_maxX - _minX);
+      Logger.Log("Min X = " + _minX + ", Max X = " + _maxX);
+      Logger.Log("X Scale = " + xScale);
+
+      final float yScale = max / (_maxY - _minY);
+      Logger.Log("Min Y = " + _minY + ", Max Y = " + _maxY);
+      Logger.Log("Y Scale = " + yScale);
+
+      final float zScale = max / (_maxZ - _minZ);
+      Logger.Log("Min Z = " + _minZ + ", Max X = " + _maxZ);
+      Logger.Log("Z Scale = " + zScale);
+
+      float scale = -Float.MAX_VALUE;
+
+      /*if (xScale > scale)
+         scale = xScale;
+
+      if (yScale > scale)
+         scale = yScale;
+
+      if (zScale > scale)
+         scale = zScale;*/
+
+      for (int x = 0; x < _qualityPreset.getX(); x++) {
+         for (int y = 0; y < _qualityPreset.getY(); y++) {
+            // normalize XYZ
+
+            float[] xyz = _tracePixelXYZ[x][y];
+
+            xyz[0] *= yScale;
+            xyz[1] = xyz[1] * yScale;
+            xyz[2] *= yScale;
+
+            // convert to RGB
+
+            Color c = SpectralBlender.ConvertXYZtoRGB(xyz[0], xyz[1], xyz[2], null);
+
+            // set in picture
+
+            //_traceImage.setRGB(x, y, c.getRGB());
+
+         }
+      }
+
+      _traceCanvas.update(_traceGraphics);
+
+      Logger.Log("Tone mapping complete.");
+
+   }
+
+   public void SetPixelXYZ(int[] pixel, float[] xyzBlendSoFar) {
+      _tracePixelXYZ[pixel[0]][pixel[1]][0] = xyzBlendSoFar[0];
+      _tracePixelXYZ[pixel[0]][pixel[1]][1] = xyzBlendSoFar[1];
+      _tracePixelXYZ[pixel[0]][pixel[1]][2] = xyzBlendSoFar[2];
+
+      if (xyzBlendSoFar[0] > _maxX)
+         _maxX = xyzBlendSoFar[0];
+      else if (xyzBlendSoFar[0] < _minX)
+         _minX = xyzBlendSoFar[0];
+
+      if (xyzBlendSoFar[1] > _maxY)
+         _maxY = xyzBlendSoFar[1];
+      else if (xyzBlendSoFar[1] < _minY)
+         _minY = xyzBlendSoFar[1];
+
+      if (xyzBlendSoFar[2] > _maxZ)
+         _maxZ = xyzBlendSoFar[2];
+      else if (xyzBlendSoFar[2] < _minZ)
+         _minZ = xyzBlendSoFar[2];
+
    }
 
    private void Log(int frame) {
@@ -478,7 +574,7 @@ public class TraceManager {
    }
 
    public void Trace(int[] pixel) {
-      SpectralPixelRunner runner = new SpectralPixelRunner(this, _spectralTracer, _scene, _qualityPreset, 0);
+      SpectralTilePixelRunner runner = new SpectralTilePixelRunner(this, _spectralTracer, _scene, _qualityPreset, 0);
       runner.trace(pixel);
    }
 
@@ -491,6 +587,11 @@ public class TraceManager {
 
    public void SetPixelColor(int[] pixel, Color color) {
       _traceImage.setRGB(pixel[0], pixel[1], color.getRGB());
+   }
+
+   public void SetPixelSPD(int[] pixel, SpectralPowerDistribution blendSoFar) {
+      Color c = SpectralBlender.ConvertSPDtoRGB(blendSoFar);
+      SetPixelColor(pixel, c);
    }
 
    public void SetRayCountForPixel(int[] pixel, int count) {

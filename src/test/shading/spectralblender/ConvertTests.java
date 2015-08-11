@@ -1,7 +1,6 @@
 package test.shading.spectralblender;
 
 import net.danielthompson.danray.shading.*;
-import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -29,7 +28,7 @@ public class ConvertTests {
          spd.Buckets[i] = (48 - i) * 2;
       }
 
-      Color c = SpectralBlender.Convert(spd);
+      Color c = SpectralBlender.ConvertSPDtoRGB(spd);
 
       System.out.println(c);
       System.out.println("");
@@ -43,7 +42,7 @@ public class ConvertTests {
 
       SpectralBlender.setFilmSpeed(1);
 
-      Color c = SpectralBlender.ConvertTristumulus(x, y, z);
+      Color c = SpectralBlender.ConvertXYZtoRGB(x, y, z, null);
 
       System.out.println("");
    }
@@ -62,7 +61,7 @@ public class ConvertTests {
 
 
 
-         Color c = SpectralBlender.Convert(result);
+         Color c = SpectralBlender.ConvertSPDtoRGB(result);
 
          System.out.println("power = " + i + ", color = " + c.toString());
       }

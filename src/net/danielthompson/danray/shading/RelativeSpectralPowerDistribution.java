@@ -15,4 +15,17 @@ public class RelativeSpectralPowerDistribution extends Spectrum {
          Buckets[i] = spd.Buckets[i] / (float)spd.Power;
       }
    }
+
+   public RelativeSpectralPowerDistribution(RelativeSpectralPowerDistribution other) {
+      this();
+      for (int i = 0; i < Buckets.length; i++) {
+         Buckets[i] = other.Buckets[i];
+      }
+   }
+
+   public void Merge(RelativeSpectralPowerDistribution other) {
+      for (int i = 0; i < Buckets.length; i++) {
+         Buckets[i] = (other.Buckets[i] + Buckets[i]) * .5f;
+      }
+   }
 }

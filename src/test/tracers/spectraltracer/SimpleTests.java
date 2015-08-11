@@ -6,14 +6,9 @@ import net.danielthompson.danray.shading.SpectralBlender;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.shading.SpectralReflectanceCurve;
 import net.danielthompson.danray.shapes.Box;
-import net.danielthompson.danray.shapes.Sphere;
-import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.structures.Point;
-import net.danielthompson.danray.tracers.GeometryCalculations;
 import net.danielthompson.danray.tracers.SpectralTracer;
-import net.danielthompson.danray.tracers.Tracer;
-import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -72,7 +67,7 @@ public class SimpleTests {
 
       SpectralPowerDistribution spectralPowerDistribution = tracer.GetSPDForRay(ray, 0);
 
-      Color c = SpectralBlender.Convert(spectralPowerDistribution);
+      Color c = SpectralBlender.ConvertSPDtoRGB(spectralPowerDistribution);
 
       System.out.println("");
    }

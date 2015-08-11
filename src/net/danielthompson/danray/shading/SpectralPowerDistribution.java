@@ -24,6 +24,42 @@ public class SpectralPowerDistribution extends Spectrum {
       }
    }
 
+   public static SpectralPowerDistribution average(SpectralPowerDistribution[] spds) {
+      SpectralPowerDistribution spd = new SpectralPowerDistribution();
+
+      for (int i = 0; i < spd.Buckets.length; i++) {
+
+         float sum = 0.0f;
+
+         for (int j = 0; j < spds.length; j++) {
+            sum += spds[j].Buckets[i];
+         }
+
+         spd.Buckets[i] = sum / spd.Buckets.length;
+      }
+
+      return spd;
+   }
+
+   public static SpectralPowerDistribution lerp(SpectralPowerDistribution spd1, float weight1, SpectralPowerDistribution spd2, float weight2) {
+      SpectralPowerDistribution blend = new SpectralPowerDistribution();
+
+      for (int i = 0; i < spd1.Buckets.length; i++) {
+         blend.Buckets[i] = (float)(spd1.Buckets[i] * weight1 + spd2.Buckets[i] * weight2);
+      }
+
+      return blend;
+   }
+
+   public static SpectralPowerDistribution add(SpectralPowerDistribution spd1, SpectralPowerDistribution spd2) {
+      SpectralPowerDistribution spd = new SpectralPowerDistribution();
+
+      spd.add(spd1);
+      spd.add(spd2);
+
+      return spd;
+   }
+
    public static SpectralPowerDistribution scale(SpectralPowerDistribution spd, double percentage) {
       SpectralPowerDistribution scaled = new SpectralPowerDistribution();
 
@@ -44,7 +80,7 @@ public class SpectralPowerDistribution extends Spectrum {
       SpectralPowerDistribution reflected = new SpectralPowerDistribution();
 
       for (int i = 0; i < reflected.Buckets.length; i++) {
-         reflected.Buckets[i] = Buckets[i] * curve.Buckets[i];
+         reflected.Buckets[i] = Buckets[i] * curve.Buckets[i] * 100f;
       }
 
       return reflected;

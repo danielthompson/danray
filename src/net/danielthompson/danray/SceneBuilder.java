@@ -63,27 +63,37 @@ public class SceneBuilder {
       settings.Y = y;
       settings.FocalLength = 1200;
       settings.Rotation = 0;
-      settings.ZoomFactor =  1;
+      settings.ZoomFactor =  1.5;
       settings.FocusDistance = 500;
       settings.Aperture = new CircleAperture(20);
 
-      Point origin = new Point(0, 0, 3700);
+      Point origin = new Point(800, -700, 4000);
       Vector direction = new Vector(0, 0, -1);
       settings.Orientation = new Ray(origin, direction);
 
       Camera camera = new SimplePointableCamera(settings);
 
-      Scene scene = new KDScene(camera);
+      Scene scene = new NaiveScene(camera);
+
+      SpectralBlender.setFilmSpeed(.03f);
 
       // right light
 
-      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(RelativeSpectralPowerDistributionLibrary.D65, 50f);
+      RelativeSpectralPowerDistribution lightRSPD = null;
+
+      lightRSPD = RelativeSpectralPowerDistributionLibrary.D65;
+      /*
+      new RelativeSpectralPowerDistribution(RelativeSpectralPowerDistributionLibrary.Blue);
+      lightRSPD.Merge(RelativeSpectralPowerDistributionLibrary.Red);
+      lightRSPD.Merge(RelativeSpectralPowerDistributionLibrary.Yellow);
+      */
+      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(lightRSPD, 50f);
 
       Material material = new Material();
 
 
       SpectralSphereLight light = new SpectralSphereLight(10, null, lightSPD);
-      light.Origin = new Point(0, 0, 6500);
+      light.Origin = new Point(0, 15000, 15000);
       light.Radius = 1000;
 
       light.ID = getNextID();
@@ -93,14 +103,14 @@ public class SceneBuilder {
 
       // left light
 
-      lightSPD = new SpectralPowerDistribution(RelativeSpectralPowerDistributionLibrary.Sunset, 500f);
+      lightSPD = new SpectralPowerDistribution(RelativeSpectralPowerDistributionLibrary.Sunset, 5f);
 
       light = new SpectralSphereLight(10, null, lightSPD);
-      light.Origin = new Point(-2000, 0, 4000);
-      light.Radius = 200;
+      light.Origin = new Point(-800, 0, 500);
+      light.Radius = 100;
 
-      //scene.SpectralRadiatables.add(light);
-      //scene._drawables.add(light);
+      scene.SpectralRadiatables.add(light);
+      scene._drawables.add(light);
 
       // left wall
 
@@ -183,7 +193,7 @@ public class SceneBuilder {
 
       box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
       box.ID = getNextID();
-      scene._drawables.add(box);
+      //scene._drawables.add(box);
 
       // floor
 
@@ -233,9 +243,9 @@ public class SceneBuilder {
       boxMaterial.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.Orange;
 
       for (int i = 0; i < 10; i++) {
-         for (int j = 0; j < 10; j++) {
+         //for (int j = 0; j < 10; j++) {
             list = new ArrayList<>();
-            list.add(Transform.Translate(new Vector(i * 120 - 800, j * 120 - 800, i * j * 20)));
+            list.add(Transform.Translate(new Vector(i * 120 - 800, i * 120 - 800, i * i * 20)));
             list.add(Transform.Scale(50, 50, 50));
             transforms = GetCompositeTransforms(list);
 
@@ -246,9 +256,9 @@ public class SceneBuilder {
             p1 = new Point(1, 1, 1);
             box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
             box.ID = getNextID();
-            scene._drawables.add(box);
+            //scene._drawables.add(box);
 
-         }
+         //}
       }
 
 
@@ -286,7 +296,7 @@ public class SceneBuilder {
 
 
 
-      SpectralBlender.setFilmSpeed(1600f);
+
 
       return scene;
    }

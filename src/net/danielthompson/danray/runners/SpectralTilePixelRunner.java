@@ -132,49 +132,33 @@ public class SpectralTilePixelRunner implements Runnable {
       Ray[] cameraRays = _scene.Camera.getInitialStochasticRaysForPixel(pixel[0], pixel[1], qualityPreset.getSamplesPerPixel());
 
       _manager.InitialRays += cameraRays.length;
-      Color[] colors = new Color[cameraRays.length];
-      SpectralPowerDistribution spd = new SpectralPowerDistribution();
+
+      SpectralPowerDistribution[] initialSamples = new SpectralPowerDistribution[cameraRays.length];
+
       for (int i = 0; i < cameraRays.length; i++) {
-         spd = _tracer.GetSPDForRay(cameraRays[i], 1);
-         Color c = SpectralBlender.Convert(spd);
-         colors[i] = c;
-         //_manager.Statistics[pixel[0]][pixel[1]].Add(spds[i].Statistics);
+         initialSamples[i] = _tracer.GetSPDForRay(cameraRays[i], 1);
       }
 
-      //_manager.SetPixelColor(pixel, c);
+      SpectralPowerDistribution blendSoFar = SpectralPowerDistribution.average(initialSamples);
 
-      Color blendSoFar = Blender.BlendColors(colors);
-      Color marginalBlend;
+      SpectralPowerDistribution marginalBlend;
 
       for (int j = 0; j < qualityPreset.getSuperSamplesPerPixel(); j++) {
          reachedSamples += qualityPreset.getSamplesPerPixel();
          cameraRays = _scene.Camera.getInitialStochasticRaysForPixel(pixel[0], pixel[1], qualityPreset.getSamplesPerPixel());
          _manager.InitialRays += cameraRays.length;
-         Color[] colors2 = new Color[cameraRays.length];
+
+         SpectralPowerDistribution[] additionalSamples = new SpectralPowerDistribution[cameraRays.length];
+
          for (int i = 0; i < cameraRays.length; i++) {
-            spd = _tracer.GetSPDForRay(cameraRays[i], 1);
-            Color c = SpectralBlender.Convert(spd);
-            colors2[i] = c;
-
-            //_manager.Statistics[pixel[0]][pixel[1]].Add(colorsWithStatistics[i].Statistics);
+            additionalSamples[i] = _tracer.GetSPDForRay(cameraRays[i], 1);
          }
-/*
-         colors = new Color[cameraRays.length];
 
-         for (int i = 0; i < colors.length; i++) {
-            colors[i] = colorsWithStatistics[i].Color;
-         }
-*/
-         Color marginalColor = Blender.BlendColors(colors2);
-/*
-         if (j == 0) {
-            blendSoFar = marginalColor;
-            continue;
-         }
-  */
-         marginalBlend = Blender.BlendWeighted(marginalColor, 1, blendSoFar, 1 + j);
+         SpectralPowerDistribution additionalBlend = SpectralPowerDistribution.average(additionalSamples);
 
-         if (Blender.CloseEnough(blendSoFar, marginalBlend, qualityPreset.getConvergenceTerminationThreshold())) {
+         marginalBlend = SpectralPowerDistribution.lerp(additionalBlend, 1, blendSoFar, j + 1);
+
+         if (SpectralBlender.CloseEnough(blendSoFar, marginalBlend, qualityPreset.getConvergenceTerminationThreshold())) {
             blendSoFar = marginalBlend;
             break;
          }
@@ -184,8 +168,13 @@ public class SpectralTilePixelRunner implements Runnable {
 
       }
 
+      blendSoFar.scale(SpectralBlender.FilmSpeedMultiplier);
+
       _manager.SetRayCountForPixel(pixel, reachedSamples);
-      _manager.SetPixelColor(pixel, blendSoFar);
+      //_manager.SetPixelColor(pixel, c);
+      //_manager.SetPixelXYZ(pixel, marginalBlend);
+      _manager.SetPixelSPD(pixel, blendSoFar);
+
 
    }
 

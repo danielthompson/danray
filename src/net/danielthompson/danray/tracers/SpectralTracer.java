@@ -2,7 +2,6 @@ package net.danielthompson.danray.tracers;
 
 import net.danielthompson.danray.lights.SpectralRadiatable;
 import net.danielthompson.danray.shading.Material;
-import net.danielthompson.danray.shading.SpectralBlender;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.shading.SpectralReflectanceCurve;
 import net.danielthompson.danray.shapes.Drawable;
@@ -31,11 +30,6 @@ public class SpectralTracer {
 
       SpectralPowerDistribution sampleSPD = new SpectralPowerDistribution();
 
-      // base case
-      if (depth >= _maxDepth) {
-         return sampleSPD;
-      }
-
       IntersectionState closestStateToRay = _scene.GetClosestDrawableToRay(ray);
 
       if (closestStateToRay == null) {
@@ -47,11 +41,17 @@ public class SpectralTracer {
          return ((SpectralRadiatable) closestStateToRay.Drawable).getSpectralPowerDistribution();
       }
 
+      // base case
+      if (depth >= _maxDepth) {
+         return sampleSPD;
+      }
+
       Drawable closestDrawable = closestStateToRay.Drawable;
 
       Material objectMaterial = closestDrawable.GetMaterial();
 
-      /*
+
+
       for (SpectralRadiatable radiatable : _scene.SpectralRadiatables) {
          Point intersectionPoint = closestStateToRay.IntersectionPoint;
 
@@ -83,7 +83,7 @@ public class SpectralTracer {
                      double scaleFactor = adjustment * angleOfIncidencePercentage * oneOverDistanceFromLightSource;
                      currentIncomingSPD = SpectralPowerDistribution.scale(currentIncomingSPD, scaleFactor);
 
-                     incomingSpectralPowerDistribution.add(currentIncomingSPD);
+                     sampleSPD.add(currentIncomingSPD);
 
                      //brightness += adjustment * radiatable.getPower() * (angleOfIncidencePercentage) * oneOverDistanceFromLightSource;
                   }
@@ -91,12 +91,14 @@ public class SpectralTracer {
             }
          }
       }
-*/
+
+
       // compute the interaction of the incoming SPD with the object's SRC
 
       SpectralReflectanceCurve curve = objectMaterial.SpectralReflectanceCurve;
 
       SpectralPowerDistribution objectSPD; // = incomingSpectralPowerDistribution.reflectOff(curve);
+
 
 
       // recursive case
@@ -107,9 +109,10 @@ public class SpectralTracer {
       //double reflectivity = objectMaterial.getReflectivity();
 
       //if (reflectivity > 0) {
-         Ray reflectedRay = GeometryCalculations.GetReflectedRayPerturbedFromNormal(closestStateToRay.IntersectionPoint, closestStateToRay.Normal, ray, .1);
+         Ray reflectedRay = GeometryCalculations.GetRandomRayInNormalHemisphere(closestStateToRay.IntersectionPoint, closestStateToRay.Normal);
       reflectedSPD = GetSPDForRay(reflectedRay, depth/*, oldIndexOfRefraction*/);
-      reflectedSPD = SpectralPowerDistribution.scale(reflectedSPD, .9);
+      reflectedSPD = SpectralPowerDistribution.scale(reflectedSPD, .75);
+      reflectedSPD.add(sampleSPD);
          //incomingSpectralPowerDistribution.add(reflectedSPD);
          objectSPD = reflectedSPD.reflectOff(curve);
          return objectSPD;

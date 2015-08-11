@@ -104,7 +104,7 @@ public class StandardObserverColorMatchingFunction extends Spectrum {
       for (int i = 0; i < YBar.Buckets.length; i++) {
          value += YBar.Buckets[i];
       }
-      return value;
+      return 1.0f / value;
    }
 
    public static StandardObserverColorMatchingFunction ZBar = GetZBar();
