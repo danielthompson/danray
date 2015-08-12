@@ -75,7 +75,7 @@ public class SceneBuilder {
 
       Scene scene = new NaiveScene(camera);
 
-      SpectralBlender.setFilmSpeed(.5f);
+      SpectralBlender.setFilmSpeed(.01f);
 
       // right light
 

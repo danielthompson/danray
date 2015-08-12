@@ -128,11 +128,11 @@ public class GeometryCalculations {
 
       double[] xyz;
 
-      synchronized (mutex) {
-         if (randomSpherePointer >= maxRandomSpherePoints)
+      //synchronized (mutex) {
+         if (randomSpherePointer >= maxRandomSpherePoints - 5000)
             randomSpherePointer = 0;
          xyz = RandomSpherePoints[randomSpherePointer++];
-      }
+      //}
 
       Vector direction = new Vector(xyz[0], xyz[1], xyz[2]);
 
