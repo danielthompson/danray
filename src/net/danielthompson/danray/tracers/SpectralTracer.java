@@ -28,12 +28,12 @@ public class SpectralTracer {
 
    public SpectralPowerDistribution GetSPDForRay(Ray ray, int depth) {
 
-      SpectralPowerDistribution sampleSPD = new SpectralPowerDistribution();
+      SpectralPowerDistribution directSPD = new SpectralPowerDistribution();
 
       IntersectionState closestStateToRay = _scene.GetClosestDrawableToRay(ray);
 
       if (closestStateToRay == null) {
-         return sampleSPD;
+         return directSPD;
       }
 
       if (closestStateToRay.Drawable instanceof SpectralRadiatable) {
@@ -41,16 +41,9 @@ public class SpectralTracer {
          return ((SpectralRadiatable) closestStateToRay.Drawable).getSpectralPowerDistribution();
       }
 
-      // base case
-      if (depth >= _maxDepth) {
-         return sampleSPD;
-      }
-
       Drawable closestDrawable = closestStateToRay.Drawable;
 
       Material objectMaterial = closestDrawable.GetMaterial();
-
-
 
       for (SpectralRadiatable radiatable : _scene.SpectralRadiatables) {
          Point intersectionPoint = closestStateToRay.IntersectionPoint;
@@ -83,7 +76,7 @@ public class SpectralTracer {
                      double scaleFactor = adjustment * angleOfIncidencePercentage * oneOverDistanceFromLightSource;
                      currentIncomingSPD = SpectralPowerDistribution.scale(currentIncomingSPD, scaleFactor);
 
-                     sampleSPD.add(currentIncomingSPD);
+                     directSPD.add(currentIncomingSPD);
 
                      //brightness += adjustment * radiatable.getPower() * (angleOfIncidencePercentage) * oneOverDistanceFromLightSource;
                   }
@@ -92,31 +85,23 @@ public class SpectralTracer {
          }
       }
 
-
       // compute the interaction of the incoming SPD with the object's SRC
 
       SpectralReflectanceCurve curve = objectMaterial.SpectralReflectanceCurve;
 
-      SpectralPowerDistribution objectSPD; // = incomingSpectralPowerDistribution.reflectOff(curve);
-
-
-
       // recursive case
+      if (depth < _maxDepth) {
+         SpectralPowerDistribution reflectedSPD = null;
+         Ray reflectedRay = GeometryCalculations.GetReflectedRay(closestStateToRay.IntersectionPoint, closestStateToRay.Normal, ray);
+         reflectedSPD = GetSPDForRay(reflectedRay, depth + 1/*, oldIndexOfRefraction*/);
+         reflectedSPD = SpectralPowerDistribution.scale(reflectedSPD, .25);
+         directSPD.add(reflectedSPD);
+      }
 
-      depth++;
-      SpectralPowerDistribution reflectedSPD = null;
+      // base case
 
-      //double reflectivity = objectMaterial.getReflectivity();
-
-      //if (reflectivity > 0) {
-         Ray reflectedRay = GeometryCalculations.GetRandomRayInNormalHemisphere(closestStateToRay.IntersectionPoint, closestStateToRay.Normal);
-      reflectedSPD = GetSPDForRay(reflectedRay, depth/*, oldIndexOfRefraction*/);
-      reflectedSPD = SpectralPowerDistribution.scale(reflectedSPD, .75);
-      reflectedSPD.add(sampleSPD);
-         //incomingSpectralPowerDistribution.add(reflectedSPD);
-         objectSPD = reflectedSPD.reflectOff(curve);
-         return objectSPD;
-      //}
+      SpectralPowerDistribution objectSPD = directSPD.reflectOff(curve);
+      return objectSPD;
 
       /*
 

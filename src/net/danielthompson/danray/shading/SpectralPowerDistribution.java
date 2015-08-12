@@ -35,7 +35,7 @@ public class SpectralPowerDistribution extends Spectrum {
             sum += spds[j].Buckets[i];
          }
 
-         spd.Buckets[i] = sum / spd.Buckets.length;
+         spd.Buckets[i] = sum / spds.length;
       }
 
       return spd;
@@ -44,8 +44,10 @@ public class SpectralPowerDistribution extends Spectrum {
    public static SpectralPowerDistribution lerp(SpectralPowerDistribution spd1, float weight1, SpectralPowerDistribution spd2, float weight2) {
       SpectralPowerDistribution blend = new SpectralPowerDistribution();
 
+      float scale = 1.0f / (weight1 + weight2);
+
       for (int i = 0; i < spd1.Buckets.length; i++) {
-         blend.Buckets[i] = (float)(spd1.Buckets[i] * weight1 + spd2.Buckets[i] * weight2);
+         blend.Buckets[i] = (float)(spd1.Buckets[i] * weight1 + spd2.Buckets[i] * weight2) * scale;
       }
 
       return blend;

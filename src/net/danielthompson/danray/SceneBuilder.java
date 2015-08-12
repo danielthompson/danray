@@ -67,15 +67,15 @@ public class SceneBuilder {
       settings.FocusDistance = 500;
       settings.Aperture = new CircleAperture(20);
 
-      Point origin = new Point(800, -700, 4000);
-      Vector direction = new Vector(0, 0, -1);
+      Point origin = new Point(0, 0, 4000);
+      Vector direction = new Vector(.25, -.25, -1);
       settings.Orientation = new Ray(origin, direction);
 
       Camera camera = new SimplePointableCamera(settings);
 
       Scene scene = new NaiveScene(camera);
 
-      SpectralBlender.setFilmSpeed(.03f);
+      SpectralBlender.setFilmSpeed(.5f);
 
       // right light
 

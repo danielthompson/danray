@@ -88,6 +88,13 @@ public class TraceManager {
 
    private String _outputDirectory;
 
+   private long _numPixels;
+   private volatile long _numRenderedPixels;
+
+   private float _numPixelsDivisor;
+
+   private long _numPixelsStep;
+
    /**
     * @param scene The scene to be rendered.
     * @param renderQualityPreset
@@ -101,6 +108,11 @@ public class TraceManager {
       _tracer = new Tracer(_scene, renderQualityPreset.getMaxDepth());
       _spectralTracer = new SpectralPathTracer(_scene, renderQualityPreset.getMaxDepth());
       _timer = new Timer();
+
+      _numPixels = renderQualityPreset.getX() * renderQualityPreset.getY();
+      _numPixelsDivisor = 1.0f / _numPixels;
+
+      _numPixelsStep = _numPixels / 100;
 
       Logger.AddOutput(System.out);
       CreateOutputDirectory();
@@ -587,10 +599,20 @@ public class TraceManager {
 
    public void SetPixelColor(int[] pixel, Color color) {
       _traceImage.setRGB(pixel[0], pixel[1], color.getRGB());
+
+      _numRenderedPixels++;
+
+      if (_numRenderedPixels % _numPixelsStep == 0) {
+         int percent = (int)(_numRenderedPixels * _numPixelsDivisor * 100);
+
+         Logger.Log("Rendered " + percent + "%" );
+      }
+
+
    }
 
-   public void SetPixelSPD(int[] pixel, SpectralPowerDistribution blendSoFar) {
-      Color c = SpectralBlender.ConvertSPDtoRGB(blendSoFar);
+   public void SetPixelSPD(int[] pixel, SpectralPowerDistribution spd) {
+      Color c = SpectralBlender.ConvertSPDtoRGB(spd);
       SetPixelColor(pixel, c);
    }
 

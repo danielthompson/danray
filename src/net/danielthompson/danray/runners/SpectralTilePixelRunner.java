@@ -155,7 +155,6 @@ public class SpectralTilePixelRunner implements Runnable {
          }
 
          SpectralPowerDistribution additionalBlend = SpectralPowerDistribution.average(additionalSamples);
-
          marginalBlend = SpectralPowerDistribution.lerp(additionalBlend, 1, blendSoFar, j + 1);
 
          if (SpectralBlender.CloseEnough(blendSoFar, marginalBlend, qualityPreset.getConvergenceTerminationThreshold())) {
@@ -165,17 +164,13 @@ public class SpectralTilePixelRunner implements Runnable {
          else {
             blendSoFar = marginalBlend;
          }
-
       }
 
       blendSoFar.scale(SpectralBlender.FilmSpeedMultiplier);
-
       _manager.SetRayCountForPixel(pixel, reachedSamples);
       //_manager.SetPixelColor(pixel, c);
       //_manager.SetPixelXYZ(pixel, marginalBlend);
       _manager.SetPixelSPD(pixel, blendSoFar);
-
-
    }
 
    public int[] getNextTile() {
