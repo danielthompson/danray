@@ -6,10 +6,10 @@ package net.danielthompson.danray.presets;
 public class LowQuality implements RenderQualityPreset {
    private final int _x = 320, _y = 240;
    private final int _maxDepth = 5;
-   private final int _samplesPerPixel = 512;
-   private final int _superSamplesPerPixel = 1;
+   private final int _samplesPerPixel = 64;
+   private final int _superSamplesPerPixel = 64;
    private final int _airIndexOfRefraction = 1;
-   private final int _threads = 16;
+
    private final boolean _useDepthOfField = false;
    private final float _convergenceTerminationThreshold = .999f;
 
@@ -41,11 +41,6 @@ public class LowQuality implements RenderQualityPreset {
    @Override
    public int getAirIndexOfRefraction() {
       return _airIndexOfRefraction;
-   }
-
-   @Override
-   public int getNumberOfThreads() {
-      return _threads;
    }
 
    @Override

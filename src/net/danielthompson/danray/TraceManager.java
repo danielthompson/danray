@@ -122,6 +122,16 @@ public class TraceManager {
 
    public void Compile() {
 
+      int cores = Runtime.getRuntime().availableProcessors();
+      Logger.Log("Detected " + cores + " cores.");
+
+      if (_tracerOptions.numThreads == 0) {
+         Logger.Log("No thread count specified at startup, defaulting to available cores.");
+         _tracerOptions.numThreads = cores;
+      }
+
+      Logger.Log("threads: " + _tracerOptions.numThreads);
+
       Logger.Log("Scene has " + _scene._drawables.size() + " drawables, " + _scene._radiatables.size() + " radiatables.");
       Logger.Log("Scene is implemented with " + _scene.getImplementationType());
       Logger.Log("Compiling scene...");
@@ -285,7 +295,7 @@ public class TraceManager {
       Logger.Log("samples: " + _qualityPreset.getSamplesPerPixel() + "; super samples: " + _qualityPreset.getSuperSamplesPerPixel());
       Logger.Log("max depth: " + _qualityPreset.getMaxDepth());
       Logger.Log("depth of field: " + (_qualityPreset.getUseDepthOfField() ? "yes" : "no"));
-      Logger.Log("threads: " + _qualityPreset.getNumberOfThreads());
+
    }
 
    public void TeardownFrame() {
@@ -302,13 +312,13 @@ public class TraceManager {
       //Runnable runner = new PixelRunner(this, _tracer, _scene, _qualityPreset, frame);
       Runnable runner = new SpectralTilePixelRunner(this, _spectralTracer, _scene, _qualityPreset, frame);
 
-      if (_qualityPreset.getNumberOfThreads() <= 1) {
+      if (_tracerOptions.numThreads <= 1) {
          runner.run();
       }
       else {
-         java.util.List<Thread> threads = new ArrayList<Thread>(_qualityPreset.getNumberOfThreads());
+         java.util.List<Thread> threads = new ArrayList<Thread>(_tracerOptions.numThreads);
 
-         for (int i = 0; i < _qualityPreset.getNumberOfThreads(); i++) {
+         for (int i = 0; i < _tracerOptions.numThreads; i++) {
 
             threads.add(new Thread(runner));
             threads.get(i).start();

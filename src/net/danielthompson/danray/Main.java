@@ -54,10 +54,28 @@ public class Main {
    private static TracerOptions parseArgs(String[] args) {
       TracerOptions options = new TracerOptions();
 
-      for (String arg : args) {
+      for (int i = 0; i < args.length; i++) {
+         String arg = args[i];
          switch (arg) {
             case "-window":
                options.ShowWindows = true;
+               break;
+            case "-threads":
+               if (i + 1 < args.length) {
+                  int numThreads = 0;
+                  try {
+                     numThreads = Integer.parseInt(args[i + 1]);
+                  } catch (NumberFormatException e) {
+                     Logger.Log("Couldn't parse number of threads: [" + args[i + 1]+ "].");
+                  }
+
+                  options.numThreads = numThreads;
+               }
+               else {
+                  Logger.Log("Threads specified but number missing.");
+               }
+               break;
+
          }
       }
 
