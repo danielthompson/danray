@@ -1,0 +1,17 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="DanRay:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/DanRay_jar</output-path>
+    <root id="archive" name="DanRay.jar">
+      <element id="module-output" name="DanRay" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/testng-6.8.7.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/junit-4.10.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/hamcrest-core-1.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/bsh-2.0b4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/guice-2.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/aopalliance-1.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jcommander-1.27.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/snakeyaml-1.12.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/commons-math3-3.4.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

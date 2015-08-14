@@ -5,4 +5,5 @@ package net.danielthompson.danray.presets;
  */
 public class TracerOptions {
    public boolean ShowWindows;
+   public int numThreads;
 }

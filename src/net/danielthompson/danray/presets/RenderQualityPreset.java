@@ -11,7 +11,6 @@ public interface RenderQualityPreset {
    public int getSamplesPerPixel();
    public int getSuperSamplesPerPixel();
    public int getAirIndexOfRefraction();
-   public int getNumberOfThreads();
    public boolean getUseDepthOfField();
 
    float getConvergenceTerminationThreshold();

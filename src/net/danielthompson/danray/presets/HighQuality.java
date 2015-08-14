@@ -9,7 +9,6 @@ public class HighQuality implements RenderQualityPreset {
    private final int _samplesPerPixel = 4;
    private final int _superSamplesPerPixel = 500;
    private final int _airIndexOfRefraction = 1;
-   private final int _threads = 8;
    private final boolean _useDepthOfField = false;
    private final float _convergenceTerminationThreshold = .99999f;
 
@@ -41,11 +40,6 @@ public class HighQuality implements RenderQualityPreset {
    @Override
    public int getAirIndexOfRefraction() {
       return _airIndexOfRefraction;
-   }
-
-   @Override
-   public int getNumberOfThreads() {
-      return _threads;
    }
 
    @Override
