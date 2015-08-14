@@ -19,6 +19,7 @@ public class RelativeSpectralPowerDistributionLibrary {
       curve.Buckets[7] = 0.033969373f;
       curve.Buckets[8] = 0.034202787f;
       curve.Buckets[9] = 0.033346063f;
+
       curve.Buckets[10] = 0.033654379f;
       curve.Buckets[11] = 0.031589647f;
       curve.Buckets[12] = 0.031747289f;
@@ -29,6 +30,7 @@ public class RelativeSpectralPowerDistributionLibrary {
       curve.Buckets[17] = 0.030206288f;
       curve.Buckets[18] = 0.029031667f;
       curve.Buckets[19] = 0.027967424f;
+
       curve.Buckets[20] = 0.027808853f;
       curve.Buckets[21] = 0.025746908f;
       curve.Buckets[22] = 0.0261303f;
@@ -39,6 +41,7 @@ public class RelativeSpectralPowerDistributionLibrary {
       curve.Buckets[27] = 0.023233114f;
       curve.Buckets[28] = 0.023287635f;
       curve.Buckets[29] = 0.023886617f;
+
       curve.Buckets[30] = 0.022727208f;
       curve.Buckets[31] = 0.020241255f;
       curve.Buckets[32] = 0.020789315f;

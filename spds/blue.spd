@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<spd version="1" power="1">
+   <bucket wavelength="380" power="0.014508721" />
+   <bucket wavelength="390" power="0.015865283" />
+   <bucket wavelength="400" power="0.024025127" />
+   <bucket wavelength="410" power="0.026559911" />
+   <bucket wavelength="420" power="0.027124809" />
+   <bucket wavelength="430" power="0.025165316" />
+   <bucket wavelength="440" power="0.030444057" />
+   <bucket wavelength="450" power="0.033969373" />
+   <bucket wavelength="460" power="0.034202787" />
+   <bucket wavelength="470" power="0.033346063" />
+</spd>

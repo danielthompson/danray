@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<spd version="1" power="1">
+   <bucket wavelength="380" power="0.014508721" />
+   <bucket wavelength="390" power="0.015865283" />
+   <bucket wavelength="400" power="0.024025127" />
+   <bucket wavelength="410" power="0.026559911" />
+   <bucket wavelength="420" power="0.027124809" />
+   <bucket wavelength="430" power="0.025165316" />
+   <bucket wavelength="440" power="0.030444057" />
+   <bucket wavelength="450" power="0.033969373" />
+   <bucket wavelength="460" power="0.034202787" />
+   <bucket wavelength="470" power="0.033346063" />
+   
+   <bucket wavelength="480" power="0.033654379" />
+   <bucket wavelength="490" power="0.031589647" />
+   <bucket wavelength="500" power="0.031747289" />
+   <bucket wavelength="510" power="0.031296717" />
+   <bucket wavelength="520" power="0.030422284" />
+   <bucket wavelength="530" power="0.031263912" />
+   <bucket wavelength="540" power="0.030310512" />
+   <bucket wavelength="550" power="0.030206288" />
+   <bucket wavelength="560" power="0.029031667" />
+   <bucket wavelength="570" power="0.027967424" />
+   
+   <bucket wavelength="580" power="0.027808853" />
+   <bucket wavelength="590" power="0.025746908f" />
+   <bucket wavelength="600" power="0.0261303f" />
+   <bucket wavelength="610" power="0.026012112f" />
+   <bucket wavelength="620" power="0.025460394f" />
+   <bucket wavelength="630" power="0.024180069f" />
+   <bucket wavelength="640" power="0.024299273f" />
+   <bucket wavelength="650" power="0.023233114f" />
+   <bucket wavelength="660" power="0.023287635f" />
+   <bucket wavelength="670" power="0.023886617f" />
+   
+   <bucket wavelength="680" power="0.022727208f" />
+   <bucket wavelength="690" power="0.020241255f" />
+   <bucket wavelength="700" power="0.020789315f" />
+   <bucket wavelength="710" power="0.021584754f" />
+   <bucket wavelength="720" power="0.017884668f" />
+   <bucket wavelength="730" power="0.020288955f" />
+   <bucket wavelength="740" power="0.021799008f" />
+   <bucket wavelength="750" power="0.018462021f" />
+   <bucket wavelength="760" power="0.013475977f" />
+   
+</spd>
