@@ -90,11 +90,14 @@ public class SpectralTracer {
       SpectralReflectanceCurve curve = objectMaterial.SpectralReflectanceCurve;
 
       // recursive case
-      if (depth < _maxDepth) {
+      if (depth < _maxDepth && objectMaterial.getReflectivity() > 0) {
          SpectralPowerDistribution reflectedSPD = null;
          Ray reflectedRay = GeometryCalculations.GetReflectedRay(closestStateToRay.IntersectionPoint, closestStateToRay.Normal, ray);
          reflectedSPD = GetSPDForRay(reflectedRay, depth + 1/*, oldIndexOfRefraction*/);
-         reflectedSPD = SpectralPowerDistribution.scale(reflectedSPD, .25);
+
+         double reflectionFactor = Math.pow(objectMaterial.getReflectivity(), 7);
+
+         reflectedSPD = SpectralPowerDistribution.scale(reflectedSPD, reflectionFactor);
          directSPD.add(reflectedSPD);
       }
 

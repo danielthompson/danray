@@ -22,7 +22,6 @@ public class NaiveScene extends Scene {
 
    private List<Drawable> _planes;
 
-   private List<Radiatable> _radiatables;
 
    public long drawableIntersections;
 

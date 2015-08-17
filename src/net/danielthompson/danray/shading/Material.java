@@ -1,5 +1,7 @@
 package net.danielthompson.danray.shading;
 
+import net.danielthompson.danray.shading.bxdf.BRDF;
+
 import java.awt.Color;
 
 /**
@@ -13,17 +15,13 @@ public class Material {
 
    public SpectralReflectanceCurve SpectralReflectanceCurve;
 
+   public BRDF BRDF;
+
    private double _reflectivity;
    private double _transparency;
    private double _indexOfRefraction;
    private double _specular;
 
-
-/*
-   public Color getColor() {
-      return Color;
-   }
-*/
    public void setColor(Color color) {
       Color = color;
    }

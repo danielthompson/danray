@@ -19,6 +19,8 @@ public class GeometryCalculations {
 
    private static final Object mutex = new Object();
 
+   public static Random Random = new Random();
+
    private static double[][] getRandomSpherePoints() {
       double[][] n = new double[maxRandomSpherePoints][3];
       Random r = new Random();
@@ -56,6 +58,38 @@ public class GeometryCalculations {
       double angleDegress = FastMath.toDegrees(angleRadians);
 
       return 180 - angleDegress;
+   }
+
+   public static double angleBetween(Vector v1, Vector v2) {
+
+      Vector nv1 = Vector.Normalize(v1);
+      Vector nv2 = Vector.Normalize(v2);
+
+      double angleRadians = Math.acos(nv1.Dot(nv2));
+      double angleDegrees = Math.toDegrees(angleRadians);
+
+      return Math.abs(angleDegrees);
+   }
+
+   public static double angleBetween(Vector v, Normal n) {
+      Vector nv = Vector.Normalize(v);
+      Normal nn = Normal.Normalize(n);
+
+      double angleRadians = Math.acos(nv.Dot(nn));
+      double angleDegrees = Math.toDegrees(angleRadians);
+
+      return Math.abs(angleDegrees);
+   }
+
+   public static double angleBetween(Normal n1, Normal n2) {
+
+      Normal nn1 = Normal.Normalize(n1);
+      Normal nn2 = Normal.Normalize(n2);
+
+      double angleRadians = Math.acos(n1.Dot(n2));
+      double angleDegrees = Math.toDegrees(angleRadians);
+
+      return Math.abs(angleDegrees);
    }
 
    public static double GetAngleOfIncidencePercentage(Ray incomingRay, IntersectionState state) {

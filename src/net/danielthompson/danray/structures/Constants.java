@@ -9,6 +9,8 @@ package net.danielthompson.danray.structures;
 public class Constants {
    public static final double NumericalDelta = .00000000001;
 
+   public static final double OneOver2Pi = 1.0 / (2 * Math.PI);
+
    public static boolean WithinDelta(double number, double target) {
       return WithinDelta(number, target, NumericalDelta);
    }

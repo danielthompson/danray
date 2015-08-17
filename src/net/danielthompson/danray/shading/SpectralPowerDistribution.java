@@ -24,6 +24,28 @@ public class SpectralPowerDistribution extends Spectrum {
       }
    }
 
+   public float max() {
+      float max = -Float.MAX_VALUE;
+
+      for (int i = 0; i < Buckets.length; i++) {
+         if (Buckets[i] > max)
+            max = Buckets[i];
+      }
+
+      return max;
+   }
+
+   public float min() {
+      float min = Float.MAX_VALUE;
+
+      for (int i = 0; i < Buckets.length; i++) {
+         if (Buckets[i] < min)
+            min = Buckets[i];
+      }
+
+      return min;
+   }
+
    public static SpectralPowerDistribution average(SpectralPowerDistribution[] spds) {
       SpectralPowerDistribution spd = new SpectralPowerDistribution();
 

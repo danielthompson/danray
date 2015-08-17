@@ -12,6 +12,8 @@ import net.danielthompson.danray.lights.Radiatable;
 import net.danielthompson.danray.lights.SpectralSphereLight;
 import net.danielthompson.danray.lights.SphereLight;
 import net.danielthompson.danray.shading.*;
+import net.danielthompson.danray.shading.bxdf.LambertianBRDF;
+import net.danielthompson.danray.shading.bxdf.MirrorBRDF;
 import net.danielthompson.danray.shapes.*;
 import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.structures.Point;
@@ -75,7 +77,7 @@ public class SceneBuilder {
 
       Scene scene = new NaiveScene(camera);
 
-      SpectralBlender.setFilmSpeed(.003f);
+      SpectralBlender.setFilmSpeed(10000f);
 
       // right light
 
@@ -91,8 +93,10 @@ public class SceneBuilder {
 
       Material material = new Material();
 
+      material.Color = Color.white;
 
-      SpectralSphereLight light = new SpectralSphereLight(10, null, lightSPD);
+
+      SpectralSphereLight light = new SpectralSphereLight(10000, material, lightSPD);
       light.Origin = new Point(0, 15000, 15000);
       light.Radius = 1000;
 
@@ -100,21 +104,27 @@ public class SceneBuilder {
 
       scene._drawables.add(light);
       scene.SpectralRadiatables.add(light);
+      scene.addRadiatableObject(light);
 
       // left light
 
       lightSPD = new SpectralPowerDistribution(RelativeSpectralPowerDistributionLibrary.Sunset, 5f);
 
-      light = new SpectralSphereLight(10, null, lightSPD);
+      material = new Material();
+      material.Color = Color.red;
+
+      light = new SpectralSphereLight(100, material, lightSPD);
       light.Origin = new Point(-800, 0, 500);
       light.Radius = 100;
 
+      scene.addRadiatableObject(light);
       scene.SpectralRadiatables.add(light);
       scene._drawables.add(light);
 
       // left wall
 
       Material boxMaterial = new Material();
+      boxMaterial.Color = Color.yellow;
       boxMaterial.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.LemonSkin;
 
       ArrayList<Transform> list = new ArrayList<>();
@@ -135,7 +145,9 @@ public class SceneBuilder {
       // right wall
 
       boxMaterial = new Material();
-      boxMaterial.setReflectivity(.5);
+      boxMaterial.BRDF = new MirrorBRDF();
+      boxMaterial.Color = Color.yellow;
+
       boxMaterial.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.LemonSkin;
 
       list = new ArrayList<>();
@@ -156,6 +168,7 @@ public class SceneBuilder {
       // front wall
 
       boxMaterial = new Material();
+      boxMaterial.Color = Color.green;
       boxMaterial.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.Grass;
 
       list = new ArrayList<>();
@@ -177,6 +190,8 @@ public class SceneBuilder {
       // back wall
 
       boxMaterial = new Material();
+      boxMaterial.BRDF = new MirrorBRDF();
+      boxMaterial.Color = Color.green;
       boxMaterial.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.Grass;
 
       list = new ArrayList<>();
@@ -198,6 +213,7 @@ public class SceneBuilder {
       // floor
 
       boxMaterial = new Material();
+      boxMaterial.Color = Color.green;
       boxMaterial.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.Grass;
 
       list = new ArrayList<>();
@@ -220,6 +236,7 @@ public class SceneBuilder {
       // ceiling
 
       boxMaterial = new Material();
+      boxMaterial.Color = Color.green;
       boxMaterial.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.Grass;
 
       list = new ArrayList<>();
@@ -240,6 +257,7 @@ public class SceneBuilder {
       // top left little box
 
       boxMaterial = new Material();
+      boxMaterial.Color = Color.orange;
       boxMaterial.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.Orange;
 
       for (int i = 0; i < 10; i++) {
@@ -265,6 +283,7 @@ public class SceneBuilder {
       // bottom right little box
 
       boxMaterial = new Material();
+      boxMaterial.Color = Color.cyan;
       boxMaterial.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.LightBlue;
 
       p0 = new Point(800, -1000, 0);
@@ -1959,7 +1978,7 @@ public class SceneBuilder {
       Normal planeNormal = new Normal(0, 1, 0);
 
       material = new Material();
-      material.setColor(new Color(255, 240, 185));
+      material.Color = new Color(255, 240, 185);
       material.setDiffuse(1);
 
       ImplicitPlane plane = new ImplicitPlane(planeOrigin, planeNormal, material);
