@@ -4,6 +4,7 @@ import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.shapes.Sphere;
 import net.danielthompson.danray.structures.Point;
+import net.danielthompson.danray.structures.Vector;
 
 /**
  * Created by daniel on 5/5/15.
@@ -42,4 +43,5 @@ public class SpectralSphereLight extends SphereLight implements SpectralRadiatab
    public String toString() {
       return ID + "";
    }
+
 }

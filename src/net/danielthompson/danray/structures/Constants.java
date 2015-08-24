@@ -7,7 +7,7 @@ package net.danielthompson.danray.structures;
  * Time: 5:09 PM
  */
 public class Constants {
-   public static final double NumericalDelta = .00000000001;
+   public static final double NumericalDelta = .0000000001;
 
    public static final double OneOver2Pi = 1.0 / (2 * Math.PI);
 

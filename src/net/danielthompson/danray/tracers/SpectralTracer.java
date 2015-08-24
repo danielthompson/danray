@@ -18,7 +18,7 @@ public class SpectralTracer {
    int _maxDepth;
 
    private final double factor = 1.0;
-   private final double iterations = 2.0;
+   private final double iterations = 1.0;
    private final double adjustment = factor / iterations;
 
    public SpectralTracer(Scene scene, int maxDepth) {
@@ -59,12 +59,10 @@ public class SpectralTracer {
             Vector direction = lightRayFromCurrentRadiatableToClosestDrawable.Direction;
             Vector offset = Vector.Scale(direction, -.0000001);
             origin.Plus(offset);
-            //origin.Plus(lightRayFromCurrentRadiatableToClosestDrawable.Direction.);
             IntersectionState potentialOccluder = _scene.GetClosestDrawableToRay(lightRayFromCurrentRadiatableToClosestDrawable);
 
             if (potentialOccluder == null || (potentialOccluder.Drawable.equals(closestStateToRay.Drawable) && Constants.WithinDelta(potentialOccluder.IntersectionPoint, closestStateToRay.IntersectionPoint)) || potentialOccluder.Drawable.equals(radiatable)) {
 
-               //double oneOverDistanceFromLightSource = Tracer.FastInverseSQRT(radiatableLocation.SquaredDistanceBetween(closestStateToRay.IntersectionPoint));
                double oneOverDistanceFromLightSource = 1 / Math.sqrt(radiatableLocation.SquaredDistanceBetween(closestStateToRay.IntersectionPoint));
                oneOverDistanceFromLightSource *= oneOverDistanceFromLightSource;
 
@@ -77,8 +75,6 @@ public class SpectralTracer {
                      currentIncomingSPD = SpectralPowerDistribution.scale(currentIncomingSPD, scaleFactor);
 
                      directSPD.add(currentIncomingSPD);
-
-                     //brightness += adjustment * radiatable.getPower() * (angleOfIncidencePercentage) * oneOverDistanceFromLightSource;
                   }
                }
             }

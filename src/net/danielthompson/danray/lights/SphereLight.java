@@ -3,6 +3,8 @@ package net.danielthompson.danray.lights;
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.shapes.Sphere;
 import net.danielthompson.danray.structures.Point;
+import net.danielthompson.danray.structures.Vector;
+import net.danielthompson.danray.tracers.GeometryCalculations;
 import org.apache.commons.math3.util.FastMath;
 
 /**
@@ -43,8 +45,6 @@ public class SphereLight extends Sphere implements Radiatable {
       double y;
       double z;
 
-
-
       //synchronized (mutex) {
          x = randoms[randomPointer];
          randomPointer = (randomPointer + 1) & 65535;
@@ -58,11 +58,66 @@ public class SphereLight extends Sphere implements Radiatable {
       point.Normalize();
       point.Scale(Radius);
       point.Plus(Origin);
+
+      if (ObjectToWorld != null) {
+         point = ObjectToWorld.Apply(point);
+      }
+
       return point;
    }
+
+   @Override
+   public Point getRandomPointOnSideOf(Vector side) {
+
+      // this is all in world space
+      Point surfacePoint = getRandomPointOnSurface();
+      Vector directionFromSurfacePointToOrigin = Vector.Minus(surfacePoint, Origin);
+      if (directionFromSurfacePointToOrigin.Dot(side) < 0) {
+         surfacePoint = new Point(-surfacePoint.X, -surfacePoint.Y, -surfacePoint.Z);
+      }
+
+      return surfacePoint;
+   }
+
+   @Override
+   public Point getRandomPointOnSideOf(Point point) {
+      if (WorldToObject != null)
+         point = WorldToObject.Apply(point);
+
+      Vector directionToPoint = Vector.Minus(point, Origin);
+
+      if (ObjectToWorld != null)
+         directionToPoint = ObjectToWorld.Apply(directionToPoint);
+
+      Point result = getRandomPointOnSideOf(directionToPoint);
+      return result;
+   }
+
 
    @Override
    public double getPower() {
       return Power;
    }
+
+   @Override
+   public double getPDF(Point point, Vector directionFromLightToPoint) {
+
+      Point origin = new Point(Origin);
+
+      if (ObjectToWorld != null)
+         origin = ObjectToWorld.Apply(origin);
+
+      double sqrDist = point.SquaredDistanceBetween(origin);
+
+      double sinThetaMax2 = Radius * Radius / sqrDist;
+      double sinTheta = Math.sqrt(sinThetaMax2);
+      double cosThetaMax = Math.sqrt(Math.max(0, 1 - sinThetaMax2));
+
+      double pdf = GeometryCalculations.UniformConePDF(cosThetaMax);
+
+      return pdf; //TODO
+   }
+
+
+
 }

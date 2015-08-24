@@ -3,42 +3,42 @@ package net.danielthompson.danray.runners;
 import net.danielthompson.danray.TraceManager;
 import net.danielthompson.danray.presets.RenderQualityPreset;
 import net.danielthompson.danray.shading.Blender;
-import net.danielthompson.danray.shading.SpectralBlender;
-import net.danielthompson.danray.shading.SpectralPowerDistribution;
+import net.danielthompson.danray.structures.ColorWithStatistics;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Scene;
-import net.danielthompson.danray.tracers.SpectralTracer;
+import net.danielthompson.danray.tracers.Tracer;
 
 import java.awt.*;
 
 /**
- * Created by daniel on 5/9/15.
+ * Created by daniel on 3/4/14.
  */
-public class SpectralTilePixelRunner implements Runnable {
+
+
+public class TileRunner implements Runnable {
    volatile int _xTilePointer;
    volatile int _yTilePointer;
-   
+
    private final int _xTileWidth = 32;
    private final int _yTileWidth = 32;
 
    private final int _xLastTileWidth;
    private final int _yLastTileWidth;
-   
+
    private final int _numXTiles;
    private final int _numYTiles;
-   
+
    private final int _x;
    private final int _y;
 
    private final TraceManager _manager;
-   private final SpectralTracer _tracer;
+   private final Tracer _tracer;
    private final Scene _scene;
    private int _frame;
 
    private final RenderQualityPreset qualityPreset;
-   
 
-   public SpectralTilePixelRunner(TraceManager manager, SpectralTracer tracer, Scene scene, RenderQualityPreset qualityPreset, int frame) {
+   public TileRunner(TraceManager manager, Tracer tracer, Scene scene, RenderQualityPreset qualityPreset, int frame) {
       _manager = manager;
       _tracer = tracer;
       _scene = scene;
@@ -72,7 +72,7 @@ public class SpectralTilePixelRunner implements Runnable {
    private int getXTiles() {
       if (_x % _xTileWidth > 0)
          return (_x / _xTileWidth) + 1;
-      
+
       else
          return (_x / _xTileWidth);
    }
@@ -84,7 +84,7 @@ public class SpectralTilePixelRunner implements Runnable {
       else
          return (_y / _yTileWidth);
    }
-   
+
    @Override
    public void run() {
       int[] tile = getNextTile();
@@ -109,7 +109,7 @@ public class SpectralTilePixelRunner implements Runnable {
             }
 
          }
-         //_manager.UpdateCanvas();
+
          tile = getNextTile();
       }
    }
@@ -133,44 +133,59 @@ public class SpectralTilePixelRunner implements Runnable {
 
       _manager.InitialRays += cameraRays.length;
 
-      SpectralPowerDistribution[] initialSamples = new SpectralPowerDistribution[cameraRays.length];
-
+      ColorWithStatistics[] colorsWithStatistics = new ColorWithStatistics[cameraRays.length];
       for (int i = 0; i < cameraRays.length; i++) {
-         initialSamples[i] = _tracer.GetSPDForRay(cameraRays[i], 1);
+         colorsWithStatistics[i] = _tracer.GetColorForRay(cameraRays[i], 1);
+         _manager.Statistics[pixel[0]][pixel[1]].Add(colorsWithStatistics[i].Statistics);
       }
 
-      SpectralPowerDistribution blendSoFar = SpectralPowerDistribution.average(initialSamples);
+      Color[] colors = new Color[cameraRays.length];
 
-      SpectralPowerDistribution marginalBlend;
+      for (int i = 0; i < colors.length; i++) {
+         colors[i] = colorsWithStatistics[i].Color;
+      }
+
+      Color blendSoFar = Blender.BlendColors(colors);
+      Color marginalBlend;
 
       for (int j = 0; j < qualityPreset.getSuperSamplesPerPixel(); j++) {
          reachedSamples += qualityPreset.getSamplesPerPixel();
          cameraRays = _scene.Camera.getInitialStochasticRaysForPixel(pixel[0], pixel[1], qualityPreset.getSamplesPerPixel());
          _manager.InitialRays += cameraRays.length;
-
-         SpectralPowerDistribution[] additionalSamples = new SpectralPowerDistribution[cameraRays.length];
-
+         colorsWithStatistics = new ColorWithStatistics[cameraRays.length];
          for (int i = 0; i < cameraRays.length; i++) {
-            additionalSamples[i] = _tracer.GetSPDForRay(cameraRays[i], 1);
+            colorsWithStatistics[i] = _tracer.GetColorForRay(cameraRays[i], 1);
+            _manager.Statistics[pixel[0]][pixel[1]].Add(colorsWithStatistics[i].Statistics);
          }
 
-         SpectralPowerDistribution additionalBlend = SpectralPowerDistribution.average(additionalSamples);
-         marginalBlend = SpectralPowerDistribution.lerp(additionalBlend, 1, blendSoFar, j + 1);
+         colors = new Color[cameraRays.length];
 
-         if (SpectralBlender.CloseEnough(blendSoFar, marginalBlend, qualityPreset.getConvergenceTerminationThreshold())) {
+         for (int i = 0; i < colors.length; i++) {
+            colors[i] = colorsWithStatistics[i].Color;
+         }
+
+         Color marginalColor = Blender.BlendColors(colors);
+/*
+         if (j == 0) {
+            blendSoFar = marginalColor;
+            continue;
+         }
+  */
+         marginalBlend = Blender.BlendWeighted(marginalColor, 1, blendSoFar, 1 + j);
+
+         if (Blender.CloseEnough(blendSoFar, marginalBlend, qualityPreset.getConvergenceTerminationThreshold())) {
             blendSoFar = marginalBlend;
             break;
          }
          else {
             blendSoFar = marginalBlend;
          }
+
       }
 
-      blendSoFar.scale(SpectralBlender.FilmSpeedMultiplier);
       _manager.SetRayCountForPixel(pixel, reachedSamples);
-      //_manager.SetPixelColor(pixel, c);
-      //_manager.SetPixelXYZ(pixel, marginalBlend);
-      _manager.SetPixelSPD(pixel, blendSoFar);
+      _manager.SetPixelColor(pixel, blendSoFar);
+
    }
 
    public int[] getNextTile() {

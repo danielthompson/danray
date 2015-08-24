@@ -6,6 +6,7 @@ import net.danielthompson.danray.cameras.*;
 import net.danielthompson.danray.cameras.apertures.Aperture;
 import net.danielthompson.danray.cameras.apertures.CircleAperture;
 import net.danielthompson.danray.cameras.apertures.SquareAperture;
+import net.danielthompson.danray.imports.SPDFileImporter;
 import net.danielthompson.danray.imports.WavefrontObjectImporter;
 import net.danielthompson.danray.lights.PointLight;
 import net.danielthompson.danray.lights.Radiatable;
@@ -70,7 +71,7 @@ public class SceneBuilder {
       settings.Aperture = new CircleAperture(20);
 
       Point origin = new Point(0, 0, 4000);
-      Vector direction = new Vector(.25, -.25, -1);
+      Vector direction = new Vector(0, 0, -1);
       settings.Orientation = new Ray(origin, direction);
 
       Camera camera = new SimplePointableCamera(settings);
@@ -140,7 +141,7 @@ public class SceneBuilder {
       Point p1 = new Point(1, 1, 1);
       Box box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
       box.ID = getNextID();
-      scene._drawables.add(box);
+      //scene._drawables.add(box);
 
       // right wall
 
@@ -185,7 +186,7 @@ public class SceneBuilder {
 
       box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
       box.ID = getNextID();
-      scene._drawables.add(box);
+      //scene._drawables.add(box);
 
       // back wall
 
@@ -320,9 +321,106 @@ public class SceneBuilder {
       return scene;
    }
 
-   public static KDScene Default() {
+   public static Scene TwoSpectralSpheres(int x, int y) {
 
-      KDScene scene = new KDScene(null);
+      CameraSettings settings = new CameraSettings();
+      settings.X = x;
+      settings.Y = y;
+      settings.FocalLength = 1200;
+      settings.Rotation = 0;
+      settings.ZoomFactor =  1.5;
+      settings.FocusDistance = 500;
+      settings.Aperture = new CircleAperture(20);
+
+      Point origin = new Point(0, 1000, 0);
+      Vector direction = new Vector(0, -.25, -1);
+      settings.Orientation = new Ray(origin, direction);
+
+      Camera camera = new SimplePointableCamera(settings);
+
+      Scene scene = new NaiveScene(camera);
+
+      SpectralBlender.setFilmSpeed(1f);
+
+      SPDFileImporter spdFileImporter = new SPDFileImporter(new File("spds/softblue.spd"));
+      SpectralPowerDistribution softblue = spdFileImporter.Process();
+
+      spdFileImporter = new SPDFileImporter(new File("spds/d65.spd"));
+      SpectralPowerDistribution d65 = spdFileImporter.Process();
+
+      // top light
+
+      SpectralPowerDistribution lightSPD = SpectralPowerDistribution.scale(d65, 10);
+
+      Material material = new Material();
+
+      material.Color = Color.white;
+
+      SpectralSphereLight light = new SpectralSphereLight(5, material, lightSPD);
+      light.Origin = new Point(0, 5000, -10000);
+      light.Radius = 500;
+
+      light.ID = getNextID();
+
+      scene._drawables.add(light);
+      scene.SpectralRadiatables.add(light);
+      scene.addRadiatableObject(light);
+
+      // sphere
+
+      material = new Material();
+      material.BRDF = new LambertianBRDF();
+      material.Color = Color.green;
+
+      material.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.Grass;
+
+
+
+      ArrayList<Transform> list = new ArrayList<>();
+      list.add(Transform.Translate(new Vector(0, 500, -10000)));
+      list.add(Transform.Scale(1000.0, 1000, 1000));
+
+      Transform[] transforms = GetCompositeTransforms(list);
+
+      Transform objectToWorld = transforms[0];
+      Transform worldToObject = transforms[1];
+
+      Sphere sphere = new Sphere(1, worldToObject, objectToWorld, material);
+      sphere.Origin = new Point(0, 0, 0);
+      scene.addDrawableObject(sphere);
+
+
+
+      // floor
+
+      Material boxMaterial = new Material();
+      boxMaterial.Color = Color.green;
+      boxMaterial.BRDF = new LambertianBRDF();
+      boxMaterial.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.Constant;
+
+      list = new ArrayList<>();
+      list.add(Transform.Translate(new Vector(0, -1000, 0)));
+      list.add(Transform.Scale(100000.0, 1, 100000));
+
+      transforms = GetCompositeTransforms(list);
+
+      objectToWorld = transforms[0];
+      worldToObject = transforms[1];
+
+      Point p0 = new Point(-1, -1, -1);
+      Point p1 = new Point(1, 1, 1);
+      Box box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
+      box.ID = getNextID();
+      scene._drawables.add(box);
+
+
+      return scene;
+   }
+
+
+   public static Scene Default() {
+
+      Scene scene = new NaiveScene(null);
 
       Material material = new Material();
 
@@ -1060,7 +1158,7 @@ public class SceneBuilder {
       return scene;
    }
 
-   public static KDScene TwoSpheresWithLights(int x, int y) {
+   public static Scene TwoSpheresWithLights(int x, int y) {
       KDScene scene = new KDScene(null);
 
       Material material = new Material();
@@ -1084,18 +1182,6 @@ public class SceneBuilder {
       sphere.Radius = y / 4;
 
       scene.addDrawableObject(sphere);
-
-      //Point lightOrigin = new Point(x / 2, y / 2, 400);
-      //double lumens = 1.0;
-
-      //Radiatable light = new PointLight(lightOrigin, lumens);
-      //scene.addRadiatableObject(light);
-
-      //scene.addRadiatableObject(new PointLight(new Point(x / 3, y / 3, 300), 0.5));
-      //scene.addRadiatableObject(new PointLight(new Point(x / 2, y / 4, -100), 0.7));
-      //scene.addRadiatableObject(new PointLight(new Point(x / 20, y / 2, -100), 0.8));
-      //scene.addRadiatableObject(new PointLight(new Point(19 * x / 20, y / 2, -100), 0.9));
-      //scene.addRadiatableObject(new PointLight(new Point(x / 2, 3 * y / 4, -100), 0.8));
 
       scene.addRadiatableObject(new PointLight(new Point(x / 2, y / 2, 300), 1.0));
       return scene;
@@ -1177,15 +1263,15 @@ public class SceneBuilder {
       settings.Orientation = new Ray(origin, direction);
 
       Camera camera = null;
-
+/*
       CameraOrientationMovement movement = new CameraOrientationMovement();
       movement.frame = 240;
       movement.orientation = new Ray(new Point(100, 300, 1500), new Vector(0, 0, -1));
 
       settings.Movement = movement;
-
+*/
       if (Main.UseDepthOfField) {
-         camera = new DepthOfFieldCamera(settings);
+         camera = new SimplePointableCamera(settings);
       }
 
       else {
@@ -1268,7 +1354,7 @@ public class SceneBuilder {
 
 
 
-      for (int i = 0; i < 20; i++) {
+      for (int i = 0; i < 1; i++) {
          p0 = new Point(-100, -100, -100);
          p1 = new Point(100, 100, 100);
 
@@ -1506,7 +1592,7 @@ public class SceneBuilder {
    }
 
 
-   public static KDScene FourReflectiveSphereWithLightsPointable(int x, int y) {
+   public static Scene FourReflectiveSphereWithLightsPointable(int x, int y) {
 
       CameraSettings settings = new CameraSettings();
       settings.X = x;
@@ -1535,7 +1621,7 @@ public class SceneBuilder {
 
       }
 
-      KDScene scene = new KDScene(camera);
+      Scene scene = new NaiveScene(camera);
 
       scene.numFrames = 1;
 

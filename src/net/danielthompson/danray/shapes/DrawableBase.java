@@ -45,4 +45,7 @@ public abstract class DrawableBase implements Drawable {
    public boolean Hits(Ray ray) {
       return false;
    }
+
+   @Override
+   public double getSurfaceArea() {return 0;}
 }

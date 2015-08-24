@@ -17,10 +17,10 @@ public class Material {
 
    public BRDF BRDF;
 
-   private double _reflectivity;
-   private double _transparency;
-   private double _indexOfRefraction;
-   private double _specular;
+   public double _reflectivity;
+   public double _transparency;
+   public double _indexOfRefraction;
+   public double _specular;
 
    public void setColor(Color color) {
       Color = color;

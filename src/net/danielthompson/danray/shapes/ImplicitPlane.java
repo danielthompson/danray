@@ -30,6 +30,11 @@ public class ImplicitPlane extends BoundingPlane implements Drawable {
    }
 
    @Override
+   public double getSurfaceArea() {
+      return Double.POSITIVE_INFINITY;
+   }
+
+   @Override
    public IntersectionState GetHitInfo(Ray ray) {
       IntersectionState state = super.GetHitInfo(ray);
       state.Drawable = this;

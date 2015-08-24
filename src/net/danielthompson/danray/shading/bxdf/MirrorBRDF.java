@@ -18,6 +18,17 @@ public class MirrorBRDF extends BRDF {
    }
 
    @Override
+   public double f(Vector incoming, Normal normal, Vector outgoing) {
+
+      Vector fixedIncoming = Vector.Scale(incoming, -1);
+      double thetaIncoming = GeometryCalculations.angleBetween(fixedIncoming, normal);
+      double thetaOutgoing = GeometryCalculations.angleBetween(outgoing, normal);
+
+      return f(thetaIncoming, thetaOutgoing);
+
+   }
+
+   @Override
    public Vector getVectorInPDF(Normal normal, Vector incoming) {
       normal.Normalize();
       double factor = incoming.Dot(normal) * 2;

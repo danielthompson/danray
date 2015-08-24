@@ -87,6 +87,11 @@ public class TriangleMesh implements Drawable {
    }
 
    @Override
+   public double getSurfaceArea() {
+      return 0.0;
+   }
+
+   @Override
    public IntersectionState GetHitInfo(Ray ray) {
 
       IntersectionState closestStateToRay = new IntersectionState();

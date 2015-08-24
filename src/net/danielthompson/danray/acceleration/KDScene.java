@@ -75,6 +75,11 @@ public class KDScene extends Scene {
    }
 
    @Override
+   public IntersectionState GetClosestDrawableToRayBeyond(Ray ray, double t) {
+      return null;
+   }
+
+   @Override
    public String getImplementationType() {
       return "kd-tree";
    }

@@ -5,6 +5,7 @@ import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.BoundingBox;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Ray;
+import net.danielthompson.danray.structures.Vector;
 
 /**
  * DanRay
@@ -13,8 +14,8 @@ import net.danielthompson.danray.structures.Ray;
  * Time: 9:30
  */
 public class PointLight implements Radiatable {
-   private double _lumens;
-   private Point _location;
+   protected double _lumens;
+   protected Point _location;
 
    public int ID;
    public int getID() {
@@ -32,8 +33,23 @@ public class PointLight implements Radiatable {
    }
 
    @Override
+   public Point getRandomPointOnSideOf(Vector side) {
+      return _location;
+   }
+
+   @Override
+   public Point getRandomPointOnSideOf(Point point) {
+      return _location;
+   }
+
+   @Override
    public double getPower() {
       return _lumens;
+   }
+
+   @Override
+   public double getPDF(Point point, Vector directionFromLightToPoint) {
+      return 0;
    }
 
    @Override

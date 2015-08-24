@@ -49,6 +49,11 @@ public class NaiveScene extends Scene {
 
    @Override
    public IntersectionState GetClosestDrawableToRay(Ray ray) {
+      return GetClosestDrawableToRayBeyond(ray, 0);
+
+   }
+
+   public IntersectionState GetClosestDrawableToRayBeyond(Ray ray, double t) {
       IntersectionState closestStateToRay = null;
       statistics = new Statistics();
       for (Drawable drawable : _drawables) {
@@ -56,7 +61,7 @@ public class NaiveScene extends Scene {
          statistics.DrawableIntersections++;
          state.Statistics = statistics;
 
-         if (state.Hits) {
+         if (state.Hits && state.TMin > t) {
             if (closestStateToRay == null) {
                closestStateToRay = state;
             }
@@ -68,6 +73,7 @@ public class NaiveScene extends Scene {
 
       return closestStateToRay;
    }
+
 
    @Override
    public String getImplementationType() {

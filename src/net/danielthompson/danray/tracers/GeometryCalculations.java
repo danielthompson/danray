@@ -203,4 +203,8 @@ public class GeometryCalculations {
       Ray reflectedRay = new Ray(offsetIntersection, direction);
       return reflectedRay;
    }
+
+   public static double UniformConePDF(double cosThetaMax) {
+      return 1.0 / (2.0 * Math.PI * (1.0 - cosThetaMax));
+   }
 }

@@ -14,7 +14,7 @@ import net.danielthompson.danray.structures.Point;
  */
 public class Sphere extends DrawableBase {
 
-   public Point Origin;
+   public Point Origin = new Point(0, 0, 0);
    public double Radius;
    public Transform WorldToObject;
    public Transform ObjectToWorld;
@@ -140,6 +140,11 @@ public class Sphere extends DrawableBase {
       }
 
       return state;
+   }
+
+   @Override
+   public double getSurfaceArea() {
+      return 4 * Math.PI * Radius * Radius;
    }
 
    @Override

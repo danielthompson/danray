@@ -7,6 +7,7 @@ import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.BoundingBox;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Ray;
+import net.danielthompson.danray.structures.Vector;
 
 /**
  * DanRay
@@ -52,6 +53,11 @@ public class Triangle implements Drawable, Radiatable{
    @Override
    public Material GetMaterial() {
       return _material;
+   }
+
+   @Override
+   public double getSurfaceArea() {
+      return 0;
    }
 
    @Override
@@ -118,7 +124,22 @@ public class Triangle implements Drawable, Radiatable{
    }
 
    @Override
+   public Point getRandomPointOnSideOf(Vector side) {
+      return null;
+   }
+
+   @Override
+   public Point getRandomPointOnSideOf(Point point) {
+      return null;
+   }
+
+   @Override
    public double getPower() {
       return 0;
+   }
+
+   @Override
+   public double getPDF(Point point, Vector directionFromLightToPoint) {
+      return 0; // TODO
    }
 }

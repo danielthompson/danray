@@ -7,4 +7,6 @@ import net.danielthompson.danray.shading.SpectralPowerDistribution;
  */
 public interface SpectralRadiatable extends Radiatable {
    SpectralPowerDistribution getSpectralPowerDistribution();
+
+
 }

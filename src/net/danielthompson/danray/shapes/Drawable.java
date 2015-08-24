@@ -13,4 +13,6 @@ import net.danielthompson.danray.structures.Ray;
  */
 public interface Drawable extends Boundable {
    Material GetMaterial();
+
+   double getSurfaceArea();
 }

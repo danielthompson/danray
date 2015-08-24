@@ -70,7 +70,7 @@ public class SPDFileImporter {
 
       SpectralPowerDistribution spd = new SpectralPowerDistribution();
 
-      spd.Power = getIntValue(spdNode, "power");
+      spd.Power = getDoubleValue(spdNode, "power");
 
       System.err.println("SPD has power [" + spd.Power + "]");
 
@@ -94,6 +94,18 @@ public class SPDFileImporter {
       float floatValue = Float.parseFloat(value);
 
       return floatValue;
+   }
+
+   private double getDoubleValue(Node node, String attribute) {
+      Element e = (Element)node;
+      return getDoubleValue(e, attribute);
+   }
+
+   private double getDoubleValue(Element element, String attribute) {
+      String value = element.getAttribute(attribute);
+      double doubleValue = Double.parseDouble(value);
+
+      return doubleValue;
    }
 
    private int getIntValue(Element element, String attribute) {

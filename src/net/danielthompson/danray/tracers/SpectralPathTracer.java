@@ -43,18 +43,28 @@ public class SpectralPathTracer extends SpectralTracer {
       }
       else {
          Drawable closestDrawable = closestStateToRay.Drawable;
-
          Material objectMaterial = closestDrawable.GetMaterial();
 
-         Ray indirectRay = GeometryCalculations.GetRandomRayInNormalHemisphere(closestStateToRay.IntersectionPoint, closestStateToRay.Normal);
+         Normal intersectionNormal = closestStateToRay.Normal;
+         Vector incomingDirection = ray.Direction;
 
-         SpectralPowerDistribution incomingSPD = GetSPDForRay(indirectRay, depth + 1);
+         Vector outgoingDirection = objectMaterial.BRDF.getVectorInPDF(intersectionNormal, incomingDirection);
+         double scalePercentage = objectMaterial.BRDF.f(incomingDirection, intersectionNormal, outgoingDirection);
+
+         Ray bounceRay = new Ray(closestStateToRay.IntersectionPoint, outgoingDirection);
+
+         //Ray indirectRay = GeometryCalculations.GetRandomRayInNormalHemisphere(closestStateToRay.IntersectionPoint, closestStateToRay.Normal);
+
+         SpectralPowerDistribution incomingSPD = GetSPDForRay(bounceRay, depth + 1);
+
+         incomingSPD = SpectralPowerDistribution.scale(incomingSPD, scalePercentage);
 
          // compute the interaction of the incoming SPD with the object's SRC
 
          SpectralReflectanceCurve curve = objectMaterial.SpectralReflectanceCurve;
 
          SpectralPowerDistribution reflectedSPD = incomingSPD.reflectOff(curve);
+
          //reflectedSPD.scale(.9);
 
          return reflectedSPD;

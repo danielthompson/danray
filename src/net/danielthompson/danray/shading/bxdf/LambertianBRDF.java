@@ -14,6 +14,11 @@ public class LambertianBRDF extends BRDF {
    }
 
    @Override
+   public double f(Vector incoming, Normal normal, Vector outgoing) {
+      return Constants.OneOver2Pi;
+   }
+
+   @Override
    public Vector getVectorInPDF(Normal normal, Vector incoming) {
       double[] xyz = GeometryCalculations.randomPointOnSphere(GeometryCalculations.Random);
 

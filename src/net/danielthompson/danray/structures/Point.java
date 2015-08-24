@@ -5,7 +5,7 @@ import net.danielthompson.danray.acceleration.KDAxis;
 /**
  * Represents a zero-dimensional point in space.
  */
-public class Point {
+public class Point implements Cloneable {
 
    public double X;
    public double Y;
@@ -15,6 +15,12 @@ public class Point {
       this.X = X;
       this.Y = Y;
       this.Z = Z;
+   }
+
+   public Point(Point p) {
+      this.X = p.X;
+      this.Y = p.Y;
+      this.Z = p.Z;
    }
 
    public double getAxis(KDAxis axis) {
@@ -203,4 +209,5 @@ public class Point {
 
       return new Point(newX, newY, newZ);
    }
+
 }
