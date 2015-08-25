@@ -98,7 +98,7 @@ public class SceneBuilder {
 
 
       SpectralSphereLight light = new SpectralSphereLight(10000, material, lightSPD);
-      light.Origin = new Point(0, 15000, 15000);
+      light.Origin = new Point(2000, 15000, 15000);
       light.Radius = 1000;
 
       light.ID = getNextID();
@@ -332,8 +332,8 @@ public class SceneBuilder {
       settings.FocusDistance = 500;
       settings.Aperture = new CircleAperture(20);
 
-      Point origin = new Point(0, 1000, 0);
-      Vector direction = new Vector(0, -.25, -1);
+      Point origin = new Point(0, 2500, -3000);
+      Vector direction = new Vector(0, -.45, -1);
       settings.Orientation = new Ray(origin, direction);
 
       Camera camera = new SimplePointableCamera(settings);
@@ -357,7 +357,7 @@ public class SceneBuilder {
       material.Color = Color.white;
 
       SpectralSphereLight light = new SpectralSphereLight(5, material, lightSPD);
-      light.Origin = new Point(0, 5000, -10000);
+      light.Origin = new Point(2000, 5000, -10000);
       light.Radius = 500;
 
       light.ID = getNextID();

@@ -16,6 +16,12 @@ public class Vector {
       Z = z;
    }
 
+   public Vector(double[] xyz) {
+      X = xyz[0];
+      Y = xyz[1];
+      Z = xyz[2];
+   }
+
    public Vector(Normal n) {
       X = n.X;
       Y = n.Y;

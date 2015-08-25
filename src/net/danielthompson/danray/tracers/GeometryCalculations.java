@@ -34,8 +34,16 @@ public class GeometryCalculations {
       return n;
     }
 
+   public static double[] randomPointOnSphere() {
+      return randomPointOnSphere(Random);
+   }
+
    public static double[] randomPointOnSphere(Random rnd)
    {
+      Random r = rnd;
+      if (r == null)
+         r = Random;
+
       double x, y, z, d2;
       do {
          x = rnd.nextGaussian();

@@ -3,6 +3,7 @@ package net.danielthompson.danray.lights;
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.shapes.Sphere;
 import net.danielthompson.danray.structures.Point;
+import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Vector;
 import net.danielthompson.danray.tracers.GeometryCalculations;
 import org.apache.commons.math3.util.FastMath;
@@ -38,23 +39,28 @@ public class SphereLight extends Sphere implements Radiatable {
 
    private static Object mutex = new Object();
 
-   @Override
-   public Point getRandomPointOnSurface() {
-
+   private Point getRandomPoint() {
       double x;
       double y;
       double z;
 
       //synchronized (mutex) {
-         x = randoms[randomPointer];
-         randomPointer = (randomPointer + 1) & 65535;
-         y = randoms[randomPointer];
-         randomPointer = (randomPointer + 1) & 65535;
-         z = randoms[randomPointer];
-         randomPointer = (randomPointer + 1) & 65535;
+      x = randoms[randomPointer];
+      randomPointer = (randomPointer + 1) & 65535;
+      y = randoms[randomPointer];
+      randomPointer = (randomPointer + 1) & 65535;
+      z = randoms[randomPointer];
+      randomPointer = (randomPointer + 1) & 65535;
       //}
 
       Point point = new Point(x, y, z);
+      return point;
+   }
+
+   @Override
+   public Point getRandomPointOnSurface() {
+
+      Point point = getRandomPoint();
       point.Normalize();
       point.Scale(Radius);
       point.Plus(Origin);
@@ -93,6 +99,20 @@ public class SphereLight extends Sphere implements Radiatable {
       return result;
    }
 
+
+   @Override
+   public Ray getRandomRayInPDF() {
+      Point point = getRandomPointOnSurface();
+
+      Vector v = new Vector(point.X, point.Y, point.Z);
+
+      Vector direction = new Vector(GeometryCalculations.randomPointOnSphere());
+
+      if (v.Dot(direction) < 0)
+         direction.Scale(-1);
+
+      return new Ray(point, direction);
+   }
 
    @Override
    public double getPower() {

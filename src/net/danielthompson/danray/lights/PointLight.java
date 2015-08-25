@@ -43,6 +43,11 @@ public class PointLight implements Radiatable {
    }
 
    @Override
+   public Ray getRandomRayInPDF() {
+      return null;
+   }
+
+   @Override
    public double getPower() {
       return _lumens;
    }

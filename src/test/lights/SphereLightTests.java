@@ -3,6 +3,7 @@ package test.lights;
 import net.danielthompson.danray.lights.SpectralSphereLight;
 import net.danielthompson.danray.shading.*;
 import net.danielthompson.danray.structures.Point;
+import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Vector;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -47,4 +48,37 @@ public class SphereLightTests {
    }
 
 
+   @Test
+   public void testGetRayInPDF() throws Exception {
+
+      SpectralSphereLight light = new SpectralSphereLight(1);
+      light.Origin = new Point(0, 0, 0);
+      light.Radius = 1;
+
+      double maxTheta = -Double.MAX_VALUE;
+      double minTheta = Double.MAX_VALUE;
+
+      for (int i = 0; i < 1000000; i++) {
+
+         Ray ray = light.getRandomRayInPDF();
+
+         // the angle between these must be <= 90
+
+         Vector directionFromOriginToSurfacePoint = Vector.Minus(ray.Origin, light.Origin);
+         Vector directionFromSurfacePoint = ray.Direction;
+
+         double cosTheta = directionFromOriginToSurfacePoint.Dot(directionFromSurfacePoint);
+
+         if (cosTheta > maxTheta)
+            maxTheta = cosTheta;
+         if (cosTheta < minTheta)
+            minTheta = cosTheta;
+
+      }
+      System.err.println("Min Theta: [" + minTheta + "]");
+      System.err.println("Max Theta: [" + maxTheta + "]");
+
+      Assert.assertTrue(minTheta >= 0.0);
+      Assert.assertTrue(maxTheta <= 1.0);
+   }
 }

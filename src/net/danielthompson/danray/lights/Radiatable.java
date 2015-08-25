@@ -2,6 +2,7 @@ package net.danielthompson.danray.lights;
 
 import net.danielthompson.danray.structures.Boundable;
 import net.danielthompson.danray.structures.Point;
+import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Vector;
 
 /**
@@ -33,6 +34,8 @@ public interface Radiatable extends Boundable {
     * @return A random point on th esurface of the light, in world space.
     */
    Point getRandomPointOnSideOf(Point point);
+
+   Ray getRandomRayInPDF();
 
    /**
     * Returns the power of the light.

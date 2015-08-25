@@ -134,6 +134,11 @@ public class Triangle implements Drawable, Radiatable{
    }
 
    @Override
+   public Ray getRandomRayInPDF() {
+      return null;
+   }
+
+   @Override
    public double getPower() {
       return 0;
    }

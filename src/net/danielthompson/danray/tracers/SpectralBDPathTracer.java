@@ -4,9 +4,12 @@ import net.danielthompson.danray.lights.SpectralRadiatable;
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.shading.SpectralReflectanceCurve;
+import net.danielthompson.danray.shading.bxdf.BRDF;
 import net.danielthompson.danray.shapes.Drawable;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.*;
+
+import java.util.ArrayList;
 
 
 /**
@@ -22,14 +25,64 @@ public class SpectralBDPathTracer extends SpectralTracer {
    private final double iterations = 1.0;
    private final double adjustment = factor / iterations;
 
+   private final int k = 2;
+
+   private class LightPath {
+      public Vector incomingDirection;
+      public SpectralPowerDistribution incomingSPD;
+      public BRDF surfaceBRDF;
+      public Ray outgoingRay;
+   }
+
+   public LightPath RandomWalkLightPath(Ray r, SpectralPowerDistribution incomingSPD) {
+      LightPath l = new LightPath();
+
+      IntersectionState closestStateToRay = _scene.GetClosestDrawableToRay(r);
+
+      if (closestStateToRay == null) {
+         l.incomingSPD = null;
+         return l;
+      }
+
+      else if (closestStateToRay.Drawable instanceof SpectralRadiatable) {
+         l.incomingSPD = ((SpectralRadiatable) closestStateToRay.Drawable).getSpectralPowerDistribution();
+         return l;
+      }
+
+      else {
+         Drawable closestDrawable = closestStateToRay.Drawable;
+         Material objectMaterial = closestDrawable.GetMaterial();
+
+         Normal intersectionNormal = closestStateToRay.Normal;
+         Vector incomingDirection = r.Direction;
+
+         Vector outgoingDirection = objectMaterial.BRDF.getVectorInPDF(intersectionNormal, incomingDirection);
+         double scalePercentage = objectMaterial.BRDF.f(incomingDirection, intersectionNormal, outgoingDirection);
+
+         incomingSPD = SpectralPowerDistribution.scale(incomingSPD, scalePercentage);
+
+         SpectralReflectanceCurve curve = objectMaterial.SpectralReflectanceCurve;
+         SpectralPowerDistribution outgoingSPD = incomingSPD.reflectOff(curve);
+
+         l.incomingDirection = outgoingDirection;
+         l.incomingSPD = outgoingSPD;
+         l.surfaceBRDF = objectMaterial.BRDF;
+         l.outgoingRay = new Ray(closestStateToRay.IntersectionPoint, outgoingDirection);
+
+         return l;
+      }
+   }
+
    public SpectralPowerDistribution GetSPDForRay(Ray ray, int depth) {
 
       SpectralPowerDistribution directSPD = new SpectralPowerDistribution();
 
       IntersectionState closestStateToRay = _scene.GetClosestDrawableToRay(ray);
 
+      // base cases
+
       if (closestStateToRay == null) {
-         return directSPD;
+         return new SpectralPowerDistribution();
       }
 
       if (closestStateToRay.Drawable instanceof SpectralRadiatable) {
@@ -38,6 +91,18 @@ public class SpectralBDPathTracer extends SpectralTracer {
       }
 
       /// GENERATE LIGHT PATHS ///
+
+      ArrayList<LightPath> lightPaths = new ArrayList<>();
+
+      for (SpectralRadiatable radiatable : _scene.SpectralRadiatables) {
+         Ray lightRay = radiatable.getRandomRayInPDF();
+         SpectralPowerDistribution lightSPD = radiatable.getSpectralPowerDistribution();
+
+         LightPath lightPath = RandomWalkLightPath(lightRay, lightSPD);
+         lightPaths.add(lightPath);
+      }
+
+      /// GENERATE EYE PATHS ///
 
       double lightPathWeight = 0;
 
