@@ -28,6 +28,11 @@ public class Ray {
       Direction = new Vector(direction.X * oneOverLength, direction.Y * oneOverLength, direction.Z * oneOverLength);
    }
 
+   public void OffsetOriginForward(double offset) {
+      Vector offsetV = Vector.Scale(Direction, .0000001);
+      Origin.Plus(offsetV);
+   }
+
    public Point ScaleFromOrigin(double t) {
       double x = Origin.X + t * Direction.X;
       double y = Origin.Y + t * Direction.Y;
