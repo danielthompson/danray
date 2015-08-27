@@ -140,12 +140,12 @@ public class GetTransformedBoundingBoxTests {
       Point ap1 = actual.point1;
       Point ap2 = actual.point2;
 
-      Assert.assertEquals(ep1.X, ap1.X, Constants.NumericalDelta);
-      Assert.assertEquals(ep1.Y, ap1.Y, Constants.NumericalDelta);
-      Assert.assertEquals(ep1.Z, ap1.Z, Constants.NumericalDelta);
-      Assert.assertEquals(ep2.X, ap2.X, Constants.NumericalDelta);
-      Assert.assertEquals(ep2.Y, ap2.Y, Constants.NumericalDelta);
-      Assert.assertEquals(ep2.Z, ap2.Z, Constants.NumericalDelta);
+      Assert.assertEquals(ep1.X, ap1.X, Constants.Epsilon);
+      Assert.assertEquals(ep1.Y, ap1.Y, Constants.Epsilon);
+      Assert.assertEquals(ep1.Z, ap1.Z, Constants.Epsilon);
+      Assert.assertEquals(ep2.X, ap2.X, Constants.Epsilon);
+      Assert.assertEquals(ep2.Y, ap2.Y, Constants.Epsilon);
+      Assert.assertEquals(ep2.Z, ap2.Z, Constants.Epsilon);
    }
 
 }

@@ -92,7 +92,7 @@ public abstract class CameraBase implements Camera {
    protected void ConvertToWorldCoordinates(Point point) {
       double dot = _currentOrientation.Direction.Dot(_implicitDirection);
 
-      if (!Constants.WithinDelta(dot, 1))
+      if (!Constants.WithinEpsilon(dot, 1))
       {
          Vector rotationDirection = _currentOrientation.Direction.Cross(zDir);
          rotationDirection.Normalize();

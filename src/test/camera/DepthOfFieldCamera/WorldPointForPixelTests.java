@@ -154,9 +154,9 @@ public class WorldPointForPixelTests {
       Camera camera = new SimplePointableCamera(settings);
 
       Point worldPoint = camera.getWorldPointForPixel(1, 1);
-      Assert.assertEquals(worldPoint.X, -4.0, Constants.NumericalDelta);
-      Assert.assertEquals(worldPoint.Y, 0.0, Constants.NumericalDelta);
-      Assert.assertEquals(worldPoint.Z, -2.0, Constants.NumericalDelta);
+      Assert.assertEquals(worldPoint.X, -4.0, Constants.Epsilon);
+      Assert.assertEquals(worldPoint.Y, 0.0, Constants.Epsilon);
+      Assert.assertEquals(worldPoint.Z, -2.0, Constants.Epsilon);
 
    }
 
@@ -176,9 +176,9 @@ public class WorldPointForPixelTests {
       Camera camera = new SimplePointableCamera(settings);
 
       Point worldPoint = camera.getWorldPointForPixel(1, 1);
-      Assert.assertEquals(worldPoint.X, -4, Constants.NumericalDelta);
-      Assert.assertEquals(worldPoint.Y, Math.sqrt(2), Constants.NumericalDelta);
-      Assert.assertEquals(worldPoint.Z, -Math.sqrt(2), Constants.NumericalDelta);
+      Assert.assertEquals(worldPoint.X, -4, Constants.Epsilon);
+      Assert.assertEquals(worldPoint.Y, Math.sqrt(2), Constants.Epsilon);
+      Assert.assertEquals(worldPoint.Z, -Math.sqrt(2), Constants.Epsilon);
 
    }
 
@@ -198,9 +198,9 @@ public class WorldPointForPixelTests {
       Camera camera = new SimplePointableCamera(settings);
 
       Point worldPoint = camera.getWorldPointForPixel(1, 1);
-      Assert.assertEquals(worldPoint.X, -4, Constants.NumericalDelta);
-      Assert.assertEquals(worldPoint.Y, Math.sqrt(3), Constants.NumericalDelta);
-      Assert.assertEquals(worldPoint.Z, -1, Constants.NumericalDelta);
+      Assert.assertEquals(worldPoint.X, -4, Constants.Epsilon);
+      Assert.assertEquals(worldPoint.Y, Math.sqrt(3), Constants.Epsilon);
+      Assert.assertEquals(worldPoint.Z, -1, Constants.Epsilon);
 
    }
 
@@ -220,9 +220,9 @@ public class WorldPointForPixelTests {
       Camera camera = new SimplePointableCamera(settings);
 
       Point worldPoint = camera.getWorldPointForPixel(5, 3);
-      Assert.assertEquals(worldPoint.X, 0, Constants.NumericalDelta);
-      Assert.assertEquals(worldPoint.Y, 0, Constants.NumericalDelta);
-      Assert.assertEquals(worldPoint.Z, 0, Constants.NumericalDelta);
+      Assert.assertEquals(worldPoint.X, 0, Constants.Epsilon);
+      Assert.assertEquals(worldPoint.Y, 0, Constants.Epsilon);
+      Assert.assertEquals(worldPoint.Z, 0, Constants.Epsilon);
 
    }
 }

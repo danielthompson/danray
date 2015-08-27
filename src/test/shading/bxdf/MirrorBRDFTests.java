@@ -1,9 +1,7 @@
 package test.shading.bxdf;
 
-import net.danielthompson.danray.shading.*;
 import net.danielthompson.danray.shading.bxdf.BRDF;
 import net.danielthompson.danray.shading.bxdf.MirrorBRDF;
-import net.danielthompson.danray.shapes.Box;
 import net.danielthompson.danray.structures.*;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -11,8 +9,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.awt.*;
-import java.awt.Point;
 import java.util.ArrayList;
 
 /**
@@ -109,9 +105,9 @@ public class MirrorBRDFTests {
 
       Assert.assertNotNull(actual);
 
-      Assert.assertEquals(actual.X, expected.X, Constants.NumericalDelta);
-      Assert.assertEquals(actual.Y, expected.Y, Constants.NumericalDelta);
-      Assert.assertEquals(actual.Z, expected.Z, Constants.NumericalDelta);
+      Assert.assertEquals(actual.X, expected.X, Constants.Epsilon);
+      Assert.assertEquals(actual.Y, expected.Y, Constants.Epsilon);
+      Assert.assertEquals(actual.Z, expected.Z, Constants.Epsilon);
 
    }
 

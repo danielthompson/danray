@@ -71,7 +71,7 @@ public class Tracer {
 
       Material objectMaterial = closestDrawable.GetMaterial();
 
-      for (Radiatable radiatable : _scene._radiatables) {
+      for (Radiatable radiatable : _scene.Radiatables) {
          Point intersectionPoint = closestStateToRay.IntersectionPoint;
 
          for (int i = 0; i < iterations; i++) {
@@ -124,7 +124,7 @@ public class Tracer {
          if (objectMaterial.BRDF != null) {
             Vector outgoingDirection = objectMaterial.BRDF.getVectorInPDF(closestStateToRay.Normal, ray.Direction);
 
-            Point offsetIntersection = Point.Plus(closestStateToRay.IntersectionPoint, Vector.Scale(outgoingDirection, Constants.NumericalDelta * 1000));
+            Point offsetIntersection = Point.Plus(closestStateToRay.IntersectionPoint, Vector.Scale(outgoingDirection, Constants.Epsilon * 1000));
 
             Ray reflectedRay = new Ray(offsetIntersection, outgoingDirection);
 

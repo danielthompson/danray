@@ -3,7 +3,6 @@ package net.danielthompson.danray;
 import net.danielthompson.danray.acceleration.KDScene;
 import net.danielthompson.danray.animation.CameraOrientationMovement;
 import net.danielthompson.danray.cameras.*;
-import net.danielthompson.danray.cameras.apertures.Aperture;
 import net.danielthompson.danray.cameras.apertures.CircleAperture;
 import net.danielthompson.danray.cameras.apertures.SquareAperture;
 import net.danielthompson.danray.imports.SPDFileImporter;
@@ -103,7 +102,7 @@ public class SceneBuilder {
 
       light.ID = getNextID();
 
-      scene._drawables.add(light);
+      scene.Drawables.add(light);
       scene.SpectralRadiatables.add(light);
       scene.addRadiatableObject(light);
 
@@ -120,7 +119,7 @@ public class SceneBuilder {
 
       scene.addRadiatableObject(light);
       scene.SpectralRadiatables.add(light);
-      scene._drawables.add(light);
+      scene.Drawables.add(light);
 
       // left wall
 
@@ -141,7 +140,7 @@ public class SceneBuilder {
       Point p1 = new Point(1, 1, 1);
       Box box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
       box.ID = getNextID();
-      //scene._drawables.add(box);
+      //scene.Drawables.add(box);
 
       // right wall
 
@@ -164,7 +163,7 @@ public class SceneBuilder {
       p1 = new Point(1, 1, 1);
       box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
       box.ID = getNextID();
-      scene._drawables.add(box);
+      scene.Drawables.add(box);
 
       // front wall
 
@@ -186,7 +185,7 @@ public class SceneBuilder {
 
       box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
       box.ID = getNextID();
-      //scene._drawables.add(box);
+      //scene.Drawables.add(box);
 
       // back wall
 
@@ -209,7 +208,7 @@ public class SceneBuilder {
 
       box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
       box.ID = getNextID();
-      //scene._drawables.add(box);
+      //scene.Drawables.add(box);
 
       // floor
 
@@ -232,7 +231,7 @@ public class SceneBuilder {
       box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
       box.ID = getNextID();
 
-      scene._drawables.add(box);
+      scene.Drawables.add(box);
 
       // ceiling
 
@@ -253,7 +252,7 @@ public class SceneBuilder {
       p1 = new Point(1, 1, 1);
       box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
       box.ID = getNextID();
-      //scene._drawables.add(box);
+      //scene.Drawables.add(box);
 
       // top left little box
 
@@ -275,7 +274,7 @@ public class SceneBuilder {
             p1 = new Point(1, 1, 1);
             box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
             box.ID = getNextID();
-            //scene._drawables.add(box);
+            //scene.Drawables.add(box);
 
          //}
       }
@@ -291,7 +290,7 @@ public class SceneBuilder {
       p1 = new Point(1300, -500, 500);
       box = new Box(p0, p1, boxMaterial);
       box.ID = getNextID();
-      scene._drawables.add(box);
+      scene.Drawables.add(box);
 
 
       material = new Material();
@@ -340,7 +339,7 @@ public class SceneBuilder {
 
       Scene scene = new NaiveScene(camera);
 
-      SpectralBlender.setFilmSpeed(1f);
+      SpectralBlender.setFilmSpeed(.1f);
 
       SPDFileImporter spdFileImporter = new SPDFileImporter(new File("spds/softblue.spd"));
       SpectralPowerDistribution softblue = spdFileImporter.Process();
@@ -362,7 +361,7 @@ public class SceneBuilder {
 
       light.ID = getNextID();
 
-      scene._drawables.add(light);
+      scene.Drawables.add(light);
       scene.SpectralRadiatables.add(light);
       scene.addRadiatableObject(light);
 
@@ -374,10 +373,8 @@ public class SceneBuilder {
 
       material.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.Grass;
 
-
-
       ArrayList<Transform> list = new ArrayList<>();
-      list.add(Transform.Translate(new Vector(0, 500, -10000)));
+      list.add(Transform.Translate(new Vector(0, 0, -10000)));
       list.add(Transform.Scale(1000.0, 1000, 1000));
 
       Transform[] transforms = GetCompositeTransforms(list);
@@ -411,7 +408,7 @@ public class SceneBuilder {
       Point p1 = new Point(1, 1, 1);
       Box box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
       box.ID = getNextID();
-      scene._drawables.add(box);
+      scene.Drawables.add(box);
 
 
       return scene;

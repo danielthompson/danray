@@ -3,7 +3,7 @@ package net.danielthompson.danray.structures;
 import net.danielthompson.danray.acceleration.KDAxis;
 import net.danielthompson.danray.states.IntersectionState;
 
-import static net.danielthompson.danray.structures.Constants.WithinDelta;
+
 
 /**
  * Created by daniel on 12/7/14.
@@ -48,7 +48,7 @@ public class BoundingPlane implements Boundable {
       IntersectionState state = new IntersectionState();
 
       // if they are orthogonal, then they don't hit.
-      if (WithinDelta(denominator, 0.0)) {
+      if (Constants.WithinEpsilon(denominator, 0.0)) {
          // no intersection
          state.Hits = false;
       }

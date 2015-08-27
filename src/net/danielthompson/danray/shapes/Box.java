@@ -107,49 +107,49 @@ public class Box extends BoundingBox implements Drawable {
       if (state.Hits) {
          state.Drawable = this;
          state.IntersectionPoint = objectSpaceRay.GetPointAtT(state.TMin);
-         state.Normal = Constants.WithinDelta(point1.X, state.IntersectionPoint.X) ? _negativeX : state.Normal;
-         state.Normal = Constants.WithinDelta(point1.Y, state.IntersectionPoint.Y) ? _negativeY : state.Normal;
-         state.Normal = Constants.WithinDelta(point1.Z, state.IntersectionPoint.Z) ? _negativeZ : state.Normal;
-         state.Normal = Constants.WithinDelta(point2.X, state.IntersectionPoint.X) ? _positiveX : state.Normal;
-         state.Normal = Constants.WithinDelta(point2.Y, state.IntersectionPoint.Y) ? _positiveY : state.Normal;
-         state.Normal = Constants.WithinDelta(point2.Z, state.IntersectionPoint.Z) ? _positiveZ : state.Normal;
+         state.Normal = Constants.WithinEpsilon(point1.X, state.IntersectionPoint.X) ? _negativeX : state.Normal;
+         state.Normal = Constants.WithinEpsilon(point1.Y, state.IntersectionPoint.Y) ? _negativeY : state.Normal;
+         state.Normal = Constants.WithinEpsilon(point1.Z, state.IntersectionPoint.Z) ? _negativeZ : state.Normal;
+         state.Normal = Constants.WithinEpsilon(point2.X, state.IntersectionPoint.X) ? _positiveX : state.Normal;
+         state.Normal = Constants.WithinEpsilon(point2.Y, state.IntersectionPoint.Y) ? _positiveY : state.Normal;
+         state.Normal = Constants.WithinEpsilon(point2.Z, state.IntersectionPoint.Z) ? _positiveZ : state.Normal;
          /*
-         if (Constants.WithinDelta(point1.X, state.IntersectionPoint.X))
+         if (Constants.WithinEpsilon(point1.X, state.IntersectionPoint.X))
             state.Normal = _negativeX;
-         else if (Constants.WithinDelta(point1.Y, state.IntersectionPoint.Y))
+         else if (Constants.WithinEpsilon(point1.Y, state.IntersectionPoint.Y))
             state.Normal = _negativeY;
-         else if (Constants.WithinDelta(point1.Z, state.IntersectionPoint.Z))
+         else if (Constants.WithinEpsilon(point1.Z, state.IntersectionPoint.Z))
             state.Normal = _negativeZ;
-         else if (Constants.WithinDelta(point2.X, state.IntersectionPoint.X))
+         else if (Constants.WithinEpsilon(point2.X, state.IntersectionPoint.X))
             state.Normal = _positiveX;
-         else if (Constants.WithinDelta(point2.Y, state.IntersectionPoint.Y))
+         else if (Constants.WithinEpsilon(point2.Y, state.IntersectionPoint.Y))
             state.Normal = _positiveY;
-         else if (Constants.WithinDelta(point2.Z, state.IntersectionPoint.Z))
+         else if (Constants.WithinEpsilon(point2.Z, state.IntersectionPoint.Z))
             state.Normal = _positiveZ;
 */
          if (state.Normal == null) {
             state.IntersectionPoint = objectSpaceRay.GetPointAtT(state.TMax);
 
-            state.Normal = Constants.WithinDelta(point1.X, state.IntersectionPoint.X) ? _negativeX : state.Normal;
-            state.Normal = Constants.WithinDelta(point1.Y, state.IntersectionPoint.Y) ? _negativeY : state.Normal;
-            state.Normal = Constants.WithinDelta(point1.Z, state.IntersectionPoint.Z) ? _negativeZ : state.Normal;
-            state.Normal = Constants.WithinDelta(point2.X, state.IntersectionPoint.X) ? _positiveX : state.Normal;
-            state.Normal = Constants.WithinDelta(point2.Y, state.IntersectionPoint.Y) ? _positiveY : state.Normal;
-            state.Normal = Constants.WithinDelta(point2.Z, state.IntersectionPoint.Z) ? _positiveZ : state.Normal;
+            state.Normal = Constants.WithinEpsilon(point1.X, state.IntersectionPoint.X) ? _negativeX : state.Normal;
+            state.Normal = Constants.WithinEpsilon(point1.Y, state.IntersectionPoint.Y) ? _negativeY : state.Normal;
+            state.Normal = Constants.WithinEpsilon(point1.Z, state.IntersectionPoint.Z) ? _negativeZ : state.Normal;
+            state.Normal = Constants.WithinEpsilon(point2.X, state.IntersectionPoint.X) ? _positiveX : state.Normal;
+            state.Normal = Constants.WithinEpsilon(point2.Y, state.IntersectionPoint.Y) ? _positiveY : state.Normal;
+            state.Normal = Constants.WithinEpsilon(point2.Z, state.IntersectionPoint.Z) ? _positiveZ : state.Normal;
 
             /*
 
-            if (Constants.WithinDelta(point1.X, state.IntersectionPoint.X))
+            if (Constants.WithinEpsilon(point1.X, state.IntersectionPoint.X))
                state.Normal = _negativeX;
-            else if (Constants.WithinDelta(point1.Y, state.IntersectionPoint.Y))
+            else if (Constants.WithinEpsilon(point1.Y, state.IntersectionPoint.Y))
                state.Normal = _negativeY;
-            else if (Constants.WithinDelta(point1.Z, state.IntersectionPoint.Z))
+            else if (Constants.WithinEpsilon(point1.Z, state.IntersectionPoint.Z))
                state.Normal = _negativeZ;
-            else if (Constants.WithinDelta(point2.X, state.IntersectionPoint.X))
+            else if (Constants.WithinEpsilon(point2.X, state.IntersectionPoint.X))
                state.Normal = _positiveX;
-            else if (Constants.WithinDelta(point2.Y, state.IntersectionPoint.Y))
+            else if (Constants.WithinEpsilon(point2.Y, state.IntersectionPoint.Y))
                state.Normal = _positiveY;
-            else if (Constants.WithinDelta(point2.Z, state.IntersectionPoint.Z))
+            else if (Constants.WithinEpsilon(point2.Z, state.IntersectionPoint.Z))
                state.Normal = _positiveZ;
             */
 

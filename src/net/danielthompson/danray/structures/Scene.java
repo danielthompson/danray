@@ -16,15 +16,16 @@ public abstract class Scene {
    public int numFrames = 1;
    public net.danielthompson.danray.cameras.Camera Camera;
 
-   public List<Radiatable> _radiatables;
-   public List<Drawable> _drawables;
+   public String ImplementationType = "Base Scene";
+
+   public List<Radiatable> Radiatables;
+   public List<Drawable> Drawables;
    public List<SpectralRadiatable> SpectralRadiatables;
 
    public Scene(Camera camera) {
       Camera = camera;
-      _drawables = new ArrayList<>();
-      _radiatables = new ArrayList<>();
-      //_planes = new ArrayList<>();
+      Drawables = new ArrayList<>();
+      Radiatables = new ArrayList<>();
       SpectralRadiatables = new ArrayList<>();
    }
 
@@ -35,8 +36,6 @@ public abstract class Scene {
    public abstract IntersectionState GetClosestDrawableToRay(Ray ray);
 
    public abstract IntersectionState GetClosestDrawableToRayBeyond(Ray ray, double t);
-
-   public abstract String getImplementationType();
 
    public abstract String Compile();
 }

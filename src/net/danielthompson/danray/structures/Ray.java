@@ -29,7 +29,9 @@ public class Ray {
    }
 
    public void OffsetOriginForward(double offset) {
-      Vector offsetV = Vector.Scale(Direction, .0000001);
+      Vector offsetV = Vector.Scale(Direction, offset);
+      Point newOrigin = Point.Plus(Origin, offsetV);
+
       Origin.Plus(offsetV);
    }
 

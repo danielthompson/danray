@@ -3,7 +3,6 @@ package net.danielthompson.danray;
 import net.danielthompson.danray.presets.RenderQualityPreset;
 import net.danielthompson.danray.presets.TracerOptions;
 import net.danielthompson.danray.runners.SpectralTileRunner;
-import net.danielthompson.danray.runners.TileRunner;
 import net.danielthompson.danray.shading.SpectralBlender;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.states.IntersectionState;
@@ -12,7 +11,6 @@ import net.danielthompson.danray.structures.Scene;
 import net.danielthompson.danray.structures.Statistics;
 import net.danielthompson.danray.structures.Vector;
 import net.danielthompson.danray.tracers.SpectralBDPathTracer;
-import net.danielthompson.danray.tracers.SpectralPathTracer;
 import net.danielthompson.danray.tracers.SpectralTracer;
 import net.danielthompson.danray.tracers.Tracer;
 import net.danielthompson.danray.ui.*;
@@ -134,8 +132,8 @@ public class TraceManager {
 
       Logger.Log("threads: " + _tracerOptions.numThreads);
 
-      Logger.Log("Scene has " + _scene._drawables.size() + " drawables, " + _scene._radiatables.size() + " radiatables.");
-      Logger.Log("Scene is implemented with " + _scene.getImplementationType());
+      Logger.Log("Scene has " + _scene.Drawables.size() + " drawables, " + _scene.Radiatables.size() + " radiatables.");
+      Logger.Log("Scene is implemented with " + _scene.ImplementationType);
       Logger.Log("Compiling scene...");
       Date start = new Date();
       Logger.Log(_scene.Compile());

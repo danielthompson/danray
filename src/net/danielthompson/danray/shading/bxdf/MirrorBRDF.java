@@ -12,7 +12,7 @@ public class MirrorBRDF extends BRDF {
 
    @Override
    public double f(double thetaIncoming, double thetaOutgoing) {
-      if (Constants.WithinDelta(thetaIncoming, thetaOutgoing))
+      if (Constants.WithinEpsilon(thetaIncoming, thetaOutgoing))
          return 1.0;
       return 0.0;
    }

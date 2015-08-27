@@ -22,8 +22,6 @@ import java.util.List;
 public class KDScene extends Scene {
 
 
-   private List<Drawable> _planes;
-
 
    public KDNode rootNode;
 
@@ -32,22 +30,19 @@ public class KDScene extends Scene {
    public Statistics statistics;
 
    public KDScene(Camera camera) {
+
       super(camera);
+      ImplementationType = "kd-tree";
    }
 
    @Override
    public void addDrawableObject(Drawable drawable) {
-      if (drawable instanceof ImplicitPlane) {
-         _planes.add(drawable);
-      }
-      else {
-         _drawables.add(drawable);
-      }
+      Drawables.add(drawable);
    }
 
    @Override
    public void addRadiatableObject(Radiatable radiatable) {
-      _radiatables.add(radiatable);
+      Radiatables.add(radiatable);
    }
 
    @Override
@@ -77,11 +72,6 @@ public class KDScene extends Scene {
    @Override
    public IntersectionState GetClosestDrawableToRayBeyond(Ray ray, double t) {
       return null;
-   }
-
-   @Override
-   public String getImplementationType() {
-      return "kd-tree";
    }
 
    public IntersectionState GetClosestDrawableOrPlaneToRay(List<Drawable> drawables, Ray ray) {
@@ -351,7 +341,7 @@ public class KDScene extends Scene {
 
    @Override
    public String Compile() {
-      rootNode = KDTree.BuildKDTree(_drawables, 5, 4);
+      rootNode = KDTree.BuildKDTree(Drawables, 5, 4);
       return "kd-tree min depth " + rootNode.GetMinDepth() + ", max depth " + rootNode.GetMaxDepth();
    }
 

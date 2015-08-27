@@ -1,15 +1,9 @@
 package net.danielthompson.danray.structures;
 
-import net.danielthompson.danray.acceleration.KDNode;
-import net.danielthompson.danray.acceleration.KDTree;
 import net.danielthompson.danray.lights.Radiatable;
 import net.danielthompson.danray.shapes.*;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.cameras.Camera;
-
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * DanRay
@@ -19,44 +13,32 @@ import java.util.List;
  */
 public class NaiveScene extends Scene {
 
-
-   private List<Drawable> _planes;
-
-
-   public long drawableIntersections;
-
    public Statistics statistics;
 
    public NaiveScene(Camera camera) {
       super(camera);
-
+      ImplementationType = "Naive Scene";
    }
 
    @Override
    public void addDrawableObject(Drawable drawable) {
-      if (drawable instanceof ImplicitPlane) {
-         _planes.add(drawable);
-      }
-      else {
-         _drawables.add(drawable);
-      }
+      Drawables.add(drawable);
    }
 
    @Override
    public void addRadiatableObject(Radiatable radiatable) {
-      _radiatables.add(radiatable);
+      Radiatables.add(radiatable);
    }
 
    @Override
    public IntersectionState GetClosestDrawableToRay(Ray ray) {
       return GetClosestDrawableToRayBeyond(ray, 0);
-
    }
 
    public IntersectionState GetClosestDrawableToRayBeyond(Ray ray, double t) {
       IntersectionState closestStateToRay = null;
       statistics = new Statistics();
-      for (Drawable drawable : _drawables) {
+      for (Drawable drawable : Drawables) {
          IntersectionState state = drawable.GetHitInfo(ray);
          statistics.DrawableIntersections++;
          state.Statistics = statistics;
@@ -74,11 +56,6 @@ public class NaiveScene extends Scene {
       return closestStateToRay;
    }
 
-
-   @Override
-   public String getImplementationType() {
-      return " naive object array.";
-   }
 
    @Override
    public String Compile() {

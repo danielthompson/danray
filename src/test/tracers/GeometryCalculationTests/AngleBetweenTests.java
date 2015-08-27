@@ -1,10 +1,6 @@
 package test.tracers.GeometryCalculationTests;
 
-import net.danielthompson.danray.shading.bxdf.BRDF;
-import net.danielthompson.danray.shading.bxdf.MirrorBRDF;
 import net.danielthompson.danray.structures.Constants;
-import net.danielthompson.danray.structures.Normal;
-import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Vector;
 import net.danielthompson.danray.tracers.GeometryCalculations;
 import org.testng.Assert;
@@ -112,7 +108,7 @@ public class AngleBetweenTests {
 
       double actual = GeometryCalculations.angleBetween(v1, v2);
 
-      Assert.assertEquals(actual, expected, Constants.NumericalDelta*1000000);
+      Assert.assertEquals(actual, expected, Constants.Epsilon *1000000);
 
    }
 

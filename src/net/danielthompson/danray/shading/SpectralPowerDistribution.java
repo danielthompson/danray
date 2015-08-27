@@ -15,12 +15,20 @@ public class SpectralPowerDistribution extends Spectrum {
       for (int i = 0; i < rspd.Buckets.length; i++) {
          Buckets[i] = rspd.Buckets[i] * (float)power;
       }
-      Power = power;
+      RecalculatePower();
    }
 
    public void add(SpectralPowerDistribution other) {
       for (int i = 0; i < Buckets.length; i++) {
          Buckets[i] += other.Buckets[i];
+      }
+
+      RecalculatePower();
+   }
+
+   private void RecalculatePower() {
+      for (int i = 0; i < Buckets.length; i++) {
+         Power += Buckets[i];
       }
    }
 
@@ -60,6 +68,8 @@ public class SpectralPowerDistribution extends Spectrum {
          spd.Buckets[i] = sum / spds.length;
       }
 
+      spd.RecalculatePower();
+
       return spd;
    }
 
@@ -72,6 +82,8 @@ public class SpectralPowerDistribution extends Spectrum {
          blend.Buckets[i] = (float)(spd1.Buckets[i] * weight1 + spd2.Buckets[i] * weight2) * scale;
       }
 
+      blend.RecalculatePower();
+
       return blend;
    }
 
@@ -80,6 +92,8 @@ public class SpectralPowerDistribution extends Spectrum {
 
       spd.add(spd1);
       spd.add(spd2);
+
+      spd.RecalculatePower();
 
       return spd;
    }
@@ -91,6 +105,8 @@ public class SpectralPowerDistribution extends Spectrum {
          scaled.Buckets[i] = spd.Buckets[i] * (float)percentage;
       }
 
+      scaled.RecalculatePower();
+
       return scaled;
    }
 
@@ -98,6 +114,8 @@ public class SpectralPowerDistribution extends Spectrum {
       for (int i = 0; i < Buckets.length; i++) {
          Buckets[i] *= percentage;
       }
+
+      RecalculatePower();
    }
 
    public SpectralPowerDistribution reflectOff(SpectralReflectanceCurve curve) {
@@ -106,6 +124,8 @@ public class SpectralPowerDistribution extends Spectrum {
       for (int i = 0; i < reflected.Buckets.length; i++) {
          reflected.Buckets[i] = Buckets[i] * curve.Buckets[i] * 100f;
       }
+
+      reflected.RecalculatePower();
 
       return reflected;
    }

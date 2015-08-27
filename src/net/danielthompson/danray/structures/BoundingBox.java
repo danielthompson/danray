@@ -24,12 +24,12 @@ public class BoundingBox implements Boundable {
 
    public boolean isPointInside(Point p) {
       return (
-            (p.X >= point1.X || Constants.WithinDelta(p.X, point1.X))
-         && (p.Y >= point1.Y || Constants.WithinDelta(p.Y, point1.Y))
-         && (p.Z >= point1.Z || Constants.WithinDelta(p.Z, point1.Z))
-         && (p.X <= point2.X || Constants.WithinDelta(p.X, point2.X))
-         && (p.Y <= point2.Y || Constants.WithinDelta(p.Y, point2.Y))
-         && (p.Z <= point2.Z || Constants.WithinDelta(p.Z, point2.Z))
+            (p.X >= point1.X || Constants.WithinEpsilon(p.X, point1.X))
+         && (p.Y >= point1.Y || Constants.WithinEpsilon(p.Y, point1.Y))
+         && (p.Z >= point1.Z || Constants.WithinEpsilon(p.Z, point1.Z))
+         && (p.X <= point2.X || Constants.WithinEpsilon(p.X, point2.X))
+         && (p.Y <= point2.Y || Constants.WithinEpsilon(p.Y, point2.Y))
+         && (p.Z <= point2.Z || Constants.WithinEpsilon(p.Z, point2.Z))
       );
    }
 

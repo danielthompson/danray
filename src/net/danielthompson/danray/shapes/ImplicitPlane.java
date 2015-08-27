@@ -7,7 +7,7 @@ import net.danielthompson.danray.structures.Normal;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Ray;
 
-import static net.danielthompson.danray.structures.Constants.WithinDelta;
+
 
 /**
  * DanRay

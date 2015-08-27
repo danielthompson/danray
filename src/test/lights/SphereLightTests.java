@@ -2,9 +2,9 @@ package test.lights;
 
 import net.danielthompson.danray.lights.SpectralSphereLight;
 import net.danielthompson.danray.shading.*;
+import net.danielthompson.danray.states.IntersectionState;
+import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.structures.Point;
-import net.danielthompson.danray.structures.Ray;
-import net.danielthompson.danray.structures.Vector;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -49,7 +49,7 @@ public class SphereLightTests {
 
 
    @Test
-   public void testGetRayInPDF() throws Exception {
+   public void testGetRayInPDF1() throws Exception {
 
       SpectralSphereLight light = new SpectralSphereLight(1);
       light.Origin = new Point(0, 0, 0);
@@ -80,5 +80,31 @@ public class SphereLightTests {
 
       Assert.assertTrue(minTheta >= 0.0);
       Assert.assertTrue(maxTheta <= 1.0);
+   }
+
+
+   @Test
+   public void testGetRayInPDF2() throws Exception {
+
+      SpectralSphereLight light = new SpectralSphereLight(1);
+      light.Origin = new Point(0, 0, 0);
+      light.Radius = 1;
+
+      Scene scene = new NaiveScene(null);
+
+      scene.addDrawableObject(light);
+      scene.addRadiatableObject(light);
+
+      for (int i = 0; i < 1000000; i++) {
+
+         Ray ray = light.getRandomRayInPDF();
+
+         IntersectionState state = scene.GetClosestDrawableToRay(ray);
+
+         Assert.assertNull(state);
+
+
+      }
+
    }
 }

@@ -72,30 +72,30 @@ public class Sphere extends DrawableBase {
 
       double t1 = (-b - root) * oneOverTwoA;
 
-      if (t1 < Constants.NumericalDelta) {
-         if (t0 < Constants.NumericalDelta) {
+      if (t1 < Constants.Epsilon) {
+         if (t0 < Constants.Epsilon) {
             state.Hits = false;
             state.IntersectionPoint = null;
 
          }
-         else if (Constants.WithinDelta(t0, 0)) {
+         else if (Constants.WithinEpsilon(t0, 0)) {
             state.Hits = true;
             state.IntersectionPoint = objectSpaceRay.Origin;
             state.TMin = t0;
 
          }
-         else /*if (t0 > -Constants.NumericalDelta)*/ {
+         else /*if (t0 > -Constants.Epsilon)*/ {
             state.Hits = true;
             state.IntersectionPoint = objectSpaceRay.ScaleFromOrigin(t0);
             state.TMin = t0;
          }
       }
-      else if (Constants.WithinDelta(t1, 0)) {
+      else if (Constants.WithinEpsilon(t1, 0)) {
          state.Hits = true;
          state.IntersectionPoint = objectSpaceRay.Origin;
          state.Drawable = this;
 
-         if (t0 < Constants.NumericalDelta) {
+         if (t0 < Constants.Epsilon) {
             state.TMin = t1;
          }
          else {
@@ -104,11 +104,11 @@ public class Sphere extends DrawableBase {
       }
       else {
          state.Hits = true;
-         if (t0 < Constants.NumericalDelta) {
+         if (t0 < Constants.Epsilon) {
             state.IntersectionPoint = objectSpaceRay.ScaleFromOrigin(t1);
             state.TMin = t1;
          }
-         else if (Constants.WithinDelta(t0, 0)) {
+         else if (Constants.WithinEpsilon(t0, 0)) {
             state.IntersectionPoint = objectSpaceRay.Origin;
             state.TMin = t0;
          }
@@ -179,8 +179,17 @@ public class Sphere extends DrawableBase {
    }
 
    public boolean Inside(Point point) {
-      return (Radius * Radius > point.SquaredDistanceBetween(Origin));
+      double dist = point.SquaredDistanceBetween(Origin);
+      double r2 = Radius * Radius;
 
+      boolean value = dist < r2;
+
+      return value;
+   }
+
+   public boolean OnSurface(Point point) {
+      double difference = Radius * Radius - point.SquaredDistanceBetween(Origin);
+      return Constants.WithinEpsilon(difference, 0);
    }
 
    public boolean equals(Object obj) {

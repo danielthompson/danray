@@ -17,6 +17,12 @@ public class Point implements Cloneable {
       this.Z = Z;
    }
 
+   public Point(double[] xyz) {
+      this.X = xyz[0];
+      this.Y = xyz[1];
+      this.Z = xyz[2];
+   }
+
    public Point(Point p) {
       this.X = p.X;
       this.Y = p.Y;

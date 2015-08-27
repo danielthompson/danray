@@ -61,7 +61,7 @@ public class SpectralTracer {
             origin.Plus(offset);
             IntersectionState potentialOccluder = _scene.GetClosestDrawableToRay(lightRayFromCurrentRadiatableToClosestDrawable);
 
-            if (potentialOccluder == null || (potentialOccluder.Drawable.equals(closestStateToRay.Drawable) && Constants.WithinDelta(potentialOccluder.IntersectionPoint, closestStateToRay.IntersectionPoint)) || potentialOccluder.Drawable.equals(radiatable)) {
+            if (potentialOccluder == null || (potentialOccluder.Drawable.equals(closestStateToRay.Drawable) && Constants.WithinEpsilon(potentialOccluder.IntersectionPoint, closestStateToRay.IntersectionPoint)) || potentialOccluder.Drawable.equals(radiatable)) {
 
                double oneOverDistanceFromLightSource = 1 / Math.sqrt(radiatableLocation.SquaredDistanceBetween(closestStateToRay.IntersectionPoint));
                oneOverDistanceFromLightSource *= oneOverDistanceFromLightSource;

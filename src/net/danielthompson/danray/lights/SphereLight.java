@@ -60,8 +60,10 @@ public class SphereLight extends Sphere implements Radiatable {
    @Override
    public Point getRandomPointOnSurface() {
 
-      Point point = getRandomPoint();
-      point.Normalize();
+      double[] xyz = GeometryCalculations.randomPointOnSphere();
+
+      Point point = new Point(xyz);
+
       point.Scale(Radius);
       point.Plus(Origin);
 
@@ -104,6 +106,8 @@ public class SphereLight extends Sphere implements Radiatable {
    public Ray getRandomRayInPDF() {
       Point point = getRandomPointOnSurface();
 
+      //point = new Point(1, 0, 0);
+
       Vector v = new Vector(point.X, point.Y, point.Z);
 
       Vector direction = new Vector(GeometryCalculations.randomPointOnSphere());
@@ -111,7 +115,10 @@ public class SphereLight extends Sphere implements Radiatable {
       if (v.Dot(direction) < 0)
          direction.Scale(-1);
 
-      return new Ray(point, direction);
+      Ray ray = new Ray(point, direction);
+      //ray.OffsetOriginForward(.00001);
+
+      return ray;
    }
 
    @Override

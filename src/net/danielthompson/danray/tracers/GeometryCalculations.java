@@ -46,9 +46,9 @@ public class GeometryCalculations {
 
       double x, y, z, d2;
       do {
-         x = rnd.nextGaussian();
-         y = rnd.nextGaussian();
-         z = rnd.nextGaussian();
+         x = r.nextGaussian();
+         y = r.nextGaussian();
+         z = r.nextGaussian();
          d2 = x*x + y*y + z*z;
       } while (d2 <= Double.MIN_NORMAL);
       double s = Math.sqrt(1.0 / d2);
@@ -139,7 +139,7 @@ public class GeometryCalculations {
       Vector scaled = new Vector(Normal.Scale(normal, factor));
       Vector direction = Vector.Minus(new Vector(0, 0, 0), Vector.Minus(scaled, incomingRay.Direction));
 
-      Point offsetIntersection = Point.Plus(intersectionPoint, Vector.Scale(direction, Constants.NumericalDelta * 1000));
+      Point offsetIntersection = Point.Plus(intersectionPoint, Vector.Scale(direction, Constants.Epsilon * 1000));
 
       //Point direction = normal.ScaleFromOrigin(incomingRay.Direction.Dot(normal.Direction) * 2).Minus(incomingRay.Direction);
       Ray reflectedRay = new Ray(offsetIntersection, direction);
