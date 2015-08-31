@@ -11,6 +11,7 @@ import net.danielthompson.danray.structures.Scene;
 import net.danielthompson.danray.structures.Statistics;
 import net.danielthompson.danray.structures.Vector;
 import net.danielthompson.danray.tracers.SpectralBDPathTracer;
+import net.danielthompson.danray.tracers.SpectralPathTracer;
 import net.danielthompson.danray.tracers.SpectralTracer;
 import net.danielthompson.danray.tracers.Tracer;
 import net.danielthompson.danray.ui.*;

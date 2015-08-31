@@ -122,7 +122,7 @@ public class SpectralPowerDistribution extends Spectrum {
       SpectralPowerDistribution reflected = new SpectralPowerDistribution();
 
       for (int i = 0; i < reflected.Buckets.length; i++) {
-         reflected.Buckets[i] = Buckets[i] * curve.Buckets[i] * 100f;
+         reflected.Buckets[i] = Buckets[i] * curve.Buckets[i];
       }
 
       reflected.RecalculatePower();

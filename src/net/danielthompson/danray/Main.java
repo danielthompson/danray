@@ -12,7 +12,7 @@ import net.danielthompson.danray.structures.Scene;
  */
 public class Main {
 
-   private static final RenderQualityPreset _preset = new LowQuality();
+   private static final RenderQualityPreset _preset = new HighQuality();
 
    static final boolean UseDepthOfField = false;
 

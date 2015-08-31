@@ -10,6 +10,7 @@ import net.danielthompson.danray.states.IntersectionState;
 import java.awt.*;
 
 import net.danielthompson.danray.structures.Point;
+import net.danielthompson.danray.utility.GeometryCalculations;
 
 /**
  * User: daniel

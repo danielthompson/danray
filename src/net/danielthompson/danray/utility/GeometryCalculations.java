@@ -1,4 +1,4 @@
-package net.danielthompson.danray.tracers;
+package net.danielthompson.danray.utility;
 
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.*;
@@ -36,6 +36,12 @@ public class GeometryCalculations {
 
    public static double[] randomPointOnSphere() {
       return randomPointOnSphere(Random);
+   }
+
+   public static double[] randomPointOnPregeneratedSphere() {
+      if (randomSpherePointer > maxRandomSpherePoints - 5000)
+         randomSpherePointer = 0;
+      return RandomSpherePoints[randomSpherePointer++];
    }
 
    public static double[] randomPointOnSphere(Random rnd)

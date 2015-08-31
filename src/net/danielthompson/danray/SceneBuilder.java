@@ -327,19 +327,19 @@ public class SceneBuilder {
       settings.Y = y;
       settings.FocalLength = 1200;
       settings.Rotation = 0;
-      settings.ZoomFactor =  1.5;
+      settings.ZoomFactor =  .5;
       settings.FocusDistance = 500;
       settings.Aperture = new CircleAperture(20);
 
-      Point origin = new Point(0, 2500, -3000);
-      Vector direction = new Vector(0, -.45, -1);
+      Point origin = new Point(0, 1500, -3000);
+      Vector direction = new Vector(0, -.25, -1);
       settings.Orientation = new Ray(origin, direction);
 
       Camera camera = new SimplePointableCamera(settings);
 
       Scene scene = new NaiveScene(camera);
 
-      SpectralBlender.setFilmSpeed(.1f);
+      SpectralBlender.setFilmSpeed(100f);
 
       SPDFileImporter spdFileImporter = new SPDFileImporter(new File("spds/softblue.spd"));
       SpectralPowerDistribution softblue = spdFileImporter.Process();
@@ -349,7 +349,7 @@ public class SceneBuilder {
 
       // top light
 
-      SpectralPowerDistribution lightSPD = SpectralPowerDistribution.scale(d65, 10);
+      SpectralPowerDistribution lightSPD = SpectralPowerDistribution.scale(d65, 5);
 
       Material material = new Material();
 
@@ -375,7 +375,7 @@ public class SceneBuilder {
 
       ArrayList<Transform> list = new ArrayList<>();
       list.add(Transform.Translate(new Vector(0, 0, -10000)));
-      list.add(Transform.Scale(1000.0, 1000, 1000));
+      list.add(Transform.Scale(1000, 1000, 1000));
 
       Transform[] transforms = GetCompositeTransforms(list);
 

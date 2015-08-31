@@ -1,7 +1,7 @@
 package net.danielthompson.danray.shading.bxdf;
 
 import net.danielthompson.danray.structures.*;
-import net.danielthompson.danray.tracers.GeometryCalculations;
+import net.danielthompson.danray.utility.GeometryCalculations;
 
 /**
  * Created by daniel on 8/16/15.
@@ -10,17 +10,17 @@ public class LambertianBRDF extends BRDF {
 
    @Override
    public double f(double thetaIncoming, double thetaOutgoing) {
-      return Constants.OneOver2Pi;
+      return Constants.OneOverPi;
    }
 
    @Override
    public double f(Vector incoming, Normal normal, Vector outgoing) {
-      return Constants.OneOver2Pi;
+      return Constants.OneOverPi;
    }
 
    @Override
    public Vector getVectorInPDF(Normal normal, Vector incoming) {
-      double[] xyz = GeometryCalculations.randomPointOnSphere(GeometryCalculations.Random);
+      double[] xyz = GeometryCalculations.randomPointOnPregeneratedSphere();
 
       Vector outgoing = new Vector(xyz[0], xyz[1], xyz[2]);
 

@@ -5,7 +5,7 @@ import net.danielthompson.danray.shapes.Sphere;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Vector;
-import net.danielthompson.danray.tracers.GeometryCalculations;
+import net.danielthompson.danray.utility.GeometryCalculations;
 import org.apache.commons.math3.util.FastMath;
 
 /**
@@ -137,7 +137,7 @@ public class SphereLight extends Sphere implements Radiatable {
       double sqrDist = point.SquaredDistanceBetween(origin);
 
       double sinThetaMax2 = Radius * Radius / sqrDist;
-      double sinTheta = Math.sqrt(sinThetaMax2);
+      //double sinTheta = Math.sqrt(sinThetaMax2);
       double cosThetaMax = Math.sqrt(Math.max(0, 1 - sinThetaMax2));
 
       double pdf = GeometryCalculations.UniformConePDF(cosThetaMax);

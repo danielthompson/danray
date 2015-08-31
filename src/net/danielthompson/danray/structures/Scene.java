@@ -37,5 +37,9 @@ public abstract class Scene {
 
    public abstract IntersectionState GetClosestDrawableToRayBeyond(Ray ray, double t);
 
+   public IntersectionState GetClosestDrawableHitBetween(Ray ray, double t0, double t1) {
+      return null;
+   }
+
    public abstract String Compile();
 }

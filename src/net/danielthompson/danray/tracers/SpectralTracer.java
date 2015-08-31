@@ -7,6 +7,7 @@ import net.danielthompson.danray.shading.SpectralReflectanceCurve;
 import net.danielthompson.danray.shapes.Drawable;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.*;
+import net.danielthompson.danray.utility.GeometryCalculations;
 
 
 /**

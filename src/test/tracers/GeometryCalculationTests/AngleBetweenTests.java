@@ -2,7 +2,7 @@ package test.tracers.GeometryCalculationTests;
 
 import net.danielthompson.danray.structures.Constants;
 import net.danielthompson.danray.structures.Vector;
-import net.danielthompson.danray.tracers.GeometryCalculations;
+import net.danielthompson.danray.utility.GeometryCalculations;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
