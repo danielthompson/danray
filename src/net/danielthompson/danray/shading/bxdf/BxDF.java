@@ -7,6 +7,12 @@ import net.danielthompson.danray.structures.Vector;
  * Created by dthompson on 21 May 15.
  */
 public abstract class BxDF {
+   /**
+    *
+    * @param thetaIncoming
+    * @param thetaOutgoing
+    * @return
+    */
    public double f(double thetaIncoming, double thetaOutgoing) {
       return 0.0;
    }
@@ -15,7 +21,7 @@ public abstract class BxDF {
     * Whether or not the distribution is a delta distribution.
     * If so, it should be sampled with f_delta(), not f().
     */
-   boolean Delta;
+   public boolean Delta;
 
    /**
     * Gets an outgoing vector according to the BxDF's PDF.

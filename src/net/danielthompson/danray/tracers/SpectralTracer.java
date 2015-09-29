@@ -13,25 +13,21 @@ import net.danielthompson.danray.utility.GeometryCalculations;
 /**
  * Created by daniel on 5/5/15.
  */
-public class SpectralTracer {
-
-   Scene _scene;
-   int _maxDepth;
+public class SpectralTracer extends BaseTracer {
 
    private final double factor = 1.0;
    private final double iterations = 1.0;
    private final double adjustment = factor / iterations;
 
    public SpectralTracer(Scene scene, int maxDepth) {
-      _scene = scene;
-      _maxDepth = maxDepth;
+      super(scene, maxDepth);
    }
 
    public SpectralPowerDistribution GetSPDForRay(Ray ray, int depth) {
 
       SpectralPowerDistribution directSPD = new SpectralPowerDistribution();
 
-      IntersectionState closestStateToRay = _scene.GetClosestDrawableToRay(ray);
+      IntersectionState closestStateToRay = scene.GetClosestDrawableToRay(ray);
 
       if (closestStateToRay == null) {
          return directSPD;
@@ -46,7 +42,7 @@ public class SpectralTracer {
 
       Material objectMaterial = closestDrawable.GetMaterial();
 
-      for (SpectralRadiatable radiatable : _scene.SpectralRadiatables) {
+      for (SpectralRadiatable radiatable : scene.SpectralRadiatables) {
          Point intersectionPoint = closestStateToRay.IntersectionPoint;
 
          for (int i = 0; i < iterations; i++) {
@@ -60,7 +56,7 @@ public class SpectralTracer {
             Vector direction = lightRayFromCurrentRadiatableToClosestDrawable.Direction;
             Vector offset = Vector.Scale(direction, -.0000001);
             origin.Plus(offset);
-            IntersectionState potentialOccluder = _scene.GetClosestDrawableToRay(lightRayFromCurrentRadiatableToClosestDrawable);
+            IntersectionState potentialOccluder = scene.GetClosestDrawableToRay(lightRayFromCurrentRadiatableToClosestDrawable);
 
             if (potentialOccluder == null || (potentialOccluder.Drawable.equals(closestStateToRay.Drawable) && Constants.WithinEpsilon(potentialOccluder.IntersectionPoint, closestStateToRay.IntersectionPoint)) || potentialOccluder.Drawable.equals(radiatable)) {
 
@@ -87,7 +83,7 @@ public class SpectralTracer {
       SpectralReflectanceCurve curve = objectMaterial.SpectralReflectanceCurve;
 
       // recursive case
-      if (depth < _maxDepth && objectMaterial.getReflectivity() > 0) {
+      if (depth < maxDepth && objectMaterial.getReflectivity() > 0) {
          SpectralPowerDistribution reflectedSPD = null;
          Ray reflectedRay = GeometryCalculations.GetReflectedRay(closestStateToRay.IntersectionPoint, closestStateToRay.Normal, ray);
          reflectedSPD = GetSPDForRay(reflectedRay, depth + 1/*, oldIndexOfRefraction*/);

@@ -7,6 +7,7 @@ import net.danielthompson.danray.shading.SpectralBlender;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Scene;
+import net.danielthompson.danray.tracers.BaseTracer;
 import net.danielthompson.danray.tracers.SpectralTracer;
 
 import java.awt.*;
@@ -31,13 +32,13 @@ public class SpectralTileRunner implements Runnable {
    private final int _y;
 
    private final TraceManager _manager;
-   private final SpectralTracer _tracer;
+   private final BaseTracer _tracer;
    private final Scene _scene;
    private int _frame;
 
    private final RenderQualityPreset qualityPreset;
 
-   public SpectralTileRunner(TraceManager manager, SpectralTracer tracer, Scene scene, RenderQualityPreset qualityPreset, int frame) {
+   public SpectralTileRunner(TraceManager manager, BaseTracer tracer, Scene scene, RenderQualityPreset qualityPreset, int frame) {
       _manager = manager;
       _tracer = tracer;
       _scene = scene;

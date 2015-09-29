@@ -11,50 +11,41 @@ import java.util.Random;
  */
 public class GeometryCalculations {
 
+   public static Random random = new Random();
+
    public static double[][] RandomSpherePoints = getRandomSpherePoints();
 
-   private static final int maxRandomSpherePoints = 65535;
+   private static final int maxRandomSpherePoints = 1000000;
 
    private static volatile int randomSpherePointer = 0;
 
-   private static final Object mutex = new Object();
-
-   public static Random Random = new Random();
-
    private static double[][] getRandomSpherePoints() {
       double[][] n = new double[maxRandomSpherePoints][3];
-      Random r = new Random();
-      for (int i = 0; i < n.length; i++) {
-         double[] p = randomPointOnSphere(r);
+            for (int i = 0; i < n.length; i++) {
+         double[] p = randomPointOnSphere();
          Vector v = new Vector(p[0], p[1], p[2]);
          v.Normalize();
          n[i] = new double[] {v.X, v.Y, v.Z};
       }
 
       return n;
-    }
-
-   public static double[] randomPointOnSphere() {
-      return randomPointOnSphere(Random);
    }
 
    public static double[] randomPointOnPregeneratedSphere() {
-      if (randomSpherePointer > maxRandomSpherePoints - 5000)
+
+
+      if (randomSpherePointer > maxRandomSpherePoints - 500)
          randomSpherePointer = 0;
       return RandomSpherePoints[randomSpherePointer++];
    }
 
-   public static double[] randomPointOnSphere(Random rnd)
+   public static double[] randomPointOnSphere()
    {
-      Random r = rnd;
-      if (r == null)
-         r = Random;
-
       double x, y, z, d2;
       do {
-         x = r.nextGaussian();
-         y = r.nextGaussian();
-         z = r.nextGaussian();
+         x = random.nextGaussian();
+         y = random.nextGaussian();
+         z = random.nextGaussian();
          d2 = x*x + y*y + z*z;
       } while (d2 <= Double.MIN_NORMAL);
       double s = Math.sqrt(1.0 / d2);

@@ -12,11 +12,7 @@ import net.danielthompson.danray.structures.*;
 /**
  * Created by daniel on 5/5/15.
  */
-public class SpectralPathTracer extends SpectralTracer {
-
-   //private final double factor = 1.0;
-   //private final double iterations = 1.0;
-   //private final double adjustment = factor / iterations;
+public class SpectralPathTracer extends BaseTracer {
 
    public SpectralPathTracer(Scene scene, int maxDepth) {
       super(scene, maxDepth);
@@ -26,7 +22,7 @@ public class SpectralPathTracer extends SpectralTracer {
 
       SpectralPowerDistribution directSPD = new SpectralPowerDistribution();
 
-      IntersectionState closestStateToRay = _scene.GetClosestDrawableToRay(ray);
+      IntersectionState closestStateToRay = scene.GetClosestDrawableToRay(ray);
 
       if (closestStateToRay == null) {
          return directSPD;
@@ -38,7 +34,7 @@ public class SpectralPathTracer extends SpectralTracer {
       }
 
       // base case
-      if (depth >= _maxDepth) {
+      if (depth >= maxDepth) {
          return directSPD;
       }
       else {

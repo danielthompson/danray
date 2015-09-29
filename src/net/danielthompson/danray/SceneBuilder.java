@@ -327,19 +327,23 @@ public class SceneBuilder {
       settings.Y = y;
       settings.FocalLength = 1200;
       settings.Rotation = 0;
-      settings.ZoomFactor =  .5;
+      settings.ZoomFactor =  10;
       settings.FocusDistance = 500;
       settings.Aperture = new CircleAperture(20);
 
-      Point origin = new Point(0, 1500, -3000);
-      Vector direction = new Vector(0, -.25, -1);
+      Point origin = new Point(0, 1500, -500);
+      //Point origin = new Point(0, 1500, -3000);
+      Vector direction = new Vector(0, -0.25, -1);
+      //Vector direction = new Vector(0, -.1, -1);
       settings.Orientation = new Ray(origin, direction);
 
       Camera camera = new SimplePointableCamera(settings);
 
       Scene scene = new NaiveScene(camera);
 
-      SpectralBlender.setFilmSpeed(100f);
+      //SpectralBlender.setFilmSpeed(100000000000000000000000000000000f);
+      //SpectralBlender.setFilmSpeed(10000f);
+      SpectralBlender.setFilmSpeed(10f);
 
       SPDFileImporter spdFileImporter = new SPDFileImporter(new File("spds/softblue.spd"));
       SpectralPowerDistribution softblue = spdFileImporter.Process();
@@ -349,15 +353,15 @@ public class SceneBuilder {
 
       // top light
 
-      SpectralPowerDistribution lightSPD = SpectralPowerDistribution.scale(d65, 5);
+      SpectralPowerDistribution lightSPD = SpectralPowerDistribution.scale(d65, 15);
 
       Material material = new Material();
 
       material.Color = Color.white;
 
-      SpectralSphereLight light = new SpectralSphereLight(5, material, lightSPD);
-      light.Origin = new Point(2000, 5000, -10000);
-      light.Radius = 500;
+      SpectralSphereLight light = new SpectralSphereLight(100, material, lightSPD);
+      light.Origin = new Point(1000, 5000, -1500);
+      light.Radius = 50;
 
       light.ID = getNextID();
 
@@ -371,11 +375,13 @@ public class SceneBuilder {
       material.BRDF = new LambertianBRDF();
       material.Color = Color.green;
 
-      material.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.Grass;
+      material.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.LemonSkin;
 
       ArrayList<Transform> list = new ArrayList<>();
       list.add(Transform.Translate(new Vector(0, 0, -10000)));
       list.add(Transform.Scale(1000, 1000, 1000));
+      list.add(Transform.RotateY(90));
+
 
       Transform[] transforms = GetCompositeTransforms(list);
 
@@ -384,7 +390,7 @@ public class SceneBuilder {
 
       Sphere sphere = new Sphere(1, worldToObject, objectToWorld, material);
       sphere.Origin = new Point(0, 0, 0);
-      scene.addDrawableObject(sphere);
+      //scene.addDrawableObject(sphere);
 
 
 
@@ -393,7 +399,7 @@ public class SceneBuilder {
       Material boxMaterial = new Material();
       boxMaterial.Color = Color.green;
       boxMaterial.BRDF = new LambertianBRDF();
-      boxMaterial.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.Constant;
+      boxMaterial.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.LemonSkin;
 
       list = new ArrayList<>();
       list.add(Transform.Translate(new Vector(0, -1000, 0)));

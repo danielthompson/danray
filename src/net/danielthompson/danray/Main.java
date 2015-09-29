@@ -12,7 +12,7 @@ import net.danielthompson.danray.structures.Scene;
  */
 public class Main {
 
-   private static final RenderQualityPreset _preset = new HighQuality();
+   private static final RenderQualityPreset _preset = new LowQuality();
 
    static final boolean UseDepthOfField = false;
 
@@ -59,7 +59,7 @@ public class Main {
          String arg = args[i];
          switch (arg) {
             case "-window":
-               options.ShowWindows = true;
+               options.showWindows = true;
                break;
             case "-threads":
                if (i + 1 < args.length) {
@@ -76,6 +76,10 @@ public class Main {
                   Logger.Log("Threads specified but number missing.");
                }
                break;
+            case "-displayallpaths": {
+               options.displayAllPaths = true;
+               break;
+            }
 
          }
       }

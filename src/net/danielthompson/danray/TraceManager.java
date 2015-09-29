@@ -11,7 +11,6 @@ import net.danielthompson.danray.structures.Scene;
 import net.danielthompson.danray.structures.Statistics;
 import net.danielthompson.danray.structures.Vector;
 import net.danielthompson.danray.tracers.SpectralBDPathTracer;
-import net.danielthompson.danray.tracers.SpectralPathTracer;
 import net.danielthompson.danray.tracers.SpectralTracer;
 import net.danielthompson.danray.tracers.Tracer;
 import net.danielthompson.danray.ui.*;
@@ -79,7 +78,7 @@ public class TraceManager {
    Scene _scene;
 
    Tracer _tracer;
-   SpectralTracer _spectralTracer;
+   SpectralBDPathTracer _spectralTracer;
 
    int _xPointer;
    int _yPointer;
@@ -142,27 +141,37 @@ public class TraceManager {
       String duration = getDurationString(start, end);
       Logger.Log("Finished compiling scene in " + duration);
 
-
    }
 
    public void Render() {
       SetupWindows();
 
-
-
-
       for (int i = 0; i < _scene.numFrames; i++) {
 
-         //i = 180;
+         if (_tracerOptions.displayAllPaths) {
 
-         SetupFrame();
-         Trace(i);
-         //ToneMap(i);
-         Log(i);
-         Save(_traceImage, "trace" + getOutputString(i));
-         Save(_countImage, "count" + getOutputString(i));
-         TeardownFrame();
-         //break;
+            for (int k = 2; k <= _qualityPreset.getMaxDepth(); k++) {
+               for (int s = 1; s <= k + 1; s++) {
+                  int t = k + 1 - s;
+                  SetupFrame(s, t);
+                  Trace(i, s, t);
+                  Log(i, s, t);
+                  Save(_traceImage, "trace" + getOutputString(k, s, t));
+                  Save(_countImage, "count" + getOutputString(k, s, t));
+                  TeardownFrame();
+                  break;
+               }
+               break;
+            }
+         }
+         else {
+            SetupFrame(-1, -1);
+            Trace(i, -1, -1);
+            Log(i, -1, -1);
+            Save(_traceImage, "trace" + getOutputString(i));
+            Save(_countImage, "count" + getOutputString(i));
+            TeardownFrame();
+         }
       }
    }
 
@@ -170,9 +179,13 @@ public class TraceManager {
       return String.format("%06d", frame);
    }
 
+   private String getOutputString(int k, int s, int t) {
+      return "k" + String.format("%02d", k) + "s" + String.format("%02d", s) + "t" + String.format("%02d", t);
+   }
+
    public void SetupWindows() {
 
-      if (_tracerOptions.ShowWindows) {
+      if (_tracerOptions.showWindows) {
 
          // count window
 
@@ -277,9 +290,7 @@ public class TraceManager {
 
    }
 
-
-
-   public void SetupFrame() {
+   public void SetupFrame(int s, int t) {
 
       _countImage = new BufferedImage(_qualityPreset.getX(), _qualityPreset.getY(), BufferedImage.TYPE_INT_RGB);
       _traceImage = new BufferedImage(_qualityPreset.getX(), _qualityPreset.getY(), BufferedImage.TYPE_INT_RGB);
@@ -289,7 +300,7 @@ public class TraceManager {
          for (int j = 0; j < _qualityPreset.getY(); ++j)
             _traceImage.setRGB(i, j, Color.gray.getRGB()); // Black Background
 
-      if (_tracerOptions.ShowWindows) {
+      if (_tracerOptions.showWindows) {
          _countCanvas.setImage(_countImage);
          _traceCanvas.setImage(_traceImage);
 
@@ -309,6 +320,9 @@ public class TraceManager {
       _minX = _minY = _minZ = Float.MAX_VALUE;
       _maxX = _maxY = _maxZ = -Float.MAX_VALUE;
 
+      if (s >= 0 || t >= 0) {
+         Logger.Log("rendering with lightpath length s = [" + s +"] and eyepath length t = [" + t + "]");
+      }
       Logger.Log("image is " + _qualityPreset.getX() + " x " + _qualityPreset.getY() );
       Logger.Log("pixel threshold: " + _qualityPreset.getConvergenceTerminationThreshold());
       Logger.Log("samples: " + _qualityPreset.getSamplesPerPixel() + "; super samples: " + _qualityPreset.getSuperSamplesPerPixel());
@@ -321,15 +335,20 @@ public class TraceManager {
 ;
    }
 
-   public void Trace(int frame) {
+   public void Trace(int frame, int s, int t) {
       Logger.Log("Rendering frame " + frame + "...");
 
       _renderStartTime = new Date();
 
       _scene.Camera.setFrame(frame);
 
+      Runnable runner = new SpectralTileRunner(this, _spectralTracer, _scene, _qualityPreset, frame);;
+
       //Runnable runner = new TileRunner(this, _tracer, _scene, _qualityPreset, frame);
-      Runnable runner = new SpectralTileRunner(this, _spectralTracer, _scene, _qualityPreset, frame);
+
+      if (s >= 0 || t >= 0) {
+         _spectralTracer.setDebug(s, t);
+      }
 
       if (_tracerOptions.numThreads <= 1) {
          runner.run();
@@ -435,14 +454,19 @@ public class TraceManager {
 
    }
 
-   private void Log(int frame) {
+   private void Log(int frame, int s, int t) {
       Date end = new Date();
       long milliseconds = end.getTime() - _renderStartTime.getTime();
 
       DecimalFormat integerFormatter = new DecimalFormat("###,###,###,###");
 
       String duration = getDurationString(_renderStartTime, end);
-      Logger.Log("Finished rendering frame " + frame + " in " + duration);
+      if (s >= 0 || t >= 0) {
+         Logger.Log("Finished rendering lightpath length [s] = " + s + ", eyepath length [t] = " + t + " in " + duration);
+      }
+      else {
+         Logger.Log("Finished rendering frame " + frame + " in " + duration);
+      }
       int pixels = _qualityPreset.getX() * _qualityPreset.getY();
       Logger.Log(integerFormatter.format(pixels) +  " pixels, " + integerFormatter.format(InitialRays) +  " initial rays");
 
@@ -620,7 +644,7 @@ public class TraceManager {
    }
 
    public void UpdateCanvas() {
-      if (_tracerOptions.ShowWindows) {
+      if (_tracerOptions.showWindows) {
          _traceCanvas.update(_traceGraphics);
          _countCanvas.update(_countGraphics);
       }
@@ -666,8 +690,6 @@ public class TraceManager {
          System.err.println("image not saved.");
       }
    }
-
-
 
    private void CreateOutputDirectory() {
       Date date = Calendar.getInstance().getTime();

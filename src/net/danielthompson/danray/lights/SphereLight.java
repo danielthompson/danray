@@ -2,6 +2,7 @@ package net.danielthompson.danray.lights;
 
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.shapes.Sphere;
+import net.danielthompson.danray.structures.Constants;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Vector;
@@ -31,7 +32,7 @@ public class SphereLight extends Sphere implements Radiatable {
       randoms = new double[65536];
 
       for (int i = 0; i < 65536; i++) {
-         randoms[i] = FastMath.random() * 2.0 - 1.0;
+         randoms[i] = FastMath.random();
       }
    }
 
@@ -116,8 +117,10 @@ public class SphereLight extends Sphere implements Radiatable {
          direction.Scale(-1);
 
       Ray ray = new Ray(point, direction);
-      //ray.OffsetOriginForward(.00001);
+      ray.OffsetOriginForward(.00001);
 
+      if (ObjectToWorld != null)
+         ObjectToWorld.Apply(ray);
       return ray;
    }
 
@@ -140,7 +143,7 @@ public class SphereLight extends Sphere implements Radiatable {
       //double sinTheta = Math.sqrt(sinThetaMax2);
       double cosThetaMax = Math.sqrt(Math.max(0, 1 - sinThetaMax2));
 
-      double pdf = GeometryCalculations.UniformConePDF(cosThetaMax);
+      double pdf = 4 * Math.PI / GeometryCalculations.UniformConePDF(cosThetaMax);
 
       return pdf; //TODO
    }

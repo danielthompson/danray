@@ -17,10 +17,8 @@ import net.danielthompson.danray.utility.GeometryCalculations;
  * Date: 7/2/13
  * Time: 15:26
  */
-public class Tracer {
+public class Tracer extends BaseTracer {
 
-   Scene _scene;
-   int _maxDepth;
    private final int _airIndexOfRefraction = 1;
 
    private final double factor = 140.0;
@@ -28,8 +26,7 @@ public class Tracer {
    private final double adjustment = factor / iterations;
 
    public Tracer(Scene scene, int maxDepth) {
-      _scene = scene;
-      _maxDepth = maxDepth;
+      super(scene, maxDepth);
    }
 
 
@@ -43,7 +40,7 @@ public class Tracer {
 
       double brightness = 0;
 
-      IntersectionState closestStateToRay = _scene.GetClosestDrawableToRay(ray);
+      IntersectionState closestStateToRay = scene.GetClosestDrawableToRay(ray);
 
       if (closestStateToRay == null) {
          if (depth == 1) {
@@ -72,7 +69,7 @@ public class Tracer {
 
       Material objectMaterial = closestDrawable.GetMaterial();
 
-      for (Radiatable radiatable : _scene.Radiatables) {
+      for (Radiatable radiatable : scene.Radiatables) {
          Point intersectionPoint = closestStateToRay.IntersectionPoint;
 
          for (int i = 0; i < iterations; i++) {
@@ -80,7 +77,7 @@ public class Tracer {
             Point radiatableLocation = radiatable.getRandomPointOnSurface();
 
             Ray lightRayFromCurrentRadiatableToClosestDrawable = intersectionPoint.CreateVectorFrom(radiatableLocation);
-            IntersectionState potentialOccluder = _scene.GetClosestDrawableToRay(lightRayFromCurrentRadiatableToClosestDrawable);
+            IntersectionState potentialOccluder = scene.GetClosestDrawableToRay(lightRayFromCurrentRadiatableToClosestDrawable);
 
             if (potentialOccluder == null || potentialOccluder.Drawable.equals(closestStateToRay.Drawable) || potentialOccluder.Drawable.equals(radiatable)) {
                double oneOverDistanceFromLightSource = 1 / Math.sqrt(radiatableLocation.SquaredDistanceBetween(closestStateToRay.IntersectionPoint));
@@ -109,7 +106,7 @@ public class Tracer {
       Color calculatedColor = Color.getHSBColor(hsbColor[0], hsbColor[1], hsbColor[2]);
 
       // base case
-      if (depth >= _maxDepth) {
+      if (depth >= maxDepth) {
          colorWithStatistics.Color = calculatedColor;
          return colorWithStatistics;
       }

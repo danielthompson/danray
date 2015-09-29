@@ -10,8 +10,6 @@ import java.util.Random;
  */
 public class MonteCarloCalculations {
 
-   public static Random random = new Random();
-
    /**
     * Generates a location on the unit disc.
     * @return An array {x, y} such that (x, y) is inside the unit disc.
@@ -22,8 +20,8 @@ public class MonteCarloCalculations {
       double y;
 
       do {
-         x = 1 - 2 * random.nextDouble();
-         y = 1 - 2 * random.nextDouble();
+         x = 1 - 2 * GeometryCalculations.random.nextDouble();
+         y = 1 - 2 * GeometryCalculations.random.nextDouble();
       } while (x * x + y * y > 1);
 
       return new double[] {x, y};
