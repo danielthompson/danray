@@ -151,7 +151,9 @@ public class TraceManager {
          if (_tracerOptions.displayAllPaths) {
 
             for (int k = 2; k <= _qualityPreset.getMaxDepth(); k++) {
-               for (int s = 1; s <= k + 1; s++) {
+               //for (int s = 1; s <= k + 1; s++) {
+                  //int k = 2;
+                  int s = 1;
                   int t = k + 1 - s;
                   SetupFrame(s, t);
                   Trace(i, s, t);
@@ -159,9 +161,9 @@ public class TraceManager {
                   Save(_traceImage, "trace" + getOutputString(k, s, t));
                   Save(_countImage, "count" + getOutputString(k, s, t));
                   TeardownFrame();
-                  break;
-               }
-               break;
+                  //break;
+               //}
+               //break;
             }
          }
          else {

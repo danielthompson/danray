@@ -327,14 +327,14 @@ public class SceneBuilder {
       settings.Y = y;
       settings.FocalLength = 1200;
       settings.Rotation = 0;
-      settings.ZoomFactor =  10;
+      settings.ZoomFactor =  1;
       settings.FocusDistance = 500;
       settings.Aperture = new CircleAperture(20);
 
-      Point origin = new Point(0, 1500, -500);
+      Point origin = new Point(0, 1500, -3000);
       //Point origin = new Point(0, 1500, -3000);
-      Vector direction = new Vector(0, -0.25, -1);
-      //Vector direction = new Vector(0, -.1, -1);
+      //Vector direction = new Vector(0, -1, 0);
+      Vector direction = new Vector(0, -.25, -1);
       settings.Orientation = new Ray(origin, direction);
 
       Camera camera = new SimplePointableCamera(settings);
@@ -343,7 +343,7 @@ public class SceneBuilder {
 
       //SpectralBlender.setFilmSpeed(100000000000000000000000000000000f);
       //SpectralBlender.setFilmSpeed(10000f);
-      SpectralBlender.setFilmSpeed(10f);
+      SpectralBlender.setFilmSpeed(100000f);
 
       SPDFileImporter spdFileImporter = new SPDFileImporter(new File("spds/softblue.spd"));
       SpectralPowerDistribution softblue = spdFileImporter.Process();
@@ -353,15 +353,15 @@ public class SceneBuilder {
 
       // top light
 
-      SpectralPowerDistribution lightSPD = SpectralPowerDistribution.scale(d65, 15);
+      SpectralPowerDistribution lightSPD = SpectralPowerDistribution.scale(d65, .015);
 
       Material material = new Material();
 
       material.Color = Color.white;
 
       SpectralSphereLight light = new SpectralSphereLight(100, material, lightSPD);
-      light.Origin = new Point(1000, 5000, -1500);
-      light.Radius = 50;
+      light.Origin = new Point(1500, 5500, -5000);
+      light.Radius = 1000;
 
       light.ID = getNextID();
 
@@ -390,7 +390,7 @@ public class SceneBuilder {
 
       Sphere sphere = new Sphere(1, worldToObject, objectToWorld, material);
       sphere.Origin = new Point(0, 0, 0);
-      //scene.addDrawableObject(sphere);
+      scene.addDrawableObject(sphere);
 
 
 

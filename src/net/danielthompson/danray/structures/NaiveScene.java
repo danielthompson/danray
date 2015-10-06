@@ -49,7 +49,7 @@ public class NaiveScene extends Scene {
          statistics.DrawableIntersections++;
          state.Statistics = statistics;
 
-         if (state.Hits && state.TMin > t0 && state.TMin < t1) {
+         if (state.Hits && state.TMin > (t0 + Constants.Epsilon) && (state.TMin + Constants.Epsilon) < t1) {
             if (closestStateToRay == null) {
                closestStateToRay = state;
             }

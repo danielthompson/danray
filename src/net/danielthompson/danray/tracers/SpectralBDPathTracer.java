@@ -3,6 +3,7 @@ package net.danielthompson.danray.tracers;
 import net.danielthompson.danray.lights.SpectralRadiatable;
 import net.danielthompson.danray.lights.SpectralSphereLight;
 import net.danielthompson.danray.shading.Material;
+import net.danielthompson.danray.shading.RelativeSpectralPowerDistributionLibrary;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.shading.SpectralReflectanceCurve;
 import net.danielthompson.danray.shading.bxdf.BRDF;
@@ -32,7 +33,7 @@ public class SpectralBDPathTracer extends BaseTracer {
    }
 
    public SpectralPowerDistribution GetSPDForRay(Ray ray, int depth) {
-
+      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution();
       IntersectionState closestStateToRay = scene.GetClosestDrawableToRay(ray);
 
       // degenerate cases
@@ -63,8 +64,12 @@ public class SpectralBDPathTracer extends BaseTracer {
 
       ArrayList<LightVertex> eyeVertices = getEyeVertices(ray);
 
-      if (eyeVertices.size() > numFixedEyeVertices) {
-         ;
+      int i = 10;
+
+      while (eyeVertices.size() != numFixedEyeVertices) {
+         eyeVertices = getEyeVertices(ray);
+         if (i-- == 0)
+            return lightSPD;
       }
 
       /// combine into passages
@@ -75,7 +80,7 @@ public class SpectralBDPathTracer extends BaseTracer {
 
       /// COMBINE ALL PATHS ///
 
-      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution();
+
 
       //lightSPD = combineV1(ray, closestStateToRay, lightPaths);
       lightSPD = combineV2(lightVertices, eyeVertices);
@@ -191,16 +196,17 @@ public class SpectralBDPathTracer extends BaseTracer {
    }
 
    public SpectralPowerDistribution combineV2(ArrayList<LightVertex> lightVertices, ArrayList<LightVertex> eyeVertices) {
-      SpectralPowerDistribution spd = new SpectralPowerDistribution();
+      SpectralPowerDistribution vertexSPD = new SpectralPowerDistribution();
 
       for (int i = eyeVertices.size() - 1; i >= 1; i--) {
 
          LightVertex eyeVertex = eyeVertices.get(i);
-         if (eyeVertex.curve == null) {
-            int foo = 2;
-         }
 
          SpectralPowerDistribution outgoing = new SpectralPowerDistribution();
+
+         // get direct contribution
+
+        // for (int j = 0; j < lightVertices.size(); j++) {
 
          if (lightVertices.size() > 0) {
             // the first light vertex should be a point on a light.
@@ -212,29 +218,64 @@ public class SpectralBDPathTracer extends BaseTracer {
             SpectralRadiatable light = lightVertex.radiatable;
             Vector directionFromLightToPoint = Vector.Minus(eyeVertex.surfacePoint, lightVertex.surfacePoint);
             double lightDensityTowardsPoint = light.getPDF(eyeVertex.surfacePoint, directionFromLightToPoint);
-
-            if (lightDensityTowardsPoint > 0 || true) {
-
+//            outgoing = RelativeSpectralPowerDistributionLibrary.Blue.getSPD();
+//            outgoing.scale(lightDensityTowardsPoint * 1000);
+//            return outgoing;
+            if (lightDensityTowardsPoint > 0) {
                // check to see if the eye vertex's BRDF will reflect anything from the light back to the previous eye vertex
-
                Vector outgoingDirection = Vector.Scale(eyeVertex.incomingDirection, -1);
                outgoingDirection.Normalize();
                double brdfPDF = eyeVertex.surfaceBRDF.f(directionFromLightToPoint, eyeVertex.surfaceNormal, outgoingDirection);
-
-               if (brdfPDF > 0 || true) {
+//               outgoing = RelativeSpectralPowerDistributionLibrary.Blue.getSPD();
+//               outgoing.scale(brdfPDF * 10);
+//               return outgoing;
+               if (brdfPDF > 0 ) {
                   Ray connectingRay = new Ray(lightVertex.surfacePoint, directionFromLightToPoint);
                   double maxT = connectingRay.GetTAtPoint(eyeVertex.surfacePoint);
                   IntersectionState potentialOccluder = scene.GetClosestDrawableHitBetween(connectingRay, 0, maxT);
-                  if (potentialOccluder == null || potentialOccluder == light) {
+//                  SpectralPowerDistribution red = RelativeSpectralPowerDistributionLibrary.Red.getSPD();
+//                  SpectralPowerDistribution blue = RelativeSpectralPowerDistributionLibrary.Blue.getSPD();
+//
+//                  red.scale((potentialOccluder == null) ? 0 : 10);
+//
+//                  if (potentialOccluder == null) {
+//                     blue.scale(0);
+//                  } else {
+//                     blue.scale(potentialOccluder.Drawable == light ? 10 : 0);
+//                  }
+//
+//                  outgoing.add(blue);
+//                  outgoing.add(red);
+//
+//
+//                  return outgoing;
+                  if (potentialOccluder == null) {
                      double cosOutgoing = eyeVertex.surfaceNormal.Dot(eyeVertex.incomingDirection);
                      double factor = cosOutgoing * brdfPDF * lightDensityTowardsPoint;
-                     SpectralPowerDistribution lightSPD = SpectralPowerDistribution.scale(light.getSpectralPowerDistribution(), 1);
-                     spd.add(lightSPD);
+                     SpectralPowerDistribution directSPD = SpectralPowerDistribution.scale(light.getSpectralPowerDistribution(), factor);
+                     //directSPD.reflectOff(eyeVertex.curve);
+                     vertexSPD.add(directSPD.reflectOff(eyeVertex.curve));
                   }
                }
             }
          }
-/**/
+
+         LightVertex previousEyeVertex = null;
+         SpectralPowerDistribution previousVertexOutgoingSPD = null;
+
+         if (i < eyeVertices.size() - 1 && i >= 1) {
+            previousEyeVertex = eyeVertices.get(i + 1);
+            previousVertexOutgoingSPD = SpectralPowerDistribution.scale(vertexSPD, 1);
+            if (previousEyeVertex == null) {
+               int foo = 0;
+            }
+         }
+
+         if (previousEyeVertex != null) {
+
+
+         }
+
 //         /*
 //         for (int j = 1; j < lightVertices.size(); j++) {
 //            LightVertex lightPath = lightVertices.get(j);
@@ -287,19 +328,19 @@ public class SpectralBDPathTracer extends BaseTracer {
 //            }
 //
 //         }*/
-
-         spd.add(outgoing);
+         //vertexSPD.add(outgoing);
          if (eyeVertex.curve == null) {
             int foo = 2;
          }
 
-         spd = spd.reflectOff(eyeVertex.curve);
+         //vertexSPD = vertexSPD.reflectOff(eyeVertex.curve);
 
 
       }
 
-      return spd;
+      return vertexSPD;
    }
+
 
    public SpectralPowerDistribution combineV1(Ray initialRay, IntersectionState closestStateToRay, ArrayList<LightVertex> lightPaths) {
 
@@ -704,7 +745,7 @@ public class SpectralBDPathTracer extends BaseTracer {
 
                   int currentIteration = 2;
 
-                  while (proceed || currentIteration < numFixedLightVertices) {
+                  while (proceed || currentIteration < numFixedEyeVertices) {
                      Ray nextRay = new Ray(eyeVertex.surfacePoint, eyeVertex.incomingDirection);
                      eyeVertex = RandomWalkEyePath(nextRay);
                      if (eyeVertex == null)

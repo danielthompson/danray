@@ -30,4 +30,6 @@ public class Constants {
              && WithinEpsilon(p1.Y, p2.Y, Epsilon)
              && WithinEpsilon(p1.Z, p2.Z, Epsilon));
    }
+
+
 }
