@@ -1,5 +1,8 @@
 package net.danielthompson.danray;
 
+import com.jogamp.opengl.GLCapabilities;
+import com.jogamp.opengl.GLProfile;
+import com.jogamp.opengl.awt.GLCanvas;
 import net.danielthompson.danray.presets.RenderQualityPreset;
 import net.danielthompson.danray.presets.TracerOptions;
 import net.danielthompson.danray.runners.SpectralTileRunner;
@@ -11,6 +14,7 @@ import net.danielthompson.danray.structures.Scene;
 import net.danielthompson.danray.structures.Statistics;
 import net.danielthompson.danray.structures.Vector;
 import net.danielthompson.danray.tracers.SpectralBDPathTracer;
+import net.danielthompson.danray.tracers.SpectralPathTracer;
 import net.danielthompson.danray.tracers.SpectralTracer;
 import net.danielthompson.danray.tracers.Tracer;
 import net.danielthompson.danray.ui.*;
@@ -52,6 +56,8 @@ public class TraceManager {
    private CountCanvas _countCanvas;
    private Graphics _countGraphics;
    private Frame _countFrame;
+
+   private Frame _glFrame;
 /*
    private Graphics _infoGraphics;
    private InfoFrame _infoFrame;
@@ -78,7 +84,8 @@ public class TraceManager {
    Scene _scene;
 
    Tracer _tracer;
-   SpectralBDPathTracer _spectralTracer;
+   SpectralTracer _spectralTracer;
+
 
    int _xPointer;
    int _yPointer;
@@ -105,8 +112,9 @@ public class TraceManager {
       _samplesInverse = 1.0f / (renderQualityPreset.getSuperSamplesPerPixel() * renderQualityPreset.getSamplesPerPixel());
       _scene = scene;
       _tracer = new Tracer(_scene, renderQualityPreset.getMaxDepth());
-      _spectralTracer = new SpectralBDPathTracer(_scene, renderQualityPreset.getMaxDepth());
+      //_spectralTracer = new SpectralBDPathTracer(_scene, renderQualityPreset.getMaxDepth());
       //_spectralTracer = new SpectralPathTracer(_scene, renderQualityPreset.getMaxDepth());
+      _spectralTracer = new SpectralTracer(_scene, renderQualityPreset.getMaxDepth());
       _timer = new Timer();
 
       _numPixels = renderQualityPreset.getX() * renderQualityPreset.getY();
@@ -188,6 +196,16 @@ public class TraceManager {
    public void SetupWindows() {
 
       if (_tracerOptions.showWindows) {
+
+         // gl window
+         _glFrame = new Frame("OpenGL view");
+         GLProfile.initSingleton();
+         GLProfile glp = GLProfile.getDefault();
+         GLCapabilities caps = new GLCapabilities(glp);
+         GLCanvas canvas = new GLCanvas(caps);
+         _glFrame.add(canvas);
+         _glFrame.setSize(new Dimension(_qualityPreset.getX(), _qualityPreset.getY() + 22));
+         _glFrame.setVisible(true);
 
          // count window
 
@@ -348,9 +366,11 @@ public class TraceManager {
 
       //Runnable runner = new TileRunner(this, _tracer, _scene, _qualityPreset, frame);
 
+      /*
       if (s >= 0 || t >= 0) {
          _spectralTracer.setDebug(s, t);
       }
+      */
 
       if (_tracerOptions.numThreads <= 1) {
          runner.run();

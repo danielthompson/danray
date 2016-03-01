@@ -25,7 +25,7 @@ public class LambertianBRDF extends BRDF {
 
    @Override
    public Vector getVectorInPDF(Normal normal, Vector incoming) {
-      double[] xyz = GeometryCalculations.randomPointOnSphere();
+      double[] xyz = GeometryCalculations.randomPointOnPregeneratedSphere();
 
       Vector outgoing = new Vector(xyz[0], xyz[1], xyz[2]);
 

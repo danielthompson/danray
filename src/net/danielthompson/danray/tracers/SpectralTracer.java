@@ -54,11 +54,20 @@ public class SpectralTracer extends BaseTracer {
             // move the origin slightly outwards, in case we self-intersect
             Point origin = lightRayFromCurrentRadiatableToClosestDrawable.Origin;
             Vector direction = lightRayFromCurrentRadiatableToClosestDrawable.Direction;
-            Vector offset = Vector.Scale(direction, -.0000001);
+            Vector offset = Vector.Scale(direction, .000001);
             origin.Plus(offset);
             IntersectionState potentialOccluder = scene.GetClosestDrawableToRay(lightRayFromCurrentRadiatableToClosestDrawable);
 
-            if (potentialOccluder == null || (potentialOccluder.Drawable.equals(closestStateToRay.Drawable) && Constants.WithinEpsilon(potentialOccluder.IntersectionPoint, closestStateToRay.IntersectionPoint)) || potentialOccluder.Drawable.equals(radiatable)) {
+            boolean noOccluder = (potentialOccluder == null);
+
+            boolean occluderIsDrawable = (
+                  potentialOccluder.Drawable.equals(closestStateToRay.Drawable)
+                        && Constants.WithinEpsilon(potentialOccluder.IntersectionPoint, closestStateToRay.IntersectionPoint)
+            );
+
+            boolean occluderIsLight = potentialOccluder.Drawable.equals(radiatable);
+
+            if (noOccluder || occluderIsDrawable || occluderIsLight) {
 
                double oneOverDistanceFromLightSource = 1 / Math.sqrt(radiatableLocation.SquaredDistanceBetween(closestStateToRay.IntersectionPoint));
                oneOverDistanceFromLightSource *= oneOverDistanceFromLightSource;

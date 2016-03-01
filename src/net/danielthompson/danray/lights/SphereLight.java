@@ -61,7 +61,7 @@ public class SphereLight extends Sphere implements Radiatable {
    @Override
    public Point getRandomPointOnSurface() {
 
-      double[] xyz = GeometryCalculations.randomPointOnSphere();
+      double[] xyz = GeometryCalculations.randomPointOnPregeneratedSphere();
 
       Point point = new Point(xyz);
 
@@ -111,7 +111,7 @@ public class SphereLight extends Sphere implements Radiatable {
 
       Vector v = new Vector(point.X, point.Y, point.Z);
 
-      Vector direction = new Vector(GeometryCalculations.randomPointOnSphere());
+      Vector direction = new Vector(GeometryCalculations.randomPointOnPregeneratedSphere());
 
       if (v.Dot(direction) < 0)
          direction.Scale(-1);

@@ -342,8 +342,8 @@ public class SceneBuilder {
       Scene scene = new NaiveScene(camera);
 
       //SpectralBlender.setFilmSpeed(100000000000000000000000000000000f);
-      //SpectralBlender.setFilmSpeed(10000f);
-      SpectralBlender.setFilmSpeed(100000f);
+      //SpectralBlender.setFilmSpeed(1f);
+      SpectralBlender.setFilmSpeed(1000000000f);
 
       SPDFileImporter spdFileImporter = new SPDFileImporter(new File("spds/softblue.spd"));
       SpectralPowerDistribution softblue = spdFileImporter.Process();
