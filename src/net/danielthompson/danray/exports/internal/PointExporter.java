@@ -1,6 +1,6 @@
 package net.danielthompson.danray.exports.internal;
 
-import net.danielthompson.danray.structures.Transform;
+import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Vector;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -8,10 +8,10 @@ import org.w3c.dom.Element;
 /**
  * Created by dthompson on 3/2/2016.
  */
-public class VectorExporter {
-   public static Element Process(Vector object, Document document, Element parent) {
+public class PointExporter {
+   public static Element Process(Point object, Document document, Element parent) {
 
-      Element rootElement = document.createElement("Vector");
+      Element rootElement = document.createElement("Point");
       rootElement.setAttribute("X", String.valueOf(object.X));
       rootElement.setAttribute("Y", String.valueOf(object.Y));
       rootElement.setAttribute("Z", String.valueOf(object.Z));

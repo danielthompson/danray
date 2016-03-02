@@ -1,14 +1,10 @@
 package test.exports;
 
 import net.danielthompson.danray.exports.SPDFileExporter;
-import net.danielthompson.danray.exports.internal.IExporter;
-import net.danielthompson.danray.exports.internal.TransformExporter;
-import net.danielthompson.danray.exports.internal.UnitTestExporter;
-import net.danielthompson.danray.exports.internal.VectorExporter;
+import net.danielthompson.danray.exports.internal.*;
 import net.danielthompson.danray.shading.RelativeSpectralPowerDistributionLibrary;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
-import net.danielthompson.danray.structures.Transform;
-import net.danielthompson.danray.structures.Vector;
+import net.danielthompson.danray.structures.*;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -78,6 +74,70 @@ public class XMLExportTests {
          public Element Process(Document document, Element root) {
 
             return VectorExporter.Process(object, document, root);
+         }
+
+      };
+
+      unitTestExporter.Process(exporter);
+   }
+
+   @Test
+   public void testPointExport() throws Exception {
+
+      final Point object = new Point(500.23, 200, -219.13857);
+
+      File file = new File(_dir, "point.xml");
+
+      final UnitTestExporter unitTestExporter = new UnitTestExporter(file);
+
+      IExporter exporter = new IExporter() {
+         @Override
+         public Element Process(Document document, Element root) {
+
+            return PointExporter.Process(object, document, root);
+         }
+
+      };
+
+      unitTestExporter.Process(exporter);
+   }
+
+
+   @Test
+   public void testNormalExport() throws Exception {
+
+      final Normal object = new Normal(500.23, 200, -219.13857);
+
+      File file = new File(_dir, "normal.xml");
+
+      final UnitTestExporter unitTestExporter = new UnitTestExporter(file);
+
+      IExporter exporter = new IExporter() {
+         @Override
+         public Element Process(Document document, Element root) {
+
+            return NormalExporter.Process(object, document, root);
+         }
+
+      };
+
+      unitTestExporter.Process(exporter);
+   }
+
+   @Test
+   public void testRayExport() throws Exception {
+
+      final Ray object = new Ray(new Point(123, -456, -78.932), new Vector(55.23, 200, -219.13857));
+
+      File file = new File(_dir, "ray.xml");
+
+      final UnitTestExporter unitTestExporter = new UnitTestExporter(file);
+
+      IExporter exporter = new IExporter() {
+         @Override
+         public Element Process(Document document, Element root) {
+
+            return RayExporter.Process(object, document, root);
          }
 
       };

@@ -15,17 +15,17 @@ import javax.xml.transform.stream.StreamResult;
  */
 public class TransformExporter {
 
-   public static Element Process(Transform transform, Document document, Element parent) {
+   public static Element Process(Transform object, Document document, Element parent) {
 
       Element rootElement = document.createElement("Transform");
       parent.appendChild(rootElement);
 
       Element matrix = document.createElement("Matrix");
-      processMatrix(transform._matrix, document, matrix);
+      processMatrix(object._matrix, document, matrix);
       rootElement.appendChild(matrix);
 
       Element inverse = document.createElement("Inverse");
-      processMatrix(transform._inverse, document, inverse);
+      processMatrix(object._inverse, document, inverse);
       rootElement.appendChild(inverse);
 
       return rootElement;
