@@ -6,7 +6,7 @@ import org.apache.commons.math3.util.FastMath;
  * Created by daniel on 2/1/15.
  */
 public class Transform {
-   private Matrix4x4 _matrix, _inverse;
+   public Matrix4x4 _matrix, _inverse;
 
    /**
     * Creates a new Transform with an identity matrix.

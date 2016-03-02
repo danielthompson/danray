@@ -548,7 +548,6 @@ public class SpectralBDPathTracer extends BaseTracer {
       public BRDF surfaceBRDF;
       public IntersectionState state;
       public Normal surfaceNormal;
-      public double outgoingPDF;
       public double calculatedPDF;
 
       /**
@@ -682,6 +681,10 @@ public class SpectralBDPathTracer extends BaseTracer {
          BRDF brdf = objectMaterial.BRDF;
          Vector outgoingDirection = brdf.getVectorInPDF(intersectionNormal, incomingDirection);
          double calculatedPDF = brdf.f(incomingDirection, intersectionNormal, outgoingDirection);
+
+         if (previousVertex.outgoingSPD == null) {
+            int i = 0;
+         }
 
          SpectralPowerDistribution incomingSPD = SpectralPowerDistribution.scale(previousVertex.outgoingSPD, 1);
 

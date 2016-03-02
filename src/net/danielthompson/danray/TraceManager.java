@@ -1,8 +1,8 @@
 package net.danielthompson.danray;
 
-import com.jogamp.opengl.GLCapabilities;
-import com.jogamp.opengl.GLProfile;
-import com.jogamp.opengl.awt.GLCanvas;
+//import com.jogamp.opengl.GLCapabilities;
+//import com.jogamp.opengl.GLProfile;
+//import com.jogamp.opengl.awt.GLCanvas;
 import net.danielthompson.danray.presets.RenderQualityPreset;
 import net.danielthompson.danray.presets.TracerOptions;
 import net.danielthompson.danray.runners.SpectralTileRunner;
@@ -199,11 +199,11 @@ public class TraceManager {
 
          // gl window
          _glFrame = new Frame("OpenGL view");
-         GLProfile.initSingleton();
-         GLProfile glp = GLProfile.getDefault();
-         GLCapabilities caps = new GLCapabilities(glp);
-         GLCanvas canvas = new GLCanvas(caps);
-         _glFrame.add(canvas);
+         //GLProfile.initSingleton();
+         //GLProfile glp = GLProfile.getDefault();
+         //GLCapabilities caps = new GLCapabilities(glp);
+         //GLCanvas canvas = new GLCanvas(caps);
+         //_glFrame.add(canvas);
          _glFrame.setSize(new Dimension(_qualityPreset.getX(), _qualityPreset.getY() + 22));
          _glFrame.setVisible(true);
 
