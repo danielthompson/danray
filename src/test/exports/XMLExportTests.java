@@ -144,4 +144,26 @@ public class XMLExportTests {
 
       unitTestExporter.Process(exporter);
    }
+
+
+   @Test
+   public void testBoundingBoxExport() throws Exception {
+
+      final BoundingBox object = new BoundingBox(new Point(-123, -456, -78.932), new Point(55.23, 200, 219.13857));
+
+      File file = new File(_dir, "boundingbox.xml");
+
+      final UnitTestExporter unitTestExporter = new UnitTestExporter(file);
+
+      IExporter exporter = new IExporter() {
+         @Override
+         public Element Process(Document document, Element root) {
+
+            return BoundingBoxExporter.Process(object, document, root);
+         }
+
+      };
+
+      unitTestExporter.Process(exporter);
+   }
 }
