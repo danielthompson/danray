@@ -22,46 +22,6 @@ public class Material {
    public double _indexOfRefraction;
    public double _specular;
 
-   public void setColor(Color color) {
-      Color = color;
-   }
-
-   public double getReflectivity() {
-      return _reflectivity;
-   }
-
-   public void setReflectivity(double reflectivity) {
-      _reflectivity = reflectivity;
-   }
-
-   public void setSpecular(double specular) {
-      _specular = specular;
-   }
-
-   public double getDiffuse() {
-      return 1.0 - _specular;
-   }
-
-   public void setDiffuse(double diffuse) {
-      _specular = 1.0 - diffuse;
-   }
-
-   public double getTransparency() {
-      return _transparency;
-   }
-
-   public void setTransparency(double transparency) {
-      _transparency = transparency;
-   }
-
-   public double getIndexOfRefraction() {
-      return _indexOfRefraction;
-   }
-
-   public void setIndexOfRefraction(double indexOfRefraction) {
-      _indexOfRefraction = indexOfRefraction;
-   }
-
    public Material() {
 
    }

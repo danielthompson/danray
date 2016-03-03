@@ -110,7 +110,7 @@ public class GeometryCalculations {
       normal.Normalize();
 
       double n1 = oldIndexOfRefraction;
-      double n2 = state.Drawable.GetMaterial().getIndexOfRefraction();
+      double n2 = state.Drawable.GetMaterial()._indexOfRefraction;
       double nRatio = n1 / n2;
 
       double cosTheta1 = -normal.Dot(incomingRay.Direction);

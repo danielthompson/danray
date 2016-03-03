@@ -23,6 +23,8 @@ import java.awt.*;
 import java.io.File;
 import java.util.*;
 
+import static java.awt.Color.*;
+
 /**
  * User: daniel
  * Date: 6/30/13
@@ -41,7 +43,7 @@ public class SceneBuilder {
 
       Material material = new Material();
 
-      material.setColor(Color.blue);
+      material.Color = blue;
 
       Sphere sphere = new Sphere(material);
       sphere.Origin = new Point(x / 2, y / 2, -300.0);
@@ -427,7 +429,7 @@ public class SceneBuilder {
 
       Material material = new Material();
 
-      material.setColor(Color.blue);
+      material.Color = blue;
 
       Sphere sphere1 = new Sphere(material);
       sphere1.Origin = new Point(50.0, 50.0, 40.0);
@@ -436,7 +438,7 @@ public class SceneBuilder {
       scene.addDrawableObject(sphere1);
 
       material = new Material();
-      material.setColor(new Color(255, 255, 128));
+      material.Color = new Color(255, 255, 128);
 
       Sphere sphere2 = new Sphere(material);
       sphere2.Origin = new Point(0.0, 0.0, 20.0);
@@ -445,7 +447,7 @@ public class SceneBuilder {
       scene.addDrawableObject(sphere2);
 
       material = new Material();
-      material.setColor(Color.green);
+      material.Color = green;
 
       Sphere sphere3 = new Sphere(material);
       sphere3.Origin = new Point(200.0, 200.0, 25.0);
@@ -480,9 +482,9 @@ public class SceneBuilder {
       Normal planeNormal = new Normal(0, 1, 0);
 
       Material material = new Material();
-      material.setColor(new Color(255, 240, 185));
-      material.setDiffuse(.5);
-      material.setReflectivity(.5);
+      material.Color = new Color(255, 240, 185);
+      material._specular = 1 - .5;
+      material._reflectivity = .5;
 
       ImplicitPlane plane = new ImplicitPlane(planeOrigin, planeNormal, material);
       scene.addDrawableObject(plane);
@@ -491,9 +493,9 @@ public class SceneBuilder {
 
       for (int i = 0; i < 9; i++) {
          material = new Material();
-         material.setColor(new Color(0, 131, 255));
-         material.setDiffuse(.5);
-         material.setReflectivity(.5);
+         material.Color = new Color(0, 131, 255);
+         material._specular = 1 - .5;
+         material._reflectivity = .5;
 
          Sphere sphere = new Sphere(material);
          int coord = -850 + (175 * i);
@@ -542,9 +544,9 @@ public class SceneBuilder {
       Normal planeNormal = new Normal(0, 1, 0);
 
       material = new Material();
-      material.setColor(new Color(182, 73, 38));
-      material.setDiffuse(.8);
-      material.setReflectivity(.2);
+      material.Color = new Color(182, 73, 38);
+      material._specular = 1 - .8;
+      material._reflectivity = .2;
 
       ImplicitPlane plane = new ImplicitPlane(planeOrigin, planeNormal, material);
       scene.addDrawableObject(plane);
@@ -555,9 +557,9 @@ public class SceneBuilder {
 
 
       material = new Material();
-      material.setColor(new Color(255, 131, 0));
-      material.setDiffuse(.8);
-      material.setReflectivity(.2);
+      material.Color = new Color(255, 131, 0);
+      material._specular = 1 - .8;
+      material._reflectivity = .2;
 
       plane = new ImplicitPlane(planeOrigin, planeNormal, material);
       scene.addDrawableObject(plane);
@@ -568,9 +570,9 @@ public class SceneBuilder {
       planeNormal = new Normal(0, 0, 1);
       
       material = new Material();
-      material.setColor(new Color(255, 240, 185));
-      material.setDiffuse(.5);
-      material.setReflectivity(.5);
+      material.Color = new Color(255, 240, 185);
+      material._specular = 1 - .5;
+      material._reflectivity = .5;
 
       plane = new ImplicitPlane(planeOrigin, planeNormal, material);
       scene.addDrawableObject(plane);
@@ -583,9 +585,9 @@ public class SceneBuilder {
       
 
       material = new Material();
-      material.setColor(new Color(255, 240, 185));
-      material.setDiffuse(.5);
-      material.setReflectivity(.5);
+      material.Color = new Color(255, 240, 185);
+      material._specular = 1 - .5;
+      material._reflectivity = .5;
 
       plane = new ImplicitPlane(planeOrigin, planeNormal, material);
       //scene.addDrawableObject(plane);
@@ -598,9 +600,9 @@ public class SceneBuilder {
       
 
       material = new Material();
-      material.setColor(new Color(255, 240, 185));
-      material.setDiffuse(.5);
-      material.setReflectivity(.5);
+      material.Color = new Color(255, 240, 185);
+      material._specular = 1 - .5;
+      material._reflectivity = .5;
 
       plane = new ImplicitPlane(planeOrigin, planeNormal, material);
       scene.addDrawableObject(plane);
@@ -613,9 +615,9 @@ public class SceneBuilder {
       
 
       material = new Material();
-      material.setColor(new Color(0, 131, 255));
-      material.setDiffuse(.8);
-      material.setReflectivity(.2);
+      material.Color = new Color(0, 131, 255);
+      material._specular = 1 - .8;
+      material._reflectivity = .2;
 
       plane = new ImplicitPlane(planeOrigin, planeNormal, material);
       scene.addDrawableObject(plane);
@@ -623,9 +625,9 @@ public class SceneBuilder {
       // box
 
       material = new Material();
-      material.setColor(new Color(131, 131, 255));
-      material.setDiffuse(.8);
-      material.setReflectivity(.2);
+      material.Color = new Color(131, 131, 255);
+      material._specular = 1 - .8;
+      material._reflectivity = .2;
 
       Box box = new Box(new Point(250, 550, 250), new Point(350, 650, 350), material);
       scene.addDrawableObject(box);
@@ -669,9 +671,9 @@ public class SceneBuilder {
       Normal planeNormal = new Normal(0, 0, 1);
 
       Material material = new Material();
-      material.setColor(new Color(255, 240, 185));
-      material.setDiffuse(.75);
-      material.setReflectivity(.25);
+      material.Color = new Color(255, 240, 185);
+      material._specular = 1 - .75;
+      material._reflectivity = .25;
 
       ImplicitPlane plane = new ImplicitPlane(planeOrigin, planeNormal, material);
       scene.addDrawableObject(plane);
@@ -697,10 +699,10 @@ public class SceneBuilder {
          Color color = new Color(red, green, blue);
 
          material = new Material();
-         material.setColor(color);
-         material.setReflectivity(.3);
-         material.setTransparency(0);
-         material.setDiffuse(.7);
+         material.Color = color;
+         material._reflectivity = .3;
+         material._transparency = 0;
+         material._specular = 1 - .7;
 
          Sphere sphere = new Sphere(material);
 
@@ -760,9 +762,9 @@ public class SceneBuilder {
       Normal planeNormal = new Normal(0, 0, 1);
 
       Material material = new Material();
-      material.setColor(new Color(255, 240, 185));
-      material.setDiffuse(.75);
-      material.setReflectivity(.25);
+      material.Color = new Color(255, 240, 185);
+      material._specular = 1 - .75;
+      material._reflectivity = .25;
 
       ImplicitPlane plane = new ImplicitPlane(planeOrigin, planeNormal, material);
       scene.addDrawableObject(plane);
@@ -816,10 +818,10 @@ public class SceneBuilder {
             Color color = new Color(red, green, blue);
 
             material = new Material();
-            material.setColor(color);
-            material.setReflectivity(.3);
-            material.setTransparency(0);
-            material.setDiffuse(.7);
+            material.Color = color;
+            material._reflectivity = .3;
+            material._transparency = 0;
+            material._specular = 1 - .7;
 
             Sphere sphere = new Sphere(material);
 
@@ -906,9 +908,9 @@ public class SceneBuilder {
       Normal planeNormal = new Normal(0, 0, 1);
 
       Material material = new Material();
-      material.setColor(new Color(255, 240, 185));
-      material.setDiffuse(.75);
-      material.setReflectivity(.25);
+      material.Color = new Color(255, 240, 185);
+      material._specular = 1 - .75;
+      material._reflectivity = .25;
 
       ImplicitPlane plane = new ImplicitPlane(planeOrigin, planeNormal, material);
       scene.addDrawableObject(plane);
@@ -922,10 +924,10 @@ public class SceneBuilder {
          material = new Material();
 
 
-         material.setColor(new Color(0, 131, 255));
-         material.setReflectivity(.2);
-         material.setTransparency(0);
-         material.setDiffuse(.8);
+         material.Color = new Color(0, 131, 255);
+         material._reflectivity = .2;
+         material._transparency = 0;
+         material._specular = 1 - .8;
          //material.setIndexOfRefraction(1.1);
 
          Sphere sphere = new Sphere(material);
@@ -978,10 +980,10 @@ public class SceneBuilder {
                   color = new Color(255, 176, 59);
                }*/
                material = new Material();
-               material.setColor(color);
-               material.setReflectivity(.3);
-               material.setTransparency(0);
-               material.setDiffuse(.7);
+            material.Color = color;
+            material._reflectivity = .3;
+            material._transparency = 0;
+            material._specular = 1 - .7;
 
                Sphere sphere = new Sphere(material);
 
@@ -1053,9 +1055,9 @@ public class SceneBuilder {
       Normal planeNormal = new Normal(0, 0, 1);
 
       Material material = new Material();
-      material.setColor(new Color(255, 240, 185));
-      material.setDiffuse(.75);
-      material.setReflectivity(.25);
+      material.Color = new Color(255, 240, 185);
+      material._specular = 1 - .75;
+      material._reflectivity = .25;
 
       Point b0 = new Point(-10000, -10000, -1);
       Point b1 = new Point(10000, 10000, 0);
@@ -1079,10 +1081,10 @@ public class SceneBuilder {
 
                material = new Material();
 
-               material.setColor(new Color(0, 131, 255));
-               material.setReflectivity(.2);
-               material.setTransparency(0);
-               material.setDiffuse(.8);
+               material.Color = new Color(0, 131, 255);
+               material._reflectivity = .2;
+               material._transparency = 0;
+               material._specular = 1 - .8;
                //material.setIndexOfRefraction(1.1);
 
                Sphere sphere = new Sphere(material);
@@ -1165,9 +1167,9 @@ public class SceneBuilder {
       KDScene scene = new KDScene(null);
 
       Material material = new Material();
-      material.setColor(Color.blue);
-      material.setDiffuse(0);
-      material.setReflectivity(0);
+      material.Color = blue;
+      material._specular = 1 - 0;
+      material._reflectivity = 0;
 
       Sphere sphere = new Sphere(material);
       sphere.Origin = new Point(x / 3, y / 2, 0.0);
@@ -1176,9 +1178,9 @@ public class SceneBuilder {
       scene.addDrawableObject(sphere);
 
       material = new Material();
-      material.setColor(Color.red);
-      material.setDiffuse(0);
-      material.setReflectivity(0);
+      material.Color = red;
+      material._specular = 1 - 0;
+      material._reflectivity = 0;
 
       sphere = new Sphere(material);
       sphere.Origin = new Point(2 * x / 3, y / 2, 0.0);
@@ -1200,10 +1202,10 @@ public class SceneBuilder {
 
       WavefrontObjectImporter importer = new WavefrontObjectImporter(new File("models/teapot.obj"));
       Material material = new Material();
-      material.setColor(new Color(182, 73, 38));
-      material.setDiffuse(.5);
-      material.setReflectivity(.5);
-      material.setTransparency(0);
+      material.Color = new Color(182, 73, 38);
+      material._specular = 1 - .5;
+      material._reflectivity = .5;
+      material._transparency = 0;
 
       TriangleMesh mesh = importer.Process();
       mesh.SetMaterial(material);
@@ -1308,11 +1310,11 @@ public class SceneBuilder {
 
 
       material = new Material();
-      material.setColor(new Color(70, 137, 102));
-      material.setDiffuse(.2);
-      material.setReflectivity(0);
-      material.setTransparency(.8);
-      material.setIndexOfRefraction(1.2);
+      material.Color = new Color(70, 137, 102);
+      material._specular = 1 - .2;
+      material._reflectivity = 0;
+      material._transparency = .8;
+      material._indexOfRefraction = 1.2;
 
       sphere = new Sphere(material);
       sphere.Origin = new Point(-200, 700, 500.0);
@@ -1321,11 +1323,11 @@ public class SceneBuilder {
       //scene.addDrawableObject(sphere);
 
       material = new Material();
-      material.setColor(new Color(255, 240, 185));
-      material.setDiffuse(.5);
-      material.setReflectivity(.5);
-      material.setTransparency(0);
-      material.setIndexOfRefraction(1.0);
+      material.Color = new Color(255, 240, 185);
+      material._specular = 1 - .5;
+      material._reflectivity = .5;
+      material._transparency = 0;
+      material._indexOfRefraction = 1.0;
 
       sphere = new Sphere(material);
       sphere.Origin = new Point(500, 100, 600.0);
@@ -1335,10 +1337,10 @@ public class SceneBuilder {
 
       p0 = new Point(-100, -100, -100);
       p1 = new Point(100, 100, 100);
-      material.setColor(new Color(30, 120, 120));
-      material.setReflectivity(.4);
-      material.setSpecular(.3);
-      material.setDiffuse(.4);
+      material.Color = new Color(30, 120, 120);
+      material._reflectivity = .4;
+      material._specular = .3;
+      material._specular = 1 - .4;
 
       ArrayList<Transform> list = new ArrayList<>();
       list.add(Transform.Translate(new Vector(-200, 100, 1000)));
@@ -1362,10 +1364,10 @@ public class SceneBuilder {
          p1 = new Point(100, 100, 100);
 
          material = new Material();
-         material.setColor(new Color(0, i * 10, 220));
-         material.setReflectivity(.4);
-         material.setSpecular(.3);
-         material.setDiffuse(.4);
+         material.Color = new Color(0, i * 10, 220);
+         material._reflectivity = .4;
+         material._specular = .3;
+         material._specular = 1 - .4;
 
          list = new ArrayList<>();
 
@@ -1389,9 +1391,9 @@ public class SceneBuilder {
 
 
       material = new Material();
-      material.setColor(new Color(255, 176, 59));
-      material.setReflectivity(.01);
-      material.setDiffuse(.99);
+      material.Color = new Color(255, 176, 59);
+      material._reflectivity = .01;
+      material._specular = 1 - .99;
 
       sphere = new Sphere(material);
       sphere.Origin = new Point(-200, 100, 500);
@@ -1400,10 +1402,10 @@ public class SceneBuilder {
       scene.addDrawableObject(sphere);
 
       material = new Material();
-      material.setColor(new Color(182, 73, 38));
-      material.setReflectivity(.2);
+      material.Color = new Color(182, 73, 38);
+      material._reflectivity = .2;
       //material.setSpecular(.3);
-      material.setDiffuse(.8);
+      material._specular = 1 - .8;
 
       list = new ArrayList<>();
       list.add(Transform.Translate(new Vector(500, 200, 900)));
@@ -1423,10 +1425,10 @@ public class SceneBuilder {
       scene.addDrawableObject(sphere);
 
       material = new Material();
-      material.setColor(new Color(128, 38, 163));
-      material.setReflectivity(.2);
+      material.Color = new Color(128, 38, 163);
+      material._reflectivity = .2;
       //material.setSpecular(.3);
-      material.setDiffuse(.8);
+      material._specular = 1 - .8;
 
       list = new ArrayList<>();
       list.add(Transform.Translate(new Vector(400, 50, 400)));
@@ -1445,9 +1447,9 @@ public class SceneBuilder {
       scene.addDrawableObject(cylinder);
 
       material = new Material();
-      material.setColor(new Color(142, 40, 0));
-      material.setReflectivity(.95);
-      material.setDiffuse(.05);
+      material.Color = new Color(142, 40, 0);
+      material._reflectivity = .95;
+      material._specular = 1 - .05;
 
       sphere = new Sphere(material);
       sphere.Origin = new Point(160, 300, 300.0);
@@ -1462,9 +1464,9 @@ public class SceneBuilder {
       p1 = new Point(10000, 0, 10000);
 
       material = new Material();
-      material.setColor(new Color(255, 240, 185));
-      material.setDiffuse(.95);
-      material.setReflectivity(.05);
+      material.Color = new Color(255, 240, 185);
+      material._specular = 1 - .95;
+      material._reflectivity = .05;
 
       box = new Box(p0, p1, material);
 
@@ -1477,9 +1479,9 @@ public class SceneBuilder {
       p1 = new Point(10000, 1000, 10000);
 
       material = new Material();
-      material.setColor(new Color(255, 131, 0));
-      material.setDiffuse(.5);
-      material.setReflectivity(.5);
+      material.Color = new Color(255, 131, 0);
+      material._specular = 1 - .5;
+      material._reflectivity = .5;
 
       box = new Box(p0, p1, material);
 
@@ -1494,9 +1496,9 @@ public class SceneBuilder {
       Normal planeNormal = new Normal(0, 0, 1);
 
       material = new Material();
-      material.setColor(new Color(255, 240, 185));
-      material.setDiffuse(.75);
-      material.setReflectivity(.25);
+      material.Color = new Color(255, 240, 185);
+      material._specular = 1 - .75;
+      material._reflectivity = .25;
 
       box = new Box(p0, p1, material);
       scene.addDrawableObject(box);
@@ -1507,9 +1509,9 @@ public class SceneBuilder {
       p1 = new Point(10000, 10000, 5001);
 
       material = new Material();
-      material.setColor(new Color(255, 240, 185));
-      material.setDiffuse(.75);
-      material.setReflectivity(.25);
+      material.Color = new Color(255, 240, 185);
+      material._specular = 1 - .75;
+      material._reflectivity = .25;
 
       box = new Box(p0, p1, material);
       //scene.addDrawableObject(box);
@@ -1520,9 +1522,9 @@ public class SceneBuilder {
       p1 = new Point(-1001, 11000, 10000);
 
       material = new Material();
-      material.setColor(new Color(0, 131, 255));
-      material.setDiffuse(.75);
-      material.setReflectivity(.25);
+      material.Color = new Color(0, 131, 255);
+      material._specular = 1 - .75;
+      material._reflectivity = .25;
 
       box = new Box(p0, p1, material);
       //scene.addDrawableObject(box);
@@ -1534,9 +1536,9 @@ public class SceneBuilder {
 
 
       material = new Material();
-      material.setColor(new Color(0, 131, 255));
-      material.setDiffuse(.75);
-      material.setReflectivity(.25);
+      material.Color = new Color(0, 131, 255);
+      material._specular = 1 - .75;
+      material._reflectivity = .25;
 
       box = new Box(p0, p1, material);
       //scene.addDrawableObject(box);
@@ -1631,7 +1633,7 @@ public class SceneBuilder {
       // lights
 
       Material material = new Material();
-      material.setColor(new Color(64, 192, 255));
+      material.Color = new Color(64, 192, 255);
 
       Point location = new Point(250, 360, 600);
 
@@ -1652,7 +1654,7 @@ public class SceneBuilder {
 
 
       material = new Material();
-      material.setColor(new Color(255, 255, 64));
+      material.Color = new Color(255, 255, 64);
 
       sphereLight = new SphereLight(15, material);
       sphereLight.Origin = location;
@@ -1697,9 +1699,9 @@ public class SceneBuilder {
       Normal planeNormal = new Normal(0, 1, 0);
 
       material = new Material();
-      material.setColor(new Color(255, 131, 0));
-      material.setDiffuse(.5);
-      material.setReflectivity(.5);
+      material.Color = new Color(255, 131, 0);
+      material._specular = 1 - .5;
+      material._reflectivity = .5;
 
       ImplicitPlane plane = new ImplicitPlane(planeOrigin, planeNormal, material);
       scene.addDrawableObject(plane);
@@ -1712,9 +1714,9 @@ public class SceneBuilder {
       
 
       material = new Material();
-      material.setColor(new Color(255, 240, 185));
-      material.setDiffuse(1);
-      material.setReflectivity(0);
+      material.Color = new Color(255, 240, 185);
+      material._specular = 1 - 1;
+      material._reflectivity = 0;
 
       plane = new ImplicitPlane(planeOrigin, planeNormal, material);
       scene.addDrawableObject(plane);
@@ -1727,9 +1729,9 @@ public class SceneBuilder {
       
 
       material = new Material();
-      material.setColor(new Color(255, 240, 185));
-      material.setDiffuse(.9);
-      material.setReflectivity(.1);
+      material.Color = new Color(255, 240, 185);
+      material._specular = 1 - .9;
+      material._reflectivity = .1;
 
       plane = new ImplicitPlane(planeOrigin, planeNormal, material);
       scene.addDrawableObject(plane);
@@ -1742,9 +1744,9 @@ public class SceneBuilder {
       
 
       material = new Material();
-      material.setColor(new Color(0, 131, 255));
-      material.setDiffuse(1);
-      material.setReflectivity(0);
+      material.Color = new Color(0, 131, 255);
+      material._specular = 1 - 1;
+      material._reflectivity = 0;
 
       plane = new ImplicitPlane(planeOrigin, planeNormal, material);
       scene.addDrawableObject(plane);
@@ -1753,11 +1755,11 @@ public class SceneBuilder {
       // green sphere
 
       material = new Material();
-      material.setColor(new Color(70, 137, 102));
-      material.setDiffuse(.5);
-      material.setReflectivity(.5);
-      material.setTransparency(0);
-      material.setIndexOfRefraction(1.2);
+      material.Color = new Color(70, 137, 102);
+      material._specular = 1 - .5;
+      material._reflectivity = .5;
+      material._transparency = 0;
+      material._indexOfRefraction = 1.2;
 
       Sphere sphere = new Sphere(material);
       sphere.Origin = new Point(-200, 350, -100.0);
@@ -1768,11 +1770,11 @@ public class SceneBuilder {
       // green sphere
 
       material = new Material();
-      material.setColor(new Color(70, 137, 102));
-      material.setDiffuse(.5);
-      material.setReflectivity(.5);
-      material.setTransparency(0);
-      material.setIndexOfRefraction(1.2);
+      material.Color = new Color(70, 137, 102);
+      material._specular = 1 - .5;
+      material._reflectivity = .5;
+      material._transparency = 0;
+      material._indexOfRefraction = 1.2;
 
       sphere = new Sphere(material);
       sphere.Origin = new Point(500, 350, 500.0);
@@ -1783,11 +1785,11 @@ public class SceneBuilder {
       // white sphere
 
       material = new Material();
-      material.setColor(new Color(255, 240, 185));
-      material.setDiffuse(.1);
-      material.setReflectivity(.9);
-      material.setTransparency(0);
-      material.setIndexOfRefraction(1.3);
+      material.Color = new Color(255, 240, 185);
+      material._specular = 1 - .1;
+      material._reflectivity = .9;
+      material._transparency = 0;
+      material._indexOfRefraction = 1.3;
 
       sphere = new Sphere(material);
       sphere.Origin = new Point(500, 100, 600.0);
@@ -1798,9 +1800,9 @@ public class SceneBuilder {
       // big dark orange sphere
 
       material = new Material();
-      material.setColor(new Color(182, 73, 38));
-      material.setReflectivity(.5);
-      material.setDiffuse(.5);
+      material.Color = new Color(182, 73, 38);
+      material._reflectivity = .5;
+      material._specular = 1 - .5;
 
       sphere = new Sphere(material);
       sphere.Origin = new Point(800, 350, 1000.0);
@@ -1813,9 +1815,9 @@ public class SceneBuilder {
       // orange sphere
 
       material = new Material();
-      material.setColor(new Color(255, 176, 59));
-      material.setReflectivity(.5);
-      material.setDiffuse(.5);
+      material.Color = new Color(255, 176, 59);
+      material._reflectivity = .5;
+      material._specular = 1 - .5;
 
       sphere = new Sphere(material);
       sphere.Origin = new Point(-200, 100, 1000);
@@ -1826,9 +1828,9 @@ public class SceneBuilder {
       // tiny red sphere
 
       material = new Material();
-      material.setColor(new Color(142, 40, 0));
-      material.setReflectivity(.5);
-      material.setDiffuse(.5);
+      material.Color = new Color(142, 40, 0);
+      material._reflectivity = .5;
+      material._specular = 1 - .5;
 
       sphere = new Sphere(material);
       sphere.Origin = new Point(160, 300, 300.0);
@@ -1839,9 +1841,9 @@ public class SceneBuilder {
       // tiny blue sphere
 
       material = new Material();
-      material.setColor(new Color(62, 96, 111));
-      material.setReflectivity(.6);
-      material.setDiffuse(.4);
+      material.Color = new Color(62, 96, 111);
+      material._reflectivity = .6;
+      material._specular = 1 - .4;
 
       sphere = new Sphere(material);
       sphere.Origin = new Point(250, 300, 300.0);
@@ -1934,9 +1936,9 @@ public class SceneBuilder {
       Normal planeNormal = new Normal(0, 1, 0);
 
       material = new Material();
-      material.setColor(new Color(255, 131, 0));
-      material.setDiffuse(0);
-      material.setReflectivity(.1);
+      material.Color = new Color(255, 131, 0);
+      material._specular = 1 - 0;
+      material._reflectivity = .1;
 
       ImplicitPlane plane = new ImplicitPlane(planeOrigin, planeNormal, material);
       scene.addDrawableObject(plane);
@@ -1949,9 +1951,9 @@ public class SceneBuilder {
       
 
       material = new Material();
-      material.setColor(new Color(255, 240, 185));
-      material.setDiffuse(0);
-      material.setReflectivity(.25);
+      material.Color = new Color(255, 240, 185);
+      material._specular = 1 - 0;
+      material._reflectivity = .25;
 
       plane = new ImplicitPlane(planeOrigin, planeNormal, material);
       scene.addDrawableObject(plane);
@@ -1964,9 +1966,9 @@ public class SceneBuilder {
       
 
       material = new Material();
-      material.setColor(new Color(255, 240, 185));
-      material.setDiffuse(0);
-      material.setReflectivity(.25);
+      material.Color = new Color(255, 240, 185);
+      material._specular = 1 - 0;
+      material._reflectivity = .25;
 
       plane = new ImplicitPlane(planeOrigin, planeNormal, material);
       scene.addDrawableObject(plane);
@@ -1979,8 +1981,8 @@ public class SceneBuilder {
       
 
       material = new Material();
-      material.setColor(new Color(0, 131, 255));
-      material.setDiffuse(1);
+      material.Color = new Color(0, 131, 255);
+      material._specular = 1 - 1;
 
       plane = new ImplicitPlane(planeOrigin, planeNormal, material);
       scene.addDrawableObject(plane);
@@ -1989,11 +1991,11 @@ public class SceneBuilder {
       // left green sphere
 
       material = new Material();
-      material.setColor(new Color(70, 137, 102));
-      material.setDiffuse(.5);
-      material.setReflectivity(.5);
-      material.setTransparency(0);
-      material.setIndexOfRefraction(1.2);
+      material.Color = new Color(70, 137, 102);
+      material._specular = 1 - .5;
+      material._reflectivity = .5;
+      material._transparency = 0;
+      material._indexOfRefraction = 1.2;
 
       Sphere sphere = new Sphere(material);
       sphere.Origin = new Point(100, 350, -100.0);
@@ -2004,11 +2006,11 @@ public class SceneBuilder {
       // right green sphere
 
       material = new Material();
-      material.setColor(new Color(70, 137, 102));
-      material.setDiffuse(.5);
-      material.setReflectivity(.5);
-      material.setTransparency(0);
-      material.setIndexOfRefraction(1.2);
+      material.Color = new Color(70, 137, 102);
+      material._specular = 1 - .5;
+      material._reflectivity = .5;
+      material._transparency = 0;
+      material._indexOfRefraction = 1.2;
 
       sphere = new Sphere(material);
       sphere.Origin = new Point(500, 350, -100.0);
@@ -2068,7 +2070,7 @@ public class SceneBuilder {
 
       material = new Material();
       material.Color = new Color(255, 240, 185);
-      material.setDiffuse(1);
+      material._specular = 1 - 1;
 
       ImplicitPlane plane = new ImplicitPlane(planeOrigin, planeNormal, material);
       scene.addDrawableObject(plane);
@@ -2091,11 +2093,11 @@ public class SceneBuilder {
       // left green sphere
 
       material = new Material();
-      material.setColor(new Color(70, 137, 102));
-      material.setDiffuse(.5);
-      material.setReflectivity(.5);
-      material.setTransparency(0);
-      material.setIndexOfRefraction(1.2);
+      material.Color = new Color(70, 137, 102);
+      material._specular = 1 - .5;
+      material._reflectivity = .5;
+      material._transparency = 0;
+      material._indexOfRefraction = 1.2;
 
       Sphere sphere = new Sphere(material);
       sphere.Origin = new Point(-500, 300, 0.0);
@@ -2106,11 +2108,11 @@ public class SceneBuilder {
       // right green sphere
 
       material = new Material();
-      material.setColor(new Color(70, 137, 102));
-      material.setDiffuse(.5);
-      material.setReflectivity(.5);
-      material.setTransparency(0);
-      material.setIndexOfRefraction(1.2);
+      material.Color = new Color(70, 137, 102);
+      material._specular = 1 - .5;
+      material._reflectivity = .5;
+      material._transparency = 0;
+      material._indexOfRefraction = 1.2;
 
       sphere = new Sphere(material);
       sphere.Origin = new Point(500, 500, 0.0);
@@ -2121,11 +2123,11 @@ public class SceneBuilder {
       // middle
 
       material = new Material();
-      material.setColor(new Color(70, 137, 102));
-      material.setDiffuse(.5);
-      material.setReflectivity(.5);
-      material.setTransparency(0);
-      material.setIndexOfRefraction(1.2);
+      material.Color = new Color(70, 137, 102);
+      material._specular = 1 - .5;
+      material._reflectivity = .5;
+      material._transparency = 0;
+      material._indexOfRefraction = 1.2;
 
       sphere = new Sphere(material);
       sphere.Origin = new Point(0, 150, 0.0);
@@ -2140,8 +2142,8 @@ public class SceneBuilder {
       KDScene scene = new KDScene(null);
 
       Material material = new Material();
-      material.setColor(Color.blue);
-      material.setReflectivity(.33);
+      material.Color = blue;
+      material._reflectivity = .33;
       //material.setTransparency(.33);
       //material.setIndexOfRefraction(1.333);
 
@@ -2155,7 +2157,7 @@ public class SceneBuilder {
       Normal planeNormal = new Normal(0, 0, 1);
 
       material = new Material();
-      material.setColor(new Color(255, 131, 0));
+      material.Color = new Color(255, 131, 0);
       //material.setDiffuse(.5);
       //material.setReflectivity(0);
 

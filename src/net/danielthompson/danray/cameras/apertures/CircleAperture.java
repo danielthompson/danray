@@ -5,12 +5,10 @@ import net.danielthompson.danray.structures.Point;
 /**
  * Created by daniel on 3/4/14.
  */
-public class CircleAperture implements Aperture {
-
-   double _size;
+public class CircleAperture extends Aperture {
 
    public CircleAperture(double size) {
-      _size = size;
+      Size = size;
    }
 
    /*
@@ -42,8 +40,8 @@ public class CircleAperture implements Aperture {
          y = (Math.random() * 2.0 - 1.0);
       }
 
-      x *= _size * .5;
-      y *= _size * .5;
+      x *= Size * .5;
+      y *= Size * .5;
       double z = 0.0f;
 
       return new Point(x, y, z);

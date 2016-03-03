@@ -118,9 +118,9 @@ public class IntersectionTests {
       Point p1 = new Point(100, 100, 100);
 
       Material material = new Material();
-      material.setColor(new Color(30, 120, 120));
-      material.setReflectivity(.25);
-      material.setDiffuse(.75);
+      material.Color = new Color(30, 120, 120);
+      material._reflectivity = .25;
+      material._specular = 1 - .75;
 
       Transform t1 = Transform.Translate(new Vector(300, 500, 500));
       //Transform t1 = new Transform();

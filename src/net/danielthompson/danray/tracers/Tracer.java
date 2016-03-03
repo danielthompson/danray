@@ -160,9 +160,9 @@ public class Tracer extends BaseTracer {
             colorWithStatistics.Statistics.Add(refractedColor.Statistics);
          }
 */
-         float transparency = (float)objectMaterial.getTransparency();
+         float transparency = (float)objectMaterial._transparency;
          Color[] colors = new Color[] {calculatedColor, reflectedColor == null ? null : reflectedColor.Color, refractedColor == null ? null : refractedColor.Color };
-         float[] weights = new float[] { (float)objectMaterial.getDiffuse(), (float)reflectedWeight, transparency};
+         float[] weights = new float[] { (float)( 1- objectMaterial._specular), (float)reflectedWeight, transparency};
          Color blended = Blender.BlendRGB(colors, weights);
          colorWithStatistics.Color = blended;
          return colorWithStatistics;
