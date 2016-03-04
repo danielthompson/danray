@@ -3,8 +3,6 @@ package net.danielthompson.danray.utility;
 import net.danielthompson.danray.structures.Constants;
 import net.danielthompson.danray.structures.Vector;
 
-import java.util.Random;
-
 /**
  * Created by daniel on 8/29/15.
  */

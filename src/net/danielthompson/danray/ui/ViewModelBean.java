@@ -1,7 +1,5 @@
 package net.danielthompson.danray.ui;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 
 public class ViewModelBean implements Serializable {

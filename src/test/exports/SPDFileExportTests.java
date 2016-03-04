@@ -1,7 +1,6 @@
 package test.exports;
 
 import net.danielthompson.danray.exports.SPDFileExporter;
-import net.danielthompson.danray.imports.SPDFileImporter;
 import net.danielthompson.danray.shading.RelativeSpectralPowerDistributionLibrary;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import org.testng.annotations.AfterMethod;

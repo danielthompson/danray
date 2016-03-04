@@ -4,7 +4,6 @@ import net.danielthompson.danray.cameras.CameraSettings;
 import net.danielthompson.danray.cameras.apertures.Aperture;
 import net.danielthompson.danray.cameras.apertures.CircleAperture;
 import net.danielthompson.danray.cameras.apertures.SquareAperture;
-import net.danielthompson.danray.exports.SPDFileExporter;
 import net.danielthompson.danray.exports.internal.*;
 import net.danielthompson.danray.shading.*;
 import net.danielthompson.danray.shading.bxdf.BRDF;
@@ -18,7 +17,6 @@ import org.testng.annotations.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import javax.xml.transform.stream.StreamResult;
 import java.awt.*;
 import java.io.File;
 

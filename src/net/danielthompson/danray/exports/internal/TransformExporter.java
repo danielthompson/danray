@@ -5,11 +5,6 @@ import net.danielthompson.danray.structures.Transform;
 import org.w3c.dom.Element;
 import org.w3c.dom.Document;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
 /**
  * Created by dthompson on 3/1/2016.
  */

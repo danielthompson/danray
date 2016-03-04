@@ -1,7 +1,6 @@
 package net.danielthompson.danray.exports.internal;
 
 import net.danielthompson.danray.cameras.apertures.Aperture;
-import net.danielthompson.danray.structures.BoundingBox;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

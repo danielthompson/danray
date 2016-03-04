@@ -2,7 +2,6 @@ package test.structures.matrix4x4;
 
 import junit.framework.Assert;
 import net.danielthompson.danray.structures.Matrix4x4;
-import net.danielthompson.danray.structures.Transform;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

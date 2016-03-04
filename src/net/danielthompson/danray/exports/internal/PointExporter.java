@@ -1,7 +1,6 @@
 package net.danielthompson.danray.exports.internal;
 
 import net.danielthompson.danray.structures.Point;
-import net.danielthompson.danray.structures.Vector;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

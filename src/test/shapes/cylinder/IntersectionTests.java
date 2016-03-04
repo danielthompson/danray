@@ -1,15 +1,12 @@
 package test.shapes.cylinder;
 
 import net.danielthompson.danray.shading.Material;
-import net.danielthompson.danray.shapes.Box;
 import net.danielthompson.danray.shapes.Cylinder;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.structures.Point;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.awt.*;
 
 /**
  * Created by daniel on 2/15/15.

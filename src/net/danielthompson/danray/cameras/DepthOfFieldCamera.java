@@ -1,6 +1,5 @@
 package net.danielthompson.danray.cameras;
 
-import net.danielthompson.danray.structures.Constants;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Vector;

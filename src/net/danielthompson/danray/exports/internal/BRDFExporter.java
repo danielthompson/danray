@@ -4,8 +4,6 @@ import net.danielthompson.danray.shading.bxdf.BRDF;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import java.awt.*;
-
 /**
  * Created by dthompson on 3/2/2016.
  */

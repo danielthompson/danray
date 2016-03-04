@@ -2,7 +2,6 @@ package net.danielthompson.danray.lights;
 
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.shapes.Sphere;
-import net.danielthompson.danray.structures.Constants;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Vector;

@@ -3,7 +3,6 @@ package test.camera.aperture;
 import net.danielthompson.danray.cameras.apertures.Aperture;
 import net.danielthompson.danray.cameras.apertures.CircleAperture;
 import net.danielthompson.danray.cameras.apertures.SquareAperture;
-import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.ui.MainCanvas;
 import org.testng.annotations.Test;

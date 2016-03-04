@@ -4,7 +4,6 @@ import net.danielthompson.danray.acceleration.KDAxis;
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.*;
-import net.danielthompson.danray.structures.Point;
 
 /**
  * DanRay

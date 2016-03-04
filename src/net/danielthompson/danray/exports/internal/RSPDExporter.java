@@ -1,7 +1,6 @@
 package net.danielthompson.danray.exports.internal;
 
 import net.danielthompson.danray.shading.RelativeSpectralPowerDistribution;
-import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

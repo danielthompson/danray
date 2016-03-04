@@ -1,7 +1,6 @@
 package net.danielthompson.danray.exports.internal;
 
 import net.danielthompson.danray.structures.BoundingBox;
-import net.danielthompson.danray.structures.Point;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

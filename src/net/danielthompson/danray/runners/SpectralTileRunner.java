@@ -2,15 +2,11 @@ package net.danielthompson.danray.runners;
 
 import net.danielthompson.danray.TraceManager;
 import net.danielthompson.danray.presets.RenderQualityPreset;
-import net.danielthompson.danray.shading.Blender;
 import net.danielthompson.danray.shading.SpectralBlender;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Scene;
 import net.danielthompson.danray.tracers.BaseTracer;
-import net.danielthompson.danray.tracers.SpectralTracer;
-
-import java.awt.*;
 
 /**
  * Created by daniel on 5/9/15.

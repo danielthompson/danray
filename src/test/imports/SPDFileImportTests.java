@@ -1,7 +1,6 @@
 package test.imports;
 
 import net.danielthompson.danray.imports.SPDFileImporter;
-import net.danielthompson.danray.imports.WavefrontObjectImporter;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;

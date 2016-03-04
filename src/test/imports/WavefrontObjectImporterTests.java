@@ -1,12 +1,9 @@
 package test.imports;
 
 import net.danielthompson.danray.imports.WavefrontObjectImporter;
-import net.danielthompson.danray.shapes.TriangleMesh;
-import net.danielthompson.danray.structures.Point;
 import org.testng.annotations.*;
 
 import java.io.File;
-import java.util.List;
 
 /**
  * User: daniel

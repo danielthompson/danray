@@ -134,8 +134,8 @@ public class SpectralBlender {
       float max = 1.9999695f;
 
       float var_X = X ; // triX from 0 to  95.047      (Observer = 2�, Illuminant = D65)
-      float var_Y = (float)(Y); // triY from 0 to 100.000
-      float var_Z = (float)(Z); // triZ from 0 to 108.883
+      float var_Y = Y; // triY from 0 to 100.000
+      float var_Z = Z; // triZ from 0 to 108.883
 
       if (var_X < min)
          var_X = min;
@@ -182,7 +182,7 @@ public class SpectralBlender {
       if (G < 0) G = 0;
       if (B < 0) B = 0;
 
-      return new Color((int)R, (int)G, (int)B);
+      return new Color(R, G, B);
    }
 
    public static Color ConvertXYZtoRGBInternal(float X, float Y, float Z, ColorSpace colorSpace) {

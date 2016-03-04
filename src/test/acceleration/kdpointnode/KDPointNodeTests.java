@@ -2,7 +2,6 @@ package test.acceleration.kdpointnode;
 
 import net.danielthompson.danray.acceleration.KDAxis;
 import net.danielthompson.danray.acceleration.KDPointNode;
-import net.danielthompson.danray.shapes.Sphere;
 import net.danielthompson.danray.structures.Point;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;

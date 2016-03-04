@@ -799,7 +799,7 @@ public class SceneBuilder {
 
       int[] yOffset = new int[maxSmallSpheresX * maxSmallSpheresY];
       for (int i = 0; i < yOffset.length; i++) {
-         yOffset[i] = i * 0;
+         yOffset[i] = 0;
       }
 
       for (int i = 0; i < maxSmallSpheresX; i++) {
@@ -1168,7 +1168,7 @@ public class SceneBuilder {
 
       Material material = new Material();
       material.Color = blue;
-      material._specular = 1 - 0;
+      material._specular = 1;
       material._reflectivity = 0;
 
       Sphere sphere = new Sphere(material);
@@ -1179,7 +1179,7 @@ public class SceneBuilder {
 
       material = new Material();
       material.Color = red;
-      material._specular = 1 - 0;
+      material._specular = 1;
       material._reflectivity = 0;
 
       sphere = new Sphere(material);
@@ -1715,7 +1715,7 @@ public class SceneBuilder {
 
       material = new Material();
       material.Color = new Color(255, 240, 185);
-      material._specular = 1 - 1;
+      material._specular = 0;
       material._reflectivity = 0;
 
       plane = new ImplicitPlane(planeOrigin, planeNormal, material);
@@ -1745,7 +1745,7 @@ public class SceneBuilder {
 
       material = new Material();
       material.Color = new Color(0, 131, 255);
-      material._specular = 1 - 1;
+      material._specular = 0;
       material._reflectivity = 0;
 
       plane = new ImplicitPlane(planeOrigin, planeNormal, material);
@@ -1937,7 +1937,7 @@ public class SceneBuilder {
 
       material = new Material();
       material.Color = new Color(255, 131, 0);
-      material._specular = 1 - 0;
+      material._specular = 1;
       material._reflectivity = .1;
 
       ImplicitPlane plane = new ImplicitPlane(planeOrigin, planeNormal, material);
@@ -1952,7 +1952,7 @@ public class SceneBuilder {
 
       material = new Material();
       material.Color = new Color(255, 240, 185);
-      material._specular = 1 - 0;
+      material._specular = 1;
       material._reflectivity = .25;
 
       plane = new ImplicitPlane(planeOrigin, planeNormal, material);
@@ -1967,7 +1967,7 @@ public class SceneBuilder {
 
       material = new Material();
       material.Color = new Color(255, 240, 185);
-      material._specular = 1 - 0;
+      material._specular = 1;
       material._reflectivity = .25;
 
       plane = new ImplicitPlane(planeOrigin, planeNormal, material);
@@ -1982,7 +1982,7 @@ public class SceneBuilder {
 
       material = new Material();
       material.Color = new Color(0, 131, 255);
-      material._specular = 1 - 1;
+      material._specular = 0;
 
       plane = new ImplicitPlane(planeOrigin, planeNormal, material);
       scene.addDrawableObject(plane);
@@ -2070,7 +2070,7 @@ public class SceneBuilder {
 
       material = new Material();
       material.Color = new Color(255, 240, 185);
-      material._specular = 1 - 1;
+      material._specular = 0;
 
       ImplicitPlane plane = new ImplicitPlane(planeOrigin, planeNormal, material);
       scene.addDrawableObject(plane);

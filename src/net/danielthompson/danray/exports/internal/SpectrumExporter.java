@@ -1,6 +1,5 @@
 package net.danielthompson.danray.exports.internal;
 
-import net.danielthompson.danray.shading.SpectralReflectanceCurve;
 import net.danielthompson.danray.shading.Spectrum;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

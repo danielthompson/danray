@@ -1,7 +1,5 @@
 package net.danielthompson.danray.structures;
 
-import java.awt.*;
-
 /**
  * Created by daniel on 1/1/15.
  */
