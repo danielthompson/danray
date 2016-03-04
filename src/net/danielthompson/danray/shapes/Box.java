@@ -7,19 +7,10 @@ import net.danielthompson.danray.structures.*;
 /**
  * Created by daniel on 2/17/14.
  */
-public class Box extends BoundingBox implements Drawable {
+public class Box extends AbstractShape {
 
-   private Material _material;
-
-   public int ID;
-   public int getID() {
-      return ID;
-   }
-
-   public Transform ObjectToWorld;
-   private Transform WorldToObject;
-
-   public BoundingBox WorldBoundingBox;
+   public Point point1;
+   public Point point2;
 
    private Normal _negativeX = new Normal(-1, 0, 0);
    private Normal _negativeY = new Normal(0, -1, 0);
@@ -29,24 +20,71 @@ public class Box extends BoundingBox implements Drawable {
    private Normal _positiveZ = new Normal(0, 0, 1);
 
    public Box(Point p1, Point p2, Material material) {
-      super(p1, p2);
-      _material = material;
+      super(material);
+      this.point1 = p1;
+      this.point2 = p2;
    }
 
    public Box(Point p1, Point p2, Material material, Transform objectToWorld, Transform worldToObject) {
       this(p1, p2, material);
       ObjectToWorld = objectToWorld;
       WorldToObject = worldToObject;
+
+      if (ObjectToWorld == null) {
+         WorldBoundingBox = new BoundingBox(p1, p2);
+      }
+      else {
+
+         Point[] points = new Point[8];
+
+         points[0] = ObjectToWorld.Apply(point1);
+         points[1] = ObjectToWorld.Apply(point2);
+         points[2] = ObjectToWorld.Apply(new Point(p1.X, p1.Y, p2.Z));
+         points[3] = ObjectToWorld.Apply(new Point(p1.X, p2.Y, p1.Z));
+         points[4] = ObjectToWorld.Apply(new Point(p1.X, p2.Y, p2.Z));
+         points[5] = ObjectToWorld.Apply(new Point(p2.X, p2.Y, p1.Z));
+         points[6] = ObjectToWorld.Apply(new Point(p2.X, p1.Y, p2.Z));
+         points[7] = ObjectToWorld.Apply(new Point(p2.X, p1.Y, p1.Z));
+
+         double xMin, yMin, zMin;
+         xMin = yMin = zMin = Double.MAX_VALUE;
+
+         double xMax, yMax, zMax;
+         xMax = yMax = zMax = -Double.MAX_VALUE;
+
+         for (int i = 0; i < 8; i++) {
+            if (points[i].X < xMin)
+               xMin = points[i].X;
+            if (points[i].Y < yMin)
+               yMin = points[i].Y;
+            if (points[i].Z < zMin)
+               zMin = points[i].Z;
+
+            if (points[i].X > xMax)
+               xMax = points[i].X;
+            if (points[i].Y > yMax)
+               yMax = points[i].Y;
+            if (points[i].Z > zMax)
+               zMax = points[i].Z;
+
+         }
+
+         Point min = new Point(xMin, yMin, zMin);
+         Point max = new Point(xMax, yMax, zMax);
+         WorldBoundingBox = new BoundingBox(min, max);
+      }
    }
 
    @Override
    public BoundingBox GetWorldBoundingBox() {
+      return WorldBoundingBox;
+      /*
       if (ObjectToWorld == null) {
-         return this;
+         return WorldBoundingBox;
       }
       else {
          if (WorldBoundingBox == null) {
-            /*Point p1 = point1;
+            Point p1 = point1;
             Point p2 = point2;
 
             Point[] points = new Point[8];
@@ -86,11 +124,11 @@ public class Box extends BoundingBox implements Drawable {
             Point min = new Point(xMin, yMin, zMin);
             Point max = new Point(xMax, yMax, zMax);
             WorldBoundingBox = new BoundingBox(min, max);
-            */
-            WorldBoundingBox = ObjectToWorld.Apply(this);
+
+            //WorldBoundingBox = ObjectToWorld.Apply(this);
          }
          return WorldBoundingBox;
-      }
+      }*/
    }
 
    @Override
@@ -102,10 +140,10 @@ public class Box extends BoundingBox implements Drawable {
          objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
       }
 
-      IntersectionState state = super.GetHitInfo(objectSpaceRay);
+      IntersectionState state = BoundingBox.GetHitInfo(point1, point2, objectSpaceRay);
 
       if (state.Hits) {
-         state.Drawable = this;
+         state.Shape = this;
          state.IntersectionPoint = objectSpaceRay.GetPointAtT(state.TMin);
          state.Normal = Constants.WithinEpsilon(point1.X, state.IntersectionPoint.X) ? _negativeX : state.Normal;
          state.Normal = Constants.WithinEpsilon(point1.Y, state.IntersectionPoint.Y) ? _negativeY : state.Normal;
@@ -172,11 +210,6 @@ public class Box extends BoundingBox implements Drawable {
 
       }
       return state;
-   }
-
-   @Override
-   public Material GetMaterial() {
-      return _material;
    }
 
    public String toString() {

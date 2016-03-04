@@ -2,7 +2,7 @@ package test.acceleration.kdtree;
 
 import net.danielthompson.danray.acceleration.KDNode;
 import net.danielthompson.danray.acceleration.KDTree;
-import net.danielthompson.danray.shapes.Drawable;
+import net.danielthompson.danray.shapes.Shape;
 import net.danielthompson.danray.shapes.Sphere;
 import net.danielthompson.danray.structures.Point;
 import org.testng.Assert;
@@ -30,7 +30,7 @@ public class BuildTests {
 
    @Test
    public void testBuildNodeWithOneSphere() throws Exception {
-      List<Drawable> objects = new ArrayList<Drawable>();
+      List<Shape> objects = new ArrayList<Shape>();
 
       Sphere sphere;
 
@@ -52,7 +52,7 @@ public class BuildTests {
 
    @Test
    public void testBuildNodeWithTwoSpheres() throws Exception {
-      List<Drawable> objects = new ArrayList<Drawable>();
+      List<Shape> objects = new ArrayList<Shape>();
 
       Sphere sphere;
 
@@ -74,7 +74,7 @@ public class BuildTests {
 
    @Test
    public void testBuildNodeWithThreeSpheres() throws Exception {
-      List<Drawable> objects = new ArrayList<Drawable>();
+      List<Shape> objects = new ArrayList<Shape>();
 
       Sphere sphere;
 
@@ -96,7 +96,7 @@ public class BuildTests {
 
    @Test
    public void testBuildNodeWithFiveSpheres() throws Exception {
-      List<Drawable> objects = new ArrayList<Drawable>();
+      List<Shape> objects = new ArrayList<Shape>();
 
       Sphere sphere;
 
@@ -118,7 +118,7 @@ public class BuildTests {
 
    @Test
    public void testBuildNodeWithFiftySpheres() throws Exception {
-      List<Drawable> objects = new ArrayList<Drawable>();
+      List<Shape> objects = new ArrayList<Shape>();
 
       Sphere sphere;
 
@@ -140,7 +140,7 @@ public class BuildTests {
 
    @Test
    public void testBuildNodeWith500Spheres() throws Exception {
-      List<Drawable> objects = new ArrayList<Drawable>();
+      List<Shape> objects = new ArrayList<Shape>();
 
       Sphere sphere;
 
@@ -162,7 +162,7 @@ public class BuildTests {
 
    @Test
    public void testBuildNodeWith5000Spheres() throws Exception {
-      List<Drawable> objects = new ArrayList<Drawable>();
+      List<Shape> objects = new ArrayList<Shape>();
 
       Sphere sphere;
 

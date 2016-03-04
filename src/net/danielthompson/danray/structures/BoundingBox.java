@@ -8,14 +8,9 @@ import net.danielthompson.danray.states.IntersectionState;
  * Date: 7/21/13
  * Time: 15:44
  */
-public class BoundingBox implements Boundable {
+public class BoundingBox {
    public Point point1;
    public Point point2;
-
-   public int ID;
-   public int getID() {
-      return ID;
-   }
 
    public BoundingBox (Point point1, Point point2) {
       this.point1 = point1;
@@ -77,37 +72,30 @@ public class BoundingBox implements Boundable {
       }
    }
 
-   @Override
+
    public BoundingBox GetWorldBoundingBox() {
       return this;
    }
 
-   @Override
    public double getMedian(KDAxis axis) {
       double median = (point1.getAxis(axis) + point2.getAxis(axis)) / 2.0;
       return median;
    }
 
-
-
-   @Override
    public IntersectionState GetHitInfo(Ray ray) {
+      return BoundingBox.GetHitInfo(point1, point2, ray);
+   }
+
+   public static IntersectionState GetHitInfo(Point p1, Point p2, Ray ray) {
       double maxBoundFarT = Double.MAX_VALUE;
       double minBoundNearT = 0;
 
       IntersectionState state = new IntersectionState();
       state.Hits = true;
-/*
-      double[] directions = new double[3];
-      directions[0] = ray.Direction.X;
-      directions[1] = ray.Direction.Y;
-      directions[2] = ray.Direction.Z;*/
-
-      // x
 
       double rayInverse = 1.0 / ray.Direction.X;
-      double tNear = (point1.X - ray.Origin.X) * rayInverse;
-      double tFar = (point2.X - ray.Origin.X) * rayInverse;
+      double tNear = (p1.X - ray.Origin.X) * rayInverse;
+      double tFar = (p2.X - ray.Origin.X) * rayInverse;
       if (tNear > tFar) {
          double swap = tNear;
          tNear = tFar;
@@ -128,8 +116,8 @@ public class BoundingBox implements Boundable {
       // y
 
       rayInverse = 1.0 / ray.Direction.Y;
-      tNear = (point1.Y - ray.Origin.Y) * rayInverse;
-      tFar = (point2.Y - ray.Origin.Y) * rayInverse;
+      tNear = (p1.Y - ray.Origin.Y) * rayInverse;
+      tFar = (p2.Y - ray.Origin.Y) * rayInverse;
       if (tNear > tFar) {
          double swap = tNear;
          tNear = tFar;
@@ -150,8 +138,8 @@ public class BoundingBox implements Boundable {
       // z
 
       rayInverse = 1.0 / ray.Direction.Z;
-      tNear = (point1.Z - ray.Origin.Z) * rayInverse;
-      tFar = (point2.Z - ray.Origin.Z) * rayInverse;
+      tNear = (p1.Z - ray.Origin.Z) * rayInverse;
+      tFar = (p2.Z - ray.Origin.Z) * rayInverse;
       if (tNear > tFar) {
          double swap = tNear;
          tNear = tFar;
@@ -164,49 +152,18 @@ public class BoundingBox implements Boundable {
          state.Hits = false;
          return state;
       }
-      //else {
-         state.TMin = minBoundNearT;
-         state.TMax = maxBoundFarT;
-      //}
+
+      state.TMin = minBoundNearT;
+      state.TMax = maxBoundFarT;
 
       return state;
-      /*
-      for (int i = 0; i < 3; i++) {
-         KDAxis axis = axes[i];
-         double rayInverse = 1.0 / directions[i];
-         double tNear = (point1.getAxis(axis) - ray.Origin.getAxis(axis)) * rayInverse;
-         double tFar = (point2.getAxis(axis) - ray.Origin.getAxis(axis)) * rayInverse;
-         if (tNear > tFar) {
-            double swap = tNear;
-            tNear = tFar;
-            tFar = swap;
-         }
 
-         minBoundNearT = (tNear > minBoundNearT) ? tNear : minBoundNearT;
-         maxBoundFarT = (tFar < maxBoundFarT) ? tFar : maxBoundFarT;
-         if (minBoundNearT > maxBoundFarT) {
-            state.Hits = false;
-            break;
-         }
-         else {
-            state.TMin = minBoundNearT;
-            state.TMax = maxBoundFarT;
-         }
-      }*/
-      /*
-      if (state.Hits) {
-
-         ray.MinT = state.TMin;
-         ray.MaxT = state.TMax;
-      }*/
-      //return state;
    }
 
-   @Override
    public boolean Hits(Ray ray) {
       return (ray.Origin.X >= point1.X && ray.Origin.X <= point2.X
             && ray.Origin.Y >= point1.Y && ray.Origin.Y <= point2.Y
-            && ray.Origin.Z >= point1.Z && ray.Origin.Z <= point2.Z) || GetHitInfo(ray).Hits;
+            && ray.Origin.Z >= point1.Z && ray.Origin.Z <= point2.Z) || BoundingBox.GetHitInfo(point1, point2, ray).Hits;
    }
 
    public void Translate(Vector vector) {

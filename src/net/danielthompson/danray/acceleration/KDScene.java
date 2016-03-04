@@ -36,8 +36,8 @@ public class KDScene extends Scene {
    }
 
    @Override
-   public void addDrawableObject(Drawable drawable) {
-      Drawables.add(drawable);
+   public void addDrawableObject(Shape shape) {
+      shapes.add(shape);
    }
 
    @Override
@@ -74,21 +74,21 @@ public class KDScene extends Scene {
       return null;
    }
 
-   public IntersectionState GetClosestDrawableOrPlaneToRay(List<Drawable> drawables, Ray ray) {
+   public IntersectionState GetClosestDrawableOrPlaneToRay(List<Shape> shapes, Ray ray) {
 
-      List<Drawable> totalDrawables = new ArrayList<>();
+      List<Shape> totalShapes = new ArrayList<>();
 
       //totalDrawables.addAll(_planes);
-      totalDrawables.addAll(drawables);
+      totalShapes.addAll(shapes);
 
-      return GetClosestDrawableToRay(totalDrawables, ray);
+      return GetClosestDrawableToRay(totalShapes, ray);
    }
 
    private IntersectionState GetClosestDrawableInNode(KDNode node, Ray ray) {
       IntersectionState closestStateToRay = null;
       //statistics = new Statistics();
-      for (Drawable drawable : node.getObjects()) {
-         IntersectionState state = drawable.GetHitInfo(ray);
+      for (Shape shape : node.getObjects()) {
+         IntersectionState state = shape.GetHitInfo(ray);
          //statistics.DrawableIntersections++;
          //state.Statistics = statistics;
 
@@ -100,11 +100,11 @@ public class KDScene extends Scene {
       return closestStateToRay;
    }
 
-   private IntersectionState GetClosestDrawableToRay(List<Drawable> drawables, Ray ray) {
+   private IntersectionState GetClosestDrawableToRay(List<Shape> shapes, Ray ray) {
       IntersectionState closestStateToRay = null;
       statistics = new Statistics();
-      for (Drawable drawable : drawables) {
-         IntersectionState state = drawable.GetHitInfo(ray);
+      for (Shape shape : shapes) {
+         IntersectionState state = shape.GetHitInfo(ray);
          statistics.DrawableIntersections++;
          state.Statistics = statistics;
 
@@ -341,7 +341,7 @@ public class KDScene extends Scene {
 
    @Override
    public String Compile() {
-      rootNode = KDTree.BuildKDTree(Drawables, 5, 4);
+      rootNode = KDTree.BuildKDTree(shapes, 5, 4);
       return "kd-tree min depth " + rootNode.GetMinDepth() + ", max depth " + rootNode.GetMaxDepth();
    }
 

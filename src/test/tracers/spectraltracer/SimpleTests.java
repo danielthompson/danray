@@ -56,7 +56,7 @@ public class SimpleTests {
       Point p1 = new Point(3, 6, 0);
       Box box = new Box(p0, p1, boxMaterial);
 
-      scene.Drawables.add(box);
+      scene.shapes.add(box);
 
       Point rayOrigin = new Point(0, 2, 0);
       Vector rayDirection = new Vector(1, 1, 0);

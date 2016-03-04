@@ -2,11 +2,7 @@ package net.danielthompson.danray.shapes;
 
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.states.IntersectionState;
-import net.danielthompson.danray.structures.BoundingPlane;
-import net.danielthompson.danray.structures.Normal;
-import net.danielthompson.danray.structures.Point;
-import net.danielthompson.danray.structures.Ray;
-
+import net.danielthompson.danray.structures.*;
 
 
 /**
@@ -15,19 +11,17 @@ import net.danielthompson.danray.structures.Ray;
  * Date: 7/8/13
  * Time: 1:10 PM
  */
-public class ImplicitPlane extends BoundingPlane implements Drawable {
+public class ImplicitPlane extends AbstractShape {
 
-   private Material _material;
+   public Point Origin;
+   public Normal Normal;
 
    public ImplicitPlane(Point origin, Normal normal, Material material) {
-      super(origin, normal);
-      _material = material;
+      super(material);
+      this.Origin = origin;
+      this.Normal = normal;
    }
 
-   @Override
-   public Material GetMaterial() {
-      return _material;
-   }
 
    @Override
    public double getSurfaceArea() {
@@ -36,10 +30,33 @@ public class ImplicitPlane extends BoundingPlane implements Drawable {
 
    @Override
    public IntersectionState GetHitInfo(Ray ray) {
-      IntersectionState state = super.GetHitInfo(ray);
-      state.Drawable = this;
+      double numerator = (Point.Minus(Origin, ray.Origin)).Dot(Normal);
+      double denominator = ray.Direction.Dot(Normal);
+
+      IntersectionState state = new IntersectionState();
+
+      // if they are orthogonal, then they don't hit.
+      if (Constants.WithinEpsilon(denominator, 0.0)) {
+         // no intersection
+         state.Hits = false;
+      }
+
+      // need to check for both normal directions!
+      else {
+         double T = numerator / denominator;
+         if (T > 0.0) {
+            state.Hits = true;
+            state.TMin = T;
+            state.IntersectionPoint = ray.GetPointAtT(state.TMin);
+            state.Normal = Normal;
+            state.Shape = this;
+         }
+      }
+
       return state;
    }
+
+
 
 
 }

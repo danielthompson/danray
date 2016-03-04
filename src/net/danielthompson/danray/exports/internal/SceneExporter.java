@@ -1,6 +1,5 @@
-package net.danielthompson.danray.exports;
+package net.danielthompson.danray.exports.internal;
 
-import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.structures.Scene;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -17,6 +16,16 @@ import java.io.File;
  * Created by dthompson on 14 Aug 15.
  */
 public class SceneExporter {
+
+   public static Element Process(Scene object, Document document, Element parent) {
+
+      Element rootElement = document.createElement("Scene");
+      rootElement.setAttribute("Type", String.valueOf(object.getClass().getSimpleName()));
+      //rootElement.setAttribute("Size", String.valueOf(object.Size));
+      parent.appendChild(rootElement);
+
+      return rootElement;
+   }
 
    private Scene _scene;
    private File _file;
@@ -41,7 +50,7 @@ public class SceneExporter {
          rootElement.setAttribute("Version", "1");
 
          // child elements
-         for (int i = 0; i < _scene.Drawables.size(); i++) {
+         for (int i = 0; i < _scene.shapes.size(); i++) {
             Element bucket = doc.createElement("Drawable");
 
             bucket.setAttribute("wavelength", String.valueOf(((i + 38) * 10)));

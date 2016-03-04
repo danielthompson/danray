@@ -1,6 +1,6 @@
 package net.danielthompson.danray.acceleration;
 
-import net.danielthompson.danray.shapes.Drawable;
+import net.danielthompson.danray.shapes.Shape;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.BoundingBox;
 import net.danielthompson.danray.structures.Ray;
@@ -14,18 +14,18 @@ public class KDNode {
 
    private KDNode _leftChild;
    private KDNode _rightChild;
-   private List<Drawable> _objects;
+   private List<Shape> _objects;
    private BoundingBox _box;
 
    public double Split;
    public KDAxis Axis;
 
-   public KDNode(List<Drawable> objects, KDAxis axis) {
+   public KDNode(List<Shape> objects, KDAxis axis) {
       _objects = objects;
       Axis = axis;
    }
 
-   public KDNode(List<Drawable> objects) {
+   public KDNode(List<Shape> objects) {
       _objects = objects;
    }
 
@@ -57,7 +57,7 @@ public class KDNode {
       return _leftChild == null && _rightChild == null;
    }
 
-   public List<Drawable> getObjects() {
+   public List<Shape> getObjects() {
       return _objects;
    }
 

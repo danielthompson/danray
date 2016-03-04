@@ -12,33 +12,40 @@ import net.danielthompson.danray.structures.Point;
  * Date: 6/27/13
  * Time: 1:49 PM
  */
-public class Sphere extends DrawableBase {
+public class Sphere extends AbstractShape {
 
    public Point Origin = new Point(0, 0, 0);
    public double Radius;
-   public Transform WorldToObject;
-   public Transform ObjectToWorld;
-
-   public Material _material;
 
    public Sphere() {
-
+      this(0.0, null, null, null);
    }
 
    public Sphere(Material material) {
-      _material = material;
+      this(0.0, null, null, material);
    }
 
    public Sphere(double radius, Transform worldToObject, Transform objectToWorld, Material material) {
+      super(material);
       Radius = radius;
       WorldToObject = worldToObject;
       ObjectToWorld = objectToWorld;
-      _material = material;
-   }
 
-   @Override
-   public Material GetMaterial() {
-      return _material;
+      double p1x = Origin.X - Radius;
+      double p1y = Origin.Y - Radius;
+      double p1z = Origin.Z - Radius;
+      Point p1 = new Point(p1x, p1y, p1z);
+
+      double p2x = Origin.X + Radius;
+      double p2y = Origin.Y + Radius;
+      double p2z = Origin.Z + Radius;
+      Point p2 = new Point(p2x, p2y, p2z);
+
+      WorldBoundingBox = new BoundingBox(p1, p2);
+
+      if (ObjectToWorld != null) {
+         WorldBoundingBox = ObjectToWorld.Apply(WorldBoundingBox);
+      }
    }
 
    @Override
@@ -93,7 +100,7 @@ public class Sphere extends DrawableBase {
       else if (Constants.WithinEpsilon(t1, 0)) {
          state.Hits = true;
          state.IntersectionPoint = objectSpaceRay.Origin;
-         state.Drawable = this;
+         state.Shape = this;
 
          if (t0 < Constants.Epsilon) {
             state.TMin = t1;
@@ -136,7 +143,7 @@ public class Sphere extends DrawableBase {
          }
 
          state.Normal.Normalize();
-         state.Drawable = this;
+         state.Shape = this;
       }
 
       return state;
@@ -150,27 +157,6 @@ public class Sphere extends DrawableBase {
    @Override
    public boolean Hits(Ray ray) {
       return GetHitInfo(ray).Hits;
-   }
-
-   public BoundingBox GetWorldBoundingBox() {
-
-      double p1x = Origin.X - Radius;
-      double p1y = Origin.Y - Radius;
-      double p1z = Origin.Z - Radius;
-      Point p1 = new Point(p1x, p1y, p1z);
-
-      double p2x = Origin.X + Radius;
-      double p2y = Origin.Y + Radius;
-      double p2z = Origin.Z + Radius;
-      Point p2 = new Point(p2x, p2y, p2z);
-
-      BoundingBox b = new BoundingBox(p1, p2);
-
-      if (ObjectToWorld != null) {
-         b = ObjectToWorld.Apply(b);
-      }
-
-      return b;
    }
 
    @Override
@@ -202,7 +188,7 @@ public class Sphere extends DrawableBase {
 
       Sphere rhs = (Sphere) obj;
 
-      return (Origin.equals(rhs.Origin) && Radius == rhs.Radius && _material.equals(rhs._material));
+      return (Origin.equals(rhs.Origin) && Radius == rhs.Radius && Material.equals(rhs.Material));
    }
 
    @Override

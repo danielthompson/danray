@@ -5,13 +5,24 @@ import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.BoundingBox;
 import net.danielthompson.danray.structures.Ray;
+import net.danielthompson.danray.structures.Transform;
 
 /**
  * Created by daniel on 2/16/15.
  */
-public abstract class DrawableBase implements Drawable {
+public abstract class AbstractShape implements Shape {
 
    public int ID;
+
+   public BoundingBox WorldBoundingBox;
+
+   public Material Material;
+   public Transform ObjectToWorld;
+   public Transform WorldToObject;
+
+   public AbstractShape(Material material) {
+      this.Material = material;
+   }
 
    @Override
    public double GetVolume() {
@@ -20,15 +31,11 @@ public abstract class DrawableBase implements Drawable {
 
    @Override
    public BoundingBox GetWorldBoundingBox() {
-      return null;
+      return WorldBoundingBox;
    }
 
    public int getID() {
       return ID;
-   }
-
-   public BoundingBox GetObjectBoundingBox() {
-      return null;
    }
 
    @Override
@@ -48,4 +55,9 @@ public abstract class DrawableBase implements Drawable {
 
    @Override
    public double getSurfaceArea() {return 0;}
+
+   @Override
+   public Material GetMaterial() {
+      return Material;
+   }
 }

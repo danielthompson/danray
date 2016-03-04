@@ -1,6 +1,5 @@
 package net.danielthompson.danray.imports;
 
-import net.danielthompson.danray.shapes.Drawable;
 import net.danielthompson.danray.shapes.TriangleMesh;
 import net.danielthompson.danray.structures.Point;
 

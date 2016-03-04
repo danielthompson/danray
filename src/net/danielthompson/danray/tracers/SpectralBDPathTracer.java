@@ -3,17 +3,15 @@ package net.danielthompson.danray.tracers;
 import net.danielthompson.danray.lights.SpectralRadiatable;
 import net.danielthompson.danray.lights.SpectralSphereLight;
 import net.danielthompson.danray.shading.Material;
-import net.danielthompson.danray.shading.RelativeSpectralPowerDistributionLibrary;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.shading.SpectralReflectanceCurve;
 import net.danielthompson.danray.shading.bxdf.BRDF;
-import net.danielthompson.danray.shapes.Drawable;
+import net.danielthompson.danray.shapes.Shape;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.utility.MonteCarloCalculations;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * Generates a sample for the given ray using bidirectional path tracing.
@@ -43,9 +41,9 @@ public class SpectralBDPathTracer extends BaseTracer {
          return new SpectralPowerDistribution();
       }
 
-      if (closestStateToRay.Drawable instanceof SpectralRadiatable) {
+      if (closestStateToRay.Shape instanceof SpectralRadiatable) {
          // if we hit a light, return the light
-         return ((SpectralRadiatable) closestStateToRay.Drawable).getSpectralPowerDistribution();
+         return ((SpectralRadiatable) closestStateToRay.Shape).getSpectralPowerDistribution();
       }
 
       /// GET DIRECT LIGHTING CONTRIBUTION ///
@@ -89,7 +87,7 @@ public class SpectralBDPathTracer extends BaseTracer {
 
       //lightSPD.add(directSPD);
 
-      Material objectMaterial = closestStateToRay.Drawable.GetMaterial();
+      Material objectMaterial = closestStateToRay.Shape.GetMaterial();
 
       SpectralReflectanceCurve curve = objectMaterial.SpectralReflectanceCurve;
       SpectralPowerDistribution reflectedSPD = lightSPD.reflectOff(curve);
@@ -371,13 +369,13 @@ public class SpectralBDPathTracer extends BaseTracer {
 
          double incomingRadiantIntensityFactorForLambert = MonteCarloCalculations.CosineHemispherePDF(cosTheta, 0);
 
-         double brdf = closestStateToRay.Drawable.GetMaterial().BRDF.f(incomingDirection, surfaceNormal, outgoingDirection);
+         double brdf = closestStateToRay.Shape.GetMaterial().BRDF.f(incomingDirection, surfaceNormal, outgoingDirection);
 
          // if any light is getting reflected back in our initial direction, check to see if there are any occluders
          if (brdf > 0) {
             IntersectionState potentialOccluder = scene.GetClosestDrawableToRay(lightRay);
 
-            if (potentialOccluder == null || potentialOccluder.Drawable.equals(closestStateToRay.Drawable)) {
+            if (potentialOccluder == null || potentialOccluder.Shape.equals(closestStateToRay.Shape)) {
                SpectralPowerDistribution scaledSPD = SpectralPowerDistribution.scale(path.incomingSPD, 1);
                scaledSPD.scale(incomingRadiantIntensityFactorForLambert);
                lightSPD.add(scaledSPD);
@@ -420,15 +418,15 @@ public class SpectralBDPathTracer extends BaseTracer {
                IntersectionState potentialOccluder = scene.GetClosestDrawableToRay(lightRayFromCurrentRadiatableToClosestDrawable);
 
                boolean noOccluder = (potentialOccluder == null);
-               boolean shadowRayHitLight = !noOccluder && potentialOccluder.Drawable.equals(radiatable);
+               boolean shadowRayHitLight = !noOccluder && potentialOccluder.Shape.equals(radiatable);
 
                if (shadowRayHitLight) {
                   potentialOccluder = scene.GetClosestDrawableToRayBeyond(lightRayFromCurrentRadiatableToClosestDrawable, potentialOccluder.TMin);
                }
 
                noOccluder = (potentialOccluder == null);
-               boolean targetIntersection = !noOccluder && (potentialOccluder.Drawable.equals(closestStateToRay.Drawable) && Constants.WithinEpsilon(potentialOccluder.IntersectionPoint, closestStateToRay.IntersectionPoint));
-               shadowRayHitLight = !noOccluder && potentialOccluder.Drawable.equals(radiatable);
+               boolean targetIntersection = !noOccluder && (potentialOccluder.Shape.equals(closestStateToRay.Shape) && Constants.WithinEpsilon(potentialOccluder.IntersectionPoint, closestStateToRay.IntersectionPoint));
+               shadowRayHitLight = !noOccluder && potentialOccluder.Shape.equals(radiatable);
 
                if (shadowRayHitLight) {
                   // shit.. now what?
@@ -436,7 +434,7 @@ public class SpectralBDPathTracer extends BaseTracer {
                }
 
                if (noOccluder || targetIntersection) {
-                  IntersectionState state = closestStateToRay.Drawable.GetHitInfo(lightRayFromCurrentRadiatableToClosestDrawable);
+                  IntersectionState state = closestStateToRay.Shape.GetHitInfo(lightRayFromCurrentRadiatableToClosestDrawable);
                   if (state.Hits) {
                      // figure out how much light is shining by sampling the light
 
@@ -582,9 +580,9 @@ public class SpectralBDPathTracer extends BaseTracer {
          return null;
       }
 
-      else if (closestStateToRay.Drawable instanceof SpectralRadiatable) {
+      else if (closestStateToRay.Shape instanceof SpectralRadiatable) {
          // if we hit a light
-         if (firstLight.equals(closestStateToRay.Drawable)) {
+         if (firstLight.equals(closestStateToRay.Shape)) {
             // we hit ourselves. shit.
             //System.out.println("Initial light ray hit same light source.");
             ray.Direction.Scale(-1);
@@ -596,9 +594,9 @@ public class SpectralBDPathTracer extends BaseTracer {
                return null;
             }
 
-            else if (closestStateToRay.Drawable instanceof SpectralRadiatable) {
+            else if (closestStateToRay.Shape instanceof SpectralRadiatable) {
                // if we hit a light
-               if (firstLight.equals(closestStateToRay.Drawable)) {
+               if (firstLight.equals(closestStateToRay.Shape)) {
                   //System.out.println("Initial light ray hit same light source, even after reversing.");
                   return null;
                }
@@ -617,8 +615,8 @@ public class SpectralBDPathTracer extends BaseTracer {
       }
 
       // we hit an actual object
-      Drawable closestDrawable = closestStateToRay.Drawable;
-      Material objectMaterial = closestDrawable.GetMaterial();
+      Shape closestShape = closestStateToRay.Shape;
+      Material objectMaterial = closestShape.GetMaterial();
 
       Normal intersectionNormal = closestStateToRay.Normal;
       Vector incomingDirection = ray.Direction;
@@ -659,7 +657,7 @@ public class SpectralBDPathTracer extends BaseTracer {
       // does the ray hit anything?
       IntersectionState closestStateToRay = scene.GetClosestDrawableToRay(ray);
 
-      if (closestStateToRay == null || closestStateToRay.Drawable instanceof SpectralRadiatable) {
+      if (closestStateToRay == null || closestStateToRay.Shape instanceof SpectralRadiatable) {
          // if not, we're done
          return null;
       }
@@ -672,8 +670,8 @@ public class SpectralBDPathTracer extends BaseTracer {
       */
       else {
          // we hit an actual object
-         Drawable closestDrawable = closestStateToRay.Drawable;
-         Material objectMaterial = closestDrawable.GetMaterial();
+         Shape closestShape = closestStateToRay.Shape;
+         Material objectMaterial = closestShape.GetMaterial();
 
          Normal intersectionNormal = closestStateToRay.Normal;
          Vector incomingDirection = ray.Direction;
@@ -780,15 +778,15 @@ public class SpectralBDPathTracer extends BaseTracer {
          return null;
       }
 
-      else if (closestStateToRay.Drawable instanceof SpectralRadiatable) {
+      else if (closestStateToRay.Shape instanceof SpectralRadiatable) {
          // if we hit a light
          //System.out.println("Subsequent light ray hit light source. Returning null.");
          return null;
       }
       else {
          // we hit an actual object
-         Drawable closestDrawable = closestStateToRay.Drawable;
-         Material objectMaterial = closestDrawable.GetMaterial();
+         Shape closestShape = closestStateToRay.Shape;
+         Material objectMaterial = closestShape.GetMaterial();
 
          Normal intersectionNormal = closestStateToRay.Normal;
          Vector incomingDirection = ray.Direction;

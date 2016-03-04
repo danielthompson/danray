@@ -57,27 +57,22 @@ public class PointLight implements Radiatable {
       return 0;
    }
 
-   @Override
    public double GetVolume() {
       return 0;
    }
 
-   @Override
    public BoundingBox GetWorldBoundingBox() {
       return null;
    }
 
-   @Override
    public double getMedian(KDAxis axis) {
       return _location.getAxis(axis);
    }
 
-   @Override
    public IntersectionState GetHitInfo(Ray ray) {
       return null;
    }
 
-   @Override
    public boolean Hits(Ray ray) {
       return false;
    }

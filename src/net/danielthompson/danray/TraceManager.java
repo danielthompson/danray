@@ -13,8 +13,6 @@ import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Scene;
 import net.danielthompson.danray.structures.Statistics;
 import net.danielthompson.danray.structures.Vector;
-import net.danielthompson.danray.tracers.SpectralBDPathTracer;
-import net.danielthompson.danray.tracers.SpectralPathTracer;
 import net.danielthompson.danray.tracers.SpectralTracer;
 import net.danielthompson.danray.tracers.Tracer;
 import net.danielthompson.danray.ui.*;
@@ -140,7 +138,7 @@ public class TraceManager {
 
       Logger.Log("threads: " + _tracerOptions.numThreads);
 
-      Logger.Log("Scene has " + _scene.Drawables.size() + " drawables, " + _scene.Radiatables.size() + " radiatables.");
+      Logger.Log("Scene has " + _scene.shapes.size() + " drawables, " + _scene.Radiatables.size() + " radiatables.");
       Logger.Log("Scene is implemented with " + _scene.ImplementationType);
       Logger.Log("Compiling scene...");
       Date start = new Date();

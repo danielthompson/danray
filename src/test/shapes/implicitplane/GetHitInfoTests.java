@@ -1,5 +1,6 @@
 package test.shapes.implicitplane;
 
+import net.danielthompson.danray.shapes.ImplicitPlane;
 import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.states.IntersectionState;
 import org.testng.Assert;
@@ -30,7 +31,7 @@ public class GetHitInfoTests {
       Point planeOrigin = new Point(0, 0, 0);
       Normal normal = new Normal(0, 1, 0);
 
-      BoundingPlane plane = new BoundingPlane(planeOrigin, normal);
+      ImplicitPlane plane = new ImplicitPlane(planeOrigin, normal, null);
 
       Point vectorOrigin = new Point(2, 2, 2);
       Vector vectorDirection = new Vector(0, -1, 0);
@@ -51,7 +52,7 @@ public class GetHitInfoTests {
       Point planeOrigin = new Point(0, 0, 0);
       Normal normal = new Normal(0, 0, 1);
 
-      BoundingPlane plane = new BoundingPlane(planeOrigin, normal);
+      ImplicitPlane plane = new ImplicitPlane(planeOrigin, normal, null);
 
       Point vectorOrigin = new Point(500, 500, 500);
       Vector vectorDirection = new Vector(0, 0, -1);
@@ -72,7 +73,7 @@ public class GetHitInfoTests {
       Point planeOrigin = new Point(1, 0, 0);
       Normal normal = new Normal(1, 0, 1);
 
-      BoundingPlane plane = new BoundingPlane(planeOrigin, normal);
+      ImplicitPlane plane = new ImplicitPlane(planeOrigin, normal, null);
 
       Point vectorOrigin = new Point(500, 500, 500);
       Vector vectorDirection = new Vector(0, 0, -1);
@@ -93,7 +94,7 @@ public class GetHitInfoTests {
       Point planeOrigin = new Point(0, 750, 0);
       Normal normal = new Normal(0, -1, 0);
 
-      BoundingPlane plane = new BoundingPlane(planeOrigin, normal);
+      ImplicitPlane plane = new ImplicitPlane(planeOrigin, normal, null);
 
       Point vectorOrigin = new Point(700, 500, 1600);
       Vector vectorDirection = new Vector(0, 0, -1);
@@ -113,7 +114,7 @@ public class GetHitInfoTests {
       Point planeOrigin = new Point(0, 750, 0);
       Normal normal = new Normal(0, -1, 0);
 
-      BoundingPlane plane = new BoundingPlane(planeOrigin, normal);
+      ImplicitPlane plane = new ImplicitPlane(planeOrigin, normal, null);
 
       Point vectorOrigin = new Point(700, 500, 1600);
       Vector vectorDirection = new Vector(0, -1, -1);
@@ -132,7 +133,7 @@ public class GetHitInfoTests {
       Point planeOrigin = new Point(5, 0, 0);
       Normal normal = new Normal(-1, -1, 0);
 
-      BoundingPlane plane = new BoundingPlane(planeOrigin, normal);
+      ImplicitPlane plane = new ImplicitPlane(planeOrigin, normal, null);
 
       Point vectorOrigin = new Point(1, 10, 0);
       Vector vectorDirection = new Vector(0, -1, 0);

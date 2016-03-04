@@ -3,7 +3,7 @@ package net.danielthompson.danray.tracers;
 import net.danielthompson.danray.lights.Radiatable;
 import net.danielthompson.danray.shading.Blender;
 import net.danielthompson.danray.shading.Material;
-import net.danielthompson.danray.shapes.Drawable;
+import net.danielthompson.danray.shapes.Shape;
 import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.states.IntersectionState;
 
@@ -55,19 +55,19 @@ public class Tracer extends BaseTracer {
 
       colorWithStatistics.Statistics = closestStateToRay.Statistics;
 
-      if (closestStateToRay.Drawable instanceof Radiatable) {
+      if (closestStateToRay.Shape instanceof Radiatable) {
 
-         colorWithStatistics.Color = closestStateToRay.Drawable.GetMaterial().Color;
+         colorWithStatistics.Color = closestStateToRay.Shape.GetMaterial().Color;
          return colorWithStatistics;
       }
 
-      Drawable closestDrawable = closestStateToRay.Drawable;
+      Shape closestShape = closestStateToRay.Shape;
 
-      if (closestDrawable == null) {
+      if (closestShape == null) {
          ;
       }
 
-      Material objectMaterial = closestDrawable.GetMaterial();
+      Material objectMaterial = closestShape.GetMaterial();
 
       for (Radiatable radiatable : scene.Radiatables) {
          Point intersectionPoint = closestStateToRay.IntersectionPoint;
@@ -79,11 +79,11 @@ public class Tracer extends BaseTracer {
             Ray lightRayFromCurrentRadiatableToClosestDrawable = intersectionPoint.CreateVectorFrom(radiatableLocation);
             IntersectionState potentialOccluder = scene.GetClosestDrawableToRay(lightRayFromCurrentRadiatableToClosestDrawable);
 
-            if (potentialOccluder == null || potentialOccluder.Drawable.equals(closestStateToRay.Drawable) || potentialOccluder.Drawable.equals(radiatable)) {
+            if (potentialOccluder == null || potentialOccluder.Shape.equals(closestStateToRay.Shape) || potentialOccluder.Shape.equals(radiatable)) {
                double oneOverDistanceFromLightSource = 1 / Math.sqrt(radiatableLocation.SquaredDistanceBetween(closestStateToRay.IntersectionPoint));
                oneOverDistanceFromLightSource *= oneOverDistanceFromLightSource;
 
-               IntersectionState state = closestStateToRay.Drawable.GetHitInfo(lightRayFromCurrentRadiatableToClosestDrawable);
+               IntersectionState state = closestStateToRay.Shape.GetHitInfo(lightRayFromCurrentRadiatableToClosestDrawable);
                if (state.Hits) {
                   double angleOfIncidencePercentage = GeometryCalculations.GetAngleOfIncidencePercentage(lightRayFromCurrentRadiatableToClosestDrawable, closestStateToRay);
                   if (angleOfIncidencePercentage >= 0 && angleOfIncidencePercentage <= 100) {

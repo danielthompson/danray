@@ -21,8 +21,8 @@ public class NaiveScene extends Scene {
    }
 
    @Override
-   public void addDrawableObject(Drawable drawable) {
-      Drawables.add(drawable);
+   public void addDrawableObject(Shape shape) {
+      shapes.add(shape);
    }
 
    @Override
@@ -44,8 +44,8 @@ public class NaiveScene extends Scene {
    public IntersectionState GetClosestDrawableHitBetween(Ray ray, double t0, double t1) {
       IntersectionState closestStateToRay = null;
       statistics = new Statistics();
-      for (Drawable drawable : Drawables) {
-         IntersectionState state = drawable.GetHitInfo(ray);
+      for (Shape shape : shapes) {
+         IntersectionState state = shape.GetHitInfo(ray);
          statistics.DrawableIntersections++;
          state.Statistics = statistics;
 

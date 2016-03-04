@@ -1,6 +1,5 @@
 package net.danielthompson.danray.lights;
 
-import net.danielthompson.danray.structures.Boundable;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Vector;
@@ -11,7 +10,7 @@ import net.danielthompson.danray.structures.Vector;
  * Date: 6/30/13
  * Time: 9:48
  */
-public interface Radiatable extends Boundable {
+public interface Radiatable {
 
    /**
     * Returns a random point on the surface of the light, in world space.

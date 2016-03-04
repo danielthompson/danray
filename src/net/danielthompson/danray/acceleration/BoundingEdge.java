@@ -1,13 +1,13 @@
 package net.danielthompson.danray.acceleration;
 
-import net.danielthompson.danray.shapes.Drawable;
+import net.danielthompson.danray.shapes.Shape;
 
 /**
  * Created by daniel on 12/13/14.
  */
 public class BoundingEdge implements Comparable {
    public boolean Lower;
-   public Drawable Drawable;
+   public Shape Shape;
    public double Value;
 
 

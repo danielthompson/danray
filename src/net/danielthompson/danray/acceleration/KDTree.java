@@ -3,7 +3,7 @@ package net.danielthompson.danray.acceleration;
 import net.danielthompson.danray.acceleration.Comparators.DrawableXComparator;
 import net.danielthompson.danray.acceleration.Comparators.DrawableYComparator;
 import net.danielthompson.danray.acceleration.Comparators.DrawableZComparator;
-import net.danielthompson.danray.shapes.Drawable;
+import net.danielthompson.danray.shapes.Shape;
 import net.danielthompson.danray.structures.BoundingBox;
 import net.danielthompson.danray.structures.Point;
 
@@ -24,7 +24,7 @@ public class KDTree {
     * @param maxLeafSize The maximum number of objects in a leaf
     * @return
     */
-   public static KDNode BuildKDTree(List<Drawable> objects, int maxDepth, int maxLeafSize) {
+   public static KDNode BuildKDTree(List<Shape> objects, int maxDepth, int maxLeafSize) {
 
       KDTree.maxDepth = maxDepth;
       KDTree.maxLeafSize = maxLeafSize;
@@ -52,8 +52,8 @@ public class KDTree {
 
    private static class KDAxisHeuristic {
       public KDAxis Axis;
-      public List<Drawable> LessThanObjects;
-      public List<Drawable> GreaterThanObjects;
+      public List<Shape> LessThanObjects;
+      public List<Shape> GreaterThanObjects;
 
       public BoundingBox LessThanBoundingBox;
       public BoundingBox GreaterThanBoundingBox;
@@ -116,8 +116,8 @@ public class KDTree {
 
             axis = heuristics[i].Axis;
 
-            heuristics[i].LessThanObjects = new ArrayList<Drawable>();
-            heuristics[i].GreaterThanObjects = new ArrayList<Drawable>();
+            heuristics[i].LessThanObjects = new ArrayList<Shape>();
+            heuristics[i].GreaterThanObjects = new ArrayList<Shape>();
 
             separator = getSplit(node.getObjects(), axis, box);
             heuristics[i].Separator = separator;
@@ -125,8 +125,8 @@ public class KDTree {
             BoundingBox lessThanBoundingBox = null;
             BoundingBox greaterThanBoundingBox = null;
 
-            for (Drawable drawable : node.getObjects()) {
-               BoundingBox drawableBox = drawable.GetWorldBoundingBox();
+            for (Shape shape : node.getObjects()) {
+               BoundingBox drawableBox = shape.GetWorldBoundingBox();
                double lowerBound = drawableBox.getLowerBoundInAxis(axis);
 
                double upperBound = drawableBox.getUpperBoundInAxis(axis);
@@ -137,7 +137,7 @@ public class KDTree {
                   else
                      lessThanBoundingBox = BoundingBox.GetBoundingBox(lessThanBoundingBox, drawableBox);
 
-                  heuristics[i].LessThanObjects.add(drawable);
+                  heuristics[i].LessThanObjects.add(shape);
                }
 
                else if (lowerBound >= separator) {
@@ -145,7 +145,7 @@ public class KDTree {
                      greaterThanBoundingBox = drawableBox;
                   else
                      greaterThanBoundingBox = BoundingBox.GetBoundingBox(greaterThanBoundingBox, drawableBox);
-                  heuristics[i].GreaterThanObjects.add(drawable);
+                  heuristics[i].GreaterThanObjects.add(shape);
                }
                else {
                   if (lessThanBoundingBox == null)
@@ -153,14 +153,14 @@ public class KDTree {
                   else
                      lessThanBoundingBox = BoundingBox.GetBoundingBox(lessThanBoundingBox, drawableBox);
 
-                  heuristics[i].LessThanObjects.add(drawable);
+                  heuristics[i].LessThanObjects.add(shape);
 
                   if (greaterThanBoundingBox == null)
                      greaterThanBoundingBox = drawableBox;
                   else
                      greaterThanBoundingBox = BoundingBox.GetBoundingBox(greaterThanBoundingBox, drawableBox);
 
-                  heuristics[i].GreaterThanObjects.add(drawable);
+                  heuristics[i].GreaterThanObjects.add(shape);
                }
 
             }
@@ -184,12 +184,12 @@ public class KDTree {
 
                boolean same = true;
 
-               Iterator<Drawable> p1 = heuristics[i].LessThanObjects.iterator();
-               Iterator<Drawable> p2 = heuristics[i].GreaterThanObjects.iterator();
+               Iterator<Shape> p1 = heuristics[i].LessThanObjects.iterator();
+               Iterator<Shape> p2 = heuristics[i].GreaterThanObjects.iterator();
 
                while (p1.hasNext() && p2.hasNext()) {
-                  Drawable d1 = p1.next();
-                  Drawable d2 = p2.next();
+                  Shape d1 = p1.next();
+                  Shape d2 = p2.next();
 
                   if (d1 != d2) {
                      same = false;
@@ -300,11 +300,11 @@ public class KDTree {
                BoundingBox lessThanBoundingBox = null;
                BoundingBox greaterThanBoundingBox = null;
 
-               List<Drawable> lessThanList = new ArrayList<>();
-               List<Drawable> greaterThanList = new ArrayList<>();
+               List<Shape> lessThanList = new ArrayList<>();
+               List<Shape> greaterThanList = new ArrayList<>();
 
-               for (Drawable drawable : node.getObjects()) {
-                  BoundingBox drawableBox = drawable.GetWorldBoundingBox();
+               for (Shape shape : node.getObjects()) {
+                  BoundingBox drawableBox = shape.GetWorldBoundingBox();
                   double lowerBound = drawableBox.getLowerBoundInAxis(axis);
                   double upperBound = drawableBox.getUpperBoundInAxis(axis);
 
@@ -313,7 +313,7 @@ public class KDTree {
                         lessThanBoundingBox = drawableBox;
                      else
                         lessThanBoundingBox = BoundingBox.GetBoundingBox(lessThanBoundingBox, drawableBox);
-                     lessThanList.add(drawable);
+                     lessThanList.add(shape);
                   }
 
                   else if (lowerBound >= split) {
@@ -321,7 +321,7 @@ public class KDTree {
                         greaterThanBoundingBox = drawableBox;
                      else
                         greaterThanBoundingBox = BoundingBox.GetBoundingBox(greaterThanBoundingBox, drawableBox);
-                     greaterThanList.add(drawable);
+                     greaterThanList.add(shape);
                   }
                   else {
                      if (lessThanBoundingBox == null)
@@ -334,8 +334,8 @@ public class KDTree {
                      else
                         greaterThanBoundingBox = BoundingBox.GetBoundingBox(greaterThanBoundingBox, drawableBox);
 
-                     lessThanList.add(drawable);
-                     greaterThanList.add(drawable);
+                     lessThanList.add(shape);
+                     greaterThanList.add(shape);
                   }
 
                }
@@ -353,12 +353,12 @@ public class KDTree {
 
                   boolean same = true;
 
-                  Iterator<Drawable> p1 = lessThanList.iterator();
-                  Iterator<Drawable> p2 = greaterThanList.iterator();
+                  Iterator<Shape> p1 = lessThanList.iterator();
+                  Iterator<Shape> p2 = greaterThanList.iterator();
 
                   while (p1.hasNext() && p2.hasNext()) {
-                     Drawable d1 = p1.next();
-                     Drawable d2 = p2.next();
+                     Shape d1 = p1.next();
+                     Shape d2 = p2.next();
 
                      if (d1 != d2) {
                         same = false;
@@ -394,24 +394,24 @@ public class KDTree {
                   best = heuristic;
             }
 
-            List<Drawable> lessThanList = new ArrayList<>();
-            List<Drawable> greaterThanList = new ArrayList<>();
+            List<Shape> lessThanList = new ArrayList<>();
+            List<Shape> greaterThanList = new ArrayList<>();
 
-            for (Drawable drawable : node.getObjects()) {
-               BoundingBox drawableBox = drawable.GetWorldBoundingBox();
+            for (Shape shape : node.getObjects()) {
+               BoundingBox drawableBox = shape.GetWorldBoundingBox();
                double lowerBound = drawableBox.getLowerBoundInAxis(best.Axis);
                double upperBound = drawableBox.getUpperBoundInAxis(best.Axis);
 
                if (upperBound <= best.Separator) {
-                  lessThanList.add(drawable);
+                  lessThanList.add(shape);
                }
 
                else if (lowerBound >= best.Separator) {
-                  greaterThanList.add(drawable);
+                  greaterThanList.add(shape);
                }
                else {
-                  lessThanList.add(drawable);
-                  greaterThanList.add(drawable);
+                  lessThanList.add(shape);
+                  greaterThanList.add(shape);
                }
 
             }
@@ -491,7 +491,7 @@ public class KDTree {
 
 
 
-   public static double getSeparator(List<Drawable> objects, KDAxis axis, BoundingBox box) {
+   public static double getSeparator(List<Shape> objects, KDAxis axis, BoundingBox box) {
       // find largest distance in the current axis from the node's objects to either bound
       // set the
 
@@ -503,8 +503,8 @@ public class KDTree {
          double min = Double.MAX_VALUE;
          double max = Double.MIN_VALUE;
 
-         for (Drawable Drawable : objects) {
-            double DrawableAxisLocation = Drawable.getMedian(axis);
+         for (Shape Shape : objects) {
+            double DrawableAxisLocation = Shape.getMedian(axis);
 
             if (DrawableAxisLocation < min) {
                min = DrawableAxisLocation;
@@ -527,16 +527,16 @@ public class KDTree {
       }
    }
 
-   static double getMedian(List<Drawable> objects, KDAxis axis) {
+   static double getMedian(List<Shape> objects, KDAxis axis) {
 
       Collections.sort(objects, getComparator(axis));
 
       double median;
 
       if (objects.size() % 2 == 0) {
-         Drawable Drawable1 = objects.get(objects.size() / 2 - 1);
-         Drawable Drawable2 = objects.get(objects.size() / 2);
-         median = (Drawable1.getMedian(axis) + Drawable2.getMedian(axis)) * .5;
+         Shape shape1 = objects.get(objects.size() / 2 - 1);
+         Shape shape2 = objects.get(objects.size() / 2);
+         median = (shape1.getMedian(axis) + shape2.getMedian(axis)) * .5;
 
       }
       else {
@@ -558,7 +558,7 @@ public class KDTree {
       }
    }
 
-   private static Comparator<Drawable> getComparator(KDAxis axis) {
+   private static Comparator<Shape> getComparator(KDAxis axis) {
       switch (axis) {
          case X:
             return new DrawableXComparator();
@@ -569,7 +569,7 @@ public class KDTree {
       }
    }
 
-   public static double getSplit(List<Drawable> objects, KDAxis axis, BoundingBox box) {
+   public static double getSplit(List<Shape> objects, KDAxis axis, BoundingBox box) {
       // find largest distance in the current axis from the node's objects to either bound
       // set the
 
@@ -584,24 +584,24 @@ public class KDTree {
     * @param axis
     * @return
     */
-   public static BoundingEdge[] getSortedBoundingEdges(List<Drawable> objects, KDAxis axis) {
+   public static BoundingEdge[] getSortedBoundingEdges(List<Shape> objects, KDAxis axis) {
       BoundingEdge[] edges = new BoundingEdge[objects.size() * 2];
 
       for (int i = 0; i < objects.size(); i++) {
 
-         Drawable drawable = objects.get(i);
-         double bound = drawable.GetWorldBoundingBox().getLowerBoundInAxis(axis);
+         Shape shape = objects.get(i);
+         double bound = shape.GetWorldBoundingBox().getLowerBoundInAxis(axis);
 
          BoundingEdge edge = new BoundingEdge();
-         edge.Drawable = drawable;
+         edge.Shape = shape;
          edge.Lower = true;
          edge.Value = bound;
          edges[2 * i] = edge;
 
-         bound = drawable.GetWorldBoundingBox().getUpperBoundInAxis(axis);
+         bound = shape.GetWorldBoundingBox().getUpperBoundInAxis(axis);
 
          edge = new BoundingEdge();
-         edge.Drawable = drawable;
+         edge.Shape = shape;
          edge.Lower = false;
          edge.Value = bound;
          edges[2 * i + 1] = edge;
@@ -619,7 +619,7 @@ public class KDTree {
     * @param axis
     * @return
     */
-   private static BoundingEdge[] getMinMaxBoundingEdges(List<Drawable> objects, KDAxis axis) {
+   private static BoundingEdge[] getMinMaxBoundingEdges(List<Shape> objects, KDAxis axis) {
 
       BoundingEdge[] edges = getSortedBoundingEdges(objects, axis);
 
@@ -637,7 +637,7 @@ public class KDTree {
     * @param box
     * @param objects
     */
-   private static BoundingBox ReduceBoundingBox(BoundingBox box, List<Drawable> objects) {
+   private static BoundingBox ReduceBoundingBox(BoundingBox box, List<Shape> objects) {
 
       // x
       BoundingEdge[] edges = getMinMaxBoundingEdges(objects, KDAxis.X);

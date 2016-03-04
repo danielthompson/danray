@@ -15,7 +15,7 @@ import net.danielthompson.danray.structures.Vector;
  * Date: 7/12/13
  * Time: 5:23 PM
  */
-public class Triangle implements Drawable, Radiatable{
+public class Triangle implements Shape, Radiatable{
 
    private Point _vertex0;
    private Point _vertex1;
@@ -70,7 +70,7 @@ public class Triangle implements Drawable, Radiatable{
       return GetHitInfo(ray).Hits;
    }
 
-   public static IntersectionState GetHitInfo(Drawable drawable, Ray ray, Point vertex0, Point vertex1, Point vertex2) {
+   public static IntersectionState GetHitInfo(Shape shape, Ray ray, Point vertex0, Point vertex1, Point vertex2) {
       IntersectionState state = new IntersectionState();
 /*
       Point E1 = Point.Minus(vertex1, vertex0);

@@ -1,15 +1,18 @@
-package net.danielthompson.danray.structures;
+package net.danielthompson.danray.shapes;
 
 import net.danielthompson.danray.acceleration.KDAxis;
+import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.states.IntersectionState;
+import net.danielthompson.danray.structures.BoundingBox;
+import net.danielthompson.danray.structures.Ray;
 
 /**
  * DanRay
  * User: dthompson
- * Date: 7/24/13
- * Time: 4:29 PM
+ * Date: 6/28/13
+ * Time: 5:45 PM
  */
-public interface Boundable {
+public interface Shape {
    public double GetVolume();
    public BoundingBox GetWorldBoundingBox();
 
@@ -20,4 +23,8 @@ public interface Boundable {
    IntersectionState GetHitInfo(Ray ray);
 
    boolean Hits(Ray ray);
+
+   Material GetMaterial();
+
+   double getSurfaceArea();
 }

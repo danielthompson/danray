@@ -104,7 +104,7 @@ public class SceneBuilder {
 
       light.ID = getNextID();
 
-      scene.Drawables.add(light);
+      scene.shapes.add(light);
       scene.SpectralRadiatables.add(light);
       scene.addRadiatableObject(light);
 
@@ -121,7 +121,7 @@ public class SceneBuilder {
 
       scene.addRadiatableObject(light);
       scene.SpectralRadiatables.add(light);
-      scene.Drawables.add(light);
+      scene.shapes.add(light);
 
       // left wall
 
@@ -165,7 +165,7 @@ public class SceneBuilder {
       p1 = new Point(1, 1, 1);
       box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
       box.ID = getNextID();
-      scene.Drawables.add(box);
+      scene.shapes.add(box);
 
       // front wall
 
@@ -233,7 +233,7 @@ public class SceneBuilder {
       box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
       box.ID = getNextID();
 
-      scene.Drawables.add(box);
+      scene.shapes.add(box);
 
       // ceiling
 
@@ -292,7 +292,7 @@ public class SceneBuilder {
       p1 = new Point(1300, -500, 500);
       box = new Box(p0, p1, boxMaterial);
       box.ID = getNextID();
-      scene.Drawables.add(box);
+      scene.shapes.add(box);
 
 
       material = new Material();
@@ -367,7 +367,7 @@ public class SceneBuilder {
 
       light.ID = getNextID();
 
-      scene.Drawables.add(light);
+      scene.shapes.add(light);
       scene.SpectralRadiatables.add(light);
       scene.addRadiatableObject(light);
 
@@ -416,7 +416,7 @@ public class SceneBuilder {
       Point p1 = new Point(1, 1, 1);
       Box box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
       box.ID = getNextID();
-      scene.Drawables.add(box);
+      scene.shapes.add(box);
 
 
       return scene;

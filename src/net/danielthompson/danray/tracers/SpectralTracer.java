@@ -4,7 +4,7 @@ import net.danielthompson.danray.lights.SpectralRadiatable;
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.shading.SpectralReflectanceCurve;
-import net.danielthompson.danray.shapes.Drawable;
+import net.danielthompson.danray.shapes.Shape;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.utility.GeometryCalculations;
@@ -33,14 +33,14 @@ public class SpectralTracer extends BaseTracer {
          return directSPD;
       }
 
-      if (closestStateToRay.Drawable instanceof SpectralRadiatable) {
+      if (closestStateToRay.Shape instanceof SpectralRadiatable) {
 
-         return ((SpectralRadiatable) closestStateToRay.Drawable).getSpectralPowerDistribution();
+         return ((SpectralRadiatable) closestStateToRay.Shape).getSpectralPowerDistribution();
       }
 
-      Drawable closestDrawable = closestStateToRay.Drawable;
+      Shape closestShape = closestStateToRay.Shape;
 
-      Material objectMaterial = closestDrawable.GetMaterial();
+      Material objectMaterial = closestShape.GetMaterial();
 
       for (SpectralRadiatable radiatable : scene.SpectralRadiatables) {
          Point intersectionPoint = closestStateToRay.IntersectionPoint;
@@ -61,18 +61,18 @@ public class SpectralTracer extends BaseTracer {
             boolean noOccluder = (potentialOccluder == null);
 
             boolean occluderIsDrawable = (
-                  potentialOccluder.Drawable.equals(closestStateToRay.Drawable)
+                  potentialOccluder.Shape.equals(closestStateToRay.Shape)
                         && Constants.WithinEpsilon(potentialOccluder.IntersectionPoint, closestStateToRay.IntersectionPoint)
             );
 
-            boolean occluderIsLight = potentialOccluder.Drawable.equals(radiatable);
+            boolean occluderIsLight = potentialOccluder.Shape.equals(radiatable);
 
             if (noOccluder || occluderIsDrawable || occluderIsLight) {
 
                double oneOverDistanceFromLightSource = 1 / Math.sqrt(radiatableLocation.SquaredDistanceBetween(closestStateToRay.IntersectionPoint));
                oneOverDistanceFromLightSource *= oneOverDistanceFromLightSource;
 
-               IntersectionState state = closestStateToRay.Drawable.GetHitInfo(lightRayFromCurrentRadiatableToClosestDrawable);
+               IntersectionState state = closestStateToRay.Shape.GetHitInfo(lightRayFromCurrentRadiatableToClosestDrawable);
                if (state.Hits) {
                   double angleOfIncidencePercentage = GeometryCalculations.GetAngleOfIncidencePercentage(lightRayFromCurrentRadiatableToClosestDrawable, closestStateToRay);
                   if (angleOfIncidencePercentage >= 0 && angleOfIncidencePercentage <= 100) {

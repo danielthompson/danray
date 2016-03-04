@@ -2,7 +2,7 @@ package test.acceleration.kdtree;
 
 import net.danielthompson.danray.acceleration.KDAxis;
 import net.danielthompson.danray.acceleration.KDTree;
-import net.danielthompson.danray.shapes.Drawable;
+import net.danielthompson.danray.shapes.Shape;
 import net.danielthompson.danray.shapes.Sphere;
 import net.danielthompson.danray.structures.BoundingBox;
 import net.danielthompson.danray.structures.Point;
@@ -31,7 +31,7 @@ public class GetSeparatorTests {
    @Test
    public void testGetSeparatorWithTwoCloseSpheres() throws Exception {
 
-      List<Drawable> list = new ArrayList<Drawable>();
+      List<Shape> list = new ArrayList<Shape>();
 
       Sphere sphere = new Sphere();
       sphere.Origin = new Point(1, 1, 0);
@@ -56,7 +56,7 @@ public class GetSeparatorTests {
    @Test
    public void testGetSeparatorWithTwoFarSpheres() throws Exception {
 
-      List<Drawable> list = new ArrayList<Drawable>();
+      List<Shape> list = new ArrayList<Shape>();
 
       Sphere sphere = new Sphere();
       sphere.Origin = new Point(1, 1, 0);

@@ -1,6 +1,6 @@
 package test.acceleration.kdtree;
 
-import net.danielthompson.danray.shapes.Drawable;
+import net.danielthompson.danray.shapes.Shape;
 import net.danielthompson.danray.shapes.Sphere;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.Point;
@@ -29,7 +29,7 @@ public class TraverseSmallTreeTests {
 
    @BeforeMethod
    public void setUp() throws Exception {
-      List<Drawable> objects = new ArrayList<Drawable>();
+      List<Shape> objects = new ArrayList<Shape>();
 
       sphere1 = new Sphere();
       sphere1.Origin = new Point(-1, 5, 0);
@@ -53,7 +53,7 @@ public class TraverseSmallTreeTests {
 
       scene = new KDScene(null);
 
-      for (Drawable element : objects) {
+      for (Shape element : objects) {
          scene.addDrawableObject(element);
       }
 
@@ -77,8 +77,8 @@ public class TraverseSmallTreeTests {
 
       Assert.assertNotNull(state, "intersection state should not be null");
       Assert.assertTrue(state.Hits, "state should hit");
-      Assert.assertNotNull(state.Drawable);
-      Assert.assertEquals(state.Drawable, sphere3);
+      Assert.assertNotNull(state.Shape);
+      Assert.assertEquals(state.Shape, sphere3);
       System.out.println(scene.drawableIntersections);
    }
 
@@ -93,8 +93,8 @@ public class TraverseSmallTreeTests {
 
       Assert.assertNotNull(state, "intersection state should not be null");
       Assert.assertTrue(state.Hits, "state should hit");
-      Assert.assertNotNull(state.Drawable);
-      Assert.assertEquals(state.Drawable, sphere3);
+      Assert.assertNotNull(state.Shape);
+      Assert.assertEquals(state.Shape, sphere3);
       System.out.println(scene.drawableIntersections);
    }
 
@@ -109,8 +109,8 @@ public class TraverseSmallTreeTests {
 
       Assert.assertNotNull(state, "intersection state should not be null");
       Assert.assertTrue(state.Hits, "state should hit");
-      Assert.assertNotNull(state.Drawable);
-      Assert.assertEquals(state.Drawable, sphere4);
+      Assert.assertNotNull(state.Shape);
+      Assert.assertEquals(state.Shape, sphere4);
       System.out.println(scene.drawableIntersections);
    }
 
@@ -125,8 +125,8 @@ public class TraverseSmallTreeTests {
 
       Assert.assertNotNull(state, "intersection state should not be null");
       Assert.assertTrue(state.Hits, "state should hit");
-      Assert.assertNotNull(state.Drawable);
-      Assert.assertEquals(state.Drawable, sphere3);
+      Assert.assertNotNull(state.Shape);
+      Assert.assertEquals(state.Shape, sphere3);
       System.out.println(scene.drawableIntersections);
    }
 
@@ -141,8 +141,8 @@ public class TraverseSmallTreeTests {
 
       Assert.assertNotNull(state, "intersection state should not be null");
       Assert.assertTrue(state.Hits, "state should hit");
-      Assert.assertNotNull(state.Drawable);
-      Assert.assertEquals(state.Drawable, sphere4);
+      Assert.assertNotNull(state.Shape);
+      Assert.assertEquals(state.Shape, sphere4);
       System.out.println(scene.drawableIntersections);
    }
 }

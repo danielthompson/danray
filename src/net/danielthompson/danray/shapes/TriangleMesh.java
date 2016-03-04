@@ -12,7 +12,7 @@ import java.util.List;
  * Date: 7/13/13
  * Time: 15:38
  */
-public class TriangleMesh implements Drawable {
+public class TriangleMesh implements Shape {
 
    private Material _material;
 

@@ -4,7 +4,7 @@ import net.danielthompson.danray.lights.SpectralRadiatable;
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.shading.SpectralReflectanceCurve;
-import net.danielthompson.danray.shapes.Drawable;
+import net.danielthompson.danray.shapes.Shape;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.*;
 
@@ -28,9 +28,9 @@ public class SpectralPathTracer extends BaseTracer {
          return directSPD;
       }
 
-      if (closestStateToRay.Drawable instanceof SpectralRadiatable) {
+      if (closestStateToRay.Shape instanceof SpectralRadiatable) {
 
-         return ((SpectralRadiatable) closestStateToRay.Drawable).getSpectralPowerDistribution();
+         return ((SpectralRadiatable) closestStateToRay.Shape).getSpectralPowerDistribution();
       }
 
       // base case
@@ -38,8 +38,8 @@ public class SpectralPathTracer extends BaseTracer {
          return directSPD;
       }
       else {
-         Drawable closestDrawable = closestStateToRay.Drawable;
-         Material objectMaterial = closestDrawable.GetMaterial();
+         Shape closestShape = closestStateToRay.Shape;
+         Material objectMaterial = closestShape.GetMaterial();
 
          Normal intersectionNormal = closestStateToRay.Normal;
          Vector incomingDirection = ray.Direction;

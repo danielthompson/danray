@@ -30,7 +30,7 @@ public class SpectralSphereLight extends SphereLight implements SpectralRadiatab
 
 
       if (material == null) {
-         this._material = new Material();
+         this.Material = new Material();
 
       }
    }

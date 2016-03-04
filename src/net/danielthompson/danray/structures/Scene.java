@@ -3,7 +3,7 @@ package net.danielthompson.danray.structures;
 import net.danielthompson.danray.cameras.Camera;
 import net.danielthompson.danray.lights.Radiatable;
 import net.danielthompson.danray.lights.SpectralRadiatable;
-import net.danielthompson.danray.shapes.Drawable;
+import net.danielthompson.danray.shapes.Shape;
 import net.danielthompson.danray.states.IntersectionState;
 
 import java.util.ArrayList;
@@ -19,17 +19,17 @@ public abstract class Scene {
    public String ImplementationType = "Base Scene";
 
    public List<Radiatable> Radiatables;
-   public List<Drawable> Drawables;
+   public List<Shape> shapes;
    public List<SpectralRadiatable> SpectralRadiatables;
 
    public Scene(Camera camera) {
       Camera = camera;
-      Drawables = new ArrayList<>();
+      shapes = new ArrayList<>();
       Radiatables = new ArrayList<>();
       SpectralRadiatables = new ArrayList<>();
    }
 
-   public abstract void addDrawableObject(Drawable drawable);
+   public abstract void addDrawableObject(Shape shape);
 
    public abstract void addRadiatableObject(Radiatable radiatable);
 

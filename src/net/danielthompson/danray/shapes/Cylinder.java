@@ -7,41 +7,23 @@ import net.danielthompson.danray.structures.*;
 /**
  * Created by daniel on 3/2/15.
  */
-public class Cylinder extends DrawableBase {
+public class Cylinder extends AbstractShape {
 
    public double Radius;
    public double Height;
 
-   public Transform WorldToObject;
-   public Transform ObjectToWorld;
-
-   public Material Material;
-
-   private BoundingBox _worldBoundingBox;
-
-   public Cylinder() {
-
-   }
-
    public Cylinder(double radius, double height, Transform worldToObject, Transform objectToWorld, Material material) {
+      super(material);
       Radius = radius;
       Height = height;
       WorldToObject = worldToObject;
       ObjectToWorld = objectToWorld;
-      Material = material;
-   }
 
-   @Override
-   public BoundingBox GetWorldBoundingBox() {
-      if (_worldBoundingBox == null) {
-         BoundingBox box = new BoundingBox(new Point(-Radius, 0, -Radius), new Point(Radius, Height, Radius));
-         if (ObjectToWorld != null) {
-            box = ObjectToWorld.Apply(box);
-         }
-         _worldBoundingBox = box;
+      WorldBoundingBox = new BoundingBox(new Point(-Radius, 0, -Radius), new Point(Radius, Height, Radius));
+      if (ObjectToWorld != null) {
+         WorldBoundingBox = ObjectToWorld.Apply(WorldBoundingBox);
       }
 
-      return _worldBoundingBox;
    }
 
    @Override
@@ -242,17 +224,9 @@ public class Cylinder extends DrawableBase {
          }
 
          state.Normal.Normalize();
-         state.Drawable = this;
+         state.Shape = this;
       }
       return state;
 
    }
-
-
-   @Override
-   public Material GetMaterial() {
-      return Material;
-   }
-
-
 }
