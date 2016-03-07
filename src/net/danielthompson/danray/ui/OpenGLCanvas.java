@@ -14,6 +14,16 @@ import com.jogamp.newt.event.MouseListener;
 
 import com.jogamp.opengl.util.Animator;
 import com.jogamp.opengl.util.gl2.GLUT;
+import net.danielthompson.danray.acceleration.KDNode;
+import net.danielthompson.danray.acceleration.KDScene;
+import net.danielthompson.danray.lights.PointLight;
+import net.danielthompson.danray.lights.Radiatable;
+import net.danielthompson.danray.shading.Material;
+import net.danielthompson.danray.shapes.Box;
+import net.danielthompson.danray.shapes.Shape;
+import net.danielthompson.danray.shapes.Sphere;
+import net.danielthompson.danray.structures.BoundingBox;
+import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Scene;
 
 import java.awt.event.*;
@@ -29,6 +39,8 @@ public class OpenGLCanvas extends GLCanvas implements MouseListener, MouseMotion
    private GLUT _glut;
    public static Animator animator;
    private Scene _scene;
+
+   private static float OneOver255 = 1 / 255.0f;
 
    public OpenGLCanvas(GLCapabilities caps, Scene scene) {
       super(caps);
@@ -169,20 +181,20 @@ public class OpenGLCanvas extends GLCanvas implements MouseListener, MouseMotion
       gl.glDisable(GL_DEPTH_TEST);
 
       int font = GLUT.BITMAP_HELVETICA_18;
-      gl.glRasterPos2i(10, 50);
+      gl.glRasterPos2i(10, 90);
       _glut.glutBitmapString(font, String.format("%.2f", _position[0]));
-      gl.glRasterPos2i(10, 30);
+      gl.glRasterPos2i(10, 50);
       _glut.glutBitmapString(font, String.format("%.2f", _position[1]));
       gl.glRasterPos2i(10, 10);
       _glut.glutBitmapString(font, String.format("%.2f", _position[2]));
-
-
 
       gl.glEnable(GL_DEPTH_TEST);
       gl.glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
       gl.glPopMatrix();
       gl.glMatrixMode(GLMatrixFunc.GL_PROJECTION);
       gl.glPopMatrix();
+      gl.glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
+
 
    }
 
@@ -207,6 +219,7 @@ public class OpenGLCanvas extends GLCanvas implements MouseListener, MouseMotion
       gl.glMatrixMode(GLMatrixFunc.GL_PROJECTION);
       gl.glPopMatrix();
 
+
    }
 
    @Override
@@ -215,18 +228,24 @@ public class OpenGLCanvas extends GLCanvas implements MouseListener, MouseMotion
 
       GL2 gl = drawable.getGL().getGL2();
 
-      gl.glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
+      gl.glEnable(gl.GL_LIGHTING);
+      gl.glEnable(gl.GL_LIGHT0);
+      gl.glEnable(gl.GL_COLOR_MATERIAL);
 
+
+      // camera
       gl.glLoadIdentity();
-
       gl.glRotatef((float)_xRotation, 1, 0, 0);
       gl.glRotatef((float)_yRotation, 0, 1, 0);
       gl.glTranslatef((float) -_position[0], (float) -_position[1], (float) -_position[2]);
 
+      // background
       gl.glClearColor(0f, .33f, 0.66f, 1f);
       gl.glClearDepthf(1f);
       gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
 
+      // static shapes
+      /*
       gl.glBegin(GL.GL_TRIANGLES);
       {
          gl.glColor3f(1, 0, 0);
@@ -248,17 +267,166 @@ public class OpenGLCanvas extends GLCanvas implements MouseListener, MouseMotion
       }
       gl.glEnd();
 
-      gl.glTranslatef(0.0f, 10.0f, 0.0f);
+      */
 
-      gl.glColor3f(1, 1, 0);
 
+      /*
       GLUquadric quadric = _glu.gluNewQuadric();
       _glu.gluSphere(quadric, 1, 100, 100);
+      */
 
+      // scene shapes
+      GLUquadric quadric = _glu.gluNewQuadric();
+
+      for (Shape shape : _scene.shapes) {
+         if (shape instanceof Sphere) {
+            Sphere sphere = (Sphere)shape;
+            Point origin = sphere.Origin;
+            gl.glTranslatef(((float)origin.X), ((float)origin.Y), ((float)origin.Z));
+
+            setColor(gl, sphere.Material);
+            _glu.gluSphere(quadric, sphere.Radius, 10, 10);
+            gl.glTranslatef(-((float)origin.X), -((float)origin.Y), -((float)origin.Z));
+         }
+         else if (shape instanceof Box) {
+            drawBox(gl, (Box)shape);
+         }
+      }
+
+      // lights
+
+      for (Radiatable radiatable : _scene.Radiatables) {
+         if (radiatable instanceof PointLight) {
+            PointLight light = (PointLight)radiatable;
+
+
+            float[] lightpos = {(float)(light._location.X), (float)(light._location.Y), (float)(light._location.Z)};
+            gl.glLightfv(gl.GL_LIGHT0, gl.GL_POSITION, lightpos, 0);
+
+         }
+      }
+
+      // kd nodes
+
+      if (_scene instanceof KDScene) {
+         KDScene scene = (KDScene)_scene;
+         gl.glEnable(GL.GL_BLEND); //Enable blending.
+         gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA); //Set blending function.
+
+         DrawNodes(gl, scene.rootNode);
+
+         gl.glDisable(GL.GL_BLEND);
+      }
 
 
       drawOverlay(gl);
       checkError(gl, "display");
+   }
+
+   private void DrawNodes(GL2 gl, KDNode node) {
+      if (node != null) {
+         drawBoundingBox(gl, node._box);
+         if (node._leftChild != null)
+            DrawNodes(gl, node._leftChild);
+         if (node._rightChild != null) {
+            DrawNodes(gl, node._rightChild);
+         }
+      }
+   }
+
+   private void setColor(GL2 gl, Material material) {
+
+      float red = material.Color.getRed() * OneOver255;
+      float green = material.Color.getGreen() * OneOver255;
+      float blue = material.Color.getBlue() * OneOver255;
+
+      gl.glColor3f(red, green, blue);
+   }
+
+   private void drawBoundingBox(GL2 gl, BoundingBox box) {
+      gl.glColor4f(1.0f, 0.0f, 0.0f, .5f);
+
+      gl.glBegin(GL.GL_TRIANGLE_STRIP);
+
+      float p0x = (float)box.point1.X;
+      float p0y = (float)box.point1.Y;
+      float p0z = (float)box.point1.Z;
+      float p1x = (float)box.point2.X;
+      float p1y = (float)box.point2.Y;
+      float p1z = (float)box.point2.Z;
+
+      // front face
+      gl.glNormal3f(0, 0, 1);
+      gl.glVertex3f(p0x, p0y, p1z);
+      gl.glVertex3f(p0x, p1y, p1z);
+      gl.glVertex3f(p1x, p0y, p1z);
+      gl.glVertex3f(p1x, p1y, p1z);
+
+      // right face
+      gl.glNormal3f(1, 0, 0);
+      gl.glVertex3f(p1x, p0y, p0z);
+      gl.glVertex3f(p1x, p1y, p0z);
+
+      // back face
+      gl.glNormal3f(0, 0, -1);
+      gl.glVertex3f(p0x, p0y, p0z);
+      gl.glVertex3f(p0x, p1y, p0z);
+
+      gl.glEnd();
+   }
+
+   private void drawBox(GL2 gl, Box box) {
+
+      setColor(gl, box.Material);
+      float p0x = (float)box.point1.X;
+      float p0y = (float)box.point1.Y;
+      float p0z = (float)box.point1.Z;
+      float p1x = (float)box.point2.X;
+      float p1y = (float)box.point2.Y;
+      float p1z = (float)box.point2.Z;
+      gl.glBegin(GL.GL_TRIANGLE_STRIP);
+
+      // front face
+      gl.glNormal3f(0, 0, 1);
+      gl.glVertex3f(p0x, p0y, p1z);
+      gl.glVertex3f(p0x, p1y, p1z);
+      gl.glVertex3f(p1x, p0y, p1z);
+      gl.glVertex3f(p1x, p1y, p1z);
+
+      // right face
+      gl.glNormal3f(1, 0, 0);
+      gl.glVertex3f(p1x, p0y, p0z);
+      gl.glVertex3f(p1x, p1y, p0z);
+
+      // back face
+      gl.glNormal3f(0, 0, -1);
+      gl.glVertex3f(p0x, p0y, p0z);
+      gl.glVertex3f(p0x, p1y, p0z);
+
+      // left face
+      gl.glNormal3f(-1, 0, 0);
+      gl.glVertex3f(p0x, p0y, p1z);
+      gl.glVertex3f(p0x, p1y, p1z);
+
+      gl.glEnd();
+
+      // top face
+      gl.glBegin(GL.GL_TRIANGLE_STRIP);
+      gl.glNormal3f(0, 1, 0);
+      gl.glVertex3f(p0x, p1y, p1z);
+      gl.glVertex3f(p0x, p1y, p0z);
+      gl.glVertex3f(p1x, p1y, p1z);
+      gl.glVertex3f(p1x, p1y, p0z);
+      gl.glEnd();
+
+      // bottom face
+      gl.glBegin(GL.GL_TRIANGLE_STRIP);
+      gl.glNormal3f(0, -1, 0);
+      gl.glVertex3f(p0x, p0y, p0z);
+      gl.glVertex3f(p0x, p0y, p1z);
+      gl.glVertex3f(p1x, p0y, p0z);
+      gl.glVertex3f(p1x, p0y, p1z);
+      gl.glEnd();
    }
 
    protected boolean checkError(GL gl, String title) {

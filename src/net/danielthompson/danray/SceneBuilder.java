@@ -780,7 +780,7 @@ public class SceneBuilder {
          //camera = new SimplePointableCamera(settings);
       }
 
-      Scene scene = new NaiveScene(camera);
+      Scene scene = new KDScene(camera);
 
       scene.numFrames = 1;
 
@@ -794,8 +794,14 @@ public class SceneBuilder {
       material._specular = 1 - .75;
       material._reflectivity = .25;
 
-      ImplicitPlane plane = new ImplicitPlane(planeOrigin, planeNormal, material);
-      scene.addDrawableObject(plane);
+      Point p0 = new Point(0, 100, -1);
+      Point p1 = new Point(400, 500, 0);
+
+      Box box = new Box(p0, p1, material);
+
+      //ImplicitPlane plane = new ImplicitPlane(planeOrigin, planeNormal, material);
+      //scene.addDrawableObject(plane);
+      scene.addDrawableObject(box);
 
       /*
       for (int i = 0; i < 600; i += 3) {

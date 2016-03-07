@@ -15,7 +15,7 @@ import net.danielthompson.danray.structures.Vector;
  */
 public class PointLight implements Radiatable {
    protected double _lumens;
-   protected Point _location;
+   public Point _location;
 
    public int ID;
    public int getID() {
