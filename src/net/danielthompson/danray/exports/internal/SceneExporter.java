@@ -1,16 +1,11 @@
 package net.danielthompson.danray.exports.internal;
 
+import net.danielthompson.danray.acceleration.KDNode;
+import net.danielthompson.danray.acceleration.KDScene;
+import net.danielthompson.danray.shapes.*;
 import net.danielthompson.danray.structures.Scene;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import java.io.File;
 
 /**
  * Created by dthompson on 14 Aug 15.
@@ -21,69 +16,40 @@ public class SceneExporter {
 
       Element rootElement = document.createElement("Scene");
       rootElement.setAttribute("Type", String.valueOf(object.getClass().getSimpleName()));
-      //rootElement.setAttribute("Size", String.valueOf(object.Size));
+      rootElement.setAttribute("version", String.valueOf(1));
+
+      rootElement.appendChild(CameraExporter.Process(object.Camera, document, rootElement));
+
+      if (object.shapes != null) {
+         Element shapeList = document.createElement("Shapes");
+         rootElement.appendChild(shapeList);
+         for (Shape shape : object.shapes) {
+            if (shape instanceof Box) {
+               shapeList.appendChild(BoxExporter.Process((Box)shape, document, shapeList));
+            }
+            else if (shape instanceof Cylinder) {
+               shapeList.appendChild(CylinderExporter.Process((Cylinder)shape, document, shapeList));
+            }
+            else if (shape instanceof ImplicitPlane) {
+               shapeList.appendChild(ImplicitPlaneExporter.Process((ImplicitPlane)shape, document, shapeList));
+            }
+            else if (shape instanceof Sphere) {
+               shapeList.appendChild(SphereExporter.Process((Sphere)shape, document, shapeList));
+            }
+         }
+      }
+
+      if (object instanceof KDScene) {
+         KDScene kdScene = (KDScene)object;
+         if (kdScene.rootNode != null) {
+
+            Element kdTreeElement = KDNodeExporter.Process(kdScene.rootNode, document, rootElement);
+            parent.appendChild(kdTreeElement);
+         }
+      }
+
       parent.appendChild(rootElement);
 
       return rootElement;
-   }
-
-   private Scene _scene;
-   private File _file;
-
-   public SceneExporter(Scene scene, File file) {
-
-      _scene = scene;
-      _file = file;
-   }
-
-   public StreamResult Process() {
-
-      try {
-         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-
-         // root element
-         Document doc = docBuilder.newDocument();
-         Element rootElement = doc.createElement("DanRayScene");
-         doc.appendChild(rootElement);
-
-         rootElement.setAttribute("Version", "1");
-
-         // child elements
-         for (int i = 0; i < _scene.shapes.size(); i++) {
-            Element bucket = doc.createElement("Drawable");
-
-            bucket.setAttribute("wavelength", String.valueOf(((i + 38) * 10)));
-
-            rootElement.appendChild(bucket);
-         }
-
-         // write the content into xml file
-         TransformerFactory transformerFactory = TransformerFactory.newInstance();
-         Transformer transformer = transformerFactory.newTransformer();
-         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-         DOMSource source = new DOMSource(doc);
-         StreamResult result = new StreamResult(_file);
-
-         transformer.transform(source, result);
-
-         // Output to console for testing
-         StreamResult console = new StreamResult(System.err);
-         transformer.transform(source, console);
-
-         return result;
-
-
-      }
-      catch (ParserConfigurationException pce) {
-         System.out.println(pce.getMessage());
-      } catch (TransformerConfigurationException e) {
-         e.printStackTrace();
-      } catch (TransformerException e) {
-         e.printStackTrace();
-      }
-
-      return null;
-
    }
 }

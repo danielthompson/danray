@@ -12,10 +12,10 @@ import java.util.*;
  */
 public class KDNode {
 
-   private KDNode _leftChild;
-   private KDNode _rightChild;
-   private List<Shape> _objects;
-   private BoundingBox _box;
+   public KDNode _leftChild;
+   public KDNode _rightChild;
+   public List<Shape> _objects;
+   public BoundingBox _box;
 
    public double Split;
    public KDAxis Axis;
@@ -27,30 +27,6 @@ public class KDNode {
 
    public KDNode(List<Shape> objects) {
       _objects = objects;
-   }
-
-   public KDNode getLeftChild() {
-      return _leftChild;
-   }
-
-   public BoundingBox getBoundingBox() { return _box; }
-
-   public void setBoundingBox(BoundingBox box) { _box = box;}
-
-   public void setLeftChild(KDNode node) {
-      _leftChild = node;
-   }
-
-   public KDNode getRightChild() {
-      return _rightChild;
-   }
-
-   public void setRightChild(KDNode node) {
-      _rightChild = node;
-   }
-
-   public void setSeparator(double separator) {
-      Split = separator;
    }
 
    public boolean isLeaf() {

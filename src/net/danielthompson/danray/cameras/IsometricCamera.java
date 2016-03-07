@@ -7,14 +7,14 @@ import net.danielthompson.danray.structures.Vector;
 /**
  * Created by daniel on 12/14/14.
  */
-public class IsometricCamera extends CameraBase implements Camera {
+public class IsometricCamera extends Camera {
 
    public IsometricCamera(CameraSettings settings) {
       super(settings);
    }
 
    @Override
-   public Ray[] getInitialStochasticRaysForPixel(int x, int y, int samplesPerPixel) {
+   public Ray[] getInitialStochasticRaysForPixel(double x, double y, int samplesPerPixel) {
 
       double oneOverSamplesPlusOne = 1.0 / ((double) samplesPerPixel + 1.0);
 

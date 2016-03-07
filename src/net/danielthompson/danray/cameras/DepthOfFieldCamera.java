@@ -7,9 +7,7 @@ import net.danielthompson.danray.structures.Vector;
 /**
  * Created by daniel on 2/27/14.
  */
-public class DepthOfFieldCamera extends CameraBase implements Camera {
-
-   private Point _rearFocalPoint;
+public class DepthOfFieldCamera extends Camera {
 
    public DepthOfFieldCamera(CameraSettings settings) {
       super(settings);
@@ -96,7 +94,6 @@ public class DepthOfFieldCamera extends CameraBase implements Camera {
       return rays;
    }
 
-   @Override
    public Ray[] getInitialStochasticRaysForPixel(int x, int y, int samplesPerPixel) {
       return getInitialStochasticRaysForPixel((double) x, (double) y, samplesPerPixel);
    }

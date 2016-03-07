@@ -7,14 +7,14 @@ import net.danielthompson.danray.structures.Ray;
 /**
  * Created by daniel on 1/18/14.
  */
-public class SimplePointableCamera extends CameraBase implements Camera {
+public class SimplePointableCamera extends Camera {
 
    public SimplePointableCamera(CameraSettings settings) {
       super(settings);
    }
 
    @Override
-   public Ray[] getInitialStochasticRaysForPixel(int x, int y, int samplesPerPixel) {
+   public Ray[] getInitialStochasticRaysForPixel(double x, double y, int samplesPerPixel) {
       double oneOverSamplesPlusOne = 1.0 / ((double) samplesPerPixel + 1.0);
 
       Ray[] rays = new Ray[samplesPerPixel * samplesPerPixel];

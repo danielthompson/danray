@@ -3,9 +3,13 @@ package net.danielthompson.danray;
 //import com.jogamp.opengl.GLCapabilities;
 //import com.jogamp.opengl.GLProfile;
 //import com.jogamp.opengl.awt.GLCanvas;
+import com.jogamp.opengl.GLCapabilities;
+import com.jogamp.opengl.GLProfile;
+import com.jogamp.opengl.awt.GLCanvas;
 import net.danielthompson.danray.presets.RenderQualityPreset;
 import net.danielthompson.danray.presets.TracerOptions;
 import net.danielthompson.danray.runners.SpectralTileRunner;
+import net.danielthompson.danray.runners.TileRunner;
 import net.danielthompson.danray.shading.SpectralBlender;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.states.IntersectionState;
@@ -136,7 +140,7 @@ public class TraceManager {
          _tracerOptions.numThreads = cores;
       }
 
-      Logger.Log("threads: " + _tracerOptions.numThreads);
+      Logger.Log("Using " + _tracerOptions.numThreads + " threads.");
 
       Logger.Log("Scene has " + _scene.shapes.size() + " drawables, " + _scene.Radiatables.size() + " radiatables.");
       Logger.Log("Scene is implemented with " + _scene.ImplementationType);
@@ -146,7 +150,6 @@ public class TraceManager {
       Date end = new Date();
       String duration = getDurationString(start, end);
       Logger.Log("Finished compiling scene in " + duration);
-
    }
 
    public void Render() {
@@ -193,20 +196,22 @@ public class TraceManager {
 
    public void SetupWindows() {
 
-      if (_tracerOptions.showWindows) {
+      if (_tracerOptions.showOpenGLWindow) {
 
          // gl window
          _glFrame = new Frame("OpenGL view");
-         //GLProfile.initSingleton();
-         //GLProfile glp = GLProfile.getDefault();
-         //GLCapabilities caps = new GLCapabilities(glp);
-         //GLCanvas canvas = new GLCanvas(caps);
-         //_glFrame.add(canvas);
+         GLProfile.initSingleton();
+         GLProfile glp = GLProfile.getDefault();
+         GLCapabilities caps = new GLCapabilities(glp);
+         GLCanvas canvas = new OpenGLCanvas(caps, _scene);
+         _glFrame.add(canvas);
          _glFrame.setSize(new Dimension(_qualityPreset.getX(), _qualityPreset.getY() + 22));
+         _glFrame.setBounds(_qualityPreset.getX() + 10, 0, _qualityPreset.getX(), _qualityPreset.getY() + 22);
          _glFrame.setVisible(true);
+      }
 
-         // count window
-
+      // count window
+      if (_tracerOptions.showCountWindow) {
          if (_countFrame == null) {
             _countFrame = new Frame("Ray Density");
             _countCanvas = new CountCanvas();
@@ -215,17 +220,11 @@ public class TraceManager {
             _countFrame.setVisible(true);
          }
 
-         else {
-
-         }
-
          _countGraphics = _countCanvas.getGraphics();
+      }
 
-         // editor window
-
-
-         // tracer window
-
+      // tracer window
+      if (_tracerOptions.showTracerWindow) {
          if (_traceFrame == null) {
 
             _traceCanvas = new MainCanvas(this, null);
@@ -238,19 +237,10 @@ public class TraceManager {
 
          }
          _traceGraphics = _traceCanvas.getGraphics();
+      }
+      // info window
 
-         /*
-
-         // info window
-
-         _infoFrame = new InfoFrame("Info");
-         _infoFrame.setSize(new Dimension(400, 200 + 22));
-         _infoFrame.pack();
-         _infoFrame.setVisible(true);
-
-         _infoGraphics = _infoFrame.getGraphics();
-
-         */
+      if (_tracerOptions.showInfoWindow) {
          if (_infoJFrame == null) {
             _infoJFrame = new InfoJFrame(this);
             _infoJFrame.pack();
@@ -260,7 +250,9 @@ public class TraceManager {
          }
          _infoJFrame.setCameraOrigin(_scene.Camera.getOrigin().X, _scene.Camera.getOrigin().Y, _scene.Camera.getOrigin().Z);
          _infoJFrame.setCameraDirection(_scene.Camera.getDirection().X, _scene.Camera.getDirection().Y, _scene.Camera.getDirection().Z);
+      }
 
+      if (_tracerOptions.showSpectrumWindow) {
 
          if (_editorView == null) {
             JFrame frame = new JFrame("Spectrum Editor");
@@ -275,12 +267,10 @@ public class TraceManager {
 
 
          }
-
-         _updateTask = new CanvasUpdateTimerTask(_traceCanvas, _traceGraphics, _countCanvas, _countGraphics);
-
-         _timer.schedule(_updateTask, 0, 800);
       }
 
+      _updateTask = new CanvasUpdateTimerTask(_traceCanvas, _traceGraphics, _countCanvas, _countGraphics);
+      _timer.schedule(_updateTask, 0, 800);
    }
 
    public void setMouseXY(final int x, final int y) {
@@ -318,10 +308,12 @@ public class TraceManager {
          for (int j = 0; j < _qualityPreset.getY(); ++j)
             _traceImage.setRGB(i, j, Color.gray.getRGB()); // Black Background
 
-      if (_tracerOptions.showWindows) {
+      if (_tracerOptions.showCountWindow) {
          _countCanvas.setImage(_countImage);
-         _traceCanvas.setImage(_traceImage);
+      }
 
+      if (_tracerOptions.showTracerWindow) {
+         _traceCanvas.setImage(_traceImage);
       }
 
       this.Statistics = new Statistics[_qualityPreset.getX()][_qualityPreset.getY()];
@@ -360,9 +352,9 @@ public class TraceManager {
 
       _scene.Camera.setFrame(frame);
 
-      Runnable runner = new SpectralTileRunner(this, _spectralTracer, _scene, _qualityPreset, frame);;
+      //Runnable runner = new SpectralTileRunner(this, _spectralTracer, _scene, _qualityPreset, frame);;
 
-      //Runnable runner = new TileRunner(this, _tracer, _scene, _qualityPreset, frame);
+      Runnable runner = new TileRunner(this, _tracer, _scene, _qualityPreset, frame);
 
       /*
       if (s >= 0 || t >= 0) {
@@ -664,8 +656,11 @@ public class TraceManager {
    }
 
    public void UpdateCanvas() {
-      if (_tracerOptions.showWindows) {
+      if (_tracerOptions.showTracerWindow) {
          _traceCanvas.update(_traceGraphics);
+      }
+
+      if (_tracerOptions.showCountWindow) {
          _countCanvas.update(_countGraphics);
       }
    }

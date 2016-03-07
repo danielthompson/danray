@@ -25,7 +25,7 @@ public class Main {
       Scene scene;
 
       //scene = SceneBuilder.ManyRandomSpheres(_preset.getX(), _preset.getY());
-      //scene = SceneBuilder.ManyRegularSpheres(_preset.getX(), _preset.getY());
+      scene = SceneBuilder.ManyRegularSpheres(_preset.getX(), _preset.getY());
       //scene = SceneBuilder.SomeRegularSpheres(_preset.getX(), _preset.getY());
       //scene = SceneBuilder.SpheresInAnXPattern(_preset.getX(), _preset.getY());
       //scene = SceneBuilder.AreaLightSourceTest(_preset.getX(), _preset.getY());
@@ -38,7 +38,7 @@ public class Main {
       //scene = SceneBuilder.TwoSpheresWithLights(_preset.getX(), _preset.getY());
       //scene = SceneBuilder.TwoTransparentReflectiveSpheresWithLights(_preset.getX(), _preset.getY());
       //scene = SceneBuilder.SpectralLemon(_preset.getX(), _preset.getY());
-      scene = SceneBuilder.TwoSpectralSpheres(_preset.getX(), _preset.getY());
+      //scene = SceneBuilder.TwoSpectralSpheres(_preset.getX(), _preset.getY());
 
       TracerOptions options = parseArgs(args);
 
@@ -58,8 +58,20 @@ public class Main {
       for (int i = 0; i < args.length; i++) {
          String arg = args[i];
          switch (arg) {
-            case "-window":
-               options.showWindows = true;
+            case "-tracerWindow":
+               options.showTracerWindow = true;
+               break;
+            case "-countWindow":
+               options.showCountWindow = true;
+               break;
+            case "-openGLWindow":
+               options.showOpenGLWindow = true;
+               break;
+            case "-spectrumWindow":
+               options.showSpectrumWindow = true;
+               break;
+            case "-infoWindow":
+               options.showInfoWindow = false;
                break;
             case "-threads":
                if (i + 1 < args.length) {

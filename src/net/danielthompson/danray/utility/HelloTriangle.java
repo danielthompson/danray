@@ -197,10 +197,10 @@ public class HelloTriangle implements GLEventListener, KeyListener {
     }
 
     private void initProgram(GL4 gl4) {
-        ShaderCode vertShader = ShaderCode.create(gl4, GL_VERTEX_SHADER, this.getClass(),
-                SHADERS_ROOT, null, "vs", "glsl", null, true);
-        ShaderCode fragShader = ShaderCode.create(gl4, GL_FRAGMENT_SHADER, this.getClass(),
-                SHADERS_ROOT, null, "fs", "glsl", null, true);
+        ShaderCode vertShader = null;//ShaderCode.create(gl4, GL_VERTEX_SHADER, this.getClass(),
+                //SHADERS_ROOT, null, "vs", "glsl", null, true);
+        ShaderCode fragShader = null;//ShaderCode.create(gl4, GL_FRAGMENT_SHADER, this.getClass(),
+                //SHADERS_ROOT, null, "fs", "glsl", null, true);
 
         ShaderProgram shaderProgram = new ShaderProgram();
         shaderProgram.add(vertShader);

@@ -22,7 +22,9 @@ public class CanvasUpdateTimerTask extends TimerTask {
 
    @Override
    public void run() {
-      _traceCanvas.update(_traceGraphics);
-      _countCanvas.update(_countGraphics);
+      if (_traceCanvas != null)
+         _traceCanvas.update(_traceGraphics);
+      if (_countCanvas != null)
+         _countCanvas.update(_countGraphics);
    }
 }

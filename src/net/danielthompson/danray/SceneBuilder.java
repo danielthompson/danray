@@ -37,9 +37,24 @@ public class SceneBuilder {
       return nextID++;
    }
 
-   public static KDScene OneSphere(int x, int y) {
+   public static Scene OneSphere(int x, int y) {
 
-      KDScene scene = new KDScene(null);
+      CameraSettings settings = new CameraSettings();
+      settings.X = x;
+      settings.Y = y;
+      settings.FocalLength = 1200;
+      settings.Rotation = 0;
+      settings.ZoomFactor =  1.5;
+      settings.FocusDistance = 500;
+      settings.Aperture = new CircleAperture(20);
+
+      Point origin = new Point(0, 0, 4000);
+      Vector direction = new Vector(0, 0, -1);
+      settings.Orientation = new Ray(origin, direction);
+
+      Camera camera = new SimplePointableCamera(settings);
+
+      Scene scene = new NaiveScene(camera);
 
       Material material = new Material();
 
@@ -422,10 +437,24 @@ public class SceneBuilder {
       return scene;
    }
 
+   public static Scene Default(int x, int y) {
 
-   public static Scene Default() {
+      CameraSettings settings = new CameraSettings();
+      settings.X = x;
+      settings.Y = y;
+      settings.FocalLength = 1200;
+      settings.Rotation = 0;
+      settings.ZoomFactor =  1.5;
+      settings.FocusDistance = 500;
+      settings.Aperture = new CircleAperture(20);
 
-      Scene scene = new NaiveScene(null);
+      Point origin = new Point(0, 0, 4000);
+      Vector direction = new Vector(0, 0, -1);
+      settings.Orientation = new Ray(origin, direction);
+
+      Camera camera = new SimplePointableCamera(settings);
+
+      Scene scene = new NaiveScene(camera);
 
       Material material = new Material();
 
@@ -730,16 +759,15 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
-      settings.FocalLength = 200;
+      settings.FocalLength = 2000;
       settings.Rotation = 0;
-      settings.ZoomFactor = 1 / 2.;
+      settings.ZoomFactor = 1;
       settings.FocusDistance = 250;
       settings.Aperture = new SquareAperture(5);
 
-      Point origin = new Point(200, 300, 200);
+      Point origin = new Point(200, 300, 300);
       Vector direction = new Vector(0, 0, -1);
       settings.Orientation = new Ray(origin, direction);
-
 
       Camera camera = null;
 
@@ -752,7 +780,7 @@ public class SceneBuilder {
          //camera = new SimplePointableCamera(settings);
       }
 
-      Scene scene = new KDScene(camera);
+      Scene scene = new NaiveScene(camera);
 
       scene.numFrames = 1;
 
@@ -846,7 +874,7 @@ public class SceneBuilder {
       scene.addRadiatableObject(sphereLight);
       //scene.addDrawableObject(sphereLight);
 
-      //scene.addRadiatableObject(new PointLight(new Point(300, 300, 300), 5.7));
+      scene.addRadiatableObject(new PointLight(new Point(300, 300, 300), 1.5));
 
       //scene.addRadiatableObject(new PointLight(new Point(x / 20, y / 2, -100), 5.7));
       //scene.addRadiatableObject(new PointLight(new Point(19 * x / 20, y / 2, -100), 5.7));
@@ -860,23 +888,22 @@ public class SceneBuilder {
       return scene;
    }
 
-
    public static Scene ManyRandomSpheres(int x, int y) {
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
-      settings.FocalLength = 200;
+      settings.FocalLength = 2000;
       settings.Rotation = 0;
-      settings.ZoomFactor = 1 / 5.0;
+      settings.ZoomFactor = 1;
       settings.FocusDistance = 450;
       settings.Aperture = new SquareAperture(2);
 
-      Point origin = new Point(300, 300, 200);
-      Vector direction = new Vector(.45, 0, -1);
+      Point origin = new Point(300, 300, 250);
+      Vector direction = new Vector(0, 0, -1);
       settings.Orientation = new Ray(origin, direction);
 
       Camera camera = null;
-
+/*
       CameraOrientationMovement movement = new CameraOrientationMovement();
       movement.frame = 240;
 
@@ -886,7 +913,7 @@ public class SceneBuilder {
 
       movement.orientation = finalOrientation;
       settings.Movement = movement;
-
+*/
       if (Main.UseDepthOfField) {
          camera = new DepthOfFieldCamera(settings);
 
@@ -898,7 +925,7 @@ public class SceneBuilder {
          camera = new SimplePointableCamera(settings);
       }
 
-      Scene scene = new KDScene(camera);
+      Scene scene = new NaiveScene(camera);
 
       scene.numFrames = 1;
 
@@ -1009,7 +1036,7 @@ public class SceneBuilder {
       scene.addRadiatableObject(sphereLight);
       //scene.addRadiatableObject(new PointLight(new Point(300, 300, 1000), 50));
 
-      scene.addRadiatableObject(new PointLight(new Point(300, 300, 10000), 250));
+      scene.addRadiatableObject(new PointLight(new Point(300, 300, 10000), 2500));
 
       //scene.addRadiatableObject(new PointLight(new Point(x / 20, y / 2, -100), 5.7));
       //scene.addRadiatableObject(new PointLight(new Point(19 * x / 20, y / 2, -100), 5.7));
@@ -1164,7 +1191,22 @@ public class SceneBuilder {
    }
 
    public static Scene TwoSpheresWithLights(int x, int y) {
-      KDScene scene = new KDScene(null);
+      CameraSettings settings = new CameraSettings();
+      settings.X = x;
+      settings.Y = y;
+      settings.FocalLength = 1200;
+      settings.Rotation = 0;
+      settings.ZoomFactor =  1.5;
+      settings.FocusDistance = 500;
+      settings.Aperture = new CircleAperture(20);
+
+      Point origin = new Point(0, 0, 4000);
+      Vector direction = new Vector(0, 0, -1);
+      settings.Orientation = new Ray(origin, direction);
+
+      Camera camera = new SimplePointableCamera(settings);
+
+      Scene scene = new NaiveScene(camera);
 
       Material material = new Material();
       material.Color = blue;
@@ -1194,7 +1236,7 @@ public class SceneBuilder {
 
    }
 
-
+/*
    public static KDScene ReflectiveTriangleMeshWithLight(int x, int y) {
       KDScene scene = new KDScene(null);
 
@@ -1246,11 +1288,11 @@ public class SceneBuilder {
 */
       // lights
 
-      scene.addRadiatableObject(new PointLight(new Point(x / 3, y / 2, 900), 20.0));
-      scene.addRadiatableObject(new PointLight(new Point(2 * x / 3, 2 * y / 3, 900), 20.0));
-      return scene;
-   }
-
+     // scene.addRadiatableObject(new PointLight(new Point(x / 3, y / 2, 900), 20.0));
+     // scene.addRadiatableObject(new PointLight(new Point(2 * x / 3, 2 * y / 3, 900), 20.0));
+   //   return scene;
+ //  }
+//*/
    public static Scene FourReflectiveSphereWithLights(int x, int y) {
 
       CameraSettings settings = new CameraSettings();
@@ -2138,8 +2180,23 @@ public class SceneBuilder {
       return scene;
    }
 
-   public static KDScene TwoTransparentReflectiveSpheresWithLights(int x, int y) {
-      KDScene scene = new KDScene(null);
+   public static Scene TwoTransparentReflectiveSpheresWithLights(int x, int y) {
+      CameraSettings settings = new CameraSettings();
+      settings.X = x;
+      settings.Y = y;
+      settings.FocalLength = 1200;
+      settings.Rotation = 0;
+      settings.ZoomFactor =  1.5;
+      settings.FocusDistance = 500;
+      settings.Aperture = new CircleAperture(20);
+
+      Point origin = new Point(0, 0, 4000);
+      Vector direction = new Vector(0, 0, -1);
+      settings.Orientation = new Ray(origin, direction);
+
+      Camera camera = new SimplePointableCamera(settings);
+
+      Scene scene = new NaiveScene(camera);
 
       Material material = new Material();
       material.Color = blue;

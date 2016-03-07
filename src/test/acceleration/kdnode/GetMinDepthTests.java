@@ -26,8 +26,8 @@ public class GetMinDepthTests {
    public void GetMinDepthTest2() {
       KDNode rootNode = new KDNode(null, KDAxis.X);
 
-      rootNode.setLeftChild(new KDNode(null, KDAxis.Y));
-      rootNode.setRightChild(new KDNode(null, KDAxis.Y));
+      rootNode._leftChild = (new KDNode(null, KDAxis.Y));
+      rootNode._rightChild = (new KDNode(null, KDAxis.Y));
 
       int actual = rootNode.GetMinDepth();
 
@@ -44,14 +44,14 @@ public class GetMinDepthTests {
       KDNode rightChild = new KDNode(null, KDAxis.Y);
       KDNode leftChild = new KDNode(null, KDAxis.Y);
 
-      rootNode.setLeftChild(rightChild);
-      rootNode.setRightChild(leftChild);
+      rootNode._leftChild = (rightChild);
+      rootNode._rightChild = (leftChild);
 
       KDNode rightGrandChild = new KDNode(null, KDAxis.Z);
       KDNode leftGrandChild = new KDNode(null, KDAxis.Z);
 
-      rightChild.setLeftChild(rightGrandChild);
-      rightChild.setRightChild(leftGrandChild);
+      rightChild._leftChild = (rightGrandChild);
+      rightChild._rightChild = (leftGrandChild);
 
       int actual = rootNode.GetMinDepth();
 

@@ -128,8 +128,8 @@ public class KDScene extends Scene {
       }
       else {
 
-         KDNode leftNode = node.getLeftChild();
-         KDNode rightNode = node.getRightChild();
+         KDNode leftNode = node._leftChild;
+         KDNode rightNode = node._rightChild;
 
          IntersectionState leftState = leftNode.getHitInfo(ray);
          IntersectionState rightState = rightNode.getHitInfo(ray);
@@ -184,8 +184,8 @@ public class KDScene extends Scene {
       }
       else {
 
-         KDNode leftNode = node.getLeftChild();
-         KDNode rightNode = node.getRightChild();
+         KDNode leftNode = node._leftChild;
+         KDNode rightNode = node._rightChild;
 
          IntersectionState leftState = leftNode.getHitInfo(ray);
          IntersectionState rightState = rightNode.getHitInfo(ray);
@@ -227,7 +227,7 @@ public class KDScene extends Scene {
          if (nearState.Hits) {
             IntersectionState bestCandidateState = TraverseTreeBetter(nearNode, ray);
             if (bestCandidateState != null && bestCandidateState.Hits) {
-               if (nearNode.getBoundingBox().isPointInside(bestCandidateState.IntersectionPoint))
+               if (nearNode._box.isPointInside(bestCandidateState.IntersectionPoint))
                   return bestCandidateState;
                //else
                   //System.out.println("");
@@ -242,7 +242,7 @@ public class KDScene extends Scene {
 
          if (farState.Hits) {
             IntersectionState bestCandidateState = TraverseTreeBetter(farNode, ray);
-            if (bestCandidateState != null && bestCandidateState.Hits && farNode.getBoundingBox().isPointInside(bestCandidateState.IntersectionPoint)) {
+            if (bestCandidateState != null && bestCandidateState.Hits && farNode._box.isPointInside(bestCandidateState.IntersectionPoint)) {
                return bestCandidateState;
             }
          }
@@ -297,12 +297,12 @@ public class KDScene extends Scene {
                boolean belowFirst = (ray.Origin.getAxis(axis) > node.Split) || (ray.Origin.getAxis(axis) == node.Split && ray.Direction.getAxis(axis) <= 0);
 
                if (belowFirst) {
-                  firstChild = node.getLeftChild();
-                  secondChild = node.getRightChild();
+                  firstChild = node._leftChild;
+                  secondChild = node._rightChild;
                }
                else {
-                  firstChild = node.getRightChild();
-                  secondChild = node.getLeftChild();
+                  firstChild = node._rightChild;
+                  secondChild = node._leftChild;
                }
 
                // if we only have to look at the first one

@@ -20,8 +20,11 @@ public class ImplicitPlane extends AbstractShape {
       super(material);
       this.Origin = origin;
       this.Normal = normal;
+      WorldBoundingBox = new BoundingBox(
+            new Point(-Double.MAX_VALUE, -Double.MAX_VALUE, -Double.MAX_VALUE),
+            new Point(Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE)
+            );
    }
-
 
    @Override
    public double getSurfaceArea() {

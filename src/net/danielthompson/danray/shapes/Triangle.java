@@ -15,7 +15,7 @@ import net.danielthompson.danray.structures.Vector;
  * Date: 7/12/13
  * Time: 5:23 PM
  */
-public class Triangle implements Shape, Radiatable{
+public class Triangle implements Shape, Radiatable {
 
    private Point _vertex0;
    private Point _vertex1;

@@ -1,0 +1,22 @@
+<component name="libraryTable">
+  <library name="org.jogamp.jogl:jogl-all-main:2.3.1" type="repository">
+    <properties maven-id="org.jogamp.jogl:jogl-all-main:2.3.1" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/jogamp/jogl/jogl-all-main/2.3.1/jogl-all-main-2.3.1.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/jogamp/jogl/jogl-all/2.3.1/jogl-all-2.3.1.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/jogamp/jogl/jogl-all/2.3.1/jogl-all-2.3.1-natives-android-aarch64.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/jogamp/jogl/jogl-all/2.3.1/jogl-all-2.3.1-natives-android-armv6.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/jogamp/jogl/jogl-all/2.3.1/jogl-all-2.3.1-natives-linux-amd64.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/jogamp/jogl/jogl-all/2.3.1/jogl-all-2.3.1-natives-linux-armv6.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/jogamp/jogl/jogl-all/2.3.1/jogl-all-2.3.1-natives-linux-armv6hf.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/jogamp/jogl/jogl-all/2.3.1/jogl-all-2.3.1-natives-linux-i586.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/jogamp/jogl/jogl-all/2.3.1/jogl-all-2.3.1-natives-macosx-universal.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/jogamp/jogl/jogl-all/2.3.1/jogl-all-2.3.1-natives-solaris-amd64.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/jogamp/jogl/jogl-all/2.3.1/jogl-all-2.3.1-natives-solaris-i586.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/jogamp/jogl/jogl-all/2.3.1/jogl-all-2.3.1-natives-windows-amd64.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/jogamp/jogl/jogl-all/2.3.1/jogl-all-2.3.1-natives-windows-i586.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

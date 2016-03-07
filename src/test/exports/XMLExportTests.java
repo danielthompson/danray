@@ -1,6 +1,9 @@
 package test.exports;
 
+import net.danielthompson.danray.SceneBuilder;
+import net.danielthompson.danray.cameras.Camera;
 import net.danielthompson.danray.cameras.CameraSettings;
+import net.danielthompson.danray.cameras.SimplePointableCamera;
 import net.danielthompson.danray.cameras.apertures.Aperture;
 import net.danielthompson.danray.cameras.apertures.CircleAperture;
 import net.danielthompson.danray.cameras.apertures.SquareAperture;
@@ -9,6 +12,10 @@ import net.danielthompson.danray.shading.*;
 import net.danielthompson.danray.shading.bxdf.BRDF;
 import net.danielthompson.danray.shading.bxdf.GaussianBRDF;
 import net.danielthompson.danray.shading.bxdf.LambertianBRDF;
+import net.danielthompson.danray.shapes.Box;
+import net.danielthompson.danray.shapes.Cylinder;
+import net.danielthompson.danray.shapes.ImplicitPlane;
+import net.danielthompson.danray.shapes.Sphere;
 import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.structures.Point;
 import org.testng.annotations.AfterMethod;
@@ -19,6 +26,11 @@ import org.w3c.dom.Element;
 
 import java.awt.*;
 import java.io.File;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by dthompson on 3/1/2016.
@@ -400,5 +412,226 @@ public class XMLExportTests {
       unitTestExporter.Process(exporter);
    }
 
+   @Test
+   public void testAbstractShapeExport() throws Exception {
 
+      Transform t1 = Transform.Translate(new Vector(500, 200, 900));
+      Transform t2 = Transform.Translate(new Vector(-500, -200, -900));
+
+      final Material material = new Material();
+      material.BRDF = new LambertianBRDF();
+      material.Color = Color.green;
+      material.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.LemonSkin;
+
+      final Cylinder object = new Cylinder(5.0, 10.1, t1, t2, material);
+
+      File file = new File(_dir, "abstractshape.xml");
+
+      final UnitTestExporter unitTestExporter = new UnitTestExporter(file);
+
+      IExporter exporter = new IExporter() {
+         @Override
+         public Element Process(Document document, Element root) {
+
+            return AbstractShapeExporter.Process(object, document, root);
+         }
+
+      };
+
+      unitTestExporter.Process(exporter);
+   }
+
+   @Test
+   public void testCylinderExport() throws Exception {
+
+      Transform t1 = Transform.Translate(new Vector(500, 200, 900));
+      Transform t2 = Transform.Translate(new Vector(-500, -200, -900));
+
+      final Material material = new Material();
+      material.BRDF = new LambertianBRDF();
+      material.Color = Color.green;
+      material.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.LemonSkin;
+
+      final Cylinder object = new Cylinder(5.0, 10.1, t1, t2, material);
+
+      File file = new File(_dir, "cylinder.xml");
+
+      final UnitTestExporter unitTestExporter = new UnitTestExporter(file);
+
+      IExporter exporter = new IExporter() {
+         @Override
+         public Element Process(Document document, Element root) {
+
+            return CylinderExporter.Process(object, document, root);
+         }
+
+      };
+
+      unitTestExporter.Process(exporter);
+   }
+
+   @Test
+   public void testBoxExport() throws Exception {
+
+      Transform t1 = Transform.Translate(new Vector(500, 200, 900));
+      Transform t2 = Transform.Translate(new Vector(-500, -200, -900));
+
+      final Material material = new Material();
+      material.BRDF = new LambertianBRDF();
+      material.Color = Color.green;
+      material.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.LemonSkin;
+
+      final Box object = new Box(new Point(-1, -1.5, 0), new Point(5, 5.5, 10.4), material, t1, t2);
+
+      File file = new File(_dir, "box.xml");
+
+      final UnitTestExporter unitTestExporter = new UnitTestExporter(file);
+
+      IExporter exporter = new IExporter() {
+         @Override
+         public Element Process(Document document, Element root) {
+
+            return BoxExporter.Process(object, document, root);
+         }
+
+      };
+
+      unitTestExporter.Process(exporter);
+   }
+
+   @Test
+   public void testImplicitPlaneExport() throws Exception {
+
+      final Material material = new Material();
+      material.BRDF = new LambertianBRDF();
+      material.Color = Color.green;
+      material.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.LemonSkin;
+
+      final ImplicitPlane object = new ImplicitPlane(new Point(-1, 2, -3.5), new Normal(5, .1, -7), material);
+
+      File file = new File(_dir, "implicitplane.xml");
+
+      final UnitTestExporter unitTestExporter = new UnitTestExporter(file);
+
+      IExporter exporter = new IExporter() {
+         @Override
+         public Element Process(Document document, Element root) {
+
+            return ImplicitPlaneExporter.Process(object, document, root);
+         }
+
+      };
+
+      unitTestExporter.Process(exporter);
+   }
+
+   @Test
+   public void testSphereExport() throws Exception {
+
+      final Material material = new Material();
+      material.BRDF = new LambertianBRDF();
+      material.Color = Color.green;
+      material.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.LemonSkin;
+
+      final Sphere object = new Sphere(material);
+
+      File file = new File(_dir, "sphere.xml");
+
+      final UnitTestExporter unitTestExporter = new UnitTestExporter(file);
+
+      IExporter exporter = new IExporter() {
+         @Override
+         public Element Process(Document document, Element root) {
+
+            return SphereExporter.Process(object, document, root);
+         }
+
+      };
+
+      unitTestExporter.Process(exporter);
+   }
+
+
+   @Test
+   public void testAbstractCameraExport() throws Exception {
+
+      CameraSettings settings = new CameraSettings();
+      settings.X = 640;
+      settings.Y = 480;
+      settings.FocalLength = 1200;
+      settings.Rotation = 0;
+      settings.ZoomFactor = 1 / 1.5;
+      settings.FocusDistance = 250;
+      settings.Aperture = new SquareAperture(5);
+
+      Point origin = new Point(100, 800, 1500);
+      Vector direction = new Vector(0, -1, -1);
+
+      settings.Orientation = new Ray(origin, direction);
+
+      final Camera object = new SimplePointableCamera(settings);
+
+      File file = new File(_dir, "abstractcamera.xml");
+
+      final UnitTestExporter unitTestExporter = new UnitTestExporter(file);
+
+      IExporter exporter = new IExporter() {
+         @Override
+         public Element Process(Document document, Element root) {
+
+            return CameraExporter.Process(object, document, root);
+         }
+
+      };
+
+      unitTestExporter.Process(exporter);
+   }
+
+   @Test
+   public void testSceneExport() throws Exception {
+
+      Class sceneBuilderClass = SceneBuilder.class;
+      Class sceneClass = Scene.class;
+
+      ArrayList<Method> methodList = new ArrayList<Method>();
+
+      for (Method method : sceneBuilderClass.getMethods()) {
+         if (Modifier.isStatic(method.getModifiers())) {
+            Class returnType = method.getReturnType();
+            if (sceneClass.isAssignableFrom(returnType)) {
+               methodList.add(method);
+            }
+         }
+      }
+
+      Collections.sort(methodList, new Comparator<Method>() {
+         @Override
+         public int compare(Method o1, Method o2) {
+            return (o1.getName().compareTo(o2.getName()));
+         }
+      });
+
+      int i = 0;
+
+      for (Method method : methodList) {
+         System.err.println("Method: [" + method.getName() + "]");
+         final Scene object = (Scene)method.invoke(null, 400, 300);
+         object.Compile();
+         File file = new File(_dir, "scene-" + i++ + "-" + method.getName() + ".xml");
+
+         final UnitTestExporter unitTestExporter = new UnitTestExporter(file);
+
+         IExporter exporter = new IExporter() {
+            @Override
+            public Element Process(Document document, Element root) {
+
+               return SceneExporter.Process(object, document, root);
+            }
+         };
+
+         unitTestExporter.Process(exporter);
+      }
+
+
+   }
 }

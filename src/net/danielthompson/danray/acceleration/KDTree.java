@@ -43,7 +43,7 @@ public class KDTree {
 
       BoundingBox initialBoundingBox = new BoundingBox(minPoint, maxPoint);
 
-      rootNode.setBoundingBox(initialBoundingBox);
+      rootNode._box = (initialBoundingBox);
 
       BuildKDTreeSAH(rootNode, 1);
 
@@ -78,7 +78,7 @@ public class KDTree {
          KDAxisHeuristic[] heuristics = new KDAxisHeuristic[3];
 
          heuristics[0] = new KDAxisHeuristic();
-         heuristics[0].Axis = node.getBoundingBox().getLargestExtent();
+         heuristics[0].Axis = node._box.getLargestExtent();
 
          heuristics[1] = new KDAxisHeuristic();
          heuristics[1].Axis = getNextAxis(heuristics[0].Axis);
@@ -101,7 +101,7 @@ public class KDTree {
          List<Drawable> greaterThanList = new ArrayList<Drawable>();
 
          KDAxis axis = axes[0];*/
-         BoundingBox box = node.getBoundingBox();
+         BoundingBox box = node._box;
 
          double separator = 0;
 
@@ -225,14 +225,14 @@ public class KDTree {
             KDAxisHeuristic heuristic = heuristics[minSurfaceAreaHeuristicIndex];
 
             KDNode leftNode = new KDNode(heuristic.LessThanObjects, getNextAxis(heuristic.Axis));
-            leftNode.setBoundingBox(heuristics[minSurfaceAreaHeuristicIndex].LessThanBoundingBox);
+            leftNode._box = (heuristics[minSurfaceAreaHeuristicIndex].LessThanBoundingBox);
 
             KDNode rightNode = new KDNode(heuristic.GreaterThanObjects, getNextAxis(heuristic.Axis));
-            rightNode.setBoundingBox(heuristics[minSurfaceAreaHeuristicIndex].GreaterThanBoundingBox);
+            rightNode._box = (heuristics[minSurfaceAreaHeuristicIndex].GreaterThanBoundingBox);
 
-            node.setLeftChild(leftNode);
-            node.setRightChild(rightNode);
-            node.setSeparator(heuristic.Separator);
+            node._leftChild = leftNode;
+            node._rightChild = rightNode;
+            node.Split = (heuristic.Separator);
             node.Axis = heuristic.Axis;
 
             /*
@@ -288,7 +288,7 @@ public class KDTree {
          boolean foundGoodSplit = false;
 
          List<KDAxis> axes = new ArrayList<>();
-         axes.add(node.getBoundingBox().getLargestExtent());
+         axes.add(node._box.getLargestExtent());
          axes.add(getNextAxis(axes.get(0)));
          axes.add(getNextAxis(axes.get(1)));
 
@@ -416,17 +416,17 @@ public class KDTree {
 
             }
 
-            BoundingBox[] boxes = SubdivideBoundingBox(node.getBoundingBox(), best.Axis, best.Separator);
+            BoundingBox[] boxes = SubdivideBoundingBox(node._box, best.Axis, best.Separator);
 
             KDNode leftNode = new KDNode(lessThanList, getNextAxis(best.Axis));
-            leftNode.setBoundingBox(boxes[0]);
+            leftNode._box = (boxes[0]);
 
             KDNode rightNode = new KDNode(greaterThanList, getNextAxis(best.Axis));
-            rightNode.setBoundingBox(boxes[1]);
+            rightNode._box = (boxes[1]);
 
-            node.setLeftChild(leftNode);
-            node.setRightChild(rightNode);
-            node.setSeparator(best.Separator);
+            node._leftChild = leftNode;
+            node._rightChild = rightNode;
+            node.Split = (best.Separator);
             node.Axis = best.Axis;
 
             /*

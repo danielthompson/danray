@@ -46,8 +46,8 @@ public class BuildTests {
 
       Assert.assertNotNull(rootNode);
       Assert.assertTrue(rootNode.isLeaf());
-      Assert.assertNull(rootNode.getLeftChild());
-      Assert.assertNull(rootNode.getRightChild());
+      Assert.assertNull(rootNode._leftChild);
+      Assert.assertNull(rootNode._rightChild);
    }
 
    @Test
@@ -68,8 +68,8 @@ public class BuildTests {
 
       Assert.assertNotNull(rootNode);
       Assert.assertTrue(rootNode.isLeaf());
-      Assert.assertNull(rootNode.getLeftChild());
-      Assert.assertNull(rootNode.getRightChild());
+      Assert.assertNull(rootNode._leftChild);
+      Assert.assertNull(rootNode._rightChild);
    }
 
    @Test
@@ -90,8 +90,8 @@ public class BuildTests {
 
       Assert.assertNotNull(rootNode);
       Assert.assertTrue(rootNode.isLeaf());
-      Assert.assertNull(rootNode.getLeftChild());
-      Assert.assertNull(rootNode.getRightChild());
+      Assert.assertNull(rootNode._leftChild);
+      Assert.assertNull(rootNode._rightChild);
    }
 
    @Test
@@ -112,8 +112,8 @@ public class BuildTests {
 
       Assert.assertNotNull(rootNode, "root should not be null");
       Assert.assertFalse(rootNode.isLeaf(), "root should not be leaf with 5 elements");
-      Assert.assertNotNull(rootNode.getLeftChild(), "left child should not be null with 5 elements");
-      Assert.assertNotNull(rootNode.getRightChild(), "right child should not be null with 5 elements");
+      Assert.assertNotNull(rootNode._leftChild, "left child should not be null with 5 elements");
+      Assert.assertNotNull(rootNode._rightChild, "right child should not be null with 5 elements");
    }
 
    @Test
@@ -134,8 +134,8 @@ public class BuildTests {
 
       Assert.assertNotNull(rootNode, "root should not be null");
       Assert.assertFalse(rootNode.isLeaf(), "root should not be leaf with 50 elements");
-      Assert.assertNotNull(rootNode.getLeftChild(), "left child should not be null with 50 elements");
-      Assert.assertNotNull(rootNode.getRightChild(), "right child should not be null with 50 elements");
+      Assert.assertNotNull(rootNode._leftChild, "left child should not be null with 50 elements");
+      Assert.assertNotNull(rootNode._rightChild, "right child should not be null with 50 elements");
    }
 
    @Test
@@ -156,8 +156,8 @@ public class BuildTests {
 
       Assert.assertNotNull(rootNode, "root should not be null");
       Assert.assertFalse(rootNode.isLeaf(), "root should not be leaf with 500 elements");
-      Assert.assertNotNull(rootNode.getLeftChild(), "left child should not be null with 500 elements");
-      Assert.assertNotNull(rootNode.getRightChild(), "right child should not be null with 500 elements");
+      Assert.assertNotNull(rootNode._leftChild, "left child should not be null with 500 elements");
+      Assert.assertNotNull(rootNode._rightChild, "right child should not be null with 500 elements");
    }
 
    @Test
@@ -178,8 +178,8 @@ public class BuildTests {
 
       Assert.assertNotNull(rootNode, "root should not be null");
       Assert.assertFalse(rootNode.isLeaf(), "root should not be leaf with 5000 elements");
-      Assert.assertNotNull(rootNode.getLeftChild(), "left child should not be null with 5000 elements");
-      Assert.assertNotNull(rootNode.getRightChild(), "right child should not be null with 5000 elements");
+      Assert.assertNotNull(rootNode._leftChild, "left child should not be null with 5000 elements");
+      Assert.assertNotNull(rootNode._rightChild, "right child should not be null with 5000 elements");
 
       int depth = rootNode.GetMaxDepth();
 

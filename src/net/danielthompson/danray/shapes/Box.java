@@ -12,21 +12,22 @@ public class Box extends AbstractShape {
    public Point point1;
    public Point point2;
 
-   private Normal _negativeX = new Normal(-1, 0, 0);
-   private Normal _negativeY = new Normal(0, -1, 0);
-   private Normal _negativeZ = new Normal(0, 0, -1);
-   private Normal _positiveX = new Normal(1, 0, 0);
-   private Normal _positiveY = new Normal(0, 1, 0);
-   private Normal _positiveZ = new Normal(0, 0, 1);
+   private static Normal _negativeX = new Normal(-1, 0, 0);
+   private static Normal _negativeY = new Normal(0, -1, 0);
+   private static Normal _negativeZ = new Normal(0, 0, -1);
+   private static Normal _positiveX = new Normal(1, 0, 0);
+   private static Normal _positiveY = new Normal(0, 1, 0);
+   private static Normal _positiveZ = new Normal(0, 0, 1);
 
    public Box(Point p1, Point p2, Material material) {
-      super(material);
-      this.point1 = p1;
-      this.point2 = p2;
+      this(p1, p2, material, null, null);
    }
 
    public Box(Point p1, Point p2, Material material, Transform objectToWorld, Transform worldToObject) {
-      this(p1, p2, material);
+      super(material);
+      point1 = p1;
+      point2 = p2;
+
       ObjectToWorld = objectToWorld;
       WorldToObject = worldToObject;
 
