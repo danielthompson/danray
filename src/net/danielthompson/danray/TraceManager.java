@@ -3,9 +3,7 @@ package net.danielthompson.danray;
 //import com.jogamp.opengl.GLCapabilities;
 //import com.jogamp.opengl.GLProfile;
 //import com.jogamp.opengl.awt.GLCanvas;
-import com.jogamp.opengl.GLCapabilities;
-import com.jogamp.opengl.GLProfile;
-import com.jogamp.opengl.awt.GLCanvas;
+import net.danielthompson.danray.acceleration.KDScene;
 import net.danielthompson.danray.presets.RenderQualityPreset;
 import net.danielthompson.danray.presets.TracerOptions;
 import net.danielthompson.danray.runners.SpectralTileRunner;
@@ -20,6 +18,8 @@ import net.danielthompson.danray.structures.Vector;
 import net.danielthompson.danray.tracers.SpectralTracer;
 import net.danielthompson.danray.tracers.Tracer;
 import net.danielthompson.danray.ui.*;
+import net.danielthompson.danray.ui.opengl.KDJFrame;
+import net.danielthompson.danray.ui.opengl.OpenGLFrame;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
 import javax.imageio.ImageIO;
@@ -59,7 +59,7 @@ public class TraceManager {
    private Graphics _countGraphics;
    private Frame _countFrame;
 
-   private Frame _glFrame;
+   private OpenGLFrame _glFrame;
 /*
    private Graphics _infoGraphics;
    private InfoFrame _infoFrame;
@@ -88,6 +88,7 @@ public class TraceManager {
    Tracer _tracer;
    SpectralTracer _spectralTracer;
 
+   private KDJFrame _kdFrame;
 
    int _xPointer;
    int _yPointer;
@@ -199,16 +200,28 @@ public class TraceManager {
       if (_tracerOptions.showOpenGLWindow) {
 
          // gl window
-         _glFrame = new Frame("OpenGL view");
-         GLProfile.initSingleton();
-         GLProfile glp = GLProfile.getDefault();
-         GLCapabilities caps = new GLCapabilities(glp);
-         GLCanvas canvas = new OpenGLCanvas(caps, _scene);
-         _glFrame.add(canvas);
-         _glFrame.setSize(new Dimension(_qualityPreset.getX(), _qualityPreset.getY() + 22));
+
+         _glFrame = new OpenGLFrame(_scene);
+
+         Dimension canvasSize = new Dimension(new Dimension(_qualityPreset.getX(), _qualityPreset.getY() + 22));
+
+         _glFrame.setSize(canvasSize);
          _glFrame.setBounds(_qualityPreset.getX() + 10, 0, _qualityPreset.getX(), _qualityPreset.getY() + 22);
          _glFrame.setVisible(true);
+
+         // kd window
+         if (_tracerOptions.showKDWindow && _scene instanceof KDScene) {
+            _kdFrame = new KDJFrame((KDScene)_scene, _glFrame.Canvas);
+
+            Dimension frameSize = new Dimension(200, 500);
+
+            _kdFrame.setSize(frameSize);
+            _kdFrame.setBounds(_qualityPreset.getX() * 2 + 10, 0, frameSize.width, frameSize.height + 22);
+            _kdFrame.setVisible(true);
+         }
       }
+
+
 
       // count window
       if (_tracerOptions.showCountWindow) {
@@ -274,7 +287,8 @@ public class TraceManager {
    }
 
    public void setMouseXY(final int x, final int y) {
-      _infoJFrame.setMouseLocation(x, y);
+      if (_infoJFrame != null)
+         _infoJFrame.setMouseLocation(x, y);
    }
 
    public void setMouseClickXY(final int x, final int y) {

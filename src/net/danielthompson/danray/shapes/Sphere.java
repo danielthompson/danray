@@ -30,6 +30,10 @@ public class Sphere extends AbstractShape {
       WorldToObject = worldToObject;
       ObjectToWorld = objectToWorld;
 
+      RecalculateWorldBoundingBox();
+   }
+
+   public void RecalculateWorldBoundingBox() {
       double p1x = Origin.X - Radius;
       double p1y = Origin.Y - Radius;
       double p1z = Origin.Z - Radius;

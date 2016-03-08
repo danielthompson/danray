@@ -865,6 +865,8 @@ public class SceneBuilder {
 
             sphere.Origin = new Point(originX, originY, originZ);
             sphere.Radius = 10;
+
+            sphere.RecalculateWorldBoundingBox();
             scene.addDrawableObject(sphere);
          }
       }

@@ -7,6 +7,7 @@ public class TracerOptions {
    public boolean showTracerWindow = true;
    public boolean showCountWindow = false;
    public boolean showOpenGLWindow = true;
+   public boolean showKDWindow = true;
    public boolean showSpectrumWindow = false;
    public boolean showInfoWindow = false;
    public int numThreads;

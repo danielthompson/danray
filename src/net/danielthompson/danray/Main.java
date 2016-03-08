@@ -67,6 +67,9 @@ public class Main {
             case "-openGLWindow":
                options.showOpenGLWindow = true;
                break;
+            case "-kdWindow":
+               options.showKDWindow = true;
+               break;
             case "-spectrumWindow":
                options.showSpectrumWindow = true;
                break;
