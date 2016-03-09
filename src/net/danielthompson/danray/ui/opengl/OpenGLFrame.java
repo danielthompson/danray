@@ -18,6 +18,8 @@ public class OpenGLFrame extends JFrame {
       GLProfile.initSingleton();
       GLProfile glp = GLProfile.getDefault();
       GLCapabilities caps = new GLCapabilities(glp);
+      caps.setHardwareAccelerated(true);
+      //caps.setDoubleBuffered(true);
       Canvas = new OpenGLCanvas(caps, scene);
 
       //Add the split pane to this panel.

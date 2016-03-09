@@ -794,14 +794,14 @@ public class SceneBuilder {
       material._specular = 1 - .75;
       material._reflectivity = .25;
 
-      Point p0 = new Point(0, 100, -1);
-      Point p1 = new Point(400, 500, 0);
+      Point p0 = new Point(-100, 0, -500);
+      Point p1 = new Point(500, 600, -499);
 
       Box box = new Box(p0, p1, material);
 
       //ImplicitPlane plane = new ImplicitPlane(planeOrigin, planeNormal, material);
       //scene.addDrawableObject(plane);
-      scene.addDrawableObject(box);
+      //scene.addDrawableObject(box);
 
       /*
       for (int i = 0; i < 600; i += 3) {

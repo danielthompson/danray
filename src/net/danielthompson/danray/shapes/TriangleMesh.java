@@ -27,6 +27,16 @@ public class TriangleMesh implements Shape {
       return ID;
    }
 
+   @Override
+   public boolean InCurrentKDNode() {
+      return false;
+   }
+
+   @Override
+   public void SetInCurrentKDNode(boolean value) {
+
+   }
+
    private BoundingBox _boundingBox;
 
    public TriangleMesh(List<Point> vertices, List<List<Point>> faces) {

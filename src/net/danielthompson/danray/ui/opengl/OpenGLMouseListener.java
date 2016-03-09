@@ -10,8 +10,7 @@ import java.awt.event.MouseMotionListener;
 public class OpenGLMouseListener implements MouseListener, MouseMotionListener {
 
    private final OpenGLCameraState _cameraState;
-   private double _prevX;
-   private double _prevY;
+
 
    private boolean _first = true;
 
@@ -22,6 +21,10 @@ public class OpenGLMouseListener implements MouseListener, MouseMotionListener {
 
    @Override
    public void mouseClicked(MouseEvent mouseEvent) {
+
+      resetMousePosition(mouseEvent);
+      _cameraState.hasFocus = true;
+
 
    }
 
@@ -44,38 +47,45 @@ public class OpenGLMouseListener implements MouseListener, MouseMotionListener {
 
    @Override
    public void mouseMoved(MouseEvent mouseEvent) {
-      if (_first) {
-         _first = false;
 
+      if (_cameraState.hasFocus) {
+         if (_first) {
+            _first = false;
+
+         } else {
+            // mouse x - rotate about y axis
+
+            double xDiff = (mouseEvent.getX() - _cameraState.PrevMouseX) / 5.0;
+            _cameraState._yRotation += xDiff;
+            if (_cameraState._yRotation >= 360)
+               _cameraState._yRotation %= 360;
+
+            while (_cameraState._yRotation < 0) {
+               _cameraState._yRotation += 360;
+            }
+
+            // mouse y - rotate about x axis
+
+            double yDiff = (mouseEvent.getY() - _cameraState.PrevMouseY) / 5.0;
+            _cameraState._xRotation += yDiff;
+
+            if (_cameraState._xRotation >= 360)
+               _cameraState._xRotation %= 360;
+
+            while (_cameraState._xRotation < 0) {
+               _cameraState._xRotation += 360;
+            }
+         }
+         resetMousePosition(mouseEvent);
+         /*_cameraState.PrevMouseX = mouseEvent.getX();
+         _cameraState.PrevMouseY = mouseEvent.getY();*/
       }
 
-      else  {
-         // mouse x - rotate about y axis
+   }
 
-         double xDiff = (mouseEvent.getX() - _prevX) / 5.0;
-         _cameraState._yRotation += xDiff;
-         if (_cameraState._yRotation >= 360)
-            _cameraState._yRotation %= 360;
-
-         while (_cameraState._yRotation < 0) {
-            _cameraState._yRotation += 360;
-         }
-
-         // mouse y - rotate about x axis
-
-         double yDiff = (mouseEvent.getY() - _prevY) / 5.0;
-         _cameraState._xRotation += yDiff;
-
-         if (_cameraState._xRotation >= 360)
-            _cameraState._xRotation %= 360;
-
-         while (_cameraState._xRotation < 0) {
-            _cameraState._xRotation += 360;
-         }
-      }
-      _prevX = mouseEvent.getX();
-      _prevY = mouseEvent.getY();
-
+   private void resetMousePosition(MouseEvent event) {
+      _cameraState.PrevMouseX = event.getX();
+      _cameraState.PrevMouseY = event.getY();
    }
 //
 //   @Override
@@ -90,8 +100,7 @@ public class OpenGLMouseListener implements MouseListener, MouseMotionListener {
 
    @Override
    public void mouseEntered(MouseEvent mouseEvent) {
-      _prevX = mouseEvent.getX();
-      _prevY = mouseEvent.getY();
+      resetMousePosition(mouseEvent);
    }
 
    @Override

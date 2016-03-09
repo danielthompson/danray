@@ -28,6 +28,16 @@ public class Triangle implements Shape, Radiatable {
       return ID;
    }
 
+   @Override
+   public boolean InCurrentKDNode() {
+      return false;
+   }
+
+   @Override
+   public void SetInCurrentKDNode(boolean value) {
+
+   }
+
    private Material _material;
 
    public Triangle(Point vertex0, Point vertex1, Point vertex2, Material material) {

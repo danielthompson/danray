@@ -79,6 +79,6 @@ public class KDJFrame extends JFrame implements TreeSelectionListener {
       KDNode nodeInfo = (KDNode)(node.getUserObject());
 
        /* React to the node selection. */
-      _canvas.SelectedNode = nodeInfo;
+      _canvas.SetNode(nodeInfo);
    }
 }

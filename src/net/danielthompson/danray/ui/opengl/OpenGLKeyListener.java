@@ -30,7 +30,7 @@ public class OpenGLKeyListener extends TimerTask implements KeyListener {
 
       _cameraState = cameraState;
 
-      _timer.schedule(this, 0, 100);
+      _timer.schedule(this, 0, 50);
 
       _keyPressHistories = new HashMap<>();
       _keyPressHistories.put(KeyEvent.VK_W, new KeyHistory());
@@ -72,6 +72,13 @@ public class OpenGLKeyListener extends TimerTask implements KeyListener {
 
       public float GetPercentage() {
          float accumulator = 0.0f;
+
+
+         /*
+         for (int i = _keyPressHistoryIndex; i < _keyPressHistorySize; i++) {
+
+         }
+         */
          for (int i = 0; i < _keyPressHistorySize; i++) {
             if (_presses[i])
                accumulator++;
@@ -159,7 +166,8 @@ public class OpenGLKeyListener extends TimerTask implements KeyListener {
       int keyCode = e.getKeyCode();
 
       if (keyCode == KeyEvent.VK_ESCAPE) {
-         OpenGLCanvas.animator.stop();
+         _cameraState.hasFocus = false;
+         // OpenGLCanvas.animator.stop();
          //_canvas.destroy();
       }
 

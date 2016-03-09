@@ -137,7 +137,7 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
       gl.glTranslatef((float) -_cameraState._position[0], (float) -_cameraState._position[1], (float) -_cameraState._position[2]);
 
       // background
-      gl.glClearColor(0f, .33f, 0.66f, 1f);
+      gl.glClearColor(0f, .11f, 0.22f, 1f);
       gl.glClearDepthf(1f);
       gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
 
@@ -150,7 +150,11 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
             Point origin = sphere.Origin;
             gl.glTranslatef(((float)origin.X), ((float)origin.Y), ((float)origin.Z));
 
-            setColor(gl, sphere.Material);
+            if (sphere.InCurrentKDNode)
+               gl.glColor3f(0.2f, 0.2f, 0.2f);
+            else
+               gl.glColor3f(0.2f, 1.0f, 1.0f);
+               //setColor(gl, sphere.Material);
             _glu.gluSphere(quadric, sphere.Radius, 10, 10);
             gl.glTranslatef(-((float)origin.X), -((float)origin.Y), -((float)origin.Z));
          }
@@ -164,8 +168,6 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
       for (Radiatable radiatable : _scene.Radiatables) {
          if (radiatable instanceof PointLight) {
             PointLight light = (PointLight)radiatable;
-
-
             float[] lightpos = {(float)(light._location.X), (float)(light._location.Y), (float)(light._location.Z)};
             gl.glLightfv(gl.GL_LIGHT0, gl.GL_POSITION, lightpos, 0);
 
@@ -177,32 +179,44 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
       if (_scene instanceof KDScene) {
          KDScene scene = (KDScene)_scene;
          gl.glEnable(GL.GL_BLEND); //Enable blending.
+         gl.glDepthMask (false);
          gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA); //Set blending function.
 
          DrawNodes(gl, scene.rootNode);
-
+         gl.glDepthMask (true);
          gl.glDisable(GL.GL_BLEND);
       }
 
       drawOverlay(gl);
       checkError(gl, "display");
+      //drawable.swapBuffers();
    }
 
    private void DrawNodes(GL2 gl, KDNode node) {
       if (node != null) {
          if (node.equals(SelectedNode)) {
-            gl.glColor4f(1.0f, 0.0f, 0.0f, .5f);
+            gl.glColor4f(.25f, 0.25f, 1.0f, .5f);
+            drawBoundingBox(gl, node._box);
          }
          else {
-            gl.glColor4f(0.0f, 0.75f, 0.75f, .5f);
-         }
-         drawBoundingBox(gl, node._box);
-         if (node._leftChild != null)
-            DrawNodes(gl, node._leftChild);
-         if (node._rightChild != null) {
-            DrawNodes(gl, node._rightChild);
+            //gl.glColor4f(0.2f, 0.2f, 0.2f, .2f);
+            if (node._leftChild != null)
+               DrawNodes(gl, node._leftChild);
+            if (node._rightChild != null) {
+               DrawNodes(gl, node._rightChild);
+            }
          }
       }
+   }
+
+   public void SetNode(KDNode node) {
+      SelectedNode = node;
+
+      for (Shape shape : _scene.shapes)
+         shape.SetInCurrentKDNode(false);
+
+      for (Shape shape : node._objects)
+         shape.SetInCurrentKDNode(true);
    }
 
    private void setColor(GL2 gl, Material material) {
@@ -216,45 +230,30 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
 
    private void drawBoundingBox(GL2 gl, BoundingBox box) {
 
-
-      gl.glBegin(GL.GL_TRIANGLE_STRIP);
-
       float p0x = (float)box.point1.X;
       float p0y = (float)box.point1.Y;
       float p0z = (float)box.point1.Z;
       float p1x = (float)box.point2.X;
       float p1y = (float)box.point2.Y;
       float p1z = (float)box.point2.Z;
-
-      // front face
-      gl.glNormal3f(0, 0, 1);
-      gl.glVertex3f(p0x, p0y, p1z);
-      gl.glVertex3f(p0x, p1y, p1z);
-      gl.glVertex3f(p1x, p0y, p1z);
-      gl.glVertex3f(p1x, p1y, p1z);
-
-      // right face
-      gl.glNormal3f(1, 0, 0);
-      gl.glVertex3f(p1x, p0y, p0z);
-      gl.glVertex3f(p1x, p1y, p0z);
-
-      // back face
-      gl.glNormal3f(0, 0, -1);
-      gl.glVertex3f(p0x, p0y, p0z);
-      gl.glVertex3f(p0x, p1y, p0z);
-
-      gl.glEnd();
+      drawBox(gl, p0x, p0y, p0z, p1x, p1y, p1z);
    }
 
    private void drawBox(GL2 gl, Box box) {
 
-      setColor(gl, box.Material);
       float p0x = (float)box.point1.X;
       float p0y = (float)box.point1.Y;
       float p0z = (float)box.point1.Z;
       float p1x = (float)box.point2.X;
       float p1y = (float)box.point2.Y;
       float p1z = (float)box.point2.Z;
+
+      setColor(gl, box.Material);
+
+      drawBox(gl, p0x, p0y, p0z, p1x, p1y, p1z);
+   }
+
+   private void drawBox(GL2 gl, float p0x, float p0y, float p0z, float p1x, float p1y, float p1z) {
       gl.glBegin(GL.GL_TRIANGLE_STRIP);
 
       // front face
@@ -299,6 +298,8 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
       gl.glVertex3f(p1x, p0y, p1z);
       gl.glEnd();
    }
+
+
 
    protected boolean checkError(GL gl, String title) {
 

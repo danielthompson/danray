@@ -20,6 +20,8 @@ public abstract class AbstractShape implements Shape {
    public Transform ObjectToWorld;
    public Transform WorldToObject;
 
+   public boolean InCurrentKDNode;
+
    public AbstractShape(Material material) {
       this.Material = material;
    }
@@ -36,6 +38,16 @@ public abstract class AbstractShape implements Shape {
 
    public int getID() {
       return ID;
+   }
+
+   @Override
+   public boolean InCurrentKDNode() {
+      return InCurrentKDNode;
+   }
+
+   @Override
+   public void SetInCurrentKDNode(boolean value) {
+      InCurrentKDNode = value;
    }
 
    @Override

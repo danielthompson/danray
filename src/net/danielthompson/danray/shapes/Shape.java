@@ -18,6 +18,10 @@ public interface Shape {
 
    public int getID();
 
+   public boolean InCurrentKDNode();
+
+   public void SetInCurrentKDNode(boolean value);
+
    public double getMedian(KDAxis axis);
 
    IntersectionState GetHitInfo(Ray ray);
