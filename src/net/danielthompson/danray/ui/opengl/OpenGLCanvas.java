@@ -155,7 +155,7 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
             else
                gl.glColor3f(0.2f, 1.0f, 1.0f);
                //setColor(gl, sphere.Material);
-            _glu.gluSphere(quadric, sphere.Radius, 10, 10);
+            _glu.gluSphere(quadric, sphere.Radius, 4, 4);
             gl.glTranslatef(-((float)origin.X), -((float)origin.Y), -((float)origin.Z));
          }
          else if (shape instanceof Box) {

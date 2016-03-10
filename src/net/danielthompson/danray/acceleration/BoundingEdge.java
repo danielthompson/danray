@@ -10,7 +10,6 @@ public class BoundingEdge implements Comparable {
    public Shape Shape;
    public double Value;
 
-
    @Override
    public int compareTo(Object o) {
       BoundingEdge that = (BoundingEdge)o;

@@ -341,7 +341,7 @@ public class KDScene extends Scene {
 
    @Override
    public String Compile() {
-      rootNode = KDTree.BuildKDTree(shapes, 5, 4);
+      rootNode = KDTree.BuildKDTree(shapes, 20, 4);
       return "kd-tree min depth " + rootNode.GetMinDepth() + ", max depth " + rootNode.GetMaxDepth();
    }
 

@@ -1,5 +1,6 @@
 package net.danielthompson.danray.shapes;
 
+import net.danielthompson.danray.acceleration.BoundingEdge;
 import net.danielthompson.danray.acceleration.KDAxis;
 import net.danielthompson.danray.lights.Radiatable;
 import net.danielthompson.danray.shading.Material;
@@ -68,6 +69,16 @@ public class Triangle implements Shape, Radiatable {
    @Override
    public double getSurfaceArea() {
       return 0;
+   }
+
+   @Override
+   public BoundingEdge[] GetBoundingEdges(KDAxis axis) {
+      return new BoundingEdge[0];
+   }
+
+   @Override
+   public void SetBoundingEdges(BoundingEdge[] edges, KDAxis axis) {
+
    }
 
    @Override

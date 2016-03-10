@@ -198,6 +198,32 @@ public class BoundingBox {
       return box;
    }
 
+   /**
+    * Checks to see if b1 is strictly inside of b2.
+    * @param b1
+    * @param b2
+    * @return
+    */
+   public static boolean IsInsideOf(BoundingBox b1, BoundingBox b2) {
+      return (b1.point1.X > b2.point1.X
+            && b1.point1.Y > b2.point1.Y
+            && b1.point1.Z > b2.point1.Z
+            && b1.point2.X < b2.point2.X
+            && b1.point2.Y < b2.point2.Y
+            && b1.point2.Z < b2.point2.Z);
+   }
+
+   public static boolean IsOutsideOf(BoundingBox b1, BoundingBox b2) {
+      return
+            ((b1.point2.X > b2.point1.X
+            && b1.point2.Y > b2.point1.Y
+            && b1.point2.Z > b2.point1.Z)
+            || (b2.point2.X > b1.point1.X
+                && b2.point2.Y > b1.point1.Y
+                && b2.point2.Z > b1.point1.Z))
+            ;
+   }
+
    public static BoundingBox GetBoundingBox(BoundingBox box, Point point) {
       double p1x = Math.min(box.point1.X, point.X);
       double p1y = Math.min(box.point1.Y, point.Y);
@@ -210,5 +236,74 @@ public class BoundingBox {
       Point p2 = new Point(p2x, p2y, p2z);
 
       return new BoundingBox(p1, p2);
+   }
+
+   public static BoundingBox Intersection(BoundingBox b1, BoundingBox b2) {
+
+      // b1 is inside of b2
+      if (IsInsideOf(b1, b2))
+         return b1;
+
+      // b2 is inside of b1
+      if (IsInsideOf(b2, b1))
+         return b2;
+
+      if (IsOutsideOf(b1, b2))
+         return null;
+
+      BoundingBox xMin = b1;
+      BoundingBox xMax = b1;
+      
+      if (b1.point1.X > b2.point1.X) {
+         xMin = b2;
+      }
+      if (b1.point2.X < b2.point2.X) {
+         xMax = b2;
+      }
+
+      BoundingBox yMin = b1;
+      BoundingBox yMax = b2;
+
+      if (b1.point1.Y > b2.point1.Y) {
+         yMin = b2;
+      }
+      if (b1.point2.Y < b2.point2.Y) {
+         yMax = b2;
+      }
+
+      BoundingBox zMin = b1;
+      BoundingBox zMax = b2;
+
+      if (b1.point1.Z > b2.point1.Z) {
+         zMin = b2;
+      }
+      if (b1.point2.Z < b2.point2.Z) {
+         zMax = b2;
+      }
+
+      double x1 = xMin.point1.X;
+      double x2 = xMin.point2.X < xMax.point1.X ? xMin.point2.X : xMax.point1.X;
+      double x3 = xMin.point2.X > xMax.point1.X ? xMin.point2.X : xMax.point1.X;
+      double x4 = xMax.point2.X;
+
+      double y1 = yMin.point1.Y;
+      double y2 = yMin.point2.Y < yMax.point1.Y ? yMin.point2.Y : yMax.point1.Y;
+      double y3 = yMin.point2.Y > yMax.point1.Y ? yMin.point2.Y : yMax.point1.Y;
+      double y4 = yMax.point2.Y;
+
+      double z1 = zMin.point1.Z;
+      double z2 = zMin.point2.Z < zMax.point1.Z ? zMin.point2.Z : zMax.point1.Z;
+      double z3 = zMin.point2.Z > zMax.point1.Z ? zMin.point2.Z : zMax.point1.Z;
+      double z4 = zMax.point2.Z;
+      
+      Point p1 = new Point(x2, y2, z2);
+      Point p2 = new Point(x3, y3, z3);
+
+      return new BoundingBox(p1, p2);
+
+
+
+
+
    }
 }

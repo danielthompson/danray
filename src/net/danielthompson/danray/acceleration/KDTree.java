@@ -17,6 +17,10 @@ public class KDTree {
    private static int maxDepth;
    private static int maxLeafSize;
 
+   private static BoundingEdge[] xEdges;
+   private static BoundingEdge[] yEdges;
+   private static BoundingEdge[] zEdges;
+
    /**
     * Builds a KDTree from the list of objects and returns the root node.
     * @param objects The list of objects to build into a tree.
@@ -34,12 +38,12 @@ public class KDTree {
       Point minPoint = null; //new Point(-Double.MAX_VALUE, -Double.MAX_VALUE, -Double.MAX_VALUE);
       Point maxPoint = null; //new Point(Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE);
 
-      BoundingEdge[] xEdges = getMinMaxBoundingEdges(objects, KDAxis.X);
-      BoundingEdge[] yEdges = getMinMaxBoundingEdges(objects, KDAxis.Y);
-      BoundingEdge[] zEdges = getMinMaxBoundingEdges(objects, KDAxis.Z);
+      xEdges = getSortedBoundingEdges(objects, KDAxis.X);
+      yEdges = getSortedBoundingEdges(objects, KDAxis.Y);
+      zEdges = getSortedBoundingEdges(objects, KDAxis.Z);
 
       minPoint = new Point(xEdges[0].Value, yEdges[0].Value, zEdges[0].Value);
-      maxPoint = new Point(xEdges[1].Value, yEdges[1].Value, zEdges[1].Value);
+      maxPoint = new Point(xEdges[xEdges.length - 1].Value, yEdges[yEdges.length - 1].Value, zEdges[zEdges.length - 1].Value);
 
       BoundingBox initialBoundingBox = new BoundingBox(minPoint, maxPoint);
 
@@ -50,224 +54,37 @@ public class KDTree {
       return rootNode;
    }
 
-   private static class KDAxisHeuristic {
-      public KDAxis Axis;
-      public List<Shape> LessThanObjects;
-      public List<Shape> GreaterThanObjects;
-
-      public BoundingBox LessThanBoundingBox;
-      public BoundingBox GreaterThanBoundingBox;
-
-      public double SurfaceAreaHeuristic;
-      public double Separator;
-   }
-
-   private static void BuildKDTree(KDNode node, int depth) {
-
-      // base case
-
-      if (node.getObjects().size() <= maxLeafSize) {
-         //node.Axis = null;
-         return;
-      }
-
-      // recursive case
-
-      else {
-
-         KDAxisHeuristic[] heuristics = new KDAxisHeuristic[3];
-
-         heuristics[0] = new KDAxisHeuristic();
-         heuristics[0].Axis = node._box.getLargestExtent();
-
-         heuristics[1] = new KDAxisHeuristic();
-         heuristics[1].Axis = getNextAxis(heuristics[0].Axis);
-
-         heuristics[2] = new KDAxisHeuristic();
-         heuristics[2].Axis = getNextAxis(heuristics[1].Axis);
-
-         /*
-
-         KDAxis[] axes = new KDAxis[3];
-         axes[0] = node.getBoundingBox().getLargestExtent();
-         axes[1] = getNextAxis(axes[0]);
-         axes[2] = getNextAxis(axes[1]);
-
-         double[] surfaceAreaHeuristic = new double[3];
-
-         boolean foundGoodSplit = false;
-
-         List<Drawable> lessThanList = new ArrayList<Drawable>();
-         List<Drawable> greaterThanList = new ArrayList<Drawable>();
-
-         KDAxis axis = axes[0];*/
-         BoundingBox box = node._box;
-
-         double separator = 0;
-
-         KDAxis axis = null;
-
-         boolean foundGoodSplit = false;
-
-         double minSurfaceAreaHeuristic = Double.MAX_VALUE;
-         int minSurfaceAreaHeuristicIndex = -1;
-
-         for (int i = 0; i < heuristics.length; i++) {
-
-            axis = heuristics[i].Axis;
-
-            heuristics[i].LessThanObjects = new ArrayList<Shape>();
-            heuristics[i].GreaterThanObjects = new ArrayList<Shape>();
-
-            separator = getSplit(node.getObjects(), axis, box);
-            heuristics[i].Separator = separator;
-
-            BoundingBox lessThanBoundingBox = null;
-            BoundingBox greaterThanBoundingBox = null;
-
-            for (Shape shape : node.getObjects()) {
-               BoundingBox drawableBox = shape.GetWorldBoundingBox();
-               double lowerBound = drawableBox.getLowerBoundInAxis(axis);
-
-               double upperBound = drawableBox.getUpperBoundInAxis(axis);
-
-               if (upperBound <= separator) {
-                  if (lessThanBoundingBox == null)
-                     lessThanBoundingBox = drawableBox;
-                  else
-                     lessThanBoundingBox = BoundingBox.GetBoundingBox(lessThanBoundingBox, drawableBox);
-
-                  heuristics[i].LessThanObjects.add(shape);
-               }
-
-               else if (lowerBound >= separator) {
-                  if (greaterThanBoundingBox == null)
-                     greaterThanBoundingBox = drawableBox;
-                  else
-                     greaterThanBoundingBox = BoundingBox.GetBoundingBox(greaterThanBoundingBox, drawableBox);
-                  heuristics[i].GreaterThanObjects.add(shape);
-               }
-               else {
-                  if (lessThanBoundingBox == null)
-                     lessThanBoundingBox = drawableBox;
-                  else
-                     lessThanBoundingBox = BoundingBox.GetBoundingBox(lessThanBoundingBox, drawableBox);
-
-                  heuristics[i].LessThanObjects.add(shape);
-
-                  if (greaterThanBoundingBox == null)
-                     greaterThanBoundingBox = drawableBox;
-                  else
-                     greaterThanBoundingBox = BoundingBox.GetBoundingBox(greaterThanBoundingBox, drawableBox);
-
-                  heuristics[i].GreaterThanObjects.add(shape);
-               }
-
-            }
-
-            heuristics[i].LessThanBoundingBox = lessThanBoundingBox;
-            heuristics[i].GreaterThanBoundingBox = greaterThanBoundingBox;
-
-
-            // check to see if it's a good split
-
-            if (heuristics[i].LessThanObjects.size() == 0 || heuristics[i].GreaterThanObjects.size() == 0)
-               continue;
-
-            if (heuristics[i].LessThanObjects.size() >= node.getObjects().size() || heuristics[i].GreaterThanObjects.size() >= node.getObjects().size())
-               continue;
-
-            if (heuristics[i].LessThanObjects.size() == heuristics[i].GreaterThanObjects.size()) {
-
-               //Collections.sort(lessThanList, null);
-               //Collections.sort(greaterThanList, null);
-
-               boolean same = true;
-
-               Iterator<Shape> p1 = heuristics[i].LessThanObjects.iterator();
-               Iterator<Shape> p2 = heuristics[i].GreaterThanObjects.iterator();
-
-               while (p1.hasNext() && p2.hasNext()) {
-                  Shape d1 = p1.next();
-                  Shape d2 = p2.next();
-
-                  if (d1 != d2) {
-                     same = false;
-                     break;
-                  }
-               }
-
-               if (same)
-                  continue;
-            }
-
-            BoundingBox[] boxes = SubdivideBoundingBox(box, axis, separator);
-            BoundingBox box1 = ReduceBoundingBox(boxes[0], heuristics[i].LessThanObjects);
-            BoundingBox box2 = ReduceBoundingBox(boxes[1], heuristics[i].GreaterThanObjects);
-
-            heuristics[i].LessThanBoundingBox = box1;
-            heuristics[i].GreaterThanBoundingBox = box2;
-
-            double leftSAH = box1.getSurfaceArea() / heuristics[i].LessThanObjects.size();
-            double rightSAH = box2.getSurfaceArea() / heuristics[i].GreaterThanObjects.size();
-
-            heuristics[i].SurfaceAreaHeuristic = leftSAH + rightSAH;
-            if (heuristics[i].SurfaceAreaHeuristic < minSurfaceAreaHeuristic) {
-               minSurfaceAreaHeuristic = heuristics[i].SurfaceAreaHeuristic;
-               minSurfaceAreaHeuristicIndex = i;
-               foundGoodSplit = true;
-            }
-
-         }
-
-         if (foundGoodSplit) {
-
-            KDAxisHeuristic heuristic = heuristics[minSurfaceAreaHeuristicIndex];
-
-            KDNode leftNode = new KDNode(heuristic.LessThanObjects, getNextAxis(heuristic.Axis));
-            leftNode._box = (heuristics[minSurfaceAreaHeuristicIndex].LessThanBoundingBox);
-
-            KDNode rightNode = new KDNode(heuristic.GreaterThanObjects, getNextAxis(heuristic.Axis));
-            rightNode._box = (heuristics[minSurfaceAreaHeuristicIndex].GreaterThanBoundingBox);
-
-            node._leftChild = leftNode;
-            node._rightChild = rightNode;
-            node.Split = (heuristic.Separator);
-            node.Axis = heuristic.Axis;
-
-            /*
-            // create new bounding boxes for each child node
-
-            BoundingBox[] boxes = SubdivideBoundingBox(box, axis, separator);
-
-            BoundingBox box1 = ReduceBoundingBox(boxes[0], lessThanList);
-
-            node.getLeftChild().setBoundingBox(box1);
-
-            BoundingBox box2 = ReduceBoundingBox(boxes[1], greaterThanList);
-
-            node.getRightChild().setBoundingBox(box2);
-            */
-            if (depth > 20) {
-               ;
-            }
-
-            if (depth < maxDepth) {
-
-               if (leftNode.getObjects().size() != node.getObjects().size())
-                  BuildKDTree(leftNode, depth + 1);
-               if (rightNode.getObjects().size() != node.getObjects().size())
-                  BuildKDTree(rightNode, depth + 1);
-            }
-         }
-      }
-   }
-
-
    private static class KDAxisHeuristicImproved {
       public KDAxis Axis;
+      public double lessThanHeuristic;
+      public double greaterThanHeuristic;
       public double SurfaceAreaHeuristic;
       public double Separator;
+   }
+
+   private static BoundingEdge[] getEdgesWithObjectsForAxis(List<Shape> objects, KDAxis axis) {
+      BoundingEdge[] source = xEdges;
+
+      if (axis == KDAxis.Y)
+         source = yEdges;
+      else if (axis == KDAxis.Z)
+         source = zEdges;
+
+      BoundingEdge[] dest = new BoundingEdge[2 * objects.size()];
+
+      int destIndex = 0;
+
+      for (int sourceIndex = 0; sourceIndex < source.length; sourceIndex++) {
+         Shape sourceShape = source[sourceIndex].Shape;
+         for (Shape object : objects) {
+            if (object.equals(sourceShape)) {
+               dest[destIndex++] = source[sourceIndex];
+               break;
+            }
+         }
+      }
+
+      return dest;
    }
 
    private static void BuildKDTreeSAH(KDNode node, int depth) {
@@ -290,7 +107,8 @@ public class KDTree {
          axes.add(getNextAxis(axes.get(1)));
 
          for (KDAxis axis : axes) {
-            BoundingEdge[] splits = getSortedBoundingEdges(node.getObjects(), axis);
+            //BoundingEdge[] splits = getSortedBoundingEdges(node.getObjects(), axis);
+            BoundingEdge[] splits = getEdgesWithObjectsForAxis(node.getObjects(), axis);
             for (int i = 0; i < splits.length; i++) {
                double split = splits[i].Value;
 
@@ -345,9 +163,6 @@ public class KDTree {
 
                if (lessThanList.size() == greaterThanList.size()) {
 
-                  //Collections.sort(lessThanList, null);
-                  //Collections.sort(greaterThanList, null);
-
                   boolean same = true;
 
                   Iterator<Shape> p1 = lessThanList.iterator();
@@ -369,22 +184,27 @@ public class KDTree {
 
                foundGoodSplit = true;
 
-               lessThanBoundingBox = ReduceBoundingBox(lessThanBoundingBox, lessThanList);
-               greaterThanBoundingBox = ReduceBoundingBox(greaterThanBoundingBox, greaterThanList);
-
-               double leftSAH = lessThanBoundingBox.getSurfaceArea() / lessThanList.size();
-               double rightSAH = greaterThanBoundingBox.getSurfaceArea() / greaterThanList.size();
+               ReduceBoundingBox(lessThanBoundingBox, lessThanList);
+               ReduceBoundingBox(greaterThanBoundingBox, greaterThanList);
 
                KDAxisHeuristicImproved heuristic = new KDAxisHeuristicImproved();
+
+               heuristic.lessThanHeuristic = lessThanBoundingBox.getSurfaceArea() * lessThanList.size();
+               heuristic.greaterThanHeuristic = greaterThanBoundingBox.getSurfaceArea() * greaterThanList.size();
                heuristic.Axis = axis;
                heuristic.Separator = split;
-               heuristic.SurfaceAreaHeuristic = leftSAH / rightSAH;
-               if (heuristic.SurfaceAreaHeuristic < 1)
-                  heuristic.SurfaceAreaHeuristic = 1.0 / heuristic.SurfaceAreaHeuristic;
+               heuristic.SurfaceAreaHeuristic = heuristic.lessThanHeuristic / heuristic.greaterThanHeuristic;
+               if (heuristic.SurfaceAreaHeuristic < 1) {
+                  heuristic.SurfaceAreaHeuristic = 1 / heuristic.SurfaceAreaHeuristic;
 
+
+               }
                heuristicList.add(heuristic);
 
             }
+
+            if (foundGoodSplit)
+               break;
 
          }
 
@@ -405,7 +225,13 @@ public class KDTree {
                double lowerBound = drawableBox.getLowerBoundInAxis(best.Axis);
                double upperBound = drawableBox.getUpperBoundInAxis(best.Axis);
 
-               if (upperBound <= best.Separator) {
+               if (upperBound > best.Separator)
+                  greaterThanList.add(shape);
+
+               if (lowerBound <= best.Separator)
+                  lessThanList.add(shape);
+
+               /*if (upperBound <= best.Separator) {
                   lessThanList.add(shape);
                }
 
@@ -415,15 +241,14 @@ public class KDTree {
                else {
                   lessThanList.add(shape);
                   greaterThanList.add(shape);
-               }
+               }*/
 
             }
 
             BoundingBox[] boxes = SubdivideBoundingBox(node._box, best.Axis, best.Separator);
 
-            boxes[0] = ReduceBoundingBox(boxes[0], lessThanList);
-            boxes[1] = ReduceBoundingBox(boxes[1], greaterThanList);
-
+            ReduceBoundingBox(boxes[0], lessThanList);
+            ReduceBoundingBox(boxes[1], greaterThanList);
 
             KDNode leftNode = new KDNode(lessThanList, getNextAxis(best.Axis));
             leftNode._box = (boxes[0]);
@@ -575,15 +400,15 @@ public class KDTree {
             return new DrawableZComparator();
       }
    }
-
-   public static double getSplit(List<Shape> objects, KDAxis axis, BoundingBox box) {
-      // find largest distance in the current axis from the node's objects to either bound
-      // set the
-
-      BoundingEdge[] edges = getSortedBoundingEdges(objects, axis);
-
-      return edges[edges.length / 2].Value;
-   }
+//
+//   public static double getSplit(List<Shape> objects, KDAxis axis, BoundingBox box) {
+//      // find largest distance in the current axis from the node's objects to either bound
+//      // set the
+//
+//      BoundingEdge[] edges = getSortedBoundingEdges(objects, axis);
+//
+//      return edges[edges.length / 2].Value;
+//   }
 
    /**
     *
@@ -594,24 +419,32 @@ public class KDTree {
    public static BoundingEdge[] getSortedBoundingEdges(List<Shape> objects, KDAxis axis) {
       BoundingEdge[] edges = new BoundingEdge[objects.size() * 2];
 
+      BoundingEdge[] current;
+
       for (int i = 0; i < objects.size(); i++) {
 
          Shape shape = objects.get(i);
          double bound = shape.GetWorldBoundingBox().getLowerBoundInAxis(axis);
 
-         BoundingEdge edge = new BoundingEdge();
-         edge.Shape = shape;
-         edge.Lower = true;
-         edge.Value = bound;
-         edges[2 * i] = edge;
+         BoundingEdge edgeLower = new BoundingEdge();
+         edgeLower.Shape = shape;
+         edgeLower.Lower = true;
+         edgeLower.Value = bound;
+         edges[2 * i] = edgeLower;
+
+         current = new BoundingEdge[2];
+         current[0] = edgeLower;
 
          bound = shape.GetWorldBoundingBox().getUpperBoundInAxis(axis);
 
-         edge = new BoundingEdge();
-         edge.Shape = shape;
-         edge.Lower = false;
-         edge.Value = bound;
-         edges[2 * i + 1] = edge;
+         BoundingEdge edgeUpper = new BoundingEdge();
+         edgeUpper.Shape = shape;
+         edgeUpper.Lower = false;
+         edgeUpper.Value = bound;
+         edges[2 * i + 1] = edgeUpper;
+         current[1] = edgeUpper;
+
+         shape.SetBoundingEdges(current, axis);
       }
 
       Arrays.sort(edges);
@@ -628,23 +461,40 @@ public class KDTree {
     */
    private static BoundingEdge[] getMinMaxBoundingEdges(List<Shape> objects, KDAxis axis) {
 
-      BoundingEdge[] edges = getSortedBoundingEdges(objects, axis);
+      BoundingEdge[] source = xEdges;
+
+      if (axis == KDAxis.Y)
+         source = yEdges;
+      else if (axis == KDAxis.Z)
+         source = zEdges;
 
       BoundingEdge[] minMaxEdges = new BoundingEdge[2];
 
-      minMaxEdges[0] = edges[0];
-      minMaxEdges[1] = edges[edges.length - 1];
+      minMaxEdges[0] = source[0];
+      minMaxEdges[1] = source[0];
+
+      for (int i = 0; i < objects.size(); i++) {
+
+         BoundingEdge[] edges = objects.get(i).GetBoundingEdges(axis);
+
+         if (minMaxEdges[0].compareTo(edges[0]) > 0)
+            minMaxEdges[0] = edges[0];
+
+         if (minMaxEdges[1].compareTo(edges[1]) < 0)
+            minMaxEdges[1] = edges[1];
+      }
 
       return minMaxEdges;
-
    }
+
+
 
    /**
     * Reduces the size of the bounding box to fit the objects, if possible
     * @param box
     * @param objects
     */
-   private static BoundingBox ReduceBoundingBox(BoundingBox box, List<Shape> objects) {
+   private static void ReduceBoundingBox(BoundingBox box, List<Shape> objects) {
 
       // x
       BoundingEdge[] edges = getMinMaxBoundingEdges(objects, KDAxis.X);
@@ -679,11 +529,12 @@ public class KDTree {
       if (edges[1].Value < zUpperBound && !edges[1].Lower)
          zUpperBound = edges[1].Value;
 
-      Point min = new Point(xLowerBound, yLowerBound, zLowerBound);
-      Point max = new Point(xUpperBound, yUpperBound, zUpperBound);
+      box.point1.X = xLowerBound;
+      box.point1.Y = yLowerBound;
+      box.point1.Z = zLowerBound;
 
-      BoundingBox newBox = new BoundingBox(min, max);
-
-      return newBox;
+      box.point2.X = xUpperBound;
+      box.point2.Y = yUpperBound;
+      box.point2.Z = zUpperBound;
    }
 }

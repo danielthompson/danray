@@ -1,5 +1,6 @@
 package net.danielthompson.danray.shapes;
 
+import net.danielthompson.danray.acceleration.BoundingEdge;
 import net.danielthompson.danray.acceleration.KDAxis;
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.states.IntersectionState;
@@ -31,4 +32,8 @@ public interface Shape {
    Material GetMaterial();
 
    double getSurfaceArea();
+
+   BoundingEdge[] GetBoundingEdges(KDAxis axis);
+
+   void SetBoundingEdges(BoundingEdge[] edges, KDAxis axis);
 }

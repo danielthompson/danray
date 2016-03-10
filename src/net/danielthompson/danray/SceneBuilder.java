@@ -786,8 +786,6 @@ public class SceneBuilder {
 
       // white vertical z plane
 
-      Point planeOrigin = new Point(0, 0, 0);
-      Normal planeNormal = new Normal(0, 0, 1);
 
       Material material = new Material();
       material.Color = new Color(255, 240, 185);
@@ -825,11 +823,13 @@ public class SceneBuilder {
          scene.addDrawableObject(sphere);
       }*/
 
-      int maxSmallSpheresX = 8;
-      int sphereXInterval = 40;
+      int radius = 2;
 
-      int maxSmallSpheresY = 8;
-      int sphereYInterval = 40;
+      int maxSmallSpheresX = 64;
+      int sphereXInterval = 5;
+
+      int maxSmallSpheresY = 64;
+      int sphereYInterval = 5;
 
       int[] yOffset = new int[maxSmallSpheresX * maxSmallSpheresY];
       for (int i = 0; i < yOffset.length; i++) {
@@ -861,10 +861,12 @@ public class SceneBuilder {
 
             double originX = sphereXInterval * i + (j % 5) * 3 + 50;
             double originY = sphereYInterval * j + (yOffset[i * maxSmallSpheresY + j]) + 150;
+            //double originX = sphereXInterval * i;
+            //double originY = sphereYInterval * j;
             double originZ = 100;
 
             sphere.Origin = new Point(originX, originY, originZ);
-            sphere.Radius = 10;
+            sphere.Radius = radius;
 
             sphere.RecalculateWorldBoundingBox();
             scene.addDrawableObject(sphere);

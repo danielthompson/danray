@@ -1,5 +1,6 @@
 package net.danielthompson.danray.shapes;
 
+import net.danielthompson.danray.acceleration.BoundingEdge;
 import net.danielthompson.danray.acceleration.KDAxis;
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.states.IntersectionState;
@@ -99,6 +100,16 @@ public class TriangleMesh implements Shape {
    @Override
    public double getSurfaceArea() {
       return 0.0;
+   }
+
+   @Override
+   public BoundingEdge[] GetBoundingEdges(KDAxis axis) {
+      return new BoundingEdge[0];
+   }
+
+   @Override
+   public void SetBoundingEdges(BoundingEdge[] edges, KDAxis axis) {
+
    }
 
    @Override

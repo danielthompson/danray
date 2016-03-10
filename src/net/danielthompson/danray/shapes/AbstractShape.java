@@ -1,5 +1,6 @@
 package net.danielthompson.danray.shapes;
 
+import net.danielthompson.danray.acceleration.BoundingEdge;
 import net.danielthompson.danray.acceleration.KDAxis;
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.states.IntersectionState;
@@ -21,6 +22,10 @@ public abstract class AbstractShape implements Shape {
    public Transform WorldToObject;
 
    public boolean InCurrentKDNode;
+
+   BoundingEdge[] xBoundingEdges;
+   BoundingEdge[] yBoundingEdges;
+   BoundingEdge[] zBoundingEdges;
 
    public AbstractShape(Material material) {
       this.Material = material;
@@ -71,5 +76,34 @@ public abstract class AbstractShape implements Shape {
    @Override
    public Material GetMaterial() {
       return Material;
+   }
+
+   @Override
+   public BoundingEdge[] GetBoundingEdges(KDAxis axis) {
+      switch (axis) {
+         case X:
+            return xBoundingEdges;
+         case Y:
+            return yBoundingEdges;
+         case Z:
+            return zBoundingEdges;
+      }
+
+      return null;
+   }
+
+   @Override
+   public void SetBoundingEdges(BoundingEdge[] edges, KDAxis axis) {
+      switch (axis) {
+         case X:
+            xBoundingEdges = edges;
+            break;
+         case Y:
+            yBoundingEdges = edges;
+            break;
+         case Z:
+            zBoundingEdges = edges;
+            break;
+      }
    }
 }

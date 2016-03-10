@@ -80,6 +80,12 @@ public class KDNode {
          size = "" + _objects.size();
       }
 
-      return "Node [" + size + "] in " + Axis.toString();
+      String axis = "";
+
+      if (Axis != null) {
+         axis = " in " + Axis.toString();
+      }
+
+      return "Node [" + size + "]" + axis;
    }
 }
