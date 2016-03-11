@@ -115,6 +115,8 @@ public class PixelRunner implements Runnable {
 
       }
 
+
+
       _manager.SetRayCountForPixel(pixel, reachedSamples);
       _manager.SetPixelColor(pixel, blendSoFar);
 

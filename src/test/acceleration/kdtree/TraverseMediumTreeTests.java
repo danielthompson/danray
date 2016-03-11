@@ -53,7 +53,7 @@ public class TraverseMediumTreeTests {
          scene.addDrawableObject(element);
       }
 
-      scene.Compile();
+      scene.Compile(null);
 
       Point origin = new Point(-10, 10, 10);
       Vector direction = new Vector(1, 0, 0);

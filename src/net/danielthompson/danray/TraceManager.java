@@ -147,7 +147,7 @@ public class TraceManager {
       Logger.Log("Scene is implemented with " + _scene.ImplementationType);
       Logger.Log("Compiling scene...");
       Date start = new Date();
-      Logger.Log(_scene.Compile());
+      Logger.Log(_scene.Compile(_tracerOptions));
       Date end = new Date();
       String duration = getDurationString(start, end);
       Logger.Log("Finished compiling scene in " + duration);
@@ -700,11 +700,14 @@ public class TraceManager {
 
    public void SetRayCountForPixel(int[] pixel, int count) {
 
-      float normalizedColor = count * _samplesInverse;
-      int expandedColor = (int)(255.0f * normalizedColor);
+      if (_tracerOptions.showCountWindow) {
 
-      Color color = new Color(expandedColor, expandedColor, expandedColor);
-      _countImage.setRGB(pixel[0], pixel[1], color.getRGB());
+         float normalizedColor = count * _samplesInverse;
+         int expandedColor = (int) (255.0f * normalizedColor);
+
+         Color color = new Color(expandedColor, expandedColor, expandedColor);
+         _countImage.setRGB(pixel[0], pixel[1], color.getRGB());
+      }
    }
 
    public void Save(BufferedImage image, String filename) {

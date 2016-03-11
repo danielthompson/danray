@@ -1,6 +1,7 @@
 package net.danielthompson.danray.acceleration;
 
 import net.danielthompson.danray.lights.Radiatable;
+import net.danielthompson.danray.presets.TracerOptions;
 import net.danielthompson.danray.shapes.*;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.cameras.Camera;
@@ -20,8 +21,6 @@ import java.util.List;
  * Time: 5:24 PM
  */
 public class KDScene extends Scene {
-
-
 
    public KDNode rootNode;
 
@@ -190,6 +189,8 @@ public class KDScene extends Scene {
          IntersectionState leftState = leftNode.getHitInfo(ray);
          IntersectionState rightState = rightNode.getHitInfo(ray);
 
+         /*
+
          boolean hitsLeft = leftState.Hits;
          statistics.BoundingIntersections++;
          boolean hitsRight = rightState.Hits;
@@ -215,34 +216,25 @@ public class KDScene extends Scene {
 
          if (leftState.TMin == rightState.TMin)
             ;
-
+         */
          IntersectionState nearState = leftState.TMin < rightState.TMin ? leftState : rightState;
          KDNode nearNode = leftState.TMin < rightState.TMin ? leftNode : rightNode;
 
-         IntersectionState farState = leftState.TMin > rightState.TMin ? leftState : rightState;
+         IntersectionState farState = leftState.TMin >= rightState.TMin ? leftState : rightState;
          KDNode farNode = leftState.TMin >= rightState.TMin ? leftNode : rightNode;
 
-         boolean nearNodeHitsButMissesDrawables = false;
 
          if (nearState.Hits) {
             IntersectionState bestCandidateState = TraverseTreeBetter(nearNode, ray);
             if (bestCandidateState != null && bestCandidateState.Hits) {
-               if (nearNode._box.isPointInside(bestCandidateState.IntersectionPoint))
+               //if (nearNode._box.isPointInside(bestCandidateState.IntersectionPoint))
                   return bestCandidateState;
-               //else
-                  //System.out.println("");
             }
-
-            else
-               nearNodeHitsButMissesDrawables = true;
          }
-
-         if (nearNodeHitsButMissesDrawables)
-            ;
 
          if (farState.Hits) {
             IntersectionState bestCandidateState = TraverseTreeBetter(farNode, ray);
-            if (bestCandidateState != null && bestCandidateState.Hits && farNode._box.isPointInside(bestCandidateState.IntersectionPoint)) {
+            if (bestCandidateState != null && bestCandidateState.Hits /*&& farNode._box.isPointInside(bestCandidateState.IntersectionPoint)*/) {
                return bestCandidateState;
             }
          }
@@ -340,8 +332,13 @@ public class KDScene extends Scene {
    }
 
    @Override
-   public String Compile() {
-      rootNode = KDTree.BuildKDTree(shapes, 20, 4);
+   public String Compile(TracerOptions _tracerOptions) {
+
+      int numThreads = 1;
+      if (_tracerOptions != null)
+         numThreads = _tracerOptions.numThreads;
+
+      rootNode = KDTree.BuildKDTree(shapes, 20, 4, numThreads);
       return "kd-tree min depth " + rootNode.GetMinDepth() + ", max depth " + rootNode.GetMaxDepth();
    }
 

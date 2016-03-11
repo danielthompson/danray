@@ -3,6 +3,7 @@ package net.danielthompson.danray.structures;
 import net.danielthompson.danray.cameras.Camera;
 import net.danielthompson.danray.lights.Radiatable;
 import net.danielthompson.danray.lights.SpectralRadiatable;
+import net.danielthompson.danray.presets.TracerOptions;
 import net.danielthompson.danray.shapes.Shape;
 import net.danielthompson.danray.states.IntersectionState;
 
@@ -41,5 +42,5 @@ public abstract class Scene {
       return null;
    }
 
-   public abstract String Compile();
+   public abstract String Compile(TracerOptions _tracerOptions);
 }

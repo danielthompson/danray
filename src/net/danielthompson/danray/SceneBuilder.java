@@ -761,7 +761,7 @@ public class SceneBuilder {
       settings.Y = y;
       settings.FocalLength = 2000;
       settings.Rotation = 0;
-      settings.ZoomFactor = 1;
+      settings.ZoomFactor = 1 / 2.;
       settings.FocusDistance = 250;
       settings.Aperture = new SquareAperture(5);
 
@@ -881,10 +881,10 @@ public class SceneBuilder {
       sphereLight.Origin = new Point(300, 300, 300);
       sphereLight.Radius = 20;
 
-      scene.addRadiatableObject(sphereLight);
+      //scene.addRadiatableObject(sphereLight);
       //scene.addDrawableObject(sphereLight);
 
-      scene.addRadiatableObject(new PointLight(new Point(300, 300, 300), 1.5));
+      scene.addRadiatableObject(new PointLight(new Point(300, 300, 300), 7.5));
 
       //scene.addRadiatableObject(new PointLight(new Point(x / 20, y / 2, -100), 5.7));
       //scene.addRadiatableObject(new PointLight(new Point(19 * x / 20, y / 2, -100), 5.7));

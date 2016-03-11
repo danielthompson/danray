@@ -1,6 +1,7 @@
 package net.danielthompson.danray.structures;
 
 import net.danielthompson.danray.lights.Radiatable;
+import net.danielthompson.danray.presets.TracerOptions;
 import net.danielthompson.danray.shapes.*;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.cameras.Camera;
@@ -68,7 +69,7 @@ public class NaiveScene extends Scene {
 
 
    @Override
-   public String Compile() {
+   public String Compile(TracerOptions _tracerOptions) {
       return "No scene compilation necessary.";
    }
 

@@ -57,7 +57,7 @@ public class TraverseSmallTreeTests {
          scene.addDrawableObject(element);
       }
 
-      scene.Compile();
+      scene.Compile(null);
    }
 
    @AfterMethod

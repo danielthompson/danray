@@ -11,6 +11,8 @@ public class Ray {
    public Vector Direction;
    public Point Origin;
 
+   public Vector DirectionInverse;
+
    public double MinT;
    public double MaxT = Double.MAX_VALUE;
 
@@ -26,6 +28,7 @@ public class Ray {
 
       double oneOverLength = 1.0 / Math.sqrt(direction.X * direction.X + direction.Y * direction.Y + direction.Z * direction.Z);
       Direction = new Vector(direction.X * oneOverLength, direction.Y * oneOverLength, direction.Z * oneOverLength);
+      DirectionInverse = new Vector(1.0 / direction.X, 1.0 / direction.Y, 1.0 / direction.Z);
    }
 
    public void OffsetOriginForward(double offset) {

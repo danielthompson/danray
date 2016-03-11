@@ -21,6 +21,10 @@ public class KDTree {
    private static BoundingEdge[] yEdges;
    private static BoundingEdge[] zEdges;
 
+   public static KDNode BuildKDTree(List<Shape> objects, int maxDepth, int maxLeafSize) {
+      return BuildKDTree(objects, maxDepth, maxLeafSize, 1);
+   }
+
    /**
     * Builds a KDTree from the list of objects and returns the root node.
     * @param objects The list of objects to build into a tree.
@@ -28,7 +32,7 @@ public class KDTree {
     * @param maxLeafSize The maximum number of objects in a leaf
     * @return
     */
-   public static KDNode BuildKDTree(List<Shape> objects, int maxDepth, int maxLeafSize) {
+   public static KDNode BuildKDTree(List<Shape> objects, int maxDepth, int maxLeafSize, int numThreads) {
 
       KDTree.maxDepth = maxDepth;
       KDTree.maxLeafSize = maxLeafSize;
@@ -109,7 +113,7 @@ public class KDTree {
          for (KDAxis axis : axes) {
             //BoundingEdge[] splits = getSortedBoundingEdges(node.getObjects(), axis);
             BoundingEdge[] splits = getEdgesWithObjectsForAxis(node.getObjects(), axis);
-            for (int i = 0; i < splits.length; i++) {
+            for (int i = 0; i < splits.length; i = i + 3) {
                double split = splits[i].Value;
 
                BoundingBox lessThanBoundingBox = null;
@@ -126,28 +130,32 @@ public class KDTree {
                   if (upperBound <= split) {
                      if (lessThanBoundingBox == null)
                         lessThanBoundingBox = drawableBox;
-                     else
-                        lessThanBoundingBox = BoundingBox.GetBoundingBox(lessThanBoundingBox, drawableBox);
+                     else {
+                        BoundingBox.ExpandBoundingBox(lessThanBoundingBox, drawableBox);
+                     }
                      lessThanList.add(shape);
                   }
 
                   else if (lowerBound >= split) {
                      if (greaterThanBoundingBox == null)
                         greaterThanBoundingBox = drawableBox;
-                     else
-                        greaterThanBoundingBox = BoundingBox.GetBoundingBox(greaterThanBoundingBox, drawableBox);
+                     else {
+                        BoundingBox.ExpandBoundingBox(greaterThanBoundingBox, drawableBox);
+                     }
                      greaterThanList.add(shape);
                   }
                   else {
                      if (lessThanBoundingBox == null)
                         lessThanBoundingBox = drawableBox;
-                     else
-                        lessThanBoundingBox = BoundingBox.GetBoundingBox(lessThanBoundingBox, drawableBox);
+                     else {
+                        BoundingBox.ExpandBoundingBox(lessThanBoundingBox, drawableBox);
+                     }
 
                      if (greaterThanBoundingBox == null)
                         greaterThanBoundingBox = drawableBox;
-                     else
-                        greaterThanBoundingBox = BoundingBox.GetBoundingBox(greaterThanBoundingBox, drawableBox);
+                     else {
+                        BoundingBox.ExpandBoundingBox(greaterThanBoundingBox, drawableBox);
+                     }
 
                      lessThanList.add(shape);
                      greaterThanList.add(shape);
@@ -181,6 +189,7 @@ public class KDTree {
                   if (same)
                      continue;
                }
+
 
                foundGoodSplit = true;
 
@@ -230,18 +239,6 @@ public class KDTree {
 
                if (lowerBound <= best.Separator)
                   lessThanList.add(shape);
-
-               /*if (upperBound <= best.Separator) {
-                  lessThanList.add(shape);
-               }
-
-               else if (lowerBound >= best.Separator) {
-                  greaterThanList.add(shape);
-               }
-               else {
-                  lessThanList.add(shape);
-                  greaterThanList.add(shape);
-               }*/
 
             }
 

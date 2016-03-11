@@ -616,7 +616,7 @@ public class XMLExportTests {
       for (Method method : methodList) {
          System.err.println("Method: [" + method.getName() + "]");
          final Scene object = (Scene)method.invoke(null, 400, 300);
-         object.Compile();
+         object.Compile(null);
          File file = new File(_dir, "scene-" + i++ + "-" + method.getName() + ".xml");
 
          final UnitTestExporter unitTestExporter = new UnitTestExporter(file);

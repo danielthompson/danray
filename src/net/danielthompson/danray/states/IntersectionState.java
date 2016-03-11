@@ -23,6 +23,8 @@ public class IntersectionState {
    public Normal Normal;
    public Statistics Statistics;
 
+   public int InstanceID;
+
    public IntersectionState() {
       TMin = -Double.MAX_VALUE;
    }
