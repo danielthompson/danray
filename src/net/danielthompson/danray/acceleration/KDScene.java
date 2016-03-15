@@ -46,25 +46,11 @@ public class KDScene extends Scene {
 
    @Override
    public IntersectionState GetClosestDrawableToRay(Ray ray) {
-
       // all rays by definition hit the root node
       statistics = new Statistics();
 
-      IntersectionState state = TraverseTreeBetter(rootNode, ray);
+      IntersectionState state = TraverseTreeBetter(rootNode, ray, 0);
 
-
-      //IntersectionState planeState = GetClosestPlaneToRay(ray);
-
-      /*if (planeState != null && planeState.Hits) {
-         if (state != null && state.Hits) {
-            if (planeState.TMin < state.TMin)
-               return planeState;
-            else
-               return state;
-
-         }
-         return planeState;
-      }*/
       return state;
    }
 
@@ -85,11 +71,8 @@ public class KDScene extends Scene {
 
    private IntersectionState GetClosestDrawableInNode(KDNode node, Ray ray) {
       IntersectionState closestStateToRay = null;
-      //statistics = new Statistics();
       for (Shape shape : node.getObjects()) {
          IntersectionState state = shape.GetHitInfo(ray);
-         //statistics.DrawableIntersections++;
-         //state.Statistics = statistics;
 
          if (state.Hits && (closestStateToRay == null || state.TMin < closestStateToRay.TMin)) {
             closestStateToRay = state;
@@ -123,6 +106,7 @@ public class KDScene extends Scene {
    public IntersectionState TraverseTree(KDNode node, Ray ray) {
       if (node.isLeaf()) {
          IntersectionState closestState = GetClosestDrawableOrPlaneToRay(node.getObjects(), ray);
+
          return closestState;
       }
       else {
@@ -175,10 +159,14 @@ public class KDScene extends Scene {
       }
    }
 
+   public IntersectionState TraverseTreeBetter(KDNode node, Ray ray, int count) {
 
-   public IntersectionState TraverseTreeBetter(KDNode node, Ray ray) {
+      count++;
       if (node.isLeaf()) {
          IntersectionState closestState = GetClosestDrawableInNode(node, ray);
+         if (closestState == null)
+            closestState = new IntersectionState();
+         closestState.KDHeatCount = count;
          return closestState;
       }
       else {
@@ -188,6 +176,7 @@ public class KDScene extends Scene {
 
          IntersectionState leftState = leftNode.getHitInfo(ray);
          IntersectionState rightState = rightNode.getHitInfo(ray);
+
 
          /*
 
@@ -223,23 +212,34 @@ public class KDScene extends Scene {
          IntersectionState farState = leftState.TMin >= rightState.TMin ? leftState : rightState;
          KDNode farNode = leftState.TMin >= rightState.TMin ? leftNode : rightNode;
 
+         IntersectionState fallBackState = new IntersectionState();
+         fallBackState.Hits = false;
+         fallBackState.KDHeatCount = count;
 
          if (nearState.Hits) {
-            IntersectionState bestCandidateState = TraverseTreeBetter(nearNode, ray);
-            if (bestCandidateState != null && bestCandidateState.Hits) {
-               //if (nearNode._box.isPointInside(bestCandidateState.IntersectionPoint))
+            IntersectionState bestCandidateState = TraverseTreeBetter(nearNode, ray, count);
+            if (bestCandidateState != null) {
+               if (bestCandidateState.Hits) {
                   return bestCandidateState;
+               } else {
+                  fallBackState.KDHeatCount = bestCandidateState.KDHeatCount;
+               }
             }
          }
 
          if (farState.Hits) {
-            IntersectionState bestCandidateState = TraverseTreeBetter(farNode, ray);
-            if (bestCandidateState != null && bestCandidateState.Hits /*&& farNode._box.isPointInside(bestCandidateState.IntersectionPoint)*/) {
-               return bestCandidateState;
+            IntersectionState bestCandidateState = TraverseTreeBetter(farNode, ray, count);
+            if (bestCandidateState != null) {
+               if (bestCandidateState.Hits) {
+                  return bestCandidateState;
+               } else {
+                  fallBackState.KDHeatCount = bestCandidateState.KDHeatCount;
+               }
             }
          }
 
-         return null;
+
+         return fallBackState;
       }
    }
 
@@ -339,7 +339,10 @@ public class KDScene extends Scene {
          numThreads = _tracerOptions.numThreads;
 
       rootNode = KDTree.BuildKDTree(shapes, 20, 4, numThreads);
-      return "kd-tree min depth " + rootNode.GetMinDepth() + ", max depth " + rootNode.GetMaxDepth();
+
+      int totalNodes = rootNode.GetCount();
+
+      return "kd-tree nodes " + totalNodes + ", min depth " + rootNode.GetMinDepth() + ", max depth " + rootNode.GetMaxDepth();
    }
 
    private class KDIntersectionState {

@@ -63,6 +63,18 @@ public class KDNode {
       }
    }
 
+   public int GetCount() {
+      if (isLeaf()) {
+         return 1;
+      }
+      else {
+         int rightDepth = 1 + _rightChild.GetCount();
+         int leftDepth = 1 + _leftChild.GetCount();
+
+         return rightDepth + leftDepth;
+      }
+   }
+
    public boolean IsHitBy(Ray ray) {
       return _box.Hits(ray);
    }

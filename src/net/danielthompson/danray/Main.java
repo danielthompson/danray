@@ -74,7 +74,10 @@ public class Main {
                options.showSpectrumWindow = true;
                break;
             case "-infoWindow":
-               options.showInfoWindow = false;
+               options.showInfoWindow = true;
+               break;
+            case "-heatWindow":
+               options.showHeatWindow = true;
                break;
             case "-threads":
                if (i + 1 < args.length) {

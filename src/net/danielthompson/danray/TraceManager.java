@@ -30,9 +30,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 import java.util.Timer;
 
 /**
@@ -55,9 +53,14 @@ public class TraceManager {
    private float _maxZ;
 
    private BufferedImage _countImage;
-   private CountCanvas _countCanvas;
+   private ImageCanvas _countCanvas;
    private Graphics _countGraphics;
    private Frame _countFrame;
+
+   private BufferedImage _heatImage;
+   private ImageCanvas _heatCanvas;
+   private Graphics _heatGraphics;
+   private Frame _heatFrame;
 
    private OpenGLFrame _glFrame;
 /*
@@ -103,6 +106,9 @@ public class TraceManager {
    private float _numPixelsDivisor;
 
    private long _numPixelsStep;
+
+   private int _kdNodeCount;
+   private double _inverseKDNodeCount;
 
    /**
     * @param scene The scene to be rendered.
@@ -150,6 +156,12 @@ public class TraceManager {
       Logger.Log(_scene.Compile(_tracerOptions));
       Date end = new Date();
       String duration = getDurationString(start, end);
+
+      if (_scene instanceof KDScene) {
+         _kdNodeCount = ((KDScene) _scene).rootNode.GetCount();
+         _inverseKDNodeCount = 1.0 / (double)_kdNodeCount;
+         _inverseKDNodeCount *= 128;
+      }
       Logger.Log("Finished compiling scene in " + duration);
    }
 
@@ -170,6 +182,7 @@ public class TraceManager {
                   Log(i, s, t);
                   Save(_traceImage, "trace" + getOutputString(k, s, t));
                   Save(_countImage, "count" + getOutputString(k, s, t));
+                  Save(_heatImage, "heat" + getOutputString(k, s, t));
                   TeardownFrame();
                   //break;
                //}
@@ -182,6 +195,7 @@ public class TraceManager {
             Log(i, -1, -1);
             Save(_traceImage, "trace" + getOutputString(i));
             Save(_countImage, "count" + getOutputString(i));
+            Save(_heatImage, "heat" + getOutputString(i));
             TeardownFrame();
          }
       }
@@ -221,19 +235,34 @@ public class TraceManager {
          }
       }
 
+      // heat window
+      if (_tracerOptions.showHeatWindow && _scene instanceof KDScene) {
+         if (_heatFrame == null) {
+         _heatFrame = new Frame("KD-tree Heatmap");
+         _heatCanvas = new ImageCanvas();
+         _heatFrame.add("Center", _heatCanvas);
+         _heatFrame.setSize(new Dimension(_qualityPreset.getX(), _qualityPreset.getY() + 22));
+         _heatFrame.setVisible(true);
+         }
 
+         _heatGraphics = _heatCanvas.getGraphics();
+         TimerTask traceTask3 = new CanvasUpdateTimerTask(_heatCanvas, _heatGraphics);
+         _timer.schedule(traceTask3, 1000, 800);
+      }
 
       // count window
       if (_tracerOptions.showCountWindow) {
          if (_countFrame == null) {
             _countFrame = new Frame("Ray Density");
-            _countCanvas = new CountCanvas();
+            _countCanvas = new ImageCanvas();
             _countFrame.add("Center", _countCanvas);
             _countFrame.setSize(new Dimension(_qualityPreset.getX(), _qualityPreset.getY() + 22));
             _countFrame.setVisible(true);
          }
 
          _countGraphics = _countCanvas.getGraphics();
+         TimerTask traceTask2 = new CanvasUpdateTimerTask(_countCanvas, _countGraphics);
+         _timer.schedule(traceTask2, 1000, 800);
       }
 
       // tracer window
@@ -250,6 +279,9 @@ public class TraceManager {
 
          }
          _traceGraphics = _traceCanvas.getGraphics();
+
+         TimerTask traceTask = new CanvasUpdateTimerTask(_traceCanvas, _traceGraphics);
+         _timer.schedule(traceTask, 1000, 800);
       }
       // info window
 
@@ -282,8 +314,11 @@ public class TraceManager {
          }
       }
 
-      _updateTask = new CanvasUpdateTimerTask(_traceCanvas, _traceGraphics, _countCanvas, _countGraphics);
-      _timer.schedule(_updateTask, 0, 800);
+
+
+
+
+
    }
 
    public void setMouseXY(final int x, final int y) {
@@ -316,6 +351,8 @@ public class TraceManager {
 
       _countImage = new BufferedImage(_qualityPreset.getX(), _qualityPreset.getY(), BufferedImage.TYPE_INT_RGB);
       _traceImage = new BufferedImage(_qualityPreset.getX(), _qualityPreset.getY(), BufferedImage.TYPE_INT_RGB);
+      _heatImage = new BufferedImage(_qualityPreset.getX(), _qualityPreset.getY(), BufferedImage.TYPE_INT_RGB);
+
       _tracePixelXYZ = new float[_qualityPreset.getX()][_qualityPreset.getY()][3];
 
       for (int i = 0; i < _qualityPreset.getX(); ++i)
@@ -328,6 +365,10 @@ public class TraceManager {
 
       if (_tracerOptions.showTracerWindow) {
          _traceCanvas.setImage(_traceImage);
+      }
+
+      if (_tracerOptions.showHeatWindow) {
+         _heatCanvas.setImage(_heatImage);
       }
 
       this.Statistics = new Statistics[_qualityPreset.getX()][_qualityPreset.getY()];
@@ -677,6 +718,10 @@ public class TraceManager {
       if (_tracerOptions.showCountWindow) {
          _countCanvas.update(_countGraphics);
       }
+
+      if (_tracerOptions.showHeatWindow) {
+         _heatCanvas.update(_heatGraphics);
+      }
    }
 
    public void SetPixelColor(int[] pixel, Color color) {
@@ -707,6 +752,17 @@ public class TraceManager {
 
          Color color = new Color(expandedColor, expandedColor, expandedColor);
          _countImage.setRGB(pixel[0], pixel[1], color.getRGB());
+      }
+   }
+
+   public void SetKDHeatForPixel(int[] pixel, int count) {
+      if (_tracerOptions.showHeatWindow) {
+         //System.out.println(count);
+         double normalizedColor = count * _inverseKDNodeCount;
+         int expandedColor = (int) (255.0f * normalizedColor);
+
+         Color color = new Color(expandedColor, expandedColor, expandedColor);
+         _heatImage.setRGB(pixel[0], pixel[1], color.getRGB());
       }
    }
 

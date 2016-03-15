@@ -129,6 +129,8 @@ public class TileRunner implements Runnable {
 
       int reachedSamples = 0;
 
+      int heatCount = 0;
+
       Ray[] cameraRays = _scene.Camera.getInitialStochasticRaysForPixel(pixel[0], pixel[1], qualityPreset.getSamplesPerPixel());
 
       _manager.InitialRays += cameraRays.length;
@@ -136,6 +138,7 @@ public class TileRunner implements Runnable {
       ColorWithStatistics[] colorsWithStatistics = new ColorWithStatistics[cameraRays.length];
       for (int i = 0; i < cameraRays.length; i++) {
          colorsWithStatistics[i] = _tracer.GetColorForRay(cameraRays[i], 1);
+         heatCount += colorsWithStatistics[i].KDHeatCount;
          _manager.Statistics[pixel[0]][pixel[1]].Add(colorsWithStatistics[i].Statistics);
       }
 
@@ -155,6 +158,7 @@ public class TileRunner implements Runnable {
          colorsWithStatistics = new ColorWithStatistics[cameraRays.length];
          for (int i = 0; i < cameraRays.length; i++) {
             colorsWithStatistics[i] = _tracer.GetColorForRay(cameraRays[i], 1);
+            heatCount += colorsWithStatistics[i].KDHeatCount;
             _manager.Statistics[pixel[0]][pixel[1]].Add(colorsWithStatistics[i].Statistics);
          }
 
@@ -182,6 +186,8 @@ public class TileRunner implements Runnable {
          }
 
       }
+
+      _manager.SetKDHeatForPixel(pixel, heatCount);
 
       _manager.SetRayCountForPixel(pixel, reachedSamples);
       _manager.SetPixelColor(pixel, blendSoFar);

@@ -10,6 +10,8 @@ public class TracerOptions {
    public boolean showKDWindow = true;
    public boolean showSpectrumWindow = false;
    public boolean showInfoWindow = false;
+   public boolean showHeatWindow = false;
    public int numThreads;
    public boolean displayAllPaths;
+
 }

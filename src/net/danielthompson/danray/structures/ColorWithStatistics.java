@@ -8,13 +8,9 @@ import java.awt.Color;
 public class ColorWithStatistics {
    public Color Color;
    public Statistics Statistics;
+   public int KDHeatCount;
 
    public ColorWithStatistics() {
 
-   }
-
-   public ColorWithStatistics(Color color, Statistics statistics) {
-      this.Color = color;
-      this.Statistics = statistics;
    }
 }

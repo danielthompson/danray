@@ -23,6 +23,8 @@ public class IntersectionState {
    public Normal Normal;
    public Statistics Statistics;
 
+   public int KDHeatCount;
+
    public int InstanceID;
 
    public IntersectionState() {
