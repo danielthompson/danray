@@ -127,6 +127,9 @@ public class TileRunner implements Runnable {
     */
    public void trace(int[] pixel) {
 
+      if (pixel[0] == 332 && pixel[1] == 443)
+         System.out.flush();
+
       int reachedSamples = 0;
 
       int heatCount = 0;

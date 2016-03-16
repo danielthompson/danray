@@ -160,7 +160,7 @@ public class TraceManager {
       if (_scene instanceof KDScene) {
          _kdNodeCount = ((KDScene) _scene).rootNode.GetCount();
          _inverseKDNodeCount = 1.0 / (double)_kdNodeCount;
-         _inverseKDNodeCount *= 128;
+         _inverseKDNodeCount *= 1;
       }
       Logger.Log("Finished compiling scene in " + duration);
    }
@@ -215,34 +215,39 @@ public class TraceManager {
 
          // gl window
 
-         _glFrame = new OpenGLFrame(_scene);
+         if (_glFrame == null) {
+            _glFrame = new OpenGLFrame(_scene);
 
-         Dimension canvasSize = new Dimension(new Dimension(_qualityPreset.getX(), _qualityPreset.getY() + 22));
+            Dimension canvasSize = new Dimension(new Dimension(_qualityPreset.getX(), _qualityPreset.getY() + 22));
 
-         _glFrame.setSize(canvasSize);
-         _glFrame.setBounds(_qualityPreset.getX() + 10, 0, _qualityPreset.getX(), _qualityPreset.getY() + 22);
-         _glFrame.setVisible(true);
+            _glFrame.setSize(canvasSize);
+            _glFrame.setBounds(_qualityPreset.getX() + 10, 0, _qualityPreset.getX(), _qualityPreset.getY() + 22);
+            _glFrame.setVisible(true);
+         }
 
          // kd window
          if (_tracerOptions.showKDWindow && _scene instanceof KDScene) {
-            _kdFrame = new KDJFrame((KDScene)_scene, _glFrame.Canvas);
 
-            Dimension frameSize = new Dimension(200, 500);
+            if (_kdFrame == null) {
+               _kdFrame = new KDJFrame((KDScene) _scene, _glFrame.Canvas);
 
-            _kdFrame.setSize(frameSize);
-            _kdFrame.setBounds(_qualityPreset.getX() * 2 + 10, 0, frameSize.width, frameSize.height + 22);
-            _kdFrame.setVisible(true);
+               Dimension frameSize = new Dimension(200, 500);
+
+               _kdFrame.setSize(frameSize);
+               _kdFrame.setBounds(_qualityPreset.getX() * 2 + 10, 0, frameSize.width, frameSize.height + 22);
+               _kdFrame.setVisible(true);
+            }
          }
       }
 
       // heat window
       if (_tracerOptions.showHeatWindow && _scene instanceof KDScene) {
          if (_heatFrame == null) {
-         _heatFrame = new Frame("KD-tree Heatmap");
-         _heatCanvas = new ImageCanvas();
-         _heatFrame.add("Center", _heatCanvas);
-         _heatFrame.setSize(new Dimension(_qualityPreset.getX(), _qualityPreset.getY() + 22));
-         _heatFrame.setVisible(true);
+            _heatFrame = new Frame("KD-tree Heatmap");
+            _heatCanvas = new ImageCanvas();
+            _heatFrame.add("Center", _heatCanvas);
+            _heatFrame.setSize(new Dimension(_qualityPreset.getX(), _qualityPreset.getY() + 22));
+            _heatFrame.setVisible(true);
          }
 
          _heatGraphics = _heatCanvas.getGraphics();
@@ -309,16 +314,8 @@ public class TraceManager {
             frame.setLocation(_infoJFrame.getWidth() + 100, 0);
             frame.pack();
             frame.setVisible(true);
-
-
          }
       }
-
-
-
-
-
-
    }
 
    public void setMouseXY(final int x, final int y) {
@@ -337,11 +334,13 @@ public class TraceManager {
          double yy = state.IntersectionPoint.Y;
          double zz = state.IntersectionPoint.Z;
 
-         _infoJFrame.setSceneLocation(xx, yy, zz);
+         if (_infoJFrame != null)
+            _infoJFrame.setSceneLocation(xx, yy, zz);
       }
 
       else {
-         _infoJFrame.setNoSceneLocation();
+         if (_infoJFrame != null)
+            _infoJFrame.setNoSceneLocation();
       }
 
 
@@ -367,7 +366,7 @@ public class TraceManager {
          _traceCanvas.setImage(_traceImage);
       }
 
-      if (_tracerOptions.showHeatWindow) {
+      if (_tracerOptions.showHeatWindow && _scene instanceof KDScene) {
          _heatCanvas.setImage(_heatImage);
       }
 

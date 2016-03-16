@@ -212,34 +212,35 @@ public class KDScene extends Scene {
          IntersectionState farState = leftState.TMin >= rightState.TMin ? leftState : rightState;
          KDNode farNode = leftState.TMin >= rightState.TMin ? leftNode : rightNode;
 
-         IntersectionState fallBackState = new IntersectionState();
-         fallBackState.Hits = false;
-         fallBackState.KDHeatCount = count;
+         IntersectionState bestCandidateState = new IntersectionState();
+         bestCandidateState.Hits = false;
+         bestCandidateState.KDHeatCount = count;
 
          if (nearState.Hits) {
-            IntersectionState bestCandidateState = TraverseTreeBetter(nearNode, ray, count);
-            if (bestCandidateState != null) {
-               if (bestCandidateState.Hits) {
-                  return bestCandidateState;
-               } else {
-                  fallBackState.KDHeatCount = bestCandidateState.KDHeatCount;
-               }
+            IntersectionState bestNearState = TraverseTreeBetter(nearNode, ray, count);
+            if (bestNearState != null) {
+               if (bestNearState.Hits)
+                  bestCandidateState = bestNearState;
+               /*} else {
+                  bestCandidateState.KDHeatCount = bestCandidateState.KDHeatCount;
+               }*/
             }
          }
 
          if (farState.Hits) {
-            IntersectionState bestCandidateState = TraverseTreeBetter(farNode, ray, count);
-            if (bestCandidateState != null) {
-               if (bestCandidateState.Hits) {
-                  return bestCandidateState;
-               } else {
+            IntersectionState bestFarState = TraverseTreeBetter(farNode, ray, count);
+            if (bestFarState != null) {
+               if (bestFarState.Hits) //{
+                  bestCandidateState = (bestCandidateState.TMin >= 0 && bestCandidateState.TMin <= bestFarState.TMin)
+                        ? bestCandidateState : bestFarState;
+               /*} else {
                   fallBackState.KDHeatCount = bestCandidateState.KDHeatCount;
-               }
+               } */
             }
          }
 
 
-         return fallBackState;
+         return bestCandidateState;
       }
    }
 
@@ -338,7 +339,7 @@ public class KDScene extends Scene {
       if (_tracerOptions != null)
          numThreads = _tracerOptions.numThreads;
 
-      rootNode = KDTree.BuildKDTree(shapes, 20, 4, numThreads);
+      rootNode = KDTree.BuildKDTree(shapes, 20, 3, numThreads);
 
       int totalNodes = rootNode.GetCount();
 

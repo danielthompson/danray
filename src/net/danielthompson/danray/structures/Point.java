@@ -29,6 +29,10 @@ public class Point implements Cloneable {
       this.Z = p.Z;
    }
 
+   public Point clone() {
+      return new Point(X, Y, Z);
+   }
+
    public double getAxis(KDAxis axis) {
       switch (axis) {
          case X:

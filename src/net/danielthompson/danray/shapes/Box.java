@@ -32,7 +32,7 @@ public class Box extends AbstractShape {
       WorldToObject = worldToObject;
 
       if (ObjectToWorld == null) {
-         WorldBoundingBox = new BoundingBox(p1, p2);
+         WorldBoundingBox = new BoundingBox(p1.clone(), p2.clone());
       }
       else {
 

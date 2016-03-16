@@ -761,7 +761,7 @@ public class SceneBuilder {
       settings.Y = y;
       settings.FocalLength = 2000;
       settings.Rotation = 0;
-      settings.ZoomFactor = 1 / 2.;
+      settings.ZoomFactor = 1;
       settings.FocusDistance = 250;
       settings.Aperture = new SquareAperture(5);
 
@@ -781,7 +781,6 @@ public class SceneBuilder {
       }
 
       Scene scene = new KDScene(camera);
-
       scene.numFrames = 1;
 
       // white vertical z plane
@@ -792,14 +791,14 @@ public class SceneBuilder {
       material._specular = 1 - .75;
       material._reflectivity = .25;
 
-      Point p0 = new Point(-100, 0, -500);
-      Point p1 = new Point(500, 600, -499);
+      Point p0 = new Point(-100, 0, -150);
+      Point p1 = new Point(500, 600, -149);
 
       Box box = new Box(p0, p1, material);
 
       //ImplicitPlane plane = new ImplicitPlane(planeOrigin, planeNormal, material);
       //scene.addDrawableObject(plane);
-      //scene.addDrawableObject(box);
+      scene.addDrawableObject(box);
 
       /*
       for (int i = 0; i < 600; i += 3) {
@@ -823,13 +822,15 @@ public class SceneBuilder {
          scene.addDrawableObject(sphere);
       }*/
 
-      int radius = 2;
+      int total = 320;
 
-      int maxSmallSpheresX = 64;
-      int sphereXInterval = 5;
+      int sphereXInterval = 10;
+      int maxSmallSpheresX = total / sphereXInterval;
 
-      int maxSmallSpheresY = 64;
-      int sphereYInterval = 5;
+      int sphereYInterval = 10;
+      int maxSmallSpheresY = total / sphereYInterval;
+
+      double radius = sphereXInterval / 3;
 
       int[] yOffset = new int[maxSmallSpheresX * maxSmallSpheresY];
       for (int i = 0; i < yOffset.length; i++) {
@@ -884,7 +885,7 @@ public class SceneBuilder {
       //scene.addRadiatableObject(sphereLight);
       //scene.addDrawableObject(sphereLight);
 
-      scene.addRadiatableObject(new PointLight(new Point(300, 300, 300), 7.5));
+      scene.addRadiatableObject(new PointLight(new Point(300, 300, 800), 30));
 
       //scene.addRadiatableObject(new PointLight(new Point(x / 20, y / 2, -100), 5.7));
       //scene.addRadiatableObject(new PointLight(new Point(19 * x / 20, y / 2, -100), 5.7));

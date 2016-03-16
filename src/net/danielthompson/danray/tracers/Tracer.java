@@ -45,7 +45,8 @@ public class Tracer extends BaseTracer {
 
       if (closestStateToRay == null || !closestStateToRay.Hits) {
 
-         colorWithStatistics.KDHeatCount = closestStateToRay.KDHeatCount;
+         if (closestStateToRay != null)
+            colorWithStatistics.KDHeatCount = closestStateToRay.KDHeatCount;
          if (depth == 1) {
             colorWithStatistics.Color = Color.black;
             return colorWithStatistics;
@@ -76,14 +77,22 @@ public class Tracer extends BaseTracer {
       for (Radiatable radiatable : scene.Radiatables) {
          Point intersectionPoint = closestStateToRay.IntersectionPoint;
 
+
+
+
          for (int i = 0; i < iterations; i++) {
 
             Point radiatableLocation = radiatable.getRandomPointOnSurface();
 
             Ray lightRayFromCurrentRadiatableToClosestDrawable = intersectionPoint.CreateVectorFrom(radiatableLocation);
+            if (ray.Origin.X == 212.5 && ray.Origin.Y == 96.5 && ray.Origin.Z == 301)
+               System.out.flush();
             IntersectionState potentialOccluder = scene.GetClosestDrawableToRay(lightRayFromCurrentRadiatableToClosestDrawable);
 
-            if (potentialOccluder == null || !potentialOccluder.Hits || potentialOccluder.Shape.equals(closestStateToRay.Shape) || potentialOccluder.Shape.equals(radiatable)) {
+            if (potentialOccluder == null
+                  || !potentialOccluder.Hits
+                  || potentialOccluder.Shape.equals(closestStateToRay.Shape)
+                  || potentialOccluder.Shape.equals(radiatable)) {
                double oneOverDistanceFromLightSource = 1 / Math.sqrt(radiatableLocation.SquaredDistanceBetween(closestStateToRay.IntersectionPoint));
                oneOverDistanceFromLightSource *= oneOverDistanceFromLightSource;
 

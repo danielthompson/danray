@@ -6,7 +6,7 @@ package net.danielthompson.danray.presets;
 public class TracerOptions {
    public boolean showTracerWindow = true;
    public boolean showCountWindow = false;
-   public boolean showOpenGLWindow = true;
+   public boolean showOpenGLWindow = false;
    public boolean showKDWindow = true;
    public boolean showSpectrumWindow = false;
    public boolean showInfoWindow = false;
