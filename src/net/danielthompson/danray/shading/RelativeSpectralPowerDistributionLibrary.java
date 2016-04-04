@@ -60,11 +60,11 @@ public class RelativeSpectralPowerDistributionLibrary {
    private static RelativeSpectralPowerDistribution GetRed() {
       RelativeSpectralPowerDistribution curve = new RelativeSpectralPowerDistribution();
 
-      curve.Buckets[28] = 0.2f;
-      curve.Buckets[29] = 0.2f;
-      curve.Buckets[30] = 0.2f;
-      curve.Buckets[31] = 0.2f;
-      curve.Buckets[32] = 0.2f;
+      curve.Buckets[25] = 0.10f;
+      curve.Buckets[25] = 0.2f;
+      curve.Buckets[26] = 0.4f;
+      curve.Buckets[27] = 0.2f;
+      curve.Buckets[28] = 0.10f;
 
       return curve;
    }
@@ -75,9 +75,25 @@ public class RelativeSpectralPowerDistributionLibrary {
    private static RelativeSpectralPowerDistribution GetBlue() {
       RelativeSpectralPowerDistribution curve = new RelativeSpectralPowerDistribution();
 
-      curve.Buckets[6] = 0.33f;
-      curve.Buckets[7] = 0.33f;
-      curve.Buckets[8] = 0.34f;
+      curve.Buckets[5] = 0.1f;
+      curve.Buckets[6] = 0.2f;
+      curve.Buckets[7] = 0.4f;
+      curve.Buckets[8] = 0.2f;
+      curve.Buckets[9] = 0.1f;
+
+      return curve;
+   }
+
+   public static RelativeSpectralPowerDistribution Green = GetGreen();
+
+   private static RelativeSpectralPowerDistribution GetGreen() {
+      RelativeSpectralPowerDistribution curve = new RelativeSpectralPowerDistribution();
+
+      curve.Buckets[14] = 0.1f;
+      curve.Buckets[15] = 0.2f;
+      curve.Buckets[16] = 0.4f;
+      curve.Buckets[17] = 0.2f;
+      curve.Buckets[18] = 0.1f;
 
       return curve;
    }

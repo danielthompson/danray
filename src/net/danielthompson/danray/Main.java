@@ -13,7 +13,7 @@ import net.danielthompson.danray.structures.Scene;
 public class Main {
 
    private static final RenderQualityPreset _preset = new LowQuality();
-
+   public static final boolean UseSpectralRendering = true;
    static final boolean UseDepthOfField = false;
 
    public static boolean Finished = false;
@@ -41,6 +41,8 @@ public class Main {
       //scene = SceneBuilder.TwoSpectralSpheres(_preset.getX(), _preset.getY());
 
       TracerOptions options = parseArgs(args);
+
+      options.spectral = UseSpectralRendering;
 
       traceManager = new TraceManager(scene, _preset, options);
       traceManager.Compile();

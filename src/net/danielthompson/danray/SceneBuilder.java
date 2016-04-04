@@ -12,6 +12,7 @@ import net.danielthompson.danray.lights.Radiatable;
 import net.danielthompson.danray.lights.SpectralSphereLight;
 import net.danielthompson.danray.lights.SphereLight;
 import net.danielthompson.danray.shading.*;
+import net.danielthompson.danray.shading.bxdf.BRDF;
 import net.danielthompson.danray.shading.bxdf.LambertianBRDF;
 import net.danielthompson.danray.shading.bxdf.MirrorBRDF;
 import net.danielthompson.danray.shapes.*;
@@ -761,7 +762,7 @@ public class SceneBuilder {
       settings.Y = y;
       settings.FocalLength = 2000;
       settings.Rotation = 0;
-      settings.ZoomFactor = 1;
+      settings.ZoomFactor = 1/4.;
       settings.FocusDistance = 250;
       settings.Aperture = new SquareAperture(5);
 
@@ -784,12 +785,18 @@ public class SceneBuilder {
       scene.numFrames = 1;
 
       // white vertical z plane
-
+      BRDF brdf = new LambertianBRDF();
+      SpectralReflectanceCurve blueSRC = SpectralReflectanceCurveLibrary.LightBlue;
+      SpectralReflectanceCurve greenSRC = SpectralReflectanceCurveLibrary.Grass;
 
       Material material = new Material();
       material.Color = new Color(255, 240, 185);
       material._specular = 1 - .75;
       material._reflectivity = .25;
+      material._intrinsic = 1 - (material._reflectivity + material._specular + material._transparency);
+
+      material.BRDF = brdf;
+      material.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.LemonSkin;
 
       Point p0 = new Point(-100, 0, -150);
       Point p1 = new Point(500, 600, -149);
@@ -824,6 +831,8 @@ public class SceneBuilder {
 
       int total = 320;
 
+
+
       int sphereXInterval = 10;
       int maxSmallSpheresX = total / sphereXInterval;
 
@@ -850,13 +859,20 @@ public class SceneBuilder {
             int green = ((i + j) % 4) * 48 + 48;
             int blue = (j % 3) * 64 + 48;
 
+            float weight = (float)Math.random();
+
+            SpectralReflectanceCurve src = SpectralReflectanceCurve.Lerp(blueSRC, weight, greenSRC, 1 - weight);
+
             Color color = new Color(red, green, blue);
 
             material = new Material();
             material.Color = color;
             material._reflectivity = .3;
             material._transparency = 0;
-            material._specular = 1 - .7;
+            material._specular = .1;
+            material._intrinsic = 1 - (material._reflectivity + material._specular + material._transparency);
+            material.SpectralReflectanceCurve = src;
+            material.BRDF = brdf;
 
             Sphere sphere = new Sphere(material);
 
@@ -874,18 +890,21 @@ public class SceneBuilder {
          }
       }
 
+      SpectralSphereLight light = new SpectralSphereLight(500000, material, RelativeSpectralPowerDistributionLibrary.D65.getSPD());
+      light.Origin = new Point(300, 300, 300);
+      light.Radius = 20;
+      scene.addDrawableObject(light);
+      scene.SpectralRadiatables.add(light);
+
+      SpectralBlender.setFilmSpeed(100000f);
+
       SphereLight sphereLight = new SphereLight(5, material);
-
-      //PointLight pointLight = new PointLight(location, 50);
-
-
       sphereLight.Origin = new Point(300, 300, 300);
       sphereLight.Radius = 20;
+      scene.addRadiatableObject(sphereLight);
+      scene.addDrawableObject(sphereLight);
 
-      //scene.addRadiatableObject(sphereLight);
-      //scene.addDrawableObject(sphereLight);
-
-      scene.addRadiatableObject(new PointLight(new Point(300, 300, 800), 30));
+      //scene.addRadiatableObject(new PointLight(new Point(300, 300, 800), 30));
 
       //scene.addRadiatableObject(new PointLight(new Point(x / 20, y / 2, -100), 5.7));
       //scene.addRadiatableObject(new PointLight(new Point(19 * x / 20, y / 2, -100), 5.7));

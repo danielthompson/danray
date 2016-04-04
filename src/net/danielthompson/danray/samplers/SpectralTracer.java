@@ -1,4 +1,4 @@
-package net.danielthompson.danray.tracers;
+package net.danielthompson.danray.samplers;
 
 import net.danielthompson.danray.lights.SpectralRadiatable;
 import net.danielthompson.danray.shading.Material;
@@ -13,7 +13,7 @@ import net.danielthompson.danray.utility.GeometryCalculations;
 /**
  * Created by daniel on 5/5/15.
  */
-public class SpectralTracer extends BaseTracer {
+public class SpectralTracer extends BaseSampler {
 
    private final double factor = 1.0;
    private final double iterations = 1.0;
@@ -29,7 +29,7 @@ public class SpectralTracer extends BaseTracer {
 
       IntersectionState closestStateToRay = scene.GetClosestDrawableToRay(ray);
 
-      if (closestStateToRay == null) {
+      if (closestStateToRay == null || closestStateToRay.Shape == null) {
          return directSPD;
       }
 
@@ -115,7 +115,7 @@ public class SpectralTracer extends BaseTracer {
       if (objectMaterial.getTransparency() > 0) {
 
          Ray refractedRay = GeometryCalculations.GetRefractedRay(closestStateToRay, closestStateToRay.Normal, ray, oldIndexOfRefraction);
-         refractedColor = GetColorForRay(refractedRay, depth, closestStateToRay.Drawable.GetMaterial().getIndexOfRefraction());
+         refractedColor = GetSample(refractedRay, depth, closestStateToRay.Drawable.GetMaterial().getIndexOfRefraction());
          colorWithStatistics.Statistics.Add(refractedColor.Statistics);
       }
       */

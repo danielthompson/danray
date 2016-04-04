@@ -1,7 +1,7 @@
 package test.tracers.tracer;
 
 import net.danielthompson.danray.utility.GeometryCalculations;
-import net.danielthompson.danray.tracers.Tracer;
+import net.danielthompson.danray.samplers.WhittedSampler;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.shapes.Sphere;
 import net.danielthompson.danray.structures.Ray;
@@ -43,7 +43,7 @@ public class PercentageTests {
       Vector vectorDirection = new Vector(-1, 0, 0);
       Ray cameraRay = new Ray(vectorOrigin, vectorDirection);
 
-      Tracer tracer = new Tracer(null, 0);
+      WhittedSampler tracer = new WhittedSampler(null, 0);
 
       double percentage = GeometryCalculations.GetAngleOfIncidencePercentage(cameraRay, state);
       Assert.assertEquals(percentage, 100.0);
@@ -63,7 +63,7 @@ public class PercentageTests {
       Vector vectorDirection = new Vector(-1, -1, 0);
       Ray cameraRay = new Ray(vectorOrigin, vectorDirection);
 
-      Tracer tracer = new Tracer(null, 0);
+      WhittedSampler tracer = new WhittedSampler(null, 0);
 
       double percentage = GeometryCalculations.GetAngleOfIncidencePercentage(cameraRay, state);
       Assert.assertEquals(percentage, 50.0);
@@ -83,7 +83,7 @@ public class PercentageTests {
       Vector vectorDirection = new Vector(0, -1, 0);
       Ray cameraRay = new Ray(vectorOrigin, vectorDirection);
 
-      Tracer tracer = new Tracer(null, 0);
+      WhittedSampler tracer = new WhittedSampler(null, 0);
 
       double percentage = GeometryCalculations.GetAngleOfIncidencePercentage(cameraRay, state);
       Assert.assertEquals(percentage, 0.0);

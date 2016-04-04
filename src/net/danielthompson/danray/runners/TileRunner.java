@@ -2,22 +2,17 @@ package net.danielthompson.danray.runners;
 
 import net.danielthompson.danray.TraceManager;
 import net.danielthompson.danray.presets.RenderQualityPreset;
-import net.danielthompson.danray.shading.Blender;
-import net.danielthompson.danray.structures.ColorWithStatistics;
-import net.danielthompson.danray.structures.Ray;
+import net.danielthompson.danray.samplers.BaseSampler;
 import net.danielthompson.danray.structures.Scene;
-import net.danielthompson.danray.tracers.Tracer;
-
-import java.awt.*;
 
 /**
  * Created by daniel on 3/4/14.
  */
 
 
-public class TileRunner implements Runnable {
-   volatile int _xTilePointer;
-   volatile int _yTilePointer;
+public class TileRunner extends BaseRunner {
+   private volatile int _xTilePointer;
+   private volatile int _yTilePointer;
 
    private final int _xTileWidth = 32;
    private final int _yTileWidth = 32;
@@ -31,22 +26,11 @@ public class TileRunner implements Runnable {
    private final int _x;
    private final int _y;
 
-   private final TraceManager _manager;
-   private final Tracer _tracer;
-   private final Scene _scene;
-   private int _frame;
+   public TileRunner(TraceManager manager, BaseSampler tracer, Scene scene, RenderQualityPreset qualityPreset, int frame) {
+      super(manager, tracer, scene, qualityPreset, frame);
 
-   private final RenderQualityPreset qualityPreset;
-
-   public TileRunner(TraceManager manager, Tracer tracer, Scene scene, RenderQualityPreset qualityPreset, int frame) {
-      _manager = manager;
-      _tracer = tracer;
-      _scene = scene;
-      _frame = frame;
       _x = qualityPreset.getX();
       _y = qualityPreset.getY();
-
-      this.qualityPreset = qualityPreset;
 
       _xLastTileWidth = getXLastTileWidth();
       _yLastTileWidth = getYLastTileWidth();
@@ -105,99 +89,13 @@ public class TileRunner implements Runnable {
          for (int y = yMin; y < yMax; y++) {
             for (int x = xMin; x < xMax; x++) {
                trace(x, y);
-
             }
-
          }
-
          tile = getNextTile();
       }
    }
 
-   private void trace(int x, int y) {
-      int[] pixel = new int[2];
-      pixel[0] = x;
-      pixel[1] = y;
-      trace(pixel);
-   }
-
-   /**
-    * Traces and outputs the given pixel. Must not be null.
-    * @param pixel
-    */
-   public void trace(int[] pixel) {
-
-      if (pixel[0] == 332 && pixel[1] == 443)
-         System.out.flush();
-
-      int reachedSamples = 0;
-
-      int heatCount = 0;
-
-      Ray[] cameraRays = _scene.Camera.getInitialStochasticRaysForPixel(pixel[0], pixel[1], qualityPreset.getSamplesPerPixel());
-
-      _manager.InitialRays += cameraRays.length;
-
-      ColorWithStatistics[] colorsWithStatistics = new ColorWithStatistics[cameraRays.length];
-      for (int i = 0; i < cameraRays.length; i++) {
-         colorsWithStatistics[i] = _tracer.GetColorForRay(cameraRays[i], 1);
-         heatCount += colorsWithStatistics[i].KDHeatCount;
-         _manager.Statistics[pixel[0]][pixel[1]].Add(colorsWithStatistics[i].Statistics);
-      }
-
-      Color[] colors = new Color[cameraRays.length];
-
-      for (int i = 0; i < colors.length; i++) {
-         colors[i] = colorsWithStatistics[i].Color;
-      }
-
-      Color blendSoFar = Blender.BlendColors(colors);
-      Color marginalBlend;
-
-      for (int j = 0; j < qualityPreset.getSuperSamplesPerPixel(); j++) {
-         reachedSamples += qualityPreset.getSamplesPerPixel();
-         cameraRays = _scene.Camera.getInitialStochasticRaysForPixel(pixel[0], pixel[1], qualityPreset.getSamplesPerPixel());
-         _manager.InitialRays += cameraRays.length;
-         colorsWithStatistics = new ColorWithStatistics[cameraRays.length];
-         for (int i = 0; i < cameraRays.length; i++) {
-            colorsWithStatistics[i] = _tracer.GetColorForRay(cameraRays[i], 1);
-            heatCount += colorsWithStatistics[i].KDHeatCount;
-            _manager.Statistics[pixel[0]][pixel[1]].Add(colorsWithStatistics[i].Statistics);
-         }
-
-         colors = new Color[cameraRays.length];
-
-         for (int i = 0; i < colors.length; i++) {
-            colors[i] = colorsWithStatistics[i].Color;
-         }
-
-         Color marginalColor = Blender.BlendColors(colors);
-/*
-         if (j == 0) {
-            blendSoFar = marginalColor;
-            continue;
-         }
-  */
-         marginalBlend = Blender.BlendWeighted(marginalColor, 1, blendSoFar, 1 + j);
-
-         if (Blender.CloseEnough(blendSoFar, marginalBlend, qualityPreset.getConvergenceTerminationThreshold())) {
-            blendSoFar = marginalBlend;
-            break;
-         }
-         else {
-            blendSoFar = marginalBlend;
-         }
-
-      }
-
-      _manager.SetKDHeatForPixel(pixel, heatCount);
-
-      _manager.SetRayCountForPixel(pixel, reachedSamples);
-      _manager.SetPixelColor(pixel, blendSoFar);
-
-   }
-
-   public int[] getNextTile() {
+   private int[] getNextTile() {
       int[] tile = new int[2];
       tile[0] = -1;
       tile[1] = -1;
@@ -218,5 +116,4 @@ public class TileRunner implements Runnable {
          return null;
       return tile;
    }
-
 }

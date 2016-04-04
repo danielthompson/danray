@@ -1,4 +1,4 @@
-package net.danielthompson.danray.tracers;
+package net.danielthompson.danray.samplers;
 
 import net.danielthompson.danray.lights.SpectralRadiatable;
 import net.danielthompson.danray.lights.SpectralSphereLight;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 /**
  * Generates a sample for the given ray using bidirectional path tracing.
  */
-public class SpectralBDPathTracer extends BaseTracer {
+public class SpectralBDPathTracer extends BaseSampler {
 
    private int numFixedLightVertices = -1;
    private int numFixedEyeVertices = -1;

@@ -24,8 +24,6 @@ public class SpectralSphereLight extends SphereLight implements SpectralRadiatab
       super(power, material);
       this.SPD = spd;
 
-
-
       if (material == null) {
          this.Material = new Material();
 

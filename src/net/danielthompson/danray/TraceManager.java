@@ -1,12 +1,9 @@
 package net.danielthompson.danray;
 
-//import com.jogamp.opengl.GLCapabilities;
-//import com.jogamp.opengl.GLProfile;
-//import com.jogamp.opengl.awt.GLCanvas;
 import net.danielthompson.danray.acceleration.KDScene;
 import net.danielthompson.danray.presets.RenderQualityPreset;
 import net.danielthompson.danray.presets.TracerOptions;
-import net.danielthompson.danray.runners.SpectralTileRunner;
+import net.danielthompson.danray.runners.PixelRunner;
 import net.danielthompson.danray.runners.TileRunner;
 import net.danielthompson.danray.shading.SpectralBlender;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
@@ -15,23 +12,22 @@ import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Scene;
 import net.danielthompson.danray.structures.Statistics;
 import net.danielthompson.danray.structures.Vector;
-import net.danielthompson.danray.tracers.SpectralTracer;
-import net.danielthompson.danray.tracers.Tracer;
+import net.danielthompson.danray.samplers.SpectralTracer;
+import net.danielthompson.danray.samplers.WhittedSampler;
 import net.danielthompson.danray.ui.*;
 import net.danielthompson.danray.ui.opengl.KDJFrame;
 import net.danielthompson.danray.ui.opengl.OpenGLFrame;
+import net.danielthompson.danray.utility.IOHelper;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by daniel on 3/4/14.
@@ -74,6 +70,8 @@ public class TraceManager {
    private CanvasUpdateTimerTask _updateTask;
    private Timer _timer;
 
+   private IOHelper _ioHelper;
+
    private RenderQualityPreset _qualityPreset;
    private TracerOptions _tracerOptions;
    private final float _samplesInverse;
@@ -88,7 +86,7 @@ public class TraceManager {
 
    Scene _scene;
 
-   Tracer _tracer;
+   WhittedSampler _tracer;
    SpectralTracer _spectralTracer;
 
    private KDJFrame _kdFrame;
@@ -97,8 +95,6 @@ public class TraceManager {
    int _yPointer;
 
    private Date _renderStartTime;
-
-   private String _outputDirectory;
 
    private long _numPixels;
    private volatile long _numRenderedPixels;
@@ -120,20 +116,20 @@ public class TraceManager {
       _tracerOptions = tracerOptions;
       _samplesInverse = 1.0f / (renderQualityPreset.getSuperSamplesPerPixel() * renderQualityPreset.getSamplesPerPixel());
       _scene = scene;
-      _tracer = new Tracer(_scene, renderQualityPreset.getMaxDepth());
-      //_spectralTracer = new SpectralBDPathTracer(_scene, renderQualityPreset.getMaxDepth());
-      //_spectralTracer = new SpectralPathTracer(_scene, renderQualityPreset.getMaxDepth());
+      _tracer = new WhittedSampler(_scene, renderQualityPreset.getMaxDepth());
+      //_spectralTracer = new SpectralBDPathTracer(Scene, renderQualityPreset.getMaxDepth());
+      //_spectralTracer = new SpectralPathTracer(Scene, renderQualityPreset.getMaxDepth());
       _spectralTracer = new SpectralTracer(_scene, renderQualityPreset.getMaxDepth());
       _timer = new Timer();
 
       _numPixels = renderQualityPreset.getX() * renderQualityPreset.getY();
       _numPixelsDivisor = 1.0f / _numPixels;
-
+      _ioHelper = new IOHelper();
       _numPixelsStep = _numPixels / 100;
 
       Logger.AddOutput(System.out);
-      CreateOutputDirectory();
-      Logger.AddOutputFile(new File(_outputDirectory + File.separator + "log.txt"));
+      _ioHelper.CreateOutputDirectory();
+      Logger.AddOutputFile(_ioHelper.GetLogFile());
 
    }
 
@@ -180,9 +176,9 @@ public class TraceManager {
                   SetupFrame(s, t);
                   Trace(i, s, t);
                   Log(i, s, t);
-                  Save(_traceImage, "trace" + getOutputString(k, s, t));
-                  Save(_countImage, "count" + getOutputString(k, s, t));
-                  Save(_heatImage, "heat" + getOutputString(k, s, t));
+                  _ioHelper.Save(_traceImage, "trace" + getOutputString(k, s, t));
+                  _ioHelper.Save(_countImage, "count" + getOutputString(k, s, t));
+                  _ioHelper.Save(_heatImage, "heat" + getOutputString(k, s, t));
                   TeardownFrame();
                   //break;
                //}
@@ -193,9 +189,9 @@ public class TraceManager {
             SetupFrame(-1, -1);
             Trace(i, -1, -1);
             Log(i, -1, -1);
-            Save(_traceImage, "trace" + getOutputString(i));
-            Save(_countImage, "count" + getOutputString(i));
-            Save(_heatImage, "heat" + getOutputString(i));
+            _ioHelper.Save(_traceImage, "trace" + getOutputString(i));
+            _ioHelper.Save(_countImage, "count" + getOutputString(i));
+            _ioHelper.Save(_heatImage, "heat" + getOutputString(i));
             TeardownFrame();
          }
       }
@@ -311,7 +307,7 @@ public class TraceManager {
 
             frame.setContentPane(_editorView.mainPanel);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setLocation(_infoJFrame.getWidth() + 100, 0);
+            frame.setLocation(100, 0);
             frame.pack();
             frame.setVisible(true);
          }
@@ -405,8 +401,6 @@ public class TraceManager {
       _renderStartTime = new Date();
 
       _scene.Camera.setFrame(frame);
-
-      //Runnable runner = new SpectralTileRunner(this, _spectralTracer, _scene, _qualityPreset, frame);;
 
       Runnable runner = new TileRunner(this, _tracer, _scene, _qualityPreset, frame);
 
@@ -705,7 +699,7 @@ public class TraceManager {
    }
 
    public void Trace(int[] pixel) {
-      SpectralTileRunner runner = new SpectralTileRunner(this, _spectralTracer, _scene, _qualityPreset, 0);
+      PixelRunner runner = new PixelRunner(this, _spectralTracer, _scene, _qualityPreset, 0);
       runner.trace(pixel);
    }
 
@@ -765,27 +759,6 @@ public class TraceManager {
       }
    }
 
-   public void Save(BufferedImage image, String filename) {
-      Date date = Calendar.getInstance().getTime();
-      //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh-mm-ss");
-
-
-      try {
-         ImageIO.write(image, "png", new File(_outputDirectory + File.separator + filename + /*" " + sdf.format(date) +*/ ".png"));
-      }
-      catch (IOException e) {
-         System.err.println("image not saved.");
-      }
-   }
-
-   private void CreateOutputDirectory() {
-      Date date = Calendar.getInstance().getTime();
-      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
-
-      _outputDirectory = "traces" + File.separator + sdf.format(date);
-
-      new File(_outputDirectory).mkdirs();
-   }
 
    public void Finish() {
       Logger.Flush();

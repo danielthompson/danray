@@ -1,4 +1,4 @@
-package net.danielthompson.danray.tracers;
+package net.danielthompson.danray.samplers;
 
 import net.danielthompson.danray.lights.SpectralRadiatable;
 import net.danielthompson.danray.shading.Material;
@@ -12,7 +12,7 @@ import net.danielthompson.danray.structures.*;
 /**
  * Created by daniel on 5/5/15.
  */
-public class SpectralPathTracer extends BaseTracer {
+public class SpectralPathTracer extends BaseSampler {
 
    public SpectralPathTracer(Scene scene, int maxDepth) {
       super(scene, maxDepth);
@@ -39,6 +39,9 @@ public class SpectralPathTracer extends BaseTracer {
       }
       else {
          Shape closestShape = closestStateToRay.Shape;
+         if (closestShape == null) {
+            return new SpectralPowerDistribution();
+         }
          Material objectMaterial = closestShape.GetMaterial();
 
          Normal intersectionNormal = closestStateToRay.Normal;

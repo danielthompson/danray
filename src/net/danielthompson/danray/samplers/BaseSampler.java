@@ -1,18 +1,18 @@
-package net.danielthompson.danray.tracers;
+package net.danielthompson.danray.samplers;
 
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
-import net.danielthompson.danray.structures.ColorWithStatistics;
+import net.danielthompson.danray.structures.Sample;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Scene;
 
 /**
  * Created by daniel on 9/12/15.
  */
-public abstract class BaseTracer {
+public abstract class BaseSampler {
    Scene scene;
    int maxDepth;
 
-   protected BaseTracer(Scene scene, int maxDepth) {
+   protected BaseSampler(Scene scene, int maxDepth) {
       this.scene = scene;
       this.maxDepth = maxDepth;
    }
@@ -21,7 +21,7 @@ public abstract class BaseTracer {
       return null;
    }
 
-   public ColorWithStatistics GetColorForRay(Ray ray, int depth) {
+   public Sample GetSample(Ray ray, int depth) {
       return null;
    }
 }

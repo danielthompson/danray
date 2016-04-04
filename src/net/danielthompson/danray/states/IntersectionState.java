@@ -29,5 +29,6 @@ public class IntersectionState {
 
    public IntersectionState() {
       TMin = -Double.MAX_VALUE;
+      Statistics = new Statistics();
    }
 }

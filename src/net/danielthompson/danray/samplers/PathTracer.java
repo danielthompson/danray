@@ -1,23 +1,22 @@
-package net.danielthompson.danray.tracers;
+package net.danielthompson.danray.samplers;
 
 import net.danielthompson.danray.lights.Radiatable;
 import net.danielthompson.danray.shading.Blender;
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.shapes.Shape;
-import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.states.IntersectionState;
-
-import java.awt.*;
-
+import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.utility.GeometryCalculations;
+
+import java.awt.*;
 
 /**
  * User: daniel
  * Date: 7/2/13
  * Time: 15:26
  */
-public class Tracer extends BaseTracer {
+public class PathTracer extends BaseSampler {
 
    private final int _airIndexOfRefraction = 1;
 
@@ -25,18 +24,18 @@ public class Tracer extends BaseTracer {
    private final double iterations = 1.0;
    private final double adjustment = factor / iterations;
 
-   public Tracer(Scene scene, int maxDepth) {
+   public PathTracer(Scene scene, int maxDepth) {
       super(scene, maxDepth);
    }
 
 
-   public ColorWithStatistics GetColorForRay(Ray ray, int depth) {
+   public Sample GetSample(Ray ray, int depth) {
       return GetColorForRay(ray, depth, _airIndexOfRefraction);
    }
 
-   public ColorWithStatistics GetColorForRay(Ray ray, int depth, double oldIndexOfRefraction) {
+   public Sample GetColorForRay(Ray ray, int depth, double oldIndexOfRefraction) {
 
-      ColorWithStatistics colorWithStatistics = new ColorWithStatistics();
+      Sample colorWithStatistics = new Sample();
 
       double brightness = 0;
 
@@ -76,9 +75,6 @@ public class Tracer extends BaseTracer {
 
       for (Radiatable radiatable : scene.Radiatables) {
          Point intersectionPoint = closestStateToRay.IntersectionPoint;
-
-
-
 
          for (int i = 0; i < iterations; i++) {
 
@@ -128,7 +124,7 @@ public class Tracer extends BaseTracer {
          depth++;
          // reflected color
 
-         ColorWithStatistics reflectedColor = null;
+         Sample reflectedColor = null;
 
          double reflectedWeight = 0.0;
 
@@ -150,12 +146,12 @@ public class Tracer extends BaseTracer {
             reflectedWeight = objectMaterial.BRDF.f(angleIncoming, angleOutgoing);
          }
 
-         ColorWithStatistics refractedColor = null;
+         Sample refractedColor = null;
          /*
          else if (objectMaterial.getReflectivity() > 0) {
             Ray reflectedRay = GeometryCalculations.GetReflectedRay(closestStateToRay.IntersectionPoint, closestStateToRay.Normal, ray);
 
-            reflectedColor = GetColorForRay(reflectedRay, depth, oldIndexOfRefraction);
+            reflectedColor = GetSample(reflectedRay, depth, oldIndexOfRefraction);
             colorWithStatistics.Statistics.Add(reflectedColor.Statistics);
 
             // refracted color
@@ -169,7 +165,7 @@ public class Tracer extends BaseTracer {
          if (objectMaterial.getTransparency() > 0) {
 
             Ray refractedRay = GeometryCalculations.GetRefractedRay(closestStateToRay, closestStateToRay.Normal, ray, oldIndexOfRefraction);
-            refractedColor = GetColorForRay(refractedRay, depth, closestStateToRay.Drawable.GetMaterial().getIndexOfRefraction());
+            refractedColor = GetSample(refractedRay, depth, closestStateToRay.Drawable.GetMaterial().getIndexOfRefraction());
             colorWithStatistics.Statistics.Add(refractedColor.Statistics);
          }
 */

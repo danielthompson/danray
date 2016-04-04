@@ -32,6 +32,7 @@ public class SPDEditorView {
    private JPanel spdSliderPanel;
    private JLabel colorLabel;
    private JPanel spdMainPanel;
+   private JLabel rgbLabel;
 
    private JSlider[] _spdSliders;
    private JLabel[] _spdWavelengthLabels;
@@ -234,6 +235,9 @@ public class SPDEditorView {
       Color c = SpectralBlender.ConvertSPDtoRGB(spd);
 
       colorLabel.setBackground(c);
+      String s = "<html>R: " + c.getRed() + "<br>G: " + c.getGreen() + "<br>B: " + c.getBlue() + "</html>";
+      rgbLabel.setText(s);
+
 
 
    }

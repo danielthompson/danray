@@ -48,8 +48,6 @@ public class XMLExportTests {
       _dir = new File("test/exports");
       if (!_dir.exists())
          _dir.mkdir();
-
-
    }
 
    @AfterMethod

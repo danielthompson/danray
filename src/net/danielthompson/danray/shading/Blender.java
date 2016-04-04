@@ -42,6 +42,8 @@ public class Blender {
 
    public static Color BlendRGB(Color[] colors, float[] weights) {
 
+      Normalize(weights);
+
       float[] newRGB = new float[3];
 
       for (int n = 0; n < colors.length; n++) {
@@ -55,6 +57,21 @@ public class Blender {
 
       Color blendedColor = new Color(newRGB[0], newRGB[1], newRGB[2]);
       return blendedColor;
+   }
+
+   private static void Normalize(float[] weights) {
+      float max = 0;
+
+      for (int n = 0; n < weights.length; n++) {
+         if (weights[n] > max)
+            max = weights[n];
+      }
+
+      float multiplicand = 1.f / max;
+
+      for (int n = 0; n < weights.length; n++) {
+         weights[n] *= multiplicand;
+      }
    }
 
    public static Color BlendRGB(Color diffuseObjectColor, Color reflectedColor, float reflectivity, Color refractedColor, float transparency) {
