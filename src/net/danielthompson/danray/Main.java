@@ -44,6 +44,8 @@ public class Main {
 
       options.spectral = UseSpectralRendering;
 
+      //options.numThreads = 1;
+
       traceManager = new TraceManager(scene, _preset, options);
       traceManager.Compile();
       traceManager.Render();

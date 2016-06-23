@@ -1,4 +1,4 @@
-package net.danielthompson.danray.samplers;
+package net.danielthompson.danray.integrators;
 
 import net.danielthompson.danray.lights.SpectralRadiatable;
 import net.danielthompson.danray.shading.Material;
@@ -12,7 +12,7 @@ import net.danielthompson.danray.structures.*;
 /**
  * Created by daniel on 5/5/15.
  */
-public class SpectralPathTracer extends BaseSampler {
+public class SpectralPathTracer extends AbstractIntegrator {
 
    public SpectralPathTracer(Scene scene, int maxDepth) {
       super(scene, maxDepth);

@@ -11,6 +11,8 @@ public class Constants {
    public static final double OneOverPi = 1.0 / Math.PI;
    public static final double OneOver2Pi = 1.0 / (2 * Math.PI);
    public static final double OneOver4Pi = 1.0 / (4 * Math.PI);
+   public static final double OneOver255 = 1.0 / 255;
+   public static final float OneOver255f = 1.0f / 255.0f;
 
    public static boolean WithinEpsilon(double number, double target) {
       return WithinEpsilon(number, target, Epsilon);
@@ -19,10 +21,10 @@ public class Constants {
    public static boolean WithinEpsilon(double number, double target, double epsilon) {
 
       if (number > target) {
-         return (epsilon >= number - target);
+         return (epsilon + target >= number);
       }
       else
-         return (epsilon >= target - number);
+         return (epsilon + number >= target);
    }
 
    public static boolean WithinEpsilon(Point p1, Point p2) {

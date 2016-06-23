@@ -1,4 +1,4 @@
-package net.danielthompson.danray.samplers;
+package net.danielthompson.danray.integrators;
 
 import net.danielthompson.danray.lights.SpectralRadiatable;
 import net.danielthompson.danray.shading.Material;
@@ -13,7 +13,7 @@ import net.danielthompson.danray.utility.GeometryCalculations;
 /**
  * Created by daniel on 5/5/15.
  */
-public class SpectralTracer extends BaseSampler {
+public class SpectralTracer extends AbstractIntegrator {
 
    private final double factor = 1.0;
    private final double iterations = 1.0;

@@ -212,4 +212,8 @@ public class GeometryCalculations {
    public static double UniformConePDF(double cosThetaMax) {
       return 1.0 / (2.0 * Math.PI * (1.0 - cosThetaMax));
    }
+
+   public static float Lerp(float v1, float w1, float v2, float w2) {
+      return v1 * w1 + v2 * w2;
+   }
 }

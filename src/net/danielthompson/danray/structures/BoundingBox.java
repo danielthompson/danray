@@ -83,7 +83,7 @@ public class BoundingBox {
    }
 
    public IntersectionState GetHitInfo(Ray ray) {
-      return BoundingBox.GetHitInfo(point1, point2, ray);
+      return BoundingBox.GetHitInfoNew(point1, point2, ray);
    }
 
    // orig
@@ -94,97 +94,18 @@ public class BoundingBox {
       IntersectionState state = new IntersectionState();
       state.Hits = true;
 
-      double rayInverse = 1.0 / ray.Direction.X;
-      double tNear = (p1.X - ray.Origin.X) * rayInverse;
-      double tFar = (p2.X - ray.Origin.X) * rayInverse;
-      if (tNear > tFar) {
-         double swap = tNear;
-         tNear = tFar;
-         tFar = swap;
-      }
-
-      minBoundNearT = (tNear > minBoundNearT) ? tNear : minBoundNearT;
-      maxBoundFarT = (tFar < maxBoundFarT) ? tFar : maxBoundFarT;
-      if (minBoundNearT > maxBoundFarT) {
-         state.Hits = false;
-         return state;
-      }
-      //else {
-      state.TMin = minBoundNearT;
-      state.TMax = maxBoundFarT;
-      //}
-
-      // y
-
-      rayInverse = 1.0 / ray.Direction.Y;
-      tNear = (p1.Y - ray.Origin.Y) * rayInverse;
-      tFar = (p2.Y - ray.Origin.Y) * rayInverse;
-      if (tNear > tFar) {
-         double swap = tNear;
-         tNear = tFar;
-         tFar = swap;
-      }
-
-      minBoundNearT = (tNear > minBoundNearT) ? tNear : minBoundNearT;
-      maxBoundFarT = (tFar < maxBoundFarT) ? tFar : maxBoundFarT;
-      if (minBoundNearT > maxBoundFarT) {
-         state.Hits = false;
-         return state;
-      }
-      //else {
-      state.TMin = minBoundNearT;
-      state.TMax = maxBoundFarT;
-      //}
-
-      // z
-
-      rayInverse = 1.0 / ray.Direction.Z;
-      tNear = (p1.Z - ray.Origin.Z) * rayInverse;
-      tFar = (p2.Z - ray.Origin.Z) * rayInverse;
-      if (tNear > tFar) {
-         double swap = tNear;
-         tNear = tFar;
-         tFar = swap;
-      }
-
-      minBoundNearT = (tNear > minBoundNearT) ? tNear : minBoundNearT;
-      maxBoundFarT = (tFar < maxBoundFarT) ? tFar : maxBoundFarT;
-      if (minBoundNearT > maxBoundFarT) {
-         state.Hits = false;
-         return state;
-      }
-
-      state.TMin = minBoundNearT;
-      state.TMax = maxBoundFarT;
-
-      return state;
-
-   }
-
-   public static IntersectionState GetHitInfoModified(Point p1, Point p2, Ray ray) {
-      double maxBoundFarT = Double.MAX_VALUE;
-      double minBoundNearT = 0;
-
-      IntersectionState state = new IntersectionState();
-      state.Hits = true;
-
       // X
-      double rayInverse = 1.0 / ray.Direction.X;
-      double tNear = (p1.X - ray.Origin.X) * rayInverse;
-      double tFar = (p2.X - ray.Origin.X) * rayInverse;
+      double tNear = (p1.X - ray.Origin.X) * ray.DirectionInverse.X;
+      double tFar = (p2.X - ray.Origin.X) * ray.DirectionInverse.X;
 
-      double swap = tNear;
-      tNear = tNear > tFar ? tFar : tNear;
-      tFar = tNear > tFar ? swap : tFar;
-      /*if (tNear > tFar) {
+      if (tNear > tFar) {
          double swap = tNear;
          tNear = tFar;
          tFar = swap;
-      }*/
+      }
 
       minBoundNearT = (tNear > minBoundNearT) ? tNear : minBoundNearT;
       maxBoundFarT = (tFar < maxBoundFarT) ? tFar : maxBoundFarT;
-
       if (minBoundNearT > maxBoundFarT) {
          state.Hits = false;
          return state;
@@ -192,24 +113,16 @@ public class BoundingBox {
       state.TMin = minBoundNearT;
       state.TMax = maxBoundFarT;
 
-      // Y
-      rayInverse = 1.0 / ray.Direction.Y;
-      tNear = (p1.Y - ray.Origin.Y) * rayInverse;
-      tFar = (p2.Y - ray.Origin.Y) * rayInverse;
-
-
-      /*f (tNear > tFar) {
+      tNear = (p1.Y - ray.Origin.Y) * ray.DirectionInverse.Y;
+      tFar = (p2.Y - ray.Origin.Y) * ray.DirectionInverse.Y;
+      if (tNear > tFar) {
          double swap = tNear;
          tNear = tFar;
          tFar = swap;
-      }*/
-      swap = tNear;
-      tNear = tNear > tFar ? tFar : tNear;
-      tFar = tNear > tFar ? swap : tFar;
+      }
 
       minBoundNearT = (tNear > minBoundNearT) ? tNear : minBoundNearT;
       maxBoundFarT = (tFar < maxBoundFarT) ? tFar : maxBoundFarT;
-
       if (minBoundNearT > maxBoundFarT) {
          state.Hits = false;
          return state;
@@ -218,22 +131,17 @@ public class BoundingBox {
       state.TMin = minBoundNearT;
       state.TMax = maxBoundFarT;
 
-      // Z
-      rayInverse = 1.0 / ray.Direction.Z;
-      tNear = (p1.Z - ray.Origin.Z) * rayInverse;
-      tFar = (p2.Z - ray.Origin.Z) * rayInverse;
-      /*f (tNear > tFar) {
+      //rayInverse = ray.DirectionInverse.Z;
+      tNear = (p1.Z - ray.Origin.Z) * ray.DirectionInverse.Z;
+      tFar = (p2.Z - ray.Origin.Z) * ray.DirectionInverse.Z;
+      if (tNear > tFar) {
          double swap = tNear;
          tNear = tFar;
          tFar = swap;
-      }*/
-      swap = tNear;
-      tNear = tNear > tFar ? tFar : tNear;
-      tFar = tNear > tFar ? swap : tFar;
+      }
 
       minBoundNearT = (tNear > minBoundNearT) ? tNear : minBoundNearT;
       maxBoundFarT = (tFar < maxBoundFarT) ? tFar : maxBoundFarT;
-
       if (minBoundNearT > maxBoundFarT) {
          state.Hits = false;
          return state;
@@ -241,20 +149,11 @@ public class BoundingBox {
 
       state.TMin = minBoundNearT;
       state.TMax = maxBoundFarT;
-
-
-      //state.TMin = (tNear > minBoundNearT) ? tNear : minBoundNearT;
-      //state.TMax = (tFar < maxBoundFarT) ? tFar : maxBoundFarT;
-
-      //state.Hits = (state.TMin <= state.TMax);
-      //state.Hits = (minBoundNearT <= maxBoundFarT);
-
-      if (ray.Direction.Y < 0.673 && ray.Direction.Y > 0.671)
-         System.out.println("");
 
       return state;
 
    }
+
 
    public static IntersectionState GetHitInfoNew(Point p1, Point p2, Ray ray) {
       double maxBoundFarT = Double.MAX_VALUE;
@@ -269,16 +168,10 @@ public class BoundingBox {
 
       double swap = tNear;
       tNear = tNear > tFar ? tFar : tNear;
-      tFar = tNear > tFar ? swap : tFar;
-      /*if (tNear > tFar) {
-         double swap = tNear;
-         tNear = tFar;
-         tFar = swap;
-      }*/
+      tFar = swap > tFar ? swap : tFar;
 
       minBoundNearT = (tNear > minBoundNearT) ? tNear : minBoundNearT;
       maxBoundFarT = (tFar < maxBoundFarT) ? tFar : maxBoundFarT;
-
       if (minBoundNearT > maxBoundFarT) {
          state.Hits = false;
          return state;
@@ -290,15 +183,9 @@ public class BoundingBox {
       tNear = (p1.Y - ray.Origin.Y) * ray.DirectionInverse.Y;
       tFar = (p2.Y - ray.Origin.Y) * ray.DirectionInverse.Y;
 
-
-      /*f (tNear > tFar) {
-         double swap = tNear;
-         tNear = tFar;
-         tFar = swap;
-      }*/
       swap = tNear;
       tNear = tNear > tFar ? tFar : tNear;
-      tFar = tNear > tFar ? swap : tFar;
+      tFar = swap > tFar ? swap : tFar;
 
       minBoundNearT = (tNear > minBoundNearT) ? tNear : minBoundNearT;
       maxBoundFarT = (tFar < maxBoundFarT) ? tFar : maxBoundFarT;
@@ -314,14 +201,10 @@ public class BoundingBox {
       // Z
       tNear = (p1.Z - ray.Origin.Z) * ray.DirectionInverse.Z;
       tFar = (p2.Z - ray.Origin.Z) * ray.DirectionInverse.Z;
-      /*f (tNear > tFar) {
-         double swap = tNear;
-         tNear = tFar;
-         tFar = swap;
-      }*/
+
       swap = tNear;
       tNear = tNear > tFar ? tFar : tNear;
-      tFar = tNear > tFar ? swap : tFar;
+      tFar = swap > tFar ? swap : tFar;
 
       minBoundNearT = (tNear > minBoundNearT) ? tNear : minBoundNearT;
       maxBoundFarT = (tFar < maxBoundFarT) ? tFar : maxBoundFarT;
@@ -334,18 +217,7 @@ public class BoundingBox {
       state.TMin = minBoundNearT;
       state.TMax = maxBoundFarT;
 
-
-      //state.TMin = (tNear > minBoundNearT) ? tNear : minBoundNearT;
-      //state.TMax = (tFar < maxBoundFarT) ? tFar : maxBoundFarT;
-
-      //state.Hits = (state.TMin <= state.TMax);
-      //state.Hits = (minBoundNearT <= maxBoundFarT);
-
-      if (ray.Direction.Y < 0.673 && ray.Direction.Y > 0.671)
-         System.out.println("");
-
       return state;
-
    }
 
    public boolean Hits(Ray ray) {
@@ -379,11 +251,7 @@ public class BoundingBox {
       box1.point2.X = Math.max(box1.point2.X, box2.point2.X);
       box1.point2.Y = Math.max(box1.point2.Y, box2.point2.Y);
 
-      Point p0 = new Point(-100, 0, -1500);
-      Point p1 = new Point(500, 600, -1499);
 
-      if (box1.point2.X == 500 && box1.point2.Y == 600 && box1.point2.Z == -1499)
-         System.out.flush();
       box1.point2.Z = Math.max(box1.point2.Z, box2.point2.Z);
    }
 

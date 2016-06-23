@@ -760,13 +760,13 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
-      settings.FocalLength = 2000;
+      settings.FocalLength = 150;
       settings.Rotation = 0;
-      settings.ZoomFactor = 1/4.;
-      settings.FocusDistance = 250;
-      settings.Aperture = new SquareAperture(5);
+      settings.ZoomFactor = 1/16.;
+      settings.FocusDistance = 75;
+      settings.Aperture = new CircleAperture(10);
 
-      Point origin = new Point(200, 300, 300);
+      Point origin = new Point(200, 300, 330);
       Vector direction = new Vector(0, 0, -1);
       settings.Orientation = new Ray(origin, direction);
 

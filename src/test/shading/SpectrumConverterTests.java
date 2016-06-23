@@ -119,7 +119,7 @@ public class SpectrumConverterTests {
       float newPercentMatch = 0.0f;
 
       int iterations = 0;
-      while (currentPercentMatch / (float) (inputs.length) < .9f) {
+      while (currentPercentMatch / (float) (inputs.length) < .95f) {
          // iterations++;
          // calculate current output with all 10 colors
          for (int n = 0; n < redChange.length; n++) {

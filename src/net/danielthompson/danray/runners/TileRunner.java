@@ -2,7 +2,8 @@ package net.danielthompson.danray.runners;
 
 import net.danielthompson.danray.TraceManager;
 import net.danielthompson.danray.presets.RenderQualityPreset;
-import net.danielthompson.danray.samplers.BaseSampler;
+import net.danielthompson.danray.integrators.AbstractIntegrator;
+import net.danielthompson.danray.films.AbstractFilm;
 import net.danielthompson.danray.structures.Scene;
 
 /**
@@ -10,7 +11,7 @@ import net.danielthompson.danray.structures.Scene;
  */
 
 
-public class TileRunner extends BaseRunner {
+public class TileRunner extends AbstractRunner {
    private volatile int _xTilePointer;
    private volatile int _yTilePointer;
 
@@ -26,8 +27,8 @@ public class TileRunner extends BaseRunner {
    private final int _x;
    private final int _y;
 
-   public TileRunner(TraceManager manager, BaseSampler tracer, Scene scene, RenderQualityPreset qualityPreset, int frame) {
-      super(manager, tracer, scene, qualityPreset, frame);
+   public TileRunner(TraceManager manager, AbstractIntegrator tracer, Scene scene, RenderQualityPreset qualityPreset, AbstractFilm film, int frame) {
+      super(manager, tracer, scene, qualityPreset, film, frame);
 
       _x = qualityPreset.getX();
       _y = qualityPreset.getY();

@@ -1,19 +1,22 @@
 package net.danielthompson.danray;
 
 import net.danielthompson.danray.acceleration.KDScene;
+import net.danielthompson.danray.films.BoxFilterFilm;
 import net.danielthompson.danray.presets.RenderQualityPreset;
 import net.danielthompson.danray.presets.TracerOptions;
 import net.danielthompson.danray.runners.PixelRunner;
 import net.danielthompson.danray.runners.TileRunner;
+import net.danielthompson.danray.films.AbstractFilm;
 import net.danielthompson.danray.shading.SpectralBlender;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
+import net.danielthompson.danray.films.TriangleFilterFilm;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Scene;
 import net.danielthompson.danray.structures.Statistics;
 import net.danielthompson.danray.structures.Vector;
-import net.danielthompson.danray.samplers.SpectralTracer;
-import net.danielthompson.danray.samplers.WhittedSampler;
+import net.danielthompson.danray.integrators.SpectralTracer;
+import net.danielthompson.danray.integrators.WhittedIntegrator;
 import net.danielthompson.danray.ui.*;
 import net.danielthompson.danray.ui.opengl.KDJFrame;
 import net.danielthompson.danray.ui.opengl.OpenGLFrame;
@@ -86,7 +89,7 @@ public class TraceManager {
 
    Scene _scene;
 
-   WhittedSampler _tracer;
+   WhittedIntegrator _tracer;
    SpectralTracer _spectralTracer;
 
    private KDJFrame _kdFrame;
@@ -106,6 +109,10 @@ public class TraceManager {
    private int _kdNodeCount;
    private double _inverseKDNodeCount;
 
+   private float _convergenceTerminationThreshold;
+
+   private AbstractFilm _film;
+
    /**
     * @param scene The scene to be rendered.
     * @param renderQualityPreset
@@ -116,16 +123,18 @@ public class TraceManager {
       _tracerOptions = tracerOptions;
       _samplesInverse = 1.0f / (renderQualityPreset.getSuperSamplesPerPixel() * renderQualityPreset.getSamplesPerPixel());
       _scene = scene;
-      _tracer = new WhittedSampler(_scene, renderQualityPreset.getMaxDepth());
+      _tracer = new WhittedIntegrator(_scene, renderQualityPreset.getMaxDepth());
       //_spectralTracer = new SpectralBDPathTracer(Scene, renderQualityPreset.getMaxDepth());
       //_spectralTracer = new SpectralPathTracer(Scene, renderQualityPreset.getMaxDepth());
       _spectralTracer = new SpectralTracer(_scene, renderQualityPreset.getMaxDepth());
       _timer = new Timer();
-
+      _convergenceTerminationThreshold = renderQualityPreset.getConvergenceTerminationThreshold();
       _numPixels = renderQualityPreset.getX() * renderQualityPreset.getY();
       _numPixelsDivisor = 1.0f / _numPixels;
       _ioHelper = new IOHelper();
       _numPixelsStep = _numPixels / 100;
+
+
 
       Logger.AddOutput(System.out);
       _ioHelper.CreateOutputDirectory();
@@ -348,6 +357,8 @@ public class TraceManager {
       _traceImage = new BufferedImage(_qualityPreset.getX(), _qualityPreset.getY(), BufferedImage.TYPE_INT_RGB);
       _heatImage = new BufferedImage(_qualityPreset.getX(), _qualityPreset.getY(), BufferedImage.TYPE_INT_RGB);
 
+      _film = new BoxFilterFilm(_traceImage);
+
       _tracePixelXYZ = new float[_qualityPreset.getX()][_qualityPreset.getY()][3];
 
       for (int i = 0; i < _qualityPreset.getX(); ++i)
@@ -402,7 +413,7 @@ public class TraceManager {
 
       _scene.Camera.setFrame(frame);
 
-      Runnable runner = new TileRunner(this, _tracer, _scene, _qualityPreset, frame);
+      Runnable runner = new TileRunner(this, _tracer, _scene, _qualityPreset, _film, frame);
 
       /*
       if (s >= 0 || t >= 0) {
@@ -699,8 +710,8 @@ public class TraceManager {
    }
 
    public void Trace(int[] pixel) {
-      PixelRunner runner = new PixelRunner(this, _spectralTracer, _scene, _qualityPreset, 0);
-      runner.trace(pixel);
+      PixelRunner runner = new PixelRunner(this, _spectralTracer, _scene, _qualityPreset, _film, 0);
+      runner.trace(pixel[0], pixel[1]);
    }
 
    public void UpdateCanvas() {
@@ -717,8 +728,8 @@ public class TraceManager {
       }
    }
 
-   public void SetPixelColor(int[] pixel, Color color) {
-      _traceImage.setRGB(pixel[0], pixel[1], color.getRGB());
+   public void SetPixelColor(int x, int y, Color color) {
+      _traceImage.setRGB(x, y, color.getRGB());
 
       _numRenderedPixels++;
 
@@ -733,10 +744,10 @@ public class TraceManager {
 
    public void SetPixelSPD(int[] pixel, SpectralPowerDistribution spd) {
       Color c = SpectralBlender.ConvertSPDtoRGB(spd);
-      SetPixelColor(pixel, c);
+      SetPixelColor(pixel[0], pixel[1], c);
    }
 
-   public void SetRayCountForPixel(int[] pixel, int count) {
+   public void SetRayCountForPixel(int x, int y, int count) {
 
       if (_tracerOptions.showCountWindow) {
 
@@ -744,18 +755,18 @@ public class TraceManager {
          int expandedColor = (int) (255.0f * normalizedColor);
 
          Color color = new Color(expandedColor, expandedColor, expandedColor);
-         _countImage.setRGB(pixel[0], pixel[1], color.getRGB());
+         _countImage.setRGB(x, y, color.getRGB());
       }
    }
 
-   public void SetKDHeatForPixel(int[] pixel, int count) {
+   public void SetKDHeatForPixel(int x, int y, int count) {
       if (_tracerOptions.showHeatWindow) {
          //System.out.println(count);
          double normalizedColor = count * _inverseKDNodeCount;
          int expandedColor = (int) (255.0f * normalizedColor);
 
          Color color = new Color(expandedColor, expandedColor, expandedColor);
-         _heatImage.setRGB(pixel[0], pixel[1], color.getRGB());
+         _heatImage.setRGB(x, y, color.getRGB());
       }
    }
 

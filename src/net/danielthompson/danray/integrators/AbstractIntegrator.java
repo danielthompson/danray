@@ -1,4 +1,4 @@
-package net.danielthompson.danray.samplers;
+package net.danielthompson.danray.integrators;
 
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.structures.Sample;
@@ -8,11 +8,11 @@ import net.danielthompson.danray.structures.Scene;
 /**
  * Created by daniel on 9/12/15.
  */
-public abstract class BaseSampler {
+public abstract class AbstractIntegrator {
    Scene scene;
    int maxDepth;
 
-   protected BaseSampler(Scene scene, int maxDepth) {
+   protected AbstractIntegrator(Scene scene, int maxDepth) {
       this.scene = scene;
       this.maxDepth = maxDepth;
    }

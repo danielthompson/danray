@@ -1,23 +1,22 @@
-package net.danielthompson.danray.samplers;
+package net.danielthompson.danray.integrators;
 
 import net.danielthompson.danray.lights.Radiatable;
 import net.danielthompson.danray.shading.Blender;
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.shapes.Shape;
-import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.states.IntersectionState;
-
-import java.awt.*;
-
+import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.utility.GeometryCalculations;
+
+import java.awt.*;
 
 /**
  * User: daniel
  * Date: 7/2/13
  * Time: 15:26
  */
-public class WhittedSampler extends BaseSampler {
+public class PathTracer extends AbstractIntegrator {
 
    private final int _airIndexOfRefraction = 1;
 
@@ -25,46 +24,45 @@ public class WhittedSampler extends BaseSampler {
    private final double iterations = 1.0;
    private final double adjustment = factor / iterations;
 
-   public WhittedSampler(Scene scene, int maxDepth) {
+   public PathTracer(Scene scene, int maxDepth) {
       super(scene, maxDepth);
    }
 
-   @Override
+
    public Sample GetSample(Ray ray, int depth) {
       return GetColorForRay(ray, depth, _airIndexOfRefraction);
    }
 
    public Sample GetColorForRay(Ray ray, int depth, double oldIndexOfRefraction) {
 
-      Sample sample = new Sample();
+      Sample colorWithStatistics = new Sample();
 
       double brightness = 0;
 
       IntersectionState closestStateToRay = scene.GetClosestDrawableToRay(ray);
 
+
       if (closestStateToRay == null || !closestStateToRay.Hits) {
 
          if (closestStateToRay != null)
-            sample.KDHeatCount = closestStateToRay.KDHeatCount;
+            colorWithStatistics.KDHeatCount = closestStateToRay.KDHeatCount;
          if (depth == 1) {
-            sample.Color = Color.black;
-            return sample;
+            colorWithStatistics.Color = Color.black;
+            return colorWithStatistics;
          }
          else {
-            sample.Color = Color.magenta;
-            return sample;
+            colorWithStatistics.Color = Color.magenta;
+            return colorWithStatistics;
          }
       }
 
-      sample.Statistics = closestStateToRay.Statistics;
-      sample.KDHeatCount = closestStateToRay.KDHeatCount;
-
-
+      colorWithStatistics.Statistics = closestStateToRay.Statistics;
+      colorWithStatistics.KDHeatCount = closestStateToRay.KDHeatCount;
 
       if (closestStateToRay.Shape instanceof Radiatable) {
 
-         sample.Color = closestStateToRay.Shape.GetMaterial().Color;
-         return sample;
+         colorWithStatistics.Color = closestStateToRay.Shape.GetMaterial().Color;
+         return colorWithStatistics;
       }
 
       Shape closestShape = closestStateToRay.Shape;
@@ -118,8 +116,8 @@ public class WhittedSampler extends BaseSampler {
 
       // base case
       if (depth >= maxDepth) {
-         sample.Color = calculatedColor;
-         return sample;
+         colorWithStatistics.Color = calculatedColor;
+         return colorWithStatistics;
       }
       // recursive case
       else {
@@ -138,7 +136,7 @@ public class WhittedSampler extends BaseSampler {
             Ray reflectedRay = new Ray(offsetIntersection, outgoingDirection);
 
             reflectedColor = GetColorForRay(reflectedRay, depth, oldIndexOfRefraction);
-            sample.Statistics.Add(reflectedColor.Statistics);
+            colorWithStatistics.Statistics.Add(reflectedColor.Statistics);
 
             Vector reversedIncoming = Vector.Scale(ray.Direction, -1);
 
@@ -146,7 +144,6 @@ public class WhittedSampler extends BaseSampler {
             double angleOutgoing = GeometryCalculations.angleBetween(outgoingDirection, closestStateToRay.Normal);
 
             reflectedWeight = objectMaterial.BRDF.f(angleIncoming, angleOutgoing);
-            reflectedWeight *= objectMaterial._transparency;
          }
 
          Sample refractedColor = null;
@@ -174,10 +171,10 @@ public class WhittedSampler extends BaseSampler {
 */
          float transparency = (float)objectMaterial._transparency;
          Color[] colors = new Color[] {calculatedColor, reflectedColor == null ? null : reflectedColor.Color, refractedColor == null ? null : refractedColor.Color };
-         float[] weights = new float[] { (float)( objectMaterial._intrinsic), (float)reflectedWeight, transparency};
+         float[] weights = new float[] { (float)( 1- objectMaterial._specular), (float)reflectedWeight, transparency};
          Color blended = Blender.BlendRGB(colors, weights);
-         sample.Color = blended;
-         return sample;
+         colorWithStatistics.Color = blended;
+         return colorWithStatistics;
          /*
          Color blended;
          if (refractedColor == null || refractedColor == Color.magenta) {

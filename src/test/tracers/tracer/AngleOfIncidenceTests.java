@@ -1,7 +1,7 @@
 package test.tracers.tracer;
 
 import net.danielthompson.danray.utility.GeometryCalculations;
-import net.danielthompson.danray.samplers.WhittedSampler;
+import net.danielthompson.danray.integrators.WhittedIntegrator;
 import net.danielthompson.danray.shapes.ImplicitPlane;
 import net.danielthompson.danray.structures.Normal;
 import net.danielthompson.danray.structures.Point;
@@ -48,7 +48,7 @@ public class AngleOfIncidenceTests {
       state.IntersectionPoint = new Point(1, 0, 0);
       state.Hits = true;
 
-      WhittedSampler tracer = new WhittedSampler(null, 0);
+      WhittedIntegrator tracer = new WhittedIntegrator(null, 0);
 
       double actualAngleOfIncidence = GeometryCalculations.GetAngleOfIncidence(incomingRay, state);
       double expectedAngleOfIncidence = 45;
@@ -76,7 +76,7 @@ public class AngleOfIncidenceTests {
       state.IntersectionPoint = new Point(1, 0, 0);
       state.Hits = true;
 
-      WhittedSampler tracer = new WhittedSampler(null, 0);
+      WhittedIntegrator tracer = new WhittedIntegrator(null, 0);
 
       double actualAngleOfIncidence = GeometryCalculations.GetAngleOfIncidence(incomingRay, state);
       double expectedAngleOfIncidence = 45;
@@ -106,7 +106,7 @@ public class AngleOfIncidenceTests {
       state.IntersectionPoint = new Point(1, 0, 0);
       state.Hits = true;
 
-      WhittedSampler tracer = new WhittedSampler(null, 0);
+      WhittedIntegrator tracer = new WhittedIntegrator(null, 0);
 
       double actualAngleOfIncidence = GeometryCalculations.GetAngleOfIncidence(incomingRay, state);
       double expectedAngleOfIncidence = 30;
@@ -134,7 +134,7 @@ public class AngleOfIncidenceTests {
       state.IntersectionPoint = new Point(1, 0, 0);
       state.Hits = true;
 
-      WhittedSampler tracer = new WhittedSampler(null, 0);
+      WhittedIntegrator tracer = new WhittedIntegrator(null, 0);
 
       double actualAngleOfIncidence = GeometryCalculations.GetAngleOfIncidence(incomingRay, state);
       double expectedAngleOfIncidence = 0;
@@ -158,7 +158,7 @@ public class AngleOfIncidenceTests {
       Point rayOrigin = new Point(2, -root3, 0);
       Vector rayDirection = new Vector(-1, root3, 0);
 
-      WhittedSampler tracer = new WhittedSampler(null, 0);
+      WhittedIntegrator tracer = new WhittedIntegrator(null, 0);
 
       Ray incomingRay = new Ray(rayOrigin, rayDirection);
 
@@ -192,7 +192,7 @@ public class AngleOfIncidenceTests {
       state.IntersectionPoint = new Point(0, 1, 0);
       state.Hits = true;
 
-      WhittedSampler tracer = new WhittedSampler(null, 0);
+      WhittedIntegrator tracer = new WhittedIntegrator(null, 0);
 
       double actualAngleOfIncidence = GeometryCalculations.GetAngleOfIncidence(incomingRay, state);
       double expectedAngleOfIncidence = 90;
@@ -220,7 +220,7 @@ public class AngleOfIncidenceTests {
       state.IntersectionPoint = new Point(0, 1, 0);
       state.Hits = true;
 
-      WhittedSampler tracer = new WhittedSampler(null, 0);
+      WhittedIntegrator tracer = new WhittedIntegrator(null, 0);
 
       double actualAngleOfIncidence = GeometryCalculations.GetAngleOfIncidence(incomingRay, state);
       double expectedAngleOfIncidence = 135;
@@ -253,7 +253,7 @@ public class AngleOfIncidenceTests {
       Assert.assertTrue(state.Hits);
       Assert.assertEquals(state.IntersectionPoint, expectedHitPoint);
 
-      WhittedSampler tracer = new WhittedSampler(null, 0);
+      WhittedIntegrator tracer = new WhittedIntegrator(null, 0);
 
       double actualAngleOfIncidence = GeometryCalculations.GetAngleOfIncidence(incomingRay, state);
       double expectedAngleOfIncidence = 135;
