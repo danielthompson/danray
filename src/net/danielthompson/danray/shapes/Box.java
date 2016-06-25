@@ -141,7 +141,7 @@ public class Box extends AbstractShape {
          objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
       }
 
-      IntersectionState state = BoundingBox.GetHitInfo(point1, point2, objectSpaceRay);
+      IntersectionState state = BoundingBox.GetHitInfoOld(point1, point2, objectSpaceRay);
 
       if (state.Hits) {
          state.Shape = this;

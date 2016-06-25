@@ -87,7 +87,7 @@ public class BoundingBox {
    }
 
    // orig
-   public static IntersectionState GetHitInfo(Point p1, Point p2, Ray ray) {
+   public static IntersectionState GetHitInfoOld(Point p1, Point p2, Ray ray) {
       double maxBoundFarT = Double.MAX_VALUE;
       double minBoundNearT = 0;
 
@@ -153,7 +153,6 @@ public class BoundingBox {
       return state;
 
    }
-
 
    public static IntersectionState GetHitInfoNew(Point p1, Point p2, Ray ray) {
       double maxBoundFarT = Double.MAX_VALUE;
@@ -223,7 +222,7 @@ public class BoundingBox {
    public boolean Hits(Ray ray) {
       return (ray.Origin.X >= point1.X && ray.Origin.X <= point2.X
             && ray.Origin.Y >= point1.Y && ray.Origin.Y <= point2.Y
-            && ray.Origin.Z >= point1.Z && ray.Origin.Z <= point2.Z) || BoundingBox.GetHitInfo(point1, point2, ray).Hits;
+            && ray.Origin.Z >= point1.Z && ray.Origin.Z <= point2.Z) || BoundingBox.GetHitInfoOld(point1, point2, ray).Hits;
    }
 
    public void Translate(Vector vector) {

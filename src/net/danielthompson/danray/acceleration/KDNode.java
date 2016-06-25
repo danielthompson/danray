@@ -80,7 +80,8 @@ public class KDNode {
    }
 
    public IntersectionState getHitInfo(Ray ray) {
-      return _box.GetHitInfo(ray);
+      //return _box.GetHitInfo(ray);
+      return BoundingBox.GetHitInfoNew(_box.point1, _box.point2, ray);
    }
 
    @Override

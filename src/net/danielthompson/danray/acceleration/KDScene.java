@@ -5,6 +5,7 @@ import net.danielthompson.danray.shapes.*;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.cameras.Camera;
 import net.danielthompson.danray.scenes.AbstractScene;
+import net.danielthompson.danray.structures.BoundingBox;
 import net.danielthompson.danray.structures.Statistics;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Vector;
@@ -159,8 +160,12 @@ public class KDScene extends AbstractScene {
          KDNode leftNode = node._leftChild;
          KDNode rightNode = node._rightChild;
 
-         IntersectionState leftState = leftNode.getHitInfo(ray);
-         IntersectionState rightState = rightNode.getHitInfo(ray);
+         IntersectionState leftState = BoundingBox.GetHitInfoNew(leftNode._box.point1, leftNode._box.point2, ray);
+         IntersectionState rightState = BoundingBox.GetHitInfoNew(rightNode._box.point1, rightNode._box.point2, ray);
+
+         //IntersectionState leftState = leftNode.getHitInfo(ray);
+         //IntersectionState rightState = rightNode.getHitInfo(ray);
+
 
 
          /*
