@@ -25,7 +25,7 @@ public interface Shape {
 
    public double getMedian(KDAxis axis);
 
-   IntersectionState GetHitInfo(Ray ray);
+   IntersectionState getHitInfo(Ray ray);
 
    boolean Hits(Ray ray);
 

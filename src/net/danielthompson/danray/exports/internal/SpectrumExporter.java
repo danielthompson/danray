@@ -11,7 +11,7 @@ public class SpectrumExporter {
 
    public static Element Process(FullSpectrum object, Document document, Element parent) {
 
-      Element rootElement = document.createElement("Spectrum");
+      Element rootElement = document.createElement("ReflectanceSpectrum");
       rootElement.setAttribute("NumBuckets", String.valueOf(object.numBuckets));
       rootElement.setAttribute("StartLambda", String.valueOf(object.startLambda));
       rootElement.setAttribute("EndLambda", String.valueOf(object.endLambda));

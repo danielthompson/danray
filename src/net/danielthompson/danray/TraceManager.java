@@ -2,6 +2,9 @@ package net.danielthompson.danray;
 
 import net.danielthompson.danray.acceleration.KDScene;
 import net.danielthompson.danray.films.BoxFilterFilm;
+import net.danielthompson.danray.integrators.AbstractIntegrator;
+import net.danielthompson.danray.integrators.PathTraceIntegrator;
+import net.danielthompson.danray.integrators.WhittedIntegrator;
 import net.danielthompson.danray.presets.RenderQualityPreset;
 import net.danielthompson.danray.presets.TracerOptions;
 import net.danielthompson.danray.runners.PixelRunner;
@@ -11,11 +14,9 @@ import net.danielthompson.danray.shading.fullspectrum.FullSpectralBlender;
 import net.danielthompson.danray.shading.fullspectrum.FullSpectralPowerDistribution;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.Ray;
-import net.danielthompson.danray.structures.Scene;
+import net.danielthompson.danray.scenes.AbstractScene;
 import net.danielthompson.danray.structures.Statistics;
 import net.danielthompson.danray.structures.Vector;
-import net.danielthompson.danray.integrators.SpectralTracer;
-import net.danielthompson.danray.integrators.WhittedIntegrator;
 import net.danielthompson.danray.ui.*;
 import net.danielthompson.danray.ui.opengl.KDJFrame;
 import net.danielthompson.danray.ui.opengl.OpenGLFrame;
@@ -86,10 +87,9 @@ public class TraceManager {
 
    public Statistics[][] Statistics;
 
-   Scene _scene;
+   AbstractScene _scene;
 
-   WhittedIntegrator _tracer;
-   SpectralTracer _spectralTracer;
+   AbstractIntegrator _integrator;
 
    private KDJFrame _kdFrame;
 
@@ -117,15 +117,12 @@ public class TraceManager {
     * @param renderQualityPreset
     * @param tracerOptions
     */
-   public TraceManager(Scene scene, RenderQualityPreset renderQualityPreset, TracerOptions tracerOptions) {
+   public TraceManager(AbstractScene scene, RenderQualityPreset renderQualityPreset, TracerOptions tracerOptions) {
       _qualityPreset = renderQualityPreset;
       _tracerOptions = tracerOptions;
       _samplesInverse = 1.0f / (renderQualityPreset.getSuperSamplesPerPixel() * renderQualityPreset.getSamplesPerPixel());
       _scene = scene;
-      _tracer = new WhittedIntegrator(_scene, renderQualityPreset.getMaxDepth());
-      //_spectralTracer = new SpectralBDPathTracer(Scene, renderQualityPreset.getMaxDepth());
-      //_spectralTracer = new SpectralPathTracer(Scene, renderQualityPreset.getMaxDepth());
-      _spectralTracer = new SpectralTracer(_scene, renderQualityPreset.getMaxDepth());
+      _integrator = new WhittedIntegrator(_scene, renderQualityPreset.getMaxDepth());
       _timer = new Timer();
       _convergenceTerminationThreshold = renderQualityPreset.getConvergenceTerminationThreshold();
       _numPixels = renderQualityPreset.getX() * renderQualityPreset.getY();
@@ -153,11 +150,11 @@ public class TraceManager {
 
       Logger.Log("Using " + _tracerOptions.numThreads + " threads.");
 
-      Logger.Log("Scene has " + _scene.shapes.size() + " drawables, " + _scene.Radiatables.size() + " radiatables.");
+      Logger.Log("Scene has " + _scene.Shapes.size() + " drawables, " + _scene.Lights.size() + " radiatables.");
       Logger.Log("Scene is implemented with " + _scene.ImplementationType);
       Logger.Log("Compiling scene...");
       Date start = new Date();
-      Logger.Log(_scene.Compile(_tracerOptions));
+      Logger.Log(_scene.compile(_tracerOptions));
       Date end = new Date();
       String duration = getDurationString(start, end);
 
@@ -309,7 +306,7 @@ public class TraceManager {
       if (_tracerOptions.showSpectrumWindow) {
 
          if (_editorView == null) {
-            JFrame frame = new JFrame("Spectrum Editor");
+            JFrame frame = new JFrame("ReflectanceSpectrum Editor");
 
             _editorView = new SPDEditorView();
 
@@ -330,7 +327,7 @@ public class TraceManager {
    public void setMouseClickXY(final int x, final int y) {
       Ray[] cameraRays = _scene.Camera.getInitialStochasticRaysForPixel(x, y, 1);
 
-      IntersectionState state = _scene.GetClosestDrawableToRay(cameraRays[0]);
+      IntersectionState state = _scene.getNearestShape(cameraRays[0]);
 
       if (state != null) {
 
@@ -412,7 +409,7 @@ public class TraceManager {
 
       _scene.Camera.setFrame(frame);
 
-      Runnable runner = new TileRunner(this, _tracer, _scene, _qualityPreset, _film, frame);
+      Runnable runner = new TileRunner(this, _integrator, _scene, _qualityPreset, _film, frame);
 
       /*
       if (s >= 0 || t >= 0) {
@@ -709,7 +706,7 @@ public class TraceManager {
    }
 
    public void Trace(int[] pixel) {
-      PixelRunner runner = new PixelRunner(this, _spectralTracer, _scene, _qualityPreset, _film, 0);
+      PixelRunner runner = new PixelRunner(this, _integrator, _scene, _qualityPreset, _film, 0);
       runner.trace(pixel[0], pixel[1]);
    }
 

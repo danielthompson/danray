@@ -4,7 +4,7 @@ import net.danielthompson.danray.TraceManager;
 import net.danielthompson.danray.integrators.AbstractIntegrator;
 import net.danielthompson.danray.presets.RenderQualityPreset;
 import net.danielthompson.danray.films.AbstractFilm;
-import net.danielthompson.danray.structures.Scene;
+import net.danielthompson.danray.scenes.AbstractScene;
 
 
 /**
@@ -20,7 +20,7 @@ public class PixelRunner extends AbstractRunner {
    private final int _x;
    private final int _y;
 
-   public PixelRunner(TraceManager manager, AbstractIntegrator tracer, Scene scene, RenderQualityPreset qualityPreset, AbstractFilm film, int frame) {
+   public PixelRunner(TraceManager manager, AbstractIntegrator tracer, AbstractScene scene, RenderQualityPreset qualityPreset, AbstractFilm film, int frame) {
       super(manager, tracer, scene, qualityPreset, film, frame);
       _x = qualityPreset.getX();
       _y = qualityPreset.getY();

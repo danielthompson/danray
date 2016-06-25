@@ -1,25 +1,26 @@
 package net.danielthompson.danray.lights;
 
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
-import net.danielthompson.danray.structures.Point;
-import net.danielthompson.danray.structures.Ray;
-import net.danielthompson.danray.structures.Vector;
+import net.danielthompson.danray.structures.*;
 
 /**
- * Created with IntelliJ IDEA.
- * User: daniel
- * Date: 6/30/13
- * Time: 9:48
+ * Created by daniel on 6/25/16.
  */
-public interface Radiatable {
+public abstract class AbstractLight {
 
-   SpectralPowerDistribution getSPD();
+   public int ID;
+
+   public SpectralPowerDistribution SpectralPowerDistribution;
+
+   public AbstractLight(SpectralPowerDistribution spd) {
+      SpectralPowerDistribution = spd;
+   }
 
    /**
     * Returns a random point on the surface of the light, in world space.
     * @return A random point on the surface of the light, in world space.
     */
-   Point getRandomPointOnSurface();
+   public abstract Point getRandomPointOnSurface();
 
    /**
     * Returns a random point on the surface of the light, in world space, that is within the hemisphere
@@ -27,7 +28,7 @@ public interface Radiatable {
     * @param side The direction from the origin for which to provide a point.
     * @return A random point on the surface of the light, in world space.
     */
-   Point getRandomPointOnSideOf(Vector side);
+   public abstract Point getRandomPointOnSideOf(Vector side);
 
    /**
     * Returns a random point on the surface of the light, in world space, such that that the point is
@@ -35,15 +36,9 @@ public interface Radiatable {
     * @param point The point that defines the direction from the origin for which to provide a point.
     * @return A random point on th esurface of the light, in world space.
     */
-   Point getRandomPointOnSideOf(Point point);
+   public abstract Point getRandomPointOnSideOf(Point point);
 
-   Ray getRandomRayInPDF();
-
-   /**
-    * Returns the power of the light.
-    * @return The power of the light.
-    */
-   double getPower();
+   public abstract Ray getRandomRayInPDF();
 
    /**
     * Returns the probability [0, 1] that the given direction to the given point
@@ -52,5 +47,5 @@ public interface Radiatable {
     * @param directionFromLightToPoint The vector from a previously determined point on the light to the given point.
     * @return The probability [0, 1] that the direction to the point will be sampled.
     */
-   double getPDF(Point point, Vector directionFromLightToPoint);
+   public abstract float getPDF(Point point, Vector directionFromLightToPoint);
 }

@@ -50,17 +50,17 @@ public class TraverseMediumTreeTests {
       KDScene scene = new KDScene(null);
 
       for (Shape element : objects) {
-         scene.addDrawableObject(element);
+         scene.addShape(element);
       }
 
-      scene.Compile(null);
+      scene.compile(null);
 
       Point origin = new Point(-10, 10, 10);
       Vector direction = new Vector(1, 0, 0);
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = scene.GetClosestDrawableToRay(ray);
+      IntersectionState state = scene.getNearestShape(ray);
 
       Assert.assertNotNull(state, "intersection state should not be null");
       Assert.assertTrue(state.Hits, "state should hit");

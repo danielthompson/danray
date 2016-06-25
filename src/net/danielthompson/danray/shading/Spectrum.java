@@ -20,7 +20,7 @@ public class Spectrum {
    public Spectrum(float r, float g, float b) {
       R = r;
       G = g;
-
+      B = b;
    }
 
    public Spectrum(Color c) {

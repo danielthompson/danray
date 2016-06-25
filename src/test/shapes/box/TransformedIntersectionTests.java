@@ -28,7 +28,7 @@ public class TransformedIntersectionTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = box.GetHitInfo(ray);
+      IntersectionState state = box.getHitInfo(ray);
 
       Point expectedIntersectionPoint = new Point(1.1, 0, 1);
       Normal expectedNormalDirection = new Normal(0, 0, 1);
@@ -52,7 +52,7 @@ public class TransformedIntersectionTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = box.GetHitInfo(ray);
+      IntersectionState state = box.getHitInfo(ray);
 
       Point expectedIntersectionPoint = new Point(1, 1, 2);
       Normal expectedNormalDirection = new Normal(0, 0, 1);
@@ -75,7 +75,7 @@ public class TransformedIntersectionTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = box.GetHitInfo(ray);
+      IntersectionState state = box.getHitInfo(ray);
 
       Point expectedIntersectionPoint = new Point(2, 1, 2);
       Normal expectedNormalDirection = new Normal(1, 0, 0);
@@ -100,7 +100,7 @@ public class TransformedIntersectionTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = box.GetHitInfo(ray);
+      IntersectionState state = box.getHitInfo(ray);
 
       Point expectedIntersectionPoint = new Point(2, 1, 2);
       Normal expectedNormalDirection = new Normal(1, 0, 0);

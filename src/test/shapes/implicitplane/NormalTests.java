@@ -41,7 +41,7 @@ public class NormalTests {
 
       Ray ray = new Ray(vectorOrigin, vectorDirection);
 
-      IntersectionState state = plane.GetHitInfo(ray);
+      IntersectionState state = plane.getHitInfo(ray);
 
       Point expectedHitPoint = new Point(2, 0, 2);
 

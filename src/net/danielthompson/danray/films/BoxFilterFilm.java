@@ -8,6 +8,8 @@ import net.danielthompson.danray.utility.GeometryCalculations;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+import static com.sun.javafx.Utils.clamp;
+
 /**
  * Created by daniel on 5/7/16.
  */
@@ -27,12 +29,20 @@ public class BoxFilterFilm extends AbstractFilm {
       Spectrum spectrum = new Spectrum();
 
       for (Sample sample : samples) {
-         spectrum.R += (sample.Color.getRed() * Constants.OneOver255f);
-         spectrum.G += (sample.Color.getGreen() * Constants.OneOver255f);
-         spectrum.B += (sample.Color.getBlue() * Constants.OneOver255f);
+         spectrum.R += (sample.SpectralPowerDistribution.R);
+         spectrum.G += (sample.SpectralPowerDistribution.G);
+         spectrum.B += (sample.SpectralPowerDistribution.B);
       }
 
-      Color newSampleColor = new Color(spectrum.R / newSampleWeight, spectrum.G / newSampleWeight, spectrum.B / newSampleWeight);
+      float R = spectrum.R / newSampleWeight;
+      float G = spectrum.G / newSampleWeight;
+      float B = spectrum.B / newSampleWeight;
+
+      R = clamp(0.0f, R, 1.0f);
+      G = clamp(0.0f, G, 1.0f);
+      B = clamp(0.0f, B, 1.0f);
+
+      Color newSampleColor = new Color(R, G, B);
 
       float existingImageWeight = Weights[xFloor][yFloor];
 

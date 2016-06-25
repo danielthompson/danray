@@ -1,194 +1,81 @@
 package net.danielthompson.danray.integrators;
 
 import net.danielthompson.danray.lights.Radiatable;
-import net.danielthompson.danray.shading.Blender;
+import net.danielthompson.danray.scenes.AbstractScene;
 import net.danielthompson.danray.shading.Material;
+import net.danielthompson.danray.shading.ReflectanceSpectrum;
+import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.shapes.Shape;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.*;
-import net.danielthompson.danray.structures.Point;
-import net.danielthompson.danray.utility.GeometryCalculations;
 
-import java.awt.*;
 
+/**
+ * Created by daniel on 5/5/15.
+ */
 public class PathTraceIntegrator extends AbstractIntegrator {
 
-   private final int _airIndexOfRefraction = 1;
-
-   private final double factor = 140.0;
-   private final double iterations = 1.0;
-   private final double adjustment = factor / iterations;
-
-   public PathTraceIntegrator(Scene scene, int maxDepth) {
+   public PathTraceIntegrator(AbstractScene scene, int maxDepth) {
       super(scene, maxDepth);
    }
 
-
    public Sample GetSample(Ray ray, int depth) {
-      return GetColorForRay(ray, depth, _airIndexOfRefraction);
-   }
 
-   public Sample GetColorForRay(Ray ray, int depth, double oldIndexOfRefraction) {
+      Sample sample = new Sample();
+      IntersectionState closestStateToRay = scene.getNearestShape(ray);
 
-      Sample colorWithStatistics = new Sample();
-
-      double brightness = 0;
-
-      IntersectionState closestStateToRay = scene.GetClosestDrawableToRay(ray);
-
-
-      if (closestStateToRay == null || !closestStateToRay.Hits) {
-
-         if (closestStateToRay != null)
-            colorWithStatistics.KDHeatCount = closestStateToRay.KDHeatCount;
-         if (depth == 1) {
-            colorWithStatistics.Color = Color.black;
-            return colorWithStatistics;
-         }
-         else {
-            colorWithStatistics.Color = Color.magenta;
-            return colorWithStatistics;
-         }
+      if (closestStateToRay == null) {
+         sample.SpectralPowerDistribution = new SpectralPowerDistribution();
+         return sample;
       }
-
-      colorWithStatistics.Statistics = closestStateToRay.Statistics;
-      colorWithStatistics.KDHeatCount = closestStateToRay.KDHeatCount;
 
       if (closestStateToRay.Shape instanceof Radiatable) {
-
-         colorWithStatistics.Color = closestStateToRay.Shape.GetMaterial().Color;
-         return colorWithStatistics;
+         sample.SpectralPowerDistribution = ((Radiatable) closestStateToRay.Shape).getSPD();
+         return sample;
       }
-
-      Shape closestShape = closestStateToRay.Shape;
-
-      if (closestShape == null) {
-         ;
-      }
-
-      Material objectMaterial = closestShape.GetMaterial();
-
-      for (Radiatable radiatable : scene.Radiatables) {
-         Point intersectionPoint = closestStateToRay.IntersectionPoint;
-
-         for (int i = 0; i < iterations; i++) {
-
-            Point radiatableLocation = radiatable.getRandomPointOnSurface();
-
-            Ray lightRayFromCurrentRadiatableToClosestDrawable = intersectionPoint.CreateVectorFrom(radiatableLocation);
-            if (ray.Origin.X == 212.5 && ray.Origin.Y == 96.5 && ray.Origin.Z == 301)
-               System.out.flush();
-            IntersectionState potentialOccluder = scene.GetClosestDrawableToRay(lightRayFromCurrentRadiatableToClosestDrawable);
-
-            if (potentialOccluder == null
-                  || !potentialOccluder.Hits
-                  || potentialOccluder.Shape.equals(closestStateToRay.Shape)
-                  || potentialOccluder.Shape.equals(radiatable)) {
-               double oneOverDistanceFromLightSource = 1 / Math.sqrt(radiatableLocation.SquaredDistanceBetween(closestStateToRay.IntersectionPoint));
-               oneOverDistanceFromLightSource *= oneOverDistanceFromLightSource;
-
-               IntersectionState state = closestStateToRay.Shape.GetHitInfo(lightRayFromCurrentRadiatableToClosestDrawable);
-               if (state.Hits) {
-                  double angleOfIncidencePercentage = GeometryCalculations.GetAngleOfIncidencePercentage(lightRayFromCurrentRadiatableToClosestDrawable, closestStateToRay);
-                  if (angleOfIncidencePercentage >= 0 && angleOfIncidencePercentage <= 100) {
-                     brightness += adjustment * radiatable.getPower() * (angleOfIncidencePercentage) * oneOverDistanceFromLightSource;
-                  }
-               }
-
-            }
-         }
-      }
-
-      float[] hsbColor = Color.RGBtoHSB(objectMaterial.Color.getRed(), objectMaterial.Color.getGreen(), objectMaterial.Color.getBlue(), null);
-
-      hsbColor[2] = (float)brightness;
-
-      if (hsbColor[2] >= 1.0f) {
-         hsbColor[2] = 1.0f;
-      }
-
-      Color calculatedColor = Color.getHSBColor(hsbColor[0], hsbColor[1], hsbColor[2]);
 
       // base case
       if (depth >= maxDepth) {
-         colorWithStatistics.Color = calculatedColor;
-         return colorWithStatistics;
+         sample.SpectralPowerDistribution = new SpectralPowerDistribution();
+         return sample;
       }
-      // recursive case
       else {
-         depth++;
-         // reflected color
-
-         Sample reflectedColor = null;
-
-         double reflectedWeight = 0.0;
-
-         if (objectMaterial.BRDF != null) {
-            Vector outgoingDirection = objectMaterial.BRDF.getVectorInPDF(closestStateToRay.Normal, ray.Direction);
-
-            Point offsetIntersection = Point.Plus(closestStateToRay.IntersectionPoint, Vector.Scale(outgoingDirection, Constants.Epsilon * 1000));
-
-            Ray reflectedRay = new Ray(offsetIntersection, outgoingDirection);
-
-            reflectedColor = GetColorForRay(reflectedRay, depth, oldIndexOfRefraction);
-            colorWithStatistics.Statistics.Add(reflectedColor.Statistics);
-
-            Vector reversedIncoming = Vector.Scale(ray.Direction, -1);
-
-            double angleIncoming = GeometryCalculations.angleBetween(reversedIncoming, closestStateToRay.Normal);
-            double angleOutgoing = GeometryCalculations.angleBetween(outgoingDirection, closestStateToRay.Normal);
-
-            reflectedWeight = objectMaterial.BRDF.f(angleIncoming, angleOutgoing);
+         Shape closestShape = closestStateToRay.Shape;
+         if (closestShape == null) {
+            sample.SpectralPowerDistribution = new SpectralPowerDistribution();
+            return sample;
          }
+         Material objectMaterial = closestShape.GetMaterial();
 
-         Sample refractedColor = null;
-         /*
-         else if (objectMaterial.getReflectivity() > 0) {
-            Ray reflectedRay = GeometryCalculations.GetReflectedRay(closestStateToRay.IntersectionPoint, closestStateToRay.Normal, ray);
+         Normal intersectionNormal = closestStateToRay.Normal;
+         Vector incomingDirection = ray.Direction;
 
-            reflectedColor = GetSample(reflectedRay, depth, oldIndexOfRefraction);
-            colorWithStatistics.Statistics.Add(reflectedColor.Statistics);
+         Vector outgoingDirection = objectMaterial.BRDF.getVectorInPDF(intersectionNormal, incomingDirection);
+         float scalePercentage = (float)objectMaterial.BRDF.f(incomingDirection, intersectionNormal, outgoingDirection);
 
-            // refracted color
+         Ray bounceRay = new Ray(closestStateToRay.IntersectionPoint, outgoingDirection);
 
-            if (reflectedColor.Color == Color.magenta) {
-               colorWithStatistics.Color = calculatedColor;
-               return colorWithStatistics;
-            }
-         }
+         //Ray indirectRay = GeometryCalculations.GetRandomRayInNormalHemisphere(closestStateToRay.IntersectionPoint, closestStateToRay.Normal);
 
-         if (objectMaterial.getTransparency() > 0) {
+         Sample incomingSample = GetSample(bounceRay, depth + 1);
 
-            Ray refractedRay = GeometryCalculations.GetRefractedRay(closestStateToRay, closestStateToRay.Normal, ray, oldIndexOfRefraction);
-            refractedColor = GetSample(refractedRay, depth, closestStateToRay.Drawable.GetMaterial().getIndexOfRefraction());
-            colorWithStatistics.Statistics.Add(refractedColor.Statistics);
-         }
-*/
-         float transparency = (float)objectMaterial._transparency;
-         Color[] colors = new Color[] {calculatedColor, reflectedColor == null ? null : reflectedColor.Color, refractedColor == null ? null : refractedColor.Color };
-         float[] weights = new float[] { (float)( 1- objectMaterial._specular), (float)reflectedWeight, transparency};
-         Color blended = Blender.BlendRGB(colors, weights);
-         colorWithStatistics.Color = blended;
-         return colorWithStatistics;
-         /*
-         Color blended;
-         if (refractedColor == null || refractedColor == Color.magenta) {
-            blended = Blender.BlendRGB(calculatedColor, reflectedColor, reflectivity);
-         }
-         else {
-            blended = Blender.BlendRGB(calculatedColor, reflectedColor, reflectivity, refractedColor, transparency);
-         }
-         return blended;*/
+         SpectralPowerDistribution incomingSPD = incomingSample.SpectralPowerDistribution;
 
+         incomingSPD = SpectralPowerDistribution.scale(incomingSPD, scalePercentage);
 
+         // compute the interaction of the incoming SPD with the object's SRC
 
+         ReflectanceSpectrum reflectanceSpectrum = objectMaterial.ReflectanceSpectrum;
+
+         SpectralPowerDistribution reflectedSPD = incomingSPD.reflectOff(reflectanceSpectrum);
+
+         sample.SpectralPowerDistribution = reflectedSPD;
+
+         //reflectedSPD.scale(.9);
+
+         return sample;
       }
-      //return new ColorWithStatistics(Color.magenta, null);
+
    }
-
-
-
-
-
 
 }

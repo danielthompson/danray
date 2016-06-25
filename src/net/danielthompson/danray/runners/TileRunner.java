@@ -4,7 +4,7 @@ import net.danielthompson.danray.TraceManager;
 import net.danielthompson.danray.presets.RenderQualityPreset;
 import net.danielthompson.danray.integrators.AbstractIntegrator;
 import net.danielthompson.danray.films.AbstractFilm;
-import net.danielthompson.danray.structures.Scene;
+import net.danielthompson.danray.scenes.AbstractScene;
 
 /**
  * Created by daniel on 3/4/14.
@@ -27,7 +27,7 @@ public class TileRunner extends AbstractRunner {
    private final int _x;
    private final int _y;
 
-   public TileRunner(TraceManager manager, AbstractIntegrator tracer, Scene scene, RenderQualityPreset qualityPreset, AbstractFilm film, int frame) {
+   public TileRunner(TraceManager manager, AbstractIntegrator tracer, AbstractScene scene, RenderQualityPreset qualityPreset, AbstractFilm film, int frame) {
       super(manager, tracer, scene, qualityPreset, film, frame);
 
       _x = qualityPreset.getX();

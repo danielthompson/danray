@@ -1,6 +1,6 @@
 package net.danielthompson.danray.lights;
 
-import net.danielthompson.danray.shading.Material;
+import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.shapes.Sphere;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Ray;
@@ -11,18 +11,13 @@ import org.apache.commons.math3.util.FastMath;
 /**
  * Created by daniel on 3/8/14.
  */
-public class SphereLight extends Sphere implements Radiatable {
+public class SphereLight extends AbstractLight {
 
-   protected double Power;
+   public Sphere Sphere;
 
-   public SphereLight(double power) {
-      Power = power;
-   }
-
-   public SphereLight(double power, Material material) {
-      super(material);
-      Power = power;
-
+   public SphereLight(SpectralPowerDistribution spd, Sphere sphere) {
+      super(spd);
+      Sphere = sphere;
    }
 
    private static double[] randoms;
@@ -57,6 +52,8 @@ public class SphereLight extends Sphere implements Radiatable {
       return point;
    }
 
+
+
    @Override
    public Point getRandomPointOnSurface() {
 
@@ -64,11 +61,11 @@ public class SphereLight extends Sphere implements Radiatable {
 
       Point point = new Point(xyz);
 
-      point.Scale(Radius);
-      point.Plus(Origin);
+      point.Scale(Sphere.Radius);
+      point.Plus(Sphere.Origin);
 
-      if (ObjectToWorld != null) {
-         point = ObjectToWorld.Apply(point);
+      if (Sphere.ObjectToWorld != null) {
+         point = Sphere.ObjectToWorld.Apply(point);
       }
 
       return point;
@@ -79,7 +76,7 @@ public class SphereLight extends Sphere implements Radiatable {
 
       // this is all in world space
       Point surfacePoint = getRandomPointOnSurface();
-      Vector directionFromSurfacePointToOrigin = Vector.Minus(surfacePoint, Origin);
+      Vector directionFromSurfacePointToOrigin = Vector.Minus(surfacePoint, Sphere.Origin);
       if (directionFromSurfacePointToOrigin.Dot(side) < 0) {
          surfacePoint = new Point(-surfacePoint.X, -surfacePoint.Y, -surfacePoint.Z);
       }
@@ -89,13 +86,13 @@ public class SphereLight extends Sphere implements Radiatable {
 
    @Override
    public Point getRandomPointOnSideOf(Point point) {
-      if (WorldToObject != null)
-         point = WorldToObject.Apply(point);
+      if (Sphere.WorldToObject != null)
+         point = Sphere.WorldToObject.Apply(point);
 
-      Vector directionToPoint = Vector.Minus(point, Origin);
+      Vector directionToPoint = Vector.Minus(point, Sphere.Origin);
 
-      if (ObjectToWorld != null)
-         directionToPoint = ObjectToWorld.Apply(directionToPoint);
+      if (Sphere.ObjectToWorld != null)
+         directionToPoint = Sphere.ObjectToWorld.Apply(directionToPoint);
 
       Point result = getRandomPointOnSideOf(directionToPoint);
       return result;
@@ -118,31 +115,27 @@ public class SphereLight extends Sphere implements Radiatable {
       Ray ray = new Ray(point, direction);
       ray.OffsetOriginForward(.00001);
 
-      if (ObjectToWorld != null)
-         ObjectToWorld.Apply(ray);
+      if (Sphere.ObjectToWorld != null)
+         Sphere.ObjectToWorld.Apply(ray);
       return ray;
    }
 
-   @Override
-   public double getPower() {
-      return Power;
-   }
 
    @Override
-   public double getPDF(Point point, Vector directionFromLightToPoint) {
+   public float getPDF(Point point, Vector directionFromLightToPoint) {
 
-      Point origin = new Point(Origin);
+      Point origin = new Point(Sphere.Origin);
 
-      if (ObjectToWorld != null)
-         origin = ObjectToWorld.Apply(origin);
+      if (Sphere.ObjectToWorld != null)
+         origin = Sphere.ObjectToWorld.Apply(origin);
 
-      double sqrDist = point.SquaredDistanceBetween(origin);
+      float sqrDist = (float) point.SquaredDistanceBetween(origin);
 
-      double sinThetaMax2 = Radius * Radius / sqrDist;
+      float sinThetaMax2 = (float) (Sphere.Radius * Sphere.Radius) / sqrDist;
       //double sinTheta = Math.sqrt(sinThetaMax2);
-      double cosThetaMax = Math.sqrt(Math.max(0, 1 - sinThetaMax2));
+      float cosThetaMax = (float) Math.sqrt(Math.max(0, 1 - sinThetaMax2));
 
-      double pdf = 4 * Math.PI / GeometryCalculations.UniformConePDF(cosThetaMax);
+      float pdf = (float) (4.0f * Math.PI / GeometryCalculations.UniformConePDF(cosThetaMax));
 
       return pdf; //TODO
    }

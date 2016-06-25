@@ -37,7 +37,7 @@ public class IntersectTests {
       Vector Direction = new Vector(1, 0, 0);
       Ray ray = new Ray(Origin, Direction);
 
-      Point actualIntersection = sphere.GetHitInfo(ray).IntersectionPoint;
+      Point actualIntersection = sphere.getHitInfo(ray).IntersectionPoint;
       Point expectedIntersection = new Point(-1, 0, 0);
 
       Assert.assertEquals(actualIntersection.X, expectedIntersection.X, "X failed");
@@ -55,7 +55,7 @@ public class IntersectTests {
       Vector Direction = new Vector(1, 0, 0);
       Ray ray = new Ray(Origin, Direction);
 
-      IntersectionState actualIntersectionState = sphere.GetHitInfo(ray);
+      IntersectionState actualIntersectionState = sphere.getHitInfo(ray);
 
       Point actualIntersection = actualIntersectionState.IntersectionPoint;
       Point expectedIntersection = new Point(10, 0, 0);

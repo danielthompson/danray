@@ -52,7 +52,7 @@ public class Sphere extends AbstractShape {
    }
 
    @Override
-   public IntersectionState GetHitInfo(Ray worldSpaceRay) {
+   public IntersectionState getHitInfo(Ray worldSpaceRay) {
 
       Ray objectSpaceRay = worldSpaceRay;
       
@@ -159,7 +159,7 @@ public class Sphere extends AbstractShape {
 
    @Override
    public boolean Hits(Ray ray) {
-      return GetHitInfo(ray).Hits;
+      return getHitInfo(ray).Hits;
    }
 
    @Override

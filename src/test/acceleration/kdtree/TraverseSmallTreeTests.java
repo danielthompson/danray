@@ -54,10 +54,10 @@ public class TraverseSmallTreeTests {
       scene = new KDScene(null);
 
       for (Shape element : objects) {
-         scene.addDrawableObject(element);
+         scene.addShape(element);
       }
 
-      scene.Compile(null);
+      scene.compile(null);
    }
 
    @AfterMethod
@@ -73,7 +73,7 @@ public class TraverseSmallTreeTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = scene.GetClosestDrawableToRay(ray);
+      IntersectionState state = scene.getNearestShape(ray);
 
       Assert.assertNotNull(state, "intersection state should not be null");
       Assert.assertTrue(state.Hits, "state should hit");
@@ -89,7 +89,7 @@ public class TraverseSmallTreeTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = scene.GetClosestDrawableToRay(ray);
+      IntersectionState state = scene.getNearestShape(ray);
 
       Assert.assertNotNull(state, "intersection state should not be null");
       Assert.assertTrue(state.Hits, "state should hit");
@@ -105,7 +105,7 @@ public class TraverseSmallTreeTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = scene.GetClosestDrawableToRay(ray);
+      IntersectionState state = scene.getNearestShape(ray);
 
       Assert.assertNotNull(state, "intersection state should not be null");
       Assert.assertTrue(state.Hits, "state should hit");
@@ -121,7 +121,7 @@ public class TraverseSmallTreeTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = scene.GetClosestDrawableToRay(ray);
+      IntersectionState state = scene.getNearestShape(ray);
 
       Assert.assertNotNull(state, "intersection state should not be null");
       Assert.assertTrue(state.Hits, "state should hit");
@@ -137,7 +137,7 @@ public class TraverseSmallTreeTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = scene.GetClosestDrawableToRay(ray);
+      IntersectionState state = scene.getNearestShape(ray);
 
       Assert.assertNotNull(state, "intersection state should not be null");
       Assert.assertTrue(state.Hits, "state should hit");

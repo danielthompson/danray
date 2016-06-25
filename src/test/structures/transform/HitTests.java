@@ -77,7 +77,7 @@ public class HitTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = box.GetHitInfo(ray);
+      IntersectionState state = box.getHitInfo(ray);
 
       Assert.assertTrue(state.Hits);
    }
@@ -102,7 +102,7 @@ public class HitTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = box.GetHitInfo(ray);
+      IntersectionState state = box.getHitInfo(ray);
 
       Assert.assertTrue(state.Hits);
    }

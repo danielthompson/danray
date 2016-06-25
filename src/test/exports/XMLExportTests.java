@@ -8,15 +8,11 @@ import net.danielthompson.danray.cameras.apertures.Aperture;
 import net.danielthompson.danray.cameras.apertures.CircleAperture;
 import net.danielthompson.danray.cameras.apertures.SquareAperture;
 import net.danielthompson.danray.exports.internal.*;
-import net.danielthompson.danray.shading.*;
+import net.danielthompson.danray.scenes.AbstractScene;
 import net.danielthompson.danray.shading.bxdf.BRDF;
 import net.danielthompson.danray.shading.bxdf.GaussianBRDF;
 import net.danielthompson.danray.shading.bxdf.LambertianBRDF;
 import net.danielthompson.danray.shading.fullspectrum.*;
-import net.danielthompson.danray.shapes.Box;
-import net.danielthompson.danray.shapes.Cylinder;
-import net.danielthompson.danray.shapes.ImplicitPlane;
-import net.danielthompson.danray.shapes.Sphere;
 import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.structures.Point;
 import org.testng.annotations.AfterMethod;
@@ -335,26 +331,26 @@ public class XMLExportTests {
    @Test
    public void testMaterialExport1() throws Exception {
 
-      final Material object = new Material();
-      object.BRDF = new LambertianBRDF();
-      object.Color = Color.green;
-      object.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.LemonSkin;
-
-
-      File file = new File(_dir, "material1.xml");
-
-      final UnitTestExporter unitTestExporter = new UnitTestExporter(file);
-
-      IExporter exporter = new IExporter() {
-         @Override
-         public Element Process(Document document, Element root) {
-
-            return MaterialExporter.Process(object, document, root);
-         }
-
-      };
-
-      unitTestExporter.Process(exporter);
+//      final Material object = new Material();
+//      object.BRDF = new LambertianBRDF();
+//      object.Color = Color.green;
+//      object.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.LemonSkin;
+//
+//
+//      File file = new File(_dir, "material1.xml");
+//
+//      final UnitTestExporter unitTestExporter = new UnitTestExporter(file);
+//
+//      IExporter exporter = new IExporter() {
+//         @Override
+//         public Element Process(Document document, Element root) {
+//
+//            return MaterialExporter.Process(object, document, root);
+//         }
+//
+//      };
+//
+//      unitTestExporter.Process(exporter);
    }
 
    @Test
@@ -414,140 +410,140 @@ public class XMLExportTests {
    @Test
    public void testAbstractShapeExport() throws Exception {
 
-      Transform t1 = Transform.Translate(new Vector(500, 200, 900));
-      Transform t2 = Transform.Translate(new Vector(-500, -200, -900));
-
-      final Material material = new Material();
-      material.BRDF = new LambertianBRDF();
-      material.Color = Color.green;
-      material.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.LemonSkin;
-
-      final Cylinder object = new Cylinder(5.0, 10.1, t1, t2, material);
-
-      File file = new File(_dir, "abstractshape.xml");
-
-      final UnitTestExporter unitTestExporter = new UnitTestExporter(file);
-
-      IExporter exporter = new IExporter() {
-         @Override
-         public Element Process(Document document, Element root) {
-
-            return AbstractShapeExporter.Process(object, document, root);
-         }
-
-      };
-
-      unitTestExporter.Process(exporter);
+//      Transform t1 = Transform.Translate(new Vector(500, 200, 900));
+//      Transform t2 = Transform.Translate(new Vector(-500, -200, -900));
+//
+//      final Material material = new Material();
+//      material.BRDF = new LambertianBRDF();
+//      material.Color = Color.green;
+//      material.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.LemonSkin;
+//
+//      final Cylinder object = new Cylinder(5.0, 10.1, t1, t2, material);
+//
+//      File file = new File(_dir, "abstractshape.xml");
+//
+//      final UnitTestExporter unitTestExporter = new UnitTestExporter(file);
+//
+//      IExporter exporter = new IExporter() {
+//         @Override
+//         public Element Process(Document document, Element root) {
+//
+//            return AbstractShapeExporter.Process(object, document, root);
+//         }
+//
+//      };
+//
+//      unitTestExporter.Process(exporter);
    }
 
    @Test
    public void testCylinderExport() throws Exception {
 
-      Transform t1 = Transform.Translate(new Vector(500, 200, 900));
-      Transform t2 = Transform.Translate(new Vector(-500, -200, -900));
-
-      final Material material = new Material();
-      material.BRDF = new LambertianBRDF();
-      material.Color = Color.green;
-      material.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.LemonSkin;
-
-      final Cylinder object = new Cylinder(5.0, 10.1, t1, t2, material);
-
-      File file = new File(_dir, "cylinder.xml");
-
-      final UnitTestExporter unitTestExporter = new UnitTestExporter(file);
-
-      IExporter exporter = new IExporter() {
-         @Override
-         public Element Process(Document document, Element root) {
-
-            return CylinderExporter.Process(object, document, root);
-         }
-
-      };
-
-      unitTestExporter.Process(exporter);
+//      Transform t1 = Transform.Translate(new Vector(500, 200, 900));
+//      Transform t2 = Transform.Translate(new Vector(-500, -200, -900));
+//
+//      final Material material = new Material();
+//      material.BRDF = new LambertianBRDF();
+//      material.Color = Color.green;
+//      material.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.LemonSkin;
+//
+//      final Cylinder object = new Cylinder(5.0, 10.1, t1, t2, material);
+//
+//      File file = new File(_dir, "cylinder.xml");
+//
+//      final UnitTestExporter unitTestExporter = new UnitTestExporter(file);
+//
+//      IExporter exporter = new IExporter() {
+//         @Override
+//         public Element Process(Document document, Element root) {
+//
+//            return CylinderExporter.Process(object, document, root);
+//         }
+//
+//      };
+//
+//      unitTestExporter.Process(exporter);
    }
 
    @Test
    public void testBoxExport() throws Exception {
 
-      Transform t1 = Transform.Translate(new Vector(500, 200, 900));
-      Transform t2 = Transform.Translate(new Vector(-500, -200, -900));
-
-      final Material material = new Material();
-      material.BRDF = new LambertianBRDF();
-      material.Color = Color.green;
-      material.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.LemonSkin;
-
-      final Box object = new Box(new Point(-1, -1.5, 0), new Point(5, 5.5, 10.4), material, t1, t2);
-
-      File file = new File(_dir, "box.xml");
-
-      final UnitTestExporter unitTestExporter = new UnitTestExporter(file);
-
-      IExporter exporter = new IExporter() {
-         @Override
-         public Element Process(Document document, Element root) {
-
-            return BoxExporter.Process(object, document, root);
-         }
-
-      };
-
-      unitTestExporter.Process(exporter);
+//      Transform t1 = Transform.Translate(new Vector(500, 200, 900));
+//      Transform t2 = Transform.Translate(new Vector(-500, -200, -900));
+//
+//      final Material material = new Material();
+//      material.BRDF = new LambertianBRDF();
+//      material.Color = Color.green;
+//      material.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.LemonSkin;
+//
+//      final Box object = new Box(new Point(-1, -1.5, 0), new Point(5, 5.5, 10.4), material, t1, t2);
+//
+//      File file = new File(_dir, "box.xml");
+//
+//      final UnitTestExporter unitTestExporter = new UnitTestExporter(file);
+//
+//      IExporter exporter = new IExporter() {
+//         @Override
+//         public Element Process(Document document, Element root) {
+//
+//            return BoxExporter.Process(object, document, root);
+//         }
+//
+//      };
+//
+//      unitTestExporter.Process(exporter);
    }
 
    @Test
    public void testImplicitPlaneExport() throws Exception {
 
-      final Material material = new Material();
-      material.BRDF = new LambertianBRDF();
-      material.Color = Color.green;
-      material.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.LemonSkin;
-
-      final ImplicitPlane object = new ImplicitPlane(new Point(-1, 2, -3.5), new Normal(5, .1, -7), material);
-
-      File file = new File(_dir, "implicitplane.xml");
-
-      final UnitTestExporter unitTestExporter = new UnitTestExporter(file);
-
-      IExporter exporter = new IExporter() {
-         @Override
-         public Element Process(Document document, Element root) {
-
-            return ImplicitPlaneExporter.Process(object, document, root);
-         }
-
-      };
-
-      unitTestExporter.Process(exporter);
+//      final Material material = new Material();
+//      material.BRDF = new LambertianBRDF();
+//      material.Color = Color.green;
+//      material.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.LemonSkin;
+//
+//      final ImplicitPlane object = new ImplicitPlane(new Point(-1, 2, -3.5), new Normal(5, .1, -7), material);
+//
+//      File file = new File(_dir, "implicitplane.xml");
+//
+//      final UnitTestExporter unitTestExporter = new UnitTestExporter(file);
+//
+//      IExporter exporter = new IExporter() {
+//         @Override
+//         public Element Process(Document document, Element root) {
+//
+//            return ImplicitPlaneExporter.Process(object, document, root);
+//         }
+//
+//      };
+//
+//      unitTestExporter.Process(exporter);
    }
 
    @Test
    public void testSphereExport() throws Exception {
 
-      final Material material = new Material();
-      material.BRDF = new LambertianBRDF();
-      material.Color = Color.green;
-      material.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.LemonSkin;
-
-      final Sphere object = new Sphere(material);
-
-      File file = new File(_dir, "sphere.xml");
-
-      final UnitTestExporter unitTestExporter = new UnitTestExporter(file);
-
-      IExporter exporter = new IExporter() {
-         @Override
-         public Element Process(Document document, Element root) {
-
-            return SphereExporter.Process(object, document, root);
-         }
-
-      };
-
-      unitTestExporter.Process(exporter);
+//      final Material material = new Material();
+//      material.BRDF = new LambertianBRDF();
+//      material.Color = Color.green;
+//      material.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.LemonSkin;
+//
+//      final Sphere object = new Sphere(material);
+//
+//      File file = new File(_dir, "sphere.xml");
+//
+//      final UnitTestExporter unitTestExporter = new UnitTestExporter(file);
+//
+//      IExporter exporter = new IExporter() {
+//         @Override
+//         public Element Process(Document document, Element root) {
+//
+//            return SphereExporter.Process(object, document, root);
+//         }
+//
+//      };
+//
+//      unitTestExporter.Process(exporter);
    }
 
 
@@ -590,7 +586,7 @@ public class XMLExportTests {
    public void testSceneExport() throws Exception {
 
       Class sceneBuilderClass = SceneBuilder.class;
-      Class sceneClass = Scene.class;
+      Class sceneClass = AbstractScene.class;
 
       ArrayList<Method> methodList = new ArrayList<Method>();
 
@@ -614,8 +610,8 @@ public class XMLExportTests {
 
       for (Method method : methodList) {
          System.err.println("Method: [" + method.getName() + "]");
-         final Scene object = (Scene)method.invoke(null, 400, 300);
-         object.Compile(null);
+         final AbstractScene object = (AbstractScene)method.invoke(null, 400, 300);
+         object.compile(null);
          File file = new File(_dir, "scene-" + i++ + "-" + method.getName() + ".xml");
 
          final UnitTestExporter unitTestExporter = new UnitTestExporter(file);

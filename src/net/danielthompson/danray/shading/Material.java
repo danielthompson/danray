@@ -2,8 +2,6 @@ package net.danielthompson.danray.shading;
 
 import net.danielthompson.danray.shading.bxdf.BRDF;
 
-import java.awt.Color;
-
 /**
  * DanRay
  * User: dthompson
@@ -11,9 +9,8 @@ import java.awt.Color;
  * Time: 5:42 PM
  */
 public class Material {
-   public Color Color;
+   public ReflectanceSpectrum ReflectanceSpectrum;
 
-   public net.danielthompson.danray.shading.fullspectrum.FullSpectralReflectanceCurve FullSpectralReflectanceCurve;
 
    public BRDF BRDF;
 
@@ -27,8 +24,8 @@ public class Material {
 
    }
 
-   public Material (Color color, double reflectivity, double transparency, double indexOfRefraction, double specular) {
-      Color = color;
+   public Material (ReflectanceSpectrum spectrum, double reflectivity, double transparency, double indexOfRefraction, double specular) {
+      ReflectanceSpectrum = spectrum;
       _reflectivity = reflectivity;
       _transparency = transparency;
       _indexOfRefraction = indexOfRefraction;

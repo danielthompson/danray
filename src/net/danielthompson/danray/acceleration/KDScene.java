@@ -1,11 +1,10 @@
 package net.danielthompson.danray.acceleration;
 
-import net.danielthompson.danray.lights.Radiatable;
 import net.danielthompson.danray.presets.TracerOptions;
 import net.danielthompson.danray.shapes.*;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.cameras.Camera;
-import net.danielthompson.danray.structures.Scene;
+import net.danielthompson.danray.scenes.AbstractScene;
 import net.danielthompson.danray.structures.Statistics;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Vector;
@@ -20,32 +19,19 @@ import java.util.List;
  * Date: 6/28/13
  * Time: 5:24 PM
  */
-public class KDScene extends Scene {
+public class KDScene extends AbstractScene {
 
    public KDNode rootNode;
 
    public long drawableIntersections;
 
-   public Statistics statistics;
-
    public KDScene(Camera camera) {
-
       super(camera);
       ImplementationType = "kd-tree";
    }
 
    @Override
-   public void addDrawableObject(Shape shape) {
-      shapes.add(shape);
-   }
-
-   @Override
-   public void addRadiatableObject(Radiatable radiatable) {
-      Radiatables.add(radiatable);
-   }
-
-   @Override
-   public IntersectionState GetClosestDrawableToRay(Ray ray) {
+   public IntersectionState getNearestShape(Ray ray) {
       // all rays by definition hit the root node
       statistics = new Statistics();
 
@@ -55,7 +41,7 @@ public class KDScene extends Scene {
    }
 
    @Override
-   public IntersectionState GetClosestDrawableToRayBeyond(Ray ray, double t) {
+   public IntersectionState getNearestShapeBeyond(Ray ray, double t) {
       return null;
    }
 
@@ -63,7 +49,6 @@ public class KDScene extends Scene {
 
       List<Shape> totalShapes = new ArrayList<>();
 
-      //totalDrawables.addAll(_planes);
       totalShapes.addAll(shapes);
 
       return GetClosestDrawableToRay(totalShapes, ray);
@@ -72,7 +57,7 @@ public class KDScene extends Scene {
    private IntersectionState GetClosestDrawableInNode(KDNode node, Ray ray) {
       IntersectionState closestStateToRay = null;
       for (Shape shape : node.getObjects()) {
-         IntersectionState state = shape.GetHitInfo(ray);
+         IntersectionState state = shape.getHitInfo(ray);
 
          if (state.Hits && (closestStateToRay == null || state.TMin < closestStateToRay.TMin)) {
             closestStateToRay = state;
@@ -86,7 +71,7 @@ public class KDScene extends Scene {
       IntersectionState closestStateToRay = null;
       statistics = new Statistics();
       for (Shape shape : shapes) {
-         IntersectionState state = shape.GetHitInfo(ray);
+         IntersectionState state = shape.getHitInfo(ray);
          statistics.DrawableIntersections++;
          state.Statistics = statistics;
 
@@ -333,13 +318,13 @@ public class KDScene extends Scene {
    }
 
    @Override
-   public String Compile(TracerOptions _tracerOptions) {
+   public String compile(TracerOptions _tracerOptions) {
 
       int numThreads = 1;
       if (_tracerOptions != null)
          numThreads = _tracerOptions.numThreads;
 
-      rootNode = KDTree.BuildKDTree(shapes, 20, 3, numThreads);
+      rootNode = KDTree.BuildKDTree(Shapes, 20, 3, numThreads);
 
       int totalNodes = rootNode.GetCount();
 

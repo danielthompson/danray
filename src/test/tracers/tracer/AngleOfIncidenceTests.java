@@ -246,7 +246,7 @@ public class AngleOfIncidenceTests {
 
       Ray incomingRay = new Ray(vectorOrigin, vectorDirection);
 
-      IntersectionState state = plane.GetHitInfo(incomingRay);
+      IntersectionState state = plane.getHitInfo(incomingRay);
 
       Point expectedHitPoint = new Point(2, 0, 2);
 

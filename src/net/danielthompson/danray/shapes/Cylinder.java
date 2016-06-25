@@ -27,7 +27,7 @@ public class Cylinder extends AbstractShape {
    }
 
    @Override
-   public IntersectionState GetHitInfo(Ray worldSpaceRay) {
+   public IntersectionState getHitInfo(Ray worldSpaceRay) {
       Ray objectSpaceRay = worldSpaceRay;
 
       if (WorldToObject != null) {

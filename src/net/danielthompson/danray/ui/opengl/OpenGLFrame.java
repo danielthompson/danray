@@ -2,7 +2,7 @@ package net.danielthompson.danray.ui.opengl;
 
 import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLProfile;
-import net.danielthompson.danray.structures.Scene;
+import net.danielthompson.danray.scenes.AbstractScene;
 
 import javax.swing.*;
 
@@ -13,7 +13,7 @@ import javax.swing.*;
 public class OpenGLFrame extends JFrame {
    public OpenGLCanvas Canvas;
 
-   public OpenGLFrame(Scene scene) {
+   public OpenGLFrame(AbstractScene scene) {
       super("OpenGL View");
       GLProfile.initSingleton();
       GLProfile glp = GLProfile.getDefault();

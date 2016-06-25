@@ -1,5 +1,6 @@
 package net.danielthompson.danray.films;
 
+import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.structures.Sample;
 import net.danielthompson.danray.utility.GeometryCalculations;
 
@@ -34,14 +35,13 @@ public abstract class AbstractFilm {
       existingImageWeight /= sumWeight;
       weight /= sumWeight;
 
-      Color existingImageColor = new Color(Image.getRGB(x, y));
+      SpectralPowerDistribution existingSPD = new SpectralPowerDistribution(new Color(Image.getRGB(x, y)));
 
-      int newR = (int) GeometryCalculations.Lerp(existingImageColor.getRed(), existingImageWeight, sample.Color.getRed(), weight);
-      int newG = (int) GeometryCalculations.Lerp(existingImageColor.getGreen(), existingImageWeight, sample.Color.getGreen(), weight);
-      int newB = (int) GeometryCalculations.Lerp(existingImageColor.getBlue(), existingImageWeight, sample.Color.getBlue(), weight);
+      SpectralPowerDistribution finalColor = SpectralPowerDistribution.Lerp(existingSPD, existingImageWeight, sample.SpectralPowerDistribution, weight);
 
-      Color finalColor = new Color(newR, newG, newB);
-      Image.setRGB(x, y, finalColor.getRGB());
+      Color c = new Color(finalColor.R, finalColor.G, finalColor.B);
+
+      Image.setRGB(x, y, c.getRGB());
    }
 
    public abstract void AddSamples(float x, float y, Sample[] samples);

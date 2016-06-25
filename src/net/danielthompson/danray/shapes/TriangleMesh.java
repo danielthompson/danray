@@ -113,7 +113,7 @@ public class TriangleMesh implements Shape {
    }
 
    @Override
-   public IntersectionState GetHitInfo(Ray ray) {
+   public IntersectionState getHitInfo(Ray ray) {
 
       IntersectionState closestStateToRay = new IntersectionState();
       closestStateToRay.Hits = false;
@@ -133,7 +133,7 @@ public class TriangleMesh implements Shape {
 
    @Override
    public boolean Hits(Ray ray) {
-      return GetHitInfo(ray).Hits;
+      return getHitInfo(ray).Hits;
    }
 
    /*

@@ -1,9 +1,8 @@
 package net.danielthompson.danray.exports.internal;
 
-import net.danielthompson.danray.acceleration.KDNode;
 import net.danielthompson.danray.acceleration.KDScene;
 import net.danielthompson.danray.shapes.*;
-import net.danielthompson.danray.structures.Scene;
+import net.danielthompson.danray.scenes.AbstractScene;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -12,7 +11,7 @@ import org.w3c.dom.Element;
  */
 public class SceneExporter {
 
-   public static Element Process(Scene object, Document document, Element parent) {
+   public static Element Process(AbstractScene object, Document document, Element parent) {
 
       Element rootElement = document.createElement("Scene");
       rootElement.setAttribute("Type", String.valueOf(object.getClass().getSimpleName()));
@@ -20,10 +19,10 @@ public class SceneExporter {
 
       rootElement.appendChild(CameraExporter.Process(object.Camera, document, rootElement));
 
-      if (object.shapes != null) {
+      if (object.Shapes != null) {
          Element shapeList = document.createElement("Shapes");
          rootElement.appendChild(shapeList);
-         for (Shape shape : object.shapes) {
+         for (Shape shape : object.Shapes) {
             if (shape instanceof Box) {
                shapeList.appendChild(BoxExporter.Process((Box)shape, document, shapeList));
             }

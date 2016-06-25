@@ -1,8 +1,10 @@
 package net.danielthompson.danray.integrators;
 
+import net.danielthompson.danray.lights.AbstractLight;
 import net.danielthompson.danray.lights.Radiatable;
-import net.danielthompson.danray.shading.Blender;
+import net.danielthompson.danray.scenes.AbstractScene;
 import net.danielthompson.danray.shading.Material;
+import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.shapes.Shape;
 import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.states.IntersectionState;
@@ -25,33 +27,33 @@ public class WhittedIntegrator extends AbstractIntegrator {
    private final double iterations = 1.0;
    private final double adjustment = factor / iterations;
 
-   public WhittedIntegrator(Scene scene, int maxDepth) {
+   public WhittedIntegrator(AbstractScene scene, int maxDepth) {
       super(scene, maxDepth);
    }
 
    @Override
    public Sample GetSample(Ray ray, int depth) {
-      return GetColorForRay(ray, depth, _airIndexOfRefraction);
+      return GetSample(ray, depth, _airIndexOfRefraction);
    }
 
-   public Sample GetColorForRay(Ray ray, int depth, double oldIndexOfRefraction) {
+   public Sample GetSample(Ray ray, int depth, double oldIndexOfRefraction) {
 
       Sample sample = new Sample();
 
       double brightness = 0;
 
-      IntersectionState closestStateToRay = scene.GetClosestDrawableToRay(ray);
+      IntersectionState closestStateToRay = scene.getNearestShape(ray);
 
       if (closestStateToRay == null || !closestStateToRay.Hits) {
 
          if (closestStateToRay != null)
             sample.KDHeatCount = closestStateToRay.KDHeatCount;
          if (depth == 1) {
-            sample.Color = Color.black;
+            sample.SpectralPowerDistribution = new SpectralPowerDistribution(Color.black);
             return sample;
          }
          else {
-            sample.Color = Color.magenta;
+            sample.SpectralPowerDistribution = new SpectralPowerDistribution(Color.magenta);
             return sample;
          }
       }
@@ -60,8 +62,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
       sample.KDHeatCount = closestStateToRay.KDHeatCount;
 
       if (closestStateToRay.Shape instanceof Radiatable) {
-
-         sample.Color = closestStateToRay.Shape.GetMaterial().Color;
+         sample.SpectralPowerDistribution = ((Radiatable)closestStateToRay.Shape).getSPD();
          return sample;
       }
 
@@ -69,33 +70,41 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
       Material objectMaterial = closestShape.GetMaterial();
 
-      for (Radiatable radiatable : scene.Radiatables) {
+      SpectralPowerDistribution directSPD = new SpectralPowerDistribution();
+
+      // calculate direct light
+
+      for (AbstractLight light : scene.Lights) {
          Point intersectionPoint = closestStateToRay.IntersectionPoint;
 
          for (int i = 0; i < iterations; i++) {
 
-            Point radiatableLocation = radiatable.getRandomPointOnSurface();
+            Point lightLocation = light.getRandomPointOnSurface();
 
-            Ray lightRayFromCurrentRadiatableToClosestDrawable = intersectionPoint.CreateVectorFrom(radiatableLocation);
+            Ray lightToNearestShape = intersectionPoint.CreateVectorFrom(lightLocation);
 
-            if (closestStateToRay.Normal.Dot(lightRayFromCurrentRadiatableToClosestDrawable.Direction) < 0) {
+            if (closestStateToRay.Normal.Dot(lightToNearestShape.Direction) < 0) {
 
-               IntersectionState potentialOccluder = scene.GetClosestDrawableToRay(lightRayFromCurrentRadiatableToClosestDrawable);
+               IntersectionState potentialOccluder = scene.getNearestShape(lightToNearestShape);
 
                if (
                      potentialOccluder == null
                            || !potentialOccluder.Hits
                            || potentialOccluder.Shape.equals(closestStateToRay.Shape)
-                           || potentialOccluder.Shape.equals(radiatable)
+                           || potentialOccluder.Shape.equals(light)
                      ) {
-                  double oneOverDistanceFromLightSource = 1 / Math.sqrt(radiatableLocation.SquaredDistanceBetween(closestStateToRay.IntersectionPoint));
+                  double oneOverDistanceFromLightSource = 1 / Math.sqrt(lightLocation.SquaredDistanceBetween(closestStateToRay.IntersectionPoint));
                   oneOverDistanceFromLightSource *= oneOverDistanceFromLightSource;
 
-                  IntersectionState state = closestStateToRay.Shape.GetHitInfo(lightRayFromCurrentRadiatableToClosestDrawable);
+                  IntersectionState state = closestStateToRay.Shape.getHitInfo(lightToNearestShape);
                   if (state.Hits) {
-                     double angleOfIncidencePercentage = GeometryCalculations.GetAngleOfIncidencePercentage(lightRayFromCurrentRadiatableToClosestDrawable, closestStateToRay);
+                     double angleOfIncidencePercentage = GeometryCalculations.GetAngleOfIncidencePercentage(lightToNearestShape, closestStateToRay);
                      if (angleOfIncidencePercentage >= 0 && angleOfIncidencePercentage <= 100) {
-                        brightness += adjustment * radiatable.getPower() * (angleOfIncidencePercentage) * oneOverDistanceFromLightSource;
+                        SpectralPowerDistribution scaledIncomingSPD = SpectralPowerDistribution.scale(light.SpectralPowerDistribution, (float)angleOfIncidencePercentage);
+                        directSPD = SpectralPowerDistribution.add(directSPD, scaledIncomingSPD);
+
+                        directSPD.scale((float) (adjustment * oneOverDistanceFromLightSource));
+                        //brightness += adjustment * light.SpectralPowerDistribution.R * (angleOfIncidencePercentage) * oneOverDistanceFromLightSource;
                      }
                   }
 
@@ -103,20 +112,28 @@ public class WhittedIntegrator extends AbstractIntegrator {
             }
          }
       }
+//
+//      int r = (int) (objectMaterial.ReflectanceSpectrum.R * 255);
+//      int g = (int) (objectMaterial.ReflectanceSpectrum.G * 255);
+//      int b = (int) (objectMaterial.ReflectanceSpectrum.B * 255);
+//
+//      float[] hsbColor = Color.RGBtoHSB(r, g, b, null);
+//
+//      hsbColor[2] = (float)brightness;
+//
+//      if (hsbColor[2] >= 1.0f) {
+//         hsbColor[2] = 1.0f;
+//      }
+//
+//      Color calculatedColor = Color.getHSBColor(hsbColor[0], hsbColor[1], hsbColor[2]);
+//
+//      SpectralPowerDistribution spd = new SpectralPowerDistribution(calculatedColor);
 
-      float[] hsbColor = Color.RGBtoHSB(objectMaterial.Color.getRed(), objectMaterial.Color.getGreen(), objectMaterial.Color.getBlue(), null);
-
-      hsbColor[2] = (float)brightness;
-
-      if (hsbColor[2] >= 1.0f) {
-         hsbColor[2] = 1.0f;
-      }
-
-      Color calculatedColor = Color.getHSBColor(hsbColor[0], hsbColor[1], hsbColor[2]);
+      directSPD = directSPD.reflectOff(objectMaterial.ReflectanceSpectrum);
 
       // base case
       if (depth >= maxDepth) {
-         sample.Color = calculatedColor;
+         sample.SpectralPowerDistribution = directSPD;
          return sample;
       }
       // recursive case
@@ -124,7 +141,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
          depth++;
          // reflected color
 
-         Sample reflectedColor = null;
+         Sample reflectedSample = null;
 
          double reflectedWeight = 0.0;
 
@@ -135,8 +152,8 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
             Ray reflectedRay = new Ray(offsetIntersection, outgoingDirection);
 
-            reflectedColor = GetColorForRay(reflectedRay, depth, oldIndexOfRefraction);
-            sample.Statistics.Add(reflectedColor.Statistics);
+            reflectedSample = GetSample(reflectedRay, depth, oldIndexOfRefraction);
+            sample.Statistics.Add(reflectedSample.Statistics);
 
             Vector reversedIncoming = Vector.Scale(ray.Direction, -1);
 
@@ -147,7 +164,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
             reflectedWeight *= objectMaterial._transparency;
          }
 
-         Sample refractedColor = null;
+         Sample refractedSample = null;
          /*
          else if (objectMaterial.getReflectivity() > 0) {
             Ray reflectedRay = GeometryCalculations.GetReflectedRay(closestStateToRay.IntersectionPoint, closestStateToRay.Normal, ray);
@@ -166,23 +183,25 @@ public class WhittedIntegrator extends AbstractIntegrator {
          if (objectMaterial.getTransparency() > 0) {
 
             Ray refractedRay = GeometryCalculations.GetRefractedRay(closestStateToRay, closestStateToRay.Normal, ray, oldIndexOfRefraction);
-            refractedColor = GetSample(refractedRay, depth, closestStateToRay.Drawable.GetMaterial().getIndexOfRefraction());
-            colorWithStatistics.Statistics.Add(refractedColor.Statistics);
+            refractedSample = GetSample(refractedRay, depth, closestStateToRay.Drawable.GetMaterial().getIndexOfRefraction());
+            colorWithStatistics.Statistics.Add(refractedSample.Statistics);
          }
 */
          float transparency = (float)objectMaterial._transparency;
-         Color[] colors = new Color[] {calculatedColor, reflectedColor == null ? null : reflectedColor.Color, refractedColor == null ? null : refractedColor.Color };
-         float[] weights = new float[] { (float)( objectMaterial._intrinsic), (float)reflectedWeight, transparency};
-         Color blended = Blender.BlendRGB(colors, weights);
-         sample.Color = blended;
-         return sample;
+
+         SpectralPowerDistribution blended = SpectralPowerDistribution.Lerp(reflectedSample.SpectralPowerDistribution, transparency, directSPD, 1.0f - transparency);
+
+         Sample s = new Sample();
+         s.SpectralPowerDistribution = blended;
+
+         return s;
          /*
          Color blended;
-         if (refractedColor == null || refractedColor == Color.magenta) {
+         if (refractedSample == null || refractedSample == Color.magenta) {
             blended = Blender.BlendRGB(calculatedColor, reflectedColor, reflectivity);
          }
          else {
-            blended = Blender.BlendRGB(calculatedColor, reflectedColor, reflectivity, refractedColor, transparency);
+            blended = Blender.BlendRGB(calculatedColor, reflectedColor, reflectivity, refractedSample, transparency);
          }
          return blended;*/
 

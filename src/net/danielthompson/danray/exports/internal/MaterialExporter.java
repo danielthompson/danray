@@ -12,15 +12,15 @@ public class MaterialExporter {
 
       Element rootElement = document.createElement("Material");
 
-      if (object.Color != null) {
-         rootElement.appendChild(ColorExporter.Process(object.Color, document, rootElement));
-      }
-      if (object.FullSpectralReflectanceCurve != null) {
-         rootElement.appendChild(SRCExporter.Process(object.FullSpectralReflectanceCurve, document, rootElement));
-      }
-      if (object.BRDF != null) {
-         rootElement.appendChild(BRDFExporter.Process(object.BRDF, document, rootElement));
-      }
+//      if (object.Color != null) {
+//         rootElement.appendChild(ColorExporter.Process(object.Color, document, rootElement));
+//      }
+//      if (object.FullSpectralReflectanceCurve != null) {
+//         rootElement.appendChild(SRCExporter.Process(object.FullSpectralReflectanceCurve, document, rootElement));
+//      }
+//      if (object.BRDF != null) {
+//         rootElement.appendChild(BRDFExporter.Process(object.BRDF, document, rootElement));
+//      }
 
       rootElement.setAttribute("Reflectivity", String.valueOf(object._reflectivity));
       rootElement.setAttribute("Transparency", String.valueOf(object._transparency));

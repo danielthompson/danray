@@ -5,7 +5,6 @@ import net.danielthompson.danray.structures.BoundingBox;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Vector;
-import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -79,7 +78,7 @@ public class IntersectionBenchmarks {
 
       for (int i = 0; i < d3; i++) {
          for (int j = 0; j < d3; j++) {
-            spheres[i].GetHitInfo(rays[j]);
+            spheres[i].getHitInfo(rays[j]);
          }
       }
 

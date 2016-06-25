@@ -64,7 +64,7 @@ public class TraverseTinyTreeTests {
       greaterThanList.add(sphere3);
 
       for (Shape element : objects) {
-         scene.addDrawableObject(element);
+         scene.addShape(element);
       }
 
       KDNode lessThanNode = new KDNode(lessThanList);
@@ -94,7 +94,7 @@ public class TraverseTinyTreeTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = scene.GetClosestDrawableToRay(ray);
+      IntersectionState state = scene.getNearestShape(ray);
 
       Assert.assertNotNull(state, "intersection state should not be null");
       Assert.assertTrue(state.Hits, "state should hit");

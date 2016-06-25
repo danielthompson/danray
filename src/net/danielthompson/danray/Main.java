@@ -1,7 +1,7 @@
 package net.danielthompson.danray;
 
 import net.danielthompson.danray.presets.*;
-import net.danielthompson.danray.structures.Scene;
+import net.danielthompson.danray.scenes.AbstractScene;
 
 
 /**
@@ -12,7 +12,7 @@ import net.danielthompson.danray.structures.Scene;
  */
 public class Main {
 
-   private static final RenderQualityPreset _preset = new LowQuality();
+   private static final RenderQualityPreset _preset = new MediumQuality();
    public static final boolean UseSpectralRendering = true;
    static final boolean UseDepthOfField = false;
 
@@ -22,7 +22,7 @@ public class Main {
 
    static public void main(String[] args) {
 
-      Scene scene;
+      AbstractScene scene;
 
       //scene = SceneBuilder.ManyRandomSpheres(_preset.getX(), _preset.getY());
       scene = SceneBuilder.ManyRegularSpheres(_preset.getX(), _preset.getY());

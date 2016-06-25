@@ -8,7 +8,7 @@ import net.danielthompson.danray.samplers.AbstractSampler;
 import net.danielthompson.danray.samplers.RandomSampler;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Sample;
-import net.danielthompson.danray.structures.Scene;
+import net.danielthompson.danray.scenes.AbstractScene;
 
 /**
  * Created by daniel on 4/3/16.
@@ -17,14 +17,14 @@ public abstract class AbstractRunner implements Runnable {
 
    final TraceManager Manager;
    private final AbstractIntegrator Integrator;
-   protected final Scene Scene;
+   protected final AbstractScene Scene;
    private int Frame;
    private final AbstractFilm Film;
 
    private final int _samplesPerPixel;
    private final int _superSamplesPerPixel;
 
-   AbstractRunner(TraceManager traceManager, AbstractIntegrator integrator, Scene scene, RenderQualityPreset qualityPreset, AbstractFilm film, int frame) {
+   AbstractRunner(TraceManager traceManager, AbstractIntegrator integrator, AbstractScene scene, RenderQualityPreset qualityPreset, AbstractFilm film, int frame) {
       Manager = traceManager;
       Integrator = integrator;
       Scene = scene;
@@ -46,24 +46,25 @@ public abstract class AbstractRunner implements Runnable {
       int reachedSamples = 0;
       int heatCount = 0;
 
-      AbstractSampler sampler = new RandomSampler();;
+      AbstractSampler sampler = new RandomSampler();
 
       do {
          float[][] pixels = sampler.GetSamples(x, y, _samplesPerPixel);
 
          for (int j = 0; j < _samplesPerPixel; j++) {
+         //for (int j = 0; j < _superSamplesPerPixel; j++) {
 
-            Ray[] cameraRays = Scene.Camera.getInitialStochasticRaysForPixel(pixels[j][0], pixels[j][1], 1);
+            Ray[] cameraRays = Scene.Camera.getInitialStochasticRaysForPixel(pixels[j][0], pixels[j][1], _samplesPerPixel);
             Manager.InitialRays += cameraRays.length;
 
-            Sample[] colorsWithStatistics = new Sample[cameraRays.length];
+            Sample[] samples = new Sample[cameraRays.length];
             for (int i = 0; i < cameraRays.length; i++) {
-               colorsWithStatistics[i] = Integrator.GetSample(cameraRays[i], 1);
-               heatCount += colorsWithStatistics[i].KDHeatCount;
-               Manager.Statistics[x][y].Add(colorsWithStatistics[i].Statistics);
+               samples[i] = Integrator.GetSample(cameraRays[i], 1);
+               heatCount += samples[i].KDHeatCount;
+               Manager.Statistics[x][y].Add(samples[i].Statistics);
             }
 
-            Film.AddSamples(x, y, colorsWithStatistics);
+            Film.AddSamples(x, y, samples);
             reachedSamples += _samplesPerPixel;
          }
          iterations++;

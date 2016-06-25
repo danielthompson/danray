@@ -4,6 +4,7 @@ import net.danielthompson.danray.acceleration.BoundingEdge;
 import net.danielthompson.danray.acceleration.KDAxis;
 import net.danielthompson.danray.lights.Radiatable;
 import net.danielthompson.danray.shading.Material;
+import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.BoundingBox;
 import net.danielthompson.danray.structures.Point;
@@ -82,13 +83,13 @@ public class Triangle implements Shape, Radiatable {
    }
 
    @Override
-   public IntersectionState GetHitInfo(Ray ray) {
+   public IntersectionState getHitInfo(Ray ray) {
       return GetHitInfo(this, ray, _vertex0, _vertex1, _vertex2);
    }
 
    @Override
    public boolean Hits(Ray ray) {
-      return GetHitInfo(ray).Hits;
+      return getHitInfo(ray).Hits;
    }
 
    public static IntersectionState GetHitInfo(Shape shape, Ray ray, Point vertex0, Point vertex1, Point vertex2) {
@@ -138,6 +139,11 @@ public class Triangle implements Shape, Radiatable {
       return (_vertex0.getAxis(axis) + _vertex1.getAxis(axis) + _vertex2.getAxis(axis)) / 3.0;
    }
 
+
+   @Override
+   public SpectralPowerDistribution getSPD() {
+      return null;
+   }
 
    @Override
    public Point getRandomPointOnSurface() {

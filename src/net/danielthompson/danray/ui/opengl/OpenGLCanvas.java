@@ -11,6 +11,7 @@ import com.jogamp.opengl.util.Animator;
 import com.jogamp.opengl.util.gl2.GLUT;
 import net.danielthompson.danray.acceleration.KDNode;
 import net.danielthompson.danray.acceleration.KDScene;
+import net.danielthompson.danray.lights.AbstractLight;
 import net.danielthompson.danray.lights.PointLight;
 import net.danielthompson.danray.lights.Radiatable;
 import net.danielthompson.danray.shading.Material;
@@ -19,7 +20,7 @@ import net.danielthompson.danray.shapes.Shape;
 import net.danielthompson.danray.shapes.Sphere;
 import net.danielthompson.danray.structures.BoundingBox;
 import net.danielthompson.danray.structures.Point;
-import net.danielthompson.danray.structures.Scene;
+import net.danielthompson.danray.scenes.AbstractScene;
 
 
 import static com.jogamp.opengl.GL.*;
@@ -32,7 +33,7 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
    private GLU _glu;
    private GLUT _glut;
    public static Animator animator;
-   public Scene _scene;
+   public AbstractScene _scene;
 
    private OpenGLKeyListener _keyListener;
    private OpenGLMouseListener _mouseListener;
@@ -42,7 +43,7 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
 
    private static float OneOver255 = 1 / 255.0f;
 
-   public OpenGLCanvas(GLCapabilities caps, Scene scene) {
+   public OpenGLCanvas(GLCapabilities caps, AbstractScene scene) {
       super(caps);
       _scene = scene;
       addGLEventListener(this);
@@ -141,10 +142,10 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
       gl.glClearDepthf(1f);
       gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
 
-      // scene shapes
+      // scene Shapes
       GLUquadric quadric = _glu.gluNewQuadric();
 
-      for (Shape shape : _scene.shapes) {
+      for (Shape shape : _scene.Shapes) {
          if (shape instanceof Sphere) {
             Sphere sphere = (Sphere)shape;
             Point origin = sphere.Origin;
@@ -165,10 +166,10 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
 
       // lights
 
-      for (Radiatable radiatable : _scene.Radiatables) {
-         if (radiatable instanceof PointLight) {
-            PointLight light = (PointLight)radiatable;
-            float[] lightpos = {(float)(light._location.X), (float)(light._location.Y), (float)(light._location.Z)};
+      for (AbstractLight light : _scene.Lights) {
+         if (light instanceof PointLight) {
+            PointLight pointLight = (PointLight)light;
+            float[] lightpos = {(float)(pointLight.Location.X), (float)(pointLight.Location.Y), (float)(pointLight.Location.Z)};
             gl.glLightfv(gl.GL_LIGHT0, gl.GL_POSITION, lightpos, 0);
 
          }
@@ -212,7 +213,7 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
    public void SetNode(KDNode node) {
       SelectedNode = node;
 
-      for (Shape shape : _scene.shapes)
+      for (Shape shape : _scene.Shapes)
          shape.SetInCurrentKDNode(false);
 
       for (Shape shape : node._objects)
@@ -221,9 +222,9 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
 
    private void setColor(GL2 gl, Material material) {
 
-      float red = material.Color.getRed() * OneOver255;
-      float green = material.Color.getGreen() * OneOver255;
-      float blue = material.Color.getBlue() * OneOver255;
+      float red = material.ReflectanceSpectrum.R;// * OneOver255;
+      float green = material.ReflectanceSpectrum.G;// * OneOver255;
+      float blue = material.ReflectanceSpectrum.B;// * OneOver255;
 
       gl.glColor3f(red, green, blue);
    }

@@ -1,6 +1,7 @@
 package test.shapes.box;
 
 import net.danielthompson.danray.shading.Material;
+import net.danielthompson.danray.shading.ReflectanceSpectrum;
 import net.danielthompson.danray.shapes.Box;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.*;
@@ -29,7 +30,7 @@ public class IntersectionTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = box.GetHitInfo(ray);
+      IntersectionState state = box.getHitInfo(ray);
 
       Point expectedIntersectionPoint = new Point(1, 1, 2);
       Normal expectedNormalDirection = new Normal(0, 0, 1);
@@ -53,7 +54,7 @@ public class IntersectionTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = box.GetHitInfo(ray);
+      IntersectionState state = box.getHitInfo(ray);
 
       Point expectedIntersectionPoint = new Point(1, 1, 2);
       Normal expectedNormalDirection = new Normal(0, 0, 1);
@@ -76,7 +77,7 @@ public class IntersectionTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = box.GetHitInfo(ray);
+      IntersectionState state = box.getHitInfo(ray);
 
       Point expectedIntersectionPoint = new Point(2, 1, 2);
       Normal expectedNormalDirection = new Normal(1, 0, 0);
@@ -101,7 +102,7 @@ public class IntersectionTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = box.GetHitInfo(ray);
+      IntersectionState state = box.getHitInfo(ray);
 
       Point expectedIntersectionPoint = new Point(2, 1, 2);
       Normal expectedNormalDirection = new Normal(1, 0, 0);
@@ -118,7 +119,8 @@ public class IntersectionTests {
       Point p1 = new Point(100, 100, 100);
 
       Material material = new Material();
-      material.Color = new Color(30, 120, 120);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(30, 120, 120));
+
       material._reflectivity = .25;
       material._specular = 1 - .75;
 
@@ -143,7 +145,7 @@ public class IntersectionTests {
 
       Ray ray = new Ray(new Point(300, 500, 700), new Vector(0, 0, -1));
 
-      IntersectionState state = box.GetHitInfo(ray);
+      IntersectionState state = box.getHitInfo(ray);
 
       if (state.Hits)
          ;

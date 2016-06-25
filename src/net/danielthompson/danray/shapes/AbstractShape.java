@@ -17,9 +17,10 @@ public abstract class AbstractShape implements Shape {
 
    public BoundingBox WorldBoundingBox;
 
-   public Material Material;
    public Transform ObjectToWorld;
    public Transform WorldToObject;
+
+   public Material Material;
 
    public boolean InCurrentKDNode;
 
@@ -61,7 +62,7 @@ public abstract class AbstractShape implements Shape {
    }
 
    @Override
-   public IntersectionState GetHitInfo(Ray ray) {
+   public IntersectionState getHitInfo(Ray ray) {
       return null;
    }
 

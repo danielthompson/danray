@@ -26,7 +26,7 @@ public class HitTests {
       Vector Direction = new Vector(1, 0, 0);
       Ray ray = new Ray(Origin, Direction);
 
-      Assert.assertFalse(sphere.GetHitInfo(ray).Hits, "Vector shouldn't hit sphere.");
+      Assert.assertFalse(sphere.getHitInfo(ray).Hits, "Vector shouldn't hit sphere.");
    }
 
    @Test
@@ -39,7 +39,7 @@ public class HitTests {
       Vector Direction = new Vector(1, 0, 0);
       Ray ray = new Ray(Origin, Direction);
 
-      Assert.assertTrue(sphere.GetHitInfo(ray).Hits, "Vector should hit sphere.");
+      Assert.assertTrue(sphere.getHitInfo(ray).Hits, "Vector should hit sphere.");
    }
 
    @Test
@@ -52,7 +52,7 @@ public class HitTests {
       Vector Direction = new Vector(1, 0, 0);
       Ray ray = new Ray(Origin, Direction);
 
-      Assert.assertFalse(sphere.GetHitInfo(ray).Hits, "Vector shouldn't hit sphere.");
+      Assert.assertFalse(sphere.getHitInfo(ray).Hits, "Vector shouldn't hit sphere.");
    }
 
    @Test
@@ -65,7 +65,7 @@ public class HitTests {
       Vector Direction = new Vector(-1, 0, 0);
       Ray ray = new Ray(Origin, Direction);
 
-      Assert.assertFalse(sphere.GetHitInfo(ray).Hits, "Vector shouldn't hit sphere.");
+      Assert.assertFalse(sphere.getHitInfo(ray).Hits, "Vector shouldn't hit sphere.");
    }
 
    @Test
@@ -79,7 +79,7 @@ public class HitTests {
       Ray ray = new Ray(Origin, Direction);
 
       Assert.assertFalse(sphere.Inside(Origin), "Point " + Origin + " is outside sphere.");
-      Assert.assertFalse(sphere.GetHitInfo(ray).Hits, "Vector shouldn't hit sphere.");
+      Assert.assertFalse(sphere.getHitInfo(ray).Hits, "Vector shouldn't hit sphere.");
    }
 
    @Test
@@ -92,7 +92,7 @@ public class HitTests {
       Vector Direction = new Vector(-1, 0, 0);
       Ray ray = new Ray(Origin, Direction);
 
-      Assert.assertFalse(sphere.GetHitInfo(ray).Hits, "Vector shouldn't hit sphere.");
+      Assert.assertFalse(sphere.getHitInfo(ray).Hits, "Vector shouldn't hit sphere.");
    }
 
    @Test
@@ -105,7 +105,7 @@ public class HitTests {
       Vector Direction = new Vector(0, -1, 0);
       Ray ray = new Ray(Origin, Direction);
 
-      Assert.assertTrue(sphere.GetHitInfo(ray).Hits, "Vector should hit sphere.");
+      Assert.assertTrue(sphere.getHitInfo(ray).Hits, "Vector should hit sphere.");
    }
 
    @Test
@@ -118,7 +118,7 @@ public class HitTests {
       Vector Direction = new Vector(0, 10, 0);
       Ray ray = new Ray(Origin, Direction);
 
-      Assert.assertFalse(sphere.GetHitInfo(ray).Hits, "Vector shouldn't hit sphere.");
+      Assert.assertFalse(sphere.getHitInfo(ray).Hits, "Vector shouldn't hit sphere.");
    }
 
    @Test
@@ -131,7 +131,7 @@ public class HitTests {
       Vector Direction = new Vector(-1, -1, 0);
       Ray ray = new Ray(Origin, Direction);
 
-      Assert.assertTrue(sphere.GetHitInfo(ray).Hits, "Vector should hit sphere.");
+      Assert.assertTrue(sphere.getHitInfo(ray).Hits, "Vector should hit sphere.");
    }
 
    @Test
@@ -144,7 +144,7 @@ public class HitTests {
       Vector Direction = new Vector(1, 1, 0);
       Ray ray = new Ray(Origin, Direction);
 
-      Assert.assertTrue(sphere.GetHitInfo(ray).Hits, "Vector should hit sphere.");
+      Assert.assertTrue(sphere.getHitInfo(ray).Hits, "Vector should hit sphere.");
    }
 
    @Test
@@ -157,7 +157,7 @@ public class HitTests {
       Vector Direction = new Vector(1, 1, 0);
       Ray ray = new Ray(Origin, Direction);
 
-      Assert.assertFalse(sphere.GetHitInfo(ray).Hits, "Vector shouldn't hit sphere.");
+      Assert.assertFalse(sphere.getHitInfo(ray).Hits, "Vector shouldn't hit sphere.");
    }
 
    @Test
@@ -170,6 +170,6 @@ public class HitTests {
       Vector Direction = new Vector(0, 1, 0);
       Ray ray = new Ray(Origin, Direction);
 
-      Assert.assertTrue(sphere.GetHitInfo(ray).Hits, "Vector should hit sphere.");
+      Assert.assertTrue(sphere.getHitInfo(ray).Hits, "Vector should hit sphere.");
    }
 }

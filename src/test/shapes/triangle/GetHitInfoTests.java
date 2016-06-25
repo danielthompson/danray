@@ -42,7 +42,7 @@ public class GetHitInfoTests {
 
       Ray incomingRay = new Ray(rayOrigin, rayDirection);
 
-      IntersectionState state = triangle.GetHitInfo(incomingRay);
+      IntersectionState state = triangle.getHitInfo(incomingRay);
 
       Assert.assertTrue(state.Hits);
 
@@ -65,7 +65,7 @@ public class GetHitInfoTests {
 
       Ray incomingRay = new Ray(rayOrigin, rayDirection);
 
-      IntersectionState state = triangle.GetHitInfo(incomingRay);
+      IntersectionState state = triangle.getHitInfo(incomingRay);
 
       Assert.assertTrue(state.Hits);
 
@@ -88,7 +88,7 @@ public class GetHitInfoTests {
 
       Ray incomingRay = new Ray(rayOrigin, rayDirection);
 
-      IntersectionState state = triangle.GetHitInfo(incomingRay);
+      IntersectionState state = triangle.getHitInfo(incomingRay);
 
       Assert.assertTrue(state.Hits);
 
@@ -111,7 +111,7 @@ public class GetHitInfoTests {
 
       Ray incomingRay = new Ray(rayOrigin, rayDirection);
 
-      IntersectionState state = triangle.GetHitInfo(incomingRay);
+      IntersectionState state = triangle.getHitInfo(incomingRay);
 
       Assert.assertFalse(state.Hits);
    }

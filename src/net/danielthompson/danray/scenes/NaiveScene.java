@@ -1,10 +1,13 @@
-package net.danielthompson.danray.structures;
+package net.danielthompson.danray.scenes;
 
-import net.danielthompson.danray.lights.Radiatable;
+import net.danielthompson.danray.lights.AbstractLight;
 import net.danielthompson.danray.presets.TracerOptions;
 import net.danielthompson.danray.shapes.*;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.cameras.Camera;
+import net.danielthompson.danray.structures.Constants;
+import net.danielthompson.danray.structures.Ray;
+import net.danielthompson.danray.structures.Statistics;
 
 /**
  * DanRay
@@ -12,9 +15,7 @@ import net.danielthompson.danray.cameras.Camera;
  * Date: 6/28/13
  * Time: 5:24 PM
  */
-public class NaiveScene extends Scene {
-
-   public Statistics statistics;
+public class NaiveScene extends AbstractScene {
 
    public NaiveScene(Camera camera) {
       super(camera);
@@ -22,31 +23,21 @@ public class NaiveScene extends Scene {
    }
 
    @Override
-   public void addDrawableObject(Shape shape) {
-      shapes.add(shape);
+   public IntersectionState getNearestShape(Ray ray) {
+      return getNearestShapeBetween(ray, 0, Double.MAX_VALUE);
    }
 
    @Override
-   public void addRadiatableObject(Radiatable radiatable) {
-      Radiatables.add(radiatable);
+   public IntersectionState getNearestShapeBeyond(Ray ray, double t) {
+      return getNearestShapeBetween(ray, t, Double.MAX_VALUE);
    }
 
    @Override
-   public IntersectionState GetClosestDrawableToRay(Ray ray) {
-      return GetClosestDrawableHitBetween(ray, 0, Double.MAX_VALUE);
-   }
-
-   @Override
-   public IntersectionState GetClosestDrawableToRayBeyond(Ray ray, double t) {
-      return GetClosestDrawableHitBetween(ray, t, Double.MAX_VALUE);
-   }
-
-   @Override
-   public IntersectionState GetClosestDrawableHitBetween(Ray ray, double t0, double t1) {
+   public IntersectionState getNearestShapeBetween(Ray ray, double t0, double t1) {
       IntersectionState closestStateToRay = null;
       statistics = new Statistics();
-      for (Shape shape : shapes) {
-         IntersectionState state = shape.GetHitInfo(ray);
+      for (Shape shape : Shapes) {
+         IntersectionState state = shape.getHitInfo(ray);
          statistics.DrawableIntersections++;
          state.Statistics = statistics;
 
@@ -69,7 +60,7 @@ public class NaiveScene extends Scene {
 
 
    @Override
-   public String Compile(TracerOptions _tracerOptions) {
+   public String compile(TracerOptions _tracerOptions) {
       return "No scene compilation necessary.";
    }
 

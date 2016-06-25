@@ -5,10 +5,11 @@ import net.danielthompson.danray.cameras.*;
 import net.danielthompson.danray.cameras.apertures.CircleAperture;
 import net.danielthompson.danray.cameras.apertures.SquareAperture;
 import net.danielthompson.danray.imports.SPDFileImporter;
+import net.danielthompson.danray.lights.AbstractLight;
 import net.danielthompson.danray.lights.PointLight;
-import net.danielthompson.danray.lights.Radiatable;
-import net.danielthompson.danray.lights.SpectralSphereLight;
 import net.danielthompson.danray.lights.SphereLight;
+import net.danielthompson.danray.scenes.NaiveScene;
+import net.danielthompson.danray.scenes.AbstractScene;
 import net.danielthompson.danray.shading.*;
 import net.danielthompson.danray.shading.bxdf.BRDF;
 import net.danielthompson.danray.shading.bxdf.LambertianBRDF;
@@ -23,8 +24,6 @@ import java.awt.*;
 import java.io.File;
 import java.util.*;
 
-import static java.awt.Color.*;
-
 /**
  * User: daniel
  * Date: 6/30/13
@@ -37,7 +36,8 @@ public class SceneBuilder {
       return nextID++;
    }
 
-   public static Scene OneSphere(int x, int y) {
+
+   public static AbstractScene SpectralLemon(int x, int y) {
 
       CameraSettings settings = new CameraSettings();
       settings.X = x;
@@ -54,95 +54,45 @@ public class SceneBuilder {
 
       Camera camera = new SimplePointableCamera(settings);
 
-      Scene scene = new NaiveScene(camera);
-
-      Material material = new Material();
-
-      material.Color = blue;
-
-      Sphere sphere = new Sphere(material);
-      sphere.Origin = new Point(x / 2, y / 2, -300.0);
-      sphere.Radius = 100;
-
-      scene.addDrawableObject(sphere);
-
-      Point lightOrigin = new Point(x / 2, y / 2, 100);
-      double lumens = 1.0;
-
-      Radiatable light = new PointLight(lightOrigin, lumens);
-      scene.addRadiatableObject(light);
-
-      return scene;
-   }
-
-   public static Scene SpectralLemon(int x, int y) {
-
-      CameraSettings settings = new CameraSettings();
-      settings.X = x;
-      settings.Y = y;
-      settings.FocalLength = 1200;
-      settings.Rotation = 0;
-      settings.ZoomFactor =  1.5;
-      settings.FocusDistance = 500;
-      settings.Aperture = new CircleAperture(20);
-
-      Point origin = new Point(0, 0, 4000);
-      Vector direction = new Vector(0, 0, -1);
-      settings.Orientation = new Ray(origin, direction);
-
-      Camera camera = new SimplePointableCamera(settings);
-
-      Scene scene = new NaiveScene(camera);
-
-      FullSpectralBlender.setFilmSpeed(10000f);
+      AbstractScene scene = new NaiveScene(camera);
 
       // right light
 
-      RelativeFullSpectralPowerDistribution lightRSPD = null;
-
-      lightRSPD = RelativeFullSpectralPowerDistributionLibrary.D65;
-      /*
-      new RelativeSpectralPowerDistribution(RelativeSpectralPowerDistributionLibrary.Blue);
-      lightRSPD.Merge(RelativeSpectralPowerDistributionLibrary.Red);
-      lightRSPD.Merge(RelativeSpectralPowerDistributionLibrary.Yellow);
-      */
-      FullSpectralPowerDistribution lightSPD = new FullSpectralPowerDistribution(lightRSPD, 50f);
+      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(10.0f, 10.0f, 10.0f);
 
       Material material = new Material();
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.white);
 
-      material.Color = Color.white;
+      Sphere sphere = new Sphere();
+      sphere.Origin = new Point(2000, 15000, 15000);
+      sphere.Radius = 1000;
 
+      AbstractLight light = new SphereLight(lightSPD, sphere);
 
-      SpectralSphereLight light = new SpectralSphereLight(10000, material, lightSPD);
-      light.Origin = new Point(2000, 15000, 15000);
-      light.Radius = 1000;
-
-      light.ID = getNextID();
-
-      scene.shapes.add(light);
-      scene.SpectralRadiatables.add(light);
-      scene.addRadiatableObject(light);
+      //scene.Shapes.add(light);
+      scene.addLight(light);
 
       // left light
 
-      lightSPD = new FullSpectralPowerDistribution(RelativeFullSpectralPowerDistributionLibrary.Sunset, 5f);
+      lightSPD = new SpectralPowerDistribution(1.0f, 0.8f, 0.8f);
 
       material = new Material();
-      material.Color = Color.red;
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.red);
 
-      light = new SpectralSphereLight(100, material, lightSPD);
-      light.Origin = new Point(-800, 0, 500);
-      light.Radius = 100;
+      sphere = new Sphere();
+      sphere.Origin = new Point(-800, 0, 500);
+      sphere.Radius = 100;
 
-      scene.addRadiatableObject(light);
-      scene.SpectralRadiatables.add(light);
-      scene.shapes.add(light);
+      light = new SphereLight(lightSPD, sphere);
+
+      //scene.Shapes.add(light);
+      scene.addLight(light);
+
 
       // left wall
 
       Material boxMaterial = new Material();
-      boxMaterial.Color = Color.yellow;
-      boxMaterial.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.LemonSkin;
+      boxMaterial.ReflectanceSpectrum = new ReflectanceSpectrum(Color.yellow);
 
       ArrayList<Transform> list = new ArrayList<>();
       list.add(Transform.Translate(new Vector(-1500, 0, 0)));
@@ -163,9 +113,7 @@ public class SceneBuilder {
 
       boxMaterial = new Material();
       boxMaterial.BRDF = new MirrorBRDF();
-      boxMaterial.Color = Color.yellow;
-
-      boxMaterial.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.LemonSkin;
+      boxMaterial.ReflectanceSpectrum = new ReflectanceSpectrum(Color.yellow);
 
       list = new ArrayList<>();
       list.add(Transform.Translate(new Vector(1500, 0, 0)));
@@ -180,13 +128,12 @@ public class SceneBuilder {
       p1 = new Point(1, 1, 1);
       box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
       box.ID = getNextID();
-      scene.shapes.add(box);
+      scene.Shapes.add(box);
 
       // front wall
 
       boxMaterial = new Material();
-      boxMaterial.Color = Color.green;
-      boxMaterial.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.Grass;
+      boxMaterial.ReflectanceSpectrum = new ReflectanceSpectrum(Color.green);
 
       list = new ArrayList<>();
       list.add(Transform.Translate(new Vector(0, 0, -1000)));
@@ -208,8 +155,7 @@ public class SceneBuilder {
 
       boxMaterial = new Material();
       boxMaterial.BRDF = new MirrorBRDF();
-      boxMaterial.Color = Color.green;
-      boxMaterial.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.Grass;
+      boxMaterial.ReflectanceSpectrum = new ReflectanceSpectrum(Color.green);
 
       list = new ArrayList<>();
       list.add(Transform.Translate(new Vector(0, 0, 10000)));
@@ -230,8 +176,7 @@ public class SceneBuilder {
       // floor
 
       boxMaterial = new Material();
-      boxMaterial.Color = Color.green;
-      boxMaterial.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.Grass;
+      boxMaterial.ReflectanceSpectrum = new ReflectanceSpectrum(Color.green);
 
       list = new ArrayList<>();
       list.add(Transform.Translate(new Vector(0, -1000, 0)));
@@ -248,13 +193,12 @@ public class SceneBuilder {
       box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
       box.ID = getNextID();
 
-      scene.shapes.add(box);
+      scene.Shapes.add(box);
 
       // ceiling
 
       boxMaterial = new Material();
-      boxMaterial.Color = Color.green;
-      boxMaterial.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.Grass;
+      boxMaterial.ReflectanceSpectrum = new ReflectanceSpectrum(Color.green);
 
       list = new ArrayList<>();
       list.add(Transform.Translate(new Vector(0, 1000, 0)));
@@ -274,8 +218,7 @@ public class SceneBuilder {
       // top left little box
 
       boxMaterial = new Material();
-      boxMaterial.Color = Color.orange;
-      boxMaterial.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.Orange;
+      boxMaterial.ReflectanceSpectrum = new ReflectanceSpectrum(Color.orange);
 
       for (int i = 0; i < 10; i++) {
          //for (int j = 0; j < 10; j++) {
@@ -300,19 +243,18 @@ public class SceneBuilder {
       // bottom right little box
 
       boxMaterial = new Material();
-      boxMaterial.Color = Color.cyan;
-      boxMaterial.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.LightBlue;
+      boxMaterial.ReflectanceSpectrum = new ReflectanceSpectrum(Color.cyan);
 
       p0 = new Point(800, -1000, 0);
       p1 = new Point(1300, -500, 500);
       box = new Box(p0, p1, boxMaterial);
       box.ID = getNextID();
-      scene.shapes.add(box);
+      scene.Shapes.add(box);
 
 
       material = new Material();
 
-      material.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.Grass;
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.green);
 
       list = new ArrayList<>();
       list.add(Transform.Translate(new Vector(-400, 50, 1000)));
@@ -328,116 +270,12 @@ public class SceneBuilder {
 
       Cylinder cylinder = new Cylinder(1, 1, worldToObject, objectToWorld, material);
 
-      //scene.addDrawableObject(cylinder);
-
-
-
-
+      //scene.addShape(cylinder);
 
       return scene;
    }
 
-   public static Scene TwoSpectralSpheres(int x, int y) {
-
-      CameraSettings settings = new CameraSettings();
-      settings.X = x;
-      settings.Y = y;
-      settings.FocalLength = 1200;
-      settings.Rotation = 0;
-      settings.ZoomFactor =  1;
-      settings.FocusDistance = 500;
-      settings.Aperture = new CircleAperture(20);
-
-      Point origin = new Point(0, 1500, -3000);
-      //Point origin = new Point(0, 1500, -3000);
-      //Vector direction = new Vector(0, -1, 0);
-      Vector direction = new Vector(0, -.25, -1);
-      settings.Orientation = new Ray(origin, direction);
-
-      Camera camera = new SimplePointableCamera(settings);
-
-      Scene scene = new NaiveScene(camera);
-
-      //SpectralBlender.setFilmSpeed(100000000000000000000000000000000f);
-      //SpectralBlender.setFilmSpeed(1f);
-      FullSpectralBlender.setFilmSpeed(1000000000f);
-
-      SPDFileImporter spdFileImporter = new SPDFileImporter(new File("spds/softblue.spd"));
-      FullSpectralPowerDistribution softblue = spdFileImporter.Process();
-
-      spdFileImporter = new SPDFileImporter(new File("spds/d65.spd"));
-      FullSpectralPowerDistribution d65 = spdFileImporter.Process();
-
-      // top light
-
-      FullSpectralPowerDistribution lightSPD = FullSpectralPowerDistribution.scale(d65, .015);
-
-      Material material = new Material();
-
-      material.Color = Color.white;
-
-      SpectralSphereLight light = new SpectralSphereLight(100, material, lightSPD);
-      light.Origin = new Point(1500, 5500, -5000);
-      light.Radius = 1000;
-
-      light.ID = getNextID();
-
-      scene.shapes.add(light);
-      scene.SpectralRadiatables.add(light);
-      scene.addRadiatableObject(light);
-
-      // sphere
-
-      material = new Material();
-      material.BRDF = new LambertianBRDF();
-      material.Color = Color.green;
-
-      material.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.LemonSkin;
-
-      ArrayList<Transform> list = new ArrayList<>();
-      list.add(Transform.Translate(new Vector(0, 0, -10000)));
-      list.add(Transform.Scale(1000, 1000, 1000));
-      list.add(Transform.RotateY(90));
-
-
-      Transform[] transforms = GetCompositeTransforms(list);
-
-      Transform objectToWorld = transforms[0];
-      Transform worldToObject = transforms[1];
-
-      Sphere sphere = new Sphere(1, worldToObject, objectToWorld, material);
-      sphere.Origin = new Point(0, 0, 0);
-      scene.addDrawableObject(sphere);
-
-
-
-      // floor
-
-      Material boxMaterial = new Material();
-      boxMaterial.Color = Color.green;
-      boxMaterial.BRDF = new LambertianBRDF();
-      boxMaterial.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.LemonSkin;
-
-      list = new ArrayList<>();
-      list.add(Transform.Translate(new Vector(0, -1000, 0)));
-      list.add(Transform.Scale(100000.0, 1, 100000));
-
-      transforms = GetCompositeTransforms(list);
-
-      objectToWorld = transforms[0];
-      worldToObject = transforms[1];
-
-      Point p0 = new Point(-1, -1, -1);
-      Point p1 = new Point(1, 1, 1);
-      Box box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
-      box.ID = getNextID();
-      scene.shapes.add(box);
-
-
-      return scene;
-   }
-
-   public static Scene Default(int x, int y) {
+   public static AbstractScene Default(int x, int y) {
 
       CameraSettings settings = new CameraSettings();
       settings.X = x;
@@ -454,40 +292,40 @@ public class SceneBuilder {
 
       Camera camera = new SimplePointableCamera(settings);
 
-      Scene scene = new NaiveScene(camera);
+      AbstractScene scene = new NaiveScene(camera);
 
       Material material = new Material();
 
-      material.Color = blue;
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.blue);
 
       Sphere sphere1 = new Sphere(material);
       sphere1.Origin = new Point(50.0, 50.0, 40.0);
       sphere1.Radius = 10;
 
-      scene.addDrawableObject(sphere1);
+      scene.addShape(sphere1);
 
       material = new Material();
-      material.Color = new Color(255, 255, 128);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 255, 128));
 
       Sphere sphere2 = new Sphere(material);
       sphere2.Origin = new Point(0.0, 0.0, 20.0);
       sphere2.Radius = 55;
 
-      scene.addDrawableObject(sphere2);
+      scene.addShape(sphere2);
 
       material = new Material();
-      material.Color = green;
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.green);
 
       Sphere sphere3 = new Sphere(material);
       sphere3.Origin = new Point(200.0, 200.0, 25.0);
       sphere3.Radius = 40;
 
-      scene.addDrawableObject(sphere3);
+      scene.addShape(sphere3);
 
       return scene;
    }
 
-   public static Scene DepthOfFieldTest(int x, int y) {
+   public static AbstractScene DepthOfFieldTest(int x, int y) {
 
       CameraSettings settings = new CameraSettings();
       settings.X = x;
@@ -504,25 +342,25 @@ public class SceneBuilder {
 
       Camera camera = new DepthOfFieldCamera(settings);
 
-      Scene scene = new NaiveScene(camera);
+      AbstractScene scene = new NaiveScene(camera);
 
       // floor orange plane
       Point planeOrigin = new Point(0, -250, 0);
       Normal planeNormal = new Normal(0, 1, 0);
 
       Material material = new Material();
-      material.Color = new Color(255, 240, 185);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
       material._specular = 1 - .5;
       material._reflectivity = .5;
 
       ImplicitPlane plane = new ImplicitPlane(planeOrigin, planeNormal, material);
-      scene.addDrawableObject(plane);
+      scene.addShape(plane);
 
       // spheres
 
       for (int i = 0; i < 9; i++) {
          material = new Material();
-         material.Color = new Color(0, 131, 255);
+         material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(0, 131, 255));
          material._specular = 1 - .5;
          material._reflectivity = .5;
 
@@ -530,238 +368,28 @@ public class SceneBuilder {
          int coord = -850 + (175 * i);
          sphere.Origin = new Point(coord, 0, coord);
          sphere.Radius = 100;
-         scene.addDrawableObject(sphere);
+         scene.addShape(sphere);
 
-         //scene.addRadiatableObject(new PointLight(new Point(-450 + (300 * i), 2000, -450 + (300 * i)), 25));
+         //scene.addLight(new PointLight(new Point(-450 + (300 * i), 2000, -450 + (300 * i)), 25));
       }
 
-      scene.addRadiatableObject(new PointLight(new Point(-650, 600, 925), 40));
+      SpectralPowerDistribution spd = new SpectralPowerDistribution(1.0f, 1.0f, 1.0f);
+
+      scene.addLight(new PointLight(spd, new Point(-650, 600, 925)));
 
       for (int i = 0; i < 1; i++) {
-         scene.addRadiatableObject(new PointLight(new Point(0, 3000, -175 + (i * 300)), 200));
+         scene.addLight(new PointLight(spd, new Point(0, 3000, -175 + (i * 300))));
       }
       return scene;
    }
 
-   public static Scene PlaneAndBox(int x, int y) {
-
-      CameraSettings settings = new CameraSettings();
-      settings.X = x;
-      settings.Y = y;
-      settings.FocalLength = 600;
-      settings.ZoomFactor = 3 / 4.0;
-      settings.FocusDistance = 100;
-
-      Point origin = new Point(200, 500, 400);
-      Vector direction = new Vector(.2, .2, -1);
-      settings.Orientation = new Ray(origin, direction);
-
-      settings.Aperture = new SquareAperture(20);
-
-      Camera camera = new DepthOfFieldCamera(settings);
-
-      Scene scene = new KDScene(camera);
-
-      scene.addRadiatableObject(new PointLight(new Point(400, 400, 600), 15.7));
-      scene.addRadiatableObject(new PointLight(new Point(300, 300, 600), 15.7));
-
-      Material material = new Material();
-
-
-      // horizontal orange plane
-      Point planeOrigin = new Point(0, 1000, 0);
-      Normal planeNormal = new Normal(0, 1, 0);
-
-      material = new Material();
-      material.Color = new Color(182, 73, 38);
-      material._specular = 1 - .8;
-      material._reflectivity = .2;
-
-      ImplicitPlane plane = new ImplicitPlane(planeOrigin, planeNormal, material);
-      scene.addDrawableObject(plane);
-
-      // horizontal orange plane
-      planeOrigin = new Point(0, 0, 0);
-      planeNormal = new Normal(0, 1, 0);
-
-
-      material = new Material();
-      material.Color = new Color(255, 131, 0);
-      material._specular = 1 - .8;
-      material._reflectivity = .2;
-
-      plane = new ImplicitPlane(planeOrigin, planeNormal, material);
-      scene.addDrawableObject(plane);
-
-      // white vertical z plane
-
-      planeOrigin = new Point(0, 0, -400);
-      planeNormal = new Normal(0, 0, 1);
-      
-      material = new Material();
-      material.Color = new Color(255, 240, 185);
-      material._specular = 1 - .5;
-      material._reflectivity = .5;
-
-      plane = new ImplicitPlane(planeOrigin, planeNormal, material);
-      scene.addDrawableObject(plane);
-
-      // white vertical z plane
-
-      planeOrigin = new Point(0, 0, 1000);
-      planeNormal = new Normal(0, 0, 1);
-
-      
-
-      material = new Material();
-      material.Color = new Color(255, 240, 185);
-      material._specular = 1 - .5;
-      material._reflectivity = .5;
-
-      plane = new ImplicitPlane(planeOrigin, planeNormal, material);
-      //scene.addDrawableObject(plane);
-
-      // white vertical x plane
-
-      planeOrigin = new Point(800, 0, 0);
-      planeNormal = new Normal(-1, 0, 0);
-
-      
-
-      material = new Material();
-      material.Color = new Color(255, 240, 185);
-      material._specular = 1 - .5;
-      material._reflectivity = .5;
-
-      plane = new ImplicitPlane(planeOrigin, planeNormal, material);
-      scene.addDrawableObject(plane);
-
-      // blue vertical x plane
-
-      planeOrigin = new Point(-200, 0, 0);
-      planeNormal = new Normal(1, 0, 0);
-
-      
-
-      material = new Material();
-      material.Color = new Color(0, 131, 255);
-      material._specular = 1 - .8;
-      material._reflectivity = .2;
-
-      plane = new ImplicitPlane(planeOrigin, planeNormal, material);
-      scene.addDrawableObject(plane);
-
-      // box
-
-      material = new Material();
-      material.Color = new Color(131, 131, 255);
-      material._specular = 1 - .8;
-      material._reflectivity = .2;
-
-      Box box = new Box(new Point(250, 550, 250), new Point(350, 650, 350), material);
-      scene.addDrawableObject(box);
-
-      return scene;
-   }
-
-   public static Scene SomeRegularSpheres(int x, int y) {
-
-      CameraSettings settings = new CameraSettings();
-      settings.X = x;
-      settings.Y = y;
-      settings.FocalLength = 200;
-      settings.Rotation = 0;
-      settings.ZoomFactor = 1 / 30.0;
-      settings.FocusDistance = 250;
-      settings.Aperture = new SquareAperture(5);
-
-      Point origin = new Point(5, 5, 60);
-      Vector direction = new Vector(0, 0, -1);
-      settings.Orientation = new Ray(origin, direction);
-
-      Camera camera = null;
-
-      if (Main.UseDepthOfField) {
-         camera = new DepthOfFieldCamera(settings);
-      }
-
-      else {
-         camera = new IsometricCamera(settings);
-         //camera = new SimplePointableCamera(settings);
-      }
-
-      Scene scene = new KDScene(camera);
-
-      scene.numFrames = 1;
-
-      // white vertical z plane
-
-      Point planeOrigin = new Point(0, 0, -10);
-      Normal planeNormal = new Normal(0, 0, 1);
-
-      Material material = new Material();
-      material.Color = new Color(255, 240, 185);
-      material._specular = 1 - .75;
-      material._reflectivity = .25;
-
-      ImplicitPlane plane = new ImplicitPlane(planeOrigin, planeNormal, material);
-      scene.addDrawableObject(plane);
-
-
-      java.util.List<Point> origins = new ArrayList<Point>();
-      origins.add(new Point(1, 1, 0));
-      origins.add(new Point(3, 5, 0));
-      origins.add(new Point(5, 3, 0));
-      origins.add(new Point(7, 7, 0));
-      origins.add(new Point(9, 9, 0));
-      origins.add(new Point(11, 11, 0));
-      origins.add(new Point(13, 13, 0));
-      origins.add(new Point(15, 15, 0));
-      origins.add(new Point(17, 17, 0));
-      origins.add(new Point(19, 19, 0));
-
-      for (int i = 0; i < origins.size(); i++) {
-         int red = (i % 3) * 64 + 48;
-         int green = 232;
-         int blue = (i % 3) * 64 + 48;
-
-         Color color = new Color(red, green, blue);
-
-         material = new Material();
-         material.Color = color;
-         material._reflectivity = .3;
-         material._transparency = 0;
-         material._specular = 1 - .7;
-
-         Sphere sphere = new Sphere(material);
-
-         sphere.Origin = origins.get(i);
-         sphere.Radius = 1;
-         scene.addDrawableObject(sphere);
-      }
-
-      SphereLight sphereLight = new SphereLight(25, material);
-
-      //PointLight pointLight = new PointLight(location, 50);
-
-      sphereLight.Origin = new Point(300, 300, 300);
-      sphereLight.Radius = 20;
-
-      scene.addRadiatableObject(sphereLight);
-      //scene.addDrawableObject(sphereLight);
-
-      //scene.addRadiatableObject(new PointLight(new Point(20, 20, 200), 1.7));
-
-      return scene;
-   }
-
-   public static Scene ManyRegularSpheres(int x, int y) {
+   public static AbstractScene ManyRegularSpheres(int x, int y) {
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
       settings.FocalLength = 150;
       settings.Rotation = 0;
-      settings.ZoomFactor = 1/16.;
+      settings.ZoomFactor = 1/2.;
       settings.FocusDistance = 75;
       settings.Aperture = new CircleAperture(10);
 
@@ -780,7 +408,7 @@ public class SceneBuilder {
          //camera = new SimplePointableCamera(settings);
       }
 
-      Scene scene = new KDScene(camera);
+      AbstractScene scene = new KDScene(camera);
       scene.numFrames = 1;
 
       // white vertical z plane
@@ -789,13 +417,12 @@ public class SceneBuilder {
       FullSpectralReflectanceCurve greenSRC = FullSpectralReflectanceCurveLibrary.Grass;
 
       Material material = new Material();
-      material.Color = new Color(255, 240, 185);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
       material._specular = 1 - .75;
       material._reflectivity = .25;
       material._intrinsic = 1 - (material._reflectivity + material._specular + material._transparency);
 
       material.BRDF = brdf;
-      material.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.LemonSkin;
 
       Point p0 = new Point(-100, 0, -150);
       Point p1 = new Point(500, 600, -149);
@@ -803,8 +430,8 @@ public class SceneBuilder {
       Box box = new Box(p0, p1, material);
 
       //ImplicitPlane plane = new ImplicitPlane(planeOrigin, planeNormal, material);
-      //scene.addDrawableObject(plane);
-      scene.addDrawableObject(box);
+      //scene.addShape(plane);
+      scene.addShape(box);
 
       /*
       for (int i = 0; i < 600; i += 3) {
@@ -825,7 +452,7 @@ public class SceneBuilder {
          Sphere sphere = new Sphere(material);
          sphere.Origin = new Point(originX, originY, originZ);
          sphere.Radius = originZ;
-         scene.addDrawableObject(sphere);
+         scene.addShape(sphere);
       }*/
 
       int total = 320;
@@ -860,17 +487,14 @@ public class SceneBuilder {
 
             float weight = (float)Math.random();
 
-            FullSpectralReflectanceCurve src = FullSpectralReflectanceCurve.Lerp(blueSRC, weight, greenSRC, 1 - weight);
-
             Color color = new Color(red, green, blue);
 
             material = new Material();
-            material.Color = color;
+            material.ReflectanceSpectrum = new ReflectanceSpectrum(color);
             material._reflectivity = .3;
             material._transparency = 0;
             material._specular = .1;
             material._intrinsic = 1 - (material._reflectivity + material._specular + material._transparency);
-            material.FullSpectralReflectanceCurve = src;
             material.BRDF = brdf;
 
             Sphere sphere = new Sphere(material);
@@ -885,39 +509,38 @@ public class SceneBuilder {
             sphere.Radius = radius;
 
             sphere.RecalculateWorldBoundingBox();
-            scene.addDrawableObject(sphere);
+            scene.addShape(sphere);
          }
       }
 
-      SpectralSphereLight light = new SpectralSphereLight(500000, material, RelativeFullSpectralPowerDistributionLibrary.D65.getSPD());
-      light.Origin = new Point(300, 300, 300);
-      light.Radius = 20;
-      scene.addDrawableObject(light);
-      scene.SpectralRadiatables.add(light);
+      // right light
 
-      FullSpectralBlender.setFilmSpeed(100000f);
+      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(10.0f, 8.0f, 8.0f);
 
-      SphereLight sphereLight = new SphereLight(5, material);
-      sphereLight.Origin = new Point(300, 300, 300);
-      sphereLight.Radius = 20;
-      scene.addRadiatableObject(sphereLight);
-      scene.addDrawableObject(sphereLight);
+      Sphere sphere = new Sphere();
+      sphere.Origin = new Point(300, 300, 300);
+      sphere.Radius = 20;
 
-      //scene.addRadiatableObject(new PointLight(new Point(300, 300, 800), 30));
+      AbstractLight light = new SphereLight(lightSPD, sphere);
 
-      //scene.addRadiatableObject(new PointLight(new Point(x / 20, y / 2, -100), 5.7));
-      //scene.addRadiatableObject(new PointLight(new Point(19 * x / 20, y / 2, -100), 5.7));
-      //scene.addRadiatableObject(new PointLight(new Point(x / 2, 3 * y / 4, -100), 5.7));
+      //scene.Shapes.add(light);
+      scene.addLight(light);
 
-      //scene.addRadiatableObject(new PointLight(new Point(x / 2, y / 2, 300), 5.9));
-      //scene.addRadiatableObject(new PointLight(new Point(x / 2, y / 2, 600), 10.0));
+      //scene.addLight(new PointLight(new Point(300, 300, 800), 30));
+
+      //scene.addLight(new PointLight(new Point(x / 20, y / 2, -100), 5.7));
+      //scene.addLight(new PointLight(new Point(19 * x / 20, y / 2, -100), 5.7));
+      //scene.addLight(new PointLight(new Point(x / 2, 3 * y / 4, -100), 5.7));
+
+      //scene.addLight(new PointLight(new Point(x / 2, y / 2, 300), 5.9));
+      //scene.addLight(new PointLight(new Point(x / 2, y / 2, 600), 10.0));
 
 
 
       return scene;
    }
 
-   public static Scene ManyRandomSpheres(int x, int y) {
+   public static AbstractScene ManyRandomSpheres(int x, int y) {
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
@@ -954,7 +577,7 @@ public class SceneBuilder {
          camera = new SimplePointableCamera(settings);
       }
 
-      Scene scene = new NaiveScene(camera);
+      AbstractScene scene = new NaiveScene(camera);
 
       scene.numFrames = 1;
 
@@ -964,12 +587,12 @@ public class SceneBuilder {
       Normal planeNormal = new Normal(0, 0, 1);
 
       Material material = new Material();
-      material.Color = new Color(255, 240, 185);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
       material._specular = 1 - .75;
       material._reflectivity = .25;
 
       ImplicitPlane plane = new ImplicitPlane(planeOrigin, planeNormal, material);
-      scene.addDrawableObject(plane);
+      scene.addShape(plane);
 
       for (int i = 0; i < 40; i++) {
 
@@ -980,7 +603,7 @@ public class SceneBuilder {
          material = new Material();
 
 
-         material.Color = new Color(0, 131, 255);
+         material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(0, 131, 255));
          material._reflectivity = .2;
          material._transparency = 0;
          material._specular = 1 - .8;
@@ -989,7 +612,7 @@ public class SceneBuilder {
          Sphere sphere = new Sphere(material);
          sphere.Origin = new Point(originX, originY, originZ);
          sphere.Radius = Math.random() * 50;
-         scene.addDrawableObject(sphere);
+         scene.addShape(sphere);
       }
 
       int maxSmallSpheresX = 15;
@@ -1036,7 +659,7 @@ public class SceneBuilder {
                   color = new Color(255, 176, 59);
                }*/
                material = new Material();
-            material.Color = color;
+            material.ReflectanceSpectrum = new ReflectanceSpectrum(color);
             material._reflectivity = .3;
             material._transparency = 0;
             material._specular = 1 - .7;
@@ -1049,37 +672,21 @@ public class SceneBuilder {
 
                sphere.Origin = new Point(originX, originY, originZ);
                sphere.Radius = Math.random() * 5 + 5;
-               scene.addDrawableObject(sphere);
+               scene.addShape(sphere);
             //}
          }
       }
 
-      SphereLight sphereLight = new SphereLight(50, material);
-
-      //PointLight pointLight = new PointLight(location, 50);
-
-
-      sphereLight.Origin = new Point(300, 300, 1000);
-      sphereLight.Radius = 75;
-
-      scene.addRadiatableObject(sphereLight);
-      //scene.addRadiatableObject(new PointLight(new Point(300, 300, 1000), 50));
-
-      scene.addRadiatableObject(new PointLight(new Point(300, 300, 10000), 2500));
-
-      //scene.addRadiatableObject(new PointLight(new Point(x / 20, y / 2, -100), 5.7));
-      //scene.addRadiatableObject(new PointLight(new Point(19 * x / 20, y / 2, -100), 5.7));
-      //scene.addRadiatableObject(new PointLight(new Point(x / 2, 3 * y / 4, -100), 5.7));
-
-      //scene.addRadiatableObject(new PointLight(new Point(x / 2, y / 2, 300), 5.9));
-      //scene.addRadiatableObject(new PointLight(new Point(x / 2, y / 2, 600), 10.0));
-
-      //scene.BuildKDTree();
+//      SphereLight sphereLight = new SphereLight(50, material);
+//      sphereLight.Origin = new Point(300, 300, 1000);
+//      sphereLight.Radius = 75;
+//      scene.addLight(sphereLight);
+//      scene.addLight(new PointLight(new Point(300, 300, 10000), 2500));
 
       return scene;
    }
 
-   public static Scene SpheresInAnXPattern(int x, int y) {
+   public static AbstractScene SpheresInAnXPattern(int x, int y) {
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
@@ -1103,7 +710,7 @@ public class SceneBuilder {
          camera = new IsometricCamera(settings);
       }
 
-      Scene scene = new KDScene(camera);
+      AbstractScene scene = new KDScene(camera);
 
       // white vertical z plane
 
@@ -1111,7 +718,7 @@ public class SceneBuilder {
       Normal planeNormal = new Normal(0, 0, 1);
 
       Material material = new Material();
-      material.Color = new Color(255, 240, 185);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
       material._specular = 1 - .75;
       material._reflectivity = .25;
 
@@ -1119,10 +726,10 @@ public class SceneBuilder {
       Point b1 = new Point(10000, 10000, 0);
 
       Box box = new Box(b0, b1, material);
-      scene.addDrawableObject(box);
+      scene.addShape(box);
 
       //Box box = new Box(planeOrigin, planeNormal, material);
-      //scene.addDrawableObject(plane);
+      //scene.addShape(plane);
 
       double offset = 1;
 
@@ -1137,7 +744,7 @@ public class SceneBuilder {
 
                material = new Material();
 
-               material.Color = new Color(0, 131, 255);
+               material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(0, 131, 255));
                material._reflectivity = .2;
                material._transparency = 0;
                material._specular = 1 - .8;
@@ -1146,124 +753,23 @@ public class SceneBuilder {
                Sphere sphere = new Sphere(material);
                sphere.Origin = new Point(originX, originY, originZ);
                sphere.Radius = 20;
-               scene.addDrawableObject(sphere);
+               scene.addShape(sphere);
                offset += increment;
             }
 
          //}
          offset += increment;
       }
-/*
-      int maxSmallSpheresX = 15;
-      int sphereXInterval = 40;
 
-      int maxSmallSpheresY = 15;
-      int sphereYInterval = 40;
+      SpectralPowerDistribution spd = new SpectralPowerDistribution(1.0f, 1.0f, 1.0f);
 
-      for (int i = 0; i < maxSmallSpheresX; i++) {
-         for (int j = 0; j < maxSmallSpheresY; j++) {
-
-
-            int constant = 128;
-
-            int red = (int)(Math.random() * (255 - constant) + constant);
-            int green = (int)(Math.random() * (255 - constant) + constant);
-            int blue = (int)(Math.random() * (255 - constant) + constant);
-
-            Color color = new Color(red, green, blue);
-            /*
-            Color color = null;
-            double chance = Math.random();
-
-            material = new Material();
-
-            if (chance < .2) {
-               color = new Color(0, 131, 255);
-            }
-            else if (chance < .4) {
-               //color = new Color(182, 73, 38);
-               color = new Color(255, 176, 59);
-            }
-
-            else if (chance < .6) {
-               color = new Color(70, 137, 102);
-            }
-            else if (chance < .8) {
-               color = new Color(255, 240, 185);
-            }
-            else {
-               color = new Color(255, 176, 59);
-            }*/
-            /*material = new Material();
-            material.setColor(color);
-            material.setReflectivity(.3);
-            material.setTransparency(0);
-            material.setDiffuse(.7);
-
-            Sphere sphere = new Sphere(material);
-
-            double originX = sphereXInterval * i + Math.random() * 5 - 10;
-            double originY = sphereYInterval * j + Math.random() * 5 - 10;
-            double originZ = Math.random() * 5 + 60;
-
-            sphere.Origin = new Point(originX, originY, originZ);
-            sphere.Radius = Math.random() * 5 + 5;
-            scene.addDrawableObject(sphere);
-         }
-      }*/
-
-      scene.addRadiatableObject(new PointLight(new Point(300, 300, 900), 15));
-      scene.addRadiatableObject(new PointLight(new Point(300, 900, 300), 15));
-      scene.addRadiatableObject(new PointLight(new Point(900, 300, 300), 15));
+      scene.addLight(new PointLight(spd, new Point(300, 300, 900)));
+      scene.addLight(new PointLight(spd, new Point(300, 900, 300)));
+      scene.addLight(new PointLight(spd, new Point(900, 300, 300)));
 
       return scene;
    }
 
-   public static Scene TwoSpheresWithLights(int x, int y) {
-      CameraSettings settings = new CameraSettings();
-      settings.X = x;
-      settings.Y = y;
-      settings.FocalLength = 1200;
-      settings.Rotation = 0;
-      settings.ZoomFactor =  1.5;
-      settings.FocusDistance = 500;
-      settings.Aperture = new CircleAperture(20);
-
-      Point origin = new Point(0, 0, 4000);
-      Vector direction = new Vector(0, 0, -1);
-      settings.Orientation = new Ray(origin, direction);
-
-      Camera camera = new SimplePointableCamera(settings);
-
-      Scene scene = new NaiveScene(camera);
-
-      Material material = new Material();
-      material.Color = blue;
-      material._specular = 1;
-      material._reflectivity = 0;
-
-      Sphere sphere = new Sphere(material);
-      sphere.Origin = new Point(x / 3, y / 2, 0.0);
-      sphere.Radius = y / 4;
-
-      scene.addDrawableObject(sphere);
-
-      material = new Material();
-      material.Color = red;
-      material._specular = 1;
-      material._reflectivity = 0;
-
-      sphere = new Sphere(material);
-      sphere.Origin = new Point(2 * x / 3, y / 2, 0.0);
-      sphere.Radius = y / 4;
-
-      scene.addDrawableObject(sphere);
-
-      scene.addRadiatableObject(new PointLight(new Point(x / 2, y / 2, 300), 1.0));
-      return scene;
-
-
-   }
 
 /*
    public static KDScene ReflectiveTriangleMeshWithLight(int x, int y) {
@@ -1273,7 +779,7 @@ public class SceneBuilder {
 
       WavefrontObjectImporter importer = new WavefrontObjectImporter(new File("models/teapot.obj"));
       Material material = new Material();
-      material.Color = new Color(182, 73, 38);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(182, 73, 38);
       material._specular = 1 - .5;
       material._reflectivity = .5;
       material._transparency = 0;
@@ -1283,7 +789,7 @@ public class SceneBuilder {
       mesh.SetRotation(new Tuple(160, 20, 20));
       mesh.SetOrigin(new Point(2 * x / 3, y / 2, 400));
 
-      scene.addDrawableObject(mesh);
+      scene.addShape(mesh);
 /*
       // sphere
 
@@ -1298,7 +804,7 @@ public class SceneBuilder {
       sphere.Origin = new Point(2 * x / 5, y / 3, 400.0);
       sphere.Radius = y / 6;
 
-      scene.addDrawableObject(sphere);
+      scene.addShape(sphere);
 
       // plane
 
@@ -1313,16 +819,16 @@ public class SceneBuilder {
       material.setReflectivity(.5);
 
       ImplicitPlane plane = new ImplicitPlane(planeOrigin, planeNormal, material);
-      scene.addDrawableObject(plane);
+      scene.addShape(plane);
 */
       // lights
 
-     // scene.addRadiatableObject(new PointLight(new Point(x / 3, y / 2, 900), 20.0));
-     // scene.addRadiatableObject(new PointLight(new Point(2 * x / 3, 2 * y / 3, 900), 20.0));
+     // scene.addLight(new PointLight(new Point(x / 3, y / 2, 900), 20.0));
+     // scene.addLight(new PointLight(new Point(2 * x / 3, 2 * y / 3, 900), 20.0));
    //   return scene;
  //  }
 //*/
-   public static Scene FourReflectiveSphereWithLights(int x, int y) {
+   public static AbstractScene FourReflectiveSphereWithLights(int x, int y) {
 
       CameraSettings settings = new CameraSettings();
       settings.X = x;
@@ -1355,7 +861,7 @@ public class SceneBuilder {
       }
       //Vector orientation = new Vector(new Point(x/2, y/2, 1600), new Point(0, 0, -1));
 
-      Scene scene = new KDScene(camera);
+      AbstractScene scene = new KDScene(camera);
 
       scene.numFrames = 1;
 
@@ -1376,12 +882,12 @@ public class SceneBuilder {
       sphere.Origin = new Point(-900, 1150, 600.0);
       sphere.Radius = 150;
 
-      scene.addDrawableObject(sphere);*/
+      scene.addShape(sphere);*/
 
 
 
       material = new Material();
-      material.Color = new Color(70, 137, 102);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(70, 137, 102));
       material._specular = 1 - .2;
       material._reflectivity = 0;
       material._transparency = .8;
@@ -1391,10 +897,10 @@ public class SceneBuilder {
       sphere.Origin = new Point(-200, 700, 500.0);
       sphere.Radius = 150;
 
-      //scene.addDrawableObject(sphere);
+      //scene.addShape(sphere);
 
       material = new Material();
-      material.Color = new Color(255, 240, 185);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
       material._specular = 1 - .5;
       material._reflectivity = .5;
       material._transparency = 0;
@@ -1404,11 +910,11 @@ public class SceneBuilder {
       sphere.Origin = new Point(500, 100, 600.0);
       sphere.Radius = 150;
 
-      //scene.addDrawableObject(sphere);
+      //scene.addShape(sphere);
 
       p0 = new Point(-100, -100, -100);
       p1 = new Point(100, 100, 100);
-      material.Color = new Color(30, 120, 120);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(30, 120, 120));
       material._reflectivity = .4;
       material._specular = .3;
       material._specular = 1 - .4;
@@ -1426,7 +932,7 @@ public class SceneBuilder {
       Transform worldToObject = transforms[1];
 
       box = new Box(p0, p1, material, objectToWorld, worldToObject);
-      scene.addDrawableObject(box);
+      scene.addShape(box);
 
 
 
@@ -1435,7 +941,7 @@ public class SceneBuilder {
          p1 = new Point(100, 100, 100);
 
          material = new Material();
-         material.Color = new Color(0, i * 10, 220);
+         material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(0, i * 10, 220));
          material._reflectivity = .4;
          material._specular = .3;
          material._specular = 1 - .4;
@@ -1456,13 +962,13 @@ public class SceneBuilder {
          worldToObject = transforms[1];
 
          box = new Box(p0, p1, material, objectToWorld, worldToObject);
-         scene.addDrawableObject(box);
+         scene.addShape(box);
       }
 
 
 
       material = new Material();
-      material.Color = new Color(255, 176, 59);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 176, 59));
       material._reflectivity = .01;
       material._specular = 1 - .99;
 
@@ -1470,10 +976,10 @@ public class SceneBuilder {
       sphere.Origin = new Point(-200, 100, 500);
       sphere.Radius = 150;
 
-      scene.addDrawableObject(sphere);
+      scene.addShape(sphere);
 
       material = new Material();
-      material.Color = new Color(182, 73, 38);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(182, 73, 38));
       material._reflectivity = .2;
       //material.setSpecular(.3);
       material._specular = 1 - .8;
@@ -1493,10 +999,10 @@ public class SceneBuilder {
       sphere = new Sphere(150, worldToObject, objectToWorld, material);
       sphere.Origin = new Point(0, 0, 0);
 
-      scene.addDrawableObject(sphere);
+      scene.addShape(sphere);
 
       material = new Material();
-      material.Color = new Color(128, 38, 163);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(128, 38, 163));
       material._reflectivity = .2;
       //material.setSpecular(.3);
       material._specular = 1 - .8;
@@ -1515,10 +1021,10 @@ public class SceneBuilder {
 
       Cylinder cylinder = new Cylinder(1, 1, worldToObject, objectToWorld, material);
 
-      scene.addDrawableObject(cylinder);
+      scene.addShape(cylinder);
 
       material = new Material();
-      material.Color = new Color(142, 40, 0);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(142, 40, 0));
       material._reflectivity = .95;
       material._specular = 1 - .05;
 
@@ -1526,7 +1032,7 @@ public class SceneBuilder {
       sphere.Origin = new Point(160, 300, 300.0);
       sphere.Radius = 25;
 
-      //scene.addDrawableObject(sphere);
+      //scene.addShape(sphere);
 
       // bottom horizontal orange plane
 
@@ -1535,13 +1041,13 @@ public class SceneBuilder {
       p1 = new Point(10000, 0, 10000);
 
       material = new Material();
-      material.Color = new Color(255, 240, 185);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
       material._specular = 1 - .95;
       material._reflectivity = .05;
 
       box = new Box(p0, p1, material);
 
-      scene.addDrawableObject(box);
+      scene.addShape(box);
 
       // top horizontal orange plane
 
@@ -1550,13 +1056,13 @@ public class SceneBuilder {
       p1 = new Point(10000, 1000, 10000);
 
       material = new Material();
-      material.Color = new Color(255, 131, 0);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 131, 0));
       material._specular = 1 - .5;
       material._reflectivity = .5;
 
       box = new Box(p0, p1, material);
 
-      //scene.addDrawableObject(box);
+      //scene.addShape(box);
 
       // forward white vertical z plane
 
@@ -1567,12 +1073,12 @@ public class SceneBuilder {
       Normal planeNormal = new Normal(0, 0, 1);
 
       material = new Material();
-      material.Color = new Color(255, 240, 185);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
       material._specular = 1 - .75;
       material._reflectivity = .25;
 
       box = new Box(p0, p1, material);
-      scene.addDrawableObject(box);
+      scene.addShape(box);
 
       // back white vertical z plane
 
@@ -1580,12 +1086,12 @@ public class SceneBuilder {
       p1 = new Point(10000, 10000, 5001);
 
       material = new Material();
-      material.Color = new Color(255, 240, 185);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
       material._specular = 1 - .75;
       material._reflectivity = .25;
 
       box = new Box(p0, p1, material);
-      //scene.addDrawableObject(box);
+      //scene.addShape(box);
 
       // left blue vertical x plane
 
@@ -1593,12 +1099,12 @@ public class SceneBuilder {
       p1 = new Point(-1001, 11000, 10000);
 
       material = new Material();
-      material.Color = new Color(0, 131, 255);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(0, 131, 255));
       material._specular = 1 - .75;
       material._reflectivity = .25;
 
       box = new Box(p0, p1, material);
-      //scene.addDrawableObject(box);
+      //scene.addShape(box);
 
       // right blue vertical x plane
 
@@ -1607,39 +1113,31 @@ public class SceneBuilder {
 
 
       material = new Material();
-      material.Color = new Color(0, 131, 255);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(0, 131, 255));
       material._specular = 1 - .75;
       material._reflectivity = .25;
 
       box = new Box(p0, p1, material);
-      //scene.addDrawableObject(box);
+      //scene.addShape(box);
 
-      SphereLight sphereLight = new SphereLight(100, material);
+      SpectralPowerDistribution spd = new SpectralPowerDistribution(1.0f, 1.0f, 1.0f);
 
-      PointLight pointLight = new PointLight(new Point(1000, 1000, 500), 100);
-      scene.addRadiatableObject(pointLight);
+      sphere = new Sphere();
+      sphere.Origin = new Point(1000, 1000, 500);
+      sphere.Radius = 50;
 
-      sphereLight.Origin = new Point(1000, 1000, 500);
-      sphereLight.Radius = 50;
+      SphereLight sphereLight = new SphereLight(spd, sphere);
 
-      //scene.addRadiatableObject(sphereLight);
+      PointLight pointLight = new PointLight(spd, new Point(1000, 1000, 500));
+      scene.addLight(pointLight);
 
-      sphereLight = new SphereLight(100, material);
 
-      pointLight = new PointLight(new Point(-1000, 2000, 500), 100);
-      scene.addRadiatableObject(pointLight);
-
-      sphereLight.Origin = new Point(-1000, 2000, 500);
-      sphereLight.Radius = 50;
-
-      //scene.addRadiatableObject(sphereLight);
-
-      //scene.addRadiatableObject(new PointLight(new Point(300, 500, 700), 15.0));
-      //scene.addRadiatableObject(new PointLight(new Point(400, 1000, 1300), 40.0));
-      //scene.addRadiatableObject(new PointLight(new Point(300, 300, 300), 5.0));
-      //scene.addRadiatableObject(new PointLight(new Point(300, 300, 1500), 10.0));
-      //scene.addRadiatableObject(new PointLight(new Point(685, 360, -350), 5.0));
-      //scene.addRadiatableObject(new PointLight(new Point(575, 180, -200), 5.0));
+      //scene.addLight(new PointLight(new Point(300, 500, 700), 15.0));
+      //scene.addLight(new PointLight(new Point(400, 1000, 1300), 40.0));
+      //scene.addLight(new PointLight(new Point(300, 300, 300), 5.0));
+      //scene.addLight(new PointLight(new Point(300, 300, 1500), 10.0));
+      //scene.addLight(new PointLight(new Point(685, 360, -350), 5.0));
+      //scene.addLight(new PointLight(new Point(575, 180, -200), 5.0));
       return scene;
    }
 
@@ -1668,7 +1166,7 @@ public class SceneBuilder {
    }
 
 
-   public static Scene FourReflectiveSphereWithLightsPointable(int x, int y) {
+   public static AbstractScene FourReflectiveSphereWithLightsPointable(int x, int y) {
 
       CameraSettings settings = new CameraSettings();
       settings.X = x;
@@ -1697,70 +1195,70 @@ public class SceneBuilder {
 
       }
 
-      Scene scene = new NaiveScene(camera);
+      AbstractScene scene = new NaiveScene(camera);
 
       scene.numFrames = 1;
 
       // lights
 
       Material material = new Material();
-      material.Color = new Color(64, 192, 255);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(64, 192, 255));
 
       Point location = new Point(250, 360, 600);
 
-      SphereLight sphereLight = new SphereLight(25, material);
-
-      PointLight pointLight = new PointLight(location, 50);
-
-      sphereLight.Origin = location;
-      sphereLight.Radius = 50;
-
-      scene.addRadiatableObject(sphereLight);
-      //scene.addDrawableObject(sphereLight);
-      //scene.addRadiatableObject(pointLight);
-
-      location = new Point(300, 300, 300);
-
-      pointLight = new PointLight(location, 15);
-
-
-      material = new Material();
-      material.Color = new Color(255, 255, 64);
-
-      sphereLight = new SphereLight(15, material);
-      sphereLight.Origin = location;
-      sphereLight.Radius = 50;
-
-      scene.addRadiatableObject(sphereLight);
-      //scene.addDrawableObject(sphereLight);
-      //scene.addRadiatableObject(pointLight);
+//      SphereLight sphereLight = new SphereLight(25, material);
+//
+//      PointLight pointLight = new PointLight(location, 50);
+//
+//      sphereLight.Origin = location;
+//      sphereLight.Radius = 50;
+//
+//      scene.addLight(sphereLight);
+//      //scene.addShape(sphereLight);
+//      //scene.addLight(pointLight);
+//
+//      location = new Point(300, 300, 300);
+//
+//      pointLight = new PointLight(location, 15);
+//
+//
+//      material = new Material();
+//      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 255, 64));
+//
+//      sphereLight = new SphereLight(15, material);
+//      sphereLight.Origin = location;
+//      sphereLight.Radius = 50;
+//
+//      scene.addLight(sphereLight);
+      //scene.addShape(sphereLight);
+      //scene.addLight(pointLight);
 /*
       sphereLight = new SphereLight(5);
       sphereLight.Origin = new Point(300, 300, 300);
       sphereLight.Radius = 50;
 
-      scene.addRadiatableObject(sphereLight);
+      scene.addLight(sphereLight);
 
       sphereLight = new SphereLight(10);
       sphereLight.Origin = new Point(300, 300, 1500);
       sphereLight.Radius = 50;
 
-      scene.addRadiatableObject(sphereLight);
+      scene.addLight(sphereLight);
 
       sphereLight = new SphereLight(5);
       sphereLight.Origin = new Point(575, 180, -200);
       sphereLight.Radius = 50;
 
-      scene.addRadiatableObject(sphereLight);
+      scene.addLight(sphereLight);
       */
 
 /*
-      scene.addRadiatableObject(new PointLight(new Point(160, 360, 600), 5.0));
-      scene.addRadiatableObject(new PointLight(new Point(480, 360, 600), 5.0));
-      scene.addRadiatableObject(new PointLight(new Point(300, 300, 300), 5.0));
-      scene.addRadiatableObject(new PointLight(new Point(300, 300, 1500), 10.0));
-      //scene.addRadiatableObject(new PointLight(new Point(685, 360, -350), 5.0));
-      scene.addRadiatableObject(new PointLight(new Point(575, 180, -200), 5.0));
+      scene.addLight(new PointLight(new Point(160, 360, 600), 5.0));
+      scene.addLight(new PointLight(new Point(480, 360, 600), 5.0));
+      scene.addLight(new PointLight(new Point(300, 300, 300), 5.0));
+      scene.addLight(new PointLight(new Point(300, 300, 1500), 10.0));
+      //scene.addLight(new PointLight(new Point(685, 360, -350), 5.0));
+      scene.addLight(new PointLight(new Point(575, 180, -200), 5.0));
 */
 
 
@@ -1770,12 +1268,12 @@ public class SceneBuilder {
       Normal planeNormal = new Normal(0, 1, 0);
 
       material = new Material();
-      material.Color = new Color(255, 131, 0);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 131, 0));
       material._specular = 1 - .5;
       material._reflectivity = .5;
 
       ImplicitPlane plane = new ImplicitPlane(planeOrigin, planeNormal, material);
-      scene.addDrawableObject(plane);
+      scene.addShape(plane);
 
       // white vertical z plane
 
@@ -1785,12 +1283,12 @@ public class SceneBuilder {
       
 
       material = new Material();
-      material.Color = new Color(255, 240, 185);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
       material._specular = 0;
       material._reflectivity = 0;
 
       plane = new ImplicitPlane(planeOrigin, planeNormal, material);
-      scene.addDrawableObject(plane);
+      scene.addShape(plane);
 
       // white vertical x plane
 
@@ -1800,12 +1298,12 @@ public class SceneBuilder {
       
 
       material = new Material();
-      material.Color = new Color(255, 240, 185);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
       material._specular = 1 - .9;
       material._reflectivity = .1;
 
       plane = new ImplicitPlane(planeOrigin, planeNormal, material);
-      scene.addDrawableObject(plane);
+      scene.addShape(plane);
 
       // blue vertical x plane
 
@@ -1815,18 +1313,18 @@ public class SceneBuilder {
       
 
       material = new Material();
-      material.Color = new Color(0, 131, 255);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(0, 131, 255));
       material._specular = 0;
       material._reflectivity = 0;
 
       plane = new ImplicitPlane(planeOrigin, planeNormal, material);
-      scene.addDrawableObject(plane);
+      scene.addShape(plane);
 
 
       // green sphere
 
       material = new Material();
-      material.Color = new Color(70, 137, 102);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(70, 137, 102));
       material._specular = 1 - .5;
       material._reflectivity = .5;
       material._transparency = 0;
@@ -1836,12 +1334,12 @@ public class SceneBuilder {
       sphere.Origin = new Point(-200, 350, -100.0);
       sphere.Radius = 150;
 
-      scene.addDrawableObject(sphere);
+      scene.addShape(sphere);
 
       // green sphere
 
       material = new Material();
-      material.Color = new Color(70, 137, 102);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(70, 137, 102));
       material._specular = 1 - .5;
       material._reflectivity = .5;
       material._transparency = 0;
@@ -1851,12 +1349,12 @@ public class SceneBuilder {
       sphere.Origin = new Point(500, 350, 500.0);
       sphere.Radius = 150;
 
-      scene.addDrawableObject(sphere);
+      scene.addShape(sphere);
 
       // white sphere
 
       material = new Material();
-      material.Color = new Color(255, 240, 185);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
       material._specular = 1 - .1;
       material._reflectivity = .9;
       material._transparency = 0;
@@ -1866,12 +1364,12 @@ public class SceneBuilder {
       sphere.Origin = new Point(500, 100, 600.0);
       sphere.Radius = 150;
 
-      scene.addDrawableObject(sphere);
+      scene.addShape(sphere);
 
       // big dark orange sphere
 
       material = new Material();
-      material.Color = new Color(182, 73, 38);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(182, 73, 38));
       material._reflectivity = .5;
       material._specular = 1 - .5;
 
@@ -1879,14 +1377,14 @@ public class SceneBuilder {
       sphere.Origin = new Point(800, 350, 1000.0);
       sphere.Radius = 150;
 
-      scene.addDrawableObject(sphere);
+      scene.addShape(sphere);
 
       //
 
       // orange sphere
 
       material = new Material();
-      material.Color = new Color(255, 176, 59);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 176, 59));
       material._reflectivity = .5;
       material._specular = 1 - .5;
 
@@ -1894,12 +1392,12 @@ public class SceneBuilder {
       sphere.Origin = new Point(-200, 100, 1000);
       sphere.Radius = 150;
 
-      scene.addDrawableObject(sphere);
+      scene.addShape(sphere);
 
       // tiny red sphere
 
       material = new Material();
-      material.Color = new Color(142, 40, 0);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(142, 40, 0));
       material._reflectivity = .5;
       material._specular = 1 - .5;
 
@@ -1907,12 +1405,12 @@ public class SceneBuilder {
       sphere.Origin = new Point(160, 300, 300.0);
       sphere.Radius = 25;
 
-      scene.addDrawableObject(sphere);
+      scene.addShape(sphere);
 
       // tiny blue sphere
 
       material = new Material();
-      material.Color = new Color(62, 96, 111);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(62, 96, 111));
       material._reflectivity = .6;
       material._specular = 1 - .4;
 
@@ -1920,7 +1418,7 @@ public class SceneBuilder {
       sphere.Origin = new Point(250, 300, 300.0);
       sphere.Radius = 25;
 
-      scene.addDrawableObject(sphere);
+      scene.addShape(sphere);
 
 
 
@@ -1961,43 +1459,43 @@ public class SceneBuilder {
       KDScene scene = new KDScene(camera);
 
       // lights
+//
+//      SphereLight sphereLight = new SphereLight(5);
+//      sphereLight.Origin = new Point(160, 360, 600);
+//      sphereLight.Radius = 50;
+//
+//      scene.addLight(sphereLight);
+//
+//      sphereLight = new SphereLight(5);
+//      sphereLight.Origin = new Point(480, 360, 600);
+//      sphereLight.Radius = 50;
+//
+//      scene.addLight(sphereLight);
+//
+//      sphereLight = new SphereLight(5);
+//      sphereLight.Origin = new Point(300, 300, 300);
+//      sphereLight.Radius = 50;
+//
+//      scene.addLight(sphereLight);
+//
+//      sphereLight = new SphereLight(10);
+//      sphereLight.Origin = new Point(300, 300, 1500);
+//      sphereLight.Radius = 50;
+//
+//      scene.addLight(sphereLight);
+//
+//      sphereLight = new SphereLight(5);
+//      sphereLight.Origin = new Point(575, 180, -200);
+//      sphereLight.Radius = 50;
+//
+//      scene.addLight(sphereLight);
 
-      SphereLight sphereLight = new SphereLight(5);
-      sphereLight.Origin = new Point(160, 360, 600);
-      sphereLight.Radius = 50;
-
-      scene.addRadiatableObject(sphereLight);
-
-      sphereLight = new SphereLight(5);
-      sphereLight.Origin = new Point(480, 360, 600);
-      sphereLight.Radius = 50;
-
-      scene.addRadiatableObject(sphereLight);
-
-      sphereLight = new SphereLight(5);
-      sphereLight.Origin = new Point(300, 300, 300);
-      sphereLight.Radius = 50;
-
-      scene.addRadiatableObject(sphereLight);
-
-      sphereLight = new SphereLight(10);
-      sphereLight.Origin = new Point(300, 300, 1500);
-      sphereLight.Radius = 50;
-
-      scene.addRadiatableObject(sphereLight);
-
-      sphereLight = new SphereLight(5);
-      sphereLight.Origin = new Point(575, 180, -200);
-      sphereLight.Radius = 50;
-
-      scene.addRadiatableObject(sphereLight);
-
-      //scene.addRadiatableObject(new PointLight(new Point(160, 360, 600), 5.0));
-      //scene.addRadiatableObject(new PointLight(new Point(480, 360, 600), 5.0));
-      //scene.addRadiatableObject(new PointLight(new Point(300, 300, 300), 5.0));
-      //scene.addRadiatableObject(new PointLight(new Point(300, 300, 1500), 10.0));
-      //scene.addRadiatableObject(new PointLight(new Point(685, 360, -350), 5.0));
-      //scene.addRadiatableObject(new PointLight(new Point(575, 180, -200), 5.0));
+      //scene.addLight(new PointLight(new Point(160, 360, 600), 5.0));
+      //scene.addLight(new PointLight(new Point(480, 360, 600), 5.0));
+      //scene.addLight(new PointLight(new Point(300, 300, 300), 5.0));
+      //scene.addLight(new PointLight(new Point(300, 300, 1500), 10.0));
+      //scene.addLight(new PointLight(new Point(685, 360, -350), 5.0));
+      //scene.addLight(new PointLight(new Point(575, 180, -200), 5.0));
 
       Material material = new Material();
 
@@ -2007,12 +1505,12 @@ public class SceneBuilder {
       Normal planeNormal = new Normal(0, 1, 0);
 
       material = new Material();
-      material.Color = new Color(255, 131, 0);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 131, 0));
       material._specular = 1;
       material._reflectivity = .1;
 
       ImplicitPlane plane = new ImplicitPlane(planeOrigin, planeNormal, material);
-      scene.addDrawableObject(plane);
+      scene.addShape(plane);
 
       // white vertical z plane
 
@@ -2022,12 +1520,12 @@ public class SceneBuilder {
       
 
       material = new Material();
-      material.Color = new Color(255, 240, 185);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
       material._specular = 1;
       material._reflectivity = .25;
 
       plane = new ImplicitPlane(planeOrigin, planeNormal, material);
-      scene.addDrawableObject(plane);
+      scene.addShape(plane);
 
       // white vertical x plane
 
@@ -2037,12 +1535,12 @@ public class SceneBuilder {
       
 
       material = new Material();
-      material.Color = new Color(255, 240, 185);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
       material._specular = 1;
       material._reflectivity = .25;
 
       plane = new ImplicitPlane(planeOrigin, planeNormal, material);
-      scene.addDrawableObject(plane);
+      scene.addShape(plane);
 
       // blue vertical x plane
 
@@ -2052,17 +1550,17 @@ public class SceneBuilder {
       
 
       material = new Material();
-      material.Color = new Color(0, 131, 255);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(0, 131, 255));
       material._specular = 0;
 
       plane = new ImplicitPlane(planeOrigin, planeNormal, material);
-      scene.addDrawableObject(plane);
+      scene.addShape(plane);
 
 
       // left green sphere
 
       material = new Material();
-      material.Color = new Color(70, 137, 102);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(70, 137, 102));
       material._specular = 1 - .5;
       material._reflectivity = .5;
       material._transparency = 0;
@@ -2072,12 +1570,12 @@ public class SceneBuilder {
       sphere.Origin = new Point(100, 350, -100.0);
       sphere.Radius = 150;
 
-      scene.addDrawableObject(sphere);
+      scene.addShape(sphere);
 
       // right green sphere
 
       material = new Material();
-      material.Color = new Color(70, 137, 102);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(70, 137, 102));
       material._specular = 1 - .5;
       material._reflectivity = .5;
       material._transparency = 0;
@@ -2087,7 +1585,7 @@ public class SceneBuilder {
       sphere.Origin = new Point(500, 350, -100.0);
       sphere.Radius = 150;
 
-      scene.addDrawableObject(sphere);
+      scene.addShape(sphere);
 
       return scene;
    }
@@ -2122,15 +1620,15 @@ public class SceneBuilder {
       KDScene scene = new KDScene(camera);
 
       // lights
-
-      SphereLight sphereLight = new SphereLight(400);
-      sphereLight.Origin = new Point(0, 2000, 0);
-      sphereLight.Radius = 1000;
-
-      PointLight pointLight = new PointLight(new Point(0, 2000, 0), 1000);
-
-      scene.addRadiatableObject(sphereLight);
-      //scene.addRadiatableObject(pointLight);
+//
+//      SphereLight sphereLight = new SphereLight(400);
+//      sphereLight.Origin = new Point(0, 2000, 0);
+//      sphereLight.Radius = 1000;
+//
+//      PointLight pointLight = new PointLight(new Point(0, 2000, 0), 1000);
+//
+//      scene.addLight(sphereLight);
+//      //scene.addLight(pointLight);
 
       Material material = new Material();
 
@@ -2140,11 +1638,11 @@ public class SceneBuilder {
       Normal planeNormal = new Normal(0, 1, 0);
 
       material = new Material();
-      material.Color = new Color(255, 240, 185);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
       material._specular = 0;
 
       ImplicitPlane plane = new ImplicitPlane(planeOrigin, planeNormal, material);
-      scene.addDrawableObject(plane);
+      scene.addShape(plane);
 
       // blue vertical z plane
 /*
@@ -2158,13 +1656,13 @@ public class SceneBuilder {
       material.setDiffuse(1);
 
       plane = new ImplicitPlane(planeOrigin, planeNormal, material);
-      scene.addDrawableObject(plane);
+      scene.addShape(plane);
 */
 
       // left green sphere
 
       material = new Material();
-      material.Color = new Color(70, 137, 102);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(70, 137, 102));
       material._specular = 1 - .5;
       material._reflectivity = .5;
       material._transparency = 0;
@@ -2174,12 +1672,12 @@ public class SceneBuilder {
       sphere.Origin = new Point(-500, 300, 0.0);
       sphere.Radius = 150;
 
-      scene.addDrawableObject(sphere);
+      scene.addShape(sphere);
 
       // right green sphere
 
       material = new Material();
-      material.Color = new Color(70, 137, 102);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(70, 137, 102));
       material._specular = 1 - .5;
       material._reflectivity = .5;
       material._transparency = 0;
@@ -2189,12 +1687,12 @@ public class SceneBuilder {
       sphere.Origin = new Point(500, 500, 0.0);
       sphere.Radius = 150;
 
-      scene.addDrawableObject(sphere);
+      scene.addShape(sphere);
 
       // middle
 
       material = new Material();
-      material.Color = new Color(70, 137, 102);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(70, 137, 102));
       material._specular = 1 - .5;
       material._reflectivity = .5;
       material._transparency = 0;
@@ -2204,12 +1702,12 @@ public class SceneBuilder {
       sphere.Origin = new Point(0, 150, 0.0);
       sphere.Radius = 150;
 
-      scene.addDrawableObject(sphere);
+      scene.addShape(sphere);
 
       return scene;
    }
 
-   public static Scene TwoTransparentReflectiveSpheresWithLights(int x, int y) {
+   public static AbstractScene TwoTransparentReflectiveSpheresWithLights(int x, int y) {
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
@@ -2225,10 +1723,10 @@ public class SceneBuilder {
 
       Camera camera = new SimplePointableCamera(settings);
 
-      Scene scene = new NaiveScene(camera);
+      AbstractScene scene = new NaiveScene(camera);
 
       Material material = new Material();
-      material.Color = blue;
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.blue);
       material._reflectivity = .33;
       //material.setTransparency(.33);
       //material.setIndexOfRefraction(1.333);
@@ -2237,20 +1735,20 @@ public class SceneBuilder {
       sphere.Origin = new Point(2 * x / 5, y / 3, 500.0);
       sphere.Radius = y / 5;
 
-      scene.addDrawableObject(sphere);
+      scene.addShape(sphere);
 
       Point planeOrigin = new Point(0, 0, -400);
       Normal planeNormal = new Normal(0, 0, 1);
 
       material = new Material();
-      material.Color = new Color(255, 131, 0);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 131, 0));
       //material.setDiffuse(.5);
       //material.setReflectivity(0);
 
       ImplicitPlane plane = new ImplicitPlane(planeOrigin, planeNormal, material);
-      scene.addDrawableObject(plane);
+      scene.addShape(plane);
 
-      scene.addRadiatableObject(new PointLight(new Point(x / 2, y / 2, 500), 25.0));
+      //scene.addLight(new PointLight(new Point(x / 2, y / 2, 500), 25.0));
 
       return scene;
    }
