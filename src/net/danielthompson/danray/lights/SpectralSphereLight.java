@@ -1,7 +1,7 @@
 package net.danielthompson.danray.lights;
 
 import net.danielthompson.danray.shading.Material;
-import net.danielthompson.danray.shading.SpectralPowerDistribution;
+import net.danielthompson.danray.shading.fullspectrum.FullSpectralPowerDistribution;
 
 /**
  * Created by daniel on 5/5/15.
@@ -9,7 +9,7 @@ import net.danielthompson.danray.shading.SpectralPowerDistribution;
 
 public class SpectralSphereLight extends SphereLight implements SpectralRadiatable {
 
-   public SpectralPowerDistribution SPD;
+   public FullSpectralPowerDistribution SPD;
 
    public SpectralSphereLight(double power) {
       super(power);
@@ -20,7 +20,7 @@ public class SpectralSphereLight extends SphereLight implements SpectralRadiatab
       Power = power;
    }
 
-   public SpectralSphereLight(double power, Material material, SpectralPowerDistribution spd) {
+   public SpectralSphereLight(double power, Material material, FullSpectralPowerDistribution spd) {
       super(power, material);
       this.SPD = spd;
 
@@ -31,7 +31,7 @@ public class SpectralSphereLight extends SphereLight implements SpectralRadiatab
    }
 
    @Override
-   public SpectralPowerDistribution getSpectralPowerDistribution() {
+   public FullSpectralPowerDistribution getSpectralPowerDistribution() {
       return SPD;
    }
 

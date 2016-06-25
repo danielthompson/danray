@@ -13,7 +13,7 @@ import java.awt.Color;
 public class Material {
    public Color Color;
 
-   public SpectralReflectanceCurve SpectralReflectanceCurve;
+   public net.danielthompson.danray.shading.fullspectrum.FullSpectralReflectanceCurve FullSpectralReflectanceCurve;
 
    public BRDF BRDF;
 

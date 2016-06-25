@@ -46,9 +46,9 @@ public abstract class AbstractRunner implements Runnable {
       int reachedSamples = 0;
       int heatCount = 0;
 
-      do {
-         AbstractSampler sampler = new RandomSampler();
+      AbstractSampler sampler = new RandomSampler();;
 
+      do {
          float[][] pixels = sampler.GetSamples(x, y, _samplesPerPixel);
 
          for (int j = 0; j < _samplesPerPixel; j++) {

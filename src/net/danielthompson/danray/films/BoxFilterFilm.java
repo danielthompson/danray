@@ -1,6 +1,6 @@
 package net.danielthompson.danray.films;
 
-import net.danielthompson.danray.shading.RGBSpectrum;
+import net.danielthompson.danray.shading.Spectrum;
 import net.danielthompson.danray.structures.Constants;
 import net.danielthompson.danray.structures.Sample;
 import net.danielthompson.danray.utility.GeometryCalculations;
@@ -24,7 +24,7 @@ public class BoxFilterFilm extends AbstractFilm {
       int xFloor = (int)x;
       int yFloor = (int)y;
 
-      RGBSpectrum spectrum = new RGBSpectrum();
+      Spectrum spectrum = new Spectrum();
 
       for (Sample sample : samples) {
          spectrum.R += (sample.Color.getRed() * Constants.OneOver255f);

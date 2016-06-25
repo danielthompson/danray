@@ -1,6 +1,6 @@
 package net.danielthompson.danray.exports.internal;
 
-import net.danielthompson.danray.shading.SpectralPowerDistribution;
+import net.danielthompson.danray.shading.fullspectrum.FullSpectralPowerDistribution;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -9,7 +9,7 @@ import org.w3c.dom.Element;
  */
 public class SPDExporter {
 
-   public static Element Process(SpectralPowerDistribution object, Document document, Element parent) {
+   public static Element Process(FullSpectralPowerDistribution object, Document document, Element parent) {
 
       Element rootElement = document.createElement("SpectralPowerDistribution");
 

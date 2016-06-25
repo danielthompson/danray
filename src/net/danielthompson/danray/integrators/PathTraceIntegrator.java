@@ -11,12 +11,7 @@ import net.danielthompson.danray.utility.GeometryCalculations;
 
 import java.awt.*;
 
-/**
- * User: daniel
- * Date: 7/2/13
- * Time: 15:26
- */
-public class PathTracer extends AbstractIntegrator {
+public class PathTraceIntegrator extends AbstractIntegrator {
 
    private final int _airIndexOfRefraction = 1;
 
@@ -24,7 +19,7 @@ public class PathTracer extends AbstractIntegrator {
    private final double iterations = 1.0;
    private final double adjustment = factor / iterations;
 
-   public PathTracer(Scene scene, int maxDepth) {
+   public PathTraceIntegrator(Scene scene, int maxDepth) {
       super(scene, maxDepth);
    }
 

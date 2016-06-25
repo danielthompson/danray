@@ -1,8 +1,8 @@
 package test.exports;
 
 import net.danielthompson.danray.exports.SPDFileExporter;
-import net.danielthompson.danray.shading.RelativeSpectralPowerDistributionLibrary;
-import net.danielthompson.danray.shading.SpectralPowerDistribution;
+import net.danielthompson.danray.shading.fullspectrum.RelativeFullSpectralPowerDistributionLibrary;
+import net.danielthompson.danray.shading.fullspectrum.FullSpectralPowerDistribution;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -29,7 +29,7 @@ public class SPDFileExportTests {
    @Test
    public void testExport() throws Exception {
 
-      SpectralPowerDistribution spd = RelativeSpectralPowerDistributionLibrary.D65.getSPD();
+      FullSpectralPowerDistribution spd = RelativeFullSpectralPowerDistributionLibrary.D65.getSPD();
       File file = new File("spds/test.xml");
 
       SPDFileExporter exporter = new SPDFileExporter(spd, file);

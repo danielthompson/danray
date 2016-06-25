@@ -3,8 +3,8 @@ package net.danielthompson.danray.integrators;
 import net.danielthompson.danray.lights.SpectralRadiatable;
 import net.danielthompson.danray.lights.SpectralSphereLight;
 import net.danielthompson.danray.shading.Material;
-import net.danielthompson.danray.shading.SpectralPowerDistribution;
-import net.danielthompson.danray.shading.SpectralReflectanceCurve;
+import net.danielthompson.danray.shading.fullspectrum.FullSpectralPowerDistribution;
+import net.danielthompson.danray.shading.fullspectrum.FullSpectralReflectanceCurve;
 import net.danielthompson.danray.shading.bxdf.BRDF;
 import net.danielthompson.danray.shapes.Shape;
 import net.danielthompson.danray.states.IntersectionState;
@@ -30,15 +30,15 @@ public class SpectralBDPathTracer extends AbstractIntegrator {
       numFixedEyeVertices = t;
    }
 
-   public SpectralPowerDistribution GetSPDForRay(Ray ray, int depth) {
-      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution();
+   public FullSpectralPowerDistribution GetSPDForRay(Ray ray, int depth) {
+      FullSpectralPowerDistribution lightSPD = new FullSpectralPowerDistribution();
       IntersectionState closestStateToRay = scene.GetClosestDrawableToRay(ray);
 
       // degenerate cases
 
       if (closestStateToRay == null) {
          // if we hit nothing, return nothing
-         return new SpectralPowerDistribution();
+         return new FullSpectralPowerDistribution();
       }
 
       if (closestStateToRay.Shape instanceof SpectralRadiatable) {
@@ -89,15 +89,15 @@ public class SpectralBDPathTracer extends AbstractIntegrator {
 
       Material objectMaterial = closestStateToRay.Shape.GetMaterial();
 
-      SpectralReflectanceCurve curve = objectMaterial.SpectralReflectanceCurve;
-      SpectralPowerDistribution reflectedSPD = lightSPD.reflectOff(curve);
+      FullSpectralReflectanceCurve curve = objectMaterial.FullSpectralReflectanceCurve;
+      FullSpectralPowerDistribution reflectedSPD = lightSPD.reflectOff(curve);
       return reflectedSPD;
 
    }
 
-   private SpectralPowerDistribution combinePassages(ArrayList<LightPassage> passages) {
+   private FullSpectralPowerDistribution combinePassages(ArrayList<LightPassage> passages) {
 
-      SpectralPowerDistribution spd = new SpectralPowerDistribution();
+      FullSpectralPowerDistribution spd = new FullSpectralPowerDistribution();
 
       for (LightPassage passage : passages) {
          passage.p = 1;
@@ -193,14 +193,14 @@ public class SpectralBDPathTracer extends AbstractIntegrator {
       return null;
    }
 
-   public SpectralPowerDistribution combineV2(ArrayList<LightVertex> lightVertices, ArrayList<LightVertex> eyeVertices) {
-      SpectralPowerDistribution vertexSPD = new SpectralPowerDistribution();
+   public FullSpectralPowerDistribution combineV2(ArrayList<LightVertex> lightVertices, ArrayList<LightVertex> eyeVertices) {
+      FullSpectralPowerDistribution vertexSPD = new FullSpectralPowerDistribution();
 
       for (int i = eyeVertices.size() - 1; i >= 1; i--) {
 
          LightVertex eyeVertex = eyeVertices.get(i);
 
-         SpectralPowerDistribution outgoing = new SpectralPowerDistribution();
+         FullSpectralPowerDistribution outgoing = new FullSpectralPowerDistribution();
 
          // get direct contribution
 
@@ -250,7 +250,7 @@ public class SpectralBDPathTracer extends AbstractIntegrator {
                   if (potentialOccluder == null) {
                      double cosOutgoing = eyeVertex.surfaceNormal.Dot(eyeVertex.incomingDirection);
                      double factor = cosOutgoing * brdfPDF * lightDensityTowardsPoint;
-                     SpectralPowerDistribution directSPD = SpectralPowerDistribution.scale(light.getSpectralPowerDistribution(), factor);
+                     FullSpectralPowerDistribution directSPD = FullSpectralPowerDistribution.scale(light.getSpectralPowerDistribution(), factor);
                      //directSPD.reflectOff(eyeVertex.curve);
                      vertexSPD.add(directSPD.reflectOff(eyeVertex.curve));
                   }
@@ -259,11 +259,11 @@ public class SpectralBDPathTracer extends AbstractIntegrator {
          }
 
          LightVertex previousEyeVertex = null;
-         SpectralPowerDistribution previousVertexOutgoingSPD = null;
+         FullSpectralPowerDistribution previousVertexOutgoingSPD = null;
 
          if (i < eyeVertices.size() - 1 && i >= 1) {
             previousEyeVertex = eyeVertices.get(i + 1);
-            previousVertexOutgoingSPD = SpectralPowerDistribution.scale(vertexSPD, 1);
+            previousVertexOutgoingSPD = FullSpectralPowerDistribution.scale(vertexSPD, 1);
             if (previousEyeVertex == null) {
                int foo = 0;
             }
@@ -340,9 +340,9 @@ public class SpectralBDPathTracer extends AbstractIntegrator {
    }
 
 
-   public SpectralPowerDistribution combineV1(Ray initialRay, IntersectionState closestStateToRay, ArrayList<LightVertex> lightPaths) {
+   public FullSpectralPowerDistribution combineV1(Ray initialRay, IntersectionState closestStateToRay, ArrayList<LightVertex> lightPaths) {
 
-      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution();
+      FullSpectralPowerDistribution lightSPD = new FullSpectralPowerDistribution();
 
       for (LightVertex path : lightPaths) {
 
@@ -376,7 +376,7 @@ public class SpectralBDPathTracer extends AbstractIntegrator {
             IntersectionState potentialOccluder = scene.GetClosestDrawableToRay(lightRay);
 
             if (potentialOccluder == null || potentialOccluder.Shape.equals(closestStateToRay.Shape)) {
-               SpectralPowerDistribution scaledSPD = SpectralPowerDistribution.scale(path.incomingSPD, 1);
+               FullSpectralPowerDistribution scaledSPD = FullSpectralPowerDistribution.scale(path.incomingSPD, 1);
                scaledSPD.scale(incomingRadiantIntensityFactorForLambert);
                lightSPD.add(scaledSPD);
                //System.out.println("Added SPD with power " + scaledSPD.Power);
@@ -387,12 +387,12 @@ public class SpectralBDPathTracer extends AbstractIntegrator {
       return lightSPD;
    }
 
-   public SpectralPowerDistribution getDirectLightingContribution(LightVertex vertex) {
+   public FullSpectralPowerDistribution getDirectLightingContribution(LightVertex vertex) {
 
       IntersectionState closestStateToRay = vertex.state;
       Point surfacePoint = vertex.surfacePoint;
 
-      SpectralPowerDistribution directSPD = new SpectralPowerDistribution();
+      FullSpectralPowerDistribution directSPD = new FullSpectralPowerDistribution();
       for (SpectralRadiatable radiatable : scene.SpectralRadiatables) {
 
          Point radiatableLocation = radiatable.getRandomPointOnSideOf(surfacePoint);
@@ -439,8 +439,8 @@ public class SpectralBDPathTracer extends AbstractIntegrator {
                      // figure out how much light is shining by sampling the light
 
                      double pdfPercentage = brdfPDF * (4 * Math.PI) / lightPDF;
-                     SpectralPowerDistribution currentIncomingSPD = radiatable.getSpectralPowerDistribution();
-                     currentIncomingSPD = SpectralPowerDistribution.scale(currentIncomingSPD, pdfPercentage);
+                     FullSpectralPowerDistribution currentIncomingSPD = radiatable.getSpectralPowerDistribution();
+                     currentIncomingSPD = FullSpectralPowerDistribution.scale(currentIncomingSPD, pdfPercentage);
                      directSPD.add(currentIncomingSPD);
                   }
                }
@@ -535,13 +535,13 @@ public class SpectralBDPathTracer extends AbstractIntegrator {
       /**
        * The incoming SPD.
        */
-      public SpectralPowerDistribution incomingSPD;
+      public FullSpectralPowerDistribution incomingSPD;
 
       /**
        * PDF of the source of the incoming light (BRDF or light).
        */
       public double incomingPDF;
-      public SpectralReflectanceCurve curve;
+      public FullSpectralReflectanceCurve curve;
       public Point surfacePoint;
       public BRDF surfaceBRDF;
       public IntersectionState state;
@@ -561,7 +561,7 @@ public class SpectralBDPathTracer extends AbstractIntegrator {
       /**
        * The SPD that would go towards the outgoingDirection.
        */
-      public SpectralPowerDistribution outgoingSPD;
+      public FullSpectralPowerDistribution outgoingSPD;
    }
 
    private class LightPassage  {
@@ -626,16 +626,16 @@ public class SpectralBDPathTracer extends AbstractIntegrator {
       double pdf = firstLight.getPDF(closestStateToRay.IntersectionPoint, incomingDirection);
       double pdfPercentage = (4 * Math.PI) / pdf;
 
-      SpectralPowerDistribution incomingSPD = firstLight.getSpectralPowerDistribution();
+      FullSpectralPowerDistribution incomingSPD = firstLight.getSpectralPowerDistribution();
       //incomingSPD = SpectralPowerDistribution.scale(incomingSPD, pdfPercentage);
 
-      SpectralReflectanceCurve curve = objectMaterial.SpectralReflectanceCurve;
-      SpectralPowerDistribution reflectedSPD = incomingSPD.reflectOff(curve);
+      FullSpectralReflectanceCurve curve = objectMaterial.FullSpectralReflectanceCurve;
+      FullSpectralPowerDistribution reflectedSPD = incomingSPD.reflectOff(curve);
       Vector outgoingDirection = objectMaterial.BRDF.getVectorInPDF(intersectionNormal, incomingDirection);
 
       double cosTheta = intersectionNormal.Dot(outgoingDirection);
       double incomingRadiantIntensityFactorForLambert = MonteCarloCalculations.CosineHemispherePDF(cosTheta, 0);
-      reflectedSPD = SpectralPowerDistribution.scale(reflectedSPD, incomingRadiantIntensityFactorForLambert);
+      reflectedSPD = FullSpectralPowerDistribution.scale(reflectedSPD, incomingRadiantIntensityFactorForLambert);
 
       l.calculatedPDF = pdfPercentage;
       l.incomingDirection = ray.Direction;
@@ -684,10 +684,10 @@ public class SpectralBDPathTracer extends AbstractIntegrator {
             int i = 0;
          }
 
-         SpectralPowerDistribution incomingSPD = SpectralPowerDistribution.scale(previousVertex.outgoingSPD, 1);
+         FullSpectralPowerDistribution incomingSPD = FullSpectralPowerDistribution.scale(previousVertex.outgoingSPD, 1);
 
-         SpectralReflectanceCurve curve = objectMaterial.SpectralReflectanceCurve;
-         SpectralPowerDistribution outgoingSPD = incomingSPD.reflectOff(curve);
+         FullSpectralReflectanceCurve curve = objectMaterial.FullSpectralReflectanceCurve;
+         FullSpectralPowerDistribution outgoingSPD = incomingSPD.reflectOff(curve);
 
          double cosTheta = intersectionNormal.Dot(outgoingDirection);
          double incomingRadiantIntensityFactorForLambert = MonteCarloCalculations.CosineHemispherePDF(cosTheta, 0);
@@ -796,7 +796,7 @@ public class SpectralBDPathTracer extends AbstractIntegrator {
 
          l.incomingDirection = outgoingDirection;
          l.surfaceBRDF = objectMaterial.BRDF;
-         l.curve = objectMaterial.SpectralReflectanceCurve;
+         l.curve = objectMaterial.FullSpectralReflectanceCurve;
          l.surfaceNormal = intersectionNormal;
          l.surfacePoint = closestStateToRay.IntersectionPoint;
          l.state = closestStateToRay;

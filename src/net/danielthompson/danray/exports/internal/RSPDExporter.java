@@ -1,6 +1,6 @@
 package net.danielthompson.danray.exports.internal;
 
-import net.danielthompson.danray.shading.RelativeSpectralPowerDistribution;
+import net.danielthompson.danray.shading.fullspectrum.RelativeFullSpectralPowerDistribution;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -9,7 +9,7 @@ import org.w3c.dom.Element;
  */
 public class RSPDExporter {
 
-   public static Element Process(RelativeSpectralPowerDistribution object, Document document, Element parent) {
+   public static Element Process(RelativeFullSpectralPowerDistribution object, Document document, Element parent) {
 
       Element rootElement = document.createElement("RelativeSpectralPowerDistribution");
 

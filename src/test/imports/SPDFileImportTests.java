@@ -1,7 +1,7 @@
 package test.imports;
 
 import net.danielthompson.danray.imports.SPDFileImporter;
-import net.danielthompson.danray.shading.SpectralPowerDistribution;
+import net.danielthompson.danray.shading.fullspectrum.FullSpectralPowerDistribution;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -28,7 +28,7 @@ public class SPDFileImportTests {
    public void testImport1() throws Exception {
       SPDFileImporter importer = new SPDFileImporter(new File("spds/d65.spd"));
 
-      SpectralPowerDistribution spd = importer.Process();
+      FullSpectralPowerDistribution spd = importer.Process();
 
       System.err.println(spd.Power);
 

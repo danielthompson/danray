@@ -12,6 +12,7 @@ import net.danielthompson.danray.shading.*;
 import net.danielthompson.danray.shading.bxdf.BRDF;
 import net.danielthompson.danray.shading.bxdf.GaussianBRDF;
 import net.danielthompson.danray.shading.bxdf.LambertianBRDF;
+import net.danielthompson.danray.shading.fullspectrum.*;
 import net.danielthompson.danray.shapes.Box;
 import net.danielthompson.danray.shapes.Cylinder;
 import net.danielthompson.danray.shapes.ImplicitPlane;
@@ -186,7 +187,7 @@ public class XMLExportTests {
    @Test
    public void testSpectrumExport() throws Exception {
 
-      final Spectrum object = SpectralReflectanceCurveLibrary.Blue;
+      final FullSpectrum object = FullSpectralReflectanceCurveLibrary.Blue;
 
       File file = new File(_dir, "spectrum.xml");
 
@@ -207,7 +208,7 @@ public class XMLExportTests {
    @Test
    public void testSPDExport() throws Exception {
 
-      final SpectralPowerDistribution object = RelativeSpectralPowerDistributionLibrary.D65.getSPD();
+      final FullSpectralPowerDistribution object = RelativeFullSpectralPowerDistributionLibrary.D65.getSPD();
 
       File file = new File(_dir, "spd.xml");
 
@@ -229,7 +230,7 @@ public class XMLExportTests {
    @Test
        public void testRSPDExport() throws Exception {
 
-      final RelativeSpectralPowerDistribution object = RelativeSpectralPowerDistributionLibrary.D65;
+      final RelativeFullSpectralPowerDistribution object = RelativeFullSpectralPowerDistributionLibrary.D65;
 
       File file = new File(_dir, "rspd.xml");
 
@@ -250,7 +251,7 @@ public class XMLExportTests {
    @Test
     public void testSRCExport() throws Exception {
 
-      final SpectralReflectanceCurve object = SpectralReflectanceCurveLibrary.Blue;
+      final FullSpectralReflectanceCurve object = FullSpectralReflectanceCurveLibrary.Blue;
 
       File file = new File(_dir, "src.xml");
 
@@ -337,7 +338,7 @@ public class XMLExportTests {
       final Material object = new Material();
       object.BRDF = new LambertianBRDF();
       object.Color = Color.green;
-      object.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.LemonSkin;
+      object.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.LemonSkin;
 
 
       File file = new File(_dir, "material1.xml");
@@ -419,7 +420,7 @@ public class XMLExportTests {
       final Material material = new Material();
       material.BRDF = new LambertianBRDF();
       material.Color = Color.green;
-      material.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.LemonSkin;
+      material.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.LemonSkin;
 
       final Cylinder object = new Cylinder(5.0, 10.1, t1, t2, material);
 
@@ -448,7 +449,7 @@ public class XMLExportTests {
       final Material material = new Material();
       material.BRDF = new LambertianBRDF();
       material.Color = Color.green;
-      material.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.LemonSkin;
+      material.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.LemonSkin;
 
       final Cylinder object = new Cylinder(5.0, 10.1, t1, t2, material);
 
@@ -477,7 +478,7 @@ public class XMLExportTests {
       final Material material = new Material();
       material.BRDF = new LambertianBRDF();
       material.Color = Color.green;
-      material.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.LemonSkin;
+      material.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.LemonSkin;
 
       final Box object = new Box(new Point(-1, -1.5, 0), new Point(5, 5.5, 10.4), material, t1, t2);
 
@@ -503,7 +504,7 @@ public class XMLExportTests {
       final Material material = new Material();
       material.BRDF = new LambertianBRDF();
       material.Color = Color.green;
-      material.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.LemonSkin;
+      material.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.LemonSkin;
 
       final ImplicitPlane object = new ImplicitPlane(new Point(-1, 2, -3.5), new Normal(5, .1, -7), material);
 
@@ -529,7 +530,7 @@ public class XMLExportTests {
       final Material material = new Material();
       material.BRDF = new LambertianBRDF();
       material.Color = Color.green;
-      material.SpectralReflectanceCurve = SpectralReflectanceCurveLibrary.LemonSkin;
+      material.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.LemonSkin;
 
       final Sphere object = new Sphere(material);
 

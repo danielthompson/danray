@@ -1,6 +1,6 @@
 package net.danielthompson.danray.lights;
 
-import net.danielthompson.danray.shading.SpectralPowerDistribution;
+import net.danielthompson.danray.shading.fullspectrum.FullSpectralPowerDistribution;
 import net.danielthompson.danray.structures.Point;
 
 /**
@@ -10,15 +10,15 @@ import net.danielthompson.danray.structures.Point;
  * Time: 9:30
  */
 public class SpectralPointLight extends PointLight implements SpectralRadiatable {
-   private SpectralPowerDistribution _spd;
+   private FullSpectralPowerDistribution _spd;
 
-   public SpectralPointLight(Point location, double lumens, SpectralPowerDistribution spd) {
+   public SpectralPointLight(Point location, double lumens, FullSpectralPowerDistribution spd) {
       super(location, lumens);
       _spd = spd;
    }
 
    @Override
-   public SpectralPowerDistribution getSpectralPowerDistribution() {
+   public FullSpectralPowerDistribution getSpectralPowerDistribution() {
       return _spd;
    }
 

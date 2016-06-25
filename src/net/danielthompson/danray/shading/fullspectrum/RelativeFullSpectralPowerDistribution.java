@@ -1,30 +1,30 @@
-package net.danielthompson.danray.shading;
+package net.danielthompson.danray.shading.fullspectrum;
 
 /**
  * Created by daniel on 5/5/15.
  */
-public class RelativeSpectralPowerDistribution extends Spectrum {
+public class RelativeFullSpectralPowerDistribution extends FullSpectrum {
 
-   public RelativeSpectralPowerDistribution() {
+   public RelativeFullSpectralPowerDistribution() {
       super();
    }
 
-   public RelativeSpectralPowerDistribution(SpectralPowerDistribution spd) {
+   public RelativeFullSpectralPowerDistribution(FullSpectralPowerDistribution spd) {
       this();
       for (int i = 0; i < Buckets.length; i++) {
          Buckets[i] = spd.Buckets[i] / (float)spd.Power;
       }
    }
 
-   public RelativeSpectralPowerDistribution(RelativeSpectralPowerDistribution other) {
+   public RelativeFullSpectralPowerDistribution(RelativeFullSpectralPowerDistribution other) {
       this();
       for (int i = 0; i < Buckets.length; i++) {
          Buckets[i] = other.Buckets[i];
       }
    }
 
-   public SpectralPowerDistribution getSPD() {
-      SpectralPowerDistribution spd = new SpectralPowerDistribution();
+   public FullSpectralPowerDistribution getSPD() {
+      FullSpectralPowerDistribution spd = new FullSpectralPowerDistribution();
 
       for (int i = 0; i < Buckets.length; i++) {
          spd.Buckets[i] = Buckets[i];
@@ -33,7 +33,7 @@ public class RelativeSpectralPowerDistribution extends Spectrum {
       return spd;
    }
 
-   public void Merge(RelativeSpectralPowerDistribution other) {
+   public void Merge(RelativeFullSpectralPowerDistribution other) {
       for (int i = 0; i < Buckets.length; i++) {
          Buckets[i] = (other.Buckets[i] + Buckets[i]) * .5f;
       }

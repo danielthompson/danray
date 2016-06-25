@@ -1,6 +1,6 @@
 package net.danielthompson.danray.integrators;
 
-import net.danielthompson.danray.shading.SpectralPowerDistribution;
+import net.danielthompson.danray.shading.fullspectrum.FullSpectralPowerDistribution;
 import net.danielthompson.danray.structures.Sample;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Scene;
@@ -17,7 +17,7 @@ public abstract class AbstractIntegrator {
       this.maxDepth = maxDepth;
    }
 
-   public SpectralPowerDistribution GetSPDForRay(Ray ray, int depth) {
+   public FullSpectralPowerDistribution GetSPDForRay(Ray ray, int depth) {
       return null;
    }
 

@@ -3,13 +3,15 @@ package test.shading;
 import net.danielthompson.danray.exports.internal.IExporter;
 import net.danielthompson.danray.exports.internal.SPDExporter;
 import net.danielthompson.danray.exports.internal.UnitTestExporter;
-import net.danielthompson.danray.shading.*;
+import net.danielthompson.danray.shading.fullspectrum.FullSpectralBlender;
+import net.danielthompson.danray.shading.fullspectrum.FullSpectralPowerDistribution;
+import net.danielthompson.danray.shading.fullspectrum.FullSpectrum;
+import net.danielthompson.danray.shading.fullspectrum.RelativeFullSpectralPowerDistributionLibrary;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import test.exports.XMLExportTests;
 
 import java.awt.*;
 import java.io.File;
@@ -31,9 +33,9 @@ public class SpectrumConverterTests {
    @Test
    public void testConvertRed() throws Exception {
 
-      SpectralPowerDistribution spd = Spectrum.ConvertFromRGB(1.0f, 0.0f, 0.0f);
+      FullSpectralPowerDistribution spd = FullSpectrum.ConvertFromRGB(1.0f, 0.0f, 0.0f);
 
-      Color output = SpectralBlender.ConvertSPDtoRGB(spd);
+      Color output = FullSpectralBlender.ConvertSPDtoRGB(spd);
 
       System.out.println(output);
       System.out.println("");
@@ -42,9 +44,9 @@ public class SpectrumConverterTests {
    @Test
    public void testConvertGreen() throws Exception {
 
-      SpectralPowerDistribution spd = Spectrum.ConvertFromRGB(0.0f, 1.0f, 0.0f);
+      FullSpectralPowerDistribution spd = FullSpectrum.ConvertFromRGB(0.0f, 1.0f, 0.0f);
 
-      Color output = SpectralBlender.ConvertSPDtoRGB(spd);
+      Color output = FullSpectralBlender.ConvertSPDtoRGB(spd);
 
       System.out.println(output);
       System.out.println("");
@@ -53,48 +55,48 @@ public class SpectrumConverterTests {
    @Test
    public void testConvertBlue() throws Exception {
 
-      SpectralPowerDistribution spd = Spectrum.ConvertFromRGB(0.0f, 0.0f, 1.0f);
+      FullSpectralPowerDistribution spd = FullSpectrum.ConvertFromRGB(0.0f, 0.0f, 1.0f);
 
-      Color output = SpectralBlender.ConvertSPDtoRGB(spd);
+      Color output = FullSpectralBlender.ConvertSPDtoRGB(spd);
 
       System.out.println(output);
       System.out.println("");
    }
 
-   public SpectralPowerDistribution ResetRed() {
-      SpectralPowerDistribution currentRed = new SpectralPowerDistribution();
-      currentRed.add(RelativeSpectralPowerDistributionLibrary.Constant.getSPD());
+   public FullSpectralPowerDistribution ResetRed() {
+      FullSpectralPowerDistribution currentRed = new FullSpectralPowerDistribution();
+      currentRed.add(RelativeFullSpectralPowerDistributionLibrary.Constant.getSPD());
       currentRed.scale(.1);
-      currentRed.add(RelativeSpectralPowerDistributionLibrary.Red.getSPD());
+      currentRed.add(RelativeFullSpectralPowerDistributionLibrary.Red.getSPD());
       return currentRed;
    }
 
-   public SpectralPowerDistribution ResetGreen() {
-      SpectralPowerDistribution currentRed = new SpectralPowerDistribution();
-      currentRed.add(RelativeSpectralPowerDistributionLibrary.Constant.getSPD());
+   public FullSpectralPowerDistribution ResetGreen() {
+      FullSpectralPowerDistribution currentRed = new FullSpectralPowerDistribution();
+      currentRed.add(RelativeFullSpectralPowerDistributionLibrary.Constant.getSPD());
       currentRed.scale(.1);
-      currentRed.add(RelativeSpectralPowerDistributionLibrary.Green.getSPD());
+      currentRed.add(RelativeFullSpectralPowerDistributionLibrary.Green.getSPD());
       return currentRed;
    }
 
-   public SpectralPowerDistribution ResetBlue() {
-      SpectralPowerDistribution currentRed = new SpectralPowerDistribution();
-      currentRed.add(RelativeSpectralPowerDistributionLibrary.Constant.getSPD());
+   public FullSpectralPowerDistribution ResetBlue() {
+      FullSpectralPowerDistribution currentRed = new FullSpectralPowerDistribution();
+      currentRed.add(RelativeFullSpectralPowerDistributionLibrary.Constant.getSPD());
       currentRed.scale(.1);
-      currentRed.add(RelativeSpectralPowerDistributionLibrary.Blue.getSPD());
+      currentRed.add(RelativeFullSpectralPowerDistributionLibrary.Blue.getSPD());
       return currentRed;
    }
 
    @Test
    public void testConvertRandom() throws Exception {
 
-      SpectralPowerDistribution currentRed = ResetRed();
-      SpectralPowerDistribution currentGreen = ResetGreen();
-      SpectralPowerDistribution currentBlue = ResetBlue();
+      FullSpectralPowerDistribution currentRed = ResetRed();
+      FullSpectralPowerDistribution currentGreen = ResetGreen();
+      FullSpectralPowerDistribution currentBlue = ResetBlue();
 
-      SpectralPowerDistribution newRed = RelativeSpectralPowerDistributionLibrary.Red.getSPD();
-      SpectralPowerDistribution newGreen = RelativeSpectralPowerDistributionLibrary.Green.getSPD();
-      SpectralPowerDistribution newBlue = RelativeSpectralPowerDistributionLibrary.Blue.getSPD();
+      FullSpectralPowerDistribution newRed = RelativeFullSpectralPowerDistributionLibrary.Red.getSPD();
+      FullSpectralPowerDistribution newGreen = RelativeFullSpectralPowerDistributionLibrary.Green.getSPD();
+      FullSpectralPowerDistribution newBlue = RelativeFullSpectralPowerDistributionLibrary.Blue.getSPD();
 
       float match = 0.0f;
 
@@ -133,13 +135,13 @@ public class SpectrumConverterTests {
             final float g = inputs[j].getGreen() / 255.f;
             final float b = inputs[j].getBlue() / 255.f;
 
-            SpectralPowerDistribution currentSpd = Spectrum.ConvertFromRGB(r, currentRed, g, currentGreen, b, currentBlue);
-            currentOutputs[j] = SpectralBlender.ConvertSPDtoRGB(currentSpd);
+            FullSpectralPowerDistribution currentSpd = FullSpectrum.ConvertFromRGB(r, currentRed, g, currentGreen, b, currentBlue);
+            currentOutputs[j] = FullSpectralBlender.ConvertSPDtoRGB(currentSpd);
             currentPercentMatches[j] = PercentMatch(currentOutputs[j], inputs[j]);
 
-            newRed = SpectralPowerDistribution.scale(currentRed, 1);
-            newGreen = SpectralPowerDistribution.scale(currentGreen, 1);
-            newBlue = SpectralPowerDistribution.scale(currentBlue, 1);
+            newRed = FullSpectralPowerDistribution.scale(currentRed, 1);
+            newGreen = FullSpectralPowerDistribution.scale(currentGreen, 1);
+            newBlue = FullSpectralPowerDistribution.scale(currentBlue, 1);
 
             for (int n = 0; n < newRed.Buckets.length; n++) {
                newRed.Buckets[n] *= redChange[n];
@@ -150,8 +152,8 @@ public class SpectrumConverterTests {
             for (int n = 0; n < newBlue.Buckets.length; n++) {
                newBlue.Buckets[n] *= blueChange[n];
             }
-            SpectralPowerDistribution newSpd = Spectrum.ConvertFromRGB(r, newRed, g, newGreen, b, newBlue);
-            newOutputs[j] = SpectralBlender.ConvertSPDtoRGB(newSpd);
+            FullSpectralPowerDistribution newSpd = FullSpectrum.ConvertFromRGB(r, newRed, g, newGreen, b, newBlue);
+            newOutputs[j] = FullSpectralBlender.ConvertSPDtoRGB(newSpd);
             newPercentMatches[j] = PercentMatch(newOutputs[j], inputs[j]);
          }
 
@@ -195,8 +197,8 @@ public class SpectrumConverterTests {
          final float g = inputs[i].getGreen();
          final float b = inputs[i].getBlue();
 
-         SpectralPowerDistribution currentSpd = Spectrum.ConvertFromRGB(r, currentRed, g, currentGreen, b, currentBlue);
-         Color currentOutput = SpectralBlender.ConvertSPDtoRGB(currentSpd);
+         FullSpectralPowerDistribution currentSpd = FullSpectrum.ConvertFromRGB(r, currentRed, g, currentGreen, b, currentBlue);
+         Color currentOutput = FullSpectralBlender.ConvertSPDtoRGB(currentSpd);
 
          currentPercentMatch = PercentMatch(currentOutput, inputs[i]);
          System.out.println("Tested SPD match for " + i + " = [" + currentPercentMatch + "]");
@@ -214,7 +216,7 @@ public class SpectrumConverterTests {
       //red
       File file = new File(_dir, "spd-red.xml");
 
-      final SpectralPowerDistribution finalRed = SpectralPowerDistribution.scale(currentRed, 1.0);
+      final FullSpectralPowerDistribution finalRed = FullSpectralPowerDistribution.scale(currentRed, 1.0);
 
       UnitTestExporter unitTestExporter = new UnitTestExporter(file);
 
@@ -233,7 +235,7 @@ public class SpectrumConverterTests {
 
       file = new File(_dir, "spd-green.xml");
 
-      final SpectralPowerDistribution finalGreen = SpectralPowerDistribution.scale(currentGreen, 1.0);
+      final FullSpectralPowerDistribution finalGreen = FullSpectralPowerDistribution.scale(currentGreen, 1.0);
 
       unitTestExporter = new UnitTestExporter(file);
 
@@ -252,7 +254,7 @@ public class SpectrumConverterTests {
 
       file = new File(_dir, "spd-blue.xml");
 
-      final SpectralPowerDistribution finalBlue = SpectralPowerDistribution.scale(currentBlue, 1.0);
+      final FullSpectralPowerDistribution finalBlue = FullSpectralPowerDistribution.scale(currentBlue, 1.0);
 
       unitTestExporter = new UnitTestExporter(file);
 

@@ -1,4 +1,4 @@
-package net.danielthompson.danray.shading;
+package net.danielthompson.danray.shading.fullspectrum;
 
 import net.danielthompson.danray.structures.Matrix4x4;
 import net.danielthompson.danray.structures.Transform;
@@ -9,7 +9,7 @@ import java.awt.color.ColorSpace;
 /**
  * Created by daniel on 5/7/15.
  */
-public class SpectralBlender {
+public class FullSpectralBlender {
 
    public static float FilmSpeed = 100;
 
@@ -29,12 +29,12 @@ public class SpectralBlender {
    private static float minZ = cs.getMinValue(2);
    private static float maxZ = cs.getMaxValue(2);
 
-   public static Color ConvertSPDtoRGB(SpectralPowerDistribution spd) {
+   public static Color ConvertSPDtoRGB(FullSpectralPowerDistribution spd) {
       float[] xyz = ConvertSPDToXYZ(spd);
       return ConvertXYZtoRGB(xyz[0], xyz[1], xyz[2], null);
    }
 
-   public static float[] ConvertSPDToXYZ(SpectralPowerDistribution spd) {
+   public static float[] ConvertSPDToXYZ(FullSpectralPowerDistribution spd) {
       float triX = spd.apply(StandardObserverColorMatchingFunction.XBar) * StandardObserverColorMatchingFunction.OneOverYBarSum;
       float triY = spd.apply(StandardObserverColorMatchingFunction.YBar) * StandardObserverColorMatchingFunction.OneOverYBarSum;
       float triZ = spd.apply(StandardObserverColorMatchingFunction.ZBar) * StandardObserverColorMatchingFunction.OneOverYBarSum;
@@ -42,8 +42,8 @@ public class SpectralBlender {
       return new float[] {triX, triY, triZ};
    }
 
-   public static SpectralPowerDistribution BlendWeighted(SpectralPowerDistribution dist1, double weight1, SpectralPowerDistribution dist2, double weight2) {
-      SpectralPowerDistribution blend = new SpectralPowerDistribution();
+   public static FullSpectralPowerDistribution BlendWeighted(FullSpectralPowerDistribution dist1, double weight1, FullSpectralPowerDistribution dist2, double weight2) {
+      FullSpectralPowerDistribution blend = new FullSpectralPowerDistribution();
 
       for (int i = 0; i < dist1.Buckets.length; i++) {
          blend.Buckets[i] = (float)(dist1.Buckets[i] * weight1 + dist2.Buckets[i] * weight2);
@@ -108,7 +108,7 @@ public class SpectralBlender {
       return true;
    }
 
-   public static boolean CloseEnough(SpectralPowerDistribution spd1, SpectralPowerDistribution spd2, float percent) {
+   public static boolean CloseEnough(FullSpectralPowerDistribution spd1, FullSpectralPowerDistribution spd2, float percent) {
 
       float margin = (1.0f - percent);
 

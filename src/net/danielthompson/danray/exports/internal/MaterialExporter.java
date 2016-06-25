@@ -15,8 +15,8 @@ public class MaterialExporter {
       if (object.Color != null) {
          rootElement.appendChild(ColorExporter.Process(object.Color, document, rootElement));
       }
-      if (object.SpectralReflectanceCurve != null) {
-         rootElement.appendChild(SRCExporter.Process(object.SpectralReflectanceCurve, document, rootElement));
+      if (object.FullSpectralReflectanceCurve != null) {
+         rootElement.appendChild(SRCExporter.Process(object.FullSpectralReflectanceCurve, document, rootElement));
       }
       if (object.BRDF != null) {
          rootElement.appendChild(BRDFExporter.Process(object.BRDF, document, rootElement));

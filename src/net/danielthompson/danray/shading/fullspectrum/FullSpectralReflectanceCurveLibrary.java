@@ -1,13 +1,13 @@
-package net.danielthompson.danray.shading;
+package net.danielthompson.danray.shading.fullspectrum;
 
 /**
  * Created by daniel on 5/8/15.
  */
-public class SpectralReflectanceCurveLibrary {
-   public static SpectralReflectanceCurve LemonSkin = GetLemonSkin();
+public class FullSpectralReflectanceCurveLibrary {
+   public static FullSpectralReflectanceCurve LemonSkin = GetLemonSkin();
 
-   private static SpectralReflectanceCurve GetLemonSkin() {
-      SpectralReflectanceCurve curve = new SpectralReflectanceCurve();
+   private static FullSpectralReflectanceCurve GetLemonSkin() {
+      FullSpectralReflectanceCurve curve = new FullSpectralReflectanceCurve();
       curve.Buckets[0] = 0.1f;
       curve.Buckets[1] = 0.1f;
       curve.Buckets[2] = 0.08f;
@@ -50,10 +50,10 @@ public class SpectralReflectanceCurveLibrary {
       return curve;
    }
 
-   public static SpectralReflectanceCurve Blue = GetBlue();
+   public static FullSpectralReflectanceCurve Blue = GetBlue();
 
-   private static SpectralReflectanceCurve GetBlue() {
-      SpectralReflectanceCurve curve = new SpectralReflectanceCurve();
+   private static FullSpectralReflectanceCurve GetBlue() {
+      FullSpectralReflectanceCurve curve = new FullSpectralReflectanceCurve();
 
       curve.Buckets[6] = 1f;
       curve.Buckets[7] = 1f;
@@ -62,10 +62,10 @@ public class SpectralReflectanceCurveLibrary {
       return curve;
    }
    
-   public static SpectralReflectanceCurve Red = GetRed();
+   public static FullSpectralReflectanceCurve Red = GetRed();
 
-   private static SpectralReflectanceCurve GetRed() {
-      SpectralReflectanceCurve curve = new SpectralReflectanceCurve();
+   private static FullSpectralReflectanceCurve GetRed() {
+      FullSpectralReflectanceCurve curve = new FullSpectralReflectanceCurve();
 
       curve.Buckets[28] = 1f;
       curve.Buckets[29] = 1f;
@@ -77,10 +77,10 @@ public class SpectralReflectanceCurveLibrary {
       
    }
 
-   public static SpectralReflectanceCurve Yellow = GetYellow();
+   public static FullSpectralReflectanceCurve Yellow = GetYellow();
 
-   private static SpectralReflectanceCurve GetYellow() {
-      SpectralReflectanceCurve curve = new SpectralReflectanceCurve();
+   private static FullSpectralReflectanceCurve GetYellow() {
+      FullSpectralReflectanceCurve curve = new FullSpectralReflectanceCurve();
 
       curve.Buckets[18] = 1f;
       curve.Buckets[19] = 1f;
@@ -91,11 +91,11 @@ public class SpectralReflectanceCurveLibrary {
    }
 
 
-   public static SpectralReflectanceCurve Constant = GetConstant();
+   public static FullSpectralReflectanceCurve Constant = GetConstant();
 
-   private static SpectralReflectanceCurve GetConstant() {
+   private static FullSpectralReflectanceCurve GetConstant() {
 
-      SpectralReflectanceCurve curve = new SpectralReflectanceCurve();
+      FullSpectralReflectanceCurve curve = new FullSpectralReflectanceCurve();
 
       curve.Buckets[0] = 1f;
       curve.Buckets[1] = 1f;
@@ -140,10 +140,10 @@ public class SpectralReflectanceCurveLibrary {
       return curve;
    }
 
-   public static SpectralReflectanceCurve Grass = GetGrass();
+   public static FullSpectralReflectanceCurve Grass = GetGrass();
 
-   private static SpectralReflectanceCurve GetGrass() {
-      SpectralReflectanceCurve curve = new SpectralReflectanceCurve();
+   private static FullSpectralReflectanceCurve GetGrass() {
+      FullSpectralReflectanceCurve curve = new FullSpectralReflectanceCurve();
 
       curve.Buckets[0] = 0.01f;
       curve.Buckets[1] = 0.01f;
@@ -188,10 +188,10 @@ public class SpectralReflectanceCurveLibrary {
       return curve;
    }
    
-   public static SpectralReflectanceCurve Orange = GetOrange();
+   public static FullSpectralReflectanceCurve Orange = GetOrange();
 
-   private static SpectralReflectanceCurve GetOrange() {
-      SpectralReflectanceCurve curve = new SpectralReflectanceCurve();
+   private static FullSpectralReflectanceCurve GetOrange() {
+      FullSpectralReflectanceCurve curve = new FullSpectralReflectanceCurve();
 
       curve.Buckets[0] = 0.00000f;
       curve.Buckets[1] = 0.00000f;
@@ -236,10 +236,10 @@ public class SpectralReflectanceCurveLibrary {
       return curve;
    }
 
-   public static SpectralReflectanceCurve LightBlue = GetLightBlue();
+   public static FullSpectralReflectanceCurve LightBlue = GetLightBlue();
 
-   private static SpectralReflectanceCurve GetLightBlue() {
-      SpectralReflectanceCurve curve = new SpectralReflectanceCurve();
+   private static FullSpectralReflectanceCurve GetLightBlue() {
+      FullSpectralReflectanceCurve curve = new FullSpectralReflectanceCurve();
 
       curve.Buckets[0] = 0.21072f;
       curve.Buckets[1] = 0.24798f;

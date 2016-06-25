@@ -7,9 +7,8 @@ import net.danielthompson.danray.presets.TracerOptions;
 import net.danielthompson.danray.runners.PixelRunner;
 import net.danielthompson.danray.runners.TileRunner;
 import net.danielthompson.danray.films.AbstractFilm;
-import net.danielthompson.danray.shading.SpectralBlender;
-import net.danielthompson.danray.shading.SpectralPowerDistribution;
-import net.danielthompson.danray.films.TriangleFilterFilm;
+import net.danielthompson.danray.shading.fullspectrum.FullSpectralBlender;
+import net.danielthompson.danray.shading.fullspectrum.FullSpectralPowerDistribution;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Scene;
@@ -488,7 +487,7 @@ public class TraceManager {
 
             // convert to RGB
 
-            Color c = SpectralBlender.ConvertXYZtoRGB(xyz[0], xyz[1], xyz[2], null);
+            Color c = FullSpectralBlender.ConvertXYZtoRGB(xyz[0], xyz[1], xyz[2], null);
 
             // set in picture
 
@@ -742,8 +741,8 @@ public class TraceManager {
 
    }
 
-   public void SetPixelSPD(int[] pixel, SpectralPowerDistribution spd) {
-      Color c = SpectralBlender.ConvertSPDtoRGB(spd);
+   public void SetPixelSPD(int[] pixel, FullSpectralPowerDistribution spd) {
+      Color c = FullSpectralBlender.ConvertSPDtoRGB(spd);
       SetPixelColor(pixel[0], pixel[1], c);
    }
 

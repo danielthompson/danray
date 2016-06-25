@@ -1,6 +1,6 @@
 package net.danielthompson.danray.exports.internal;
 
-import net.danielthompson.danray.shading.Spectrum;
+import net.danielthompson.danray.shading.fullspectrum.FullSpectrum;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -9,7 +9,7 @@ import org.w3c.dom.Element;
  */
 public class SpectrumExporter {
 
-   public static Element Process(Spectrum object, Document document, Element parent) {
+   public static Element Process(FullSpectrum object, Document document, Element parent) {
 
       Element rootElement = document.createElement("Spectrum");
       rootElement.setAttribute("NumBuckets", String.valueOf(object.numBuckets));

@@ -2,8 +2,8 @@ package net.danielthompson.danray.integrators;
 
 import net.danielthompson.danray.lights.SpectralRadiatable;
 import net.danielthompson.danray.shading.Material;
-import net.danielthompson.danray.shading.SpectralPowerDistribution;
-import net.danielthompson.danray.shading.SpectralReflectanceCurve;
+import net.danielthompson.danray.shading.fullspectrum.FullSpectralPowerDistribution;
+import net.danielthompson.danray.shading.fullspectrum.FullSpectralReflectanceCurve;
 import net.danielthompson.danray.shapes.Shape;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.*;
@@ -23,9 +23,9 @@ public class SpectralTracer extends AbstractIntegrator {
       super(scene, maxDepth);
    }
 
-   public SpectralPowerDistribution GetSPDForRay(Ray ray, int depth) {
+   public FullSpectralPowerDistribution GetSPDForRay(Ray ray, int depth) {
 
-      SpectralPowerDistribution directSPD = new SpectralPowerDistribution();
+      FullSpectralPowerDistribution directSPD = new FullSpectralPowerDistribution();
 
       IntersectionState closestStateToRay = scene.GetClosestDrawableToRay(ray);
 
@@ -76,9 +76,9 @@ public class SpectralTracer extends AbstractIntegrator {
                if (state.Hits) {
                   double angleOfIncidencePercentage = GeometryCalculations.GetAngleOfIncidencePercentage(lightRayFromCurrentRadiatableToClosestDrawable, closestStateToRay);
                   if (angleOfIncidencePercentage >= 0 && angleOfIncidencePercentage <= 100) {
-                     SpectralPowerDistribution currentIncomingSPD = radiatable.getSpectralPowerDistribution();
+                     FullSpectralPowerDistribution currentIncomingSPD = radiatable.getSpectralPowerDistribution();
                      double scaleFactor = adjustment * angleOfIncidencePercentage * oneOverDistanceFromLightSource;
-                     currentIncomingSPD = SpectralPowerDistribution.scale(currentIncomingSPD, scaleFactor);
+                     currentIncomingSPD = FullSpectralPowerDistribution.scale(currentIncomingSPD, scaleFactor);
 
                      directSPD.add(currentIncomingSPD);
                   }
@@ -89,23 +89,23 @@ public class SpectralTracer extends AbstractIntegrator {
 
       // compute the interaction of the incoming SPD with the object's SRC
 
-      SpectralReflectanceCurve curve = objectMaterial.SpectralReflectanceCurve;
+      FullSpectralReflectanceCurve curve = objectMaterial.FullSpectralReflectanceCurve;
 
       // recursive case
       if (depth < maxDepth && objectMaterial._reflectivity > 0) {
-         SpectralPowerDistribution reflectedSPD = null;
+         FullSpectralPowerDistribution reflectedSPD = null;
          Ray reflectedRay = GeometryCalculations.GetReflectedRay(closestStateToRay.IntersectionPoint, closestStateToRay.Normal, ray);
          reflectedSPD = GetSPDForRay(reflectedRay, depth + 1/*, oldIndexOfRefraction*/);
 
          double reflectionFactor = Math.pow(objectMaterial._reflectivity, 7);
 
-         reflectedSPD = SpectralPowerDistribution.scale(reflectedSPD, reflectionFactor);
+         reflectedSPD = FullSpectralPowerDistribution.scale(reflectedSPD, reflectionFactor);
          directSPD.add(reflectedSPD);
       }
 
       // base case
 
-      SpectralPowerDistribution objectSPD = directSPD.reflectOff(curve);
+      FullSpectralPowerDistribution objectSPD = directSPD.reflectOff(curve);
       return objectSPD;
 
       /*

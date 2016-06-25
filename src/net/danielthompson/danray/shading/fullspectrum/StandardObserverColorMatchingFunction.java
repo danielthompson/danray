@@ -1,9 +1,9 @@
-package net.danielthompson.danray.shading;
+package net.danielthompson.danray.shading.fullspectrum;
 
 /**
  * Created by daniel on 5/7/15.
  */
-public class StandardObserverColorMatchingFunction extends Spectrum {
+public class StandardObserverColorMatchingFunction extends FullSpectrum {
    public static StandardObserverColorMatchingFunction XBar = GetXBar();
 
    private static StandardObserverColorMatchingFunction GetXBar() {

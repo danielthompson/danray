@@ -1,6 +1,6 @@
 package net.danielthompson.danray.exports;
 
-import net.danielthompson.danray.shading.SpectralPowerDistribution;
+import net.danielthompson.danray.shading.fullspectrum.FullSpectralPowerDistribution;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -17,10 +17,10 @@ import java.io.File;
  */
 public class SPDFileExporter {
 
-   private SpectralPowerDistribution _spd;
+   private FullSpectralPowerDistribution _spd;
    private File _file;
 
-   public SPDFileExporter(SpectralPowerDistribution spd, File file) {
+   public SPDFileExporter(FullSpectralPowerDistribution spd, File file) {
 
       _spd = spd;
       _file = file;

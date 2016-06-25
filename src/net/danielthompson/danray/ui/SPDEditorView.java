@@ -2,8 +2,8 @@ package net.danielthompson.danray.ui;
 
 import net.danielthompson.danray.exports.SPDFileExporter;
 import net.danielthompson.danray.imports.SPDFileImporter;
-import net.danielthompson.danray.shading.SpectralBlender;
-import net.danielthompson.danray.shading.SpectralPowerDistribution;
+import net.danielthompson.danray.shading.fullspectrum.FullSpectralBlender;
+import net.danielthompson.danray.shading.fullspectrum.FullSpectralPowerDistribution;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -40,7 +40,7 @@ public class SPDEditorView {
    private JLabel[] _spdColorLabels;
 
    private File _spdFile;
-   private SpectralPowerDistribution _spd;
+   private FullSpectralPowerDistribution _spd;
 
    private boolean _enableSliderListeners = false;
 
@@ -86,10 +86,10 @@ public class SPDEditorView {
 
          JLabel colorLabel = _spdColorLabels[i];
 
-         SpectralPowerDistribution spd = new SpectralPowerDistribution();
+         FullSpectralPowerDistribution spd = new FullSpectralPowerDistribution();
          spd.Buckets[i] = .1f;
 
-         Color c = SpectralBlender.ConvertSPDtoRGB(spd);
+         Color c = FullSpectralBlender.ConvertSPDtoRGB(spd);
 
          c = new Color(c.getRed(), c.getGreen(), c.getBlue());
 
@@ -191,7 +191,7 @@ public class SPDEditorView {
 
    private void loadSPD(File spdFile) {
       SPDFileImporter importer = new SPDFileImporter(spdFile);
-      SpectralPowerDistribution spd = importer.Process();
+      FullSpectralPowerDistribution spd = importer.Process();
       _spd = spd;
 
       powerTextField.setText(String.valueOf(spd.Power));
@@ -200,7 +200,7 @@ public class SPDEditorView {
 
    }
 
-   private void setSliders(SpectralPowerDistribution spd) {
+   private void setSliders(FullSpectralPowerDistribution spd) {
       float max = spd.max();
       _spdSliderAdjustmentFactor = _spdAdjustmentResultPosition / max;
 
@@ -232,7 +232,7 @@ public class SPDEditorView {
 
 
 
-      Color c = SpectralBlender.ConvertSPDtoRGB(spd);
+      Color c = FullSpectralBlender.ConvertSPDtoRGB(spd);
 
       colorLabel.setBackground(c);
       String s = "<html>R: " + c.getRed() + "<br>G: " + c.getGreen() + "<br>B: " + c.getBlue() + "</html>";

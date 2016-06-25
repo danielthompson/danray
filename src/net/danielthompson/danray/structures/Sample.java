@@ -1,6 +1,6 @@
 package net.danielthompson.danray.structures;
 
-import net.danielthompson.danray.shading.SpectralPowerDistribution;
+import net.danielthompson.danray.shading.fullspectrum.FullSpectralPowerDistribution;
 
 import java.awt.Color;
 
@@ -10,7 +10,7 @@ import java.awt.Color;
 public class Sample {
    public Color Color;
    public Statistics Statistics;
-   public SpectralPowerDistribution SpectralPowerDistribution;
+   public FullSpectralPowerDistribution FullSpectralPowerDistribution;
    public int KDHeatCount;
 
    public Sample() {

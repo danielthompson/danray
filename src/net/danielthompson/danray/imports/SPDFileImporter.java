@@ -1,6 +1,6 @@
 package net.danielthompson.danray.imports;
 
-import net.danielthompson.danray.shading.SpectralPowerDistribution;
+import net.danielthompson.danray.shading.fullspectrum.FullSpectralPowerDistribution;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,9 +21,9 @@ public class SPDFileImporter {
       _file = file;
    }
 
-   public SpectralPowerDistribution Process() {
+   public FullSpectralPowerDistribution Process() {
 
-      SpectralPowerDistribution spd = new SpectralPowerDistribution();
+      FullSpectralPowerDistribution spd = new FullSpectralPowerDistribution();
 
       Document dom;
       // Make an  instance of the DocumentBuilderFactory
@@ -63,9 +63,9 @@ public class SPDFileImporter {
       return spd;
    }
 
-   public SpectralPowerDistribution ImportV1(Element spdNode) {
+   public FullSpectralPowerDistribution ImportV1(Element spdNode) {
 
-      SpectralPowerDistribution spd = new SpectralPowerDistribution();
+      FullSpectralPowerDistribution spd = new FullSpectralPowerDistribution();
 
       spd.Power = getDoubleValue(spdNode, "power");
 

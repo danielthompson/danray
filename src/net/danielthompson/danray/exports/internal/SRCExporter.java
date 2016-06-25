@@ -1,6 +1,6 @@
 package net.danielthompson.danray.exports.internal;
 
-import net.danielthompson.danray.shading.SpectralReflectanceCurve;
+import net.danielthompson.danray.shading.fullspectrum.FullSpectralReflectanceCurve;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -9,7 +9,7 @@ import org.w3c.dom.Element;
  */
 public class SRCExporter {
 
-   public static Element Process(SpectralReflectanceCurve object, Document document, Element parent) {
+   public static Element Process(FullSpectralReflectanceCurve object, Document document, Element parent) {
 
       Element rootElement = document.createElement("SpectralReflectanceCurve");
 

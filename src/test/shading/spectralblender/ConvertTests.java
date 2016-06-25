@@ -1,6 +1,6 @@
 package test.shading.spectralblender;
 
-import net.danielthompson.danray.shading.*;
+import net.danielthompson.danray.shading.fullspectrum.*;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -23,12 +23,12 @@ public class ConvertTests {
 
    @Test
    public void testConvert1() throws Exception {
-      SpectralPowerDistribution spd = new SpectralPowerDistribution();
+      FullSpectralPowerDistribution spd = new FullSpectralPowerDistribution();
       for (int i = 0; i < spd.Buckets.length; i++) {
          spd.Buckets[i] = (48 - i) * 2;
       }
 
-      Color c = SpectralBlender.ConvertSPDtoRGB(spd);
+      Color c = FullSpectralBlender.ConvertSPDtoRGB(spd);
 
       System.out.println(c);
       System.out.println("");
@@ -40,28 +40,28 @@ public class ConvertTests {
       float y = 3f;
       float z = 3f;
 
-      SpectralBlender.setFilmSpeed(1);
+      FullSpectralBlender.setFilmSpeed(1);
 
-      Color c = SpectralBlender.ConvertXYZtoRGB(x, y, z, null);
+      Color c = FullSpectralBlender.ConvertXYZtoRGB(x, y, z, null);
 
       System.out.println("");
    }
 
    @Test
    public void testD65OnLemon() throws Exception {
-      SpectralBlender.setFilmSpeed(.1f);
+      FullSpectralBlender.setFilmSpeed(.1f);
 
       for (float i = 0; i < 20f; i += .05f) {
 
-         SpectralPowerDistribution d65 = new SpectralPowerDistribution(RelativeSpectralPowerDistributionLibrary.D65, i);
+         FullSpectralPowerDistribution d65 = new FullSpectralPowerDistribution(RelativeFullSpectralPowerDistributionLibrary.D65, i);
 
-         SpectralReflectanceCurve lemon = SpectralReflectanceCurveLibrary.LemonSkin;
+         FullSpectralReflectanceCurve lemon = FullSpectralReflectanceCurveLibrary.LemonSkin;
 
-         SpectralPowerDistribution result = d65.reflectOff(lemon);
+         FullSpectralPowerDistribution result = d65.reflectOff(lemon);
 
 
 
-         Color c = SpectralBlender.ConvertSPDtoRGB(result);
+         Color c = FullSpectralBlender.ConvertSPDtoRGB(result);
 
          System.out.println("power = " + i + ", color = " + c.toString());
       }

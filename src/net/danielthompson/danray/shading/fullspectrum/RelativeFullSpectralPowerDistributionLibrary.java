@@ -1,13 +1,13 @@
-package net.danielthompson.danray.shading;
+package net.danielthompson.danray.shading.fullspectrum;
 
 /**
  * Created by daniel on 5/8/15.
  */
-public class RelativeSpectralPowerDistributionLibrary {
-   public static RelativeSpectralPowerDistribution D65 = GetD65();
+public class RelativeFullSpectralPowerDistributionLibrary {
+   public static RelativeFullSpectralPowerDistribution D65 = GetD65();
 
-   private static RelativeSpectralPowerDistribution GetD65() {
-      RelativeSpectralPowerDistribution curve = new RelativeSpectralPowerDistribution();
+   private static RelativeFullSpectralPowerDistribution GetD65() {
+      RelativeFullSpectralPowerDistribution curve = new RelativeFullSpectralPowerDistribution();
 
       curve.Buckets[0] = 0.014508721f;
       curve.Buckets[1] = 0.015865283f;
@@ -55,10 +55,10 @@ public class RelativeSpectralPowerDistributionLibrary {
       return curve;
    }
 
-   public static RelativeSpectralPowerDistribution Red = GetRed();
+   public static RelativeFullSpectralPowerDistribution Red = GetRed();
 
-   private static RelativeSpectralPowerDistribution GetRed() {
-      RelativeSpectralPowerDistribution curve = new RelativeSpectralPowerDistribution();
+   private static RelativeFullSpectralPowerDistribution GetRed() {
+      RelativeFullSpectralPowerDistribution curve = new RelativeFullSpectralPowerDistribution();
 
       curve.Buckets[25] = 0.10f;
       curve.Buckets[25] = 0.2f;
@@ -70,10 +70,10 @@ public class RelativeSpectralPowerDistributionLibrary {
    }
 
 
-   public static RelativeSpectralPowerDistribution Blue = GetBlue();
+   public static RelativeFullSpectralPowerDistribution Blue = GetBlue();
 
-   private static RelativeSpectralPowerDistribution GetBlue() {
-      RelativeSpectralPowerDistribution curve = new RelativeSpectralPowerDistribution();
+   private static RelativeFullSpectralPowerDistribution GetBlue() {
+      RelativeFullSpectralPowerDistribution curve = new RelativeFullSpectralPowerDistribution();
 
       curve.Buckets[5] = 0.1f;
       curve.Buckets[6] = 0.2f;
@@ -84,10 +84,10 @@ public class RelativeSpectralPowerDistributionLibrary {
       return curve;
    }
 
-   public static RelativeSpectralPowerDistribution Green = GetGreen();
+   public static RelativeFullSpectralPowerDistribution Green = GetGreen();
 
-   private static RelativeSpectralPowerDistribution GetGreen() {
-      RelativeSpectralPowerDistribution curve = new RelativeSpectralPowerDistribution();
+   private static RelativeFullSpectralPowerDistribution GetGreen() {
+      RelativeFullSpectralPowerDistribution curve = new RelativeFullSpectralPowerDistribution();
 
       curve.Buckets[14] = 0.1f;
       curve.Buckets[15] = 0.2f;
@@ -98,10 +98,10 @@ public class RelativeSpectralPowerDistributionLibrary {
       return curve;
    }
 
-   public static RelativeSpectralPowerDistribution Yellow = GetYellow();
+   public static RelativeFullSpectralPowerDistribution Yellow = GetYellow();
 
-   private static RelativeSpectralPowerDistribution GetYellow() {
-      RelativeSpectralPowerDistribution curve = new RelativeSpectralPowerDistribution();
+   private static RelativeFullSpectralPowerDistribution GetYellow() {
+      RelativeFullSpectralPowerDistribution curve = new RelativeFullSpectralPowerDistribution();
 
       curve.Buckets[18] = 0.33f;
       curve.Buckets[19] = 0.33f;
@@ -110,11 +110,11 @@ public class RelativeSpectralPowerDistributionLibrary {
       return curve;
    }
 
-   public static RelativeSpectralPowerDistribution Constant = GetConstant();
+   public static RelativeFullSpectralPowerDistribution Constant = GetConstant();
 
-   private static RelativeSpectralPowerDistribution GetConstant() {
+   private static RelativeFullSpectralPowerDistribution GetConstant() {
 
-      RelativeSpectralPowerDistribution curve = new RelativeSpectralPowerDistribution();
+      RelativeFullSpectralPowerDistribution curve = new RelativeFullSpectralPowerDistribution();
       
       curve.Buckets[0] = 0.025641026f;
       curve.Buckets[1] = 0.025641026f;
@@ -159,10 +159,10 @@ public class RelativeSpectralPowerDistributionLibrary {
       return curve;
    }
 
-   public static RelativeSpectralPowerDistribution Sunset = GetSunset();
+   public static RelativeFullSpectralPowerDistribution Sunset = GetSunset();
 
-   private static RelativeSpectralPowerDistribution GetSunset() {
-      RelativeSpectralPowerDistribution curve = new RelativeSpectralPowerDistribution();
+   private static RelativeFullSpectralPowerDistribution GetSunset() {
+      RelativeFullSpectralPowerDistribution curve = new RelativeFullSpectralPowerDistribution();
 
       curve.Buckets[0] = 0.004522159f;
       curve.Buckets[1] = 0.006029545f;

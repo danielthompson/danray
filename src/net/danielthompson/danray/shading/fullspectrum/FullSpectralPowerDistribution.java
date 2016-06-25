@@ -1,16 +1,16 @@
-package net.danielthompson.danray.shading;
+package net.danielthompson.danray.shading.fullspectrum;
 
 /**
  * Created by daniel on 5/5/15.
  */
-public class SpectralPowerDistribution extends Spectrum {
+public class FullSpectralPowerDistribution extends FullSpectrum {
    public double Power;
 
-   public SpectralPowerDistribution() {
+   public FullSpectralPowerDistribution() {
       super();
    }
 
-   public SpectralPowerDistribution(RelativeSpectralPowerDistribution rspd, double power) {
+   public FullSpectralPowerDistribution(RelativeFullSpectralPowerDistribution rspd, double power) {
       this();
       for (int i = 0; i < rspd.Buckets.length; i++) {
          Buckets[i] = rspd.Buckets[i] * (float)power;
@@ -18,7 +18,7 @@ public class SpectralPowerDistribution extends Spectrum {
       RecalculatePower();
    }
 
-   public void add(SpectralPowerDistribution other) {
+   public void add(FullSpectralPowerDistribution other) {
       for (int i = 0; i < Buckets.length; i++) {
          Buckets[i] += other.Buckets[i];
       }
@@ -54,8 +54,8 @@ public class SpectralPowerDistribution extends Spectrum {
       return min;
    }
 
-   public static SpectralPowerDistribution average(SpectralPowerDistribution[] spds) {
-      SpectralPowerDistribution spd = new SpectralPowerDistribution();
+   public static FullSpectralPowerDistribution average(FullSpectralPowerDistribution[] spds) {
+      FullSpectralPowerDistribution spd = new FullSpectralPowerDistribution();
 
       for (int i = 0; i < spd.Buckets.length; i++) {
 
@@ -73,8 +73,8 @@ public class SpectralPowerDistribution extends Spectrum {
       return spd;
    }
 
-   public static SpectralPowerDistribution lerp(SpectralPowerDistribution spd1, float weight1, SpectralPowerDistribution spd2, float weight2) {
-      SpectralPowerDistribution blend = new SpectralPowerDistribution();
+   public static FullSpectralPowerDistribution lerp(FullSpectralPowerDistribution spd1, float weight1, FullSpectralPowerDistribution spd2, float weight2) {
+      FullSpectralPowerDistribution blend = new FullSpectralPowerDistribution();
 
       float scale = 1.0f / (weight1 + weight2);
 
@@ -87,8 +87,8 @@ public class SpectralPowerDistribution extends Spectrum {
       return blend;
    }
 
-   public static SpectralPowerDistribution add(SpectralPowerDistribution spd1, SpectralPowerDistribution spd2) {
-      SpectralPowerDistribution spd = new SpectralPowerDistribution();
+   public static FullSpectralPowerDistribution add(FullSpectralPowerDistribution spd1, FullSpectralPowerDistribution spd2) {
+      FullSpectralPowerDistribution spd = new FullSpectralPowerDistribution();
 
       spd.add(spd1);
       spd.add(spd2);
@@ -98,8 +98,8 @@ public class SpectralPowerDistribution extends Spectrum {
       return spd;
    }
 
-   public static SpectralPowerDistribution scale(SpectralPowerDistribution spd, double percentage) {
-      SpectralPowerDistribution scaled = new SpectralPowerDistribution();
+   public static FullSpectralPowerDistribution scale(FullSpectralPowerDistribution spd, double percentage) {
+      FullSpectralPowerDistribution scaled = new FullSpectralPowerDistribution();
 
       for (int i = 0; i < spd.Buckets.length; i++) {
          scaled.Buckets[i] = spd.Buckets[i] * (float)percentage;
@@ -118,8 +118,8 @@ public class SpectralPowerDistribution extends Spectrum {
       RecalculatePower();
    }
 
-   public SpectralPowerDistribution reflectOff(SpectralReflectanceCurve curve) {
-      SpectralPowerDistribution reflected = new SpectralPowerDistribution();
+   public FullSpectralPowerDistribution reflectOff(FullSpectralReflectanceCurve curve) {
+      FullSpectralPowerDistribution reflected = new FullSpectralPowerDistribution();
 
       if (curve == null) {
          int i = 2;

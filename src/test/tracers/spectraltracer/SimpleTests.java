@@ -2,9 +2,9 @@ package test.tracers.spectraltracer;
 
 import net.danielthompson.danray.lights.SpectralSphereLight;
 import net.danielthompson.danray.shading.Material;
-import net.danielthompson.danray.shading.SpectralBlender;
-import net.danielthompson.danray.shading.SpectralPowerDistribution;
-import net.danielthompson.danray.shading.SpectralReflectanceCurve;
+import net.danielthompson.danray.shading.fullspectrum.FullSpectralBlender;
+import net.danielthompson.danray.shading.fullspectrum.FullSpectralPowerDistribution;
+import net.danielthompson.danray.shading.fullspectrum.FullSpectralReflectanceCurve;
 import net.danielthompson.danray.shapes.Box;
 import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.structures.Point;
@@ -35,7 +35,7 @@ public class SimpleTests {
    public void testGetSPDForRay1() throws Exception {
       Scene scene = new NaiveScene(null);
 
-      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution();
+      FullSpectralPowerDistribution lightSPD = new FullSpectralPowerDistribution();
       for (int i = 0; i < lightSPD.Buckets.length; i++) {
          lightSPD.Buckets[i] = 500000.0f;
       }
@@ -47,9 +47,9 @@ public class SimpleTests {
       scene.SpectralRadiatables.add(light);
 
       Material boxMaterial = new Material();
-      boxMaterial.SpectralReflectanceCurve = new SpectralReflectanceCurve();
-      for (int i = 0; i < boxMaterial.SpectralReflectanceCurve.Buckets.length; i++) {
-         boxMaterial.SpectralReflectanceCurve.Buckets[i] = 1.0f;
+      boxMaterial.FullSpectralReflectanceCurve = new FullSpectralReflectanceCurve();
+      for (int i = 0; i < boxMaterial.FullSpectralReflectanceCurve.Buckets.length; i++) {
+         boxMaterial.FullSpectralReflectanceCurve.Buckets[i] = 1.0f;
       }
 
       Point p0 = new Point(1, 4, 0);
@@ -65,9 +65,9 @@ public class SimpleTests {
 
       SpectralTracer tracer = new SpectralTracer(scene, 1);
 
-      SpectralPowerDistribution spectralPowerDistribution = tracer.GetSPDForRay(ray, 0);
+      FullSpectralPowerDistribution fullSpectralPowerDistribution = tracer.GetSPDForRay(ray, 0);
 
-      Color c = SpectralBlender.ConvertSPDtoRGB(spectralPowerDistribution);
+      Color c = FullSpectralBlender.ConvertSPDtoRGB(fullSpectralPowerDistribution);
 
       System.out.println("");
    }
