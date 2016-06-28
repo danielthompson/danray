@@ -22,6 +22,7 @@ public class KDTree {
    private static BoundingEdge[] zEdges;
 
    public static KDNode BuildKDTree(List<Shape> objects, int maxDepth, int maxLeafSize) {
+
       return BuildKDTree(objects, maxDepth, maxLeafSize, 1);
    }
 
@@ -51,7 +52,7 @@ public class KDTree {
 
       BoundingBox initialBoundingBox = new BoundingBox(minPoint, maxPoint);
 
-      rootNode._box = (initialBoundingBox);
+      rootNode.BoundingBox = (initialBoundingBox);
 
       BuildKDTreeSAH(rootNode, 1);
 
@@ -91,11 +92,11 @@ public class KDTree {
       return dest;
    }
 
-   private static void BuildKDTreeSAH(KDNode node, int depth) {
+   public static void BuildKDTreeSAH(KDNode node, int depth) {
 
       // base case
 
-      if (node.getObjects().size() <= maxLeafSize) {
+      if (node.Shapes.size() <= maxLeafSize) {
          //node.Axis = null;
          return;
       }
@@ -106,13 +107,13 @@ public class KDTree {
          List<KDAxisHeuristicImproved> heuristicList = new ArrayList<>();
          boolean foundGoodSplit = false;
          List<KDAxis> axes = new ArrayList<>();
-         axes.add(node._box.getLargestExtent());
+         axes.add(node.BoundingBox.getLargestExtent());
          axes.add(getNextAxis(axes.get(0)));
          axes.add(getNextAxis(axes.get(1)));
 
          for (KDAxis axis : axes) {
-            //BoundingEdge[] splits = getSortedBoundingEdges(node.getObjects(), axis);
-            BoundingEdge[] splits = getEdgesWithObjectsForAxis(node.getObjects(), axis);
+            //BoundingEdge[] splits = getSortedBoundingEdges(node.Shapes, axis);
+            BoundingEdge[] splits = getEdgesWithObjectsForAxis(node.Shapes, axis);
             for (int i = 0; i < splits.length; i = i + 3) {
                double split = splits[i].Value;
 
@@ -122,7 +123,7 @@ public class KDTree {
                List<Shape> lessThanList = new ArrayList<>();
                List<Shape> greaterThanList = new ArrayList<>();
 
-               for (Shape shape : node.getObjects()) {
+               for (Shape shape : node.Shapes) {
                   BoundingBox drawableBox = shape.GetWorldBoundingBox();
                   double lowerBound = drawableBox.getLowerBoundInAxis(axis);
                   double upperBound = drawableBox.getUpperBoundInAxis(axis);
@@ -166,7 +167,7 @@ public class KDTree {
                if (lessThanList.size() == 0 || greaterThanList.size() == 0)
                   continue;
 
-               if (lessThanList.size() >= node.getObjects().size() || greaterThanList.size() >= node.getObjects().size())
+               if (lessThanList.size() >= node.Shapes.size() || greaterThanList.size() >= node.Shapes.size())
                   continue;
 
                if (lessThanList.size() == greaterThanList.size()) {
@@ -229,7 +230,7 @@ public class KDTree {
             List<Shape> lessThanList = new ArrayList<>();
             List<Shape> greaterThanList = new ArrayList<>();
 
-            for (Shape shape : node.getObjects()) {
+            for (Shape shape : node.Shapes) {
                BoundingBox drawableBox = shape.GetWorldBoundingBox();
                double lowerBound = drawableBox.getLowerBoundInAxis(best.Axis);
                double upperBound = drawableBox.getUpperBoundInAxis(best.Axis);
@@ -242,19 +243,19 @@ public class KDTree {
 
             }
 
-            BoundingBox[] boxes = SubdivideBoundingBox(node._box, best.Axis, best.Separator);
+            BoundingBox[] boxes = SubdivideBoundingBox(node.BoundingBox, best.Axis, best.Separator);
 
             ReduceBoundingBox(boxes[0], lessThanList);
             ReduceBoundingBox(boxes[1], greaterThanList);
 
             KDNode leftNode = new KDNode(lessThanList, getNextAxis(best.Axis));
-            leftNode._box = (boxes[0]);
+            leftNode.BoundingBox = (boxes[0]);
 
             KDNode rightNode = new KDNode(greaterThanList, getNextAxis(best.Axis));
-            rightNode._box = (boxes[1]);
+            rightNode.BoundingBox = (boxes[1]);
 
-            node._leftChild = leftNode;
-            node._rightChild = rightNode;
+            node.LeftChild = leftNode;
+            node.RightChild = rightNode;
             node.Split = (best.Separator);
             node.Axis = best.Axis;
 
@@ -277,9 +278,9 @@ public class KDTree {
 
             if (depth < maxDepth) {
 
-               if (leftNode.getObjects().size() != node.getObjects().size())
+               if (leftNode.Shapes.size() != node.Shapes.size())
                   BuildKDTreeSAH(leftNode, depth + 1);
-               if (rightNode.getObjects().size() != node.getObjects().size())
+               if (rightNode.Shapes.size() != node.Shapes.size())
                   BuildKDTreeSAH(rightNode, depth + 1);
             }
          }

@@ -476,7 +476,7 @@ public class XMLExportTests {
 //      material.Color = Color.green;
 //      material.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.LemonSkin;
 //
-//      final Box object = new Box(new Point(-1, -1.5, 0), new Point(5, 5.5, 10.4), material, t1, t2);
+//      final BoundingBox object = new BoundingBox(new Point(-1, -1.5, 0), new Point(5, 5.5, 10.4), material, t1, t2);
 //
 //      File file = new File(_dir, "box.xml");
 //

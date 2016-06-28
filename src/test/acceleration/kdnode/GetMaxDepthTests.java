@@ -25,8 +25,8 @@ public class GetMaxDepthTests {
    public void GetMaxDepthTest2() {
       KDNode rootNode = new KDNode(null, KDAxis.X);
 
-      rootNode._leftChild = new KDNode(null, KDAxis.Y);
-      rootNode._rightChild = new KDNode(null, KDAxis.Y);
+      rootNode.LeftChild = new KDNode(null, KDAxis.Y);
+      rootNode.RightChild = new KDNode(null, KDAxis.Y);
 
       int actual = rootNode.GetMaxDepth();
 
@@ -43,14 +43,14 @@ public class GetMaxDepthTests {
       KDNode rightChild = new KDNode(null, KDAxis.Y);
       KDNode leftChild = new KDNode(null, KDAxis.Y);
 
-      rootNode._leftChild = rightChild;
-      rootNode._rightChild = leftChild;
+      rootNode.LeftChild = rightChild;
+      rootNode.RightChild = leftChild;
 
       KDNode rightGrandChild = new KDNode(null, KDAxis.Z);
       KDNode leftGrandChild = new KDNode(null, KDAxis.Z);
 
-      rightChild._leftChild = (rightGrandChild);
-      rightChild._rightChild = (leftGrandChild);
+      rightChild.LeftChild = (rightGrandChild);
+      rightChild.RightChild = (leftGrandChild);
 
       int actual = rootNode.GetMaxDepth();
 

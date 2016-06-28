@@ -12,10 +12,10 @@ public class Sample {
 
    public SpectralPowerDistribution SpectralPowerDistribution;
 
-   public Statistics Statistics;
    public int KDHeatCount;
 
    public Sample() {
-      Statistics = new Statistics();
+
+      //Statistics = new Statistics();
    }
 }

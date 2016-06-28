@@ -31,11 +31,6 @@ public class Triangle implements Shape, Radiatable {
    }
 
    @Override
-   public boolean InCurrentKDNode() {
-      return false;
-   }
-
-   @Override
    public void SetInCurrentKDNode(boolean value) {
 
    }
@@ -65,11 +60,6 @@ public class Triangle implements Shape, Radiatable {
    @Override
    public Material GetMaterial() {
       return _material;
-   }
-
-   @Override
-   public double getSurfaceArea() {
-      return 0;
    }
 
    @Override
@@ -122,11 +112,6 @@ public class Triangle implements Shape, Radiatable {
    public static Ray GetNormal(Triangle triangle, IntersectionState state) {
       // TODO
       return null; //return new Ray(triangle._vertex0, triangle._normalDirection);
-   }
-
-   @Override
-   public double GetVolume() {
-      return 0;
    }
 
    @Override

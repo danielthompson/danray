@@ -68,15 +68,15 @@ public class TraverseTinyTreeTests {
       }
 
       KDNode lessThanNode = new KDNode(lessThanList);
-      lessThanNode._box = lessThanBB;
+      lessThanNode.BoundingBox = lessThanBB;
 
       KDNode greaterThanNode = new KDNode(greaterThanList);
-      greaterThanNode._box = greaterThanBB;
+      greaterThanNode.BoundingBox = greaterThanBB;
 
       KDNode rootNode = new KDNode(objects);
-      rootNode._box = rootBB;
-      rootNode._leftChild = lessThanNode;
-      rootNode._rightChild = greaterThanNode;
+      rootNode.BoundingBox = rootBB;
+      rootNode.LeftChild = lessThanNode;
+      rootNode.RightChild = greaterThanNode;
 
       scene.rootNode = rootNode;
    }

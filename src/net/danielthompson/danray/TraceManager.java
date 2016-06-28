@@ -3,7 +3,6 @@ package net.danielthompson.danray;
 import net.danielthompson.danray.acceleration.KDScene;
 import net.danielthompson.danray.films.BoxFilterFilm;
 import net.danielthompson.danray.integrators.AbstractIntegrator;
-import net.danielthompson.danray.integrators.PathTraceIntegrator;
 import net.danielthompson.danray.integrators.WhittedIntegrator;
 import net.danielthompson.danray.presets.RenderQualityPreset;
 import net.danielthompson.danray.presets.TracerOptions;
@@ -15,13 +14,11 @@ import net.danielthompson.danray.shading.fullspectrum.FullSpectralPowerDistribut
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.scenes.AbstractScene;
-import net.danielthompson.danray.structures.Statistics;
 import net.danielthompson.danray.structures.Vector;
 import net.danielthompson.danray.ui.*;
 import net.danielthompson.danray.ui.opengl.KDJFrame;
 import net.danielthompson.danray.ui.opengl.OpenGLFrame;
 import net.danielthompson.danray.utility.IOHelper;
-import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
 import javax.swing.*;
 import java.awt.*;
@@ -81,34 +78,22 @@ public class TraceManager {
 
    public int InitialRays;
 
-   public static int ReflectedRays;
 
-   public static int RefractedRays;
+   private AbstractScene _scene;
 
-   public Statistics[][] Statistics;
-
-   AbstractScene _scene;
-
-   AbstractIntegrator _integrator;
+   private AbstractIntegrator _integrator;
 
    private KDJFrame _kdFrame;
 
-   int _xPointer;
-   int _yPointer;
-
    private Date _renderStartTime;
 
-   private long _numPixels;
    private volatile long _numRenderedPixels;
 
    private float _numPixelsDivisor;
 
    private long _numPixelsStep;
 
-   private int _kdNodeCount;
    private double _inverseKDNodeCount;
-
-   private float _convergenceTerminationThreshold;
 
    private AbstractFilm _film;
 
@@ -124,11 +109,10 @@ public class TraceManager {
       _scene = scene;
       _integrator = new WhittedIntegrator(_scene, renderQualityPreset.getMaxDepth());
       _timer = new Timer();
-      _convergenceTerminationThreshold = renderQualityPreset.getConvergenceTerminationThreshold();
-      _numPixels = renderQualityPreset.getX() * renderQualityPreset.getY();
-      _numPixelsDivisor = 1.0f / _numPixels;
+      long numPixels = renderQualityPreset.getX() * renderQualityPreset.getY();
+      _numPixelsDivisor = 1.0f / numPixels;
       _ioHelper = new IOHelper();
-      _numPixelsStep = _numPixels / 100;
+      _numPixelsStep = numPixels / 100;
 
 
 
@@ -159,8 +143,8 @@ public class TraceManager {
       String duration = getDurationString(start, end);
 
       if (_scene instanceof KDScene) {
-         _kdNodeCount = ((KDScene) _scene).rootNode.GetCount();
-         _inverseKDNodeCount = 1.0 / (double)_kdNodeCount;
+         int kdNodeCount = ((KDScene) _scene).rootNode.GetCount();
+         _inverseKDNodeCount = 1.0 / (double) kdNodeCount;
          _inverseKDNodeCount *= 1;
       }
       Logger.Log("Finished compiling scene in " + duration);
@@ -373,16 +357,13 @@ public class TraceManager {
          _heatCanvas.setImage(_heatImage);
       }
 
-      this.Statistics = new Statistics[_qualityPreset.getX()][_qualityPreset.getY()];
+      //this.Statistics = new Statistics[_qualityPreset.getX()][_qualityPreset.getY()];
       for (int i = 0; i < _qualityPreset.getX(); i++) {
-         this.Statistics[i] = new Statistics[_qualityPreset.getY()];
+         //this.Statistics[i] = new Statistics[_qualityPreset.getY()];
          for (int j = 0; j < _qualityPreset.getY(); j++) {
-            this.Statistics[i][j] = new Statistics();
+            //this.Statistics[i][j] = new Statistics();
          }
       }
-
-      _xPointer = 0;
-      _yPointer = 0;
 
       _minX = _minY = _minZ = Float.MAX_VALUE;
       _maxX = _maxY = _maxZ = -Float.MAX_VALUE;
@@ -537,23 +518,6 @@ public class TraceManager {
       int pixels = _qualityPreset.getX() * _qualityPreset.getY();
       Logger.Log(integerFormatter.format(pixels) +  " pixels, " + integerFormatter.format(InitialRays) +  " initial rays");
 
-      DescriptiveStatistics drawableStats = getDrawableIntersectionStatistics();
-      Logger.Log("drawable intersections: " + getStatisticsSummary(drawableStats));
-
-      DescriptiveStatistics boundingStats = getBoundingIntersectionStatistics();
-      Logger.Log("bounding intersections: " + getStatisticsSummary(boundingStats));
-      Logger.Log("left traversal: " + getStatisticsSummary(getLeftTraversalStatistics()));
-      Logger.Log("right traversals: " + getStatisticsSummary(getRightTraversalStatistics()));
-      Logger.Log("both bounds hit: " + getStatisticsSummary(getBothBoundHitStatistics()));
-      Logger.Log("one bound hit: " + getStatisticsSummary(getOneBoundHitStatistics()));
-      Logger.Log("no bound hit: " + getStatisticsSummary(getNoBoundHitStatistics()));
-
-      long drawableIntersectionRate = (long)(drawableStats.getSum() * 1000 / (double)milliseconds);
-      long boundableIntersectionRate = (long)(boundingStats.getSum() * 1000 / (double)milliseconds);
-      long totalIntersectionRate = drawableIntersectionRate + boundableIntersectionRate;
-
-      Logger.Log(integerFormatter.format(drawableIntersectionRate) +  " drawable int/sec; " + integerFormatter.format(boundableIntersectionRate) + " boundable int/sec; " + integerFormatter.format(totalIntersectionRate) + " total int/sec; ");
-
       long fillRate = (long)(pixels * 1000 / (double)milliseconds);
       Logger.Log(integerFormatter.format(fillRate) + " pixels / sec fillrate");
    }
@@ -572,138 +536,6 @@ public class TraceManager {
       return duration;
    }
 
-
-   public DescriptiveStatistics getDrawableIntersectionStatistics() {
-      DescriptiveStatistics stats = new DescriptiveStatistics();
-      for (int i = 0; i < Statistics.length; i++) {
-         for (int j = 0; j < Statistics[i].length; j++) {
-            stats.addValue(Statistics[i][j].DrawableIntersections);
-
-         }
-      }
-      return stats;
-   }
-
-   public DescriptiveStatistics getBoundingIntersectionStatistics() {
-      DescriptiveStatistics stats = new DescriptiveStatistics();
-      for (int i = 0; i < Statistics.length; i++) {
-         for (int j = 0; j < Statistics[i].length; j++) {
-            stats.addValue(Statistics[i][j].BoundingIntersections);
-
-         }
-      }
-      return stats;
-   }
-
-   public DescriptiveStatistics getLeftTraversalStatistics() {
-      DescriptiveStatistics stats = new DescriptiveStatistics();
-      for (int i = 0; i < Statistics.length; i++) {
-         for (int j = 0; j < Statistics[i].length; j++) {
-            stats.addValue(Statistics[i][j].LeftNodesTraversed);
-
-         }
-      }
-      return stats;
-   }
-
-   public DescriptiveStatistics getRightTraversalStatistics() {
-      DescriptiveStatistics stats = new DescriptiveStatistics();
-      for (int i = 0; i < Statistics.length; i++) {
-         for (int j = 0; j < Statistics[i].length; j++) {
-            stats.addValue(Statistics[i][j].RightNodesTraversed);
-
-         }
-      }
-      return stats;
-   }
-
-   public DescriptiveStatistics getBothBoundHitStatistics() {
-      DescriptiveStatistics stats = new DescriptiveStatistics();
-      for (int i = 0; i < Statistics.length; i++) {
-         for (int j = 0; j < Statistics[i].length; j++) {
-            stats.addValue(Statistics[i][j].BothBoundHit);
-
-         }
-      }
-      return stats;
-   }
-
-   public DescriptiveStatistics getOneBoundHitStatistics() {
-      DescriptiveStatistics stats = new DescriptiveStatistics();
-      for (int i = 0; i < Statistics.length; i++) {
-         for (int j = 0; j < Statistics[i].length; j++) {
-            stats.addValue(Statistics[i][j].OneBoundHit);
-
-         }
-      }
-      return stats;
-   }
-
-   public DescriptiveStatistics getNoBoundHitStatistics() {
-      DescriptiveStatistics stats = new DescriptiveStatistics();
-      for (int i = 0; i < Statistics.length; i++) {
-         for (int j = 0; j < Statistics[i].length; j++) {
-            stats.addValue(Statistics[i][j].NoBoundsHit);
-
-         }
-      }
-      return stats;
-   }
-
-
-   public String getStatisticsSummary(DescriptiveStatistics stats) {
-      DecimalFormat integerFormatter = new DecimalFormat("###,###,###,###");
-      DecimalFormat decimalFormatter = new DecimalFormat("###,###.##");
-      String value = "total " + integerFormatter.format(stats.getSum());
-      value += "; min " + integerFormatter.format(stats.getMin());
-      value += "; max " + integerFormatter.format(stats.getMax());
-      value += "; median " + integerFormatter.format(stats.getPercentile(50));
-      value += "; avg " + decimalFormatter.format(stats.getMean());
-      value += "; stdev " + decimalFormatter.format(stats.getStandardDeviation());
-
-      return value;
-   }
-
-   //public long[] ge
-
-   public long[] getBoundingIntersections() {
-      long intersections = 0;
-      long min = Long.MAX_VALUE;
-      long max = 0;
-
-      for (int i = 0; i < Statistics.length; i++) {
-         for (int j = 0; j < Statistics[i].length; j++) {
-            intersections += Statistics[i][j].BoundingIntersections;
-            if (Statistics[i][j].BoundingIntersections < min)
-               min = Statistics[i][j].BoundingIntersections;
-            if (Statistics[i][j].BoundingIntersections > max) {
-               max = Statistics[i][j].BoundingIntersections;
-            }
-         }
-      }
-
-      return new long[] { intersections, min, max };
-   }
-
-   public long[] getDrawableIntersections() {
-
-      long intersections = 0;
-      long min = Long.MAX_VALUE;
-      long max = 0;
-
-      for (int i = 0; i < Statistics.length; i++) {
-         for (int j = 0; j < Statistics[i].length; j++) {
-            intersections += Statistics[i][j].DrawableIntersections;
-            if (Statistics[i][j].DrawableIntersections < min)
-               min = Statistics[i][j].DrawableIntersections;
-            if (Statistics[i][j].DrawableIntersections > max) {
-               max = Statistics[i][j].DrawableIntersections;
-            }
-         }
-      }
-
-      return new long[] { intersections, min, max };
-   }
 
    public void Trace(int[] pixel) {
       PixelRunner runner = new PixelRunner(this, _integrator, _scene, _qualityPreset, _film, 0);

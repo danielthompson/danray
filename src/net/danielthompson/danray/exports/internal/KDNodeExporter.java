@@ -20,8 +20,8 @@ public class KDNodeExporter {
       rootElement.setAttribute("Leaf", String.valueOf(object.isLeaf()));
 
       Element shapeListElement = document.createElement("Shapes");
-      if (object._objects != null && object._objects.size() > 0) {
-         for (Shape shape : object._objects) {
+      if (object.Shapes != null && object.Shapes.size() > 0) {
+         for (Shape shape : object.Shapes) {
             Element shapeElement = document.createElement("Shape");
             shapeElement.setAttribute("ID", String.valueOf(shape.getID()));
             shapeListElement.appendChild(shapeElement);
@@ -29,14 +29,14 @@ public class KDNodeExporter {
       }
       rootElement.appendChild(shapeListElement);
 
-      if (object._leftChild != null) {
-         Element leftChild = KDNodeExporter.Process(object._leftChild, document, rootElement);
+      if (object.LeftChild != null) {
+         Element leftChild = KDNodeExporter.Process(object.LeftChild, document, rootElement);
          leftChild.setAttribute("Side", String.valueOf("Left"));
          rootElement.appendChild(leftChild);
 
       }
-      if (object._rightChild != null) {
-         Element rightChild = KDNodeExporter.Process(object._rightChild, document, rootElement);
+      if (object.RightChild != null) {
+         Element rightChild = KDNodeExporter.Process(object.RightChild, document, rootElement);
          rightChild.setAttribute("Side", String.valueOf("Right"));
          rootElement.appendChild(rightChild);
       }

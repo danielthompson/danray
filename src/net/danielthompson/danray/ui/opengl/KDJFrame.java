@@ -35,16 +35,16 @@ public class KDJFrame extends JFrame implements TreeSelectionListener {
       if (node != null) {
          treeNode = CreateNode(node);
 
-         if (node._leftChild != null) {
-            DefaultMutableTreeNode childNode = CreateNodes(node._leftChild);
+         if (node.LeftChild != null) {
+            DefaultMutableTreeNode childNode = CreateNodes(node.LeftChild);
             if (childNode != null) {
                //childNode.setParent(treeNode);
                treeNode.add(childNode);
             }
 
          }
-         if (node._rightChild != null) {
-            DefaultMutableTreeNode childNode = CreateNodes(node._rightChild);
+         if (node.RightChild != null) {
+            DefaultMutableTreeNode childNode = CreateNodes(node.RightChild);
             if (childNode != null) {
                //childNode.setParent(treeNode);
                treeNode.add(childNode);

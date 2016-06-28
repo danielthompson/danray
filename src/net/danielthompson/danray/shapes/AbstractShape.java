@@ -33,22 +33,12 @@ public abstract class AbstractShape implements Shape {
    }
 
    @Override
-   public double GetVolume() {
-      return 0;
-   }
-
-   @Override
    public BoundingBox GetWorldBoundingBox() {
       return WorldBoundingBox;
    }
 
    public int getID() {
       return ID;
-   }
-
-   @Override
-   public boolean InCurrentKDNode() {
-      return InCurrentKDNode;
    }
 
    @Override
@@ -70,9 +60,6 @@ public abstract class AbstractShape implements Shape {
    public boolean Hits(Ray ray) {
       return false;
    }
-
-   @Override
-   public double getSurfaceArea() {return 0;}
 
    @Override
    public Material GetMaterial() {

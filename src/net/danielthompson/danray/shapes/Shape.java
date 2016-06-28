@@ -14,12 +14,9 @@ import net.danielthompson.danray.structures.Ray;
  * Time: 5:45 PM
  */
 public interface Shape {
-   public double GetVolume();
    public BoundingBox GetWorldBoundingBox();
 
    public int getID();
-
-   public boolean InCurrentKDNode();
 
    public void SetInCurrentKDNode(boolean value);
 
@@ -30,8 +27,6 @@ public interface Shape {
    boolean Hits(Ray ray);
 
    Material GetMaterial();
-
-   double getSurfaceArea();
 
    BoundingEdge[] GetBoundingEdges(KDAxis axis);
 

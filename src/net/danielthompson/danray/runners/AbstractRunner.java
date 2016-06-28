@@ -61,7 +61,7 @@ public abstract class AbstractRunner implements Runnable {
             for (int i = 0; i < cameraRays.length; i++) {
                samples[i] = Integrator.GetSample(cameraRays[i], 1);
                heatCount += samples[i].KDHeatCount;
-               Manager.Statistics[x][y].Add(samples[i].Statistics);
+               //Manager.Statistics[x][y].Add(samples[i].Statistics);
             }
 
             Film.AddSamples(x, y, samples);

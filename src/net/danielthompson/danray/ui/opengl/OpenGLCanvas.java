@@ -13,7 +13,6 @@ import net.danielthompson.danray.acceleration.KDNode;
 import net.danielthompson.danray.acceleration.KDScene;
 import net.danielthompson.danray.lights.AbstractLight;
 import net.danielthompson.danray.lights.PointLight;
-import net.danielthompson.danray.lights.Radiatable;
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.shapes.Box;
 import net.danielthompson.danray.shapes.Shape;
@@ -197,14 +196,14 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
       if (node != null) {
          if (node.equals(SelectedNode)) {
             gl.glColor4f(.25f, 0.25f, 1.0f, .5f);
-            drawBoundingBox(gl, node._box);
+            drawBoundingBox(gl, node.BoundingBox);
          }
          else {
             //gl.glColor4f(0.2f, 0.2f, 0.2f, .2f);
-            if (node._leftChild != null)
-               DrawNodes(gl, node._leftChild);
-            if (node._rightChild != null) {
-               DrawNodes(gl, node._rightChild);
+            if (node.LeftChild != null)
+               DrawNodes(gl, node.LeftChild);
+            if (node.RightChild != null) {
+               DrawNodes(gl, node.RightChild);
             }
          }
       }
@@ -216,7 +215,7 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
       for (Shape shape : _scene.Shapes)
          shape.SetInCurrentKDNode(false);
 
-      for (Shape shape : node._objects)
+      for (Shape shape : node.Shapes)
          shape.SetInCurrentKDNode(true);
    }
 

@@ -1,6 +1,7 @@
 package net.danielthompson.danray;
 
 import net.danielthompson.danray.acceleration.KDScene;
+import net.danielthompson.danray.acceleration.compactkd.KDCompactScene;
 import net.danielthompson.danray.cameras.*;
 import net.danielthompson.danray.cameras.apertures.CircleAperture;
 import net.danielthompson.danray.cameras.apertures.SquareAperture;
@@ -389,7 +390,7 @@ public class SceneBuilder {
       settings.Y = y;
       settings.FocalLength = 150;
       settings.Rotation = 0;
-      settings.ZoomFactor = 1/2.;
+      settings.ZoomFactor = 1./32;
       settings.FocusDistance = 75;
       settings.Aperture = new CircleAperture(10);
 
@@ -408,56 +409,29 @@ public class SceneBuilder {
          //camera = new SimplePointableCamera(settings);
       }
 
-      AbstractScene scene = new KDScene(camera);
+      AbstractScene scene = new KDCompactScene(camera);
       scene.numFrames = 1;
 
       // white vertical z plane
       BRDF brdf = new LambertianBRDF();
-      FullSpectralReflectanceCurve blueSRC = FullSpectralReflectanceCurveLibrary.LightBlue;
-      FullSpectralReflectanceCurve greenSRC = FullSpectralReflectanceCurveLibrary.Grass;
 
       Material material = new Material();
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(120, 120, 120));
       material._specular = 1 - .75;
       material._reflectivity = .25;
       material._intrinsic = 1 - (material._reflectivity + material._specular + material._transparency);
 
       material.BRDF = brdf;
 
-      Point p0 = new Point(-100, 0, -150);
-      Point p1 = new Point(500, 600, -149);
+      double frontZ = -150;
+
+      Point p0 = new Point(-100, 0, frontZ - 1);
+      Point p1 = new Point(500, 600, frontZ);
 
       Box box = new Box(p0, p1, material);
-
-      //ImplicitPlane plane = new ImplicitPlane(planeOrigin, planeNormal, material);
-      //scene.addShape(plane);
       scene.addShape(box);
 
-      /*
-      for (int i = 0; i < 600; i += 3) {
-
-         double originX = i;
-         double originY = i;
-         double originZ = 20;
-
-         material = new Material();
-
-
-         material.setColor(new Color(0, 131, 255));
-         material.setReflectivity(.2);
-         material.setTransparency(0);
-         material.setDiffuse(.8);
-         //material.setIndexOfRefraction(1.1);
-
-         Sphere sphere = new Sphere(material);
-         sphere.Origin = new Point(originX, originY, originZ);
-         sphere.Radius = originZ;
-         scene.addShape(sphere);
-      }*/
-
       int total = 320;
-
-
 
       int sphereXInterval = 10;
       int maxSmallSpheresX = total / sphereXInterval;
@@ -485,8 +459,6 @@ public class SceneBuilder {
             int green = ((i + j) % 4) * 48 + 48;
             int blue = (j % 3) * 64 + 48;
 
-            float weight = (float)Math.random();
-
             Color color = new Color(red, green, blue);
 
             material = new Material();
@@ -501,9 +473,7 @@ public class SceneBuilder {
 
             double originX = sphereXInterval * i + (j % 5) * 3 + 50;
             double originY = sphereYInterval * j + (yOffset[i * maxSmallSpheresY + j]) + 150;
-            //double originX = sphereXInterval * i;
-            //double originY = sphereYInterval * j;
-            double originZ = 100;
+            double originZ = frontZ + radius;
 
             sphere.Origin = new Point(originX, originY, originZ);
             sphere.Radius = radius;
@@ -515,7 +485,7 @@ public class SceneBuilder {
 
       // right light
 
-      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(10.0f, 8.0f, 8.0f);
+      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(20.0f, 18.0f, 18.0f);
 
       Sphere sphere = new Sphere();
       sphere.Origin = new Point(300, 300, 300);
@@ -728,7 +698,7 @@ public class SceneBuilder {
       Box box = new Box(b0, b1, material);
       scene.addShape(box);
 
-      //Box box = new Box(planeOrigin, planeNormal, material);
+      //BoundingBox box = new BoundingBox(planeOrigin, planeNormal, material);
       //scene.addShape(plane);
 
       double offset = 1;

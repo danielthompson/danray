@@ -2,7 +2,6 @@ package net.danielthompson.danray.states;
 
 import net.danielthompson.danray.shapes.Shape;
 import net.danielthompson.danray.structures.Point;
-import net.danielthompson.danray.structures.Statistics;
 import net.danielthompson.danray.structures.Normal;
 
 import java.util.List;
@@ -21,7 +20,6 @@ public class IntersectionState {
    public Shape Shape;
    public List<Point> Face;
    public Normal Normal;
-   public Statistics Statistics;
 
    public int KDHeatCount;
 
@@ -29,6 +27,5 @@ public class IntersectionState {
 
    public IntersectionState() {
       TMin = -Double.MAX_VALUE;
-      Statistics = new Statistics();
    }
 }

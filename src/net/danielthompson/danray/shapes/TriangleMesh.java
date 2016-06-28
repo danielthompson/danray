@@ -29,11 +29,6 @@ public class TriangleMesh implements Shape {
    }
 
    @Override
-   public boolean InCurrentKDNode() {
-      return false;
-   }
-
-   @Override
    public void SetInCurrentKDNode(boolean value) {
 
    }
@@ -98,11 +93,6 @@ public class TriangleMesh implements Shape {
    }
 
    @Override
-   public double getSurfaceArea() {
-      return 0.0;
-   }
-
-   @Override
    public BoundingEdge[] GetBoundingEdges(KDAxis axis) {
       return new BoundingEdge[0];
    }
@@ -142,10 +132,6 @@ public class TriangleMesh implements Shape {
    }
    */
 
-   @Override
-   public double GetVolume() {
-      return 0;
-   }
 
    private void recalcBoundingBox() {
       double minX = Double.MAX_VALUE;

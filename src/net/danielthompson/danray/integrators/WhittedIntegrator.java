@@ -58,7 +58,6 @@ public class WhittedIntegrator extends AbstractIntegrator {
          }
       }
 
-      sample.Statistics = closestStateToRay.Statistics;
       sample.KDHeatCount = closestStateToRay.KDHeatCount;
 
       if (closestStateToRay.Shape instanceof Radiatable) {
@@ -153,7 +152,6 @@ public class WhittedIntegrator extends AbstractIntegrator {
             Ray reflectedRay = new Ray(offsetIntersection, outgoingDirection);
 
             reflectedSample = GetSample(reflectedRay, depth, oldIndexOfRefraction);
-            sample.Statistics.Add(reflectedSample.Statistics);
 
             Vector reversedIncoming = Vector.Scale(ray.Direction, -1);
 
@@ -170,7 +168,6 @@ public class WhittedIntegrator extends AbstractIntegrator {
             Ray reflectedRay = GeometryCalculations.GetReflectedRay(closestStateToRay.IntersectionPoint, closestStateToRay.Normal, ray);
 
             reflectedColor = GetSample(reflectedRay, depth, oldIndexOfRefraction);
-            colorWithStatistics.Statistics.Add(reflectedColor.Statistics);
 
             // refracted color
 
@@ -184,7 +181,6 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
             Ray refractedRay = GeometryCalculations.GetRefractedRay(closestStateToRay, closestStateToRay.Normal, ray, oldIndexOfRefraction);
             refractedSample = GetSample(refractedRay, depth, closestStateToRay.Drawable.GetMaterial().getIndexOfRefraction());
-            colorWithStatistics.Statistics.Add(refractedSample.Statistics);
          }
 */
          float transparency = (float)objectMaterial._transparency;

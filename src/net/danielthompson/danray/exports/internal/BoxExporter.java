@@ -11,7 +11,7 @@ import org.w3c.dom.Element;
 public class BoxExporter {
    public static Element Process(Box object, Document document, Element parent) {
 
-      Element rootElement = document.createElement("Box");
+      Element rootElement = document.createElement("BoundingBox");
       rootElement.appendChild(PointExporter.Process(object.point1, document, rootElement));
       rootElement.appendChild(PointExporter.Process(object.point2, document, rootElement));
       rootElement.appendChild(AbstractShapeExporter.Process(object, document, rootElement));

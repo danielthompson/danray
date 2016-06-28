@@ -5,10 +5,7 @@ import net.danielthompson.danray.shapes.*;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.cameras.Camera;
 import net.danielthompson.danray.scenes.AbstractScene;
-import net.danielthompson.danray.structures.BoundingBox;
-import net.danielthompson.danray.structures.Statistics;
-import net.danielthompson.danray.structures.Ray;
-import net.danielthompson.danray.structures.Vector;
+import net.danielthompson.danray.structures.*;
 
 
 import java.util.ArrayList;
@@ -34,7 +31,6 @@ public class KDScene extends AbstractScene {
    @Override
    public IntersectionState getNearestShape(Ray ray) {
       // all rays by definition hit the root node
-      statistics = new Statistics();
 
       IntersectionState state = TraverseTreeBetter(rootNode, ray, 0);
 
@@ -57,7 +53,7 @@ public class KDScene extends AbstractScene {
 
    private IntersectionState GetClosestDrawableInNode(KDNode node, Ray ray) {
       IntersectionState closestStateToRay = null;
-      for (Shape shape : node.getObjects()) {
+      for (Shape shape : node.Shapes) {
          IntersectionState state = shape.getHitInfo(ray);
 
          if (state.Hits && (closestStateToRay == null || state.TMin < closestStateToRay.TMin)) {
@@ -70,11 +66,8 @@ public class KDScene extends AbstractScene {
 
    private IntersectionState GetClosestDrawableToRay(List<Shape> shapes, Ray ray) {
       IntersectionState closestStateToRay = null;
-      statistics = new Statistics();
       for (Shape shape : shapes) {
          IntersectionState state = shape.getHitInfo(ray);
-         statistics.DrawableIntersections++;
-         state.Statistics = statistics;
 
          if (state.Hits) {
             if (closestStateToRay == null) {
@@ -91,50 +84,30 @@ public class KDScene extends AbstractScene {
 
    public IntersectionState TraverseTree(KDNode node, Ray ray) {
       if (node.isLeaf()) {
-         IntersectionState closestState = GetClosestDrawableOrPlaneToRay(node.getObjects(), ray);
+         IntersectionState closestState = GetClosestDrawableOrPlaneToRay(node.Shapes, ray);
 
          return closestState;
       }
       else {
 
-         KDNode leftNode = node._leftChild;
-         KDNode rightNode = node._rightChild;
+         KDNode leftNode = node.LeftChild;
+         KDNode rightNode = node.RightChild;
 
          IntersectionState leftState = leftNode.getHitInfo(ray);
          IntersectionState rightState = rightNode.getHitInfo(ray);
 
          boolean hitsLeft = leftState.Hits;
-         statistics.BoundingIntersections++;
          boolean hitsRight = rightState.Hits;
-         statistics.BoundingIntersections++;
-
-         statistics.BoundsHitLeft = hitsLeft ? statistics.BoundsHitLeft : statistics.BoundsHitLeft + 1;
-         statistics.BoundsHitRight = hitsRight ? statistics.BoundsHitRight : statistics.BoundsHitRight + 1;
-
-         if (hitsLeft) {
-            if (hitsRight)
-               statistics.BothBoundHit++;
-            else
-               statistics.OneBoundHit++;
-         }
-         else {
-            if (hitsRight) {
-               statistics.OneBoundHit++;
-            }
-            else {
-               statistics.NoBoundsHit++;
-            }
-         }
 
          IntersectionState bestStateSoFar = null;
 
-         if (leftState.Hits) {
+         if (hitsLeft) {
             IntersectionState bestCandidateState = TraverseTree(leftNode, ray);
             if (bestCandidateState != null && bestCandidateState.Hits)
                bestStateSoFar = bestCandidateState;
          }
 
-         if (rightState.Hits) {
+         if (hitsRight) {
             IntersectionState bestCandidateState = TraverseTree(rightNode, ray);
             if (bestCandidateState != null && bestCandidateState.Hits && (bestStateSoFar == null || bestCandidateState.TMin < bestStateSoFar.TMin)) {
                bestStateSoFar = bestCandidateState;
@@ -143,6 +116,14 @@ public class KDScene extends AbstractScene {
 
          return bestStateSoFar;
       }
+   }
+
+   public Point getPoint1(KDNode node) {
+      return node.BoundingBox.point1;
+   }
+
+   public Point getPoint2(KDNode node) {
+      return node.BoundingBox.point2;
    }
 
    public IntersectionState TraverseTreeBetter(KDNode node, Ray ray, int count) {
@@ -157,16 +138,17 @@ public class KDScene extends AbstractScene {
       }
       else {
 
-         KDNode leftNode = node._leftChild;
-         KDNode rightNode = node._rightChild;
+         KDNode leftNode = node.LeftChild;
+         KDNode rightNode = node.RightChild;
 
-         IntersectionState leftState = BoundingBox.GetHitInfoNew(leftNode._box.point1, leftNode._box.point2, ray);
-         IntersectionState rightState = BoundingBox.GetHitInfoNew(rightNode._box.point1, rightNode._box.point2, ray);
+         IntersectionState leftState = BoundingBox.GetHitInfoNew(getPoint1(leftNode), getPoint2(leftNode), ray);
+         IntersectionState rightState = BoundingBox.GetHitInfoNew(getPoint1(rightNode), getPoint2(rightNode), ray);
+
+         //IntersectionState leftState = BoundingBox.GetHitInfoNew(leftNode.BoundingBox.point1, leftNode.BoundingBox.point2, ray);
+         //IntersectionState rightState = BoundingBox.GetHitInfoNew(rightNode.BoundingBox.point1, rightNode.BoundingBox.point2, ray);
 
          //IntersectionState leftState = leftNode.getHitInfo(ray);
          //IntersectionState rightState = rightNode.getHitInfo(ray);
-
-
 
          /*
 
@@ -259,7 +241,7 @@ public class KDScene extends AbstractScene {
             if (ray.MaxT < minT)
                break;
             if (node.isLeaf()) {
-               closestState = GetClosestDrawableOrPlaneToRay(node.getObjects(), ray);
+               closestState = GetClosestDrawableOrPlaneToRay(node.Shapes, ray);
 
                if (todoPos > 0) {
                   --todoPos;
@@ -280,12 +262,12 @@ public class KDScene extends AbstractScene {
                boolean belowFirst = (ray.Origin.getAxis(axis) > node.Split) || (ray.Origin.getAxis(axis) == node.Split && ray.Direction.getAxis(axis) <= 0);
 
                if (belowFirst) {
-                  firstChild = node._leftChild;
-                  secondChild = node._rightChild;
+                  firstChild = node.LeftChild;
+                  secondChild = node.RightChild;
                }
                else {
-                  firstChild = node._rightChild;
-                  secondChild = node._leftChild;
+                  firstChild = node.RightChild;
+                  secondChild = node.LeftChild;
                }
 
                // if we only have to look at the first one

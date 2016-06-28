@@ -153,11 +153,6 @@ public class Sphere extends AbstractShape {
    }
 
    @Override
-   public double getSurfaceArea() {
-      return 4 * Math.PI * Radius * Radius;
-   }
-
-   @Override
    public boolean Hits(Ray ray) {
       return getHitInfo(ray).Hits;
    }
@@ -193,11 +188,5 @@ public class Sphere extends AbstractShape {
 
       return (Origin.equals(rhs.Origin) && Radius == rhs.Radius && Material.equals(rhs.Material));
    }
-
-   @Override
-   public double GetVolume() {
-      return (4.0 / 3.0) * Math.PI * Radius * Radius * Radius;
-   }
-
 
 }

@@ -12,29 +12,27 @@ import java.util.*;
  */
 public class KDNode {
 
-   public KDNode _leftChild;
-   public KDNode _rightChild;
-   public List<Shape> _objects;
-   public BoundingBox _box;
+   public KDNode LeftChild;
+   public KDNode RightChild;
+   public List<Shape> Shapes;
+   public BoundingBox BoundingBox;
 
    public double Split;
    public KDAxis Axis;
 
-   public KDNode(List<Shape> objects, KDAxis axis) {
-      _objects = objects;
+   public KDNode(List<Shape> shapes, KDAxis axis) {
+      Shapes = shapes;
       Axis = axis;
    }
 
+
+
    public KDNode(List<Shape> objects) {
-      _objects = objects;
+      Shapes = objects;
    }
 
    public boolean isLeaf() {
-      return _leftChild == null && _rightChild == null;
-   }
-
-   public List<Shape> getObjects() {
-      return _objects;
+      return LeftChild == null && RightChild == null;
    }
 
    public int GetMaxDepth() {
@@ -43,8 +41,8 @@ public class KDNode {
       }
 
       else {
-         int rightDepth = 1 + _rightChild.GetMaxDepth();
-         int leftDepth = 1 + _leftChild.GetMaxDepth();
+         int rightDepth = 1 + RightChild.GetMaxDepth();
+         int leftDepth = 1 + LeftChild.GetMaxDepth();
 
          return Math.max(rightDepth, leftDepth);
       }
@@ -56,8 +54,8 @@ public class KDNode {
       }
 
       else {
-         int rightDepth = 1 + _rightChild.GetMinDepth();
-         int leftDepth = 1 + _leftChild.GetMinDepth();
+         int rightDepth = 1 + RightChild.GetMinDepth();
+         int leftDepth = 1 + LeftChild.GetMinDepth();
 
          return Math.min(rightDepth, leftDepth);
       }
@@ -68,20 +66,20 @@ public class KDNode {
          return 1;
       }
       else {
-         int rightDepth = 1 + _rightChild.GetCount();
-         int leftDepth = 1 + _leftChild.GetCount();
+         int rightDepth = 1 + RightChild.GetCount();
+         int leftDepth = 1 + LeftChild.GetCount();
 
          return rightDepth + leftDepth;
       }
    }
 
    public boolean IsHitBy(Ray ray) {
-      return _box.Hits(ray);
+      return BoundingBox.Hits(ray);
    }
 
    public IntersectionState getHitInfo(Ray ray) {
-      //return _box.GetHitInfo(ray);
-      return BoundingBox.GetHitInfoNew(_box.point1, _box.point2, ray);
+      //return BoundingBox.GetHitInfo(ray);
+      return BoundingBox.GetHitInfoNew(BoundingBox.point1, BoundingBox.point2, ray);
    }
 
    @Override
@@ -89,8 +87,8 @@ public class KDNode {
 
       String size = "0";
 
-      if (_objects != null) {
-         size = "" + _objects.size();
+      if (Shapes != null) {
+         size = "" + Shapes.size();
       }
 
       String axis = "";

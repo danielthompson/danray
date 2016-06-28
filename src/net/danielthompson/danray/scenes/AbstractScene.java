@@ -6,7 +6,6 @@ import net.danielthompson.danray.presets.TracerOptions;
 import net.danielthompson.danray.shapes.Shape;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.Ray;
-import net.danielthompson.danray.structures.Statistics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +16,6 @@ import java.util.List;
 public abstract class AbstractScene {
    public int numFrames = 1;
    public Camera Camera;
-
-   public Statistics statistics;
 
    public String ImplementationType = "Base Scene";
 
