@@ -1,5 +1,6 @@
 package net.danielthompson.danray.integrators;
 
+import net.danielthompson.danray.lights.AbstractLight;
 import net.danielthompson.danray.lights.Radiatable;
 import net.danielthompson.danray.scenes.AbstractScene;
 import net.danielthompson.danray.shading.Material;
@@ -29,8 +30,8 @@ public class PathTraceIntegrator extends AbstractIntegrator {
          return sample;
       }
 
-      if (closestStateToRay.Shape instanceof Radiatable) {
-         sample.SpectralPowerDistribution = ((Radiatable) closestStateToRay.Shape).getSPD();
+      if (closestStateToRay.Shape instanceof AbstractLight) {
+         sample.SpectralPowerDistribution = ((AbstractLight) closestStateToRay.Shape).SpectralPowerDistribution;
          return sample;
       }
 

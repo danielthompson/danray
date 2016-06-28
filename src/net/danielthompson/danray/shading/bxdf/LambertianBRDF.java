@@ -16,8 +16,7 @@ public class LambertianBRDF extends BRDF {
    @Override
    public double f(Vector incoming, Normal normal, Vector outgoing) {
 
-
-
+      
       //if (incoming.Dot(normal) <= 0 && normal.Dot(outgoing) >= 0)
          return Constants.OneOverPi;
       //return 0;

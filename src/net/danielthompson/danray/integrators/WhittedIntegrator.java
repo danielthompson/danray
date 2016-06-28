@@ -154,12 +154,13 @@ public class WhittedIntegrator extends AbstractIntegrator {
             reflectedSample = GetSample(reflectedRay, depth, oldIndexOfRefraction);
 
             Vector reversedIncoming = Vector.Scale(ray.Direction, -1);
-
+/*
             double angleIncoming = GeometryCalculations.angleBetween(reversedIncoming, closestStateToRay.Normal);
             double angleOutgoing = GeometryCalculations.angleBetween(outgoingDirection, closestStateToRay.Normal);
 
             reflectedWeight = objectMaterial.BRDF.f(angleIncoming, angleOutgoing);
             reflectedWeight *= objectMaterial._transparency;
+            */
          }
 
          Sample refractedSample = null;

@@ -14,10 +14,16 @@ import java.util.List;
 public class KDCompactNode {
 
    public List<Shape> Shapes;
-   public BoundingBox BoundingBox;
 
    public double Split;
    public KDAxis Axis;
+
+   public float p0x;
+   public float p0y;
+   public float p0z;
+   public float p1x;
+   public float p1y;
+   public float p1z;
 
    public KDCompactNode(List<Shape> objects) {
       Shapes = objects;
@@ -28,9 +34,6 @@ public class KDCompactNode {
       Axis = axis;
    }
 
-   public IntersectionState getHitInfo(Ray ray) {
-      return BoundingBox.GetHitInfoNew(BoundingBox.point1, BoundingBox.point2, ray);
-   }
 
    @Override
    public String toString() {

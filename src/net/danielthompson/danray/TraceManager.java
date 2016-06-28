@@ -3,6 +3,7 @@ package net.danielthompson.danray;
 import net.danielthompson.danray.acceleration.KDScene;
 import net.danielthompson.danray.films.BoxFilterFilm;
 import net.danielthompson.danray.integrators.AbstractIntegrator;
+import net.danielthompson.danray.integrators.PathTraceIntegrator;
 import net.danielthompson.danray.integrators.WhittedIntegrator;
 import net.danielthompson.danray.presets.RenderQualityPreset;
 import net.danielthompson.danray.presets.TracerOptions;
@@ -107,7 +108,7 @@ public class TraceManager {
       _tracerOptions = tracerOptions;
       _samplesInverse = 1.0f / (renderQualityPreset.getSuperSamplesPerPixel() * renderQualityPreset.getSamplesPerPixel());
       _scene = scene;
-      _integrator = new WhittedIntegrator(_scene, renderQualityPreset.getMaxDepth());
+      _integrator = new PathTraceIntegrator(_scene, renderQualityPreset.getMaxDepth());
       _timer = new Timer();
       long numPixels = renderQualityPreset.getX() * renderQualityPreset.getY();
       _numPixelsDivisor = 1.0f / numPixels;

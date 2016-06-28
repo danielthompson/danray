@@ -410,6 +410,7 @@ public class SceneBuilder {
       }
 
       AbstractScene scene = new KDCompactScene(camera);
+      //AbstractScene scene = new KDScene(camera);
       scene.numFrames = 1;
 
       // white vertical z plane
@@ -488,12 +489,14 @@ public class SceneBuilder {
       SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(20.0f, 18.0f, 18.0f);
 
       Sphere sphere = new Sphere();
-      sphere.Origin = new Point(300, 300, 300);
-      sphere.Radius = 20;
+      sphere.Origin = new Point(300, 300, 2300);
+      sphere.Radius = 1000;
+
+      sphere.RecalculateWorldBoundingBox();
 
       AbstractLight light = new SphereLight(lightSPD, sphere);
 
-      //scene.Shapes.add(light);
+      scene.Shapes.add(light);
       scene.addLight(light);
 
       //scene.addLight(new PointLight(new Point(300, 300, 800), 30));

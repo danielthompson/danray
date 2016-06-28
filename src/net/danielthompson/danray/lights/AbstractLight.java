@@ -1,18 +1,20 @@
 package net.danielthompson.danray.lights;
 
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
+import net.danielthompson.danray.shapes.AbstractShape;
 import net.danielthompson.danray.structures.*;
 
 /**
  * Created by daniel on 6/25/16.
  */
-public abstract class AbstractLight {
+public abstract class AbstractLight extends AbstractShape {
 
    public int ID;
 
    public SpectralPowerDistribution SpectralPowerDistribution;
 
    public AbstractLight(SpectralPowerDistribution spd) {
+      super(null);
       SpectralPowerDistribution = spd;
    }
 

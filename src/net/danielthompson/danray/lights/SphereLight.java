@@ -1,7 +1,10 @@
 package net.danielthompson.danray.lights;
 
+import com.sun.xml.internal.bind.annotation.OverrideAnnotationOf;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.shapes.Sphere;
+import net.danielthompson.danray.states.IntersectionState;
+import net.danielthompson.danray.structures.BoundingBox;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Vector;
@@ -32,6 +35,14 @@ public class SphereLight extends AbstractLight {
 
    private static int randomPointer;
 
+   @Override
+   public IntersectionState getHitInfo(Ray ray) {
+      IntersectionState state = Sphere.getHitInfo(ray);
+      if (state != null && state.Shape == Sphere)
+         state.Shape = this;
+      return state;
+   }
+
    private static Object mutex = new Object();
 
    private Point getRandomPoint() {
@@ -52,7 +63,10 @@ public class SphereLight extends AbstractLight {
       return point;
    }
 
-
+   @Override
+   public BoundingBox GetWorldBoundingBox() {
+      return Sphere.GetWorldBoundingBox();
+   }
 
    @Override
    public Point getRandomPointOnSurface() {

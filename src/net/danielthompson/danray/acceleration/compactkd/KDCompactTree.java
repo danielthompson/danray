@@ -47,16 +47,21 @@ public class KDCompactTree {
       }
       // recursive case
       else {
-         PutNode(tree, oldNode.LeftChild, index * 2);
-         PutNode(tree, oldNode.RightChild, index * 2 + 1);
+         PutNode(tree, oldNode.LeftChild, index * 2 + 1);
+         PutNode(tree, oldNode.RightChild, index * 2 + 2);
       }
    }
 
    public static KDCompactNode GetKDCompactNode(KDNode node) {
       KDCompactNode newNode = new KDCompactNode(node.Shapes, node.Axis);
 
-      newNode.BoundingBox = node.BoundingBox;
       newNode.Split = node.Split;
+      newNode.p0x = (float) node.BoundingBox.point1.X;
+      newNode.p0y = (float) node.BoundingBox.point1.Y;
+      newNode.p0z = (float) node.BoundingBox.point1.Z;
+      newNode.p1x = (float) node.BoundingBox.point2.X;
+      newNode.p1y = (float) node.BoundingBox.point2.Y;
+      newNode.p1z = (float) node.BoundingBox.point2.Z;
 
       return newNode;
 
