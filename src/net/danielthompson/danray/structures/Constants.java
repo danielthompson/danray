@@ -7,7 +7,11 @@ package net.danielthompson.danray.structures;
  * Time: 5:09 PM
  */
 public class Constants {
-   public static final double Epsilon = .0000000001;
+   public static final double Epsilon = .000000000001;
+   public static final double HalfEpsilon = Epsilon * .5;
+   //public static final double Epsilon = .000000001265;
+   //public static final double Epsilon = .0000000001006;
+
    public static final double OneOverPi = 1.0 / Math.PI;
    public static final double OneOver2Pi = 1.0 / (2 * Math.PI);
    public static final double OneOver4Pi = 1.0 / (4 * Math.PI);
@@ -21,10 +25,10 @@ public class Constants {
    public static boolean WithinEpsilon(double number, double target, double epsilon) {
 
       if (number > target) {
-         return (epsilon + target >= number);
+         return (2*epsilon + target >= number);
       }
       else
-         return (epsilon + number >= target);
+         return (2*epsilon + number >= target);
    }
 
    public static boolean WithinEpsilon(Point p1, Point p2) {

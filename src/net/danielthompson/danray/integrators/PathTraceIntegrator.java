@@ -56,6 +56,8 @@ public class PathTraceIntegrator extends AbstractIntegrator {
 
          Ray bounceRay = new Ray(closestStateToRay.IntersectionPoint, outgoingDirection);
 
+         bounceRay.OffsetOriginForward(Constants.HalfEpsilon);
+
          //Ray indirectRay = GeometryCalculations.GetRandomRayInNormalHemisphere(closestStateToRay.IntersectionPoint, closestStateToRay.Normal);
 
          Sample incomingSample = GetSample(bounceRay, depth + 1);

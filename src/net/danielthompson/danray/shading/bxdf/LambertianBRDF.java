@@ -10,16 +10,26 @@ public class LambertianBRDF extends BRDF {
 
    @Override
    public double f(double thetaIncoming, double thetaOutgoing) {
-      return Constants.OneOverPi;
+
+      return Math.cos(thetaIncoming) * Math.cos(thetaOutgoing);
+
+//      return Constants.OneOverPi;
    }
 
    @Override
    public double f(Vector incoming, Normal normal, Vector outgoing) {
 
-      
-      //if (incoming.Dot(normal) <= 0 && normal.Dot(outgoing) >= 0)
-         return Constants.OneOverPi;
-      //return 0;
+      double cosThetaIncoming = -incoming.Dot(normal);
+      double cosThetaOutgoing = normal.Dot(outgoing);
+
+      return cosThetaIncoming * cosThetaOutgoing;
+
+
+
+
+//      //if (incoming.Dot(normal) <= 0 && normal.Dot(outgoing) >= 0)
+//         return Constants.OneOverPi;
+//      //return 0;
    }
 
    @Override
@@ -30,6 +40,8 @@ public class LambertianBRDF extends BRDF {
 
       if (outgoing.Dot(normal) < 0)
          outgoing.Scale(-1);
+
+
 
       return outgoing;
    }

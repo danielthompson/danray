@@ -60,8 +60,8 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
       sample.KDHeatCount = closestStateToRay.KDHeatCount;
 
-      if (closestStateToRay.Shape instanceof Radiatable) {
-         sample.SpectralPowerDistribution = ((Radiatable)closestStateToRay.Shape).getSPD();
+      if (closestStateToRay.Shape instanceof AbstractLight) {
+         sample.SpectralPowerDistribution = ((AbstractLight)closestStateToRay.Shape).SpectralPowerDistribution;
          return sample;
       }
 
@@ -111,22 +111,6 @@ public class WhittedIntegrator extends AbstractIntegrator {
             }
          }
       }
-//
-//      int r = (int) (objectMaterial.ReflectanceSpectrum.R * 255);
-//      int g = (int) (objectMaterial.ReflectanceSpectrum.G * 255);
-//      int b = (int) (objectMaterial.ReflectanceSpectrum.B * 255);
-//
-//      float[] hsbColor = Color.RGBtoHSB(r, g, b, null);
-//
-//      hsbColor[2] = (float)brightness;
-//
-//      if (hsbColor[2] >= 1.0f) {
-//         hsbColor[2] = 1.0f;
-//      }
-//
-//      Color calculatedColor = Color.getHSBColor(hsbColor[0], hsbColor[1], hsbColor[2]);
-//
-//      SpectralPowerDistribution spd = new SpectralPowerDistribution(calculatedColor);
 
       directSPD = directSPD.reflectOff(objectMaterial.ReflectanceSpectrum);
 
