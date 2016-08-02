@@ -25,6 +25,8 @@ import java.awt.*;
 import java.io.File;
 import java.util.*;
 
+import static java.awt.Color.red;
+
 /**
  * User: daniel
  * Date: 6/30/13
@@ -78,7 +80,7 @@ public class SceneBuilder {
       lightSPD = new SpectralPowerDistribution(1.0f, 0.8f, 0.8f);
 
       material = new Material();
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.red);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(red);
 
       sphere = new Sphere();
       sphere.Origin = new Point(-800, 0, 500);
@@ -390,7 +392,7 @@ public class SceneBuilder {
       settings.Y = y;
       settings.FocalLength = 150;
       settings.Rotation = 0;
-      settings.ZoomFactor = 1.0/16.0;
+      settings.ZoomFactor = 1.0/8.0;
       settings.FocusDistance = 75;
       settings.Aperture = new CircleAperture(10);
 
@@ -433,7 +435,7 @@ public class SceneBuilder {
       Box box = new Box(p0, p1, material);
       scene.addShape(box);
 
-      int total = 50;
+      int total = 320;
 
       int sphereXInterval = 10;
       int maxSmallSpheresX = total / sphereXInterval;
@@ -457,11 +459,12 @@ public class SceneBuilder {
                }
             }
 
+            /*
             int red = (i % 3) * 64 + 48;
             int green = ((i + j) % 4) * 48 + 48;
             int blue = (j % 3) * 64 + 48;
-
-            Color color = new Color(red, green, blue);
+            */
+            Color color = new Color(150, 210, 255);
 
             material = new Material();
             material.ReflectanceSpectrum = new ReflectanceSpectrum(color);
@@ -478,7 +481,7 @@ public class SceneBuilder {
             double originZ = frontZ + radius;
 
             sphere.Origin = new Point(originX, originY, originZ);
-            sphere.Radius = radius += .1;
+            sphere.Radius = radius;
 
             sphere.RecalculateWorldBoundingBox();
             scene.addShape(sphere);
@@ -510,6 +513,73 @@ public class SceneBuilder {
       //scene.addLight(new PointLight(new Point(x / 2, y / 2, 600), 10.0));
 
 
+
+      return scene;
+   }
+
+
+   public static AbstractScene CornellBox(int x, int y) {
+      CameraSettings settings = new CameraSettings();
+      settings.X = x;
+      settings.Y = y;
+      settings.FocalLength = 150;
+      settings.Rotation = 0;
+      settings.ZoomFactor = 1.0;
+      settings.FocusDistance = 75;
+      settings.Aperture = new CircleAperture(10);
+
+      Point origin = new Point(0, 1500, 2000);
+      Vector direction = new Vector(0, -.5, -1);
+      settings.Orientation = new Ray(origin, direction);
+
+      Camera camera = null;
+
+      if (Main.UseDepthOfField) {
+         camera = new DepthOfFieldCamera(settings);
+      }
+
+      else {
+//         camera = new IsometricCamera(settings);
+         camera = new SimplePointableCamera(settings);
+      }
+
+      AbstractScene scene = new NaiveScene(camera);
+//      AbstractScene scene = new KDCompactScene(camera);
+//      AbstractScene scene = new KDScene(camera);
+      scene.numFrames = 1;
+
+      // white vertical z plane
+      BRDF brdf = new LambertianBRDF();
+
+      Material material = new Material();
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(120, 240, 240));
+      material._specular = 1 - .75;
+      material._reflectivity = .25;
+      material._intrinsic = 1 - (material._reflectivity + material._specular + material._transparency);
+
+      material.BRDF = brdf;
+
+      Point p0 = new Point(-1000, -1000, -1000);
+      Point p1 = new Point(1000, 1000, 1000);
+
+      Box box = new Box(p0, p1, material);
+      scene.addShape(box);
+
+
+      // right light
+
+      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(200.0f, 200.0f, 200.0f);
+
+      Sphere sphere = new Sphere();
+      sphere.Origin = new Point(0, 2500, -550);
+      sphere.Radius = 500;
+
+      sphere.RecalculateWorldBoundingBox();
+
+      AbstractLight light = new SphereLight(lightSPD, sphere);
+
+      scene.Shapes.add(light);
+      scene.addLight(light);
 
       return scene;
    }

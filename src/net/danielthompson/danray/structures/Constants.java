@@ -12,6 +12,8 @@ public class Constants {
    //public static final double Epsilon = .000000001265;
    //public static final double Epsilon = .0000000001006;
 
+   public static final int NumberOfPregeneratedRandoms = 65537;
+
    public static final double OneOverPi = 1.0 / Math.PI;
    public static final double OneOver2Pi = 1.0 / (2 * Math.PI);
    public static final double OneOver4Pi = 1.0 / (4 * Math.PI);

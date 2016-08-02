@@ -23,7 +23,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
    private final int _airIndexOfRefraction = 1;
 
-   private final double factor = 140.0;
+   private final double factor = 1.0;
    private final double iterations = 1.0;
    private final double adjustment = factor / iterations;
 
@@ -36,11 +36,9 @@ public class WhittedIntegrator extends AbstractIntegrator {
       return GetSample(ray, depth, _airIndexOfRefraction);
    }
 
-   public Sample GetSample(Ray ray, int depth, double oldIndexOfRefraction) {
+   private Sample GetSample(Ray ray, int depth, double oldIndexOfRefraction) {
 
       Sample sample = new Sample();
-
-      double brightness = 0;
 
       IntersectionState closestStateToRay = scene.getNearestShape(ray);
 

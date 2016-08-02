@@ -11,7 +11,7 @@ public abstract class AbstractIntegrator {
    AbstractScene scene;
    int maxDepth;
 
-   protected AbstractIntegrator(AbstractScene scene, int maxDepth) {
+   AbstractIntegrator(AbstractScene scene, int maxDepth) {
       this.scene = scene;
       this.maxDepth = maxDepth;
    }

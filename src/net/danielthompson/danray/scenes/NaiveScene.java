@@ -33,10 +33,16 @@ public class NaiveScene extends AbstractScene {
    @Override
    public IntersectionState getNearestShapeBetween(Ray ray, double t0, double t1) {
       IntersectionState closestStateToRay = null;
+
       for (Shape shape : Shapes) {
          IntersectionState state = shape.getHitInfo(ray);
 
-         if (state.Hits && state.TMin > (t0 + Constants.Epsilon) && (state.TMin + Constants.Epsilon) < t1) {
+         //boolean replace = (state.Hits && state.TMin >= t0 && state.TMin <= t1) && (closestStateToRay == null || state.TMin < closestStateToRay.TMin);
+
+         //closestStateToRay = (state.Hits && state.TMin >= t0 && state.TMin <= t1) && (closestStateToRay == null || state.TMin < closestStateToRay.TMin) ? state : closestStateToRay;
+
+
+         if (state.Hits && state.TMin >= (t0 /*+ Constants.Epsilon*/) && (state.TMin/* + Constants.Epsilon*/) <= t1) {
             if (closestStateToRay == null) {
                closestStateToRay = state;
             }

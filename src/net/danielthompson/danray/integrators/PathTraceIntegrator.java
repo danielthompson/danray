@@ -10,6 +10,8 @@ import net.danielthompson.danray.shapes.Shape;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.*;
 
+import java.awt.*;
+
 
 /**
  * Created by daniel on 5/5/15.
@@ -26,7 +28,7 @@ public class PathTraceIntegrator extends AbstractIntegrator {
       IntersectionState closestStateToRay = scene.getNearestShape(ray);
 
       if (closestStateToRay == null) {
-         sample.SpectralPowerDistribution = new SpectralPowerDistribution();
+         sample.SpectralPowerDistribution = new SpectralPowerDistribution(Color.pink);
          return sample;
       }
 

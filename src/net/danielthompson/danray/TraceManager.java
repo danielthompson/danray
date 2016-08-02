@@ -109,13 +109,12 @@ public class TraceManager {
       _samplesInverse = 1.0f / (renderQualityPreset.getSuperSamplesPerPixel() * renderQualityPreset.getSamplesPerPixel());
       _scene = scene;
       _integrator = new PathTraceIntegrator(_scene, renderQualityPreset.getMaxDepth());
+//      _integrator = new WhittedIntegrator(_scene, renderQualityPreset.getMaxDepth());
       _timer = new Timer();
       long numPixels = renderQualityPreset.getX() * renderQualityPreset.getY();
       _numPixelsDivisor = 1.0f / numPixels;
       _ioHelper = new IOHelper();
       _numPixelsStep = numPixels / 100;
-
-
 
       Logger.AddOutput(System.out);
       _ioHelper.CreateOutputDirectory();

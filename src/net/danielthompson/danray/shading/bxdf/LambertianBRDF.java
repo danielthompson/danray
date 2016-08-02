@@ -22,7 +22,7 @@ public class LambertianBRDF extends BRDF {
       double cosThetaIncoming = -incoming.Dot(normal);
       double cosThetaOutgoing = normal.Dot(outgoing);
 
-      return cosThetaIncoming * cosThetaOutgoing;
+      return Math.abs(cosThetaIncoming * cosThetaOutgoing);
 
 
 

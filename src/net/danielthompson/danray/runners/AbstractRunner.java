@@ -54,7 +54,10 @@ public abstract class AbstractRunner implements Runnable {
          for (int j = 0; j < _samplesPerPixel; j++) {
          //for (int j = 0; j < _superSamplesPerPixel; j++) {
 
-            Ray[] cameraRays = Scene.Camera.getInitialStochasticRaysForPixel(pixels[j][0], pixels[j][1], _samplesPerPixel);
+            float xf = pixels[j][0];
+            float yf = pixels[j][1];
+
+            Ray[] cameraRays = Scene.Camera.getInitialStochasticRaysForPixel(xf, yf, _samplesPerPixel);
             Manager.InitialRays += cameraRays.length;
 
             Sample[] samples = new Sample[cameraRays.length];
@@ -64,7 +67,7 @@ public abstract class AbstractRunner implements Runnable {
                //Manager.Statistics[x][y].Add(samples[i].Statistics);
             }
 
-            Film.AddSamples(x, y, samples);
+            Film.AddSamples(xf, yf, samples);
             reachedSamples += _samplesPerPixel;
          }
          iterations++;

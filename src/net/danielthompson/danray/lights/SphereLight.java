@@ -4,17 +4,18 @@ import com.sun.xml.internal.bind.annotation.OverrideAnnotationOf;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.shapes.Sphere;
 import net.danielthompson.danray.states.IntersectionState;
-import net.danielthompson.danray.structures.BoundingBox;
-import net.danielthompson.danray.structures.Point;
-import net.danielthompson.danray.structures.Ray;
-import net.danielthompson.danray.structures.Vector;
+import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.utility.GeometryCalculations;
 import org.apache.commons.math3.util.FastMath;
+
+import static net.danielthompson.danray.structures.Constants.NumberOfPregeneratedRandoms;
 
 /**
  * Created by daniel on 3/8/14.
  */
 public class SphereLight extends AbstractLight {
+
+
 
    public Sphere Sphere;
 
@@ -26,9 +27,9 @@ public class SphereLight extends AbstractLight {
    private static double[] randoms;
 
    static {
-      randoms = new double[65536];
+      randoms = new double[NumberOfPregeneratedRandoms];
 
-      for (int i = 0; i < 65536; i++) {
+      for (int i = 0; i < NumberOfPregeneratedRandoms; i++) {
          randoms[i] = FastMath.random();
       }
    }
@@ -52,11 +53,11 @@ public class SphereLight extends AbstractLight {
 
       //synchronized (mutex) {
       x = randoms[randomPointer];
-      randomPointer = (randomPointer + 1) & 65535;
+      randomPointer = (randomPointer + 1) & NumberOfPregeneratedRandoms;
       y = randoms[randomPointer];
-      randomPointer = (randomPointer + 1) & 65535;
+      randomPointer = (randomPointer + 1) & NumberOfPregeneratedRandoms;
       z = randoms[randomPointer];
-      randomPointer = (randomPointer + 1) & 65535;
+      randomPointer = (randomPointer + 1) & NumberOfPregeneratedRandoms;
       //}
 
       Point point = new Point(x, y, z);
@@ -71,7 +72,7 @@ public class SphereLight extends AbstractLight {
    @Override
    public Point getRandomPointOnSurface() {
 
-      double[] xyz = GeometryCalculations.randomPointOnPregeneratedSphere();
+      double[] xyz = GeometryCalculations.randomPointOnSphere();
 
       Point point = new Point(xyz);
 
