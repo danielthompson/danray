@@ -67,7 +67,7 @@ public class UnitTestExporter {
          }
          // Output to console for testing
          StreamResult console = new StreamResult(System.err);
-         transformer.transform(source, console);
+         //transformer.transform(source, console);
 
          return console;
 
