@@ -108,7 +108,7 @@ public class AngleBetweenTests {
 
       double actual = GeometryCalculations.angleBetween(v1, v2);
 
-      Assert.assertEquals(actual, expected, Constants.Epsilon *1000000);
+      Assert.assertEquals(actual, expected, Constants.Epsilon * 1000000000);
 
    }
 

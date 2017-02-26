@@ -7,6 +7,7 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import test.AssertHelper;
 
 /**
  * DanRay
@@ -30,6 +31,7 @@ public class GetBoundingBoxTests {
       Sphere sphere = new Sphere();
       sphere.Origin = new Point(0, 0, 0);
       sphere.Radius = 10;
+      sphere.RecalculateWorldBoundingBox();
 
       BoundingBox actualBoundingBox = sphere.GetWorldBoundingBox();
 
@@ -37,7 +39,7 @@ public class GetBoundingBoxTests {
       Point p2 = new Point(10, 10, 10);
       BoundingBox expectedBoundingBox = new BoundingBox(p1, p2);
 
-      Assert.assertEquals(actualBoundingBox, expectedBoundingBox);
+      AssertHelper.assertEquals(expectedBoundingBox, actualBoundingBox);
    }
 
    @Test
@@ -45,6 +47,7 @@ public class GetBoundingBoxTests {
       Sphere sphere = new Sphere();
       sphere.Origin = new Point(1, 1, 1);
       sphere.Radius = 10;
+      sphere.RecalculateWorldBoundingBox();
 
       BoundingBox actualBoundingBox = sphere.GetWorldBoundingBox();
 
@@ -52,6 +55,6 @@ public class GetBoundingBoxTests {
       Point p2 = new Point(11, 11, 11);
       BoundingBox expectedBoundingBox = new BoundingBox(p1, p2);
 
-      Assert.assertEquals(actualBoundingBox, expectedBoundingBox);
+      AssertHelper.assertEquals(expectedBoundingBox, actualBoundingBox);
    }
 }

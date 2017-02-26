@@ -1,5 +1,6 @@
 package test.tracers.tracer;
 
+import net.danielthompson.danray.structures.Normal;
 import net.danielthompson.danray.utility.GeometryCalculations;
 import net.danielthompson.danray.integrators.WhittedIntegrator;
 import net.danielthompson.danray.structures.Point;
@@ -37,6 +38,7 @@ public class PercentageTests {
 
       IntersectionState state = new IntersectionState();
       state.IntersectionPoint = new Point(1, 0, 0);
+      state.Normal = new Normal(1, 0, 0);
       state.Hits = true;
 
       Point vectorOrigin = new Point (10, 0, 0);
@@ -57,6 +59,7 @@ public class PercentageTests {
 
       IntersectionState state = new IntersectionState();
       state.IntersectionPoint = new Point(1, 0, 0);
+      state.Normal = new Normal(1, 0, 0);
       state.Hits = true;
 
       Point vectorOrigin = new Point (2, 1, 0);
@@ -77,6 +80,7 @@ public class PercentageTests {
 
       IntersectionState state = new IntersectionState();
       state.IntersectionPoint = new Point(1, 0, 0);
+      state.Normal = new Normal(1, 0, 0);
       state.Hits = true;
 
       Point vectorOrigin = new Point (1, 1, 0);

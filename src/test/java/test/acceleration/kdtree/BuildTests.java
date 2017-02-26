@@ -38,7 +38,7 @@ public class BuildTests {
          sphere = new Sphere();
          sphere.Origin = new Point(Math.random() * 100, Math.random() * 100, Math.random() * 100);
          sphere.Radius = 1;
-
+         sphere.RecalculateWorldBoundingBox();
          objects.add(sphere);
       }
 
@@ -60,7 +60,7 @@ public class BuildTests {
          sphere = new Sphere();
          sphere.Origin = new Point(Math.random() * 100, Math.random() * 100, Math.random() * 100);
          sphere.Radius = 1;
-
+         sphere.RecalculateWorldBoundingBox();
          objects.add(sphere);
       }
 
@@ -82,7 +82,7 @@ public class BuildTests {
          sphere = new Sphere();
          sphere.Origin = new Point(Math.random() * 100, Math.random() * 100, Math.random() * 100);
          sphere.Radius = 1;
-
+         sphere.RecalculateWorldBoundingBox();
          objects.add(sphere);
       }
 
@@ -104,7 +104,7 @@ public class BuildTests {
          sphere = new Sphere();
          sphere.Origin = new Point(Math.random() * 100, Math.random() * 100, Math.random() * 100);
          sphere.Radius = 1;
-
+         sphere.RecalculateWorldBoundingBox();
          objects.add(sphere);
       }
 
@@ -126,7 +126,7 @@ public class BuildTests {
          sphere = new Sphere();
          sphere.Origin = new Point(Math.random() * 100, Math.random() * 100, Math.random() * 100);
          sphere.Radius = 1;
-
+         sphere.RecalculateWorldBoundingBox();
          objects.add(sphere);
       }
 
@@ -148,7 +148,7 @@ public class BuildTests {
          sphere = new Sphere();
          sphere.Origin = new Point(Math.random() * 100, Math.random() * 100, Math.random() * 100);
          sphere.Radius = 1;
-
+         sphere.RecalculateWorldBoundingBox();
          objects.add(sphere);
       }
 
@@ -170,7 +170,7 @@ public class BuildTests {
          sphere = new Sphere();
          sphere.Origin = new Point(Math.random() * 100, Math.random() * 100, Math.random() * 100);
          sphere.Radius = 1;
-
+         sphere.RecalculateWorldBoundingBox();
          objects.add(sphere);
       }
 

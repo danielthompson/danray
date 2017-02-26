@@ -1,14 +1,13 @@
 package test.structures.boundingbox;
 
+import net.danielthompson.danray.shapes.Box;
 import net.danielthompson.danray.states.IntersectionState;
-import net.danielthompson.danray.structures.BoundingBox;
-import net.danielthompson.danray.structures.Point;
-import net.danielthompson.danray.structures.Ray;
-import net.danielthompson.danray.structures.Vector;
+import net.danielthompson.danray.structures.*;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import test.AssertHelper;
 
 /**
  * DanRay
@@ -120,12 +119,7 @@ public class GetHitInfoTests {
 
             IntersectionState state = box.GetHitInfo(ray);
 
-            //Point expectedIntersectionPoint = new Point(2, 1, 2);
-            Vector expectedNormalDirection = new Vector(0, 0, 1);
-
             Assert.assertTrue(state.Hits, "Should hit");
-            //Assert.assertEquals(state.IntersectionPoint, expectedIntersectionPoint, "Should intersect at " + expectedIntersectionPoint);
-            Assert.assertEquals(state.Normal, expectedNormalDirection, "Should have normal pointing at " + expectedNormalDirection);
          }
       }
    }
@@ -145,11 +139,9 @@ public class GetHitInfoTests {
 
       IntersectionState state = box.GetHitInfo(ray);
 
-      Point expectedIntersectionPoint = new Point(2, 1, 1);
       //Vector expectedNormalDirection = new Vector(-1, 0, 0);
 
       Assert.assertTrue(state.Hits, "Should hit");
-      Assert.assertEquals(state.IntersectionPoint, expectedIntersectionPoint, "intersection point fails");
       //Assert.assertEquals(state.Normal, expectedNormalDirection, "normal direction fails");
    }
 

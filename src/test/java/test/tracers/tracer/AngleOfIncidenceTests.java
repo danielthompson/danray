@@ -46,9 +46,8 @@ public class AngleOfIncidenceTests {
 
       IntersectionState state = new IntersectionState();
       state.IntersectionPoint = new Point(1, 0, 0);
+      state.Normal = new Normal(1, 0, 0);
       state.Hits = true;
-
-      WhittedIntegrator tracer = new WhittedIntegrator(null, 0);
 
       double actualAngleOfIncidence = GeometryCalculations.GetAngleOfIncidence(incomingRay, state);
       double expectedAngleOfIncidence = 45;
@@ -74,9 +73,8 @@ public class AngleOfIncidenceTests {
 
       IntersectionState state = new IntersectionState();
       state.IntersectionPoint = new Point(1, 0, 0);
+      state.Normal = new Normal(1, 0, 0);
       state.Hits = true;
-
-      WhittedIntegrator tracer = new WhittedIntegrator(null, 0);
 
       double actualAngleOfIncidence = GeometryCalculations.GetAngleOfIncidence(incomingRay, state);
       double expectedAngleOfIncidence = 45;
@@ -104,6 +102,7 @@ public class AngleOfIncidenceTests {
 
       IntersectionState state = new IntersectionState();
       state.IntersectionPoint = new Point(1, 0, 0);
+      state.Normal = new Normal(1, 0, 0);
       state.Hits = true;
 
       WhittedIntegrator tracer = new WhittedIntegrator(null, 0);
@@ -132,6 +131,7 @@ public class AngleOfIncidenceTests {
 
       IntersectionState state = new IntersectionState();
       state.IntersectionPoint = new Point(1, 0, 0);
+      state.Normal = new Normal(1, 0, 0);
       state.Hits = true;
 
       WhittedIntegrator tracer = new WhittedIntegrator(null, 0);
@@ -164,6 +164,7 @@ public class AngleOfIncidenceTests {
 
       IntersectionState state = new IntersectionState();
       state.IntersectionPoint = new Point(1, 0, 0);
+      state.Normal = new Normal(1, 0, 0);
       state.Hits = true;
 
       double actualAngleOfIncidence = GeometryCalculations.GetAngleOfIncidence(incomingRay, state);
@@ -190,6 +191,7 @@ public class AngleOfIncidenceTests {
 
       IntersectionState state = new IntersectionState();
       state.IntersectionPoint = new Point(0, 1, 0);
+      state.Normal = new Normal(0, 1, 0);
       state.Hits = true;
 
       WhittedIntegrator tracer = new WhittedIntegrator(null, 0);
@@ -211,58 +213,25 @@ public class AngleOfIncidenceTests {
       sphere.Origin = new Point(0, 0, 0);
       sphere.Radius = 1;
 
-      Point rayOrigin = new Point(0, -1, 0);
-      Vector rayDirection = new Vector(1, 1, 0);
+      Point rayOrigin = new Point(-.1, -.9, 0);
+      Vector rayDirection = new Vector(1, -1, 0);
 
       Ray incomingRay = new Ray(rayOrigin, rayDirection);
 
       IntersectionState state = new IntersectionState();
-      state.IntersectionPoint = new Point(0, 1, 0);
+      state.IntersectionPoint = new Point(0, -1, 0);
+      state.Normal = new Normal(0, -1, 0);
       state.Hits = true;
 
-      WhittedIntegrator tracer = new WhittedIntegrator(null, 0);
-
       double actualAngleOfIncidence = GeometryCalculations.GetAngleOfIncidence(incomingRay, state);
       double expectedAngleOfIncidence = 135;
 
       Assert.assertEquals(actualAngleOfIncidence, expectedAngleOfIncidence);
 
       double actualAngleOfIncidencePercentage = GeometryCalculations.GetAngleOfIncidencePercentage(incomingRay, state);
-      double expectedAngleOfIncidencePercentage = -50;
+      double expectedAngleOfIncidencePercentage = 50;
 
       Assert.assertEquals(actualAngleOfIncidencePercentage, expectedAngleOfIncidencePercentage, delta);
    }
 
-   @Test
-   public void testAngleOfIncidenceOpposite2() throws Exception {
-      Point planeOrigin = new Point(0, 0, 0);
-      Normal normal = new Normal(0, 1, 0);
-
-
-      ImplicitPlane plane = new ImplicitPlane(planeOrigin, normal, null);
-
-      Point vectorOrigin = new Point(2, 2, 2);
-      Vector vectorDirection = new Vector(0, -1, 0);
-
-      Ray incomingRay = new Ray(vectorOrigin, vectorDirection);
-
-      IntersectionState state = plane.getHitInfo(incomingRay);
-
-      Point expectedHitPoint = new Point(2, 0, 2);
-
-      Assert.assertTrue(state.Hits);
-      Assert.assertEquals(state.IntersectionPoint, expectedHitPoint);
-
-      WhittedIntegrator tracer = new WhittedIntegrator(null, 0);
-
-      double actualAngleOfIncidence = GeometryCalculations.GetAngleOfIncidence(incomingRay, state);
-      double expectedAngleOfIncidence = 135;
-
-      Assert.assertEquals(actualAngleOfIncidence, expectedAngleOfIncidence);
-
-      double actualAngleOfIncidencePercentage = GeometryCalculations.GetAngleOfIncidencePercentage(incomingRay, state);
-      double expectedAngleOfIncidencePercentage = -50;
-
-      Assert.assertEquals(actualAngleOfIncidencePercentage, expectedAngleOfIncidencePercentage, delta);
-   }
 }

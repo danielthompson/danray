@@ -319,63 +319,63 @@ public class KDTree {
       return new BoundingBox[] {lower, upper};
    }
 
-
-
-   public static double getSeparator(List<Shape> objects, KDAxis axis, BoundingBox box) {
-      // find largest distance in the current axis from the node's objects to either bound
-      // set the
-
-      if (objects.size() > 3) {
-         return getMedian(objects, axis);
-      }
-      else {
-
-         double min = Double.MAX_VALUE;
-         double max = Double.MIN_VALUE;
-
-         for (Shape Shape : objects) {
-            double DrawableAxisLocation = Shape.getMedian(axis);
-
-            if (DrawableAxisLocation < min) {
-               min = DrawableAxisLocation;
-            }
-
-            if (DrawableAxisLocation > max) {
-               max = DrawableAxisLocation;
-            }
-
-         }
-
-         if (box.getUpperBoundInAxis(axis) - max >= min - box.getLowerBoundInAxis(axis)) {
-
-            return max;
-
-         }
-         else {
-            return min;
-         }
-      }
-   }
-
-   static double getMedian(List<Shape> objects, KDAxis axis) {
-
-      Collections.sort(objects, getComparator(axis));
-
-      double median;
-
-      if (objects.size() % 2 == 0) {
-         Shape shape1 = objects.get(objects.size() / 2 - 1);
-         Shape shape2 = objects.get(objects.size() / 2);
-         median = (shape1.getMedian(axis) + shape2.getMedian(axis)) * .5;
-
-      }
-      else {
-         median = objects.get((objects.size() / 2) + 1).getMedian(axis);
-      }
-
-      return median;
-
-   }
+//
+//
+//   public static double getSeparator(List<Shape> objects, KDAxis axis, BoundingBox box) {
+//      // find largest distance in the current axis from the node's objects to either bound
+//      // set the
+//
+//      if (objects.size() > 3) {
+//         return getMedian(objects, axis);
+//      }
+//      else {
+//
+//         double min = Double.MAX_VALUE;
+//         double max = -Double.MAX_VALUE;
+//
+//         for (Shape Shape : objects) {
+//            double DrawableAxisLocation = Shape.getMedian(axis);
+//
+//            if (DrawableAxisLocation < min) {
+//               min = DrawableAxisLocation;
+//            }
+//
+//            if (DrawableAxisLocation > max) {
+//               max = DrawableAxisLocation;
+//            }
+//
+//         }
+//
+//         if (box.getUpperBoundInAxis(axis) - max >= min - box.getLowerBoundInAxis(axis)) {
+//
+//            return max;
+//
+//         }
+//         else {
+//            return min;
+//         }
+//      }
+//   }
+//
+//   static double getMedian(List<Shape> objects, KDAxis axis) {
+//
+//      Collections.sort(objects, getComparator(axis));
+//
+//      double median;
+//
+//      if (objects.size() % 2 == 0) {
+//         Shape shape1 = objects.get(objects.size() / 2 - 1);
+//         Shape shape2 = objects.get(objects.size() / 2);
+//         median = (shape1.getMedian(axis) + shape2.getMedian(axis)) * .5;
+//
+//      }
+//      else {
+//         median = objects.get((objects.size() / 2) + 1).getMedian(axis);
+//      }
+//
+//      return median;
+//
+//   }
 
    private static KDAxis getNextAxis(KDAxis axis) {
       switch (axis) {

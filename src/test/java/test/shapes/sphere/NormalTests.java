@@ -38,6 +38,7 @@ public class NormalTests {
 
       IntersectionState state = new IntersectionState();
       state.IntersectionPoint = new Point(1, 0, 0);
+      state.Normal = new Normal(1, 0, 0);
       state.Hits = true;
 
       Normal normal = state.Normal;
@@ -56,6 +57,7 @@ public class NormalTests {
 
       IntersectionState state = new IntersectionState();
       state.IntersectionPoint = new Point(0, 1, 0);
+      state.Normal = new Normal(0, 1, 0);
       state.Hits = true;
 
       Normal normal = state.Normal;
@@ -75,10 +77,13 @@ public class NormalTests {
 
       IntersectionState state = new IntersectionState();
       state.IntersectionPoint = new Point(sphere.Origin.X - sphere.Radius / (sqrt(2)), sphere.Origin.Y - sphere.Radius / (sqrt(2)), 0);
+      state.Normal = new Normal(- sphere.Radius / (sqrt(2)), - sphere.Radius / (sqrt(2)), 0);
       state.Hits = true;
 
       Normal normal = state.Normal;
       Normal expectedNormal = new Normal(-1, -1, 0);
+      expectedNormal.Normalize();
+
 
       Assert.assertEquals(normal.X, expectedNormal.X, delta);
       Assert.assertEquals(normal.Y, expectedNormal.Y, delta);
@@ -93,6 +98,7 @@ public class NormalTests {
 
       IntersectionState state = new IntersectionState();
       state.IntersectionPoint = new Point(1, 0, 0);
+      state.Normal = new Normal(1, 0, 0);
       state.Hits = true;
 
       Normal normal = state.Normal;

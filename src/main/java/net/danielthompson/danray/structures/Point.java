@@ -1,6 +1,8 @@
 package net.danielthompson.danray.structures;
 
 import net.danielthompson.danray.acceleration.KDAxis;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**
  * Represents a zero-dimensional point in space.
@@ -219,5 +221,6 @@ public class Point implements Cloneable {
 
       return new Point(newX, newY, newZ);
    }
+
 
 }

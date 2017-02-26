@@ -9,6 +9,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import test.AssertHelper;
 
 /**
  * Created by daniel on 2/16/15.
@@ -53,7 +54,6 @@ public class ApplyToRayTests {
       Ray actualNewRay = transform.Apply(originalRay);
 
       Assert.assertNotNull(actualNewRay);
-      Assert.assertEquals(expectedNewRay, actualNewRay);
+      AssertHelper.assertEquals(expectedNewRay, actualNewRay);
    }
-
 }

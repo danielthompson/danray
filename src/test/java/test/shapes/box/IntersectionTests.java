@@ -80,7 +80,7 @@ public class IntersectionTests {
       IntersectionState state = box.getHitInfo(ray);
 
       Point expectedIntersectionPoint = new Point(2, 1, 2);
-      Normal expectedNormalDirection = new Normal(1, 0, 0);
+      Normal expectedNormalDirection = new Normal(0, 0, 1);
 
       Assert.assertNotNull(state, "IntersectionState shouldn't be null");
       Assert.assertTrue(state.Hits, "Should hit");
@@ -105,7 +105,7 @@ public class IntersectionTests {
       IntersectionState state = box.getHitInfo(ray);
 
       Point expectedIntersectionPoint = new Point(2, 1, 2);
-      Normal expectedNormalDirection = new Normal(1, 0, 0);
+      Normal expectedNormalDirection = new Normal(0, 0, 1);
 
       Assert.assertTrue(state.Hits, "Should hit");
       Assert.assertEquals(state.IntersectionPoint, expectedIntersectionPoint, "Should intersect at " + expectedIntersectionPoint);
