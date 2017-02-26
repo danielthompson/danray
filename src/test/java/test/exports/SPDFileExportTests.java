@@ -30,7 +30,7 @@ public class SPDFileExportTests {
    public void testExport() throws Exception {
 
       FullSpectralPowerDistribution spd = RelativeFullSpectralPowerDistributionLibrary.D65.getSPD();
-      File file = new File("spds/test.xml");
+      File file = new File("src/test/resources/spds/test.xml");
 
       SPDFileExporter exporter = new SPDFileExporter(spd, file);
 
