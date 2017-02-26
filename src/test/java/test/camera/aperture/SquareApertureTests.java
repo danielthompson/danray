@@ -5,6 +5,7 @@ import net.danielthompson.danray.cameras.apertures.CircleAperture;
 import net.danielthompson.danray.cameras.apertures.SquareAperture;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.ui.MainCanvas;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import javax.imageio.ImageIO;
@@ -21,13 +22,26 @@ public class SquareApertureTests {
    @Test
    public void DrawSquareAperture() {
       Aperture squareAperture = new SquareAperture(100);
-      DrawAperture(squareAperture);
+      try {
+         DrawAperture(squareAperture);
+      }
+      catch (HeadlessException e)
+      {
+
+      }
    }
 
    @Test
    public void DrawCircularAperture() {
       Aperture circularAperture = new CircleAperture(100);
-      DrawAperture(circularAperture);
+
+      try {
+         DrawAperture(circularAperture);
+      }
+      catch (HeadlessException e)
+      {
+
+      }
    }
 
    public void DrawAperture(Aperture aperture) {
