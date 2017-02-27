@@ -24,9 +24,10 @@ public class Main {
 
       AbstractScene scene;
 
-      //scene = SceneBuilder.ManyRandomSpheres(_preset.getX(), _preset.getY());
-      scene = SceneBuilder.CornellBox(_preset.getX(), _preset.getY());
-      //scene = SceneBuilder.SomeRegularSpheres(_preset.getX(), _preset.getY());
+      scene = SceneBuilder.Default(_preset.getX(), _preset.getY());
+
+//      scene = SceneBuilder.ManyRandomSpheres(_preset.getX(), _preset.getY());
+      //scene = SceneBuilder.CornellBox(_preset.getX(), _preset.getY());
       //scene = SceneBuilder.SpheresInAnXPattern(_preset.getX(), _preset.getY());
       //scene = SceneBuilder.AreaLightSourceTest(_preset.getX(), _preset.getY());
       //scene = SceneBuilder.PlaneAndBox(_preset.getX(), _preset.getY());

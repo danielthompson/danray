@@ -283,13 +283,13 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
-      settings.FocalLength = 1200;
+      settings.FocalLength = 200;
       settings.Rotation = 0;
       settings.ZoomFactor =  1.5;
       settings.FocusDistance = 500;
       settings.Aperture = new CircleAperture(20);
 
-      Point origin = new Point(0, 0, 4000);
+      Point origin = new Point(0, 0, 400);
       Vector direction = new Vector(0, 0, -1);
       settings.Orientation = new Ray(origin, direction);
 
@@ -297,33 +297,49 @@ public class SceneBuilder {
 
       AbstractScene scene = new NaiveScene(camera);
 
+      BRDF brdf = new LambertianBRDF();
       Material material = new Material();
-
+      material.BRDF = brdf;
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.blue);
 
       Sphere sphere1 = new Sphere(material);
       sphere1.Origin = new Point(50.0, 50.0, 40.0);
       sphere1.Radius = 10;
-
+      sphere1.RecalculateWorldBoundingBox();
       scene.addShape(sphere1);
 
       material = new Material();
+      material.BRDF = brdf;
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 255, 128));
 
       Sphere sphere2 = new Sphere(material);
       sphere2.Origin = new Point(0.0, 0.0, 20.0);
       sphere2.Radius = 55;
-
+      sphere1.RecalculateWorldBoundingBox();
       scene.addShape(sphere2);
 
       material = new Material();
+      material.BRDF = brdf;
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.green);
 
       Sphere sphere3 = new Sphere(material);
       sphere3.Origin = new Point(200.0, 200.0, 25.0);
       sphere3.Radius = 40;
-
+      sphere1.RecalculateWorldBoundingBox();
       scene.addShape(sphere3);
+
+      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(20.0f, 20.0f, 20.0f);
+
+      Sphere sphere = new Sphere();
+      sphere.Origin = new Point(300, 300, 300);
+      sphere.Radius = 10;
+
+      sphere.RecalculateWorldBoundingBox();
+
+      AbstractLight light = new SphereLight(lightSPD, sphere);
+
+      scene.Shapes.add(light);
+      scene.addLight(light);
 
       return scene;
    }
@@ -528,8 +544,8 @@ public class SceneBuilder {
       settings.FocusDistance = 75;
       settings.Aperture = new CircleAperture(10);
 
-      Point origin = new Point(0, 1500, 2000);
-      Vector direction = new Vector(0, -.5, -1);
+      Point origin = new Point(0, 0, 250);
+      Vector direction = new Vector(0, 0, -1);
       settings.Orientation = new Ray(origin, direction);
 
       Camera camera = null;
@@ -548,7 +564,6 @@ public class SceneBuilder {
 //      AbstractScene scene = new KDScene(camera);
       scene.numFrames = 1;
 
-      // white vertical z plane
       BRDF brdf = new LambertianBRDF();
 
       Material material = new Material();
@@ -565,14 +580,13 @@ public class SceneBuilder {
       Box box = new Box(p0, p1, material);
       scene.addShape(box);
 
-
       // right light
 
-      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(200.0f, 200.0f, 200.0f);
+      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(2000.0f, 2000.0f, 2000.0f);
 
       Sphere sphere = new Sphere();
-      sphere.Origin = new Point(0, 2500, -550);
-      sphere.Radius = 500;
+      sphere.Origin = new Point(0, 250, -250);
+      sphere.Radius = 50;
 
       sphere.RecalculateWorldBoundingBox();
 
@@ -627,16 +641,17 @@ public class SceneBuilder {
 
       // white vertical z plane
 
-      Point planeOrigin = new Point(0, 0, 0);
-      Normal planeNormal = new Normal(0, 0, 1);
-
+//      Point planeOrigin = new Point(0, 0, 0);
+//      Normal planeNormal = new Normal(0, 0, 1);
+      BRDF brdf = new LambertianBRDF();
       Material material = new Material();
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
-      material._specular = 1 - .75;
-      material._reflectivity = .25;
-
-      ImplicitPlane plane = new ImplicitPlane(planeOrigin, planeNormal, material);
-      scene.addShape(plane);
+//      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
+//      material._specular = 1 - .75;
+//      material._reflectivity = .25;
+//      material.BRDF = brdf;
+//
+//      ImplicitPlane plane = new ImplicitPlane(planeOrigin, planeNormal, material);
+//      scene.addShape(plane);
 
       for (int i = 0; i < 40; i++) {
 
@@ -651,11 +666,13 @@ public class SceneBuilder {
          material._reflectivity = .2;
          material._transparency = 0;
          material._specular = 1 - .8;
+         material.BRDF = brdf;
          //material.setIndexOfRefraction(1.1);
 
          Sphere sphere = new Sphere(material);
          sphere.Origin = new Point(originX, originY, originZ);
          sphere.Radius = Math.random() * 50;
+         sphere.RecalculateWorldBoundingBox();
          scene.addShape(sphere);
       }
 
@@ -707,6 +724,7 @@ public class SceneBuilder {
             material._reflectivity = .3;
             material._transparency = 0;
             material._specular = 1 - .7;
+            material.BRDF = brdf;
 
                Sphere sphere = new Sphere(material);
 
@@ -716,10 +734,26 @@ public class SceneBuilder {
 
                sphere.Origin = new Point(originX, originY, originZ);
                sphere.Radius = Math.random() * 5 + 5;
+               sphere.RecalculateWorldBoundingBox();
                scene.addShape(sphere);
             //}
          }
       }
+
+      Sphere sphere = new Sphere();
+      sphere.Origin = new Point(300, 300, 3000);
+      sphere.Radius = 70;
+
+      sphere.RecalculateWorldBoundingBox();
+
+      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(100000.0f, 100000.0f, 100000.0f);
+
+      AbstractLight light = new SphereLight(lightSPD, sphere);
+
+      scene.Shapes.add(light);
+      scene.addLight(light);
+
+      return scene;
 
 //      SphereLight sphereLight = new SphereLight(50, material);
 //      sphereLight.Origin = new Point(300, 300, 1000);
@@ -727,7 +761,7 @@ public class SceneBuilder {
 //      scene.addLight(sphereLight);
 //      scene.addLight(new PointLight(new Point(300, 300, 10000), 2500));
 
-      return scene;
+
    }
 
    public static AbstractScene SpheresInAnXPattern(int x, int y) {

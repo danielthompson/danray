@@ -16,10 +16,6 @@ public class BoxFilterFilm extends AbstractFilm {
       super(image);
    }
 
-   private float clamp(float var0, float var1, float var2) {
-      return var1 < var0?var0:(var1 > var2?var2:var1);
-   }
-
    @Override
    public void AddSamples(float x, float y, Sample[] samples) {
       float newSampleWeight = samples.length;
