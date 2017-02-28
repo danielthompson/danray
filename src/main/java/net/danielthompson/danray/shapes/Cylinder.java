@@ -19,11 +19,15 @@ public class Cylinder extends AbstractShape {
       WorldToObject = worldToObject;
       ObjectToWorld = objectToWorld;
 
+      RecalculateWorldBoundingBox();
+   }
+
+   @Override
+   public void RecalculateWorldBoundingBox() {
       WorldBoundingBox = new BoundingBox(new Point(-Radius, 0, -Radius), new Point(Radius, Height, Radius));
       if (ObjectToWorld != null) {
          WorldBoundingBox = ObjectToWorld.Apply(WorldBoundingBox);
       }
-
    }
 
    @Override

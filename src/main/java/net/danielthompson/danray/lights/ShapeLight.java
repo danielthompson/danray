@@ -16,6 +16,7 @@ public class ShapeLight extends AbstractLight {
    public ShapeLight(SpectralPowerDistribution spd, AbstractShape shape) {
       super(spd);
       Shape = shape;
+      WorldBoundingBox = shape.WorldBoundingBox;
    }
 
    @Override
@@ -41,5 +42,11 @@ public class ShapeLight extends AbstractLight {
    @Override
    public float getPDF(Point point, Vector directionFromLightToPoint) {
       return 0;
+   }
+
+   @Override
+   public void RecalculateWorldBoundingBox() {
+      Shape.RecalculateWorldBoundingBox();
+      WorldBoundingBox = Shape.WorldBoundingBox;
    }
 }

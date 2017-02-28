@@ -32,10 +32,7 @@ public abstract class AbstractShape {
       this.Material = material;
    }
 
-
-   public BoundingBox GetWorldBoundingBox() {
-      return WorldBoundingBox;
-   }
+   public abstract void RecalculateWorldBoundingBox();
 
    public int getID() {
       return ID;

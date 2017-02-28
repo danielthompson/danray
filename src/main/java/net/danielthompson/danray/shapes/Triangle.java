@@ -117,8 +117,8 @@ public class Triangle extends AbstractShape implements Radiatable {
    }
 
    @Override
-   public BoundingBox GetWorldBoundingBox() {
-      return null;
+   public void RecalculateWorldBoundingBox() {
+
    }
 
    @Override

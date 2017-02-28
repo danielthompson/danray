@@ -17,13 +17,12 @@ import static net.danielthompson.danray.structures.Constants.NumberOfPregenerate
  */
 public class SphereLight extends AbstractLight {
 
-
-
    public Sphere Sphere;
 
    public SphereLight(SpectralPowerDistribution spd, Sphere sphere) {
       super(spd);
       Sphere = sphere;
+      WorldBoundingBox = sphere.WorldBoundingBox;
    }
 
    private static double[] randoms;
@@ -37,6 +36,12 @@ public class SphereLight extends AbstractLight {
    }
 
    private static int randomPointer;
+
+   @Override
+   public void RecalculateWorldBoundingBox() {
+      Sphere.RecalculateWorldBoundingBox();
+      WorldBoundingBox = Sphere.WorldBoundingBox;
+   }
 
    @Override
    public IntersectionState getHitInfo(Ray ray) {
@@ -64,11 +69,6 @@ public class SphereLight extends AbstractLight {
 
       Point point = new Point(x, y, z);
       return point;
-   }
-
-   @Override
-   public BoundingBox GetWorldBoundingBox() {
-      return Sphere.GetWorldBoundingBox();
    }
 
    @Override

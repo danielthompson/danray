@@ -31,8 +31,13 @@ public class Box extends AbstractShape {
       ObjectToWorld = objectToWorld;
       WorldToObject = worldToObject;
 
+      RecalculateWorldBoundingBox();
+   }
+
+   @Override
+   public void RecalculateWorldBoundingBox() {
       if (ObjectToWorld == null) {
-         WorldBoundingBox = new BoundingBox(p1.clone(), p2.clone());
+         WorldBoundingBox = new BoundingBox(point1.clone(), point2.clone());
       }
       else {
 
@@ -40,12 +45,12 @@ public class Box extends AbstractShape {
 
          points[0] = ObjectToWorld.Apply(point1);
          points[1] = ObjectToWorld.Apply(point2);
-         points[2] = ObjectToWorld.Apply(new Point(p1.X, p1.Y, p2.Z));
-         points[3] = ObjectToWorld.Apply(new Point(p1.X, p2.Y, p1.Z));
-         points[4] = ObjectToWorld.Apply(new Point(p1.X, p2.Y, p2.Z));
-         points[5] = ObjectToWorld.Apply(new Point(p2.X, p2.Y, p1.Z));
-         points[6] = ObjectToWorld.Apply(new Point(p2.X, p1.Y, p2.Z));
-         points[7] = ObjectToWorld.Apply(new Point(p2.X, p1.Y, p1.Z));
+         points[2] = ObjectToWorld.Apply(new Point(point1.X, point1.Y, point2.Z));
+         points[3] = ObjectToWorld.Apply(new Point(point1.X, point2.Y, point1.Z));
+         points[4] = ObjectToWorld.Apply(new Point(point1.X, point2.Y, point2.Z));
+         points[5] = ObjectToWorld.Apply(new Point(point2.X, point2.Y, point1.Z));
+         points[6] = ObjectToWorld.Apply(new Point(point2.X, point1.Y, point2.Z));
+         points[7] = ObjectToWorld.Apply(new Point(point2.X, point1.Y, point1.Z));
 
          double xMin, yMin, zMin;
          xMin = yMin = zMin = Double.MAX_VALUE;
@@ -74,62 +79,6 @@ public class Box extends AbstractShape {
          Point max = new Point(xMax, yMax, zMax);
          WorldBoundingBox = new BoundingBox(min, max);
       }
-   }
-
-   @Override
-   public BoundingBox GetWorldBoundingBox() {
-      return WorldBoundingBox;
-      /*
-      if (ObjectToWorld == null) {
-         return WorldBoundingBox;
-      }
-      else {
-         if (WorldBoundingBox == null) {
-            Point p1 = point1;
-            Point p2 = point2;
-
-            Point[] points = new Point[8];
-
-            points[0] = ObjectToWorld.Apply(point1);
-            points[1] = ObjectToWorld.Apply(point2);
-            points[2] = ObjectToWorld.Apply(new Point(p1.X, p1.Y, p2.Z));
-            points[3] = ObjectToWorld.Apply(new Point(p1.X, p2.Y, p1.Z));
-            points[4] = ObjectToWorld.Apply(new Point(p1.X, p2.Y, p2.Z));
-            points[5] = ObjectToWorld.Apply(new Point(p2.X, p2.Y, p1.Z));
-            points[6] = ObjectToWorld.Apply(new Point(p2.X, p1.Y, p2.Z));
-            points[7] = ObjectToWorld.Apply(new Point(p2.X, p1.Y, p1.Z));
-
-            double xMin, yMin, zMin;
-            xMin = yMin = zMin = Double.MAX_VALUE;
-
-            double xMax, yMax, zMax;
-            xMax = yMax = zMax = -Double.MAX_VALUE;
-
-            for (int i = 0; i < 8; i++) {
-               if (points[i].X < xMin)
-                  xMin = points[i].X;
-               if (points[i].Y < yMin)
-                  yMin = points[i].Y;
-               if (points[i].Z < zMin)
-                  zMin = points[i].Z;
-
-               if (points[i].X > xMax)
-                  xMax = points[i].X;
-               if (points[i].Y > yMax)
-                  yMax = points[i].Y;
-               if (points[i].Z > zMax)
-                  zMax = points[i].Z;
-
-            }
-
-            Point min = new Point(xMin, yMin, zMin);
-            Point max = new Point(xMax, yMax, zMax);
-            WorldBoundingBox = new BoundingBox(min, max);
-
-            //WorldBoundingBox = ObjectToWorld.Apply(this);
-         }
-         return WorldBoundingBox;
-      }*/
    }
 
    @Override

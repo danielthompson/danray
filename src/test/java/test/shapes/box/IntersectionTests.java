@@ -141,7 +141,7 @@ public class IntersectionTests {
 
       Box box = new Box(p0, p1, material, objectToWorld, worldToObject);
 
-      box.GetWorldBoundingBox();
+      box.RecalculateWorldBoundingBox();
 
       Ray ray = new Ray(new Point(300, 500, 700), new Vector(0, 0, -1));
 

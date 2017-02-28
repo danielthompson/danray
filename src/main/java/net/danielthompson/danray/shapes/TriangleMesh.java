@@ -169,9 +169,10 @@ public class TriangleMesh extends AbstractShape {
    }
 
    @Override
-   public BoundingBox GetWorldBoundingBox() {
-      return _boundingBox;
+   public void RecalculateWorldBoundingBox() {
+
    }
+
 
    @Override
    public double getMedian(KDAxis axis) {

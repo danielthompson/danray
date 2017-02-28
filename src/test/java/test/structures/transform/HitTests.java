@@ -71,7 +71,7 @@ public class HitTests {
 
       Box box = new Box(p0, p1, null, objectToWorld, worldToObject);
 
-      box.GetWorldBoundingBox();
+      box.RecalculateWorldBoundingBox();
 
       Point origin = new Point(5, 5, 5);
       Vector direction = new Vector(-1, -1, -1);
@@ -96,7 +96,7 @@ public class HitTests {
 
       Box box = new Box(p0, p1, null, objectToWorld, worldToObject);
 
-      box.GetWorldBoundingBox();
+      box.RecalculateWorldBoundingBox();
 
       Point origin = new Point(5, 5, 5);
       Vector direction = new Vector(-1, -1, -1);

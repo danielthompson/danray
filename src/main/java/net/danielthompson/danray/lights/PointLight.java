@@ -1,6 +1,7 @@
 package net.danielthompson.danray.lights;
 
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
+import net.danielthompson.danray.structures.BoundingBox;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Vector;
@@ -18,6 +19,7 @@ public class PointLight extends AbstractLight {
    public PointLight(SpectralPowerDistribution spd, Point location) {
       super(spd);
       Location = location;
+      WorldBoundingBox = new BoundingBox(location, location);
    }
 
    @Override
@@ -46,4 +48,8 @@ public class PointLight extends AbstractLight {
    }
 
 
+   @Override
+   public void RecalculateWorldBoundingBox() {
+      WorldBoundingBox = new BoundingBox(Location, Location);
+   }
 }

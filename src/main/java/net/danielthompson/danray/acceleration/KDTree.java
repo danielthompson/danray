@@ -125,7 +125,7 @@ public class KDTree {
                List<AbstractShape> greaterThanList = new ArrayList<>();
 
                for (AbstractShape shape : node.Shapes) {
-                  BoundingBox drawableBox = shape.GetWorldBoundingBox();
+                  BoundingBox drawableBox = shape.WorldBoundingBox;
                   double lowerBound = drawableBox.getLowerBoundInAxis(axis);
                   double upperBound = drawableBox.getUpperBoundInAxis(axis);
 
@@ -232,7 +232,7 @@ public class KDTree {
             List<AbstractShape> greaterThanList = new ArrayList<>();
 
             for (AbstractShape shape : node.Shapes) {
-               BoundingBox drawableBox = shape.GetWorldBoundingBox();
+               BoundingBox drawableBox = shape.WorldBoundingBox;
                double lowerBound = drawableBox.getLowerBoundInAxis(best.Axis);
                double upperBound = drawableBox.getUpperBoundInAxis(best.Axis);
 
@@ -404,7 +404,7 @@ public class KDTree {
       for (int i = 0; i < objects.size(); i++) {
 
          AbstractShape shape = objects.get(i);
-         double bound = shape.GetWorldBoundingBox().getLowerBoundInAxis(axis);
+         double bound = shape.WorldBoundingBox.getLowerBoundInAxis(axis);
 
          BoundingEdge edgeLower = new BoundingEdge();
          edgeLower.Shape = shape;
@@ -415,7 +415,7 @@ public class KDTree {
          current = new BoundingEdge[2];
          current[0] = edgeLower;
 
-         bound = shape.GetWorldBoundingBox().getUpperBoundInAxis(axis);
+         bound = shape.WorldBoundingBox.getUpperBoundInAxis(axis);
 
          BoundingEdge edgeUpper = new BoundingEdge();
          edgeUpper.Shape = shape;
