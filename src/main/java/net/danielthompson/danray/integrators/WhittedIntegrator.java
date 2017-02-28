@@ -79,7 +79,9 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
             Ray lightToNearestShape = intersectionPoint.CreateVectorFrom(lightLocation);
 
-            if (closestStateToRay.Normal.Dot(lightToNearestShape.Direction) < 0) {
+            double dot = closestStateToRay.Normal.Dot(lightToNearestShape.Direction);
+
+            if (dot < 0) {
 
                IntersectionState potentialOccluder = scene.getNearestShape(lightToNearestShape);
 

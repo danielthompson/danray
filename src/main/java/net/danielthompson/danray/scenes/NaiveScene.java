@@ -56,7 +56,8 @@ public class NaiveScene extends AbstractScene {
 
    @Override
    public String compile(TracerOptions _tracerOptions) {
-      return "No scene compilation necessary.";
+      return super.compile(_tracerOptions);
+
    }
 
 }

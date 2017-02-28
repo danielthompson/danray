@@ -283,13 +283,13 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
-      settings.FocalLength = 200;
+      settings.FocalLength = 2000;
       settings.Rotation = 0;
-      settings.ZoomFactor =  1.5;
+      settings.ZoomFactor =  1;
       settings.FocusDistance = 500;
       settings.Aperture = new CircleAperture(20);
 
-      Point origin = new Point(0, 0, 400);
+      Point origin = new Point(0, 0, 500);
       Vector direction = new Vector(0, 0, -1);
       settings.Orientation = new Ray(origin, direction);
 
@@ -299,13 +299,14 @@ public class SceneBuilder {
 
       BRDF brdf = new LambertianBRDF();
       Material material = new Material();
+
       material.BRDF = brdf;
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.blue);
 
       Sphere sphere1 = new Sphere(material);
       sphere1.Origin = new Point(50.0, 50.0, 40.0);
       sphere1.Radius = 10;
-      sphere1.RecalculateWorldBoundingBox();
+
       scene.addShape(sphere1);
 
       material = new Material();
@@ -315,7 +316,7 @@ public class SceneBuilder {
       Sphere sphere2 = new Sphere(material);
       sphere2.Origin = new Point(0.0, 0.0, 20.0);
       sphere2.Radius = 55;
-      sphere1.RecalculateWorldBoundingBox();
+
       scene.addShape(sphere2);
 
       material = new Material();
@@ -324,17 +325,15 @@ public class SceneBuilder {
 
       Sphere sphere3 = new Sphere(material);
       sphere3.Origin = new Point(200.0, 200.0, 25.0);
-      sphere3.Radius = 40;
-      sphere1.RecalculateWorldBoundingBox();
+      sphere3.Radius = 100;
+
       scene.addShape(sphere3);
 
-      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(20.0f, 20.0f, 20.0f);
+      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(100000.0f, 100000.0f, 100000.0f);
 
       Sphere sphere = new Sphere();
-      sphere.Origin = new Point(300, 300, 300);
-      sphere.Radius = 10;
-
-      sphere.RecalculateWorldBoundingBox();
+      sphere.Origin = new Point(300, 3300, -1500);
+      sphere.Radius = 1000;
 
       AbstractLight light = new SphereLight(lightSPD, sphere);
 
@@ -499,7 +498,7 @@ public class SceneBuilder {
             sphere.Origin = new Point(originX, originY, originZ);
             sphere.Radius = radius;
 
-            sphere.RecalculateWorldBoundingBox();
+
             scene.addShape(sphere);
          }
       }
@@ -512,7 +511,7 @@ public class SceneBuilder {
       sphere.Origin = new Point(300, 300, 2300);
       sphere.Radius = 1000;
 
-      sphere.RecalculateWorldBoundingBox();
+
 
       AbstractLight light = new SphereLight(lightSPD, sphere);
 
@@ -588,7 +587,7 @@ public class SceneBuilder {
       sphere.Origin = new Point(0, 250, -250);
       sphere.Radius = 50;
 
-      sphere.RecalculateWorldBoundingBox();
+
 
       AbstractLight light = new SphereLight(lightSPD, sphere);
 
@@ -672,7 +671,7 @@ public class SceneBuilder {
          Sphere sphere = new Sphere(material);
          sphere.Origin = new Point(originX, originY, originZ);
          sphere.Radius = Math.random() * 50;
-         sphere.RecalculateWorldBoundingBox();
+
          scene.addShape(sphere);
       }
 
@@ -734,7 +733,7 @@ public class SceneBuilder {
 
                sphere.Origin = new Point(originX, originY, originZ);
                sphere.Radius = Math.random() * 5 + 5;
-               sphere.RecalculateWorldBoundingBox();
+
                scene.addShape(sphere);
             //}
          }
@@ -744,7 +743,7 @@ public class SceneBuilder {
       sphere.Origin = new Point(300, 300, 3000);
       sphere.Radius = 70;
 
-      sphere.RecalculateWorldBoundingBox();
+
 
       SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(100000.0f, 100000.0f, 100000.0f);
 

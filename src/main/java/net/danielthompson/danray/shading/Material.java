@@ -11,7 +11,6 @@ import net.danielthompson.danray.shading.bxdf.BRDF;
 public class Material {
    public ReflectanceSpectrum ReflectanceSpectrum;
 
-
    public BRDF BRDF;
 
    public double _reflectivity;

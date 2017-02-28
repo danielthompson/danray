@@ -307,6 +307,8 @@ public class KDScene extends AbstractScene {
    @Override
    public String compile(TracerOptions _tracerOptions) {
 
+      String abstractCompile = super.compile(_tracerOptions);
+
       int numThreads = 1;
       if (_tracerOptions != null)
          numThreads = _tracerOptions.numThreads;
@@ -315,7 +317,7 @@ public class KDScene extends AbstractScene {
 
       int totalNodes = rootNode.GetCount();
 
-      return "kd-tree nodes " + totalNodes + ", min depth " + rootNode.GetMinDepth() + ", max depth " + rootNode.GetMaxDepth();
+      return abstractCompile + "kd-tree nodes " + totalNodes + ", min depth " + rootNode.GetMinDepth() + ", max depth " + rootNode.GetMaxDepth();
    }
 
    private class KDIntersectionState {

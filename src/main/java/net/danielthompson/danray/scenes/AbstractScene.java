@@ -45,5 +45,15 @@ public abstract class AbstractScene {
       return null;
    }
 
-   public abstract String compile(TracerOptions _tracerOptions);
+   public String compile(TracerOptions _tracerOptions) {
+      for (AbstractShape shape : Shapes) {
+         shape.RecalculateWorldBoundingBox();
+      }
+
+      for (AbstractLight light : Lights) {
+         light.RecalculateWorldBoundingBox();
+      }
+
+      return "Bounding boxes recalculated.\r\n";
+   }
 }
