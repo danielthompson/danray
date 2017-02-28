@@ -2,14 +2,10 @@ package net.danielthompson.danray.shapes;
 
 import net.danielthompson.danray.acceleration.BoundingEdge;
 import net.danielthompson.danray.acceleration.KDAxis;
-import net.danielthompson.danray.lights.Radiatable;
 import net.danielthompson.danray.shading.Material;
-import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.states.IntersectionState;
-import net.danielthompson.danray.structures.BoundingBox;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Ray;
-import net.danielthompson.danray.structures.Vector;
 
 /**
  * DanRay
@@ -17,7 +13,7 @@ import net.danielthompson.danray.structures.Vector;
  * Date: 7/12/13
  * Time: 5:23 PM
  */
-public class Triangle extends AbstractShape implements Radiatable {
+public class Triangle extends AbstractShape {
 
    private Point _vertex0;
    private Point _vertex1;
@@ -127,38 +123,4 @@ public class Triangle extends AbstractShape implements Radiatable {
    }
 
 
-   @Override
-   public SpectralPowerDistribution getSPD() {
-      return null;
-   }
-
-   @Override
-   public Point getRandomPointOnSurface() {
-      return null;
-   }
-
-   @Override
-   public Point getRandomPointOnSideOf(Vector side) {
-      return null;
-   }
-
-   @Override
-   public Point getRandomPointOnSideOf(Point point) {
-      return null;
-   }
-
-   @Override
-   public Ray getRandomRayInPDF() {
-      return null;
-   }
-
-   @Override
-   public double getPower() {
-      return 0;
-   }
-
-   @Override
-   public double getPDF(Point point, Vector directionFromLightToPoint) {
-      return 0; // TODO
-   }
 }
