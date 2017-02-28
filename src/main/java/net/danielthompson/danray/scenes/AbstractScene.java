@@ -3,7 +3,8 @@ package net.danielthompson.danray.scenes;
 import net.danielthompson.danray.cameras.Camera;
 import net.danielthompson.danray.lights.AbstractLight;
 import net.danielthompson.danray.presets.TracerOptions;
-import net.danielthompson.danray.shapes.Shape;
+
+import net.danielthompson.danray.shapes.AbstractShape;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.Ray;
 
@@ -20,7 +21,7 @@ public abstract class AbstractScene {
    public String ImplementationType = "Base Scene";
 
    public List<AbstractLight> Lights;
-   public List<Shape> Shapes;
+   public List<AbstractShape> Shapes;
 
    public AbstractScene(Camera camera) {
       Camera = camera;
@@ -28,7 +29,7 @@ public abstract class AbstractScene {
       Lights = new ArrayList<>();
    }
 
-   public void addShape(Shape shape) {
+   public void addShape(AbstractShape shape) {
       Shapes.add(shape);
    }
 

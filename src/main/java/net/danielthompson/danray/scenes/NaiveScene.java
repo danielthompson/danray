@@ -2,9 +2,8 @@ package net.danielthompson.danray.scenes;
 
 import net.danielthompson.danray.cameras.Camera;
 import net.danielthompson.danray.presets.TracerOptions;
-import net.danielthompson.danray.shapes.Shape;
+import net.danielthompson.danray.shapes.AbstractShape;
 import net.danielthompson.danray.states.IntersectionState;
-import net.danielthompson.danray.structures.Constants;
 import net.danielthompson.danray.structures.Ray;
 
 /**
@@ -34,7 +33,7 @@ public class NaiveScene extends AbstractScene {
    public IntersectionState getNearestShapeBetween(Ray ray, double t0, double t1) {
       IntersectionState closestStateToRay = null;
 
-      for (Shape shape : Shapes) {
+      for (AbstractShape shape : Shapes) {
          IntersectionState state = shape.getHitInfo(ray);
 
          //boolean replace = (state.Hits && state.TMin >= t0 && state.TMin <= t1) && (closestStateToRay == null || state.TMin < closestStateToRay.TMin);
@@ -54,11 +53,6 @@ public class NaiveScene extends AbstractScene {
 
       return closestStateToRay;
    }
-
-
-
-
-
 
    @Override
    public String compile(TracerOptions _tracerOptions) {

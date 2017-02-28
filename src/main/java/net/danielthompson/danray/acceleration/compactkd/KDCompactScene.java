@@ -1,19 +1,11 @@
 package net.danielthompson.danray.acceleration.compactkd;
 
-import net.danielthompson.danray.acceleration.KDNode;
-import net.danielthompson.danray.acceleration.KDTree;
 import net.danielthompson.danray.cameras.Camera;
 import net.danielthompson.danray.presets.TracerOptions;
 import net.danielthompson.danray.scenes.AbstractScene;
-import net.danielthompson.danray.shapes.Shape;
+import net.danielthompson.danray.shapes.AbstractShape;
 import net.danielthompson.danray.states.IntersectionState;
-import net.danielthompson.danray.structures.BoundingBox;
-import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Ray;
-import net.danielthompson.danray.structures.Vector;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * DanRay
@@ -48,7 +40,7 @@ public class KDCompactScene extends AbstractScene {
 
    private IntersectionState GetClosestDrawableInNode(KDCompactNode node, Ray ray) {
       IntersectionState closestStateToRay = null;
-      for (Shape shape : node.Shapes) {
+      for (AbstractShape shape : node.Shapes) {
          IntersectionState state = shape.getHitInfo(ray);
 
          if (state.Hits && (closestStateToRay == null || state.TMin < closestStateToRay.TMin)) {

@@ -1,13 +1,14 @@
 package net.danielthompson.danray.acceleration;
 
-import net.danielthompson.danray.shapes.Shape;
+import net.danielthompson.danray.shapes.AbstractShape;
+
 
 /**
  * Created by daniel on 12/13/14.
  */
 public class BoundingEdge implements Comparable {
    public boolean Lower;
-   public Shape Shape;
+   public AbstractShape Shape;
    public double Value;
 
    @Override

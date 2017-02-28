@@ -13,7 +13,7 @@ import java.util.List;
  * Date: 7/13/13
  * Time: 15:38
  */
-public class TriangleMesh implements Shape {
+public class TriangleMesh extends AbstractShape {
 
    private Material _material;
 
@@ -44,6 +44,7 @@ public class TriangleMesh implements Shape {
    }
 
    public TriangleMesh(List<Point> vertices, List<List<Point>> faces, Point origin, Tuple rotation) {
+      super(null);
       _vertices = vertices;
       _faces = faces;
       SetRotation(rotation);

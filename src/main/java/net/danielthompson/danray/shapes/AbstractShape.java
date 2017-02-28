@@ -11,7 +11,7 @@ import net.danielthompson.danray.structures.Transform;
 /**
  * Created by daniel on 2/16/15.
  */
-public abstract class AbstractShape implements Shape {
+public abstract class AbstractShape {
 
    public int ID;
 
@@ -32,7 +32,7 @@ public abstract class AbstractShape implements Shape {
       this.Material = material;
    }
 
-   @Override
+
    public BoundingBox GetWorldBoundingBox() {
       return WorldBoundingBox;
    }
@@ -41,32 +41,26 @@ public abstract class AbstractShape implements Shape {
       return ID;
    }
 
-   @Override
    public void SetInCurrentKDNode(boolean value) {
       InCurrentKDNode = value;
    }
 
-   @Override
    public double getMedian(KDAxis axis) {
       return 0;
    }
 
-   @Override
    public IntersectionState getHitInfo(Ray ray) {
       return null;
    }
 
-   @Override
    public boolean Hits(Ray ray) {
       return false;
    }
 
-   @Override
    public Material GetMaterial() {
       return Material;
    }
 
-   @Override
    public BoundingEdge[] GetBoundingEdges(KDAxis axis) {
       switch (axis) {
          case X:
@@ -80,7 +74,6 @@ public abstract class AbstractShape implements Shape {
       return null;
    }
 
-   @Override
    public void SetBoundingEdges(BoundingEdge[] edges, KDAxis axis) {
       switch (axis) {
          case X:

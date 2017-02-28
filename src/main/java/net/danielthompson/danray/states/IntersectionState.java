@@ -1,6 +1,6 @@
 package net.danielthompson.danray.states;
 
-import net.danielthompson.danray.shapes.Shape;
+import net.danielthompson.danray.shapes.AbstractShape;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Normal;
 
@@ -17,7 +17,7 @@ public class IntersectionState {
    public double TMin;
    public double TMax;
    public boolean Hits;
-   public Shape Shape;
+   public AbstractShape Shape;
    public List<Point> Face;
    public Normal Normal;
 

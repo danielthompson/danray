@@ -22,7 +22,7 @@ public class SceneExporter {
       if (object.Shapes != null) {
          Element shapeList = document.createElement("Shapes");
          rootElement.appendChild(shapeList);
-         for (Shape shape : object.Shapes) {
+         for (AbstractShape shape : object.Shapes) {
             if (shape instanceof Box) {
                shapeList.appendChild(BoxExporter.Process((Box)shape, document, shapeList));
             }

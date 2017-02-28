@@ -1,12 +1,11 @@
 package net.danielthompson.danray.integrators;
 
 import net.danielthompson.danray.lights.AbstractLight;
-import net.danielthompson.danray.lights.Radiatable;
 import net.danielthompson.danray.scenes.AbstractScene;
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.shading.ReflectanceSpectrum;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
-import net.danielthompson.danray.shapes.Shape;
+import net.danielthompson.danray.shapes.AbstractShape;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.*;
 
@@ -43,12 +42,12 @@ public class PathTraceIntegrator extends AbstractIntegrator {
          return sample;
       }
       else {
-         Shape closestShape = closestStateToRay.Shape;
+         AbstractShape closestShape = closestStateToRay.Shape;
          if (closestShape == null) {
             sample.SpectralPowerDistribution = new SpectralPowerDistribution();
             return sample;
          }
-         Material objectMaterial = closestShape.GetMaterial();
+         Material objectMaterial = closestShape.Material;
 
          Normal intersectionNormal = closestStateToRay.Normal;
          Vector incomingDirection = ray.Direction;

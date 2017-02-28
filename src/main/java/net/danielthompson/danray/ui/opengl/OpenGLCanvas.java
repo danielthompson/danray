@@ -14,8 +14,9 @@ import net.danielthompson.danray.acceleration.KDScene;
 import net.danielthompson.danray.lights.AbstractLight;
 import net.danielthompson.danray.lights.PointLight;
 import net.danielthompson.danray.shading.Material;
+import net.danielthompson.danray.shapes.AbstractShape;
 import net.danielthompson.danray.shapes.Box;
-import net.danielthompson.danray.shapes.Shape;
+
 import net.danielthompson.danray.shapes.Sphere;
 import net.danielthompson.danray.structures.BoundingBox;
 import net.danielthompson.danray.structures.Point;
@@ -144,7 +145,7 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
       // scene Shapes
       GLUquadric quadric = _glu.gluNewQuadric();
 
-      for (Shape shape : _scene.Shapes) {
+      for (AbstractShape shape : _scene.Shapes) {
          if (shape instanceof Sphere) {
             Sphere sphere = (Sphere)shape;
             Point origin = sphere.Origin;
@@ -212,10 +213,10 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
    public void SetNode(KDNode node) {
       SelectedNode = node;
 
-      for (Shape shape : _scene.Shapes)
+      for (AbstractShape shape : _scene.Shapes)
          shape.SetInCurrentKDNode(false);
 
-      for (Shape shape : node.Shapes)
+      for (AbstractShape shape : node.Shapes)
          shape.SetInCurrentKDNode(true);
    }
 

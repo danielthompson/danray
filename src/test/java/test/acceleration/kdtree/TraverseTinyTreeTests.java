@@ -2,7 +2,7 @@ package test.acceleration.kdtree;
 
 import net.danielthompson.danray.acceleration.KDNode;
 import net.danielthompson.danray.acceleration.KDScene;
-import net.danielthompson.danray.shapes.Shape;
+import net.danielthompson.danray.shapes.AbstractShape;
 import net.danielthompson.danray.shapes.Sphere;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.BoundingBox;
@@ -33,7 +33,7 @@ public class TraverseTinyTreeTests {
 
    @BeforeMethod
    public void setUp() throws Exception {
-      List<Shape> objects = new ArrayList<Shape>();
+      List<AbstractShape> objects = new ArrayList<>();
 
       sphere1 = new Sphere();
       sphere1.Origin = new Point(1, 1, 1);
@@ -56,14 +56,14 @@ public class TraverseTinyTreeTests {
       BoundingBox greaterThanBB = new BoundingBox(new Point(6, 2, 2), new Point(8, 4, 4));
       BoundingBox rootBB = new BoundingBox(new Point(0, 0, 0), new Point(8, 6, 6));
 
-      List<Shape> lessThanList = new ArrayList<Shape>();
+      List<AbstractShape> lessThanList = new ArrayList<>();
       lessThanList.add(sphere1);
       lessThanList.add(sphere2);
 
-      List<Shape> greaterThanList = new ArrayList<Shape>();
+      List<AbstractShape> greaterThanList = new ArrayList<>();
       greaterThanList.add(sphere3);
 
-      for (Shape element : objects) {
+      for (AbstractShape element : objects) {
          scene.addShape(element);
       }
 

@@ -2,7 +2,7 @@ package net.danielthompson.danray.acceleration.compactkd;
 
 import net.danielthompson.danray.acceleration.KDNode;
 import net.danielthompson.danray.acceleration.KDTree;
-import net.danielthompson.danray.shapes.Shape;
+import net.danielthompson.danray.shapes.AbstractShape;
 
 import java.util.*;
 
@@ -18,7 +18,7 @@ public class KDCompactTree {
     * @param maxLeafSize The maximum number of objects in a leaf
     * @return
     */
-   public static KDCompactNode[] BuildKDTree(List<Shape> objects, int maxDepth, int maxLeafSize, int numThreads) {
+   public static KDCompactNode[] BuildKDTree(List<AbstractShape> objects, int maxDepth, int maxLeafSize, int numThreads) {
 
       KDNode rootNode = KDTree.BuildKDTree(objects, maxDepth, maxLeafSize, numThreads);
 

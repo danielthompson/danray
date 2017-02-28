@@ -1,6 +1,6 @@
 package test.acceleration.kdtree;
 
-import net.danielthompson.danray.shapes.Shape;
+import net.danielthompson.danray.shapes.AbstractShape;
 import net.danielthompson.danray.shapes.Sphere;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.Point;
@@ -12,6 +12,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class TraverseSmallTreeTests {
 
    @BeforeMethod
    public void setUp() throws Exception {
-      List<Shape> objects = new ArrayList<Shape>();
+      List<AbstractShape> objects = new ArrayList<AbstractShape>();
 
       sphere1 = new Sphere();
       sphere1.Origin = new Point(-1, 5, 0);
@@ -53,7 +54,7 @@ public class TraverseSmallTreeTests {
 
       scene = new KDScene(null);
 
-      for (Shape element : objects) {
+      for (AbstractShape element : objects) {
          scene.addShape(element);
       }
 

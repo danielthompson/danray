@@ -1,11 +1,10 @@
 package net.danielthompson.danray.integrators;
 
 import net.danielthompson.danray.lights.AbstractLight;
-import net.danielthompson.danray.lights.Radiatable;
 import net.danielthompson.danray.scenes.AbstractScene;
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
-import net.danielthompson.danray.shapes.Shape;
+import net.danielthompson.danray.shapes.AbstractShape;
 import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.states.IntersectionState;
 
@@ -63,9 +62,9 @@ public class WhittedIntegrator extends AbstractIntegrator {
          return sample;
       }
 
-      Shape closestShape = closestStateToRay.Shape;
+      AbstractShape closestShape = closestStateToRay.Shape;
 
-      Material objectMaterial = closestShape.GetMaterial();
+      Material objectMaterial = closestShape.Material;
 
       SpectralPowerDistribution directSPD = new SpectralPowerDistribution();
 

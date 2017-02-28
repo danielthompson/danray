@@ -1,6 +1,6 @@
 package test.acceleration.kdtree;
 
-import net.danielthompson.danray.shapes.Shape;
+import net.danielthompson.danray.shapes.AbstractShape;
 import net.danielthompson.danray.shapes.Sphere;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.Point;
@@ -31,7 +31,7 @@ public class TraverseMediumTreeTests {
 
    @Test
    public void testTraverse() throws Exception {
-      List<Shape> objects = new ArrayList<Shape>();
+      List<AbstractShape> objects = new ArrayList<AbstractShape>();
 
       Sphere sphere;
 
@@ -49,7 +49,7 @@ public class TraverseMediumTreeTests {
 
       KDScene scene = new KDScene(null);
 
-      for (Shape element : objects) {
+      for (AbstractShape element : objects) {
          scene.addShape(element);
       }
 

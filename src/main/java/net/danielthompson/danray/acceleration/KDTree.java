@@ -3,7 +3,8 @@ package net.danielthompson.danray.acceleration;
 import net.danielthompson.danray.acceleration.Comparators.DrawableXComparator;
 import net.danielthompson.danray.acceleration.Comparators.DrawableYComparator;
 import net.danielthompson.danray.acceleration.Comparators.DrawableZComparator;
-import net.danielthompson.danray.shapes.Shape;
+import net.danielthompson.danray.shapes.AbstractShape;
+
 import net.danielthompson.danray.structures.BoundingBox;
 import net.danielthompson.danray.structures.Point;
 
@@ -21,7 +22,7 @@ public class KDTree {
    private static BoundingEdge[] yEdges;
    private static BoundingEdge[] zEdges;
 
-   public static KDNode BuildKDTree(List<Shape> objects, int maxDepth, int maxLeafSize) {
+   public static KDNode BuildKDTree(List<AbstractShape> objects, int maxDepth, int maxLeafSize) {
 
       return BuildKDTree(objects, maxDepth, maxLeafSize, 1);
    }
@@ -33,7 +34,7 @@ public class KDTree {
     * @param maxLeafSize The maximum number of objects in a leaf
     * @return
     */
-   public static KDNode BuildKDTree(List<Shape> objects, int maxDepth, int maxLeafSize, int numThreads) {
+   public static KDNode BuildKDTree(List<AbstractShape> objects, int maxDepth, int maxLeafSize, int numThreads) {
 
       KDTree.maxDepth = maxDepth;
       KDTree.maxLeafSize = maxLeafSize;
@@ -67,7 +68,7 @@ public class KDTree {
       public double Separator;
    }
 
-   private static BoundingEdge[] getEdgesWithObjectsForAxis(List<Shape> objects, KDAxis axis) {
+   private static BoundingEdge[] getEdgesWithObjectsForAxis(List<AbstractShape> objects, KDAxis axis) {
       BoundingEdge[] source = xEdges;
 
       if (axis == KDAxis.Y)
@@ -80,8 +81,8 @@ public class KDTree {
       int destIndex = 0;
 
       for (int sourceIndex = 0; sourceIndex < source.length; sourceIndex++) {
-         Shape sourceShape = source[sourceIndex].Shape;
-         for (Shape object : objects) {
+         AbstractShape sourceShape = source[sourceIndex].Shape;
+         for (AbstractShape object : objects) {
             if (object.equals(sourceShape)) {
                dest[destIndex++] = source[sourceIndex];
                break;
@@ -120,10 +121,10 @@ public class KDTree {
                BoundingBox lessThanBoundingBox = null;
                BoundingBox greaterThanBoundingBox = null;
 
-               List<Shape> lessThanList = new ArrayList<>();
-               List<Shape> greaterThanList = new ArrayList<>();
+               List<AbstractShape> lessThanList = new ArrayList<>();
+               List<AbstractShape> greaterThanList = new ArrayList<>();
 
-               for (Shape shape : node.Shapes) {
+               for (AbstractShape shape : node.Shapes) {
                   BoundingBox drawableBox = shape.GetWorldBoundingBox();
                   double lowerBound = drawableBox.getLowerBoundInAxis(axis);
                   double upperBound = drawableBox.getUpperBoundInAxis(axis);
@@ -174,12 +175,12 @@ public class KDTree {
 
                   boolean same = true;
 
-                  Iterator<Shape> p1 = lessThanList.iterator();
-                  Iterator<Shape> p2 = greaterThanList.iterator();
+                  Iterator<AbstractShape> p1 = lessThanList.iterator();
+                  Iterator<AbstractShape> p2 = greaterThanList.iterator();
 
                   while (p1.hasNext() && p2.hasNext()) {
-                     Shape d1 = p1.next();
-                     Shape d2 = p2.next();
+                     AbstractShape d1 = p1.next();
+                     AbstractShape d2 = p2.next();
 
                      if (d1 != d2) {
                         same = false;
@@ -227,10 +228,10 @@ public class KDTree {
                   best = heuristic;
             }
 
-            List<Shape> lessThanList = new ArrayList<>();
-            List<Shape> greaterThanList = new ArrayList<>();
+            List<AbstractShape> lessThanList = new ArrayList<>();
+            List<AbstractShape> greaterThanList = new ArrayList<>();
 
-            for (Shape shape : node.Shapes) {
+            for (AbstractShape shape : node.Shapes) {
                BoundingBox drawableBox = shape.GetWorldBoundingBox();
                double lowerBound = drawableBox.getLowerBoundInAxis(best.Axis);
                double upperBound = drawableBox.getUpperBoundInAxis(best.Axis);
@@ -388,25 +389,6 @@ public class KDTree {
       }
    }
 
-   private static Comparator<Shape> getComparator(KDAxis axis) {
-      switch (axis) {
-         case X:
-            return new DrawableXComparator();
-         case Y:
-            return new DrawableYComparator();
-         default:
-            return new DrawableZComparator();
-      }
-   }
-//
-//   public static double getSplit(List<Shape> objects, KDAxis axis, BoundingBox box) {
-//      // find largest distance in the current axis from the node's objects to either bound
-//      // set the
-//
-//      BoundingEdge[] edges = getSortedBoundingEdges(objects, axis);
-//
-//      return edges[edges.length / 2].Value;
-//   }
 
    /**
     *
@@ -414,14 +396,14 @@ public class KDTree {
     * @param axis
     * @return
     */
-   public static BoundingEdge[] getSortedBoundingEdges(List<Shape> objects, KDAxis axis) {
+   public static BoundingEdge[] getSortedBoundingEdges(List<AbstractShape> objects, KDAxis axis) {
       BoundingEdge[] edges = new BoundingEdge[objects.size() * 2];
 
       BoundingEdge[] current;
 
       for (int i = 0; i < objects.size(); i++) {
 
-         Shape shape = objects.get(i);
+         AbstractShape shape = objects.get(i);
          double bound = shape.GetWorldBoundingBox().getLowerBoundInAxis(axis);
 
          BoundingEdge edgeLower = new BoundingEdge();
@@ -457,7 +439,7 @@ public class KDTree {
     * @param axis
     * @return
     */
-   private static BoundingEdge[] getMinMaxBoundingEdges(List<Shape> objects, KDAxis axis) {
+   private static BoundingEdge[] getMinMaxBoundingEdges(List<AbstractShape> objects, KDAxis axis) {
 
       BoundingEdge[] source = xEdges;
 
@@ -492,7 +474,7 @@ public class KDTree {
     * @param box
     * @param objects
     */
-   private static void ReduceBoundingBox(BoundingBox box, List<Shape> objects) {
+   private static void ReduceBoundingBox(BoundingBox box, List<AbstractShape> objects) {
 
       // x
       BoundingEdge[] edges = getMinMaxBoundingEdges(objects, KDAxis.X);

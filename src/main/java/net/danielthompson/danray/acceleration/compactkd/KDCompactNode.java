@@ -1,19 +1,17 @@
 package net.danielthompson.danray.acceleration.compactkd;
 
 import net.danielthompson.danray.acceleration.KDAxis;
-import net.danielthompson.danray.shapes.Shape;
-import net.danielthompson.danray.states.IntersectionState;
-import net.danielthompson.danray.structures.BoundingBox;
-import net.danielthompson.danray.structures.Ray;
+import net.danielthompson.danray.shapes.AbstractShape;
 
 import java.util.List;
+
 
 /**
  * Created by daniel on 11/30/14.
  */
 public class KDCompactNode {
 
-   public List<Shape> Shapes;
+   public List<AbstractShape> Shapes;
 
    public double Split;
    public KDAxis Axis;
@@ -25,11 +23,11 @@ public class KDCompactNode {
    public float p1y;
    public float p1z;
 
-   public KDCompactNode(List<Shape> objects) {
+   public KDCompactNode(List<AbstractShape> objects) {
       Shapes = objects;
    }
 
-   public KDCompactNode(List<Shape> shapes, KDAxis axis) {
+   public KDCompactNode(List<AbstractShape> shapes, KDAxis axis) {
       Shapes = shapes;
       Axis = axis;
    }

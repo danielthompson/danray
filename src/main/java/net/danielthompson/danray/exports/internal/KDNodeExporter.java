@@ -21,7 +21,7 @@ public class KDNodeExporter {
 
       Element shapeListElement = document.createElement("Shapes");
       if (object.Shapes != null && object.Shapes.size() > 0) {
-         for (Shape shape : object.Shapes) {
+         for (AbstractShape shape : object.Shapes) {
             Element shapeElement = document.createElement("Shape");
             shapeElement.setAttribute("ID", String.valueOf(shape.getID()));
             shapeListElement.appendChild(shapeElement);
