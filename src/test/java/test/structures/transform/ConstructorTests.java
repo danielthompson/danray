@@ -27,12 +27,12 @@ public class ConstructorTests {
 
    @Test
    public void TestValuesConstructor() {
-      double[][] matrix = new double[4][4];
+      float[][] matrix = new float[4][4];
 
-      matrix[0] = new double[4];
-      matrix[1] = new double[4];
-      matrix[2] = new double[4];
-      matrix[3] = new double[4];
+      matrix[0] = new float[4];
+      matrix[1] = new float[4];
+      matrix[2] = new float[4];
+      matrix[3] = new float[4];
 
       matrix[0][0] = 1;
       matrix[1][1] = 1;

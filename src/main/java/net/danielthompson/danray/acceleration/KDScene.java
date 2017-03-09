@@ -38,7 +38,7 @@ public class KDScene extends AbstractScene {
    }
 
    @Override
-   public IntersectionState getNearestShapeBeyond(Ray ray, double t) {
+   public IntersectionState getNearestShapeBeyond(Ray ray, float t) {
       return null;
    }
 
@@ -224,10 +224,10 @@ public class KDScene extends AbstractScene {
          return rootState;
 
       else {
-         double minT = rootState.TMin;
-         double maxT = rootState.TMax;
+         float minT = rootState.TMin;
+         float maxT = rootState.TMax;
 
-         Vector inverseDirection = new Vector(1.0 / ray.Direction.X, 1.0 / ray.Direction.Y, 1.0 / ray.Direction.Z);
+         Vector inverseDirection = new Vector(1.0f/ ray.Direction.X, 1.0f / ray.Direction.Y, 1.0f / ray.Direction.Z);
          KToDo[] todos = new KToDo[64];
          int todoPos = 0;
 
@@ -255,7 +255,7 @@ public class KDScene extends AbstractScene {
             }
             else {
                KDAxis axis = node.Axis;
-               double tPlane = (node.Split - ray.Origin.getAxis(axis)) * inverseDirection.getAxis(axis);
+               float tPlane = (node.Split - ray.Origin.getAxis(axis)) * inverseDirection.getAxis(axis);
 
                KDNode firstChild, secondChild;
 
@@ -295,9 +295,9 @@ public class KDScene extends AbstractScene {
 
    private class KToDo {
       public KDNode Node;
-      public double tMin, tMax;
+      public float tMin, tMax;
 
-      public KToDo(KDNode node, double tMin, double tMax) {
+      public KToDo(KDNode node, float tMin, float tMax) {
          this.Node = node;
          this.tMin = tMin;
          this.tMax = tMax;

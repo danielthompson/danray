@@ -2,10 +2,7 @@ package test.structures.boundingbox;
 
 
 import net.danielthompson.danray.states.IntersectionState;
-import net.danielthompson.danray.structures.BoundingBox;
-import net.danielthompson.danray.structures.Point;
-import net.danielthompson.danray.structures.Ray;
-import net.danielthompson.danray.structures.Vector;
+import net.danielthompson.danray.structures.*;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -40,8 +37,8 @@ public class IntersectionTests {
       // assert
       Assert.assertNotNull(state, "intersection state shouldn't be null");
       Assert.assertTrue(state.Hits, "state should hit");
-      Assert.assertEquals(state.TMin, 0.0, "TMin should be 0");
-      Assert.assertEquals(state.TMax, 5.0, "TMax should be 5");
+      Assert.assertEquals(state.TMin, 0.0f, Constants.UnitTestDelta);
+      Assert.assertEquals(state.TMax, 5.0f, Constants.UnitTestDelta * 5.0f);
 
    }
 }

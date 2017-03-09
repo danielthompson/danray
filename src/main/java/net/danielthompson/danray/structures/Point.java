@@ -9,17 +9,17 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  */
 public class Point implements Cloneable {
 
-   public double X;
-   public double Y;
-   public double Z;
+   public float X;
+   public float Y;
+   public float Z;
 
-   public Point(double X, double Y, double Z) {
+   public Point(float X, float Y, float Z) {
       this.X = X;
       this.Y = Y;
       this.Z = Z;
    }
 
-   public Point(double[] xyz) {
+   public Point(float[] xyz) {
       this.X = xyz[0];
       this.Y = xyz[1];
       this.Z = xyz[2];
@@ -35,7 +35,7 @@ public class Point implements Cloneable {
       return new Point(X, Y, Z);
    }
 
-   public double getAxis(KDAxis axis) {
+   public float getAxis(KDAxis axis) {
       switch (axis) {
          case X:
             return X;
@@ -48,7 +48,7 @@ public class Point implements Cloneable {
 
 
 
-   public void setAxis(KDAxis axis, double value) {
+   public void setAxis(KDAxis axis, float value) {
       switch (axis) {
          case X:
             X = value;
@@ -63,15 +63,15 @@ public class Point implements Cloneable {
    }
 
    public Ray CreateVectorFrom(Point originPoint) {
-      double xDirection = X - originPoint.X;
-      double yDirection = Y - originPoint.Y;
-      double zDirection = Z - originPoint.Z;
+      float xDirection = X - originPoint.X;
+      float yDirection = Y - originPoint.Y;
+      float zDirection = Z - originPoint.Z;
 
       Vector direction = new Vector(xDirection, yDirection, zDirection);
       return new Ray(originPoint, direction);
    }
 
-   public double Dot(Point point) {
+   public float Dot(Point point) {
       return (X * point.X + Y * point.Y + Z * point.Z);
    }
 
@@ -96,11 +96,11 @@ public class Point implements Cloneable {
       return new Point(point.X - vector.X, point.Y - vector.Y, point.Z - vector.Z);
    }
 
-   public static Point Interpolate(Point point1, Point point2, double percentage) {
+   public static Point Interpolate(Point point1, Point point2, float percentage) {
       return Point.Plus(point1, Vector.Scale(Point.Minus(point2, point1), percentage));
    }
 
-   public double SquaredDistanceBetween(Point point) {
+   public float SquaredDistanceBetween(Point point) {
       return (point.X - X) * (point.X - X) +
              (point.Y - Y) * (point.Y - Y) +
              (point.Z - Z) * (point.Z - Z);
@@ -129,23 +129,23 @@ public class Point implements Cloneable {
 
 
    public void Normalize() {
-      double lengthMultiplier = 1.0 / Length();
+      float lengthMultiplier = 1.0f / Length();
       Scale(lengthMultiplier);
    }
 
 
-   public void Scale(double t) {
+   public void Scale(float t) {
       X *= t;
       Y *= t;
       Z *= t;
    }
 
-   public static Point Scale(Point point, double t) {
+   public static Point Scale(Point point, float t) {
       return new Point(t * point.X, t * point.Y, t * point.Z);
    }
 
-   public double Length() {
-      return Math.sqrt(X * X + Y * Y + Z * Z);
+   public float Length() {
+      return (float) Math.sqrt(X * X + Y * Y + Z * Z);
    }
 
    public String toString() {
@@ -165,59 +165,59 @@ public class Point implements Cloneable {
       return (X == rhs.X && Y == rhs.Y && Z == rhs.Z);
    }
 
-   public void Rotate(Ray axis, double theta) {
-      theta = Math.toRadians(theta);
+   public void Rotate(Ray axis, float theta) {
+      theta = (float) Math.toRadians(theta);
 
-      double sinTheta = Math.sin(theta);
-      double cosTheta = Math.cos(theta);
+      float sinTheta = (float) Math.sin(theta);
+      float cosTheta = (float) Math.cos(theta);
 
-      double a = axis.Origin.X;
-      double b = axis.Origin.Y;
-      double c = axis.Origin.Z;
+      float a = axis.Origin.X;
+      float b = axis.Origin.Y;
+      float c = axis.Origin.Z;
 
-      double u = axis.Direction.X;
-      double v = axis.Direction.Y;
-      double w = axis.Direction.Z;
+      float u = axis.Direction.X;
+      float v = axis.Direction.Y;
+      float w = axis.Direction.Z;
 
-      double x = X;
-      double y = Y;
-      double z = Z;
+      float x = X;
+      float y = Y;
+      float z = Z;
 
-      double a1 = u * x - v * y - w * z;
+      float a1 = u * x - v * y - w * z;
 
-      double newX = (a * (v * v + w * w) - u * (b * v + c * w - a1)) * (1 - cosTheta) + x * cosTheta + (-c * v + b * w - w * y + v * z) * sinTheta;
-      double newY = (b * (u * u + w * w) - v * (a * u + c * w - a1)) * (1 - cosTheta) + y * cosTheta + (c * u - a * w + w * x - u * z) * sinTheta;
-      double newZ = (c * (u * u + v * v) - w * (a * u + b * v - a1)) * (1 - cosTheta) + z * cosTheta + (-b * u + a * v - v * x + u * y) * sinTheta;
+      float newX = (a * (v * v + w * w) - u * (b * v + c * w - a1)) * (1 - cosTheta) + x * cosTheta + (-c * v + b * w - w * y + v * z) * sinTheta;
+      float newY = (b * (u * u + w * w) - v * (a * u + c * w - a1)) * (1 - cosTheta) + y * cosTheta + (c * u - a * w + w * x - u * z) * sinTheta;
+      float newZ = (c * (u * u + v * v) - w * (a * u + b * v - a1)) * (1 - cosTheta) + z * cosTheta + (-b * u + a * v - v * x + u * y) * sinTheta;
 
       X = newX;
       Y = newY;
       Z = newZ;
    }
 
-   public static Point Rotate(Point point, Ray axis, double theta) {
+   public static Point Rotate(Point point, Ray axis, float theta) {
 
-      theta = Math.toRadians(theta);
+      theta = (float) Math.toRadians(theta);
 
-      double sinTheta = Math.sin(theta);
-      double cosTheta = Math.cos(theta);
+      float sinTheta = (float) Math.sin(theta);
+      float cosTheta = (float) Math.cos(theta);
 
-      double a = axis.Origin.X;
-      double b = axis.Origin.Y;
-      double c = axis.Origin.Z;
+      float a = axis.Origin.X;
+      float b = axis.Origin.Y;
+      float c = axis.Origin.Z;
 
-      double u = axis.Direction.X;
-      double v = axis.Direction.Y;
-      double w = axis.Direction.Z;
+      float u = axis.Direction.X;
+      float v = axis.Direction.Y;
+      float w = axis.Direction.Z;
 
-      double x = point.X;
-      double y = point.Y;
-      double z = point.Z;
+      float x = point.X;
+      float y = point.Y;
+      float z = point.Z;
 
-      double a1 = u * x - v * y - w * z;
+      float a1 = u * x - v * y - w * z;
 
-      double newX = (a * (v * v + w * w) - u * (b * v + c * w - a1)) * (1 - cosTheta) + x * cosTheta + (-c * v + b * w - w * y + v * z) * sinTheta;
-      double newY = (b * (u * u + w * w) - v * (a * u + c * w - a1)) * (1 - cosTheta) + y * cosTheta + (c * u - a * w + w * x - u * z) * sinTheta;
-      double newZ = (c * (u * u + v * v) - w * (a * u + b * v - a1)) * (1 - cosTheta) + z * cosTheta + (-b * u + a * v - v * x + u * y) * sinTheta;
+      float newX = (a * (v * v + w * w) - u * (b * v + c * w - a1)) * (1 - cosTheta) + x * cosTheta + (-c * v + b * w - w * y + v * z) * sinTheta;
+      float newY = (b * (u * u + w * w) - v * (a * u + c * w - a1)) * (1 - cosTheta) + y * cosTheta + (c * u - a * w + w * x - u * z) * sinTheta;
+      float newZ = (c * (u * u + v * v) - w * (a * u + b * v - a1)) * (1 - cosTheta) + z * cosTheta + (-b * u + a * v - v * x + u * y) * sinTheta;
 
       return new Point(newX, newY, newZ);
    }

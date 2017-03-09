@@ -4,11 +4,11 @@ package net.danielthompson.danray.structures;
  * Represents a vector that is perpendicular to a surface at some point. å
  */
 public class Normal {
-   public double X;
-   public double Y;
-   public double Z;
+   public float X;
+   public float Y;
+   public float Z;
    
-   public Normal(double x, double y, double z) {
+   public Normal(float x, float y, float z) {
       X = x;
       Y = y;
       Z = z;
@@ -20,12 +20,12 @@ public class Normal {
       Z = v.Z;
    }
 
-   public double Length() {
-      return Math.sqrt(X * X + Y * Y + Z * Z);
+   public float Length() {
+      return (float) Math.sqrt(X * X + Y * Y + Z * Z);
    }
 
    public void Normalize() {
-      double lengthMultiplier = 1.0 / Length();
+      float lengthMultiplier = 1.0f / Length();
       Scale(lengthMultiplier);
    }
 
@@ -35,22 +35,22 @@ public class Normal {
       return v;
    }
 
-   public static Normal Scale(Normal vector, double t) {
+   public static Normal Scale(Normal vector, float t) {
       return new Normal (vector.X * t, vector.Y * t, vector.Z * t);
 
    }
 
-   public void Scale(double t) {
+   public void Scale(float t) {
       X *= t;
       Y *= t;
       Z *= t;
    }
 
-   public double Dot(Vector vector) {
+   public float Dot(Vector vector) {
       return (X * vector.X + Y * vector.Y + Z * vector.Z);
    }
 
-   public double Dot(Normal normal) {
+   public float Dot(Normal normal) {
       return (X * normal.X + Y * normal.Y + Z * normal.Z);
    }
 

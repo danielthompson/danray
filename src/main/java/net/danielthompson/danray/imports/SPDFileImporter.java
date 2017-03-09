@@ -93,16 +93,16 @@ public class SPDFileImporter {
       return floatValue;
    }
 
-   private double getDoubleValue(Node node, String attribute) {
+   private float getDoubleValue(Node node, String attribute) {
       Element e = (Element)node;
       return getDoubleValue(e, attribute);
    }
 
-   private double getDoubleValue(Element element, String attribute) {
+   private float getDoubleValue(Element element, String attribute) {
       String value = element.getAttribute(attribute);
-      double doubleValue = Double.parseDouble(value);
+      float floatValue = Float.parseFloat(value);
 
-      return doubleValue;
+      return floatValue;
    }
 
    private int getIntValue(Element element, String attribute) {

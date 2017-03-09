@@ -42,7 +42,7 @@ public class FullSpectralBlender {
       return new float[] {triX, triY, triZ};
    }
 
-   public static FullSpectralPowerDistribution BlendWeighted(FullSpectralPowerDistribution dist1, double weight1, FullSpectralPowerDistribution dist2, double weight2) {
+   public static FullSpectralPowerDistribution BlendWeighted(FullSpectralPowerDistribution dist1, float weight1, FullSpectralPowerDistribution dist2, float weight2) {
       FullSpectralPowerDistribution blend = new FullSpectralPowerDistribution();
 
       for (int i = 0; i < dist1.Buckets.length; i++) {
@@ -64,7 +64,7 @@ public class FullSpectralBlender {
          z += color[2];
       }
 
-      double lengthInverse = 1.0 / (double)colors.length;
+      float lengthInverse = 1.0f / (float)colors.length;
 
       x *= lengthInverse;
       y *= lengthInverse;
@@ -269,8 +269,8 @@ public class FullSpectralBlender {
    }
 
    public static Transform XYZtoRGBTransform = new Transform(new Matrix4x4(
-          3.240479, -1.537150, -0.498535, 0,
-         -0.969256,  1.875992,  0.041556, 0,
-          0.055648, -0.204043,  1.057311, 0,
+          3.240479f, -1.537150f, -0.498535f, 0,
+         -0.969256f,  1.875992f,  0.041556f, 0,
+          0.055648f, -0.204043f,  1.057311f, 0,
           0,         0,         0,        1));
 }

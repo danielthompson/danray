@@ -66,7 +66,7 @@ public class SpectrumConverterTests {
    public FullSpectralPowerDistribution ResetRed() {
       FullSpectralPowerDistribution currentRed = new FullSpectralPowerDistribution();
       currentRed.add(RelativeFullSpectralPowerDistributionLibrary.Constant.getSPD());
-      currentRed.scale(.1);
+      currentRed.scale(.1f);
       currentRed.add(RelativeFullSpectralPowerDistributionLibrary.Red.getSPD());
       return currentRed;
    }
@@ -74,7 +74,7 @@ public class SpectrumConverterTests {
    public FullSpectralPowerDistribution ResetGreen() {
       FullSpectralPowerDistribution currentRed = new FullSpectralPowerDistribution();
       currentRed.add(RelativeFullSpectralPowerDistributionLibrary.Constant.getSPD());
-      currentRed.scale(.1);
+      currentRed.scale(.1f);
       currentRed.add(RelativeFullSpectralPowerDistributionLibrary.Green.getSPD());
       return currentRed;
    }
@@ -82,7 +82,7 @@ public class SpectrumConverterTests {
    public FullSpectralPowerDistribution ResetBlue() {
       FullSpectralPowerDistribution currentRed = new FullSpectralPowerDistribution();
       currentRed.add(RelativeFullSpectralPowerDistributionLibrary.Constant.getSPD());
-      currentRed.scale(.1);
+      currentRed.scale(.1f);
       currentRed.add(RelativeFullSpectralPowerDistributionLibrary.Blue.getSPD());
       return currentRed;
    }

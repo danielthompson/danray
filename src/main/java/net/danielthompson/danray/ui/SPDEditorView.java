@@ -44,7 +44,7 @@ public class SPDEditorView {
 
    private boolean _enableSliderListeners = false;
 
-   private double _spdSliderAdjustmentFactor;
+   private float _spdSliderAdjustmentFactor;
    private int _spdAdjustmentResultPosition = 80;
 
    private ChangeListener _spdSliderChangeListener = new ChangeListener() {

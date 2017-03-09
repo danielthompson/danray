@@ -14,19 +14,19 @@ public class IsometricCamera extends Camera {
    }
 
    @Override
-   public Ray[] getInitialStochasticRaysForPixel(double x, double y, int samplesPerPixel) {
+   public Ray[] getInitialStochasticRaysForPixel(float x, float y, int samplesPerPixel) {
 
       Ray[] rays = new Ray[samplesPerPixel * samplesPerPixel];
 
       int vectorIndex = 0;
 
-      for (double i = 0.0; i < samplesPerPixel; i++) {
+      for (float i = 0.0f; i < samplesPerPixel; i++) {
 
-         double newX = x + ((i + 1.0) / ((double) samplesPerPixel + 1.0));
+         float newX = x + ((i + 1.0f) / ((float) samplesPerPixel + 1.0f));
 
 
-         for (double j = 0.0; j < samplesPerPixel; j++) {
-            double newY = y + ((j + 1.0) / ((double) samplesPerPixel + 1.0));
+         for (float j = 0.0f; j < samplesPerPixel; j++) {
+            float newY = y + ((j + 1.0f) / ((float) samplesPerPixel + 1.0f));
 
             Point worldPoint = getWorldPointForPixel(newX, newY);
 

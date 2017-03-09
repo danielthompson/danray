@@ -13,17 +13,17 @@ public class Material {
 
    public BRDF BRDF;
 
-   public double _reflectivity;
-   public double _transparency;
-   public double _indexOfRefraction;
-   public double _specular;
-   public double _intrinsic;
+   public float _reflectivity;
+   public float _transparency;
+   public float _indexOfRefraction;
+   public float _specular;
+   public float _intrinsic;
 
    public Material() {
 
    }
 
-   public Material (ReflectanceSpectrum spectrum, double reflectivity, double transparency, double indexOfRefraction, double specular) {
+   public Material (ReflectanceSpectrum spectrum, float reflectivity, float transparency, float indexOfRefraction, float specular) {
       ReflectanceSpectrum = spectrum;
       _reflectivity = reflectivity;
       _transparency = transparency;

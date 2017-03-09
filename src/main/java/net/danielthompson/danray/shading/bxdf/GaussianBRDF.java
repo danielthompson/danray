@@ -8,15 +8,15 @@ import net.danielthompson.danray.structures.Vector;
  */
 public class GaussianBRDF extends BRDF {
 
-   public double Sigma;
+   public float Sigma;
 
-   public GaussianBRDF(double sigma) {
+   public GaussianBRDF(float sigma) {
 
       Sigma = sigma;
    }
 
    @Override
-   public double f(double thetaIncoming, double thetaOutgoing) {
+   public float f(float thetaIncoming, float thetaOutgoing) {
 
       return super.f(thetaIncoming, thetaOutgoing);
    }
@@ -27,7 +27,7 @@ public class GaussianBRDF extends BRDF {
    }
 
    @Override
-   public double f(Vector incoming, Normal normal, Vector outgoing) {
+   public float f(Vector incoming, Normal normal, Vector outgoing) {
       return 0;
    }
 }

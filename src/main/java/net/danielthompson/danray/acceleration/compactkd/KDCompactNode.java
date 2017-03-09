@@ -13,7 +13,7 @@ public class KDCompactNode {
 
    public List<AbstractShape> Shapes;
 
-   public double Split;
+   public float Split;
    public KDAxis Axis;
 
    public float p0x;

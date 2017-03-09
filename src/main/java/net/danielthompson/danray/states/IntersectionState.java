@@ -14,8 +14,8 @@ import java.util.List;
  */
 public class IntersectionState {
    public Point IntersectionPoint;
-   public double TMin;
-   public double TMax;
+   public float TMin;
+   public float TMax;
    public boolean Hits;
    public AbstractShape Shape;
    public List<Point> Face;
@@ -26,6 +26,6 @@ public class IntersectionState {
    public int InstanceID;
 
    public IntersectionState() {
-      TMin = -Double.MAX_VALUE;
+      TMin = -Float.MAX_VALUE;
    }
 }

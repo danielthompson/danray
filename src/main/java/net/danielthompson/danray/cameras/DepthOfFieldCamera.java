@@ -19,11 +19,11 @@ public class DepthOfFieldCamera extends Camera {
 
    @Override
    public Point getWorldPointForPixel(int x, int y) {
-      return getWorldPointForPixel((double) x, (double) y);
+      return getWorldPointForPixel((float) x, (float) y);
    }
 
    @Override
-   public Point getWorldPointForPixel(double x, double y) {
+   public Point getWorldPointForPixel(float x, float y) {
 
       Point point = getDefaultOrientationWorldPointForPixel(x, y);
       // comment test
@@ -32,12 +32,12 @@ public class DepthOfFieldCamera extends Camera {
       return point;
    }
 
-   public Point GetStochasticWorldPointInApertureForPixel(double x, double y) {
+   public Point GetStochasticWorldPointInApertureForPixel(float x, float y) {
       Point point = getDefaultOrientationWorldPointForPixel(x, y);
 
       if (Settings.Aperture == null) {
-         double xOffset = (Math.random() - .5);
-         double yOffset = (Math.random() - .5);
+         float xOffset = (float) (Math.random() - .5);
+         float yOffset = (float) (Math.random() - .5);
 
          point = new Point(point.X + xOffset, point.Y + yOffset, point.Z);
       }
@@ -51,11 +51,11 @@ public class DepthOfFieldCamera extends Camera {
       return point;
    }
 
-   public Point GetStochasticWorldPointForPixel(double x, double y) {
+   public Point GetStochasticWorldPointForPixel(float x, float y) {
       Point point = getDefaultOrientationWorldPointForPixel(x, y);
 
-      double xOffset = (Math.random() - .5);
-      double yOffset = (Math.random() - .5);
+      float xOffset = (float) (Math.random() - .5);
+      float yOffset = (float) (Math.random() - .5);
 
       point = new Point(point.X + xOffset, point.Y + yOffset, point.Z);
 
@@ -66,7 +66,7 @@ public class DepthOfFieldCamera extends Camera {
    }
 
    @Override
-   public Ray[] getInitialStochasticRaysForPixel(double x, double y, int samplesPerPixel) {
+   public Ray[] getInitialStochasticRaysForPixel(float x, float y, int samplesPerPixel) {
 
       Ray[] rays = new Ray[samplesPerPixel];
 
@@ -95,11 +95,11 @@ public class DepthOfFieldCamera extends Camera {
    }
 
    public Ray[] getInitialStochasticRaysForPixel(int x, int y, int samplesPerPixel) {
-      return getInitialStochasticRaysForPixel((double) x, (double) y, samplesPerPixel);
+      return getInitialStochasticRaysForPixel((float) x, (float) y, samplesPerPixel);
    }
 
    @Override
-   public Ray getStochasticRayForPixel(double x, double y) {
+   public Ray getStochasticRayForPixel(float x, float y) {
       Point centerPoint = GetStochasticWorldPointForPixel(x, y);
       Vector direction = Vector.Minus(centerPoint, _rearFocalPoint);
       direction.Normalize();

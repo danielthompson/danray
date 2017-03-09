@@ -1,5 +1,6 @@
 package test.structures.point;
 
+import net.danielthompson.danray.structures.Constants;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Vector;
@@ -16,7 +17,7 @@ import org.testng.annotations.Test;
  */
 public class RotateTests {
 
-   public double delta = .0000000000001;
+   public float delta = .0000000000001f;
 
    @BeforeMethod
    public void setUp() throws Exception {
@@ -32,11 +33,11 @@ public class RotateTests {
    public void testRotate1() throws Exception {
       Point point = new Point(2, 0, 0);
       Ray axis = new Ray(new Point(0, 0, -2), new Vector(0, 0, 1));
-      double theta = 45;
+      float theta = 45;
 
       Point actualRotated = Point.Rotate(point, axis, theta);
 
-      Point expectedRotated = new Point(Math.sqrt(2), Math.sqrt(2), 0);
+      Point expectedRotated = new Point(Constants.Root2, Constants.Root2, 0);
 
       Assert.assertEquals(actualRotated.X, expectedRotated.X, delta);
       Assert.assertEquals(actualRotated.Y, expectedRotated.Y, delta);
@@ -47,11 +48,11 @@ public class RotateTests {
    public void testRotate2() throws Exception {
       Point point = new Point(2, 0, 0);
       Ray axis = new Ray(new Point(0, 0, -2), new Vector(0, 0, 1));
-      double theta = 45;
+      float theta = 45;
 
       Point actualRotated = Point.Rotate(point, axis, theta);
 
-      Point expectedRotated = new Point(Math.sqrt(2), Math.sqrt(2), 0);
+      Point expectedRotated = new Point(Constants.Root2, Constants.Root2, 0);
 
       Assert.assertEquals(actualRotated.X, expectedRotated.X, delta);
       Assert.assertEquals(actualRotated.Y, expectedRotated.Y, delta);

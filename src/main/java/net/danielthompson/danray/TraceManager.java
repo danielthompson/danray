@@ -94,7 +94,7 @@ public class TraceManager {
 
    private long _numPixelsStep;
 
-   private double _inverseKDNodeCount;
+   private float _inverseKDNodeCount;
 
    private AbstractFilm _film;
 
@@ -144,7 +144,7 @@ public class TraceManager {
 
       if (_scene instanceof KDScene) {
          int kdNodeCount = ((KDScene) _scene).rootNode.GetCount();
-         _inverseKDNodeCount = 1.0 / (double) kdNodeCount;
+         _inverseKDNodeCount = 1.0f / (float) kdNodeCount;
          _inverseKDNodeCount *= 1;
       }
       Logger.Log("Finished compiling scene in " + duration);
@@ -315,9 +315,9 @@ public class TraceManager {
 
       if (state != null) {
 
-         double xx = state.IntersectionPoint.X;
-         double yy = state.IntersectionPoint.Y;
-         double zz = state.IntersectionPoint.Z;
+         float xx = state.IntersectionPoint.X;
+         float yy = state.IntersectionPoint.Y;
+         float zz = state.IntersectionPoint.Z;
 
          if (_infoJFrame != null)
             _infoJFrame.setSceneLocation(xx, yy, zz);
@@ -518,7 +518,7 @@ public class TraceManager {
       int pixels = _qualityPreset.getX() * _qualityPreset.getY();
       Logger.Log(integerFormatter.format(pixels) +  " pixels, " + integerFormatter.format(InitialRays) +  " initial rays");
 
-      long fillRate = (long)(pixels * 1000 / (double)milliseconds);
+      long fillRate = (long)(pixels * 1000 / (float)milliseconds);
       Logger.Log(integerFormatter.format(fillRate) + " pixels / sec fillrate");
    }
 
@@ -590,7 +590,7 @@ public class TraceManager {
    public void SetKDHeatForPixel(int x, int y, int count) {
       if (_tracerOptions.showHeatWindow) {
          //System.out.println(count);
-         double normalizedColor = count * _inverseKDNodeCount;
+         float normalizedColor = count * _inverseKDNodeCount;
          int expandedColor = (int) (255.0f * normalizedColor);
 
          Color color = new Color(expandedColor, expandedColor, expandedColor);

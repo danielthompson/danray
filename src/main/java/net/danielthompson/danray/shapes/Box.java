@@ -52,11 +52,11 @@ public class Box extends AbstractShape {
          points[6] = ObjectToWorld.Apply(new Point(point2.X, point1.Y, point2.Z));
          points[7] = ObjectToWorld.Apply(new Point(point2.X, point1.Y, point1.Z));
 
-         double xMin, yMin, zMin;
-         xMin = yMin = zMin = Double.MAX_VALUE;
+         float xMin, yMin, zMin;
+         xMin = yMin = zMin = Float.MAX_VALUE;
 
-         double xMax, yMax, zMax;
-         xMax = yMax = zMax = -Double.MAX_VALUE;
+         float xMax, yMax, zMax;
+         xMax = yMax = zMax = -Float.MAX_VALUE;
 
          for (int i = 0; i < 8; i++) {
             if (points[i].X < xMin)

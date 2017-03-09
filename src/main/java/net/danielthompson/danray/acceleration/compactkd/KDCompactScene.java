@@ -34,7 +34,7 @@ public class KDCompactScene extends AbstractScene {
    }
 
    @Override
-   public IntersectionState getNearestShapeBeyond(Ray ray, double t) {
+   public IntersectionState getNearestShapeBeyond(Ray ray, float t) {
       return null;
    }
 
@@ -109,17 +109,17 @@ public class KDCompactScene extends AbstractScene {
    }
 
    public static IntersectionState GetHitInfo(KDCompactNode node, Ray ray) {
-      double maxBoundFarT = Double.MAX_VALUE;
-      double minBoundNearT = 0;
+      float maxBoundFarT = Float.MAX_VALUE;
+      float minBoundNearT = 0;
 
       IntersectionState state = new IntersectionState();
       state.Hits = true;
 
       // X
-      double tNear = (node.p0x - ray.Origin.X) * ray.DirectionInverse.X;
-      double tFar = (node.p1x - ray.Origin.X) * ray.DirectionInverse.X;
+      float tNear = (node.p0x - ray.Origin.X) * ray.DirectionInverse.X;
+      float tFar = (node.p1x - ray.Origin.X) * ray.DirectionInverse.X;
 
-      double swap = tNear;
+      float swap = tNear;
       tNear = tNear > tFar ? tFar : tNear;
       tFar = swap > tFar ? swap : tFar;
 

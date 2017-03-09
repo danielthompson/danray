@@ -7,15 +7,15 @@ import net.danielthompson.danray.structures.Point;
  */
 public class SquareAperture extends Aperture {
 
-   public SquareAperture(double size) {
+   public SquareAperture(float size) {
       Size = size;
    }
 
    @Override
    public Point GetOriginPoint() {
-      double x = (Math.random() - .5) * Size;
-      double y = (Math.random() - .5) * Size;
-      double z = 0.0;
+      float x = (float) ((Math.random() - .5) * Size);
+      float y = (float) ((Math.random() - .5) * Size);
+      float z = 0.0f;
 
       return new Point(x, y, z);
    }

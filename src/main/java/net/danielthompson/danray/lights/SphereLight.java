@@ -3,10 +3,7 @@ package net.danielthompson.danray.lights;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.shapes.Sphere;
 import net.danielthompson.danray.states.IntersectionState;
-import net.danielthompson.danray.structures.BoundingBox;
-import net.danielthompson.danray.structures.Point;
-import net.danielthompson.danray.structures.Ray;
-import net.danielthompson.danray.structures.Vector;
+import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.utility.GeometryCalculations;
 import org.apache.commons.math3.util.FastMath;
 
@@ -25,13 +22,13 @@ public class SphereLight extends AbstractLight {
       WorldBoundingBox = sphere.WorldBoundingBox;
    }
 
-   private static double[] randoms;
+   private static float[] randoms;
 
    static {
-      randoms = new double[NumberOfPregeneratedRandoms];
+      randoms = new float[NumberOfPregeneratedRandoms];
 
       for (int i = 0; i < NumberOfPregeneratedRandoms; i++) {
-         randoms[i] = FastMath.random();
+         randoms[i] = (float) FastMath.random();
       }
    }
 
@@ -54,9 +51,9 @@ public class SphereLight extends AbstractLight {
    private static Object mutex = new Object();
 
    private Point getRandomPoint() {
-      double x;
-      double y;
-      double z;
+      float x;
+      float y;
+      float z;
 
       //synchronized (mutex) {
       x = randoms[randomPointer];
@@ -74,7 +71,7 @@ public class SphereLight extends AbstractLight {
    @Override
    public Point getRandomPointOnSurface() {
 
-      double[] xyz = GeometryCalculations.randomPointOnSphere();
+      float[] xyz = GeometryCalculations.randomPointOnSphere();
 
       Point point = new Point(xyz);
 
@@ -130,7 +127,7 @@ public class SphereLight extends AbstractLight {
          direction.Scale(-1);
 
       Ray ray = new Ray(point, direction);
-      ray.OffsetOriginForward(.00001);
+      ray.OffsetOriginForward(.00001f);
 
       if (Sphere.ObjectToWorld != null)
          Sphere.ObjectToWorld.Apply(ray);
@@ -149,10 +146,10 @@ public class SphereLight extends AbstractLight {
       float sqrDist = (float) point.SquaredDistanceBetween(origin);
 
       float sinThetaMax2 = (float) (Sphere.Radius * Sphere.Radius) / sqrDist;
-      //double sinTheta = Math.sqrt(sinThetaMax2);
+      //float sinTheta = Math.sqrt(sinThetaMax2);
       float cosThetaMax = (float) Math.sqrt(Math.max(0, 1 - sinThetaMax2));
 
-      float pdf = (float) (4.0f * Math.PI / GeometryCalculations.UniformConePDF(cosThetaMax));
+      float pdf = (float) (4.0f * Constants.PI / GeometryCalculations.UniformConePDF(cosThetaMax));
 
       return pdf; //TODO
    }

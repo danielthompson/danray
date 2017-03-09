@@ -18,7 +18,7 @@ import static java.lang.Math.sqrt;
  */
 public class NormalTests {
 
-   public double delta = .0000000000001;
+   public float delta = .0000000000001f;
 
    @BeforeMethod
    public void setUp() throws Exception {
@@ -76,8 +76,8 @@ public class NormalTests {
       sphere.Radius = 1;
 
       IntersectionState state = new IntersectionState();
-      state.IntersectionPoint = new Point(sphere.Origin.X - sphere.Radius / (sqrt(2)), sphere.Origin.Y - sphere.Radius / (sqrt(2)), 0);
-      state.Normal = new Normal(- sphere.Radius / (sqrt(2)), - sphere.Radius / (sqrt(2)), 0);
+      state.IntersectionPoint = new Point(sphere.Origin.X - sphere.Radius / (Constants.Root2), sphere.Origin.Y - sphere.Radius / (Constants.Root2), 0);
+      state.Normal = new Normal(- sphere.Radius / (Constants.Root2), - sphere.Radius / (Constants.Root2), 0);
       state.Hits = true;
 
       Normal normal = state.Normal;

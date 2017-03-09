@@ -20,7 +20,7 @@ public class Transform {
     * Creates a new Transform with the given values. Calculates the inverse.
     * @param values
     */
-   public Transform(double[][] values) {
+   public Transform(float[][] values) {
       _matrix = new Matrix4x4(values);
       _inverse = _matrix.Inverse();
    }
@@ -118,7 +118,7 @@ public class Transform {
       return transform;
    }
 
-   public static Transform Scale(double x, double y, double z) {
+   public static Transform Scale(float x, float y, float z) {
       Matrix4x4 matrix = new Matrix4x4(
             x, 0, 0, 0,
             0, y, 0, 0,
@@ -126,9 +126,9 @@ public class Transform {
             0, 0, 0, 1);
 
       Matrix4x4 inverse = new Matrix4x4(
-            1./x, 0,    0,    0,
-            0,    1./y, 0,    0,
-            0,    0,    1./z, 0,
+            1.f/x, 0,    0,    0,
+            0,    1.f/y, 0,    0,
+            0,    0,    1.f/z, 0,
             0,    0,    0,    1);
 
       Transform transform = new Transform(matrix, inverse);
@@ -137,18 +137,18 @@ public class Transform {
    }
 
    public boolean HasScale() {
-      double lengthX = Apply(new Vector(1, 0, 0)).LengthSquared();
-      double lengthY = Apply(new Vector(0, 1, 0)).LengthSquared();
-      double lengthZ = Apply(new Vector(0, 0, 1)).LengthSquared();
+      float lengthX = Apply(new Vector(1, 0, 0)).LengthSquared();
+      float lengthY = Apply(new Vector(0, 1, 0)).LengthSquared();
+      float lengthZ = Apply(new Vector(0, 0, 1)).LengthSquared();
 
       return (lengthX < .999 || lengthX > 1.001
          || lengthY < .999 || lengthY > 1.001
          || lengthZ < .999 || lengthZ > 1.001);
    }
 
-   public static Transform RotateX(double angle) {
-      double sin_t = FastMath.sin(FastMath.toRadians(angle));
-      double cos_t = FastMath.cos(FastMath.toRadians(angle));
+   public static Transform RotateX(float angle) {
+      float sin_t = (float) FastMath.sin(FastMath.toRadians(angle));
+      float cos_t = (float) FastMath.cos(FastMath.toRadians(angle));
 
       Matrix4x4 matrix = new Matrix4x4(
             1,     0,      0, 0,
@@ -161,9 +161,9 @@ public class Transform {
       return new Transform(matrix, inverse);
    }
 
-   public static Transform RotateY(double angle) {
-      double sin_t = FastMath.sin(FastMath.toRadians(angle));
-      double cos_t = FastMath.cos(FastMath.toRadians(angle));
+   public static Transform RotateY(float angle) {
+      float sin_t = (float) FastMath.sin(FastMath.toRadians(angle));
+      float cos_t = (float) FastMath.cos(FastMath.toRadians(angle));
 
       Matrix4x4 matrix = new Matrix4x4(
              cos_t, 0, sin_t, 0,
@@ -177,9 +177,9 @@ public class Transform {
    }
 
 
-   public static Transform RotateZ(double angle) {
-      double sin_t = FastMath.sin(FastMath.toRadians(angle));
-      double cos_t = FastMath.cos(FastMath.toRadians(angle));
+   public static Transform RotateZ(float angle) {
+      float sin_t = (float) FastMath.sin(FastMath.toRadians(angle));
+      float cos_t = (float) FastMath.cos(FastMath.toRadians(angle));
 
       Matrix4x4 matrix = new Matrix4x4(
             cos_t, -sin_t, 0, 0,
@@ -192,31 +192,31 @@ public class Transform {
       return new Transform(matrix, inverse);
    }
 
-   public static Transform Rotate(double angle, Vector axis) {
+   public static Transform Rotate(float angle, Vector axis) {
       Vector a = Vector.Normalize(axis);
-      double s = FastMath.sin(FastMath.toRadians(angle));
-      double c = FastMath.cos(FastMath.toRadians(angle));
+      float s = (float) FastMath.sin(FastMath.toRadians(angle));
+      float c = (float) FastMath.cos(FastMath.toRadians(angle));
       
-      double[][] m = new double[4][4];
+      float[][] m = new float[4][4];
 
-      m[0] = new double[4];
-      m[1] = new double[4];
-      m[2] = new double[4];
-      m[3] = new double[4];
+      m[0] = new float[4];
+      m[1] = new float[4];
+      m[2] = new float[4];
+      m[3] = new float[4];
 
-      m[0][0] = a.X * a.X + (1. - a.X * a.X) * c;
-      m[0][1] = a.X * a.Y * (1. - c) - a.Z * s;
-      m[0][2] = a.X * a.Z * (1. - c) + a.Y * s;
+      m[0][0] = a.X * a.X + (1.f - a.X * a.X) * c;
+      m[0][1] = a.X * a.Y * (1.f - c) - a.Z * s;
+      m[0][2] = a.X * a.Z * (1.f - c) + a.Y * s;
       m[0][3] = 0;
 
-      m[1][0] = a.X * a.Y * (1. - c) + a.Z * s;
-      m[1][1] = a.Y + a.Y + (1. - a.Y * a.Y) * c;
-      m[1][2] = a.Y * a.Z * (1. - c) - a.X * c;
+      m[1][0] = a.X * a.Y * (1.f - c) + a.Z * s;
+      m[1][1] = a.Y + a.Y + (1.f - a.Y * a.Y) * c;
+      m[1][2] = a.Y * a.Z * (1.f - c) - a.X * c;
       m[1][3] = 0;
 
-      m[2][0] = a.X * a.Z * (1. - c) - a.Y * s;
-      m[2][1] = a.Y * a.Z * (1. - c) + a.X * s;
-      m[2][2] = a.Z * a.Z + (1. - a.Z * a.Z) * c;
+      m[2][0] = a.X * a.Z * (1.f - c) - a.Y * s;
+      m[2][1] = a.Y * a.Z * (1.f - c) + a.X * s;
+      m[2][2] = a.Z * a.Z + (1.f - a.Z * a.Z) * c;
       m[2][3] = 0;
 
       m[3][0] = 0;
@@ -232,12 +232,12 @@ public class Transform {
    }
    
    public static Transform LookAt(Point position, Point toLookAt, Vector up) {
-      double[][] m = new double[4][4];
+      float[][] m = new float[4][4];
 
-      m[0] = new double[4];
-      m[1] = new double[4];
-      m[2] = new double[4];
-      m[3] = new double[4];
+      m[0] = new float[4];
+      m[1] = new float[4];
+      m[2] = new float[4];
+      m[3] = new float[4];
 
       m[0][3] = position.X;
       m[1][3] = position.Y;
@@ -282,43 +282,38 @@ public class Transform {
    }
 
    public Point Apply(Point p) {
-      if (p == null) {
-         double temp = 0.0;
-      }
 
-      double x = p.X;
-      double y = p.Y;
-      double z = p.Z;
+      float x = p.X;
+      float y = p.Y;
+      float z = p.Z;
 
-      double newX = x * _matrix.matrix[0][0] + y * _matrix.matrix[0][1] + z * _matrix.matrix[0][2] + _matrix.matrix[0][3];
-      double newY = x * _matrix.matrix[1][0] + y * _matrix.matrix[1][1] + z * _matrix.matrix[1][2] + _matrix.matrix[1][3];
-      double newZ = x * _matrix.matrix[2][0] + y * _matrix.matrix[2][1] + z * _matrix.matrix[2][2] + _matrix.matrix[2][3];
+      float newX = x * _matrix.matrix[0][0] + y * _matrix.matrix[0][1] + z * _matrix.matrix[0][2] + _matrix.matrix[0][3];
+      float newY = x * _matrix.matrix[1][0] + y * _matrix.matrix[1][1] + z * _matrix.matrix[1][2] + _matrix.matrix[1][3];
+      float newZ = x * _matrix.matrix[2][0] + y * _matrix.matrix[2][1] + z * _matrix.matrix[2][2] + _matrix.matrix[2][3];
 
-      double w = x * _matrix.matrix[3][0] + y * _matrix.matrix[3][1] + z * _matrix.matrix[3][2] + _matrix.matrix[3][3];
+      float w = x * _matrix.matrix[3][0] + y * _matrix.matrix[3][1] + z * _matrix.matrix[3][2] + _matrix.matrix[3][3];
 
       if (w == 1)
          return new Point(newX, newY, newZ);
       else {
-         double divisor = 1. / w;
+         float divisor = 1.f / w;
          return new Point(newX * divisor, newY * divisor, newZ * divisor);
       }
    }
 
    public Vector Apply(Vector v) {
-      double newX = v.X * _matrix.matrix[0][0] + v.Y * _matrix.matrix[0][1] + v.Z * _matrix.matrix[0][2];
-      double newY = v.X * _matrix.matrix[1][0] + v.Y * _matrix.matrix[1][1] + v.Z * _matrix.matrix[1][2];
-      double newZ = v.X * _matrix.matrix[2][0] + v.Y * _matrix.matrix[2][1] + v.Z * _matrix.matrix[2][2];
+      float newX = v.X * _matrix.matrix[0][0] + v.Y * _matrix.matrix[0][1] + v.Z * _matrix.matrix[0][2];
+      float newY = v.X * _matrix.matrix[1][0] + v.Y * _matrix.matrix[1][1] + v.Z * _matrix.matrix[1][2];
+      float newZ = v.X * _matrix.matrix[2][0] + v.Y * _matrix.matrix[2][1] + v.Z * _matrix.matrix[2][2];
 
       return new Vector(newX, newY, newZ);
    }
 
    public Normal Apply(Normal n) {
-      if (n == null || _inverse == null) {
-         double temp = 0.0;
-      }
-      double newX = n.X * _inverse.matrix[0][0] + n.Y * _inverse.matrix[1][0] + n.Z * _inverse.matrix[2][0];
-      double newY = n.X * _inverse.matrix[0][1] + n.Y * _inverse.matrix[1][1] + n.Z * _inverse.matrix[2][1];
-      double newZ = n.X * _inverse.matrix[0][2] + n.Y * _inverse.matrix[1][2] + n.Z * _inverse.matrix[2][2];
+
+      float newX = n.X * _inverse.matrix[0][0] + n.Y * _inverse.matrix[1][0] + n.Z * _inverse.matrix[2][0];
+      float newY = n.X * _inverse.matrix[0][1] + n.Y * _inverse.matrix[1][1] + n.Z * _inverse.matrix[2][1];
+      float newZ = n.X * _inverse.matrix[0][2] + n.Y * _inverse.matrix[1][2] + n.Z * _inverse.matrix[2][2];
 
       return new Normal(newX, newY, newZ);
    }
@@ -336,13 +331,13 @@ public class Transform {
    }
 
    public boolean SwapsHandedness() {
-      double det = (_matrix.matrix[0][0] * _matrix.matrix[1][1] + _matrix.matrix[2][2] +
+      float det = (_matrix.matrix[0][0] * _matrix.matrix[1][1] + _matrix.matrix[2][2] +
             _matrix.matrix[0][1] * _matrix.matrix[1][2] + _matrix.matrix[2][0] +
             _matrix.matrix[0][2] * _matrix.matrix[1][0] + _matrix.matrix[2][1]) -
             (_matrix.matrix[0][2] * _matrix.matrix[1][1] + _matrix.matrix[2][0] +
              _matrix.matrix[0][1] * _matrix.matrix[1][0] + _matrix.matrix[2][2] +
              _matrix.matrix[0][0] * _matrix.matrix[1][2] + _matrix.matrix[2][1]);
-      return det < 0.;
+      return det < 0.f;
 
    }
 

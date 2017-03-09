@@ -101,7 +101,7 @@ public class KDPointNodeTests {
       List<Point> objects = new ArrayList<Point>();
 
       for (int i = 0; i < 20; i++) {
-         objects.add(new Point((Math.random() * 10), (Math.random() * 10), 0));
+         objects.add(new Point((float)(Math.random() * 10), (float)(Math.random() * 10), 0));
       }
 
       KDAxis expectedAxis = KDAxis.X;

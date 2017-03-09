@@ -4,15 +4,15 @@ package net.danielthompson.danray.structures;
  * Created by daniel on 2/15/15.
  */
 public class Matrix4x4 {
-   public double[][] matrix;
+   public float[][] matrix;
 
    public Matrix4x4() {
-      matrix = new double[4][4];
+      matrix = new float[4][4];
 
-      matrix[0] = new double[4];
-      matrix[1] = new double[4];
-      matrix[2] = new double[4];
-      matrix[3] = new double[4];
+      matrix[0] = new float[4];
+      matrix[1] = new float[4];
+      matrix[2] = new float[4];
+      matrix[3] = new float[4];
 
       matrix[0][0] = 1;
       matrix[1][1] = 1;
@@ -20,7 +20,7 @@ public class Matrix4x4 {
       matrix[3][3] = 1;
    }
 
-   public Matrix4x4(double values[][]) {
+   public Matrix4x4(float values[][]) {
       this();
 
       matrix[0][0] = values[0][0];
@@ -44,10 +44,10 @@ public class Matrix4x4 {
       matrix[3][3] = values[3][3];
    }
 
-   public Matrix4x4(double t00, double t01, double t02, double t03,
-                    double t10, double t11, double t12, double t13,
-                    double t20, double t21, double t22, double t23,
-                    double t30, double t31, double t32, double t33) {
+   public Matrix4x4(float t00, float t01, float t02, float t03,
+                    float t10, float t11, float t12, float t13,
+                    float t20, float t21, float t22, float t23,
+                    float t30, float t31, float t32, float t33) {
 
       this();
 
@@ -84,7 +84,7 @@ public class Matrix4x4 {
       int[] indxc = new int[4];
       int[] indxr = new int[4];
       int[] ipiv = { 0, 0, 0, 0 };
-      double[][] minv = new double[4][4];
+      float[][] minv = new float[4][4];
       System.arraycopy(matrix[0], 0, minv[0], 0, 4);
       System.arraycopy(matrix[1], 0, minv[1], 0, 4);
       System.arraycopy(matrix[2], 0, minv[2], 0, 4);
@@ -92,7 +92,7 @@ public class Matrix4x4 {
       //memcpy(minv, m, 4*4*sizeof(float));
       for (int i = 0; i < 4; i++) {
          int irow = -1, icol = -1;
-         double big = 0.;
+         float big = 0.f;
          // Choose pivot
          for (int j = 0; j < 4; j++) {
             if (ipiv[j] != 1) {
@@ -123,14 +123,14 @@ public class Matrix4x4 {
          if (minv[icol][icol] == 0.)
             throw new UnsupportedOperationException("Singular matrix in MatrixInvert");
          // Set $m[icol][icol]$ to one by scaling row _icol_ appropriately
-         double pivinv = 1.f / minv[icol][icol];
+         float pivinv = 1.f / minv[icol][icol];
          minv[icol][icol] = 1.f;
          for (int j = 0; j < 4; j++)
             minv[icol][j] *= pivinv;
          // Subtract this row from others to zero out their columns
          for (int j = 0; j < 4; j++) {
             if (j != icol) {
-               double save = minv[j][icol];
+               float save = minv[j][icol];
                minv[j][icol] = 0;
                for (int k = 0; k < 4; k++)
                   minv[j][k] -= minv[icol][k]*save;
@@ -152,7 +152,7 @@ public class Matrix4x4 {
    }
 
    public void swap(int row1, int row2) {
-      double[] temp = matrix[row1];
+      float[] temp = matrix[row1];
       matrix[row1] = matrix[row2];
       matrix[row2] = temp;
    }

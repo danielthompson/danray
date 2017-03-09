@@ -1,13 +1,10 @@
 package test.tracers.tracer;
 
-import net.danielthompson.danray.structures.Normal;
+import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.utility.GeometryCalculations;
 import net.danielthompson.danray.integrators.WhittedIntegrator;
-import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.shapes.Sphere;
-import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.states.IntersectionState;
-import net.danielthompson.danray.structures.Vector;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -45,10 +42,10 @@ public class PercentageTests {
       Vector vectorDirection = new Vector(-1, 0, 0);
       Ray cameraRay = new Ray(vectorOrigin, vectorDirection);
 
-      WhittedIntegrator tracer = new WhittedIntegrator(null, 0);
-
-      double percentage = GeometryCalculations.GetAngleOfIncidencePercentage(cameraRay, state);
-      Assert.assertEquals(percentage, 100.0);
+      float actual = GeometryCalculations.GetAngleOfIncidencePercentage(cameraRay, state);
+      float expected = 100.0f;
+      float delta = Constants.UnitTestDelta * expected;
+      Assert.assertEquals(actual, expected, delta);
    }
 
    @Test
@@ -66,10 +63,10 @@ public class PercentageTests {
       Vector vectorDirection = new Vector(-1, -1, 0);
       Ray cameraRay = new Ray(vectorOrigin, vectorDirection);
 
-      WhittedIntegrator tracer = new WhittedIntegrator(null, 0);
-
-      double percentage = GeometryCalculations.GetAngleOfIncidencePercentage(cameraRay, state);
-      Assert.assertEquals(percentage, 50.0);
+      float actual = GeometryCalculations.GetAngleOfIncidencePercentage(cameraRay, state);
+      float expected = 50.0f;
+      float delta = Constants.UnitTestDelta * expected;
+      Assert.assertEquals(actual, expected, delta);
    }
 
    @Test
@@ -87,9 +84,9 @@ public class PercentageTests {
       Vector vectorDirection = new Vector(0, -1, 0);
       Ray cameraRay = new Ray(vectorOrigin, vectorDirection);
 
-      WhittedIntegrator tracer = new WhittedIntegrator(null, 0);
-
-      double percentage = GeometryCalculations.GetAngleOfIncidencePercentage(cameraRay, state);
-      Assert.assertEquals(percentage, 0.0);
+      float actual = GeometryCalculations.GetAngleOfIncidencePercentage(cameraRay, state);
+      float expected = 0.0f;
+      float delta = Constants.UnitTestDelta;
+      Assert.assertEquals(actual, expected, delta);
    }
 }

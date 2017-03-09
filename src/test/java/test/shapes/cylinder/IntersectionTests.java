@@ -7,6 +7,7 @@ import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.structures.Point;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import test.AssertHelper;
 
 /**
  * Created by daniel on 2/15/15.
@@ -53,8 +54,8 @@ public class IntersectionTests {
 
       Assert.assertTrue(state.Hits, "Should hit");
 
-      Assert.assertEquals(state.IntersectionPoint, expectedIntersectionPoint, "intersection point not right");
-      Assert.assertEquals(state.Normal, expectedNormalDirection, "normal not right");
+      AssertHelper.assertEquals(state.IntersectionPoint, expectedIntersectionPoint);
+      AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 
    @Test
@@ -78,8 +79,8 @@ public class IntersectionTests {
 
       Assert.assertTrue(state.Hits, "Should hit");
 
-      Assert.assertEquals(state.IntersectionPoint, expectedIntersectionPoint, "intersection point not right");
-      Assert.assertEquals(state.Normal, expectedNormalDirection, "normal not right");
+      AssertHelper.assertEquals(state.IntersectionPoint, expectedIntersectionPoint);
+      AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 
    @Test
@@ -103,8 +104,8 @@ public class IntersectionTests {
 
       Assert.assertTrue(state.Hits, "Should hit");
 
-      Assert.assertEquals(state.IntersectionPoint, expectedIntersectionPoint, "intersection point not right");
-      Assert.assertEquals(state.Normal, expectedNormalDirection, "normal not right");
+      AssertHelper.assertEquals(state.IntersectionPoint, expectedIntersectionPoint);
+      AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 
    @Test
@@ -117,7 +118,7 @@ public class IntersectionTests {
       Cylinder cylinder = new Cylinder(1, 1, worldToObject, objectToWorld, material);
 
       Point origin = new Point(1, 5, 0);
-      Vector direction = new Vector(-.25, -1, 0);
+      Vector direction = new Vector(-.25f, -1, 0);
 
       Ray ray = new Ray(origin, direction);
 
@@ -128,8 +129,8 @@ public class IntersectionTests {
 
       Assert.assertTrue(state.Hits, "Should hit");
 
-      Assert.assertEquals(state.IntersectionPoint, expectedIntersectionPoint, "intersection point not right");
-      Assert.assertEquals(state.Normal, expectedNormalDirection, "normal not right");
+      AssertHelper.assertEquals(state.IntersectionPoint, expectedIntersectionPoint);
+      AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 
    @Test
@@ -160,20 +161,20 @@ public class IntersectionTests {
 
       Cylinder cylinder = new Cylinder(1, 1, worldToObject, objectToWorld, material);
 
-      Point origin = new Point(0, .5, -10);
+      Point origin = new Point(0, .5f, -10);
       Vector direction = new Vector(0, 0, 1);
 
       Ray ray = new Ray(origin, direction);
 
       IntersectionState state = cylinder.getHitInfo(ray);
 
-      Point expectedIntersectionPoint = new Point(0, .5, -1);
+      Point expectedIntersectionPoint = new Point(0, .5f, -1);
       Normal expectedNormalDirection = new Normal(0, 0, -1);
 
       Assert.assertTrue(state.Hits, "Should hit");
 
-      Assert.assertEquals(state.IntersectionPoint, expectedIntersectionPoint, "intersection point not right");
-      Assert.assertEquals(state.Normal, expectedNormalDirection, "normal not right");
+      AssertHelper.assertEquals(state.IntersectionPoint, expectedIntersectionPoint);
+      AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 
    @Test
@@ -192,13 +193,13 @@ public class IntersectionTests {
 
       IntersectionState state = cylinder.getHitInfo(ray);
 
-      Point expectedIntersectionPoint = new Point(1, .5, 0);
+      Point expectedIntersectionPoint = new Point(1, .5f, 0);
       Normal expectedNormalDirection = new Normal(1, 0, 0);
 
       Assert.assertTrue(state.Hits, "Should hit");
 
-      Assert.assertEquals(state.IntersectionPoint, expectedIntersectionPoint, "intersection point not right");
-      Assert.assertEquals(state.Normal, expectedNormalDirection, "normal not right");
+      AssertHelper.assertEquals(state.IntersectionPoint, expectedIntersectionPoint);
+      AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 
    @Test
@@ -217,13 +218,13 @@ public class IntersectionTests {
 
       IntersectionState state = cylinder.getHitInfo(ray);
 
-      Point expectedIntersectionPoint = new Point(1, .5, 0);
+      Point expectedIntersectionPoint = new Point(1, .5f, 0);
       Normal expectedNormalDirection = new Normal(1, 0, 0);
 
       Assert.assertTrue(state.Hits, "Should hit");
 
-      Assert.assertEquals(state.IntersectionPoint, expectedIntersectionPoint, "intersection point not right");
-      Assert.assertEquals(state.Normal, expectedNormalDirection, "normal not right");
+      AssertHelper.assertEquals(state.IntersectionPoint, expectedIntersectionPoint);
+      AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 
    @Test
@@ -247,8 +248,8 @@ public class IntersectionTests {
 
       Assert.assertTrue(state.Hits, "Should hit");
 
-      Assert.assertEquals(state.IntersectionPoint, expectedIntersectionPoint, "intersection point not right");
-      Assert.assertEquals(state.Normal, expectedNormalDirection, "normal not right");
+      AssertHelper.assertEquals(state.IntersectionPoint, expectedIntersectionPoint);
+      AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 
 
@@ -273,8 +274,8 @@ public class IntersectionTests {
 
       Assert.assertTrue(state.Hits, "Should hit");
 
-      Assert.assertEquals(state.IntersectionPoint, expectedIntersectionPoint, "intersection point not right");
-      Assert.assertEquals(state.Normal, expectedNormalDirection, "normal not right");
+      AssertHelper.assertEquals(state.IntersectionPoint, expectedIntersectionPoint);
+      AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 
 

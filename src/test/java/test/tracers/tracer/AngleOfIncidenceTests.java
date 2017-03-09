@@ -1,14 +1,11 @@
 package test.tracers.tracer;
 
+import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.utility.GeometryCalculations;
 import net.danielthompson.danray.integrators.WhittedIntegrator;
 import net.danielthompson.danray.shapes.ImplicitPlane;
-import net.danielthompson.danray.structures.Normal;
-import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.shapes.Sphere;
-import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.states.IntersectionState;
-import net.danielthompson.danray.structures.Vector;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -21,7 +18,6 @@ import org.testng.annotations.Test;
  * Time: 12:12 PM
  */
 public class AngleOfIncidenceTests {
-   public double delta = .0000000000001;
 
    @BeforeMethod
    public void setUp() throws Exception {
@@ -49,15 +45,18 @@ public class AngleOfIncidenceTests {
       state.Normal = new Normal(1, 0, 0);
       state.Hits = true;
 
-      double actualAngleOfIncidence = GeometryCalculations.GetAngleOfIncidence(incomingRay, state);
-      double expectedAngleOfIncidence = 45;
+      float actualAngleOfIncidence = GeometryCalculations.GetAngleOfIncidence(incomingRay, state);
+      float expectedAngleOfIncidence = 45;
+      float delta = expectedAngleOfIncidence * Constants.UnitTestDelta;
 
-      Assert.assertEquals(actualAngleOfIncidence, expectedAngleOfIncidence);
+      Assert.assertEquals(actualAngleOfIncidence, expectedAngleOfIncidence, delta);
 
-      double actualAngleOfIncidencePercentage = GeometryCalculations.GetAngleOfIncidencePercentage(incomingRay, state);
-      double expectedAngleOfIncidencePercentage = 50;
+      float actualAngleOfIncidencePercentage = GeometryCalculations.GetAngleOfIncidencePercentage(incomingRay, state);
+      float expectedAngleOfIncidencePercentage = 50;
 
-      Assert.assertEquals(actualAngleOfIncidencePercentage, expectedAngleOfIncidencePercentage);
+      delta = expectedAngleOfIncidencePercentage * Constants.UnitTestDelta;
+
+      Assert.assertEquals(actualAngleOfIncidencePercentage, expectedAngleOfIncidencePercentage, delta);
    }
 
    @Test
@@ -76,15 +75,17 @@ public class AngleOfIncidenceTests {
       state.Normal = new Normal(1, 0, 0);
       state.Hits = true;
 
-      double actualAngleOfIncidence = GeometryCalculations.GetAngleOfIncidence(incomingRay, state);
-      double expectedAngleOfIncidence = 45;
+      float actualAngleOfIncidence = GeometryCalculations.GetAngleOfIncidence(incomingRay, state);
+      float expectedAngleOfIncidence = 45;
+      float delta = expectedAngleOfIncidence * Constants.UnitTestDelta;
 
-      Assert.assertEquals(actualAngleOfIncidence, expectedAngleOfIncidence);
+      Assert.assertEquals(actualAngleOfIncidence, expectedAngleOfIncidence, delta);
 
-      double actualAngleOfIncidencePercentage = GeometryCalculations.GetAngleOfIncidencePercentage(incomingRay, state);
-      double expectedAngleOfIncidencePercentage = 50;
+      float actualAngleOfIncidencePercentage = GeometryCalculations.GetAngleOfIncidencePercentage(incomingRay, state);
+      float expectedAngleOfIncidencePercentage = 50;
+      delta = expectedAngleOfIncidencePercentage * Constants.UnitTestDelta;
 
-      Assert.assertEquals(actualAngleOfIncidencePercentage, expectedAngleOfIncidencePercentage);
+      Assert.assertEquals(actualAngleOfIncidencePercentage, expectedAngleOfIncidencePercentage, delta);
    }
 
    @Test
@@ -93,10 +94,8 @@ public class AngleOfIncidenceTests {
       sphere.Origin = new Point(0, 0, 0);
       sphere.Radius = 1;
 
-      double root3 = Math.sqrt(3);
-
-      Point rayOrigin = new Point(1 + root3, -1, 0);
-      Vector rayDirection = new Vector(-root3, 1, 0);
+      Point rayOrigin = new Point(1 + Constants.Root3, -1, 0);
+      Vector rayDirection = new Vector(-Constants.Root3, 1, 0);
 
       Ray incomingRay = new Ray(rayOrigin, rayDirection);
 
@@ -105,15 +104,15 @@ public class AngleOfIncidenceTests {
       state.Normal = new Normal(1, 0, 0);
       state.Hits = true;
 
-      WhittedIntegrator tracer = new WhittedIntegrator(null, 0);
-
-      double actualAngleOfIncidence = GeometryCalculations.GetAngleOfIncidence(incomingRay, state);
-      double expectedAngleOfIncidence = 30;
+      float actualAngleOfIncidence = GeometryCalculations.GetAngleOfIncidence(incomingRay, state);
+      float expectedAngleOfIncidence = 30;
+      float delta = expectedAngleOfIncidence * Constants.UnitTestDelta;
 
       Assert.assertEquals(actualAngleOfIncidence, expectedAngleOfIncidence, delta);
 
-      double actualAngleOfIncidencePercentage = GeometryCalculations.GetAngleOfIncidencePercentage(incomingRay, state);
-      double expectedAngleOfIncidencePercentage = 66.0 + 2.0 / 3.0;
+      float actualAngleOfIncidencePercentage = GeometryCalculations.GetAngleOfIncidencePercentage(incomingRay, state);
+      float expectedAngleOfIncidencePercentage = 66.0f + 2.0f / 3.0f;
+      delta = expectedAngleOfIncidencePercentage * Constants.UnitTestDelta;
 
       Assert.assertEquals(actualAngleOfIncidencePercentage, expectedAngleOfIncidencePercentage, delta);
    }
@@ -136,13 +135,15 @@ public class AngleOfIncidenceTests {
 
       WhittedIntegrator tracer = new WhittedIntegrator(null, 0);
 
-      double actualAngleOfIncidence = GeometryCalculations.GetAngleOfIncidence(incomingRay, state);
-      double expectedAngleOfIncidence = 0;
+      float actualAngleOfIncidence = GeometryCalculations.GetAngleOfIncidence(incomingRay, state);
+      float expectedAngleOfIncidence = 0;
+      float delta = expectedAngleOfIncidence * Constants.UnitTestDelta;
 
-      Assert.assertEquals(actualAngleOfIncidence, expectedAngleOfIncidence);
+      Assert.assertEquals(actualAngleOfIncidence, expectedAngleOfIncidence, delta);
 
-      double actualAngleOfIncidencePercentage = GeometryCalculations.GetAngleOfIncidencePercentage(incomingRay, state);
-      double expectedAngleOfIncidencePercentage = 100;
+      float actualAngleOfIncidencePercentage = GeometryCalculations.GetAngleOfIncidencePercentage(incomingRay, state);
+      float expectedAngleOfIncidencePercentage = 100;
+      delta = expectedAngleOfIncidencePercentage * Constants.UnitTestDelta;
 
       Assert.assertEquals(actualAngleOfIncidencePercentage, expectedAngleOfIncidencePercentage, delta);
    }
@@ -153,10 +154,8 @@ public class AngleOfIncidenceTests {
       sphere.Origin = new Point(0, 0, 0);
       sphere.Radius = 1;
 
-      double root3 = Math.sqrt(3);
-
-      Point rayOrigin = new Point(2, -root3, 0);
-      Vector rayDirection = new Vector(-1, root3, 0);
+      Point rayOrigin = new Point(2, -Constants.Root3, 0);
+      Vector rayDirection = new Vector(-1, Constants.Root3, 0);
 
       WhittedIntegrator tracer = new WhittedIntegrator(null, 0);
 
@@ -167,13 +166,15 @@ public class AngleOfIncidenceTests {
       state.Normal = new Normal(1, 0, 0);
       state.Hits = true;
 
-      double actualAngleOfIncidence = GeometryCalculations.GetAngleOfIncidence(incomingRay, state);
-      double expectedAngleOfIncidence = 60;
+      float actualAngleOfIncidence = GeometryCalculations.GetAngleOfIncidence(incomingRay, state);
+      float expectedAngleOfIncidence = 60;
+      float delta = expectedAngleOfIncidence * Constants.UnitTestDelta;
 
       Assert.assertEquals(actualAngleOfIncidence, expectedAngleOfIncidence, delta);
 
-      double actualAngleOfIncidencePercentage = GeometryCalculations.GetAngleOfIncidencePercentage(incomingRay, state);
-      double expectedAngleOfIncidencePercentage = 33.0 + 1.0 / 3.0;
+      float actualAngleOfIncidencePercentage = GeometryCalculations.GetAngleOfIncidencePercentage(incomingRay, state);
+      float expectedAngleOfIncidencePercentage = 33.0f + 1.0f / 3.0f;
+      delta = expectedAngleOfIncidencePercentage * Constants.UnitTestDelta;
 
       Assert.assertEquals(actualAngleOfIncidencePercentage, expectedAngleOfIncidencePercentage, delta);
    }
@@ -196,15 +197,17 @@ public class AngleOfIncidenceTests {
 
       WhittedIntegrator tracer = new WhittedIntegrator(null, 0);
 
-      double actualAngleOfIncidence = GeometryCalculations.GetAngleOfIncidence(incomingRay, state);
-      double expectedAngleOfIncidence = 90;
+      float actualAngleOfIncidence = GeometryCalculations.GetAngleOfIncidence(incomingRay, state);
+      float expectedAngleOfIncidence = 90;
+      float delta = expectedAngleOfIncidence * Constants.UnitTestDelta;
 
-      Assert.assertEquals(actualAngleOfIncidence, expectedAngleOfIncidence);
+      Assert.assertEquals(actualAngleOfIncidence, expectedAngleOfIncidence, delta);
 
-      double actualAngleOfIncidencePercentage = GeometryCalculations.GetAngleOfIncidencePercentage(incomingRay, state);
-      double expectedAngleOfIncidencePercentage = 0;
+      float actualAngleOfIncidencePercentage = GeometryCalculations.GetAngleOfIncidencePercentage(incomingRay, state);
+      float expectedAngleOfIncidencePercentage = 0;
+      delta = actualAngleOfIncidencePercentage * Constants.UnitTestDelta;
 
-      Assert.assertEquals(actualAngleOfIncidencePercentage, expectedAngleOfIncidencePercentage, delta);
+      Assert.assertEquals(actualAngleOfIncidencePercentage, expectedAngleOfIncidencePercentage, Constants.UnitTestDelta);
    }
 
    @Test
@@ -213,7 +216,7 @@ public class AngleOfIncidenceTests {
       sphere.Origin = new Point(0, 0, 0);
       sphere.Radius = 1;
 
-      Point rayOrigin = new Point(-.1, -.9, 0);
+      Point rayOrigin = new Point(-.1f, -.9f, 0);
       Vector rayDirection = new Vector(1, -1, 0);
 
       Ray incomingRay = new Ray(rayOrigin, rayDirection);
@@ -223,13 +226,15 @@ public class AngleOfIncidenceTests {
       state.Normal = new Normal(0, -1, 0);
       state.Hits = true;
 
-      double actualAngleOfIncidence = GeometryCalculations.GetAngleOfIncidence(incomingRay, state);
-      double expectedAngleOfIncidence = 135;
+      float actualAngleOfIncidence = GeometryCalculations.GetAngleOfIncidence(incomingRay, state);
+      float expectedAngleOfIncidence = 135;
+      float delta = expectedAngleOfIncidence * Constants.UnitTestDelta;
 
-      Assert.assertEquals(actualAngleOfIncidence, expectedAngleOfIncidence);
+      Assert.assertEquals(actualAngleOfIncidence, expectedAngleOfIncidence, delta);
 
-      double actualAngleOfIncidencePercentage = GeometryCalculations.GetAngleOfIncidencePercentage(incomingRay, state);
-      double expectedAngleOfIncidencePercentage = 50;
+      float actualAngleOfIncidencePercentage = GeometryCalculations.GetAngleOfIncidencePercentage(incomingRay, state);
+      float expectedAngleOfIncidencePercentage = 50;
+      delta = expectedAngleOfIncidencePercentage * Constants.UnitTestDelta;
 
       Assert.assertEquals(actualAngleOfIncidencePercentage, expectedAngleOfIncidencePercentage, delta);
    }

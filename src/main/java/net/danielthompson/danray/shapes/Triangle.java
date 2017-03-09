@@ -89,11 +89,11 @@ public class Triangle extends AbstractShape {
       Point Q = T.Cross(E1);
       Point P = ray.Direction.Cross(E2);
 
-      double multiplier = 1.0 / P.Dot(E1);
+      float multiplier = 1.0 / P.Dot(E1);
 
-      double t = Q.Dot(E2) * multiplier;
-      double u = P.Dot(T) * multiplier;
-      double v = Q.Dot(ray.Direction) * multiplier;
+      float t = Q.Dot(E2) * multiplier;
+      float u = P.Dot(T) * multiplier;
+      float v = Q.Dot(ray.Direction) * multiplier;
 
       if (t > 0 && u >= 0 && v >= 0 && u + v <= 1.0) {
          state.Hits = true;
@@ -118,8 +118,8 @@ public class Triangle extends AbstractShape {
    }
 
    @Override
-   public double getMedian(KDAxis axis) {
-      return (_vertex0.getAxis(axis) + _vertex1.getAxis(axis) + _vertex2.getAxis(axis)) / 3.0;
+   public float getMedian(KDAxis axis) {
+      return (_vertex0.getAxis(axis) + _vertex1.getAxis(axis) + _vertex2.getAxis(axis)) / 3.0f;
    }
 
 

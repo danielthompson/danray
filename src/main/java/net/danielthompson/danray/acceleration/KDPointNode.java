@@ -18,7 +18,7 @@ public class KDPointNode {
    private KDPointNode _leftChild;
    private KDPointNode _rightChild;
    private List<Point> _objects;
-   private double _separator;
+   private float _separator;
    private KDAxis _axis;
 
 
@@ -47,7 +47,7 @@ public class KDPointNode {
       _rightChild = node;
    }
 
-   public void setSeparator(double separator) {
+   public void setSeparator(float separator) {
       _separator = separator;
    }
 
@@ -63,20 +63,20 @@ public class KDPointNode {
 
       KDPointNode rootNode = new KDPointNode(objects, KDAxis.X);
 
-      BuildKDTree(rootNode, Double.MIN_VALUE, Double.MAX_VALUE, 0);
+      BuildKDTree(rootNode, Float.MIN_VALUE, Float.MAX_VALUE, 0);
 
       return rootNode;
    }
 
 
 
-   private static void BuildKDTree(KDPointNode node, double lowerBound, double upperBound, int depth) {
+   private static void BuildKDTree(KDPointNode node, float lowerBound, float upperBound, int depth) {
 
       // recursive case
 
       if (node.getObjects().size() > 3) {
 
-         double separator = getSeparator(node.getObjects(), node.getAxis(), lowerBound, upperBound);
+         float separator = getSeparator(node.getObjects(), node.getAxis(), lowerBound, upperBound);
          node.setSeparator(separator);
 
          List<Point> lessThanList = new ArrayList<Point>();
@@ -112,7 +112,7 @@ public class KDPointNode {
 
 
 
-   private static double getSeparator(List<Point> objects, KDAxis axis, double lowerBound, double upperBound) {
+   private static float getSeparator(List<Point> objects, KDAxis axis, float lowerBound, float upperBound) {
       // find largest distance in the current axis from the node's objects to either bound
       // set the
 
@@ -121,11 +121,11 @@ public class KDPointNode {
       }
       else {
 
-         double min = Double.MAX_VALUE;
-         double max = Double.MIN_VALUE;
+         float min = Float.MAX_VALUE;
+         float max = Float.MIN_VALUE;
 
          for (Point point : objects) {
-            double pointAxisLocation = point.getAxis(axis);
+            float pointAxisLocation = point.getAxis(axis);
 
             if (pointAxisLocation < min) {
                min = pointAxisLocation;
@@ -149,16 +149,16 @@ public class KDPointNode {
 
    }
 
-   private static double getMedian(List<Point> objects, KDAxis axis) {
+   private static float getMedian(List<Point> objects, KDAxis axis) {
 
       Collections.sort(objects, getComparator(axis));
 
-      double median;
+      float median;
 
       if (objects.size() % 2 == 0) {
          Point point1 = objects.get(objects.size() / 2 - 1);
          Point point2 = objects.get(objects.size() / 2);
-         median = (point1.getAxis(axis) + point2.getAxis(axis)) * .5;
+         median = (point1.getAxis(axis) + point2.getAxis(axis)) * .5f;
 
       }
       else {

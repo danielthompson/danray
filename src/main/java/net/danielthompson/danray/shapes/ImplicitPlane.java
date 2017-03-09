@@ -26,27 +26,27 @@ public class ImplicitPlane extends AbstractShape {
    @Override
    public void RecalculateWorldBoundingBox() {
       WorldBoundingBox = new BoundingBox(
-            new Point(-Double.MAX_VALUE, -Double.MAX_VALUE, -Double.MAX_VALUE),
-            new Point(Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE)
+            new Point(-Float.MAX_VALUE, -Float.MAX_VALUE, -Float.MAX_VALUE),
+            new Point(Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE)
       );
    }
 
    @Override
    public IntersectionState getHitInfo(Ray ray) {
-      double numerator = (Point.Minus(Origin, ray.Origin)).Dot(Normal);
-      double denominator = ray.Direction.Dot(Normal);
+      float numerator = (Point.Minus(Origin, ray.Origin)).Dot(Normal);
+      float denominator = ray.Direction.Dot(Normal);
 
       IntersectionState state = new IntersectionState();
 
       // if they are orthogonal, then they don't hit.
-      if (Constants.WithinEpsilon(denominator, 0.0)) {
+      if (Constants.WithinEpsilon(denominator, 0.0f)) {
          // no intersection
          state.Hits = false;
       }
 
       // need to check for both normal directions!
       else {
-         double T = numerator / denominator;
+         float T = numerator / denominator;
          if (T > 0.0) {
             state.Hits = true;
             state.TMin = T;

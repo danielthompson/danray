@@ -8,6 +8,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import test.AssertHelper;
 
 import java.util.ArrayList;
 
@@ -38,9 +39,9 @@ public class MirrorBRDFTests {
 //
 //      Vector actual = brdf.getVectorInPDF(n, v);
 //
-//      Assert.assertEquals(actual.X, expected.X);
-//      Assert.assertEquals(actual.Y, expected.Y);
-//      Assert.assertEquals(actual.Z, expected.Z);
+//      AssertHelper.assertEquals(actual.X, expected.X);
+//      AssertHelper.assertEquals(actual.Y, expected.Y);
+//      AssertHelper.assertEquals(actual.Z, expected.Z);
 //   }
 
 
@@ -105,11 +106,6 @@ public class MirrorBRDFTests {
 
       Assert.assertNotNull(actual);
 
-      Assert.assertEquals(actual.X, expected.X, Constants.Epsilon);
-      Assert.assertEquals(actual.Y, expected.Y, Constants.Epsilon);
-      Assert.assertEquals(actual.Z, expected.Z, Constants.Epsilon);
-
+      AssertHelper.assertEquals(actual, expected);
    }
-
-
 }

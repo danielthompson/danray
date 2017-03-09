@@ -18,7 +18,7 @@ public class KDNode {
    public List<AbstractShape> Shapes;
    public BoundingBox BoundingBox;
 
-   public double Split;
+   public float Split;
    public KDAxis Axis;
 
    public KDNode(List<AbstractShape> shapes, KDAxis axis) {

@@ -21,16 +21,16 @@ public class NaiveScene extends AbstractScene {
 
    @Override
    public IntersectionState getNearestShape(Ray ray) {
-      return getNearestShapeBetween(ray, 0, Double.MAX_VALUE);
+      return getNearestShapeBetween(ray, 0, Float.MAX_VALUE);
    }
 
    @Override
-   public IntersectionState getNearestShapeBeyond(Ray ray, double t) {
-      return getNearestShapeBetween(ray, t, Double.MAX_VALUE);
+   public IntersectionState getNearestShapeBeyond(Ray ray, float t) {
+      return getNearestShapeBetween(ray, t, Float.MAX_VALUE);
    }
 
    @Override
-   public IntersectionState getNearestShapeBetween(Ray ray, double t0, double t1) {
+   public IntersectionState getNearestShapeBetween(Ray ray, float t0, float t1) {
       IntersectionState closestStateToRay = null;
 
       for (AbstractShape shape : Shapes) {

@@ -9,18 +9,18 @@ import net.danielthompson.danray.utility.GeometryCalculations;
 public class LambertianBRDF extends BRDF {
 
    @Override
-   public double f(double thetaIncoming, double thetaOutgoing) {
+   public float f(float thetaIncoming, float thetaOutgoing) {
 
-      return Math.cos(thetaIncoming) * Math.cos(thetaOutgoing);
+      return (float) (Math.cos(thetaIncoming) * Math.cos(thetaOutgoing));
 
 //      return Constants.OneOverPi;
    }
 
    @Override
-   public double f(Vector incoming, Normal normal, Vector outgoing) {
+   public float f(Vector incoming, Normal normal, Vector outgoing) {
 
-      double cosThetaIncoming = -incoming.Dot(normal);
-      double cosThetaOutgoing = normal.Dot(outgoing);
+      float cosThetaIncoming = -incoming.Dot(normal);
+      float cosThetaOutgoing = normal.Dot(outgoing);
 
       return Math.abs(cosThetaIncoming * cosThetaOutgoing);
 
@@ -34,7 +34,7 @@ public class LambertianBRDF extends BRDF {
 
    @Override
    public Vector getVectorInPDF(Normal normal, Vector incoming) {
-      double[] xyz = GeometryCalculations.randomPointOnPregeneratedSphere();
+      float[] xyz = GeometryCalculations.randomPointOnPregeneratedSphere();
 
       Vector outgoing = new Vector(xyz[0], xyz[1], xyz[2]);
 

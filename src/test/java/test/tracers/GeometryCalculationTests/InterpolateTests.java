@@ -14,7 +14,7 @@ public class InterpolateTests {
       Point p1 = new Point(0, 0, 0);
       Point p2 = new Point(10, 10, 10);
 
-      double percentage = 0.5;
+      float percentage = 0.5f;
 
       Point result = Point.Interpolate(p1, p2, percentage);
 
@@ -28,7 +28,7 @@ public class InterpolateTests {
       Point p1 = new Point(0, 0, 0);
       Point p2 = new Point(10, 10, 10);
 
-      double percentage = 0.6;
+      float percentage = 0.6f;
 
       Point result = Point.Interpolate(p1, p2, percentage);
 
@@ -42,7 +42,7 @@ public class InterpolateTests {
       Point p1 = new Point(0, 0, 0);
       Point p2 = new Point(10, 10, 10);
 
-      double percentage = 0.0;
+      float percentage = 0.0f;
 
       Point result = Point.Interpolate(p1, p2, percentage);
 
@@ -56,7 +56,7 @@ public class InterpolateTests {
       Point p1 = new Point(0, 0, 0);
       Point p2 = new Point(10, 10, 10);
 
-      double percentage = 1.0;
+      float percentage = 1.0f;
 
       Point result = Point.Interpolate(p1, p2, percentage);
 

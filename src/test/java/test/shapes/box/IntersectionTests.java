@@ -8,6 +8,7 @@ import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.structures.Point;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import test.AssertHelper;
 
 import java.awt.*;
 
@@ -37,7 +38,7 @@ public class IntersectionTests {
 
       Assert.assertTrue(state.Hits, "Should hit");
       Assert.assertEquals(state.IntersectionPoint, expectedIntersectionPoint);
-      Assert.assertEquals(state.Normal, expectedNormalDirection);
+      AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 
    @Test
@@ -60,8 +61,8 @@ public class IntersectionTests {
       Normal expectedNormalDirection = new Normal(0, 0, 1);
 
       Assert.assertTrue(state.Hits, "Should hit");
-      Assert.assertEquals(state.IntersectionPoint, expectedIntersectionPoint);
-      Assert.assertEquals(state.Normal, expectedNormalDirection);
+      AssertHelper.assertEquals(state.IntersectionPoint, expectedIntersectionPoint);
+      AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 
    @Test
@@ -85,8 +86,8 @@ public class IntersectionTests {
       Assert.assertNotNull(state, "IntersectionState shouldn't be null");
       Assert.assertTrue(state.Hits, "Should hit");
       Assert.assertNotNull(state.IntersectionPoint, "IntersectionPoint shouldn't be null if hits...");
-      Assert.assertEquals(state.IntersectionPoint, expectedIntersectionPoint, "Should intersect at " + expectedIntersectionPoint);
-      Assert.assertEquals(state.Normal, expectedNormalDirection, "Should have normal pointing at " + expectedNormalDirection);
+      AssertHelper.assertEquals(state.IntersectionPoint, expectedIntersectionPoint);
+      AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 
    @Test
@@ -108,8 +109,8 @@ public class IntersectionTests {
       Normal expectedNormalDirection = new Normal(0, 0, 1);
 
       Assert.assertTrue(state.Hits, "Should hit");
-      Assert.assertEquals(state.IntersectionPoint, expectedIntersectionPoint, "Should intersect at " + expectedIntersectionPoint);
-      Assert.assertEquals(state.Normal, expectedNormalDirection, "Should have normal pointing at " + expectedNormalDirection);
+      AssertHelper.assertEquals(state.IntersectionPoint, expectedIntersectionPoint);
+      AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 
    @Test
@@ -121,8 +122,8 @@ public class IntersectionTests {
       Material material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(30, 120, 120));
 
-      material._reflectivity = .25;
-      material._specular = 1 - .75;
+      material._reflectivity = .25f;
+      material._specular = 1 - .75f;
 
       Transform t1 = Transform.Translate(new Vector(300, 500, 500));
       //Transform t1 = new Transform();
@@ -130,7 +131,7 @@ public class IntersectionTests {
       Transform t2 = new Transform();
       //Transform t3 = Transform.RotateY(45);
       //Transform t3 = new Transform();
-      Transform t3 = Transform.Scale(2.0, 1.0, 1);
+      Transform t3 = Transform.Scale(2.0f, 1.0f, 1);
 
       Transform objectToWorld = t1.Apply(t2).Apply(t3);
       Transform worldToObject = t3.Apply(t2).Apply(t1).Invert();

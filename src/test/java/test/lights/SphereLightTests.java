@@ -38,10 +38,10 @@
 //
 //      Vector direction = Vector.Minus(pointOnLight, pointInSpace);
 //
-//      double expectedPDF = 1.0;
-//      double actualPDF = light.getPDF(pointInSpace, direction);
+//      float expectedPDF = 1.0f;
+//      float actualPDF = light.getPDF(pointInSpace, direction);
 //
-//      Assert.assertEquals(actualPDF, expectedPDF);
+//      AssertHelper.assertEquals(actualPDF, expectedPDF);
 //
 //   }
 //
@@ -53,8 +53,8 @@
 //      light.Origin = new Point(0, 0, 0);
 //      light.Radius = 1;
 //
-//      double maxTheta = -Double.MAX_VALUE;
-//      double minTheta = Double.MAX_VALUE;
+//      float maxTheta = -Float.MAX_VALUE;
+//      float minTheta = Float.MAX_VALUE;
 //
 //      for (int i = 0; i < 1000000; i++) {
 //
@@ -65,7 +65,7 @@
 //         Vector directionFromOriginToSurfacePoint = Vector.Minus(ray.Origin, light.Origin);
 //         Vector directionFromSurfacePoint = ray.Direction;
 //
-//         double cosTheta = directionFromOriginToSurfacePoint.Dot(directionFromSurfacePoint);
+//         float cosTheta = directionFromOriginToSurfacePoint.Dot(directionFromSurfacePoint);
 //
 //         if (cosTheta > maxTheta)
 //            maxTheta = cosTheta;

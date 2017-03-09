@@ -72,11 +72,11 @@ public class SquareApertureTests {
          }
       }
 
-      double linearScaleFactor = 255.0 / (double)max;
+      float linearScaleFactor = 255.0f / (float)max;
 
       for (int x = 0; x < accumulationBuffer.length; x++) {
          for (int y = 0; y < accumulationBuffer[x].length; y++) {
-            accumulationBuffer[x][y] = (int)((double)accumulationBuffer[x][y] * linearScaleFactor);
+            accumulationBuffer[x][y] = (int)((float)accumulationBuffer[x][y] * linearScaleFactor);
             int value = accumulationBuffer[x][y];
             Color newColor = new Color(value, value, value);
             image.setRGB(x, y, newColor.getRGB());

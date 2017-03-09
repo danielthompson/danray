@@ -42,7 +42,7 @@ public abstract class AbstractShape {
       InCurrentKDNode = value;
    }
 
-   public double getMedian(KDAxis axis) {
+   public float getMedian(KDAxis axis) {
       return 0;
    }
 

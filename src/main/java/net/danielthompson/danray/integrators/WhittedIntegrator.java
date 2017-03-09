@@ -22,10 +22,6 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
    private final int _airIndexOfRefraction = 1;
 
-   private final double factor = 1.0;
-   private final double iterations = 1.0;
-   private final double adjustment = factor / iterations;
-
    public WhittedIntegrator(AbstractScene scene, int maxDepth) {
       super(scene, maxDepth);
    }
@@ -35,7 +31,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
       return GetSample(ray, depth, _airIndexOfRefraction);
    }
 
-   private Sample GetSample(Ray ray, int depth, double oldIndexOfRefraction) {
+   private Sample GetSample(Ray ray, int depth, float oldIndexOfRefraction) {
 
       Sample sample = new Sample();
 
@@ -73,39 +69,30 @@ public class WhittedIntegrator extends AbstractIntegrator {
       for (AbstractLight light : scene.Lights) {
          Point intersectionPoint = closestStateToRay.IntersectionPoint;
 
-         for (int i = 0; i < iterations; i++) {
+         Point lightLocation = light.getRandomPointOnSurface();
 
-            Point lightLocation = light.getRandomPointOnSurface();
+         Ray lightToNearestShape = intersectionPoint.CreateVectorFrom(lightLocation);
 
-            Ray lightToNearestShape = intersectionPoint.CreateVectorFrom(lightLocation);
+         float dot = closestStateToRay.Normal.Dot(lightToNearestShape.Direction);
 
-            double dot = closestStateToRay.Normal.Dot(lightToNearestShape.Direction);
+         if (dot < 0) {
 
-            if (dot < 0) {
+            IntersectionState potentialOccluder = scene.getNearestShape(lightToNearestShape);
 
-               IntersectionState potentialOccluder = scene.getNearestShape(lightToNearestShape);
+            if (
+                  potentialOccluder == null
+                        || !potentialOccluder.Hits
+                        || potentialOccluder.Shape.equals(closestStateToRay.Shape)
+                        || potentialOccluder.Shape.equals(light)
+                  ) {
+               float oneOverDistanceFromLightSourceSquared = 1 / lightLocation.SquaredDistanceBetween(closestStateToRay.IntersectionPoint);
 
-               if (
-                     potentialOccluder == null
-                           || !potentialOccluder.Hits
-                           || potentialOccluder.Shape.equals(closestStateToRay.Shape)
-                           || potentialOccluder.Shape.equals(light)
-                     ) {
-                  double oneOverDistanceFromLightSource = 1 / Math.sqrt(lightLocation.SquaredDistanceBetween(closestStateToRay.IntersectionPoint));
-                  oneOverDistanceFromLightSource *= oneOverDistanceFromLightSource;
-
-                  IntersectionState state = closestStateToRay.Shape.getHitInfo(lightToNearestShape);
-                  if (state.Hits) {
-                     double angleOfIncidencePercentage = GeometryCalculations.GetAngleOfIncidencePercentage(lightToNearestShape, closestStateToRay);
-                     if (angleOfIncidencePercentage >= 0 && angleOfIncidencePercentage <= 100) {
-                        SpectralPowerDistribution scaledIncomingSPD = SpectralPowerDistribution.scale(light.SpectralPowerDistribution, (float)angleOfIncidencePercentage);
-                        directSPD = SpectralPowerDistribution.add(directSPD, scaledIncomingSPD);
-
-                        directSPD.scale((float) (adjustment * oneOverDistanceFromLightSource));
-                        //brightness += adjustment * light.SpectralPowerDistribution.R * (angleOfIncidencePercentage) * oneOverDistanceFromLightSource;
-                     }
-                  }
-
+               IntersectionState state = closestStateToRay.Shape.getHitInfo(lightToNearestShape);
+               if (state.Hits) {
+                  float angleOfIncidencePercentage = GeometryCalculations.GetAngleOfIncidencePercentage(lightToNearestShape, closestStateToRay);
+                  SpectralPowerDistribution scaledIncomingSPD = SpectralPowerDistribution.scale(light.SpectralPowerDistribution, (float)angleOfIncidencePercentage);
+                  scaledIncomingSPD.scale((float) (oneOverDistanceFromLightSourceSquared));
+                  directSPD = SpectralPowerDistribution.add(directSPD, scaledIncomingSPD);
                }
             }
          }
@@ -125,7 +112,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
          Sample reflectedSample = null;
 
-         double reflectedWeight = 0.0;
+         float reflectedWeight = 0.0f;
 
          if (objectMaterial.BRDF != null) {
             Vector outgoingDirection = objectMaterial.BRDF.getVectorInPDF(closestStateToRay.Normal, ray.Direction);
@@ -138,8 +125,8 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
             Vector reversedIncoming = Vector.Scale(ray.Direction, -1);
 /*
-            double angleIncoming = GeometryCalculations.angleBetween(reversedIncoming, closestStateToRay.Normal);
-            double angleOutgoing = GeometryCalculations.angleBetween(outgoingDirection, closestStateToRay.Normal);
+            float angleIncoming = GeometryCalculations.radiansBetween(reversedIncoming, closestStateToRay.Normal);
+            float angleOutgoing = GeometryCalculations.radiansBetween(outgoingDirection, closestStateToRay.Normal);
 
             reflectedWeight = objectMaterial.BRDF.f(angleIncoming, angleOutgoing);
             reflectedWeight *= objectMaterial._transparency;

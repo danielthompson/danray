@@ -112,9 +112,9 @@ public class OpenGLKeyListener extends TimerTask implements KeyListener {
          KeyHistory history = _keyPressHistories.get(keyCode);
          float percentage = history.GetPercentage() * _sensitivityFactor;
 
-         double rad = Math.toRadians(_cameraState._yRotation);
-         double cos = Math.cos(rad) * percentage;
-         double sin = Math.sin(rad) * percentage;
+         float rad = (float) Math.toRadians(_cameraState._yRotation);
+         float cos = (float) (Math.cos(rad) * percentage);
+         float sin = (float) (Math.sin(rad) * percentage);
 
          switch (keyCode) {
             case KeyEvent.VK_W: {

@@ -55,7 +55,7 @@ public class OpenGLMouseListener implements MouseListener, MouseMotionListener {
          } else {
             // mouse x - rotate about y axis
 
-            double xDiff = (mouseEvent.getX() - _cameraState.PrevMouseX) / 5.0;
+            float xDiff = (mouseEvent.getX() - _cameraState.PrevMouseX) / 5.0f;
             _cameraState._yRotation += xDiff;
             if (_cameraState._yRotation >= 360)
                _cameraState._yRotation %= 360;
@@ -66,7 +66,7 @@ public class OpenGLMouseListener implements MouseListener, MouseMotionListener {
 
             // mouse y - rotate about x axis
 
-            double yDiff = (mouseEvent.getY() - _cameraState.PrevMouseY) / 5.0;
+            float yDiff = (mouseEvent.getY() - _cameraState.PrevMouseY) / 5.0f;
             _cameraState._xRotation += yDiff;
 
             if (_cameraState._xRotation >= 360)

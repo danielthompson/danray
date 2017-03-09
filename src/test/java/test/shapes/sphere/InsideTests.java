@@ -18,9 +18,9 @@ public class InsideTests {
       sphere.Origin = new Point(0, 0, 0);
       sphere.Radius = 1;
 
-      for (double i = 0; i < sphere.Radius / 2; i += .03) {
-         for (double j = 0; j < sphere.Radius / 2; j += .03) {
-            for (double k = 0; k < sphere.Radius / 2; k += .03) {
+      for (float i = 0; i < sphere.Radius / 2; i += .03) {
+         for (float j = 0; j < sphere.Radius / 2; j += .03) {
+            for (float k = 0; k < sphere.Radius / 2; k += .03) {
                Point point = new Point(i, j, k);
                Assert.assertTrue(sphere.Inside(point), "Point " + point + " is inside sphere.");
             }

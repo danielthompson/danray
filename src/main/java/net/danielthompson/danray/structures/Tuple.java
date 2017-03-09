@@ -7,17 +7,17 @@ package net.danielthompson.danray.structures;
  */
 public class Tuple {
 
-   public double X;
-   public double Y;
-   public double Z;
+   public float X;
+   public float Y;
+   public float Z;
 
-   public Tuple(double X, double Y, double Z) {
+   public Tuple(float X, float Y, float Z) {
       this.X = X;
       this.Y = Y;
       this.Z = Z;
    }
 
-   public double Dot(Tuple tuple) {
+   public float Dot(Tuple tuple) {
       return (X * tuple.X + Y * tuple.Y + Z * tuple.Z);
    }
 
@@ -41,11 +41,11 @@ public class Tuple {
       Z -= tuple.Z;
    }
 
-   public static Tuple Scale(Tuple tuple, double t) {
+   public static Tuple Scale(Tuple tuple, float t) {
       return new Tuple(t * tuple.X, t * tuple.Y, t * tuple.Z);
    }
 
-   public void Scale(double t) {
+   public void Scale(float t) {
       X *= t;
       Y *= t;
       Z *= t;
@@ -68,17 +68,17 @@ public class Tuple {
    }
 
    public void Normalize() {
-      double lengthMultiplier = 1.0 / Length();
+      float lengthMultiplier = 1.0f / Length();
       Scale(lengthMultiplier);
    }
 
    public static Tuple Normalize(Tuple tuple) {
-      double lengthMultiplier = 1.0 / tuple.Length();
+      float lengthMultiplier = 1.0f / tuple.Length();
       return new Tuple(tuple.X * lengthMultiplier, tuple.Y * lengthMultiplier, tuple.Z * lengthMultiplier);
    }
 
-   public double Length() {
-      return Math.sqrt(X * X + Y * Y + Z * Z);
+   public float Length() {
+      return (float) Math.sqrt(X * X + Y * Y + Z * Z);
    }
 
 
@@ -98,7 +98,7 @@ public class Tuple {
       return "X " + X + ", Y " + Y + ", Z " + Z;
    }
 
-   public static Tuple Interpolate(Tuple tuple1, Tuple tuple2, double percentage) {
+   public static Tuple Interpolate(Tuple tuple1, Tuple tuple2, float percentage) {
       return Tuple.Plus(tuple1, Tuple.Scale(Tuple.Minus(tuple2, tuple1), percentage));
    }
 }

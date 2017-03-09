@@ -43,7 +43,7 @@ public class InfoFrame extends Frame {
       this.paint(this.getGraphics());
    }
 
-   public void setSceneLocation(double x, double y, double z) {
+   public void setSceneLocation(float x, float y, float z) {
       _sceneLocationLabel.setText("Scene location: (" + x + ", " + y + ", " + z + ")");
       _sceneLocationLabel.paint(this.getGraphics());
       this.paint(this.getGraphics());

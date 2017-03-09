@@ -7,21 +7,21 @@ import net.danielthompson.danray.structures.Point;
  */
 public class CircleAperture extends Aperture {
 
-   public CircleAperture(double size) {
+   public CircleAperture(float size) {
       Size = size;
    }
 
    /*
    @Override
    public Point GetOriginPoint() {
-      double x = (Math.random() * 2.0 - 1.0);
+      float x = (Math.random() * 2.0 - 1.0);
 
-      double y = (Math.random() * 2.0 - 1.0) * Math.sqrt(1.0 - x * x);
+      float y = (Math.random() * 2.0 - 1.0) * Math.sqrt(1.0 - x * x);
 
       x *= _size;
       y *= _size;
 
-      double z = 0.0f;
+      float z = 0.0f;
 
       return new Point(x, y, z);
    }*/
@@ -31,18 +31,18 @@ public class CircleAperture extends Aperture {
 
       // rejection sampling
 
-      double x = 1.0;
-      double y = 1.0;
+      float x = 1.0f;
+      float y = 1.0f;
 
       while (x * x + y * y > 1.0) {
 
-         x = (Math.random() * 2.0 - 1.0);
-         y = (Math.random() * 2.0 - 1.0);
+         x = (float) (Math.random() * 2.0 - 1.0);
+         y = (float) (Math.random() * 2.0 - 1.0);
       }
 
       x *= Size * .5;
       y *= Size * .5;
-      double z = 0.0f;
+      float z = 0.0f;
 
       return new Point(x, y, z);
    }

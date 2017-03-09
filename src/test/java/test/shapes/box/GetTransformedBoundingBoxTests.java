@@ -88,7 +88,7 @@
 //
 //      list.add(new Object[] {box, expected});
 //
-//      double sqrt2 = Math.sqrt(2);
+//      float sqrt2 = Constants.Root2;
 //
 //      t = Transform.RotateX(45);
 //      box = new Box(new Point(-1, -1, -1), new Point(1, 1, 1), null, t, t.Invert());

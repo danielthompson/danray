@@ -39,9 +39,9 @@ public abstract class AbstractScene {
 
    public abstract IntersectionState getNearestShape(Ray ray);
 
-   public abstract IntersectionState getNearestShapeBeyond(Ray ray, double t);
+   public abstract IntersectionState getNearestShapeBeyond(Ray ray, float t);
 
-   public IntersectionState getNearestShapeBetween(Ray ray, double t0, double t1) {
+   public IntersectionState getNearestShapeBetween(Ray ray, float t0, float t1) {
       return null;
    }
 

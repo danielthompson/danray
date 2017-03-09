@@ -49,11 +49,11 @@ public class ApplyToRayTests {
    }
 
    @Test(dataProvider = "ScaleDataProvider")
-   public void TestApplyScale(Ray originalRay, Transform transform, Ray expectedNewRay) {
+   public void TestApplyScale(Ray originalRay, Transform transform, Ray expected) {
 
-      Ray actualNewRay = transform.Apply(originalRay);
+      Ray actual = transform.Apply(originalRay);
 
-      Assert.assertNotNull(actualNewRay);
-      AssertHelper.assertEquals(expectedNewRay, actualNewRay);
+      Assert.assertNotNull(actual);
+      AssertHelper.assertEquals(actual, expected);
    }
 }

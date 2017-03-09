@@ -13,25 +13,25 @@ public class GeometryCalculations {
 
    public static Random random = new Random();
 
-   public static double[][] RandomSpherePoints = getRandomSpherePoints();
+   public static float[][] RandomSpherePoints = getRandomSpherePoints();
 
    private static final int maxRandomSpherePoints = 1000000;
 
    private static volatile int randomSpherePointer = 0;
 
-   private static double[][] getRandomSpherePoints() {
-      double[][] n = new double[maxRandomSpherePoints][3];
+   private static float[][] getRandomSpherePoints() {
+      float[][] n = new float[maxRandomSpherePoints][3];
             for (int i = 0; i < n.length; i++) {
-         double[] p = randomPointOnSphere();
+         float[] p = randomPointOnSphere();
          Vector v = new Vector(p[0], p[1], p[2]);
          v.Normalize();
-         n[i] = new double[] {v.X, v.Y, v.Z};
+         n[i] = new float[] {v.X, v.Y, v.Z};
       }
 
       return n;
    }
 
-   public static double[] randomPointOnPregeneratedSphere() {
+   public static float[] randomPointOnPregeneratedSphere() {
 
 
       if (randomSpherePointer > maxRandomSpherePoints - 500)
@@ -39,82 +39,59 @@ public class GeometryCalculations {
       return RandomSpherePoints[randomSpherePointer++];
    }
 
-   public static double[] randomPointOnSphere()
+   public static float[] randomPointOnSphere()
    {
-      double x, y, z, d2;
+      float x, y, z, d2;
       do {
-         x = random.nextGaussian();
-         y = random.nextGaussian();
-         z = random.nextGaussian();
+         x = (float) random.nextGaussian();
+         y = (float) random.nextGaussian();
+         z = (float) random.nextGaussian();
          d2 = x*x + y*y + z*z;
       } while (d2 <= Double.MIN_NORMAL);
-      double s = Math.sqrt(1.0 / d2);
-      return new double[] {x*s, y*s, z*s};
+      float s = (float) Math.sqrt(1.0 / d2);
+      return new float[] {x*s, y*s, z*s};
    }
 
-   private static double angleOfIncidencePercentageFactor = 10. / 9.;
+   private static float angleOfIncidencePercentageFactor = 10.f / 9.f;
 
-   public static double GetAngleOfIncidence(Ray incomingRay, IntersectionState state) {
+   public static float GetAngleOfIncidence(Ray incomingRay, IntersectionState state) {
       Normal normal = state.Normal;
       Vector incomingDirection = incomingRay.Direction;
 
-      double angleRadians = FastMath.acos(normal.Dot(incomingDirection));
+      float angleRadians = (float) FastMath.acos(normal.Dot(incomingDirection));
 
-      double angleDegress = FastMath.toDegrees(angleRadians);
+      float angleDegress = (float) FastMath.toDegrees(angleRadians);
 
       return 180 - angleDegress;
    }
 
-   public static double angleBetween(Vector v1, Vector v2) {
-
-      Vector nv1 = Vector.Normalize(v1);
-      Vector nv2 = Vector.Normalize(v2);
-
-      double angleRadians = Math.acos(nv1.Dot(nv2));
-      double angleDegrees = Math.toDegrees(angleRadians);
-
-      return Math.abs(angleDegrees);
-   }
-
-   public static double angleBetween(Vector v, Normal n) {
+   public static float radiansBetween(Vector v, Normal n) {
       Vector nv = Vector.Normalize(v);
       Normal nn = Normal.Normalize(n);
 
-      double angleRadians = Math.acos(nv.Dot(nn));
-      double angleDegrees = Math.toDegrees(angleRadians);
+      float angleRadians = (float) Math.acos(nv.Dot(nn));
 
-      return Math.abs(angleDegrees);
+      return Math.abs(angleRadians);
    }
 
-   public static double angleBetween(Normal n1, Normal n2) {
+   public static float GetAngleOfIncidencePercentage(Ray incomingRay, IntersectionState state) {
+      float AoI = GeometryCalculations.GetAngleOfIncidence(incomingRay, state);
 
-      Normal nn1 = Normal.Normalize(n1);
-      Normal nn2 = Normal.Normalize(n2);
-
-      double angleRadians = Math.acos(n1.Dot(n2));
-      double angleDegrees = Math.toDegrees(angleRadians);
-
-      return Math.abs(angleDegrees);
-   }
-
-   public static double GetAngleOfIncidencePercentage(Ray incomingRay, IntersectionState state) {
-      double AoI = GeometryCalculations.GetAngleOfIncidence(incomingRay, state);
-
-      double AoIp = FastMath.abs(100 - (AoI * angleOfIncidencePercentageFactor));
+      float AoIp = FastMath.abs(100 - (AoI * angleOfIncidencePercentageFactor));
 
       return AoIp;
    }
 
-   public static Ray GetRefractedRay(IntersectionState state, Normal normal, Ray incomingRay, double oldIndexOfRefraction) {
+   public static Ray GetRefractedRay(IntersectionState state, Normal normal, Ray incomingRay, float oldIndexOfRefraction) {
 
       normal.Normalize();
 
-      double n1 = oldIndexOfRefraction;
-      double n2 = state.Shape.GetMaterial()._indexOfRefraction;
-      double nRatio = n1 / n2;
+      float n1 = oldIndexOfRefraction;
+      float n2 = state.Shape.GetMaterial()._indexOfRefraction;
+      float nRatio = n1 / n2;
 
-      double cosTheta1 = -normal.Dot(incomingRay.Direction);
-      double cosTheta2 = Math.sqrt(1 - nRatio * nRatio * (1 - (cosTheta1 * cosTheta1)));
+      float cosTheta1 = -normal.Dot(incomingRay.Direction);
+      float cosTheta2 = (float) Math.sqrt(1 - nRatio * nRatio * (1 - (cosTheta1 * cosTheta1)));
 
       Vector refractedDirection;
 
@@ -125,14 +102,14 @@ public class GeometryCalculations {
          refractedDirection = Vector.Plus(incomingRay.Scale(nRatio), new Vector(Normal.Scale(normal, nRatio * cosTheta1 + cosTheta2)));
       }
 
-      Point offsetIntersection = Point.Plus(state.IntersectionPoint, Vector.Scale(refractedDirection, .0000001));
+      Point offsetIntersection = Point.Plus(state.IntersectionPoint, Vector.Scale(refractedDirection, .0000001f));
 
       return new Ray(offsetIntersection, refractedDirection);
    }
 
    public static Ray GetReflectedRay(Point intersectionPoint, Normal normal, Ray incomingRay) {
       normal.Normalize();
-      double factor = incomingRay.Direction.Dot(normal) * 2;
+      float factor = incomingRay.Direction.Dot(normal) * 2;
       Vector scaled = new Vector(Normal.Scale(normal, factor));
       Vector direction = Vector.Minus(new Vector(0, 0, 0), Vector.Minus(scaled, incomingRay.Direction));
 
@@ -143,17 +120,17 @@ public class GeometryCalculations {
       return reflectedRay;
    }
 
-   public static Ray GetReflectedRayPerturbed(Point intersectionPoint, Normal normal, Ray incomingRay, double perturbation) {
-      double factor = incomingRay.Direction.Dot(normal) * 2;
+   public static Ray GetReflectedRayPerturbed(Point intersectionPoint, Normal normal, Ray incomingRay, float perturbation) {
+      float factor = incomingRay.Direction.Dot(normal) * 2;
       Vector scaled = new Vector(Normal.Scale(normal, factor));
       Vector direction = Vector.Minus(new Vector(0, 0, 0), Vector.Minus(scaled, incomingRay.Direction));
 
-      Vector perturbationDirection = new Vector(Math.random()*perturbation, Math.random()*perturbation, Math.random()*perturbation);
+      Vector perturbationDirection = new Vector((float)Math.random()*perturbation, (float)Math.random()*perturbation, (float)Math.random()*perturbation);
 
       if (perturbationDirection.Dot(normal) < 0)
          perturbationDirection.Scale(-1);
 
-      Point offsetIntersection = Point.Plus(intersectionPoint, Vector.Scale(direction, .0000001));
+      Point offsetIntersection = Point.Plus(intersectionPoint, Vector.Scale(direction, .0000001f));
 
       direction.Plus(perturbationDirection);
 
@@ -165,7 +142,7 @@ public class GeometryCalculations {
 
    public static Ray GetRandomRayInNormalHemisphere(Point intersectionPoint, Normal normal) {
 
-      double[] xyz;
+      float[] xyz;
 
       //synchronized (mutex) {
          if (randomSpherePointer >= maxRandomSpherePoints - 5000)
@@ -178,24 +155,24 @@ public class GeometryCalculations {
       if (direction.Dot(normal) < 0)
          direction.Scale(-1);
 
-      Point offsetIntersection = Point.Plus(intersectionPoint, Vector.Scale(direction, .0000001));
+      Point offsetIntersection = Point.Plus(intersectionPoint, Vector.Scale(direction, .0000001f));
 
       Ray randomRay = new Ray(offsetIntersection, direction);
       return randomRay;
    }
 
-   public static Ray GetReflectedRayPerturbedFromNormal(Point intersectionPoint, Normal normal, Ray incomingRay, double perturbation) {
-      double factor = incomingRay.Direction.Dot(normal) * 2;
+   public static Ray GetReflectedRayPerturbedFromNormal(Point intersectionPoint, Normal normal, Ray incomingRay, float perturbation) {
+      float factor = incomingRay.Direction.Dot(normal) * 2;
       Vector scaled = new Vector(Normal.Scale(normal, factor));
       Vector direction = Vector.Minus(new Vector(0, 0, 0), Vector.Minus(scaled, incomingRay.Direction));
 
-      double x = (Math.random() - .5) * 2 * perturbation + normal.X;
-      double y = (Math.random() - .5) * 2 * perturbation + normal.Y;
-      double z = (Math.random() - .5) * 2 * perturbation + normal.Z;
+      float x = ((float)Math.random() - .5f) * 2 * perturbation + normal.X;
+      float y = ((float)Math.random() - .5f) * 2 * perturbation + normal.Y;
+      float z = ((float)Math.random() - .5f) * 2 * perturbation + normal.Z;
 
       Vector perturbationPointOffset = new Vector(x, y, z);
 
-      Point offsetIntersection = Point.Plus(intersectionPoint, Vector.Scale(direction, .0000001));
+      Point offsetIntersection = Point.Plus(intersectionPoint, Vector.Scale(direction, .0000001f));
 
       Point perturbedDirectionPoint = Point.Plus(offsetIntersection, perturbationPointOffset);
 
@@ -209,8 +186,8 @@ public class GeometryCalculations {
       return reflectedRay;
    }
 
-   public static double UniformConePDF(double cosThetaMax) {
-      return 1.0 / (2.0 * Math.PI * (1.0 - cosThetaMax));
+   public static float UniformConePDF(float cosThetaMax) {
+      return 1.0f / (2.0f * Constants.PI * (1.0f - cosThetaMax));
    }
 
    public static float Lerp(float v1, float w1, float v2, float w2) {

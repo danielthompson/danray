@@ -108,7 +108,7 @@ public class TriangleMesh extends AbstractShape {
 
       IntersectionState closestStateToRay = new IntersectionState();
       closestStateToRay.Hits = false;
-      closestStateToRay.TMin = Double.MAX_VALUE;
+      closestStateToRay.TMin = Float.MAX_VALUE;
 
       for (List<Point> face : _faces) {
          IntersectionState state = Triangle.GetHitInfo(this, ray, face.get(0), face.get(1), face.get(2));
@@ -135,19 +135,19 @@ public class TriangleMesh extends AbstractShape {
 
 
    private void recalcBoundingBox() {
-      double minX = Double.MAX_VALUE;
-      double maxX = Double.MIN_VALUE;
+      float minX = Float.MAX_VALUE;
+      float maxX = Float.MIN_VALUE;
 
-      double minY = Double.MAX_VALUE;
-      double maxY = Double.MIN_VALUE;
+      float minY = Float.MAX_VALUE;
+      float maxY = Float.MIN_VALUE;
 
-      double minZ = Double.MAX_VALUE;
-      double maxZ = Double.MIN_VALUE;
+      float minZ = Float.MAX_VALUE;
+      float maxZ = Float.MIN_VALUE;
 
       for (Point vertex : _vertices) {
-         double x = vertex.X;
-         double y = vertex.Y;
-         double z = vertex.Z;
+         float x = vertex.X;
+         float y = vertex.Y;
+         float z = vertex.Z;
 
          if (x < minX)
             minX = x;
@@ -175,7 +175,7 @@ public class TriangleMesh extends AbstractShape {
 
 
    @Override
-   public double getMedian(KDAxis axis) {
+   public float getMedian(KDAxis axis) {
       return _boundingBox.getMedian(axis);
    }
 }

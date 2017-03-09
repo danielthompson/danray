@@ -9,7 +9,7 @@ import net.danielthompson.danray.shapes.AbstractShape;
 public class BoundingEdge implements Comparable {
    public boolean Lower;
    public AbstractShape Shape;
-   public double Value;
+   public float Value;
 
    @Override
    public int compareTo(Object o) {

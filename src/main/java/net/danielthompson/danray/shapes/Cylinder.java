@@ -9,10 +9,10 @@ import net.danielthompson.danray.structures.*;
  */
 public class Cylinder extends AbstractShape {
 
-   public double Radius;
-   public double Height;
+   public float Radius;
+   public float Height;
 
-   public Cylinder(double radius, double height, Transform worldToObject, Transform objectToWorld, Material material) {
+   public Cylinder(float radius, float height, Transform worldToObject, Transform objectToWorld, Material material) {
       super(material);
       Radius = radius;
       Height = height;
@@ -42,7 +42,7 @@ public class Cylinder extends AbstractShape {
 
       // check for intersection with upper disk
 
-      double tTop = (Height - objectSpaceRay.Origin.Y) / (objectSpaceRay.Direction.Y);
+      float tTop = (Height - objectSpaceRay.Origin.Y) / (objectSpaceRay.Direction.Y);
 
       Point topHitPoint = objectSpaceRay.GetPointAtT(tTop);
 
@@ -56,7 +56,7 @@ public class Cylinder extends AbstractShape {
 
       // check for intersection with lower disk
 
-      double tBottom = (-objectSpaceRay.Origin.Y) / (objectSpaceRay.Direction.Y);
+      float tBottom = (-objectSpaceRay.Origin.Y) / (objectSpaceRay.Direction.Y);
 
       Point bottomHitPoint = objectSpaceRay.GetPointAtT(tBottom);
 
@@ -70,11 +70,11 @@ public class Cylinder extends AbstractShape {
 
       // check for intersection with cylinder
 
-      double a = objectSpaceRay.Direction.X * objectSpaceRay.Direction.X + objectSpaceRay.Direction.Z * objectSpaceRay.Direction.Z;
-      double b = 2 * (objectSpaceRay.Origin.X * objectSpaceRay.Direction.X + objectSpaceRay.Origin.Z * objectSpaceRay.Direction.Z);
-      double c = objectSpaceRay.Origin.X * objectSpaceRay.Origin.X + objectSpaceRay.Origin.Z * objectSpaceRay.Origin.Z - (Radius * Radius);
+      float a = objectSpaceRay.Direction.X * objectSpaceRay.Direction.X + objectSpaceRay.Direction.Z * objectSpaceRay.Direction.Z;
+      float b = 2 * (objectSpaceRay.Origin.X * objectSpaceRay.Direction.X + objectSpaceRay.Origin.Z * objectSpaceRay.Direction.Z);
+      float c = objectSpaceRay.Origin.X * objectSpaceRay.Origin.X + objectSpaceRay.Origin.Z * objectSpaceRay.Origin.Z - (Radius * Radius);
 
-      double discriminant = (b * b) - (4 * a * c);
+      float discriminant = (b * b) - (4 * a * c);
 
       if (discriminant < 0) {
          state.Hits = false;
@@ -82,24 +82,24 @@ public class Cylinder extends AbstractShape {
          return state;
       }
 
-      double root = Math.sqrt(discriminant);
+      float root = (float) Math.sqrt(discriminant);
 
-      double oneOverTwoA = .5 / a;
+      float oneOverTwoA = .5f / a;
 
-      double t0 = (-b + root) * oneOverTwoA;
+      float t0 = (-b + root) * oneOverTwoA;
 
-      double t1 = (-b - root) * oneOverTwoA;
+      float t1 = (-b - root) * oneOverTwoA;
 
       boolean t0Hits = false;
       Normal t0Normal = null;
 
       if (t0 > 0.0) {
-         double py = objectSpaceRay.Origin.Y + t0 * objectSpaceRay.Direction.Y;
+         float py = objectSpaceRay.Origin.Y + t0 * objectSpaceRay.Direction.Y;
          if ((py <= Height) && (py >= 0)) {
             t0Hits = true;
             state.Hits = true;
-            double px = objectSpaceRay.Origin.X + t0 * objectSpaceRay.Direction.X;
-            double pz = objectSpaceRay.Origin.Z + t0 * objectSpaceRay.Direction.Z;
+            float px = objectSpaceRay.Origin.X + t0 * objectSpaceRay.Direction.X;
+            float pz = objectSpaceRay.Origin.Z + t0 * objectSpaceRay.Direction.Z;
             t0Normal = new Normal(px, 0, pz);
          }
       }
@@ -108,12 +108,12 @@ public class Cylinder extends AbstractShape {
       Normal t1Normal = null;
 
       if (t1 > 0.0) {
-         double py = objectSpaceRay.Origin.Y + t1 * objectSpaceRay.Direction.Y;
+         float py = objectSpaceRay.Origin.Y + t1 * objectSpaceRay.Direction.Y;
          if ((py <= Height) && (py >= 0)) {
             t1Hits = true;
             state.Hits = true;
-            double px = objectSpaceRay.Origin.X + t1 * objectSpaceRay.Direction.X;
-            double pz = objectSpaceRay.Origin.Z + t1 * objectSpaceRay.Direction.Z;
+            float px = objectSpaceRay.Origin.X + t1 * objectSpaceRay.Direction.X;
+            float pz = objectSpaceRay.Origin.Z + t1 * objectSpaceRay.Direction.Z;
             t1Normal = new Normal(px, 0, pz);
          }
       }

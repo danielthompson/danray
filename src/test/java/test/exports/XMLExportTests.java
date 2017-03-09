@@ -76,7 +76,7 @@ public class XMLExportTests {
    @Test
    public void testVectorExport() throws Exception {
 
-      final Vector object = new Vector(500.23, 200, -219.13857);
+      final Vector object = new Vector(500.23f, 200, -219.13857f);
 
       File file = new File(_dir, "vector.xml");
 
@@ -97,7 +97,7 @@ public class XMLExportTests {
    @Test
    public void testPointExport() throws Exception {
 
-      final Point object = new Point(500.23, 200, -219.13857);
+      final Point object = new Point(500.23f, 200, -219.13857f);
 
       File file = new File(_dir, "point.xml");
 
@@ -119,7 +119,7 @@ public class XMLExportTests {
    @Test
    public void testNormalExport() throws Exception {
 
-      final Normal object = new Normal(500.23, 200, -219.13857);
+      final Normal object = new Normal(500.23f, 200, -219.13857f);
 
       File file = new File(_dir, "normal.xml");
 
@@ -140,7 +140,7 @@ public class XMLExportTests {
    @Test
    public void testRayExport() throws Exception {
 
-      final Ray object = new Ray(new Point(123, -456, -78.932), new Vector(55.23, 200, -219.13857));
+      final Ray object = new Ray(new Point(123, -456, -78.932f), new Vector(55.23f, 200, -219.13857f));
 
       File file = new File(_dir, "ray.xml");
 
@@ -162,7 +162,7 @@ public class XMLExportTests {
    @Test
    public void testBoundingBoxExport() throws Exception {
 
-      final BoundingBox object = new BoundingBox(new Point(-123, -456, -78.932), new Point(55.23, 200, 219.13857));
+      final BoundingBox object = new BoundingBox(new Point(-123, -456, -78.932f), new Point(55.23f, 200, 219.13857f));
 
       File file = new File(_dir, "boundingbox.xml");
 
@@ -382,7 +382,7 @@ public class XMLExportTests {
       object.Y = 456;
       object.FocalLength = 1200;
       object.Rotation = 0;
-      object.ZoomFactor = 1 / 1.5;
+      object.ZoomFactor = 1 / 1.5f;
       object.FocusDistance = 250;
       object.Aperture = new SquareAperture(5);
 
@@ -555,7 +555,7 @@ public class XMLExportTests {
       settings.Y = 480;
       settings.FocalLength = 1200;
       settings.Rotation = 0;
-      settings.ZoomFactor = 1 / 1.5;
+      settings.ZoomFactor = 1 / 1.5f;
       settings.FocusDistance = 250;
       settings.Aperture = new SquareAperture(5);
 

@@ -14,20 +14,20 @@ public class SimplePointableCamera extends Camera {
    }
 
    @Override
-   public Ray[] getInitialStochasticRaysForPixel(double x, double y, int samplesPerPixel) {
-      double oneOverSamplesPlusOne = 1.0 / ((double) samplesPerPixel + 1.0);
+   public Ray[] getInitialStochasticRaysForPixel(float x, float y, int samplesPerPixel) {
+      float oneOverSamplesPlusOne = 1.0f / ((float) samplesPerPixel + 1.0f);
 
       Ray[] rays = new Ray[samplesPerPixel * samplesPerPixel];
 
       int vectorIndex = 0;
 
-      for (double i = 1.0; i <= samplesPerPixel; i++) {
+      for (float i = 1.0f; i <= samplesPerPixel; i++) {
 
-         double newX = x + (i * oneOverSamplesPlusOne);
+         float newX = x + (i * oneOverSamplesPlusOne);
 
 
-         for (double j = 1.0; j <= samplesPerPixel; j++) {
-            double newY = y + (j * oneOverSamplesPlusOne);
+         for (float j = 1.0f; j <= samplesPerPixel; j++) {
+            float newY = y + (j * oneOverSamplesPlusOne);
 
             rays[vectorIndex++] = new Ray(_rearFocalPoint, Point.Minus(getWorldPointForPixel(newX, newY), _rearFocalPoint));
          }

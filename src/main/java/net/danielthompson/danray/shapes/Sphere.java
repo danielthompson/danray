@@ -14,17 +14,17 @@ import net.danielthompson.danray.structures.*;
 public class Sphere extends AbstractShape {
 
    public Point Origin = new Point(0, 0, 0);
-   public double Radius;
+   public float Radius;
 
    public Sphere() {
-      this(0.0, null, null, null);
+      this(0.0f, null, null, null);
    }
 
    public Sphere(Material material) {
-      this(0.0, null, null, material);
+      this(0.0f, null, null, material);
    }
 
-   public Sphere(double radius, Transform worldToObject, Transform objectToWorld, Material material) {
+   public Sphere(float radius, Transform worldToObject, Transform objectToWorld, Material material) {
       super(material);
       Radius = radius;
       WorldToObject = worldToObject;
@@ -34,14 +34,14 @@ public class Sphere extends AbstractShape {
    }
 
    public void RecalculateWorldBoundingBox() {
-      double p1x = Origin.X - Radius;
-      double p1y = Origin.Y - Radius;
-      double p1z = Origin.Z - Radius;
+      float p1x = Origin.X - Radius;
+      float p1y = Origin.Y - Radius;
+      float p1z = Origin.Z - Radius;
       Point p1 = new Point(p1x, p1y, p1z);
 
-      double p2x = Origin.X + Radius;
-      double p2y = Origin.Y + Radius;
-      double p2z = Origin.Z + Radius;
+      float p2x = Origin.X + Radius;
+      float p2y = Origin.Y + Radius;
+      float p2z = Origin.Z + Radius;
       Point p2 = new Point(p2x, p2y, p2z);
 
       WorldBoundingBox = new BoundingBox(p1, p2);
@@ -62,11 +62,11 @@ public class Sphere extends AbstractShape {
 
       IntersectionState state = new IntersectionState();
 
-      double a = objectSpaceRay.Direction.Dot(objectSpaceRay.Direction);
-      double b = 2 * (objectSpaceRay.Direction.Dot(Point.Minus(objectSpaceRay.Origin, Origin)));
-      double c = Point.Minus(objectSpaceRay.Origin, Origin).Dot(Point.Minus(objectSpaceRay.Origin, Origin)) - (Radius * Radius);
+      float a = objectSpaceRay.Direction.Dot(objectSpaceRay.Direction);
+      float b = 2 * (objectSpaceRay.Direction.Dot(Point.Minus(objectSpaceRay.Origin, Origin)));
+      float c = Point.Minus(objectSpaceRay.Origin, Origin).Dot(Point.Minus(objectSpaceRay.Origin, Origin)) - (Radius * Radius);
 
-      double discriminant = (b * b) - (4 * a * c);
+      float discriminant = (b * b) - (4 * a * c);
 
       if (discriminant < 0) {
          state.Hits = false;
@@ -74,13 +74,13 @@ public class Sphere extends AbstractShape {
          return state;
       }
 
-      double root = Math.sqrt(discriminant);
+      float root = (float) Math.sqrt(discriminant);
 
-      double oneOverTwoA = .5 / a;
+      float oneOverTwoA = .5f / a;
 
-      double t0 = (-b + root) * oneOverTwoA;
+      float t0 = (-b + root) * oneOverTwoA;
 
-      double t1 = (-b - root) * oneOverTwoA;
+      float t1 = (-b - root) * oneOverTwoA;
 
       if (t1 < Constants.Epsilon) {
          if (t0 < Constants.Epsilon) {
@@ -158,13 +158,13 @@ public class Sphere extends AbstractShape {
    }
 
    @Override
-   public double getMedian(KDAxis axis) {
+   public float getMedian(KDAxis axis) {
       return Origin.getAxis(axis);
    }
 
    public boolean Inside(Point point) {
-      double dist = point.SquaredDistanceBetween(Origin);
-      double r2 = Radius * Radius;
+      float dist = point.SquaredDistanceBetween(Origin);
+      float r2 = Radius * Radius;
 
       boolean value = dist < r2;
 
@@ -172,7 +172,7 @@ public class Sphere extends AbstractShape {
    }
 
    public boolean OnSurface(Point point) {
-      double difference = Radius * Radius - point.SquaredDistanceBetween(Origin);
+      float difference = Radius * Radius - point.SquaredDistanceBetween(Origin);
       return Constants.WithinEpsilon(difference, 0);
    }
 

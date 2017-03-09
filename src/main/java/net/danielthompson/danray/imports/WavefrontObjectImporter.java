@@ -60,9 +60,9 @@ public class WavefrontObjectImporter {
    private void ParseVertex(String line) {
       String vertices[] = line.trim().split("\\s+");
 
-      double vertex0 = Double.parseDouble(vertices[0]);
-      double vertex1 = Double.parseDouble(vertices[1]);
-      double vertex2 = Double.parseDouble(vertices[2]);
+      float vertex0 = Float.parseFloat(vertices[0]);
+      float vertex1 = Float.parseFloat(vertices[1]);
+      float vertex2 = Float.parseFloat(vertices[2]);
 
       _vertices.add(new Point(vertex0, vertex1, vertex2));
    }

@@ -20,7 +20,7 @@ public class InfoJFrame extends javax.swing.JFrame {
       screenYActualLabel.setText(y + "");
    }
 
-   public void setSceneLocation(double x, double y, double z) {
+   public void setSceneLocation(float x, float y, float z) {
       sceneXActualLabel.setText(String.format("%.2f", x));
       sceneYActualLabel.setText(String.format("%.2f", y));
       sceneZActualLabel.setText(String.format("%.2f", z));
@@ -32,13 +32,13 @@ public class InfoJFrame extends javax.swing.JFrame {
       sceneZActualLabel.setText("N/A");
    }
 
-   public void setCameraOrigin(double x, double y, double z) {
+   public void setCameraOrigin(float x, float y, float z) {
       originXActualLabel.setText(String.format("%.2f", x));
       originYActualLabel.setText(String.format("%.2f", y));
       originZActualLabel.setText(String.format("%.2f", z));
    }
 
-   public void setCameraDirection(double x, double y, double z) {
+   public void setCameraDirection(float x, float y, float z) {
       directionXActualLabel.setText(String.format("%.2f", x));
       directionYActualLabel.setText(String.format("%.2f", y));
       directionZActualLabel.setText(String.format("%.2f", z));

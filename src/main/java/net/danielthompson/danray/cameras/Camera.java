@@ -30,7 +30,7 @@ public abstract class Camera {
       }
    }
 
-   private Point calculateRearFocalPoint(Ray orientation, double focalLength) {
+   private Point calculateRearFocalPoint(Ray orientation, float focalLength) {
       return orientation.GetPointAtT(-focalLength);
    }
 
@@ -46,7 +46,7 @@ public abstract class Camera {
 
       if (Settings.Movement != null) {
 
-         double percentage = (double) _currentFrame / (double) Settings.Movement.frame;
+         float percentage = (float) _currentFrame / (float) Settings.Movement.frame;
 
          Point newOrigin = Point.Interpolate(Settings.Orientation.Origin, Settings.Movement.orientation.Origin, percentage);
          Vector newDirection = Vector.Interpolate(Settings.Orientation.Direction, Settings.Movement.orientation.Direction, percentage);
@@ -73,7 +73,7 @@ public abstract class Camera {
       return Settings.Orientation.Origin;
    }
 
-   public Point getWorldPointForPixel(double x, double y) {
+   public Point getWorldPointForPixel(float x, float y) {
       // we define the absolute midpoint of the camera's screen to be at _currentOrientation.location.
       // we arbitrarily assume that our camera is pointed at [0, 0, -1] -> straight down the z axis.
 
@@ -91,7 +91,7 @@ public abstract class Camera {
    }
 
    protected void ConvertToWorldCoordinates(Point point) {
-      double dot = _currentOrientation.Direction.Dot(_implicitDirection);
+      float dot = _currentOrientation.Direction.Dot(_implicitDirection);
 
       if (!Constants.WithinEpsilon(dot, 1))
       {
@@ -99,30 +99,30 @@ public abstract class Camera {
          rotationDirection.Normalize();
          Ray rotationAxis = new Ray(_currentOrientation.Origin, rotationDirection);
 
-         double theta = Math.toDegrees(Math.acos(_currentOrientation.Direction.Dot(_implicitDirection)));
+         float theta = (float) Math.toDegrees(Math.acos(_currentOrientation.Direction.Dot(_implicitDirection)));
 
          point.Rotate(rotationAxis, theta);
          point.Rotate(_currentOrientation, Settings.Rotation);
       }
    }
 
-   protected Point getDefaultOrientationWorldPointForPixel(double x, double y) {
-      double Cx = ( _currentOrientation.Origin.X + Settings.ZoomFactor * (x - (double)Settings.X * .5));
-      double Cy = ( _currentOrientation.Origin.Y + Settings.ZoomFactor * ((double)Settings.Y * .5 - y));
-      double Cz = _currentOrientation.Origin.Z;
+   protected Point getDefaultOrientationWorldPointForPixel(float x, float y) {
+      float Cx = _currentOrientation.Origin.X + Settings.ZoomFactor * (x - (float)Settings.X * .5f);
+      float Cy = _currentOrientation.Origin.Y + Settings.ZoomFactor * ((float)Settings.Y * .5f - y);
+      float Cz = _currentOrientation.Origin.Z;
 
       return new Point(Cx, Cy, Cz);
    }
 
-   public Ray getStochasticRayForPixel(double x, double y) {
+   public Ray getStochasticRayForPixel(float x, float y) {
       return null;
    }
 
-   public Ray[] getInitialStochasticRaysForPixel(double x, double y, int samplesPerPixel) {
+   public Ray[] getInitialStochasticRaysForPixel(float x, float y, int samplesPerPixel) {
       return new Ray[0];
    }
 
    public Point getWorldPointForPixel(int x, int y) {
-      return getWorldPointForPixel((double) x, (double) y);
+      return getWorldPointForPixel((float) x, (float) y);
    }
 }

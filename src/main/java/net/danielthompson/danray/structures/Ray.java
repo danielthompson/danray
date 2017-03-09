@@ -13,8 +13,8 @@ public class Ray {
 
    public Vector DirectionInverse;
 
-   public double MinT;
-   public double MaxT = Double.MAX_VALUE;
+   public float MinT;
+   public float MaxT = Float.MAX_VALUE;
 
    /**
     * Creates a new Vector object.
@@ -26,38 +26,38 @@ public class Ray {
 
       Origin = origin;
 
-      double oneOverLength = 1.0 / Math.sqrt(direction.X * direction.X + direction.Y * direction.Y + direction.Z * direction.Z);
+      float oneOverLength = (float) (1.0f / Math.sqrt(direction.X * direction.X + direction.Y * direction.Y + direction.Z * direction.Z));
       Direction = new Vector(direction.X * oneOverLength, direction.Y * oneOverLength, direction.Z * oneOverLength);
-      DirectionInverse = new Vector(1.0 / Direction.X, 1.0 / Direction.Y, 1.0 / Direction.Z);
+      DirectionInverse = new Vector(1.0f / Direction.X, 1.0f / Direction.Y, 1.0f / Direction.Z);
    }
 
-   public void OffsetOriginForward(double offset) {
+   public void OffsetOriginForward(float offset) {
       Vector offsetV = Vector.Scale(Direction, offset);
       Point newOrigin = Point.Plus(Origin, offsetV);
 
       Origin.Plus(offsetV);
    }
 
-   public Point ScaleFromOrigin(double t) {
-      double x = Origin.X + t * Direction.X;
-      double y = Origin.Y + t * Direction.Y;
-      double z = Origin.Z + t * Direction.Z;
+   public Point ScaleFromOrigin(float t) {
+      float x = Origin.X + t * Direction.X;
+      float y = Origin.Y + t * Direction.Y;
+      float z = Origin.Z + t * Direction.Z;
 
       return new Point(x, y, z);
    }
 
-   public Vector Scale(double t) {
+   public Vector Scale(float t) {
       return Vector.Scale(Direction, t);
    }
 
-   public Point GetPointAtT(double t) {
+   public Point GetPointAtT(float t) {
       return Point.Plus(Origin, Vector.Scale(Direction, t));
    }
 
-   public double GetTAtPoint(Point p) {
-      double tX = -Double.MAX_VALUE;
-      double tY = -Double.MAX_VALUE;
-      double tZ = -Double.MAX_VALUE;
+   public float GetTAtPoint(Point p) {
+      float tX = -Float.MAX_VALUE;
+      float tY = -Float.MAX_VALUE;
+      float tZ = -Float.MAX_VALUE;
 
       if (Direction.X != 0) {
          tX = (p.X - Origin.X) / Direction.X;

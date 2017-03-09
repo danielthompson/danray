@@ -6,17 +6,17 @@ import net.danielthompson.danray.acceleration.KDAxis;
  * Represents a direction in space.
  */
 public class Vector {
-   public double X;
-   public double Y;
-   public double Z;
+   public float X;
+   public float Y;
+   public float Z;
 
-   public Vector(double x, double y, double z) {
+   public Vector(float x, float y, float z) {
       X = x;
       Y = y;
       Z = z;
    }
 
-   public Vector(double[] xyz) {
+   public Vector(float[] xyz) {
       X = xyz[0];
       Y = xyz[1];
       Z = xyz[2];
@@ -28,7 +28,7 @@ public class Vector {
       Z = n.Z;
    }
 
-   public double getAxis(KDAxis axis) {
+   public float getAxis(KDAxis axis) {
       switch (axis) {
          case X:
             return X;
@@ -46,21 +46,21 @@ public class Vector {
             X * vector.Y - Y * vector.X);
    }
 
-   public double Dot(Vector vector) {
+   public float Dot(Vector vector) {
       return (X * vector.X + Y * vector.Y + Z * vector.Z);
    }
 
-   public double Dot(Normal normal) {
+   public float Dot(Normal normal) {
       return (X * normal.X + Y * normal.Y + Z * normal.Z);
    }
 
 
-   public static Vector Scale(Vector vector, double t) {
+   public static Vector Scale(Vector vector, float t) {
       return new Vector (vector.X * t, vector.Y * t, vector.Z * t);
 
    }
 
-   public void Scale(double t) {
+   public void Scale(float t) {
       X *= t;
       Y *= t;
       Z *= t;
@@ -88,14 +88,14 @@ public class Vector {
       return new Vector(point1.X - point2.X, point1.Y - point2.Y, point1.Z - point2.Z);
    }
 
-   public double Length() {
-      return Math.sqrt(X * X + Y * Y + Z * Z);
+   public float Length() {
+      return (float) Math.sqrt(X * X + Y * Y + Z * Z);
    }
 
-   public double LengthSquared() { return X*X + Y*Y + Z*Z; }
+   public float LengthSquared() { return X*X + Y*Y + Z*Z; }
 
    public void Normalize() {
-      double lengthMultiplier = 1.0 / Length();
+      float lengthMultiplier = 1.0f / Length();
       Scale(lengthMultiplier);
    }
 
@@ -105,7 +105,7 @@ public class Vector {
       return v;
    }
 
-   public static Vector Interpolate(Vector vector1, Vector vector2, double percentage) {
+   public static Vector Interpolate(Vector vector1, Vector vector2, float percentage) {
       return Vector.Plus(vector1, Vector.Scale(Vector.Minus(vector2, vector1), percentage));
    }
 

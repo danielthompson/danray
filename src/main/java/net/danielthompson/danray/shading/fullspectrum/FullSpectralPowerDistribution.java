@@ -4,13 +4,13 @@ package net.danielthompson.danray.shading.fullspectrum;
  * Created by daniel on 5/5/15.
  */
 public class FullSpectralPowerDistribution extends FullSpectrum {
-   public double Power;
+   public float Power;
 
    public FullSpectralPowerDistribution() {
       super();
    }
 
-   public FullSpectralPowerDistribution(RelativeFullSpectralPowerDistribution rspd, double power) {
+   public FullSpectralPowerDistribution(RelativeFullSpectralPowerDistribution rspd, float power) {
       this();
       for (int i = 0; i < rspd.Buckets.length; i++) {
          Buckets[i] = rspd.Buckets[i] * (float)power;
@@ -98,7 +98,7 @@ public class FullSpectralPowerDistribution extends FullSpectrum {
       return spd;
    }
 
-   public static FullSpectralPowerDistribution scale(FullSpectralPowerDistribution spd, double percentage) {
+   public static FullSpectralPowerDistribution scale(FullSpectralPowerDistribution spd, float percentage) {
       FullSpectralPowerDistribution scaled = new FullSpectralPowerDistribution();
 
       for (int i = 0; i < spd.Buckets.length; i++) {
@@ -110,7 +110,7 @@ public class FullSpectralPowerDistribution extends FullSpectrum {
       return scaled;
    }
 
-   public void scale(double percentage) {
+   public void scale(float percentage) {
       for (int i = 0; i < Buckets.length; i++) {
          Buckets[i] *= percentage;
       }

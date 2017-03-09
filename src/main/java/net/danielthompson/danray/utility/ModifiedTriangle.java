@@ -69,11 +69,11 @@ public class ModifiedTriangle implements GLEventListener, KeyListener, MouseList
    private GLU _glu;
    private GLUT _glut;
 
-   private double _xRotation = 0;
-   private double _yRotation = 0;
-   private double _zRotation = 0;
+   private float _xRotation = 0;
+   private float _yRotation = 0;
+   private float _zRotation = 0;
 
-   private double[] _position = {0, 0, 20};
+   private float[] _position = {0, 0, 20};
 
    public ModifiedTriangle() {
 
@@ -213,18 +213,18 @@ public class ModifiedTriangle implements GLEventListener, KeyListener, MouseList
             break;
          }
          case KeyEvent.VK_W: {
-            double rad = Math.toRadians(_yRotation);
-            double cos = Math.cos(rad);
-            double sin = Math.sin(rad);
+            float rad = (float) Math.toRadians(_yRotation);
+            float cos = (float) Math.cos(rad);
+            float sin = (float) Math.sin(rad);
 
             _position[0] += sin;
             _position[2] -= cos;
             break;
          }
          case KeyEvent.VK_S: {
-            double rad = Math.toRadians(_yRotation);
-            double cos = Math.cos(rad);
-            double sin = Math.sin(rad);
+            float rad = (float) Math.toRadians(_yRotation);
+            float cos = (float) Math.cos(rad);
+            float sin = (float) Math.sin(rad);
 
             _position[0] -= sin;
             _position[2] += cos;
@@ -232,18 +232,18 @@ public class ModifiedTriangle implements GLEventListener, KeyListener, MouseList
          }
 
          case KeyEvent.VK_A: {
-            double rad = Math.toRadians(_yRotation);
-            double cos = Math.cos(rad);
-            double sin = Math.sin(rad);
+            float rad = (float) Math.toRadians(_yRotation);
+            float cos = (float) Math.cos(rad);
+            float sin = (float) Math.sin(rad);
 
             _position[0] -= cos;
             _position[2] -= sin;
             break;
          }
          case KeyEvent.VK_D: {
-            double rad = Math.toRadians(_yRotation);
-            double cos = Math.cos(rad);
-            double sin = Math.sin(rad);
+            float rad = (float) Math.toRadians(_yRotation);
+            float cos = (float) Math.cos(rad);
+            float sin = (float) Math.sin(rad);
 
             _position[0] += cos;
             _position[2] += sin;
@@ -298,8 +298,8 @@ public class ModifiedTriangle implements GLEventListener, KeyListener, MouseList
 
    }
 
-   private double _prevX;
-   private double _prevY;
+   private float _prevX;
+   private float _prevY;
 
    private boolean _first = true;
 
@@ -313,7 +313,7 @@ public class ModifiedTriangle implements GLEventListener, KeyListener, MouseList
       else {
          // mouse x - rotate about y axis
 
-         double xDiff = (mouseEvent.getX() - _prevX) / 5.0;
+         float xDiff = (mouseEvent.getX() - _prevX) / 5.0f;
          _yRotation += xDiff;
          if (_yRotation >= 360)
             _yRotation %= 360;
@@ -324,7 +324,7 @@ public class ModifiedTriangle implements GLEventListener, KeyListener, MouseList
 
          // mouse y - rotate about x axis
 
-         double yDiff = (mouseEvent.getY() - _prevY) / 5.0;
+         float yDiff = (mouseEvent.getY() - _prevY) / 5.0f;
          _xRotation += yDiff;
 
          if (_xRotation >= 360)

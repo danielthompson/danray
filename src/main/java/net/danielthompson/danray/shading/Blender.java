@@ -116,7 +116,7 @@ public class Blender {
          b += color.getBlue();
       }
 
-      double lengthInverse = 1.0 / (double)colors.length;
+      float lengthInverse = 1.0f / (float)colors.length;
 
       r *= lengthInverse;
       g *= lengthInverse;

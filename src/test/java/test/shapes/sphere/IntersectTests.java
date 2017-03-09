@@ -1,6 +1,7 @@
 package test.shapes.sphere;
 
 import net.danielthompson.danray.states.IntersectionState;
+import net.danielthompson.danray.structures.Constants;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.shapes.Sphere;
 import net.danielthompson.danray.structures.Ray;
@@ -9,6 +10,7 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import test.AssertHelper;
 
 /**
  * DanRay
@@ -40,9 +42,7 @@ public class IntersectTests {
       Point actualIntersection = sphere.getHitInfo(ray).IntersectionPoint;
       Point expectedIntersection = new Point(-1, 0, 0);
 
-      Assert.assertEquals(actualIntersection.X, expectedIntersection.X, "X failed");
-      Assert.assertEquals(actualIntersection.Y, expectedIntersection.Y, "Y failed");
-      Assert.assertEquals(actualIntersection.Z, expectedIntersection.Z, "Z failed");
+      AssertHelper.assertEquals(actualIntersection, expectedIntersection);
    }
 
    @Test
@@ -61,9 +61,8 @@ public class IntersectTests {
       Point expectedIntersection = new Point(10, 0, 0);
 
       Assert.assertTrue(actualIntersectionState.Hits, "ray from inside sphere should hit sphere");
-      Assert.assertEquals(actualIntersectionState.TMin, 10.0, "T should be 10");
-      Assert.assertEquals(actualIntersection.X, expectedIntersection.X, "X failed");
-      Assert.assertEquals(actualIntersection.Y, expectedIntersection.Y, "Y failed");
-      Assert.assertEquals(actualIntersection.Z, expectedIntersection.Z, "Z failed");
+      Assert.assertEquals(actualIntersectionState.TMin, 10.0f, 10.f * Constants.UnitTestDelta);
+      AssertHelper.assertEquals(actualIntersection, expectedIntersection);
+
    }
 }

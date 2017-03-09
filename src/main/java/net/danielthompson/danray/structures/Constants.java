@@ -7,24 +7,38 @@ package net.danielthompson.danray.structures;
  * Time: 5:09 PM
  */
 public class Constants {
-   public static final double Epsilon = .000000000001;
-   public static final double HalfEpsilon = Epsilon * .5;
-   //public static final double Epsilon = .000000001265;
-   //public static final double Epsilon = .0000000001006;
+   public static final float Epsilon = .000000000001f;
+   public static final float HalfEpsilon = Epsilon * .5f;
+   public static final float UnitTestDelta = .001f;
+   //public static final float Epsilon = .000000001265;
+   //public static final float Epsilon = .0000000001006;
+
+
 
    public static final int NumberOfPregeneratedRandoms = 65537;
 
-   public static final double OneOverPi = 1.0 / Math.PI;
-   public static final double OneOver2Pi = 1.0 / (2 * Math.PI);
-   public static final double OneOver4Pi = 1.0 / (4 * Math.PI);
-   public static final double OneOver255 = 1.0 / 255;
+   public static final float PI = (float) Math.PI;
+   public static final float OneOverPi = (float) (1.0f / Math.PI);
+   public static final float OneOver2Pi = (float) (1.0f/ (2 * Math.PI));
+   public static final float OneOver4Pi = (float) (1.0f / (4 * Math.PI));
+
+   public static final float PIOver2 = PI / 2.0f;
+   public static final float PIOver3 = PI / 3.0f;
+   public static final float PIOver4 = PI / 4.0f;
+   public static final float PIOver6 = PI / 6.0f;
+   public static final float PIOver12 = PI / 12.0f;
+
+   public static final float OneOver255 = 1.0f / 255;
    public static final float OneOver255f = 1.0f / 255.0f;
 
-   public static boolean WithinEpsilon(double number, double target) {
+   public static final float Root2 = (float) Math.sqrt(2);
+   public static final float Root3 = (float) Math.sqrt(3);
+
+   public static boolean WithinEpsilon(float number, float target) {
       return WithinEpsilon(number, target, Epsilon);
    }
 
-   public static boolean WithinEpsilon(double number, double target, double epsilon) {
+   public static boolean WithinEpsilon(float number, float target, float epsilon) {
 
       if (number > target) {
          return (2*epsilon + target >= number);

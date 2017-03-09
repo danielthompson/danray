@@ -13,8 +13,8 @@ public abstract class BxDF {
     * @param thetaOutgoing
     * @return
     */
-   public double f(double thetaIncoming, double thetaOutgoing) {
-      return 0.0;
+   public float f(float thetaIncoming, float thetaOutgoing) {
+      return 0.0f;
    }
 
    /**
@@ -42,6 +42,6 @@ public abstract class BxDF {
     * @param outgoing The direction of outgoing light.
     * @return The proportion of outgoing light that comes from the incoming direction.
     */
-   public abstract double f(Vector incoming, Normal normal, Vector outgoing);
+   public abstract float f(Vector incoming, Normal normal, Vector outgoing);
 
 }

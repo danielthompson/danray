@@ -41,8 +41,8 @@ public class KDTree {
 
       KDNode rootNode = new KDNode(objects);
 
-      Point minPoint = null; //new Point(-Double.MAX_VALUE, -Double.MAX_VALUE, -Double.MAX_VALUE);
-      Point maxPoint = null; //new Point(Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE);
+      Point minPoint = null; //new Point(-Float.MAX_VALUE, -Float.MAX_VALUE, -Float.MAX_VALUE);
+      Point maxPoint = null; //new Point(Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE);
 
       xEdges = getSortedBoundingEdges(objects, KDAxis.X);
       yEdges = getSortedBoundingEdges(objects, KDAxis.Y);
@@ -62,10 +62,10 @@ public class KDTree {
 
    private static class KDAxisHeuristicImproved {
       public KDAxis Axis;
-      public double lessThanHeuristic;
-      public double greaterThanHeuristic;
-      public double SurfaceAreaHeuristic;
-      public double Separator;
+      public float lessThanHeuristic;
+      public float greaterThanHeuristic;
+      public float SurfaceAreaHeuristic;
+      public float Separator;
    }
 
    private static BoundingEdge[] getEdgesWithObjectsForAxis(List<AbstractShape> objects, KDAxis axis) {
@@ -116,7 +116,7 @@ public class KDTree {
             //BoundingEdge[] splits = getSortedBoundingEdges(node.Shapes, axis);
             BoundingEdge[] splits = getEdgesWithObjectsForAxis(node.Shapes, axis);
             for (int i = 0; i < splits.length; i = i + 3) {
-               double split = splits[i].Value;
+               float split = splits[i].Value;
 
                BoundingBox lessThanBoundingBox = null;
                BoundingBox greaterThanBoundingBox = null;
@@ -126,8 +126,8 @@ public class KDTree {
 
                for (AbstractShape shape : node.Shapes) {
                   BoundingBox drawableBox = shape.WorldBoundingBox;
-                  double lowerBound = drawableBox.getLowerBoundInAxis(axis);
-                  double upperBound = drawableBox.getUpperBoundInAxis(axis);
+                  float lowerBound = drawableBox.getLowerBoundInAxis(axis);
+                  float upperBound = drawableBox.getUpperBoundInAxis(axis);
 
                   if (upperBound <= split) {
                      if (lessThanBoundingBox == null)
@@ -233,8 +233,8 @@ public class KDTree {
 
             for (AbstractShape shape : node.Shapes) {
                BoundingBox drawableBox = shape.WorldBoundingBox;
-               double lowerBound = drawableBox.getLowerBoundInAxis(best.Axis);
-               double upperBound = drawableBox.getUpperBoundInAxis(best.Axis);
+               float lowerBound = drawableBox.getLowerBoundInAxis(best.Axis);
+               float upperBound = drawableBox.getUpperBoundInAxis(best.Axis);
 
                if (upperBound > best.Separator)
                   greaterThanList.add(shape);
@@ -295,16 +295,16 @@ public class KDTree {
     * @param separator
     * @return
     */
-   private static BoundingBox[] SubdivideBoundingBox(BoundingBox box, KDAxis axis, double separator) {
+   private static BoundingBox[] SubdivideBoundingBox(BoundingBox box, KDAxis axis, float separator) {
       BoundingBox lower;
       BoundingBox upper;
 
-      double minX = box.getLowerBoundInAxis(KDAxis.X);
-      double minY = box.getLowerBoundInAxis(KDAxis.Y);
-      double minZ = box.getLowerBoundInAxis(KDAxis.Z);
-      double maxX = box.getUpperBoundInAxis(KDAxis.X);
-      double maxY = box.getUpperBoundInAxis(KDAxis.Y);
-      double maxZ = box.getUpperBoundInAxis(KDAxis.Z);
+      float minX = box.getLowerBoundInAxis(KDAxis.X);
+      float minY = box.getLowerBoundInAxis(KDAxis.Y);
+      float minZ = box.getLowerBoundInAxis(KDAxis.Z);
+      float maxX = box.getUpperBoundInAxis(KDAxis.X);
+      float maxY = box.getUpperBoundInAxis(KDAxis.Y);
+      float maxZ = box.getUpperBoundInAxis(KDAxis.Z);
 
       Point lowerMinPoint = new Point(minX, minY, minZ);
       Point lowerMaxPoint = new Point(maxX, maxY, maxZ);
@@ -322,7 +322,7 @@ public class KDTree {
 
 //
 //
-//   public static double getSeparator(List<Shape> objects, KDAxis axis, BoundingBox box) {
+//   public static float getSeparator(List<Shape> objects, KDAxis axis, BoundingBox box) {
 //      // find largest distance in the current axis from the node's objects to either bound
 //      // set the
 //
@@ -331,11 +331,11 @@ public class KDTree {
 //      }
 //      else {
 //
-//         double min = Double.MAX_VALUE;
-//         double max = -Double.MAX_VALUE;
+//         float min = Float.MAX_VALUE;
+//         float max = -Float.MAX_VALUE;
 //
 //         for (Shape Shape : objects) {
-//            double DrawableAxisLocation = Shape.getMedian(axis);
+//            float DrawableAxisLocation = Shape.getMedian(axis);
 //
 //            if (DrawableAxisLocation < min) {
 //               min = DrawableAxisLocation;
@@ -358,11 +358,11 @@ public class KDTree {
 //      }
 //   }
 //
-//   static double getMedian(List<Shape> objects, KDAxis axis) {
+//   static float getMedian(List<Shape> objects, KDAxis axis) {
 //
 //      Collections.sort(objects, getComparator(axis));
 //
-//      double median;
+//      float median;
 //
 //      if (objects.size() % 2 == 0) {
 //         Shape shape1 = objects.get(objects.size() / 2 - 1);
@@ -404,7 +404,7 @@ public class KDTree {
       for (int i = 0; i < objects.size(); i++) {
 
          AbstractShape shape = objects.get(i);
-         double bound = shape.WorldBoundingBox.getLowerBoundInAxis(axis);
+         float bound = shape.WorldBoundingBox.getLowerBoundInAxis(axis);
 
          BoundingEdge edgeLower = new BoundingEdge();
          edgeLower.Shape = shape;
@@ -479,33 +479,33 @@ public class KDTree {
       // x
       BoundingEdge[] edges = getMinMaxBoundingEdges(objects, KDAxis.X);
 
-      double xLowerBound = box.getLowerBoundInAxis(KDAxis.X);
+      float xLowerBound = box.getLowerBoundInAxis(KDAxis.X);
       if (edges[0].Value > xLowerBound && edges[0].Lower)
          xLowerBound = edges[0].Value;
 
-      double xUpperBound = box.getUpperBoundInAxis(KDAxis.X);
+      float xUpperBound = box.getUpperBoundInAxis(KDAxis.X);
       if (edges[1].Value < xUpperBound && !edges[1].Lower)
          xUpperBound = edges[1].Value;
 
       // y
       edges = getMinMaxBoundingEdges(objects, KDAxis.Y);
 
-      double yLowerBound = box.getLowerBoundInAxis(KDAxis.Y);
+      float yLowerBound = box.getLowerBoundInAxis(KDAxis.Y);
       if (edges[0].Value > yLowerBound && edges[0].Lower)
          yLowerBound = edges[0].Value;
 
-      double yUpperBound = box.getUpperBoundInAxis(KDAxis.Y);
+      float yUpperBound = box.getUpperBoundInAxis(KDAxis.Y);
       if (edges[1].Value < yUpperBound && !edges[1].Lower)
          yUpperBound = edges[1].Value;
 
       // z
       edges = getMinMaxBoundingEdges(objects, KDAxis.Z);
 
-      double zLowerBound = box.getLowerBoundInAxis(KDAxis.Z);
+      float zLowerBound = box.getLowerBoundInAxis(KDAxis.Z);
       if (edges[0].Value > zLowerBound && edges[0].Lower)
          zLowerBound = edges[0].Value;
 
-      double zUpperBound = box.getUpperBoundInAxis(KDAxis.Z);
+      float zUpperBound = box.getUpperBoundInAxis(KDAxis.Z);
       if (edges[1].Value < zUpperBound && !edges[1].Lower)
          zUpperBound = edges[1].Value;
 

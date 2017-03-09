@@ -6,6 +6,7 @@ import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import test.AssertHelper;
 
 /**
  * Created by daniel on 2/15/15.
@@ -23,19 +24,19 @@ public class TransformedIntersectionTests {
 
       Box box = new Box(p1, p2, material, transform, transform.Invert());
 
-      Point origin = new Point(1.1, 0, 10);
+      Point origin = new Point(1.1f, 0, 10);
       Vector direction = new Vector(0, 0, -1);
 
       Ray ray = new Ray(origin, direction);
 
       IntersectionState state = box.getHitInfo(ray);
 
-      Point expectedIntersectionPoint = new Point(1.1, 0, 1);
+      Point expectedIntersectionPoint = new Point(1.1f, 0, 1);
       Normal expectedNormalDirection = new Normal(0, 0, 1);
 
       Assert.assertTrue(state.Hits, "Should hit");
       Assert.assertEquals(state.IntersectionPoint, expectedIntersectionPoint);
-      Assert.assertEquals(state.Normal, expectedNormalDirection);
+      AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 
    @Test
@@ -58,8 +59,8 @@ public class TransformedIntersectionTests {
       Normal expectedNormalDirection = new Normal(0, 0, 1);
 
       Assert.assertTrue(state.Hits, "Should hit");
-      Assert.assertEquals(state.IntersectionPoint, expectedIntersectionPoint);
-      Assert.assertEquals(state.Normal, expectedNormalDirection);
+      AssertHelper.assertEquals(state.IntersectionPoint, expectedIntersectionPoint);
+      AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 
    @Test
@@ -83,8 +84,8 @@ public class TransformedIntersectionTests {
       Assert.assertNotNull(state, "IntersectionState shouldn't be null");
       Assert.assertTrue(state.Hits, "Should hit");
       Assert.assertNotNull(state.IntersectionPoint, "IntersectionPoint shouldn't be null if hits...");
-      Assert.assertEquals(state.IntersectionPoint, expectedIntersectionPoint, "Should intersect at " + expectedIntersectionPoint);
-      Assert.assertEquals(state.Normal, expectedNormalDirection, "Should have normal pointing at " + expectedNormalDirection);
+      AssertHelper.assertEquals(state.IntersectionPoint, expectedIntersectionPoint);
+      AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 
    @Test
@@ -106,8 +107,8 @@ public class TransformedIntersectionTests {
       Normal expectedNormalDirection = new Normal(0, 0, 1);
 
       Assert.assertTrue(state.Hits, "Should hit");
-      Assert.assertEquals(state.IntersectionPoint, expectedIntersectionPoint, "Should intersect at " + expectedIntersectionPoint);
-      Assert.assertEquals(state.Normal, expectedNormalDirection, "Should have normal pointing at " + expectedNormalDirection);
+      AssertHelper.assertEquals(state.IntersectionPoint, expectedIntersectionPoint);
+      AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 
 }
