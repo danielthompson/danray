@@ -23,6 +23,12 @@ public class Spectrum {
       B = b;
    }
 
+   public void add(Spectrum s1) {
+      R += s1.R;
+      G += s1.G;
+      B += s1.B;
+   }
+
    public Spectrum(Color c) {
       R = c.getRed() * OneOver255f;
       G = c.getGreen() * OneOver255f;

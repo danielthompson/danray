@@ -29,6 +29,8 @@ public class SpectralPowerDistribution extends Spectrum {
       return s;
    }
 
+
+
    public static SpectralPowerDistribution add(SpectralPowerDistribution s1, SpectralPowerDistribution s2) {
       SpectralPowerDistribution s = new SpectralPowerDistribution();
 

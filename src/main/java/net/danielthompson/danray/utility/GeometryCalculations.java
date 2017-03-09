@@ -74,6 +74,12 @@ public class GeometryCalculations {
       return Math.abs(angleRadians);
    }
 
+   public static float GetCosineWeightedIncidencePercentage(Vector incomingDirection, Normal normal) {
+      float dot = normal.Dot(incomingDirection) * 100;
+      dot = (dot < 0) ? -dot : 0;
+      return dot;
+   }
+
    public static float GetIncidencePercentage(Vector incomingDirection, Normal normal) {
       float angleRadians = (float) FastMath.acos(normal.Dot(incomingDirection));
       angleRadians -= Constants.PIOver2;
