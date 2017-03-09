@@ -74,6 +74,16 @@ public class GeometryCalculations {
       return Math.abs(angleRadians);
    }
 
+   public static float GetIncidencePercentage(Vector incomingDirection, Normal normal) {
+      float angleRadians = (float) FastMath.acos(normal.Dot(incomingDirection));
+      angleRadians -= Constants.PIOver2;
+
+      angleRadians *= Constants.IncidenceFactor;
+
+      return angleRadians;
+
+   }
+
    public static float GetAngleOfIncidencePercentage(Ray incomingRay, IntersectionState state) {
       float AoI = GeometryCalculations.GetAngleOfIncidence(incomingRay, state);
 

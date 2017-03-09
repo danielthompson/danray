@@ -28,6 +28,8 @@ public class Constants {
    public static final float PIOver6 = PI / 6.0f;
    public static final float PIOver12 = PI / 12.0f;
 
+   public static final float IncidenceFactor = 100.0f / PIOver2;
+
    public static final float OneOver255 = 1.0f / 255;
    public static final float OneOver255f = 1.0f / 255.0f;
 

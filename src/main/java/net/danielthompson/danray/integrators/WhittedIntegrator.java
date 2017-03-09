@@ -89,9 +89,10 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
                IntersectionState state = closestStateToRay.Shape.getHitInfo(lightToNearestShape);
                if (state.Hits) {
-                  float angleOfIncidencePercentage = GeometryCalculations.GetAngleOfIncidencePercentage(lightToNearestShape, closestStateToRay);
-                  SpectralPowerDistribution scaledIncomingSPD = SpectralPowerDistribution.scale(light.SpectralPowerDistribution, (float)angleOfIncidencePercentage);
-                  scaledIncomingSPD.scale((float) (oneOverDistanceFromLightSourceSquared));
+//                  float angleOfIncidencePercentage = GeometryCalculations.GetAngleOfIncidencePercentage(lightToNearestShape, closestStateToRay);
+                  float angleOfIncidencePercentage = GeometryCalculations.GetIncidencePercentage(lightToNearestShape.Direction, closestStateToRay.Normal);
+                  SpectralPowerDistribution scaledIncomingSPD = SpectralPowerDistribution.scale(light.SpectralPowerDistribution, angleOfIncidencePercentage);
+                  scaledIncomingSPD.scale(oneOverDistanceFromLightSourceSquared);
                   directSPD = SpectralPowerDistribution.add(directSPD, scaledIncomingSPD);
                }
             }
