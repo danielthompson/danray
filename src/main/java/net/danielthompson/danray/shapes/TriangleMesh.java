@@ -24,9 +24,6 @@ public class TriangleMesh extends AbstractShape {
    private Tuple _rotation;
 
    public int ID;
-   public int getID() {
-      return ID;
-   }
 
    @Override
    public void SetInCurrentKDNode(boolean value) {

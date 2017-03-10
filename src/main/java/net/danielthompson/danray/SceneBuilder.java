@@ -5,7 +5,6 @@ import net.danielthompson.danray.acceleration.compactkd.KDCompactScene;
 import net.danielthompson.danray.cameras.*;
 import net.danielthompson.danray.cameras.apertures.CircleAperture;
 import net.danielthompson.danray.cameras.apertures.SquareAperture;
-import net.danielthompson.danray.imports.SPDFileImporter;
 import net.danielthompson.danray.lights.AbstractLight;
 import net.danielthompson.danray.lights.PointLight;
 import net.danielthompson.danray.lights.SphereLight;
@@ -15,14 +14,12 @@ import net.danielthompson.danray.shading.*;
 import net.danielthompson.danray.shading.bxdf.BRDF;
 import net.danielthompson.danray.shading.bxdf.LambertianBRDF;
 import net.danielthompson.danray.shading.bxdf.MirrorBRDF;
-import net.danielthompson.danray.shading.fullspectrum.*;
 import net.danielthompson.danray.shapes.*;
 import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Vector;
 
 import java.awt.*;
-import java.io.File;
 import java.util.*;
 
 import static java.awt.Color.red;
@@ -438,7 +435,6 @@ public class SceneBuilder {
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(240, 240, 240));
       material._specular = 1 - .75f;
       material._reflectivity = .25f;
-      material._intrinsic = 1 - (material._reflectivity + material._specular + material._transparency);
 
       material.BRDF = brdf;
 
@@ -486,7 +482,6 @@ public class SceneBuilder {
             material._reflectivity = .3f;
             material._transparency = 0;
             material._specular = .1f;
-            material._intrinsic = 1 - (material._reflectivity + material._specular + material._transparency);
             material.BRDF = brdf;
 
             Sphere sphere = new Sphere(material);
@@ -569,7 +564,6 @@ public class SceneBuilder {
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(120, 240, 240));
       material._specular = 1 - .75f;
       material._reflectivity = .25f;
-      material._intrinsic = 1 - (material._reflectivity + material._specular + material._transparency);
 
       material.BRDF = brdf;
 

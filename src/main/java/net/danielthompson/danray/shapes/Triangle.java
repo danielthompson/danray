@@ -22,9 +22,6 @@ public class Triangle extends AbstractShape {
    private Point _normalDirection;
 
    public int ID;
-   public int getID() {
-      return ID;
-   }
 
    @Override
    public void SetInCurrentKDNode(boolean value) {

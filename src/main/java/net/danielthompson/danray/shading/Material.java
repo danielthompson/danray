@@ -17,7 +17,6 @@ public class Material {
    public float _transparency;
    public float _indexOfRefraction;
    public float _specular;
-   public float _intrinsic;
 
    public Material() {
 
@@ -29,7 +28,6 @@ public class Material {
       _transparency = transparency;
       _indexOfRefraction = indexOfRefraction;
       _specular = specular;
-      _intrinsic = 1 - (_reflectivity + _specular + _transparency);
    }
 
 

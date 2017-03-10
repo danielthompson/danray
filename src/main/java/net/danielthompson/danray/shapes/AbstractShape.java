@@ -34,10 +34,6 @@ public abstract class AbstractShape {
 
    public abstract void RecalculateWorldBoundingBox();
 
-   public int getID() {
-      return ID;
-   }
-
    public void SetInCurrentKDNode(boolean value) {
       InCurrentKDNode = value;
    }
