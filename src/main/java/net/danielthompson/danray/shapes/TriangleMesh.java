@@ -5,6 +5,7 @@ import net.danielthompson.danray.acceleration.KDAxis;
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.*;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
 
@@ -88,10 +89,6 @@ public class TriangleMesh extends AbstractShape {
       _material = material;
    }
 
-   @Override
-   public Material GetMaterial() {
-      return _material;
-   }
 
    @Override
    public BoundingEdge[] GetBoundingEdges(KDAxis axis) {
@@ -123,8 +120,8 @@ public class TriangleMesh extends AbstractShape {
    }
 
    @Override
-   public boolean Hits(Ray ray) {
-      return getHitInfo(ray).Hits;
+   public boolean hits(Ray worldSpaceRay) {
+      throw new NotImplementedException();
    }
 
    /*

@@ -12,7 +12,7 @@ import net.danielthompson.danray.scenes.AbstractScene;
  */
 public class Main {
 
-   private static final RenderQualityPreset _preset = new MediumQuality();
+   private static final RenderQualityPreset _preset = new LowQuality();
    public static final boolean UseSpectralRendering = true;
    static final boolean UseDepthOfField = false;
 

@@ -4,9 +4,8 @@ import net.danielthompson.danray.acceleration.BoundingEdge;
 import net.danielthompson.danray.acceleration.KDAxis;
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.states.IntersectionState;
-import net.danielthompson.danray.structures.BoundingBox;
-import net.danielthompson.danray.structures.Ray;
-import net.danielthompson.danray.structures.Transform;
+import net.danielthompson.danray.structures.*;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * Created by daniel on 2/16/15.
@@ -50,12 +49,29 @@ public abstract class AbstractShape {
       return null;
    }
 
-   public boolean Hits(Ray ray) {
-      return false;
+   public boolean hits(Ray worldSpaceRay) {
+      throw new NotImplementedException();
    }
 
-   public Material GetMaterial() {
-      return Material;
+   public Point calculateIntersectionPoint(Ray worldSpaceRay) {
+      Ray objectSpaceRay = worldSpaceRay;
+
+      if (WorldToObject != null) {
+         objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
+      }
+
+      Point objectSpaceIntersectionPoint = objectSpaceRay.GetPointAtT(objectSpaceRay.MinT);
+
+      Point worldSpaceIntersectionPoint = objectSpaceIntersectionPoint;
+      if (ObjectToWorld != null) {
+         worldSpaceIntersectionPoint = ObjectToWorld.Apply(objectSpaceIntersectionPoint);
+      }
+
+      return worldSpaceIntersectionPoint;
+   }
+
+   public Normal calculateIntersectionNormal(Ray worldSpaceRay, float t) {
+      throw new NotImplementedException();
    }
 
    public BoundingEdge[] GetBoundingEdges(KDAxis axis) {

@@ -33,11 +33,6 @@ public class KDCompactScene extends AbstractScene {
       return state;
    }
 
-   @Override
-   public IntersectionState getNearestShapeBeyond(Ray ray, float t) {
-      return null;
-   }
-
    private IntersectionState GetClosestDrawableInNode(KDCompactNode node, Ray ray) {
       IntersectionState closestStateToRay = null;
       for (AbstractShape shape : node.Shapes) {

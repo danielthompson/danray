@@ -41,6 +41,11 @@ public class SphereLight extends AbstractLight {
    }
 
    @Override
+   public boolean hits(Ray ray) {
+      return Sphere.hits(ray);
+   }
+
+   @Override
    public IntersectionState getHitInfo(Ray ray) {
       IntersectionState state = Sphere.getHitInfo(ray);
       if (state != null && state.Shape == Sphere)

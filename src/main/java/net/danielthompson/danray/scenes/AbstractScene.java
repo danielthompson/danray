@@ -39,12 +39,6 @@ public abstract class AbstractScene {
 
    public abstract IntersectionState getNearestShape(Ray ray);
 
-   public abstract IntersectionState getNearestShapeBeyond(Ray ray, float t);
-
-   public IntersectionState getNearestShapeBetween(Ray ray, float t0, float t1) {
-      return null;
-   }
-
    public String compile(TracerOptions _tracerOptions) {
       for (AbstractShape shape : Shapes) {
          shape.RecalculateWorldBoundingBox();

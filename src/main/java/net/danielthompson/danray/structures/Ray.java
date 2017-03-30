@@ -13,7 +13,7 @@ public class Ray {
 
    public Vector DirectionInverse;
 
-   public float MinT;
+   public float MinT = Float.MAX_VALUE;;
    public float MaxT = Float.MAX_VALUE;
 
    /**
@@ -22,7 +22,7 @@ public class Ray {
     * @param direction The absolute direction of the vector (i.e. not relative to the origin). Will be normalized.
     */
    public Ray(Point origin, Vector direction) {
-      MinT = 0;
+      MinT = Float.MAX_VALUE;;
 
       Origin = origin;
 

@@ -13,7 +13,7 @@ public class Constants {
    //public static final float Epsilon = .000000001265;
    //public static final float Epsilon = .0000000001006;
 
-
+   public static final float NOHIT = -1.0f;
 
    public static final int NumberOfPregeneratedRandoms = 65537;
 

@@ -103,7 +103,7 @@ public class GeometryCalculations {
       normal.Normalize();
 
       float n1 = oldIndexOfRefraction;
-      float n2 = state.Shape.GetMaterial()._indexOfRefraction;
+      float n2 = state.Shape.Material._indexOfRefraction;
       float nRatio = n1 / n2;
 
       float cosTheta1 = -normal.Dot(incomingRay.Direction);

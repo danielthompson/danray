@@ -4,6 +4,7 @@ import net.danielthompson.danray.cameras.Camera;
 import net.danielthompson.danray.presets.TracerOptions;
 import net.danielthompson.danray.shapes.AbstractShape;
 import net.danielthompson.danray.states.IntersectionState;
+import net.danielthompson.danray.structures.Constants;
 import net.danielthompson.danray.structures.Ray;
 
 /**
@@ -21,38 +22,33 @@ public class NaiveScene extends AbstractScene {
 
    @Override
    public IntersectionState getNearestShape(Ray ray) {
-      return getNearestShapeBetween(ray, 0, Float.MAX_VALUE);
-   }
 
-   @Override
-   public IntersectionState getNearestShapeBeyond(Ray ray, float t) {
-      return getNearestShapeBetween(ray, t, Float.MAX_VALUE);
-   }
+      int nearestShapeIndex = -1;
 
-   @Override
-   public IntersectionState getNearestShapeBetween(Ray ray, float t0, float t1) {
+      float closestT = ray.MinT;
+
+      for (int i = 0; i < Shapes.size(); i++) {
+
+         Shapes.get(i).hits(ray);
+
+         float newT = ray.MinT;
+
+         if (newT >= Constants.Epsilon) {
+            int j = 0;
+         }
+
+         nearestShapeIndex = (newT >= Constants.Epsilon && newT < closestT) ? i : nearestShapeIndex;
+      }
+
       IntersectionState closestStateToRay = null;
 
-      for (AbstractShape shape : Shapes) {
-         IntersectionState state = shape.getHitInfo(ray);
+      if (nearestShapeIndex >= 0)
 
-         //boolean replace = (state.Hits && state.TMin >= t0 && state.TMin <= t1) && (closestStateToRay == null || state.TMin < closestStateToRay.TMin);
-
-         //closestStateToRay = (state.Hits && state.TMin >= t0 && state.TMin <= t1) && (closestStateToRay == null || state.TMin < closestStateToRay.TMin) ? state : closestStateToRay;
-
-
-         if (state.Hits && state.TMin >= (t0 /*+ Constants.Epsilon*/) && (state.TMin/* + Constants.Epsilon*/) <= t1) {
-            if (closestStateToRay == null) {
-               closestStateToRay = state;
-            }
-            if (state.TMin < closestStateToRay.TMin) {
-               closestStateToRay = state;
-            }
-         }
-      }
+         closestStateToRay = Shapes.get(nearestShapeIndex).getHitInfo(ray);
 
       return closestStateToRay;
    }
+
 
    @Override
    public String compile(TracerOptions _tracerOptions) {

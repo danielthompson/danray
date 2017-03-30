@@ -42,7 +42,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
          if (closestStateToRay != null)
             sample.KDHeatCount = closestStateToRay.KDHeatCount;
          if (depth == 1) {
-            sample.SpectralPowerDistribution = new SpectralPowerDistribution(Color.black);
+            sample.SpectralPowerDistribution = new SpectralPowerDistribution(Color.gray);
             return sample;
          }
          else {

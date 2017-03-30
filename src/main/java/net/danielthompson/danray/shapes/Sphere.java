@@ -55,12 +55,41 @@ public class Sphere extends AbstractShape {
    public IntersectionState getHitInfo(Ray worldSpaceRay) {
 
       Ray objectSpaceRay = worldSpaceRay;
-      
+
       if (WorldToObject != null) {
          objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
       }
 
+      Point intersectionPoint = objectSpaceRay.GetPointAtT(objectSpaceRay.MinT);
+
+      Normal normal = new Normal(Point.Minus(intersectionPoint, Origin));
+
+      if (ObjectToWorld != null) {
+         intersectionPoint = ObjectToWorld.Apply(intersectionPoint);
+         normal = ObjectToWorld.Apply(normal);
+//         if (ObjectToWorld.HasScale()) {
+//            worldSpaceRay.TMin = worldSpaceRay.GetTAtPoint(intersectionPoint);
+//         }
+      }
+
+      normal.Normalize();
+
       IntersectionState state = new IntersectionState();
+      state.Hits = true;
+      state.Normal = normal;
+      state.IntersectionPoint = intersectionPoint;
+      state.Shape = this;
+
+      return state;
+   }
+
+   @Override
+   public boolean hits(Ray worldSpaceRay) {
+      Ray objectSpaceRay = worldSpaceRay;
+
+      if (WorldToObject != null) {
+         objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
+      }
 
       float a = objectSpaceRay.Direction.Dot(objectSpaceRay.Direction);
       float b = 2 * (objectSpaceRay.Direction.Dot(Point.Minus(objectSpaceRay.Origin, Origin)));
@@ -69,9 +98,7 @@ public class Sphere extends AbstractShape {
       float discriminant = (b * b) - (4 * a * c);
 
       if (discriminant < 0) {
-         state.Hits = false;
-         state.IntersectionPoint = null;
-         return state;
+         return false;
       }
 
       float root = (float) Math.sqrt(discriminant);
@@ -82,79 +109,41 @@ public class Sphere extends AbstractShape {
 
       float t1 = (-b - root) * oneOverTwoA;
 
+      float hits;
+
       if (t1 < Constants.Epsilon) {
-         if (t0 < Constants.Epsilon) {
-            state.Hits = false;
-            state.IntersectionPoint = null;
-
-         }
-         else if (Constants.WithinEpsilon(t0, 0)) {
-            state.Hits = true;
-            state.IntersectionPoint = objectSpaceRay.Origin;
-            state.TMin = t0;
-
-         }
-         else /*if (t0 > -Constants.Epsilon)*/ {
-            state.Hits = true;
-            state.IntersectionPoint = objectSpaceRay.ScaleFromOrigin(t0);
-            state.TMin = t0;
-         }
+         hits = (t0 >= Constants.Epsilon) ? t0 : Constants.NOHIT;
       }
       else if (Constants.WithinEpsilon(t1, 0)) {
-         state.Hits = true;
-         state.IntersectionPoint = objectSpaceRay.Origin;
-         state.Shape = this;
-
-         if (t0 < Constants.Epsilon) {
-            state.TMin = t1;
-         }
-         else {
-            state.TMin = t0;
-         }
+         hits = t0 < Constants.Epsilon ? t1 : t0;
       }
       else {
-         state.Hits = true;
          if (t0 < Constants.Epsilon) {
-            state.IntersectionPoint = objectSpaceRay.ScaleFromOrigin(t1);
-            state.TMin = t1;
+            hits = t1;
          }
          else if (Constants.WithinEpsilon(t0, 0)) {
-            state.IntersectionPoint = objectSpaceRay.Origin;
-            state.TMin = t0;
+            hits = t0;
          }
          else {
-            if (t0 < t1) {
-               state.IntersectionPoint = objectSpaceRay.ScaleFromOrigin(t0);
-               state.TMin = t0;
-            }
-            else {
-               state.IntersectionPoint = objectSpaceRay.ScaleFromOrigin(t1);
-               state.TMin = t1;
-            }
+            hits = t0 < t1 ? t0 : t1;
          }
       }
 
-      if (state.Hits) {
-         state.Normal = new Normal(Point.Minus(state.IntersectionPoint, Origin));
+      if (hits == Constants.NOHIT)
+         return false;
 
-         if (ObjectToWorld != null) {
-            state.IntersectionPoint = ObjectToWorld.Apply(state.IntersectionPoint);
-            state.Normal = ObjectToWorld.Apply(state.Normal);
-            if (ObjectToWorld.HasScale()) {
-               state.TMin = worldSpaceRay.GetTAtPoint(state.IntersectionPoint);
-            }
-         }
+      if (hits < Constants.Epsilon)
+         return false;
 
-         state.Normal.Normalize();
-         state.Shape = this;
+      // convert T back to world space
+      if (ObjectToWorld != null && ObjectToWorld.HasScale()) {
+         Point objectSpaceIntersectionPoint = objectSpaceRay.GetPointAtT(hits);
+         Point worldSpaceIntersectionPoint = ObjectToWorld.Apply(objectSpaceIntersectionPoint);
+         hits = worldSpaceRay.GetTAtPoint(worldSpaceIntersectionPoint);
       }
 
-      return state;
-   }
-
-   @Override
-   public boolean Hits(Ray ray) {
-      return getHitInfo(ray).Hits;
+      worldSpaceRay.MinT = hits;
+      return true;
    }
 
    @Override

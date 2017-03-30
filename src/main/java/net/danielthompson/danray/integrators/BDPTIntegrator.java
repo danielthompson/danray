@@ -427,7 +427,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //
 //               if (noOccluder || targetIntersection) {
 //                  IntersectionState state = closestStateToRay.Shape.getHitInfo(lightRayFromCurrentRadiatableToClosestDrawable);
-//                  if (state.Hits) {
+//                  if (state.hits) {
 //                     // figure out how much light is shining by sampling the light
 //
 //                     float pdfPercentage = brdfPDF * (4 * Constants.PI) / lightPDF;

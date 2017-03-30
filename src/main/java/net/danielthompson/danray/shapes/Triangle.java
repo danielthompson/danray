@@ -4,8 +4,10 @@ import net.danielthompson.danray.acceleration.BoundingEdge;
 import net.danielthompson.danray.acceleration.KDAxis;
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.states.IntersectionState;
+import net.danielthompson.danray.structures.Constants;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Ray;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * DanRay
@@ -56,11 +58,6 @@ public class Triangle extends AbstractShape {
    }
 
    @Override
-   public Material GetMaterial() {
-      return _material;
-   }
-
-   @Override
    public BoundingEdge[] GetBoundingEdges(KDAxis axis) {
       return new BoundingEdge[0];
    }
@@ -76,8 +73,8 @@ public class Triangle extends AbstractShape {
    }
 
    @Override
-   public boolean Hits(Ray ray) {
-      return getHitInfo(ray).Hits;
+   public boolean hits(Ray worldSpaceRay) {
+      throw new NotImplementedException();
    }
 
    public static IntersectionState GetHitInfo(AbstractShape shape, Ray ray, Point vertex0, Point vertex1, Point vertex2) {
@@ -96,13 +93,13 @@ public class Triangle extends AbstractShape {
       float v = Q.Dot(ray.Direction) * multiplier;
 
       if (t > 0 && u >= 0 && v >= 0 && u + v <= 1.0) {
-         state.Hits = true;
+         state.hits = true;
          state.IntersectionPoint = ray.ScaleFromOrigin(t);
          state.Drawable = drawable;
          state.T = t;
       }
       else {
-         state.Hits = false;
+         state.hits = false;
       }*/
       return state;
    }

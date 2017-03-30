@@ -37,10 +37,6 @@ public class KDScene extends AbstractScene {
       return state;
    }
 
-   @Override
-   public IntersectionState getNearestShapeBeyond(Ray ray, float t) {
-      return null;
-   }
 
    public IntersectionState GetClosestDrawableOrPlaneToRay(List<AbstractShape> shapes, Ray ray) {
 
@@ -152,9 +148,9 @@ public class KDScene extends AbstractScene {
 
          /*
 
-         boolean hitsLeft = leftState.Hits;
+         boolean hitsLeft = leftState.hits;
          statistics.BoundingIntersections++;
-         boolean hitsRight = rightState.Hits;
+         boolean hitsRight = rightState.hits;
          statistics.BoundingIntersections++;
 
          statistics.BoundsHitLeft = hitsLeft ? statistics.BoundsHitLeft : statistics.BoundsHitLeft + 1;
