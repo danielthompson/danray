@@ -73,7 +73,9 @@ public class Sphere extends AbstractShape {
          objectSpaceIntersectionPoint = WorldToObject.Apply(worldSpaceIntersectionPoint);
       }
 
-      Normal objectSpaceNormal = new Normal(Point.Minus(objectSpaceIntersectionPoint, Origin));
+      objectSpaceIntersectionPoint.Minus(Origin);
+
+      Normal objectSpaceNormal = new Normal(objectSpaceIntersectionPoint.X, objectSpaceIntersectionPoint.Y, objectSpaceIntersectionPoint.Z);
 
       Normal worldSpaceNormal = objectSpaceNormal;
 

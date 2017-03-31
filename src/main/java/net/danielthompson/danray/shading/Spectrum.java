@@ -35,6 +35,12 @@ public class Spectrum {
       B = c.getBlue() * OneOver255f;
    }
 
+   public Spectrum(Color c, float power) {
+      R = c.getRed() * OneOver255f * power;
+      G = c.getGreen() * OneOver255f * power;
+      B = c.getBlue() * OneOver255f * power;
+   }
+
    public static Spectrum Lerp(Spectrum s1, float w1, Spectrum s2, float w2) {
       Spectrum s = new Spectrum();
 

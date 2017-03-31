@@ -36,6 +36,14 @@ public class SceneBuilder {
       return nextID++;
    }
 
+   public static class Firenze {
+      public static Color Green = new Color(70, 137, 102);
+      public static Color Beige = new Color(255, 240, 165);
+      public static Color Yellow = new Color(255, 176, 59);
+      public static Color Orange = new Color(182, 73, 38);
+      public static Color Red = new Color(142, 40, 0);
+   }
+
 
    public static AbstractScene SpectralLemon(int x, int y) {
 
@@ -67,7 +75,7 @@ public class SceneBuilder {
       sphere.Origin = new Point(2000, 15000, 15000);
       sphere.Radius = 1000;
 
-      AbstractLight light = new SphereLight(lightSPD, sphere);
+      AbstractLight light = new SphereLight(sphere, lightSPD);
 
       //scene.Shapes.add(light);
       scene.addLight(light);
@@ -83,7 +91,7 @@ public class SceneBuilder {
       sphere.Origin = new Point(-800, 0, 500);
       sphere.Radius = 100;
 
-      light = new SphereLight(lightSPD, sphere);
+      light = new SphereLight(sphere, lightSPD);
 
       //scene.Shapes.add(light);
       scene.addLight(light);
@@ -294,17 +302,17 @@ public class SceneBuilder {
 
       AbstractScene scene = new NaiveScene(camera);
 
-      // blue ball
+      // Orange ball
 
       BRDF brdf = new LambertianBRDF();
       Material material = new Material();
 
       material.BRDF = brdf;
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.blue);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Orange);
 
       Transform[] inputTransforms = new Transform[2];
       inputTransforms[0] = Transform.Translate(new Vector(50.0f, 50.0f, 40.0f));
-      inputTransforms[1] = Transform.Scale(10f, 10f, 10f);
+      inputTransforms[1] = Transform.Scale(10f);
 
       Transform[] compositeTransforms = Transform.composite(inputTransforms);
 
@@ -316,19 +324,15 @@ public class SceneBuilder {
 
       material = new Material();
       material.BRDF = brdf;
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 255, 128));
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Beige);
 
-      Sphere sphere2 = new Sphere(material);
-      sphere2.Origin = new Point(0.0f, 0.0f, 20.0f);
-      sphere2.Radius = 55;
+      inputTransforms = new Transform[2];
+      inputTransforms[0] = Transform.Translate(new Vector(0.0f, 0.0f, 20.0f));
+      inputTransforms[1] = Transform.Scale(55f, 55f, 55f);
 
-//      inputTransforms = new Transform[2];
-//      inputTransforms[0] = Transform.Translate(new Vector(0.0f, 0.0f, 20.0f));
-//      inputTransforms[1] = Transform.Scale(55f, 55f, 55f);
-//
-//      compositeTransforms = Transform.composite(inputTransforms);
-//
-//      Sphere sphere2 = new Sphere(compositeTransforms, material);
+      compositeTransforms = Transform.composite(inputTransforms);
+
+      Sphere sphere2 = new Sphere(compositeTransforms, material);
 
       scene.addShape(sphere2);
 
@@ -336,11 +340,7 @@ public class SceneBuilder {
 
       material = new Material();
       material.BRDF = brdf;
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.green);
-
-//      Sphere sphere3 = new Sphere(material);
-//      sphere3.Origin = new Point(200.0f, 200.0f, 25.0f);
-//      sphere3.Radius = 100;
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Green);
 
       inputTransforms = new Transform[2];
       inputTransforms[0] = Transform.Translate(new Vector(200.0f, 200.0f, 25.0f));
@@ -352,18 +352,39 @@ public class SceneBuilder {
 
       scene.addShape(sphere3);
 
-      // light
+      // white light
 
-      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(100000.0f, 100000.0f, 100000.0f);
+      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(Color.white, 100000.0f);
 
-      Sphere sphere = new Sphere();
-      sphere.Origin = new Point(300, 3300, -1500);
-      sphere.Radius = 1000;
+      inputTransforms = new Transform[2];
+      inputTransforms[0] = Transform.Translate(new Vector(300, 3300, -1500));
+      inputTransforms[1] = Transform.Scale(100f, 100f, 100f);
 
-      AbstractLight light = new SphereLight(lightSPD, sphere);
+      compositeTransforms = Transform.composite(inputTransforms);
+
+      Sphere sphere = new Sphere(compositeTransforms, null);
+
+      AbstractLight light = new SphereLight(sphere, lightSPD);
 
       scene.Shapes.add(light);
-      scene.addLight(light);
+      scene.Lights.add(light);
+
+      // red light
+
+      lightSPD = new SpectralPowerDistribution(Firenze.Orange, 100000.0f);
+
+      inputTransforms = new Transform[2];
+      inputTransforms[0] = Transform.Translate(new Vector(300, -3300, -1500));
+      inputTransforms[1] = Transform.Scale(100f, 100f, 100f);
+
+      compositeTransforms = Transform.composite(inputTransforms);
+
+      sphere = new Sphere(compositeTransforms, null);
+
+      light = new SphereLight(sphere, lightSPD);
+
+      scene.Shapes.add(light);
+      scene.Lights.add(light);
 
       return scene;
    }
@@ -536,7 +557,7 @@ public class SceneBuilder {
 
 
 
-      AbstractLight light = new SphereLight(lightSPD, sphere);
+      AbstractLight light = new SphereLight(sphere, lightSPD);
 
       scene.Shapes.add(light);
       scene.addLight(light);
@@ -611,7 +632,7 @@ public class SceneBuilder {
 
 
 
-      AbstractLight light = new SphereLight(lightSPD, sphere);
+      AbstractLight light = new SphereLight(sphere, lightSPD);
 
       scene.Shapes.add(light);
       scene.addLight(light);
@@ -769,7 +790,7 @@ public class SceneBuilder {
 
       SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(100000.0f, 100000.0f, 100000.0f);
 
-      AbstractLight light = new SphereLight(lightSPD, sphere);
+      AbstractLight light = new SphereLight(sphere, lightSPD);
 
       scene.Shapes.add(light);
       scene.addLight(light);
@@ -1225,7 +1246,7 @@ public class SceneBuilder {
       sphere.Origin = new Point(1000, 1000, 500);
       sphere.Radius = 50;
 
-      SphereLight sphereLight = new SphereLight(spd, sphere);
+      SphereLight sphereLight = new SphereLight(sphere, spd);
 
       PointLight pointLight = new PointLight(spd, new Point(1000, 1000, 500));
       scene.addLight(pointLight);

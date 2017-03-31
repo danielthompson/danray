@@ -19,6 +19,10 @@ public class SpectralPowerDistribution extends Spectrum {
       super (c);
    }
 
+   public SpectralPowerDistribution(Color c, float power) {
+      super (c, power);
+   }
+
    public static SpectralPowerDistribution Lerp(SpectralPowerDistribution s1, float w1, SpectralPowerDistribution s2, float w2) {
       SpectralPowerDistribution s = new SpectralPowerDistribution();
 

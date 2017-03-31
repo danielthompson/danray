@@ -16,7 +16,7 @@ public class SphereLight extends AbstractLight {
 
    public Sphere Sphere;
 
-   public SphereLight(SpectralPowerDistribution spd, Sphere sphere) {
+   public SphereLight(Sphere sphere, SpectralPowerDistribution spd) {
       super(spd);
       Sphere = sphere;
       WorldBoundingBox = sphere.WorldBoundingBox;
@@ -52,8 +52,6 @@ public class SphereLight extends AbstractLight {
          state.Shape = this;
       return state;
    }
-
-   private static Object mutex = new Object();
 
    private Point getRandomPoint() {
       float x;

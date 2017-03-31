@@ -118,6 +118,10 @@ public class Transform {
       return transform;
    }
 
+   public static Transform Scale(float n) {
+      return Scale(n, n, n);
+   }
+
    public static Transform Scale(float x, float y, float z) {
       Matrix4x4 matrix = new Matrix4x4(
             x, 0, 0, 0,
@@ -281,6 +285,31 @@ public class Transform {
       return new Transform(inverse, matrix);
    }
 
+   public void ApplyInPlace(Point p) {
+
+      float x = p.X;
+      float y = p.Y;
+      float z = p.Z;
+
+      float newX = x * _matrix.matrix[0][0] + y * _matrix.matrix[0][1] + z * _matrix.matrix[0][2] + _matrix.matrix[0][3];
+      float newY = x * _matrix.matrix[1][0] + y * _matrix.matrix[1][1] + z * _matrix.matrix[1][2] + _matrix.matrix[1][3];
+      float newZ = x * _matrix.matrix[2][0] + y * _matrix.matrix[2][1] + z * _matrix.matrix[2][2] + _matrix.matrix[2][3];
+
+      float w = x * _matrix.matrix[3][0] + y * _matrix.matrix[3][1] + z * _matrix.matrix[3][2] + _matrix.matrix[3][3];
+
+      if (w == 1) {
+         p.X = newX;
+         p.Y = newY;
+         p.Z = newZ;
+      }
+      else {
+         float divisor = 1.f / w;
+         p.X = newX * divisor;
+         p.Y = newY * divisor;
+         p.Z = newZ * divisor;
+      }
+   }
+
    public Point Apply(Point p) {
 
       float x = p.X;
@@ -301,12 +330,32 @@ public class Transform {
       }
    }
 
+   public void ApplyInPlace(Vector v) {
+      float newX = v.X * _matrix.matrix[0][0] + v.Y * _matrix.matrix[0][1] + v.Z * _matrix.matrix[0][2];
+      float newY = v.X * _matrix.matrix[1][0] + v.Y * _matrix.matrix[1][1] + v.Z * _matrix.matrix[1][2];
+      float newZ = v.X * _matrix.matrix[2][0] + v.Y * _matrix.matrix[2][1] + v.Z * _matrix.matrix[2][2];
+
+      v.X = newX;
+      v.Y = newY;
+      v.Z = newZ;
+   }
+
    public Vector Apply(Vector v) {
       float newX = v.X * _matrix.matrix[0][0] + v.Y * _matrix.matrix[0][1] + v.Z * _matrix.matrix[0][2];
       float newY = v.X * _matrix.matrix[1][0] + v.Y * _matrix.matrix[1][1] + v.Z * _matrix.matrix[1][2];
       float newZ = v.X * _matrix.matrix[2][0] + v.Y * _matrix.matrix[2][1] + v.Z * _matrix.matrix[2][2];
 
       return new Vector(newX, newY, newZ);
+   }
+
+   public void ApplyInPlace(Normal n) {
+      float newX = n.X * _matrix.matrix[0][0] + n.Y * _matrix.matrix[0][1] + n.Z * _matrix.matrix[0][2];
+      float newY = n.X * _matrix.matrix[1][0] + n.Y * _matrix.matrix[1][1] + n.Z * _matrix.matrix[1][2];
+      float newZ = n.X * _matrix.matrix[2][0] + n.Y * _matrix.matrix[2][1] + n.Z * _matrix.matrix[2][2];
+
+      n.X = newX;
+      n.Y = newY;
+      n.Z = newZ;
    }
 
    public Normal Apply(Normal n) {
@@ -316,6 +365,11 @@ public class Transform {
       float newZ = n.X * _inverse.matrix[0][2] + n.Y * _inverse.matrix[1][2] + n.Z * _inverse.matrix[2][2];
 
       return new Normal(newX, newY, newZ);
+   }
+
+   public void ApplyInPlace(Ray r) {
+      ApplyInPlace(r.Origin);
+      ApplyInPlace(r.Direction);
    }
 
    public Ray Apply(Ray r) {
