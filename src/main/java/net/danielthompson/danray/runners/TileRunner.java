@@ -89,6 +89,10 @@ public class TileRunner extends AbstractRunner {
 
          for (int y = yMin; y < yMax; y++) {
             for (int x = xMin; x < xMax; x++) {
+               if (x == 460 && y == 1) {
+                  int i = 0;
+               }
+
                trace(x, y);
             }
          }

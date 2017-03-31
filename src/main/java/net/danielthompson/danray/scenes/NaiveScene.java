@@ -29,15 +29,9 @@ public class NaiveScene extends AbstractScene {
 
       for (int i = 0; i < Shapes.size(); i++) {
 
-         Shapes.get(i).hits(ray);
+         boolean hits = Shapes.get(i).hits(ray);
 
-         float newT = ray.MinT;
-
-         if (newT >= Constants.Epsilon) {
-            int j = 0;
-         }
-
-         nearestShapeIndex = (newT >= Constants.Epsilon && newT < closestT) ? i : nearestShapeIndex;
+         nearestShapeIndex = (hits && ray.MinT >= Constants.Epsilon && ray.MinT < closestT) ? i : nearestShapeIndex;
       }
 
       IntersectionState closestStateToRay = null;

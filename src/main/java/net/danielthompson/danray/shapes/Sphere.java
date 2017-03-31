@@ -17,19 +17,22 @@ public class Sphere extends AbstractShape {
    public float Radius;
 
    public Sphere() {
-      this(0.0f, null, null, null);
+      this(null, null, null);
    }
 
    public Sphere(Material material) {
-      this(0.0f, null, null, material);
+      this(null, null, material);
    }
 
-   public Sphere(float radius, Transform worldToObject, Transform objectToWorld, Material material) {
-      super(material);
-      Radius = radius;
-      WorldToObject = worldToObject;
-      ObjectToWorld = objectToWorld;
+   public Sphere(Transform[] transforms, Material material) {
+      this(transforms[0], transforms[1], material);
+   }
 
+   public Sphere(Transform objectToWorld, Transform worldToObject, Material material) {
+      super(material);
+      Radius = 1;
+      ObjectToWorld = objectToWorld;
+      WorldToObject = worldToObject;
       RecalculateWorldBoundingBox();
    }
 
@@ -54,31 +57,33 @@ public class Sphere extends AbstractShape {
    @Override
    public IntersectionState getHitInfo(Ray worldSpaceRay) {
 
-      Ray objectSpaceRay = worldSpaceRay;
-
-      if (WorldToObject != null) {
-         objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
-      }
-
-      Point intersectionPoint = objectSpaceRay.GetPointAtT(objectSpaceRay.MinT);
-
-      Normal normal = new Normal(Point.Minus(intersectionPoint, Origin));
-
-      if (ObjectToWorld != null) {
-         intersectionPoint = ObjectToWorld.Apply(intersectionPoint);
-         normal = ObjectToWorld.Apply(normal);
-//         if (ObjectToWorld.HasScale()) {
-//            worldSpaceRay.TMin = worldSpaceRay.GetTAtPoint(intersectionPoint);
-//         }
-      }
-
-      normal.Normalize();
-
       IntersectionState state = new IntersectionState();
       state.Hits = true;
-      state.Normal = normal;
-      state.IntersectionPoint = intersectionPoint;
       state.Shape = this;
+
+      // we need to find the normal, for which we need the intersectionpoint in object space
+
+      Point worldSpaceIntersectionPoint = worldSpaceRay.GetPointAtT(worldSpaceRay.MinT);
+
+      state.IntersectionPoint = worldSpaceIntersectionPoint;
+
+      Point objectSpaceIntersectionPoint = worldSpaceIntersectionPoint;
+
+      if (WorldToObject != null) {
+         objectSpaceIntersectionPoint = WorldToObject.Apply(worldSpaceIntersectionPoint);
+      }
+
+      Normal objectSpaceNormal = new Normal(Point.Minus(objectSpaceIntersectionPoint, Origin));
+
+      Normal worldSpaceNormal = objectSpaceNormal;
+
+      if (ObjectToWorld != null) {
+         worldSpaceNormal = ObjectToWorld.Apply(worldSpaceNormal);
+      }
+
+      worldSpaceNormal.Normalize();
+
+      state.Normal = worldSpaceNormal;
 
       return state;
    }

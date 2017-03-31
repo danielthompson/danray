@@ -22,18 +22,24 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
    private final int _airIndexOfRefraction = 1;
 
+   private final SpectralPowerDistribution backgroundColor = new SpectralPowerDistribution(Color.BLACK);
+
    public WhittedIntegrator(AbstractScene scene, int maxDepth) {
       super(scene, maxDepth);
    }
 
    @Override
-   public Sample GetSample(Ray ray, int depth) {
-      return GetSample(ray, depth, _airIndexOfRefraction);
+   public Sample GetSample(Ray ray, int depth, int x, int y) {
+      return GetSample(ray, depth, _airIndexOfRefraction, x, y);
    }
 
-   private Sample GetSample(Ray ray, int depth, float oldIndexOfRefraction) {
+   private Sample GetSample(Ray ray, int depth, float oldIndexOfRefraction, int x, int y) {
 
       Sample sample = new Sample();
+
+      if (x == 460 && y == 0) {
+         int i = 0;
+      }
 
       IntersectionState closestStateToRay = scene.getNearestShape(ray);
 
@@ -42,7 +48,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
          if (closestStateToRay != null)
             sample.KDHeatCount = closestStateToRay.KDHeatCount;
          if (depth == 1) {
-            sample.SpectralPowerDistribution = new SpectralPowerDistribution(Color.gray);
+            sample.SpectralPowerDistribution = backgroundColor;
             return sample;
          }
          else {
@@ -102,6 +108,8 @@ public class WhittedIntegrator extends AbstractIntegrator {
          }
       }
 
+      directSPD.add(backgroundColor);
+
       directSPD = directSPD.reflectOff(objectMaterial.ReflectanceSpectrum);
 
       // base case
@@ -125,7 +133,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
             Ray reflectedRay = new Ray(offsetIntersection, outgoingDirection);
 
-            reflectedSample = GetSample(reflectedRay, depth, oldIndexOfRefraction);
+            reflectedSample = GetSample(reflectedRay, depth, oldIndexOfRefraction, x, y);
 
             Vector reversedIncoming = Vector.Scale(ray.Direction, -1);
 /*

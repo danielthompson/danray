@@ -364,4 +364,33 @@ public class Transform {
 
       return transformed;
    }
+
+
+   /**
+    * Returns the composite Object-To-World and World-To-Object transforms of the list of transforms.
+    * @param list
+    * @return
+    */
+   public static Transform[] composite(java.util.List<Transform> list) {
+      return composite(list.toArray(new Transform[list.size()]));
+   }
+
+   public static Transform[] composite(Transform... transforms) {
+      Transform objectToWorld = new Transform();
+
+      for (int i = 0; i < transforms.length; i++) {
+         objectToWorld = objectToWorld.Apply(transforms[i]);
+      }
+
+      Transform worldToObject = new Transform();
+
+      for (int i = transforms.length - 1; i >= 0; i--) {
+         worldToObject = worldToObject.Apply(transforms[i]);
+      }
+
+      worldToObject = worldToObject.Invert();
+
+      return new Transform[] {objectToWorld, worldToObject};
+   }
+
 }

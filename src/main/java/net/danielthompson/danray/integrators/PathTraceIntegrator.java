@@ -21,7 +21,7 @@ public class PathTraceIntegrator extends AbstractIntegrator {
       super(scene, maxDepth);
    }
 
-   public Sample GetSample(Ray ray, int depth) {
+   public Sample GetSample(Ray ray, int depth, int x, int y) {
 
       Sample sample = new Sample();
       IntersectionState closestStateToRay = scene.getNearestShape(ray);
@@ -61,7 +61,7 @@ public class PathTraceIntegrator extends AbstractIntegrator {
 
          //Ray indirectRay = GeometryCalculations.GetRandomRayInNormalHemisphere(closestStateToRay.IntersectionPoint, closestStateToRay.Normal);
 
-         Sample incomingSample = GetSample(bounceRay, depth + 1);
+         Sample incomingSample = GetSample(bounceRay, depth + 1, x, y);
 
          SpectralPowerDistribution incomingSPD = incomingSample.SpectralPowerDistribution;
 

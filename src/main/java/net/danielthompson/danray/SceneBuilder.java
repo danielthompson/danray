@@ -98,7 +98,7 @@ public class SceneBuilder {
       list.add(Transform.Translate(new Vector(-1500, 0, 0)));
       list.add(Transform.Scale(1.0f, 1000.0f, 10000.0f));
 
-      Transform[] transforms = GetCompositeTransforms(list);
+      Transform[] transforms = Transform.composite(list);
 
       Transform objectToWorld = transforms[0];
       Transform worldToObject = transforms[1];
@@ -119,7 +119,7 @@ public class SceneBuilder {
       list.add(Transform.Translate(new Vector(1500, 0, 0)));
       list.add(Transform.Scale(1.0f, 1000.0f, 10000.0f));
 
-      transforms = GetCompositeTransforms(list);
+      transforms = Transform.composite(list);
 
       objectToWorld = transforms[0];
       worldToObject = transforms[1];
@@ -139,7 +139,7 @@ public class SceneBuilder {
       list.add(Transform.Translate(new Vector(0, 0, -1000)));
       list.add(Transform.Scale(1500.0f, 1000.0f, 1));
 
-      transforms = GetCompositeTransforms(list);
+      transforms = Transform.composite(list);
 
       objectToWorld = transforms[0];
       worldToObject = transforms[1];
@@ -161,7 +161,7 @@ public class SceneBuilder {
       list.add(Transform.Translate(new Vector(0, 0, 10000)));
       list.add(Transform.Scale(1500.0f, 1000.0f, 1));
 
-      transforms = GetCompositeTransforms(list);
+      transforms = Transform.composite(list);
 
       objectToWorld = transforms[0];
       worldToObject = transforms[1];
@@ -182,7 +182,7 @@ public class SceneBuilder {
       list.add(Transform.Translate(new Vector(0, -1000, 0)));
       list.add(Transform.Scale(1500.0f, 1, 10000));
 
-      transforms = GetCompositeTransforms(list);
+      transforms = Transform.composite(list);
 
       objectToWorld = transforms[0];
       worldToObject = transforms[1];
@@ -204,7 +204,7 @@ public class SceneBuilder {
       list.add(Transform.Translate(new Vector(0, 1000, 0)));
       list.add(Transform.Scale(1500.0f, 1, 10000));
 
-      transforms = GetCompositeTransforms(list);
+      transforms = Transform.composite(list);
 
       objectToWorld = transforms[0];
       worldToObject = transforms[1];
@@ -225,7 +225,7 @@ public class SceneBuilder {
             list = new ArrayList<>();
             list.add(Transform.Translate(new Vector(i * 120 - 800, i * 120 - 800, i * i * 20)));
             list.add(Transform.Scale(50, 50, 50));
-            transforms = GetCompositeTransforms(list);
+            transforms = Transform.composite(list);
 
             objectToWorld = transforms[0];
             worldToObject = transforms[1];
@@ -263,7 +263,7 @@ public class SceneBuilder {
 
       list.add(Transform.Scale(50.0f, 1000.0f, 50.0f));
 
-      transforms = GetCompositeTransforms(list);
+      transforms = Transform.composite(list);
 
       objectToWorld = transforms[0];
       worldToObject = transforms[1];
@@ -294,17 +294,25 @@ public class SceneBuilder {
 
       AbstractScene scene = new NaiveScene(camera);
 
+      // blue ball
+
       BRDF brdf = new LambertianBRDF();
       Material material = new Material();
 
       material.BRDF = brdf;
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.blue);
 
-      Sphere sphere1 = new Sphere(material);
-      sphere1.Origin = new Point(50.0f, 50.0f, 40.0f);
-      sphere1.Radius = 10;
+      Transform[] inputTransforms = new Transform[2];
+      inputTransforms[0] = Transform.Translate(new Vector(50.0f, 50.0f, 40.0f));
+      inputTransforms[1] = Transform.Scale(10f, 10f, 10f);
+
+      Transform[] compositeTransforms = Transform.composite(inputTransforms);
+
+      Sphere sphere1 = new Sphere(compositeTransforms, material);
 
       scene.addShape(sphere1);
+
+      // yellow ball
 
       material = new Material();
       material.BRDF = brdf;
@@ -314,17 +322,37 @@ public class SceneBuilder {
       sphere2.Origin = new Point(0.0f, 0.0f, 20.0f);
       sphere2.Radius = 55;
 
+//      inputTransforms = new Transform[2];
+//      inputTransforms[0] = Transform.Translate(new Vector(0.0f, 0.0f, 20.0f));
+//      inputTransforms[1] = Transform.Scale(55f, 55f, 55f);
+//
+//      compositeTransforms = Transform.composite(inputTransforms);
+//
+//      Sphere sphere2 = new Sphere(compositeTransforms, material);
+
       scene.addShape(sphere2);
+
+      // green ball
 
       material = new Material();
       material.BRDF = brdf;
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.green);
 
-      Sphere sphere3 = new Sphere(material);
-      sphere3.Origin = new Point(200.0f, 200.0f, 25.0f);
-      sphere3.Radius = 100;
+//      Sphere sphere3 = new Sphere(material);
+//      sphere3.Origin = new Point(200.0f, 200.0f, 25.0f);
+//      sphere3.Radius = 100;
+
+      inputTransforms = new Transform[2];
+      inputTransforms[0] = Transform.Translate(new Vector(200.0f, 200.0f, 25.0f));
+      inputTransforms[1] = Transform.Scale(100f, 100f, 100f);
+
+      compositeTransforms = Transform.composite(inputTransforms);
+
+      Sphere sphere3 = new Sphere(compositeTransforms, material);
 
       scene.addShape(sphere3);
+
+      // light
 
       SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(100000.0f, 100000.0f, 100000.0f);
 
@@ -997,7 +1025,7 @@ public class SceneBuilder {
       //list.add(Transform.RotateX(60));
       list.add(Transform.Scale(1.0f, 5.0f, 1.0f));
 
-      Transform[] transforms = GetCompositeTransforms(list);
+      Transform[] transforms = Transform.composite(list);
 
       Transform objectToWorld = transforms[0];
       Transform worldToObject = transforms[1];
@@ -1027,7 +1055,7 @@ public class SceneBuilder {
          //list.add(Transform.RotateX(60));
          list.add(Transform.Scale(0.3f, (i * .2f) + .1f, 0.3f));
 
-         transforms = GetCompositeTransforms(list);
+         transforms = Transform.composite(list);
 
          objectToWorld = transforms[0];
          worldToObject = transforms[1];
@@ -1062,12 +1090,12 @@ public class SceneBuilder {
       list.add(Transform.RotateX(60));
       list.add(Transform.Scale(2.0f, 1.0f, 1.0f));
 
-      transforms = GetCompositeTransforms(list);
+      transforms = Transform.composite(list);
 
       objectToWorld = transforms[0];
       worldToObject = transforms[1];
 
-      sphere = new Sphere(150, worldToObject, objectToWorld, material);
+      sphere = new Sphere(worldToObject, objectToWorld, material);
       sphere.Origin = new Point(0, 0, 0);
 
       scene.addShape(sphere);
@@ -1085,7 +1113,7 @@ public class SceneBuilder {
 
       list.add(Transform.Scale(50.0f, 200.0f, 50.0f));
 
-      transforms = GetCompositeTransforms(list);
+      transforms = Transform.composite(list);
 
       objectToWorld = transforms[0];
       worldToObject = transforms[1];
@@ -1210,30 +1238,6 @@ public class SceneBuilder {
       //scene.addLight(new PointLight(new Point(685, 360, -350), 5.0f));
       //scene.addLight(new PointLight(new Point(575, 180, -200), 5.0f));
       return scene;
-   }
-
-   /**
-    * Returns the composite Object-To-World and World-To-Object transforms of the list of transforms.
-    * @param list
-    * @return
-    */
-   private static Transform[] GetCompositeTransforms(java.util.List<Transform> list) {
-      Transform objectToWorld = new Transform();
-
-      for (int i = 0; i < list.size(); i++) {
-         objectToWorld = objectToWorld.Apply(list.get(i));
-      }
-
-      Transform worldToObject = new Transform();
-
-      for (int i = list.size() - 1; i >= 0; i--) {
-         worldToObject = worldToObject.Apply(list.get(i));
-      }
-
-      worldToObject = worldToObject.Invert();
-
-      return new Transform[] {objectToWorld, worldToObject};
-
    }
 
 
