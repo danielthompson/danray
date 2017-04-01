@@ -19,7 +19,12 @@ import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Vector;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.*;
 
 import static java.awt.Color.red;
@@ -44,6 +49,7 @@ public class SceneBuilder {
       public static Color Red = new Color(142, 40, 0);
    }
 
+   public static ClassLoader loader = SceneBuilder.class.getClassLoader();
 
    public static AbstractScene SpectralLemon(int x, int y) {
 
@@ -385,6 +391,19 @@ public class SceneBuilder {
 
       scene.Shapes.add(light);
       scene.Lights.add(light);
+
+      // skybox
+
+      try {
+         URL url = loader.getResource("images/cubemap-desert.jpg");
+         scene.SkyBoxImage = ImageIO.read(url);
+      }
+      catch (IOException e) {
+         System.out.println("Couldn't load skybox: " + e.getMessage());
+         System.out.println("Working Directory = " +
+               System.getProperty("user.dir"));
+         System.exit(-1);
+      }
 
       return scene;
    }

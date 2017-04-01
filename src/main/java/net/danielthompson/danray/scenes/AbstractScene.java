@@ -8,6 +8,7 @@ import net.danielthompson.danray.shapes.AbstractShape;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.Ray;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,8 @@ public abstract class AbstractScene {
 
    public List<AbstractLight> Lights;
    public List<AbstractShape> Shapes;
+
+   public BufferedImage SkyBoxImage;
 
    public AbstractScene(Camera camera) {
       Camera = camera;
