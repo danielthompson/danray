@@ -41,6 +41,11 @@ public abstract class AbstractShape {
       return 0;
    }
 
+   /**
+    * Assumes that hits(Ray worldSpaceRay) has already been called and that it does actually hit.
+     * @param ray
+    * @return
+    */
    public IntersectionState getHitInfo(Ray ray) {
       return null;
    }

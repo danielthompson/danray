@@ -5,6 +5,7 @@ import net.danielthompson.danray.lights.AbstractLight;
 import net.danielthompson.danray.presets.TracerOptions;
 
 import net.danielthompson.danray.shapes.AbstractShape;
+import net.danielthompson.danray.shapes.Box;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.Ray;
 
@@ -25,6 +26,8 @@ public abstract class AbstractScene {
    public List<AbstractShape> Shapes;
 
    public BufferedImage SkyBoxImage;
+
+   public Box Skybox;
 
    public AbstractScene(Camera camera) {
       Camera = camera;
@@ -49,6 +52,9 @@ public abstract class AbstractScene {
 
       for (AbstractLight light : Lights) {
          light.RecalculateWorldBoundingBox();
+      }
+
+      if (SkyBoxImage != null) {
       }
 
       return "Bounding boxes recalculated.\r\n";

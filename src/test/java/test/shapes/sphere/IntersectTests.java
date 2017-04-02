@@ -39,6 +39,8 @@ public class IntersectTests {
       Vector Direction = new Vector(1, 0, 0);
       Ray ray = new Ray(Origin, Direction);
 
+      boolean hits = sphere.hits(ray);
+
       Point actualIntersection = sphere.getHitInfo(ray).IntersectionPoint;
       Point expectedIntersection = new Point(-1, 0, 0);
 
@@ -55,13 +57,15 @@ public class IntersectTests {
       Vector Direction = new Vector(1, 0, 0);
       Ray ray = new Ray(Origin, Direction);
 
+      boolean hits = sphere.hits(ray);
+
       IntersectionState actualIntersectionState = sphere.getHitInfo(ray);
 
       Point actualIntersection = actualIntersectionState.IntersectionPoint;
       Point expectedIntersection = new Point(10, 0, 0);
 
       Assert.assertTrue(actualIntersectionState.Hits, "ray from inside sphere should hit sphere");
-      Assert.assertEquals(actualIntersectionState.TMin, 10.0f, 10.f * Constants.UnitTestDelta);
+      Assert.assertEquals(ray.MinT, 10.0f, 10.f * Constants.UnitTestDelta);
       AssertHelper.assertEquals(actualIntersection, expectedIntersection);
 
    }

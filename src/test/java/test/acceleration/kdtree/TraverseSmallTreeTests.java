@@ -33,6 +33,9 @@ public class TraverseSmallTreeTests {
       List<AbstractShape> objects = new ArrayList<AbstractShape>();
 
       sphere1 = new Sphere();
+
+
+
       sphere1.Origin = new Point(-1, 5, 0);
       sphere1.Radius = 1;
       objects.add(sphere1);
