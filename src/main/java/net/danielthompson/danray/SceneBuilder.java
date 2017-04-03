@@ -21,8 +21,6 @@ import net.danielthompson.danray.structures.Vector;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -50,6 +48,10 @@ public class SceneBuilder {
    }
 
    public static ClassLoader loader = SceneBuilder.class.getClassLoader();
+
+   public static BRDF LambertianBRDF = new LambertianBRDF();
+
+   public static BRDF MirrorBRDF = new MirrorBRDF();
 
    public static AbstractScene SpectralLemon(int x, int y) {
 
@@ -345,7 +347,7 @@ public class SceneBuilder {
       // green ball
 
       material = new Material();
-      material.BRDF = brdf;
+      material.BRDF = MirrorBRDF;
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Green);
 
       inputTransforms = new Transform[2];
@@ -395,7 +397,7 @@ public class SceneBuilder {
       // skybox
 
       try {
-         URL url = loader.getResource("images/cubemap-desert.jpg");
+         URL url = loader.getResource("images/cubemap/desert 2 - captions.png");
          scene.SkyBoxImage = ImageIO.read(url);
       }
       catch (IOException e) {

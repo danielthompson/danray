@@ -47,14 +47,16 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
          if (closestStateToRay != null)
             sample.KDHeatCount = closestStateToRay.KDHeatCount;
-         if (depth == 1) {
-            sample.SpectralPowerDistribution = scene.getSkyBoxSPD(ray.Direction);
-            return sample;
-         }
-         else {
-            sample.SpectralPowerDistribution = new SpectralPowerDistribution(Color.magenta);
-            return sample;
-         }
+         sample.SpectralPowerDistribution = scene.getSkyBoxSPD(ray.Direction);
+         return sample;
+//         if (depth == 1) {
+//            sample.SpectralPowerDistribution = scene.getSkyBoxSPD(ray.Direction);
+//            return sample;
+//         }
+//         else {
+//            sample.SpectralPowerDistribution = new SpectralPowerDistribution(Color.magenta);
+//            return sample;
+//         }
       }
 
       sample.KDHeatCount = closestStateToRay.KDHeatCount;
@@ -129,20 +131,28 @@ public class WhittedIntegrator extends AbstractIntegrator {
          if (objectMaterial.BRDF != null) {
             Vector outgoingDirection = objectMaterial.BRDF.getVectorInPDF(closestStateToRay.Normal, ray.Direction);
 
-            Point offsetIntersection = Point.Plus(closestStateToRay.IntersectionPoint, Vector.Scale(outgoingDirection, Constants.Epsilon * 1000));
+//            Point offsetIntersection = Point.Plus(closestStateToRay.IntersectionPoint, Vector.Scale(outgoingDirection, Constants.Epsilon * 1000));
+            Point offsetIntersection = closestStateToRay.IntersectionPoint;
 
             Ray reflectedRay = new Ray(offsetIntersection, outgoingDirection);
 
             reflectedSample = GetSample(reflectedRay, depth, oldIndexOfRefraction, x, y);
 
-            Vector reversedIncoming = Vector.Scale(ray.Direction, -1);
-/*
-            float angleIncoming = GeometryCalculations.radiansBetween(reversedIncoming, closestStateToRay.Normal);
-            float angleOutgoing = GeometryCalculations.radiansBetween(outgoingDirection, closestStateToRay.Normal);
+            if (objectMaterial.BRDF.Delta) {
+               reflectedWeight = 1.0f;
+            }
 
-            reflectedWeight = objectMaterial.BRDF.f(angleIncoming, angleOutgoing);
-            reflectedWeight *= objectMaterial._transparency;
-            */
+            else {
+
+               Vector reversedIncoming = Vector.Scale(ray.Direction, -1);
+
+               float angleIncoming = GeometryCalculations.radiansBetween(reversedIncoming, closestStateToRay.Normal);
+               float angleOutgoing = GeometryCalculations.radiansBetween(outgoingDirection, closestStateToRay.Normal);
+
+               reflectedWeight = objectMaterial.BRDF.f(angleIncoming, angleOutgoing);
+
+            }
+
          }
 
          Sample refractedSample = null;
@@ -166,9 +176,9 @@ public class WhittedIntegrator extends AbstractIntegrator {
             refractedSample = GetSample(refractedRay, depth, closestStateToRay.Drawable.GetMaterial().getIndexOfRefraction());
          }
 */
-         float transparency = (float)objectMaterial._transparency;
+         //float transparency = (float)objectMaterial._transparency;
 
-         SpectralPowerDistribution blended = SpectralPowerDistribution.Lerp(reflectedSample.SpectralPowerDistribution, transparency, directSPD, 1.0f - transparency);
+         SpectralPowerDistribution blended = SpectralPowerDistribution.Lerp(reflectedSample.SpectralPowerDistribution, reflectedWeight, directSPD, 1.0f - reflectedWeight);
 
          Sample s = new Sample();
          s.SpectralPowerDistribution = blended;

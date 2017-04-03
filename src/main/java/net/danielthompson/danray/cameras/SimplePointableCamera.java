@@ -2,6 +2,7 @@ package net.danielthompson.danray.cameras;
 
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Ray;
+import net.danielthompson.danray.structures.Vector;
 
 
 /**
@@ -29,7 +30,11 @@ public class SimplePointableCamera extends Camera {
          for (float j = 1.0f; j <= samplesPerPixel; j++) {
             float newY = y + (j * oneOverSamplesPlusOne);
 
-            rays[vectorIndex++] = new Ray(_rearFocalPoint, Point.Minus(getWorldPointForPixel(newX, newY), _rearFocalPoint));
+            Point worldPoint = getWorldPointForPixel(newX, newY);
+
+            Vector direction = Point.Minus(worldPoint, _rearFocalPoint);
+
+            rays[vectorIndex++] = new Ray(_rearFocalPoint, direction);
          }
       }
 

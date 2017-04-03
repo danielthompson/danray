@@ -93,8 +93,11 @@ public abstract class Camera {
    protected void ConvertToWorldCoordinates(Point point) {
       float dot = _currentOrientation.Direction.Dot(_implicitDirection);
 
-      if (!Constants.WithinEpsilon(dot, 1))
-      {
+      if (Constants.WithinEpsilon(dot, -1)) {
+         point.Z = -point.Z;
+      }
+
+      else if (!Constants.WithinEpsilon(dot, 1)) {
          Vector rotationDirection = _currentOrientation.Direction.Cross(zDir);
          rotationDirection.Normalize();
          Ray rotationAxis = new Ray(_currentOrientation.Origin, rotationDirection);
@@ -107,8 +110,8 @@ public abstract class Camera {
    }
 
    protected Point getDefaultOrientationWorldPointForPixel(float x, float y) {
-      float Cx = _currentOrientation.Origin.X + Settings.ZoomFactor * (x - (float)Settings.X * .5f);
-      float Cy = _currentOrientation.Origin.Y + Settings.ZoomFactor * ((float)Settings.Y * .5f - y);
+      float Cx = _currentOrientation.Origin.X + Settings.ZoomFactor * (x - (float) Settings.X * .5f);
+      float Cy = _currentOrientation.Origin.Y + Settings.ZoomFactor * ((float) Settings.Y * .5f - y);
       float Cz = _currentOrientation.Origin.Z;
 
       return new Point(Cx, Cy, Cz);

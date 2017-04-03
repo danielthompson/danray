@@ -81,29 +81,65 @@ public abstract class AbstractScene {
 
       Point p = state.IntersectionPoint;
 
-      if (Constants.WithinEpsilon(p.Z, 1)) {
-         // back wall
-         float x = p.X;
-         float y = p.Y;
+      float x = 0.0f;
+      float y = 0.0f;
 
-         x *= SkyBoxImage.getWidth() * 0.25f;
-         y = y * SkyBoxImage.getHeight() * 0.33f + SkyBoxImage.getHeight() * 0.33f;
+      float width = SkyBoxImage.getWidth();
+      float height = SkyBoxImage.getHeight();
 
-         int newX = (int)x;
-         int newY = (int)y;
+      float tileSize = width * .25f;
 
-         int rgb = SkyBoxImage.getRGB(newX, newY);
+      // left wall
 
-         Color c = new Color(rgb);
+      x = Constants.WithinEpsilon(p.X, 0) ? tileSize * p.Z : x;
+      y = Constants.WithinEpsilon(p.X, 0) ? height - (tileSize * p.Y + tileSize) : y;
 
-         SpectralPowerDistribution spd = new SpectralPowerDistribution(c);
+      // back wall
 
-         return spd;
+      x = Constants.WithinEpsilon(p.Z, 0) ? tileSize * p.X + tileSize: x;
+      y = Constants.WithinEpsilon(p.Z, 0) ? height - (tileSize * p.Y + tileSize) : y;
+//      y = Constants.WithinEpsilon(p.Z, 0) ? .33f * height * (2 - p.Y) : y;
 
+      // right wall
+
+      x = Constants.WithinEpsilon(p.X, 1) ? tileSize * p.Z + 2 * tileSize : x;
+      y = Constants.WithinEpsilon(p.X, 1) ? height - (tileSize * p.Y + tileSize) : y;
+
+      // front wall
+
+      x = Constants.WithinEpsilon(p.Z, 1) ? tileSize * p.X + 3 * tileSize : x;
+      y = Constants.WithinEpsilon(p.Z, 1) ? height - (tileSize * p.Y + tileSize) : y;
+
+      // top wall
+
+      x = Constants.WithinEpsilon(p.Y, 1) ? tileSize * p.X + tileSize : x;
+      y = Constants.WithinEpsilon(p.Y, 1) ? tileSize * p.Z + 2 * tileSize : y;
+
+      // bottom wall
+
+      x = Constants.WithinEpsilon(p.Y, 0) ? tileSize * p.X + tileSize : x;
+      y = Constants.WithinEpsilon(p.Y, 0) ? tileSize * p.Z  : y;
+
+      int newX = (int)x - 1;
+      int newY = (int)y - 1;
+
+      if (newX >= width || newY >= height) {
+         int i = 0;
+      }
+      if (newX <= 0 || newY <= 0) {
+         int j = 0;
+         newX = 0;
+         newY = 0;
       }
 
-      return backgroundColor;
 
+      int rgb = SkyBoxImage.getRGB(newX, newY);
+
+      Color c = new Color(rgb);
+
+      SpectralPowerDistribution spd = new SpectralPowerDistribution(c);
+
+      return spd;
    }
 
 }
