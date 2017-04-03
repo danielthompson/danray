@@ -6,6 +6,7 @@ import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.acceleration.KDScene;
 import net.danielthompson.danray.structures.Ray;
+import net.danielthompson.danray.structures.Transform;
 import net.danielthompson.danray.structures.Vector;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -32,27 +33,44 @@ public class TraverseSmallTreeTests {
    public void setUp() throws Exception {
       List<AbstractShape> objects = new ArrayList<AbstractShape>();
 
-      sphere1 = new Sphere();
+      Transform[] inputTransforms;
+      Transform[] compositeTransforms;
 
+      // sphere 1
 
+      inputTransforms = new Transform[2];
+      inputTransforms[0] = Transform.Translate(new Vector(-1, 5, 0));
+      compositeTransforms = Transform.composite(inputTransforms);
 
-      sphere1.Origin = new Point(-1, 5, 0);
-      sphere1.Radius = 1;
+      sphere1 = new Sphere(compositeTransforms, null);
       objects.add(sphere1);
 
-      sphere2 = new Sphere();
-      sphere2.Origin = new Point(-1, 13, 0);
-      sphere2.Radius = 1;
+      // sphere 1
+
+      inputTransforms = new Transform[2];
+      inputTransforms[0] = Transform.Translate(new Vector(-1, 13, 0));
+      compositeTransforms = Transform.composite(inputTransforms);
+
+      sphere2 = new Sphere(compositeTransforms, null);
       objects.add(sphere2);
 
-      sphere3 = new Sphere();
-      sphere3.Origin = new Point(6, 10, 0);
-      sphere3.Radius = 1;
+      // sphere 3
+
+      inputTransforms = new Transform[2];
+      inputTransforms[0] = Transform.Translate(new Vector(6, 10, 0));
+      compositeTransforms = Transform.composite(inputTransforms);
+
+      sphere3 = new Sphere(compositeTransforms, null);
       objects.add(sphere3);
 
-      sphere4 = new Sphere();
-      sphere4.Origin = new Point(6, 7, 0);
-      sphere4.Radius = 1;
+      // sphere 3
+
+      inputTransforms = new Transform[2];
+      inputTransforms[0] = Transform.Translate(new Vector(6, 7, 0));
+      compositeTransforms = Transform.composite(inputTransforms);
+
+      sphere4 = new Sphere(compositeTransforms, null);
+
       objects.add(sphere4);
 
       scene = new KDScene(null);

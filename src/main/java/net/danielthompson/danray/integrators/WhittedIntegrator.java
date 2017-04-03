@@ -22,7 +22,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
    private final int _airIndexOfRefraction = 1;
 
-   private final SpectralPowerDistribution backgroundColor = new SpectralPowerDistribution(Color.BLACK);
+
 
    public WhittedIntegrator(AbstractScene scene, int maxDepth) {
       super(scene, maxDepth);
@@ -48,7 +48,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
          if (closestStateToRay != null)
             sample.KDHeatCount = closestStateToRay.KDHeatCount;
          if (depth == 1) {
-            sample.SpectralPowerDistribution = backgroundColor;//getSkyboxSPD(ray.Direction);
+            sample.SpectralPowerDistribution = scene.getSkyBoxSPD(ray.Direction);
             return sample;
          }
          else {
@@ -108,7 +108,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
          }
       }
 
-      directSPD.add(backgroundColor);
+      //directSPD.add(backgroundColor);
 
       directSPD = directSPD.reflectOff(objectMaterial.ReflectanceSpectrum);
 
