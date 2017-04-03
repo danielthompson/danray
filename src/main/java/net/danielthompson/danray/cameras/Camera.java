@@ -15,6 +15,7 @@ public abstract class Camera {
 
    public CameraSettings Settings;
    protected final Vector _implicitDirection = new Vector(0, 0, -1);
+
    protected final Vector zDir = new Vector(0, 0, 1);
    public Ray _currentOrientation;
 

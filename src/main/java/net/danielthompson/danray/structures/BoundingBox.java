@@ -17,17 +17,6 @@ public class BoundingBox {
       this.point2 = point2;
    }
 
-   public boolean isPointInside(Point p) {
-      return (
-            (p.X >= point1.X || Constants.WithinEpsilon(p.X, point1.X))
-         && (p.Y >= point1.Y || Constants.WithinEpsilon(p.Y, point1.Y))
-         && (p.Z >= point1.Z || Constants.WithinEpsilon(p.Z, point1.Z))
-         && (p.X <= point2.X || Constants.WithinEpsilon(p.X, point2.X))
-         && (p.Y <= point2.Y || Constants.WithinEpsilon(p.Y, point2.Y))
-         && (p.Z <= point2.Z || Constants.WithinEpsilon(p.Z, point2.Z))
-      );
-   }
-
    public float getUpperBoundInAxis(KDAxis axis) {
       return Math.max(point1.getAxis(axis), point2.getAxis(axis));
    }

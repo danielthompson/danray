@@ -6,6 +6,15 @@ package net.danielthompson.danray.structures;
 public class Matrix4x4 {
    public float[][] matrix;
 
+   private final static Matrix4x4 _identity = new Matrix4x4(
+         1, 0, 0, 0,
+         0, 1, 0, 0,
+         0, 0, 1, 0,
+         0, 0, 0, 1
+   );
+
+   public final static Matrix4x4 identity = _identity;
+
    public Matrix4x4() {
       matrix = new float[4][4];
 

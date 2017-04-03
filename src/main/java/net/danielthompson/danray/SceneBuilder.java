@@ -303,7 +303,7 @@ public class SceneBuilder {
       settings.Aperture = new CircleAperture(20);
 
       Point origin = new Point(0, 0, 500);
-      Vector direction = new Vector(0, 0, -1);
+      Vector direction = new Vector(1, 0, -1);
       settings.Orientation = new Ray(origin, direction);
 
       Camera camera = new SimplePointableCamera(settings);
@@ -320,6 +320,7 @@ public class SceneBuilder {
 
       Transform[] inputTransforms = new Transform[2];
       inputTransforms[0] = Transform.Translate(new Vector(50.0f, 50.0f, 40.0f));
+
       inputTransforms[1] = Transform.Scale(10f);
 
       Transform[] compositeTransforms = Transform.composite(inputTransforms);
@@ -359,6 +360,24 @@ public class SceneBuilder {
       Sphere sphere3 = new Sphere(compositeTransforms, material);
 
       scene.addShape(sphere3);
+
+      // box
+
+      material = new Material();
+      material.BRDF = MirrorBRDF;
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Green);
+
+      inputTransforms = new Transform[4];
+      inputTransforms[0] = Transform.Translate(new Vector(-200.0f, 200.0f, 0f));
+      inputTransforms[1] = Transform.RotateX(45);
+      inputTransforms[2] = Transform.RotateY(45);
+      inputTransforms[3] = Transform.Scale(100f, 100f, 100f);
+
+      compositeTransforms = Transform.composite(inputTransforms);
+
+      Box box = new Box(compositeTransforms, material);
+
+      scene.addShape(box);
 
       // white light
 
@@ -639,6 +658,12 @@ public class SceneBuilder {
 
       Point p0 = new Point(-1000, -1000, -1000);
       Point p1 = new Point(1000, 1000, 1000);
+
+      Transform[] inputTransforms = new Transform[2];
+      inputTransforms[0] = Transform.Translate(new Vector(-0.5f, -0.5f, -0.5f));
+      inputTransforms[1] = Transform.Scale(2000f);
+
+      Transform[]  compositeTransforms = Transform.composite(inputTransforms);
 
       Box box = new Box(p0, p1, material);
       scene.addShape(box);

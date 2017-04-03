@@ -447,4 +447,10 @@ public class Transform {
       return new Transform[] {objectToWorld, worldToObject};
    }
 
+   private static Transform getIdentity() {
+      return new Transform(Matrix4x4.identity, Matrix4x4.identity);
+   }
+
+   public static Transform identity = getIdentity();
+
 }

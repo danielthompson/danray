@@ -8,10 +8,8 @@ import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.shapes.AbstractShape;
 import net.danielthompson.danray.shapes.Box;
 import net.danielthompson.danray.states.IntersectionState;
-import net.danielthompson.danray.structures.Constants;
+import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.structures.Point;
-import net.danielthompson.danray.structures.Ray;
-import net.danielthompson.danray.structures.Vector;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -64,7 +62,7 @@ public abstract class AbstractScene {
       }
 
       if (SkyBoxImage != null) {
-         Skybox = new Box(new Point(0, 0, 0), new Point(1, 1, 1), null);
+         Skybox = new Box(Transform.identity, Transform.identity,null);
       }
 
       return "Bounding boxes recalculated.\r\n";
@@ -113,12 +111,12 @@ public abstract class AbstractScene {
       // top wall
 
       x = Constants.WithinEpsilon(p.Y, 1) ? tileSize * p.X + tileSize : x;
-      y = Constants.WithinEpsilon(p.Y, 1) ? tileSize * p.Z + 2 * tileSize : y;
+      y = Constants.WithinEpsilon(p.Y, 1) ? tileSize * p.Z : y;
 
       // bottom wall
 
       x = Constants.WithinEpsilon(p.Y, 0) ? tileSize * p.X + tileSize : x;
-      y = Constants.WithinEpsilon(p.Y, 0) ? tileSize * p.Z  : y;
+      y = Constants.WithinEpsilon(p.Y, 0) ? tileSize * p.Z + 2 * tileSize : y;
 
       int newX = (int)x - 1;
       int newY = (int)y - 1;

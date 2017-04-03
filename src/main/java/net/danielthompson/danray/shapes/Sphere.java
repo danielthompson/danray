@@ -37,6 +37,9 @@ public class Sphere extends AbstractShape {
    }
 
    public void RecalculateWorldBoundingBox() {
+
+
+
       float p1x = Origin.X - Radius;
       float p1y = Origin.Y - Radius;
       float p1z = Origin.Z - Radius;

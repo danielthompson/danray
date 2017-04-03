@@ -3,82 +3,84 @@ package net.danielthompson.danray.shapes;
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.*;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * Created by daniel on 2/17/14.
  */
 public class Box extends AbstractShape {
 
-   public Point point1;
-   public Point point2;
+   public final static Point point1 = new Point(0, 0, 0);
+   public final static Point point2 = new Point(1, 1, 1);
 
-   private static Normal _negativeX = new Normal(-1, 0, 0);
-   private static Normal _negativeY = new Normal(0, -1, 0);
-   private static Normal _negativeZ = new Normal(0, 0, -1);
-   private static Normal _positiveX = new Normal(1, 0, 0);
-   private static Normal _positiveY = new Normal(0, 1, 0);
-   private static Normal _positiveZ = new Normal(0, 0, 1);
+   private final static Normal _negativeX = new Normal(-1, 0, 0);
+   private final static Normal _negativeY = new Normal(0, -1, 0);
+   private final static Normal _negativeZ = new Normal(0, 0, -1);
+   private final static Normal _positiveX = new Normal(1, 0, 0);
+   private final static Normal _positiveY = new Normal(0, 1, 0);
+   private final static Normal _positiveZ = new Normal(0, 0, 1);
 
-   public Box(Point p1, Point p2, Material material) {
-      this(p1, p2, material, null, null);
-   }
-
-   public Box(Point p1, Point p2, Material material, Transform objectToWorld, Transform worldToObject) {
+   public Box(Transform objectToWorld, Transform worldToObject, Material material) {
       super(material);
-      point1 = p1;
-      point2 = p2;
-
       ObjectToWorld = objectToWorld;
       WorldToObject = worldToObject;
 
       RecalculateWorldBoundingBox();
    }
 
+   public Box(Transform[] transforms, Material material) {
+      this(transforms[0], transforms[1], material);
+   }
+
+   public Box(Point p1, Point p2, Material material)
+   {
+      super(material);
+      throw new UnsupportedOperationException();
+   }
+
+   public Box(Point p1, Point p2, Material material, Transform objectToWorld, Transform worldToObject) {
+      super(material);
+      throw new UnsupportedOperationException();
+   }
+
    @Override
    public void RecalculateWorldBoundingBox() {
-      if (ObjectToWorld == null) {
-         WorldBoundingBox = new BoundingBox(point1.clone(), point2.clone());
+      WorldBoundingBox = new BoundingBox(point1.clone(), point2.clone());
+
+      if (ObjectToWorld != null) {
+         WorldBoundingBox = ObjectToWorld.Apply(WorldBoundingBox);
       }
-      else {
+   }
 
-         Point[] points = new Point[8];
+   @Override
+   public boolean hits(Ray worldSpaceRay) {
+      Ray objectSpaceRay = worldSpaceRay;
 
-         points[0] = ObjectToWorld.Apply(point1);
-         points[1] = ObjectToWorld.Apply(point2);
-         points[2] = ObjectToWorld.Apply(new Point(point1.X, point1.Y, point2.Z));
-         points[3] = ObjectToWorld.Apply(new Point(point1.X, point2.Y, point1.Z));
-         points[4] = ObjectToWorld.Apply(new Point(point1.X, point2.Y, point2.Z));
-         points[5] = ObjectToWorld.Apply(new Point(point2.X, point2.Y, point1.Z));
-         points[6] = ObjectToWorld.Apply(new Point(point2.X, point1.Y, point2.Z));
-         points[7] = ObjectToWorld.Apply(new Point(point2.X, point1.Y, point1.Z));
+      if (WorldToObject != null) {
+         objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
+      }
 
-         float xMin, yMin, zMin;
-         xMin = yMin = zMin = Float.MAX_VALUE;
+      IntersectionState state = BoundingBox.GetHitInfoNew(point1, point2, objectSpaceRay);
 
-         float xMax, yMax, zMax;
-         xMax = yMax = zMax = -Float.MAX_VALUE;
+      float minT = state.TMin;
+      float maxT = state.TMax;
 
-         for (int i = 0; i < 8; i++) {
-            if (points[i].X < xMin)
-               xMin = points[i].X;
-            if (points[i].Y < yMin)
-               yMin = points[i].Y;
-            if (points[i].Z < zMin)
-               zMin = points[i].Z;
+      if (state.Hits) {
+         if (ObjectToWorld != null && ObjectToWorld.HasScale()) {
+            Point objectSpaceFirstIntersectionPoint = objectSpaceRay.GetPointAtT(state.TMin);
+            Point worldSpaceFirstIntersectionPoint = ObjectToWorld.Apply(objectSpaceFirstIntersectionPoint);
+            minT = worldSpaceRay.GetTAtPoint(worldSpaceFirstIntersectionPoint);
 
-            if (points[i].X > xMax)
-               xMax = points[i].X;
-            if (points[i].Y > yMax)
-               yMax = points[i].Y;
-            if (points[i].Z > zMax)
-               zMax = points[i].Z;
-
+            Point objectSpaceSecondIntersectionPoint = objectSpaceRay.GetPointAtT(state.TMax);
+            Point worldSpaceSecondIntersectionPoint = ObjectToWorld.Apply(objectSpaceSecondIntersectionPoint);
+            maxT = worldSpaceRay.GetTAtPoint(worldSpaceSecondIntersectionPoint);
          }
 
-         Point min = new Point(xMin, yMin, zMin);
-         Point max = new Point(xMax, yMax, zMax);
-         WorldBoundingBox = new BoundingBox(min, max);
+         worldSpaceRay.MinT = state.Hits ? minT : worldSpaceRay.MinT;
+         worldSpaceRay.MaxT = state.Hits ? maxT : worldSpaceRay.MaxT;
       }
+
+      return state.Hits;
    }
 
    @Override
@@ -95,6 +97,7 @@ public class Box extends AbstractShape {
       if (state.Hits) {
          state.Shape = this;
          state.IntersectionPoint = objectSpaceRay.GetPointAtT(state.TMin);
+
          state.Normal = Constants.WithinEpsilon(point1.X, state.IntersectionPoint.X) ? _negativeX : state.Normal;
          state.Normal = Constants.WithinEpsilon(point1.Y, state.IntersectionPoint.Y) ? _negativeY : state.Normal;
          state.Normal = Constants.WithinEpsilon(point1.Z, state.IntersectionPoint.Z) ? _negativeZ : state.Normal;
@@ -142,11 +145,39 @@ public class Box extends AbstractShape {
             */
 
             if (state.Normal == null) {
-               System.out.println("Bounding box intersection couldn't find normal...");
-               System.out.println("point1: " + point1);
-               System.out.println("point2: " + point2);
-               System.out.println("hitpoint: " + state.IntersectionPoint);
-               throw new NullPointerException();
+               float smallest = Float.MAX_VALUE;
+
+               float p1xDiff = point1.X - state.IntersectionPoint.X;
+               smallest = p1xDiff <= smallest ? p1xDiff : smallest;
+               state.Normal = p1xDiff <= smallest ? _negativeX : state.Normal;
+
+               float p1yDiff = point1.Y - state.IntersectionPoint.Y;
+               smallest = p1yDiff <= smallest ? p1yDiff : smallest;
+               state.Normal = p1yDiff <= smallest ? _negativeY : state.Normal;
+
+               float p1zDiff = point1.Z - state.IntersectionPoint.Z;
+               smallest = p1zDiff <= smallest ? p1zDiff : smallest;
+               state.Normal = p1zDiff <= smallest ? _negativeZ : state.Normal;
+
+               float p2xDiff = point2.X - state.IntersectionPoint.X;
+               smallest = p2xDiff <= smallest ? p2xDiff : smallest;
+               state.Normal = p2xDiff <= smallest ? _positiveX : state.Normal;
+
+               float p2yDiff = point2.Y - state.IntersectionPoint.Y;
+               smallest = p2yDiff <= smallest ? p2yDiff : smallest;
+               state.Normal = p2yDiff <= smallest ? _positiveY : state.Normal;
+
+               float p2zDiff = point2.Z - state.IntersectionPoint.Z;
+               smallest = p2zDiff <= smallest ? p2zDiff : smallest;
+               state.Normal = p2zDiff <= smallest ? _positiveZ : state.Normal;
+
+               if (state.Normal == null) {
+                  System.out.println("Bounding box intersection couldn't find normal...");
+                  System.out.println("point1: " + point1);
+                  System.out.println("point2: " + point2);
+                  System.out.println("hitpoint: " + state.IntersectionPoint);
+                  throw new NullPointerException();
+               }
             }
          }
 
