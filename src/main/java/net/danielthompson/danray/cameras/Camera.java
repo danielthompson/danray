@@ -26,9 +26,9 @@ public abstract class Camera {
       Settings = settings;
       _currentOrientation = settings.Orientation;
 
-      if (Settings.FocalLength > 0.0) {
-         _rearFocalPoint = calculateRearFocalPoint(settings.Orientation, Settings.FocalLength);
-      }
+//      if (Settings.FocalLength > 0.0) {
+//         _rearFocalPoint = calculateRearFocalPoint(settings.Orientation, Settings.FocalLength);
+//      }
    }
 
    private Point calculateRearFocalPoint(Ray orientation, float focalLength) {

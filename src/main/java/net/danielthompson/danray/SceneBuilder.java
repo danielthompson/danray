@@ -303,10 +303,16 @@ public class SceneBuilder {
       settings.Aperture = new CircleAperture(20);
 
       Point origin = new Point(0, 0, 500);
-      Vector direction = new Vector(1, 0, -1);
+      Vector direction = new Vector(0, 0, -1);
       settings.Orientation = new Ray(origin, direction);
 
-      Camera camera = new SimplePointableCamera(settings);
+      Transform[] inputTransforms = new Transform[2];
+      inputTransforms[0] = Transform.Translate(new Vector(0, 0, 500));
+      inputTransforms[1] = Transform.Scale(10f);
+
+      Transform[] compositeTransforms = Transform.composite(inputTransforms);
+
+      Camera camera = new TransformCamera(settings, compositeTransforms[0]);
 
       AbstractScene scene = new NaiveScene(camera);
 
@@ -318,12 +324,11 @@ public class SceneBuilder {
       material.BRDF = brdf;
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Orange);
 
-      Transform[] inputTransforms = new Transform[2];
+      inputTransforms = new Transform[2];
       inputTransforms[0] = Transform.Translate(new Vector(50.0f, 50.0f, 40.0f));
-
       inputTransforms[1] = Transform.Scale(10f);
 
-      Transform[] compositeTransforms = Transform.composite(inputTransforms);
+      compositeTransforms = Transform.composite(inputTransforms);
 
       Sphere sphere1 = new Sphere(compositeTransforms, material);
 
