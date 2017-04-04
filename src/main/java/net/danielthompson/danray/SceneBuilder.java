@@ -296,19 +296,15 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
-      settings.FocalLength = 2000;
-      settings.Rotation = 0;
-      settings.ZoomFactor =  1;
+      settings.FieldOfView = 45f;
+
       settings.FocusDistance = 500;
       settings.Aperture = new CircleAperture(20);
 
-      Point origin = new Point(0, 0, 500);
-      Vector direction = new Vector(0, 0, -1);
-      settings.Orientation = new Ray(origin, direction);
-
       Transform[] inputTransforms = new Transform[2];
       inputTransforms[0] = Transform.Translate(new Vector(0, 0, 500));
-      inputTransforms[1] = Transform.Scale(10f);
+      //inputTransforms[1] = Transform.RotateX(45);
+      inputTransforms[1] = Transform.identity;
 
       Transform[] compositeTransforms = Transform.composite(inputTransforms);
 
@@ -318,14 +314,13 @@ public class SceneBuilder {
 
       // Orange ball
 
-      BRDF brdf = new LambertianBRDF();
       Material material = new Material();
 
-      material.BRDF = brdf;
+      material.BRDF = LambertianBRDF;
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Orange);
 
       inputTransforms = new Transform[2];
-      inputTransforms[0] = Transform.Translate(new Vector(50.0f, 50.0f, 40.0f));
+      inputTransforms[0] = Transform.Translate(new Vector(50.0f, 0.0f, 40.0f));
       inputTransforms[1] = Transform.Scale(10f);
 
       compositeTransforms = Transform.composite(inputTransforms);
@@ -337,13 +332,12 @@ public class SceneBuilder {
       // yellow ball
 
       material = new Material();
-      material.BRDF = brdf;
+      material.BRDF = LambertianBRDF;
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Beige);
 
       inputTransforms = new Transform[2];
-      inputTransforms[0] = Transform.Translate(new Vector(0.0f, 0.0f, 20.0f));
+      inputTransforms[0] = Transform.Translate(new Vector(-150.0f, -50.0f, 100.0f));
       inputTransforms[1] = Transform.Scale(55f, 55f, 55f);
-
       compositeTransforms = Transform.composite(inputTransforms);
 
       Sphere sphere2 = new Sphere(compositeTransforms, material);
@@ -357,7 +351,7 @@ public class SceneBuilder {
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Green);
 
       inputTransforms = new Transform[2];
-      inputTransforms[0] = Transform.Translate(new Vector(200.0f, 200.0f, 25.0f));
+      inputTransforms[0] = Transform.Translate(new Vector(200.0f, -50.0f, 25.0f));
       inputTransforms[1] = Transform.Scale(100f, 100f, 100f);
 
       compositeTransforms = Transform.composite(inputTransforms);
@@ -366,14 +360,14 @@ public class SceneBuilder {
 
       scene.addShape(sphere3);
 
-      // box
+      // orange box
 
       material = new Material();
       material.BRDF = MirrorBRDF;
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Green);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Orange);
 
       inputTransforms = new Transform[4];
-      inputTransforms[0] = Transform.Translate(new Vector(-200.0f, 200.0f, 0f));
+      inputTransforms[0] = Transform.Translate(new Vector(-200.0f, -200.0f, 0f));
       inputTransforms[1] = Transform.RotateX(45);
       inputTransforms[2] = Transform.RotateY(45);
       inputTransforms[3] = Transform.Scale(100f, 100f, 100f);

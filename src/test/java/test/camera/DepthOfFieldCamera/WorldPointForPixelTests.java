@@ -84,12 +84,12 @@ public class WorldPointForPixelTests {
 //      AssertHelper.assertEquals(worldPoint.Y, 3.0);
 //      AssertHelper.assertEquals(worldPoint.Z, 0.0);
 //
-//      Ray[] rays = camera.getInitialStochasticRaysForPixel(0, 0, 1);
+//      Ray[] rays = camera.getRays(0, 0, 1);
 //      AssertHelper.assertEquals(rays[0].Origin.X, -5.0);
 //      AssertHelper.assertEquals(rays[0].Origin.Y, 3.0);
 //      AssertHelper.assertEquals(rays[0].Origin.Z, 0.0);
 //
-//      rays = camera.getInitialStochasticRaysForPixel(0, 0, 2);
+//      rays = camera.getRays(0, 0, 2);
 //      AssertHelper.assertEquals(rays[1].Origin.X, -5.0);
 //      AssertHelper.assertEquals(rays[1].Origin.Y, 3.0);
 //      AssertHelper.assertEquals(rays[1].Origin.Z, 0.0);

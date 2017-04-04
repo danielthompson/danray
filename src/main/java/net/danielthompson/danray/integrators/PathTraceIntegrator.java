@@ -26,10 +26,14 @@ public class PathTraceIntegrator extends AbstractIntegrator {
       Sample sample = new Sample();
       IntersectionState closestStateToRay = scene.getNearestShape(ray);
 
-      if (closestStateToRay == null) {
-         sample.SpectralPowerDistribution = new SpectralPowerDistribution(Color.pink);
+      if (closestStateToRay == null || !closestStateToRay.Hits) {
+
+         if (closestStateToRay != null)
+            sample.KDHeatCount = closestStateToRay.KDHeatCount;
+         sample.SpectralPowerDistribution = scene.getSkyBoxSPD(ray.Direction);
          return sample;
       }
+
 
       if (closestStateToRay.Shape instanceof AbstractLight) {
          sample.SpectralPowerDistribution = ((AbstractLight) closestStateToRay.Shape).SpectralPowerDistribution;

@@ -10,6 +10,8 @@ import net.danielthompson.danray.presets.TracerOptions;
 import net.danielthompson.danray.runners.PixelRunner;
 import net.danielthompson.danray.runners.TileRunner;
 import net.danielthompson.danray.films.AbstractFilm;
+import net.danielthompson.danray.samplers.AbstractSampler;
+import net.danielthompson.danray.samplers.RandomSampler;
 import net.danielthompson.danray.shading.fullspectrum.FullSpectralBlender;
 import net.danielthompson.danray.shading.fullspectrum.FullSpectralPowerDistribution;
 import net.danielthompson.danray.states.IntersectionState;
@@ -84,6 +86,8 @@ public class TraceManager {
 
    private AbstractIntegrator _integrator;
 
+   private AbstractSampler _sampler;
+
    private KDJFrame _kdFrame;
 
    private Date _renderStartTime;
@@ -110,6 +114,7 @@ public class TraceManager {
       _scene = scene;
       //_integrator = new PathTraceIntegrator(_scene, renderQualityPreset.getMaxDepth());
       _integrator = new WhittedIntegrator(_scene, renderQualityPreset.getMaxDepth());
+      _sampler = new RandomSampler();
       _timer = new Timer();
       long numPixels = renderQualityPreset.getX() * renderQualityPreset.getY();
       _numPixelsDivisor = 1.0f / numPixels;
@@ -311,7 +316,7 @@ public class TraceManager {
    }
 
    public void setMouseClickXY(final int x, final int y) {
-      Ray[] cameraRays = _scene.Camera.getInitialStochasticRaysForPixel(x, y, 1);
+      Ray[] cameraRays = _scene.Camera.getRays(x, y, 1);
 
       IntersectionState state = _scene.getNearestShape(cameraRays[0]);
 
@@ -392,7 +397,9 @@ public class TraceManager {
 
       _scene.Camera.setFrame(frame);
 
-      Runnable runner = new TileRunner(this, _integrator, _scene, _qualityPreset, _film, frame);
+
+
+      Runnable runner = new TileRunner(this, _integrator, _scene, _qualityPreset, _film, _sampler, frame);
 
       /*
       if (s >= 0 || t >= 0) {
@@ -540,7 +547,8 @@ public class TraceManager {
 
 
    public void Trace(int[] pixel) {
-      PixelRunner runner = new PixelRunner(this, _integrator, _scene, _qualityPreset, _film, 0);
+      PixelRunner runner = new PixelRunner(this, _integrator, _scene, _qualityPreset, _film, _sampler, 0);
+      Logger.Log("Tracing single pixel " + pixel[0] + " x " + pixel[1]);
       runner.trace(pixel[0], pixel[1]);
    }
 

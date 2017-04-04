@@ -24,6 +24,11 @@ public class CameraSettings {
    public float FocalLength;
 
    /**
+    * Focal length of the simulated lens. Must be 0 <= fov <= 360. Required.
+    */
+   public float FieldOfView;
+
+   /**
     * Rotation about the view vector in degrees (positive = clockwise). Optional; defaults to 0.
     */
    public float Rotation;
@@ -52,5 +57,7 @@ public class CameraSettings {
     * Distance in world coordinates to the focus point. >0 required for DOF, otherwise optional.
     */
    public float FocusDistance;
+
+
 
 }

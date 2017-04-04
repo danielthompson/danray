@@ -5,7 +5,7 @@ import net.danielthompson.danray.presets.RenderQualityPreset;
 import net.danielthompson.danray.integrators.AbstractIntegrator;
 import net.danielthompson.danray.films.AbstractFilm;
 import net.danielthompson.danray.samplers.AbstractSampler;
-import net.danielthompson.danray.samplers.RandomSampler;
+import net.danielthompson.danray.samplers.CenterSampler;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Sample;
 import net.danielthompson.danray.scenes.AbstractScene;
@@ -20,16 +20,24 @@ public abstract class AbstractRunner implements Runnable {
    protected final AbstractScene Scene;
    private int Frame;
    private final AbstractFilm Film;
+   private final AbstractSampler Sampler;
 
    private final int _samplesPerPixel;
    private final int _superSamplesPerPixel;
 
-   AbstractRunner(TraceManager traceManager, AbstractIntegrator integrator, AbstractScene scene, RenderQualityPreset qualityPreset, AbstractFilm film, int frame) {
+   AbstractRunner(TraceManager traceManager,
+                  AbstractIntegrator integrator,
+                  AbstractScene scene,
+                  RenderQualityPreset qualityPreset,
+                  AbstractFilm film,
+                  AbstractSampler sampler,
+                  int frame) {
       Manager = traceManager;
       Integrator = integrator;
       Scene = scene;
       Frame = frame;
       Film = film;
+      Sampler = sampler;
       _samplesPerPixel = qualityPreset.getSamplesPerPixel();
       _superSamplesPerPixel = qualityPreset.getSuperSamplesPerPixel();
    }
@@ -46,10 +54,8 @@ public abstract class AbstractRunner implements Runnable {
       int reachedSamples = 0;
       int heatCount = 0;
 
-      AbstractSampler sampler = new RandomSampler();
-
       do {
-         float[][] pixels = sampler.GetSamples(x, y, _samplesPerPixel);
+         float[][] pixels = Sampler.GetSamples(x, y, _samplesPerPixel);
 
          for (int j = 0; j < _samplesPerPixel; j++) {
          //for (int j = 0; j < _superSamplesPerPixel; j++) {
@@ -57,7 +63,7 @@ public abstract class AbstractRunner implements Runnable {
             float xf = pixels[j][0];
             float yf = pixels[j][1];
 
-            Ray[] cameraRays = Scene.Camera.getInitialStochasticRaysForPixel(xf, yf, _samplesPerPixel);
+            Ray[] cameraRays = Scene.Camera.getRays(xf, yf, 1);
             Manager.InitialRays += cameraRays.length;
 
             Sample[] samples = new Sample[cameraRays.length];

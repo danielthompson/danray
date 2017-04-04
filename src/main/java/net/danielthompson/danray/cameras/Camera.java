@@ -5,6 +5,7 @@ import net.danielthompson.danray.structures.Constants;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Vector;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.text.NumberFormat;
 
@@ -122,8 +123,13 @@ public abstract class Camera {
       return null;
    }
 
-   public Ray[] getInitialStochasticRaysForPixel(float x, float y, int samplesPerPixel) {
-      return new Ray[0];
+   public Ray[] getRays(float x, float y, int samplesPerPixel)
+   {
+      throw new NotImplementedException();
+   }
+
+   public Ray getRay(float x, float y) {
+      throw new NotImplementedException();
    }
 
    public Point getWorldPointForPixel(int x, int y) {

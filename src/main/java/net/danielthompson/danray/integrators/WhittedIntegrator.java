@@ -49,14 +49,6 @@ public class WhittedIntegrator extends AbstractIntegrator {
             sample.KDHeatCount = closestStateToRay.KDHeatCount;
          sample.SpectralPowerDistribution = scene.getSkyBoxSPD(ray.Direction);
          return sample;
-//         if (depth == 1) {
-//            sample.SpectralPowerDistribution = scene.getSkyBoxSPD(ray.Direction);
-//            return sample;
-//         }
-//         else {
-//            sample.SpectralPowerDistribution = new SpectralPowerDistribution(Color.magenta);
-//            return sample;
-//         }
       }
 
       sample.KDHeatCount = closestStateToRay.KDHeatCount;
@@ -128,11 +120,13 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
          float reflectedWeight = 0.0f;
 
+         SpectralPowerDistribution reflectedSPD = null;
+
          if (objectMaterial.BRDF != null) {
             Vector outgoingDirection = objectMaterial.BRDF.getVectorInPDF(closestStateToRay.Normal, ray.Direction);
 
-//            Point offsetIntersection = Point.Plus(closestStateToRay.IntersectionPoint, Vector.Scale(outgoingDirection, Constants.Epsilon * 1000));
-            Point offsetIntersection = closestStateToRay.IntersectionPoint;
+            Point offsetIntersection = Point.Plus(closestStateToRay.IntersectionPoint, Vector.Scale(outgoingDirection, Constants.Epsilon * 1000));
+//            Point offsetIntersection = closestStateToRay.IntersectionPoint;
 
             Ray reflectedRay = new Ray(offsetIntersection, outgoingDirection);
 
@@ -152,6 +146,10 @@ public class WhittedIntegrator extends AbstractIntegrator {
                reflectedWeight = objectMaterial.BRDF.f(angleIncoming, angleOutgoing);
 
             }
+
+            reflectedSample.SpectralPowerDistribution.scale(reflectedWeight);
+
+            reflectedSPD = reflectedSample.SpectralPowerDistribution.reflectOff(objectMaterial.ReflectanceSpectrum);
 
          }
 
@@ -178,10 +176,9 @@ public class WhittedIntegrator extends AbstractIntegrator {
 */
          //float transparency = (float)objectMaterial._transparency;
 
-         SpectralPowerDistribution blended = SpectralPowerDistribution.Lerp(reflectedSample.SpectralPowerDistribution, reflectedWeight, directSPD, 1.0f - reflectedWeight);
 
          Sample s = new Sample();
-         s.SpectralPowerDistribution = blended;
+         s.SpectralPowerDistribution = SpectralPowerDistribution.add(directSPD, reflectedSPD);
 
          return s;
          /*

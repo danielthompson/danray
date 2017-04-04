@@ -89,7 +89,7 @@ public abstract class AbstractScene {
 
       // left wall
 
-      x = Constants.WithinEpsilon(p.X, 0) ? tileSize * p.Z : x;
+      x = Constants.WithinEpsilon(p.X, 0) ? tileSize - tileSize * p.Z : x;
       y = Constants.WithinEpsilon(p.X, 0) ? height - (tileSize * p.Y + tileSize) : y;
 
       // back wall
@@ -105,13 +105,13 @@ public abstract class AbstractScene {
 
       // front wall
 
-      x = Constants.WithinEpsilon(p.Z, 1) ? tileSize * p.X + 3 * tileSize : x;
+      x = Constants.WithinEpsilon(p.Z, 1) ? (tileSize - tileSize * p.X) + 3 * tileSize : x;
       y = Constants.WithinEpsilon(p.Z, 1) ? height - (tileSize * p.Y + tileSize) : y;
 
       // top wall
 
       x = Constants.WithinEpsilon(p.Y, 1) ? tileSize * p.X + tileSize : x;
-      y = Constants.WithinEpsilon(p.Y, 1) ? tileSize * p.Z : y;
+      y = Constants.WithinEpsilon(p.Y, 1) ? tileSize - tileSize * p.Z : y;
 
       // bottom wall
 

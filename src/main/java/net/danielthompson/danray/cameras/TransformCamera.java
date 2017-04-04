@@ -6,43 +6,55 @@ import net.danielthompson.danray.structures.*;
  * Created by dthompson on 03 Apr 17.
  */
 public class TransformCamera extends Camera {
-   public CameraSettings Settings;
 
-   public final Vector forward = new Vector(0, 0, -1);
-   public final Vector up = new Vector(0, 1, 0);
-   public final Vector right = new Vector(1, 0, 0);
-
-   public Point _rearFocalPoint;
+   public static final Point Origin = new Point(0, 0, 0);
 
    public Transform cameraToWorld;
+
+   private float OneOverWidth;
+
+   private float OneOverHeight;
 
    public TransformCamera(CameraSettings settings, Transform cameraToWorld) {
       super(settings);
       this.cameraToWorld = cameraToWorld;
 
-      _rearFocalPoint = new Point(0.5f, 0.5f, settings.FocalLength);
-
+      OneOverWidth = 1.0f / (float)Settings.X;
+      OneOverHeight = 1.0f / (float)Settings.Y;
    }
 
    public Ray getRay(float x, float y) {
-      float scaledX = x / Settings.X;
-      float scaledY = y / Settings.Y;
 
-      Point imagePlanePoint = new Point(scaledX, scaledY, 0);
-      Vector direction = Vector.Minus(imagePlanePoint, _rearFocalPoint);
+      float pixelNDCx = (x + 0.5f) * OneOverWidth;
+      float pixelNDCy = (y + 0.5f) * OneOverHeight;
 
-      Ray cameraSpaceRay = new Ray(imagePlanePoint, direction);
+      float aspectRatio = (float) Settings.X * OneOverHeight;
+
+      float tanFOVOver2 = (float)Math.tan(Settings.FieldOfView * .5f);
+
+      float pixelCameraX = (2 * pixelNDCx - 1) * aspectRatio * tanFOVOver2;
+      float pixelCameraY = (1 - 2 * pixelNDCy) * tanFOVOver2;
+
+      Point imagePlanePixelInCameraSpace = new Point(pixelCameraX, pixelCameraY, -1);
+
+      Vector direction = new Vector (imagePlanePixelInCameraSpace.X, imagePlanePixelInCameraSpace.Y, imagePlanePixelInCameraSpace.Z);
+
+      Ray cameraSpaceRay = new Ray(Origin, direction);
 
       Ray worldSpaceRay = cameraToWorld.Apply(cameraSpaceRay);
 
       return worldSpaceRay;
    }
 
-   public Ray[] getInitialStochasticRaysForPixel(float x, float y, int samplesPerPixel) {
+   public Ray[] getRays(float x, float y, int samplesPerPixel) {
 
-      Ray r = getRay(x, y);
+      Ray[] rays = new Ray[samplesPerPixel];
 
-      return new Ray[] { r };
+      for (int i = 0; i < samplesPerPixel; i++) {
+         rays[i] = getRay(x, y);
+      }
+
+      return rays;
    }
 
 }

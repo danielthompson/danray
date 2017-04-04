@@ -66,7 +66,7 @@ public class DepthOfFieldCamera extends Camera {
    }
 
    @Override
-   public Ray[] getInitialStochasticRaysForPixel(float x, float y, int samplesPerPixel) {
+   public Ray[] getRays(float x, float y, int samplesPerPixel) {
 
       Ray[] rays = new Ray[samplesPerPixel];
 
@@ -95,7 +95,7 @@ public class DepthOfFieldCamera extends Camera {
    }
 
    public Ray[] getInitialStochasticRaysForPixel(int x, int y, int samplesPerPixel) {
-      return getInitialStochasticRaysForPixel((float) x, (float) y, samplesPerPixel);
+      return getRays((float) x, (float) y, samplesPerPixel);
    }
 
    @Override

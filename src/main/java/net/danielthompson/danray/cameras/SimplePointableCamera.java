@@ -15,7 +15,7 @@ public class SimplePointableCamera extends Camera {
    }
 
    @Override
-   public Ray[] getInitialStochasticRaysForPixel(float x, float y, int samplesPerPixel) {
+   public Ray[] getRays(float x, float y, int samplesPerPixel) {
       float oneOverSamplesPlusOne = 1.0f / ((float) samplesPerPixel + 1.0f);
 
       Ray[] rays = new Ray[samplesPerPixel * samplesPerPixel];

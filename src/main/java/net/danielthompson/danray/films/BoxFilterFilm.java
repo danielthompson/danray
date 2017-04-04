@@ -43,10 +43,14 @@ public class BoxFilterFilm extends AbstractFilm {
 
       float existingImageWeight = Weights[xFloor][yFloor];
 
-      float maxWeight = Math.max(newSampleWeight, existingImageWeight);
+//      float maxWeight = Math.max(newSampleWeight, existingImageWeight);
+//      newSampleWeight /= maxWeight;
+//      existingImageWeight /= maxWeight;
 
-      newSampleWeight /= maxWeight;
-      existingImageWeight /= maxWeight;
+      float weightsum = existingImageWeight + newSampleWeight;
+
+      existingImageWeight /= weightsum;
+      newSampleWeight /= weightsum;
 
       Color existingImageColor = new Color(Image.getRGB(xFloor, yFloor));
 
@@ -56,6 +60,9 @@ public class BoxFilterFilm extends AbstractFilm {
 
       Color finalColor = new Color(newR, newG, newB);
       Image.setRGB(xFloor, yFloor, finalColor.getRGB());
+
+      Weights[xFloor][yFloor] = weightsum;
+
    }
 
 }

@@ -14,7 +14,7 @@ public class IsometricCamera extends Camera {
    }
 
    @Override
-   public Ray[] getInitialStochasticRaysForPixel(float x, float y, int samplesPerPixel) {
+   public Ray[] getRays(float x, float y, int samplesPerPixel) {
 
       Ray[] rays = new Ray[samplesPerPixel * samplesPerPixel];
 
