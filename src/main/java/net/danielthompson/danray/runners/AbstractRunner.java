@@ -55,27 +55,23 @@ public abstract class AbstractRunner implements Runnable {
       int heatCount = 0;
 
       do {
-         float[][] pixels = Sampler.GetSamples(x, y, _samplesPerPixel);
+         float[][] sampleLocations = Sampler.GetSamples(x, y, _samplesPerPixel);
 
-         for (int j = 0; j < _samplesPerPixel; j++) {
-         //for (int j = 0; j < _superSamplesPerPixel; j++) {
+         Ray[] cameraRays = Scene.Camera.getRays(sampleLocations, _samplesPerPixel);
 
-            float xf = pixels[j][0];
-            float yf = pixels[j][1];
+         Manager.InitialRays += cameraRays.length;
 
-            Ray[] cameraRays = Scene.Camera.getRays(xf, yf, 1);
-            Manager.InitialRays += cameraRays.length;
+         Sample[] samples = new Sample[cameraRays.length];
 
-            Sample[] samples = new Sample[cameraRays.length];
-            for (int i = 0; i < cameraRays.length; i++) {
-               samples[i] = Integrator.GetSample(cameraRays[i], 1, x, y);
-               heatCount += samples[i].KDHeatCount;
-               //Manager.Statistics[x][y].Add(samples[i].Statistics);
-            }
-
-            Film.AddSamples(xf, yf, samples);
-            reachedSamples += _samplesPerPixel;
+         for (int i = 0; i < cameraRays.length; i++) {
+            samples[i] = Integrator.GetSample(cameraRays[i], 1, x, y);
+            heatCount += samples[i].KDHeatCount;
+            //Manager.Statistics[x][y].Add(samples[i].Statistics);
          }
+
+         Film.AddSamples(x, y, samples);
+         reachedSamples += _samplesPerPixel;
+
          iterations++;
       }
       while (!Film.AboveThreshhold() && iterations < _superSamplesPerPixel);

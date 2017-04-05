@@ -128,6 +128,10 @@ public abstract class Camera {
       throw new NotImplementedException();
    }
 
+   public Ray[] getRays(float[][] sampleLocations, int samples) {
+      throw new NotImplementedException();
+   }
+
    public Ray getRay(float x, float y) {
       throw new NotImplementedException();
    }

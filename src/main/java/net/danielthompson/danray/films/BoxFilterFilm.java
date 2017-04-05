@@ -18,10 +18,15 @@ public class BoxFilterFilm extends AbstractFilm {
 
    @Override
    public void AddSamples(float x, float y, Sample[] samples) {
+
       float newSampleWeight = samples.length;
 
       int xFloor = (int)x;
       int yFloor = (int)y;
+
+      if (yFloor == 20) {
+         int j = 0;
+      }
 
       Spectrum spectrum = new Spectrum();
 

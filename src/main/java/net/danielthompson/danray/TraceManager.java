@@ -11,6 +11,7 @@ import net.danielthompson.danray.runners.PixelRunner;
 import net.danielthompson.danray.runners.TileRunner;
 import net.danielthompson.danray.films.AbstractFilm;
 import net.danielthompson.danray.samplers.AbstractSampler;
+import net.danielthompson.danray.samplers.CenterSampler;
 import net.danielthompson.danray.samplers.RandomSampler;
 import net.danielthompson.danray.shading.fullspectrum.FullSpectralBlender;
 import net.danielthompson.danray.shading.fullspectrum.FullSpectralPowerDistribution;
@@ -114,7 +115,7 @@ public class TraceManager {
       _scene = scene;
       //_integrator = new PathTraceIntegrator(_scene, renderQualityPreset.getMaxDepth());
       _integrator = new WhittedIntegrator(_scene, renderQualityPreset.getMaxDepth());
-      _sampler = new RandomSampler();
+      _sampler = new CenterSampler();
       _timer = new Timer();
       long numPixels = renderQualityPreset.getX() * renderQualityPreset.getY();
       _numPixelsDivisor = 1.0f / numPixels;
@@ -406,6 +407,8 @@ public class TraceManager {
          _spectralTracer.setDebug(s, t);
       }
       */
+
+      _tracerOptions.numThreads = 1;
 
       if (_tracerOptions.numThreads <= 1) {
          runner.run();

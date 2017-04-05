@@ -336,8 +336,11 @@ public class SceneBuilder {
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Beige);
 
       inputTransforms = new Transform[2];
-      inputTransforms[0] = Transform.Translate(new Vector(-150.0f, -50.0f, 100.0f));
-      inputTransforms[1] = Transform.Scale(55f, 55f, 55f);
+      //inputTransforms[0] = Transform.Translate(new Vector(-150.0f, -50.0f, 100.0f));
+      //inputTransforms[1] = Transform.Scale(55f, 55f, 55f);
+      inputTransforms[0] = Transform.Translate(new Vector(-250.0f, -50.0f, 0.0f));
+      inputTransforms[1] = Transform.Scale(50f);
+
       compositeTransforms = Transform.composite(inputTransforms);
 
       Sphere sphere2 = new Sphere(compositeTransforms, material);
@@ -392,8 +395,8 @@ public class SceneBuilder {
 
       AbstractLight light = new SphereLight(sphere, lightSPD);
 
-      scene.Shapes.add(light);
-      scene.Lights.add(light);
+      //scene.Shapes.add(light);
+      //scene.Lights.add(light);
 
       // red light
 
@@ -409,8 +412,25 @@ public class SceneBuilder {
 
       light = new SphereLight(sphere, lightSPD);
 
-      scene.Shapes.add(light);
-      scene.Lights.add(light);
+      //scene.Shapes.add(light);
+      //scene.Lights.add(light);
+
+      // point light
+
+      lightSPD = new SpectralPowerDistribution(Color.white, 100000.0f);
+
+      inputTransforms = new Transform[2];
+      inputTransforms[0] = Transform.Translate(new Vector(300, -3300, -1500));
+      inputTransforms[1] = Transform.Scale(100f, 100f, 100f);
+
+      compositeTransforms = Transform.composite(inputTransforms);
+
+      sphere = new Sphere(compositeTransforms, null);
+
+      PointLight pointLight = new PointLight(lightSPD, new Point(300, 3300, -1500));
+
+      //scene.Shapes.add(light);
+      //scene.Lights.add(pointLight);
 
       // skybox
 

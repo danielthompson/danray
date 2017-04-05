@@ -46,15 +46,28 @@ public class TransformCamera extends Camera {
       return worldSpaceRay;
    }
 
-   public Ray[] getRays(float x, float y, int samplesPerPixel) {
+   public Ray[] getRays(float x, float y, int samples) {
 
-      Ray[] rays = new Ray[samplesPerPixel];
+      Ray[] rays = new Ray[samples];
 
-      for (int i = 0; i < samplesPerPixel; i++) {
+      for (int i = 0; i < samples; i++) {
          rays[i] = getRay(x, y);
       }
 
       return rays;
    }
+
+   @Override
+   public Ray[] getRays(float[][] sampleLocations, int samples) {
+
+      Ray[] rays = new Ray[samples];
+
+      for (int i = 0; i < samples; i++) {
+         rays[i] = getRay(sampleLocations[i][0], sampleLocations[i][1]);
+      }
+
+      return rays;
+   }
+
 
 }

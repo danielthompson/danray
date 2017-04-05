@@ -24,9 +24,6 @@ public class LambertianBRDF extends BRDF {
 
       return Math.abs(cosThetaIncoming * cosThetaOutgoing);
 
-
-
-
 //      //if (incoming.Dot(normal) <= 0 && normal.Dot(outgoing) >= 0)
 //         return Constants.OneOverPi;
 //      //return 0;
@@ -34,14 +31,12 @@ public class LambertianBRDF extends BRDF {
 
    @Override
    public Vector getVectorInPDF(Normal normal, Vector incoming) {
-      float[] xyz = GeometryCalculations.randomPointOnPregeneratedSphere();
+      float[] xyz = GeometryCalculations.randomPointOnSphere();
 
       Vector outgoing = new Vector(xyz[0], xyz[1], xyz[2]);
 
       if (outgoing.Dot(normal) < 0)
          outgoing.Scale(-1);
-
-
 
       return outgoing;
    }
