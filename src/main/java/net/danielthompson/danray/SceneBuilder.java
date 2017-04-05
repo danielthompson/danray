@@ -395,8 +395,8 @@ public class SceneBuilder {
 
       AbstractLight light = new SphereLight(sphere, lightSPD);
 
-      //scene.Shapes.add(light);
-      //scene.Lights.add(light);
+      scene.Shapes.add(light);
+      scene.Lights.add(light);
 
       // red light
 

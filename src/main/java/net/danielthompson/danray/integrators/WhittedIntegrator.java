@@ -37,7 +37,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
       Sample sample = new Sample();
 
-      if (x == 460 && y == 0) {
+      if (x == 102 && y == 285) {
          int i = 0;
       }
 
@@ -147,7 +147,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
             }
 
-            reflectedSample.SpectralPowerDistribution.scale(reflectedWeight);
+            reflectedSPD = reflectedSample.SpectralPowerDistribution.scale(reflectedSample.SpectralPowerDistribution, reflectedWeight);
 
             reflectedSPD = reflectedSample.SpectralPowerDistribution.reflectOff(objectMaterial.ReflectanceSpectrum);
 
