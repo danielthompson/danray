@@ -13,7 +13,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,7 +94,7 @@ public class TraverseSmallTreeTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = scene.getNearestShape(ray);
+      IntersectionState state = scene.getNearestShape(ray, 0, 0);
 
       Assert.assertNotNull(state, "intersection state should not be null");
       Assert.assertTrue(state.Hits, "state should hit");
@@ -111,7 +110,7 @@ public class TraverseSmallTreeTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = scene.getNearestShape(ray);
+      IntersectionState state = scene.getNearestShape(ray, 0, 0);
 
       Assert.assertNotNull(state, "intersection state should not be null");
       Assert.assertTrue(state.Hits, "state should hit");
@@ -127,7 +126,7 @@ public class TraverseSmallTreeTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = scene.getNearestShape(ray);
+      IntersectionState state = scene.getNearestShape(ray, 0, 0);
 
       Assert.assertNotNull(state, "intersection state should not be null");
       Assert.assertTrue(state.Hits, "state should hit");
@@ -143,7 +142,7 @@ public class TraverseSmallTreeTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = scene.getNearestShape(ray);
+      IntersectionState state = scene.getNearestShape(ray, 0, 0);
 
       Assert.assertNotNull(state, "intersection state should not be null");
       Assert.assertTrue(state.Hits, "state should hit");
@@ -159,7 +158,7 @@ public class TraverseSmallTreeTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = scene.getNearestShape(ray);
+      IntersectionState state = scene.getNearestShape(ray, 0, 0);
 
       Assert.assertNotNull(state, "intersection state should not be null");
       Assert.assertTrue(state.Hits, "state should hit");

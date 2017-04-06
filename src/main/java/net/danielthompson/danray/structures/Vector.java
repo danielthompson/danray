@@ -109,6 +109,17 @@ public class Vector {
       return Vector.Plus(vector1, Vector.Scale(Vector.Minus(vector2, vector1), percentage));
    }
 
+   public static Vector Lerp(Vector v1, float w1, Vector v2, float w2) {
+
+      float x = v1.X * w1 + v2.X * w2;
+      float y = v1.Y * w1 + v2.Y * w2;
+      float z = v1.Z * w1 + v2.Z * w2;
+
+      Vector v = new Vector(x, y, z);
+      v.Normalize();
+      return v;
+   }
+
    public String toString() {
       return "X " + X + ", Y " + Y + ", Z " + Z;
    }

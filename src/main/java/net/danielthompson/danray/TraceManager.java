@@ -3,7 +3,6 @@ package net.danielthompson.danray;
 import net.danielthompson.danray.acceleration.KDScene;
 import net.danielthompson.danray.films.BoxFilterFilm;
 import net.danielthompson.danray.integrators.AbstractIntegrator;
-import net.danielthompson.danray.integrators.PathTraceIntegrator;
 import net.danielthompson.danray.integrators.WhittedIntegrator;
 import net.danielthompson.danray.presets.RenderQualityPreset;
 import net.danielthompson.danray.presets.TracerOptions;
@@ -12,7 +11,6 @@ import net.danielthompson.danray.runners.TileRunner;
 import net.danielthompson.danray.films.AbstractFilm;
 import net.danielthompson.danray.samplers.AbstractSampler;
 import net.danielthompson.danray.samplers.CenterSampler;
-import net.danielthompson.danray.samplers.RandomSampler;
 import net.danielthompson.danray.shading.fullspectrum.FullSpectralBlender;
 import net.danielthompson.danray.shading.fullspectrum.FullSpectralPowerDistribution;
 import net.danielthompson.danray.states.IntersectionState;
@@ -319,7 +317,7 @@ public class TraceManager {
    public void setMouseClickXY(final int x, final int y) {
       Ray[] cameraRays = _scene.Camera.getRays(x, y, 1);
 
-      IntersectionState state = _scene.getNearestShape(cameraRays[0]);
+      IntersectionState state = _scene.getNearestShape(cameraRays[0], x, y);
 
       if (state != null) {
 
@@ -408,7 +406,7 @@ public class TraceManager {
       }
       */
 
-      _tracerOptions.numThreads = 1;
+      //_tracerOptions.numThreads = 1;
 
       if (_tracerOptions.numThreads <= 1) {
          runner.run();

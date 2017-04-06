@@ -9,8 +9,6 @@ import net.danielthompson.danray.shapes.AbstractShape;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.*;
 
-import java.awt.*;
-
 
 /**
  * Created by daniel on 5/5/15.
@@ -24,7 +22,7 @@ public class PathTraceIntegrator extends AbstractIntegrator {
    public Sample GetSample(Ray ray, int depth, int x, int y) {
 
       Sample sample = new Sample();
-      IntersectionState closestStateToRay = scene.getNearestShape(ray);
+      IntersectionState closestStateToRay = scene.getNearestShape(ray, x, y);
 
       if (closestStateToRay == null || !closestStateToRay.Hits) {
 

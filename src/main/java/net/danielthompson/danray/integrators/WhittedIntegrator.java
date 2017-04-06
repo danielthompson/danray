@@ -8,8 +8,6 @@ import net.danielthompson.danray.shapes.AbstractShape;
 import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.states.IntersectionState;
 
-import java.awt.*;
-
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.utility.GeometryCalculations;
 
@@ -41,7 +39,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
          int i = 0;
       }
 
-      IntersectionState closestStateToRay = scene.getNearestShape(ray);
+      IntersectionState closestStateToRay = scene.getNearestShape(ray, x, y);
 
       if (closestStateToRay == null || !closestStateToRay.Hits) {
 
@@ -77,7 +75,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
          if (dot < 0) {
 
-            IntersectionState potentialOccluder = scene.getNearestShape(lightToNearestShape);
+            IntersectionState potentialOccluder = scene.getNearestShape(lightToNearestShape, x, y);
 
             if (
                   potentialOccluder == null

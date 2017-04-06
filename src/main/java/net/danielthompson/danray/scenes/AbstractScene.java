@@ -50,7 +50,7 @@ public abstract class AbstractScene {
       Lights.add(light);
    }
 
-   public abstract IntersectionState getNearestShape(Ray ray);
+   public abstract IntersectionState getNearestShape(Ray ray, int x, int y);
 
    public String compile(TracerOptions _tracerOptions) {
       for (AbstractShape shape : Shapes) {

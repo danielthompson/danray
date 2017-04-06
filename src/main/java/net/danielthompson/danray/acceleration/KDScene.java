@@ -29,7 +29,7 @@ public class KDScene extends AbstractScene {
    }
 
    @Override
-   public IntersectionState getNearestShape(Ray ray) {
+   public IntersectionState getNearestShape(Ray ray, int x, int y) {
       // all rays by definition hit the root node
 
       IntersectionState state = TraverseTreeBetter(rootNode, ray, 0);

@@ -21,7 +21,11 @@ public class NaiveScene extends AbstractScene {
    }
 
    @Override
-   public IntersectionState getNearestShape(Ray ray) {
+   public IntersectionState getNearestShape(Ray ray, int x, int y) {
+
+      if (x == 183 && y == 315) {
+         int j = 0;
+      }
 
       int nearestShapeIndex = -1;
 
@@ -31,7 +35,9 @@ public class NaiveScene extends AbstractScene {
 
       for (int i = 0; i < Shapes.size(); i++) {
 
-         boolean hits = Shapes.get(i).hits(ray);
+         AbstractShape shape = Shapes.get(i);
+
+         boolean hits = shape.hits(ray);
 
          test = (hits && ray.MinT >= Constants.Epsilon && ray.MinT < closestT);
 

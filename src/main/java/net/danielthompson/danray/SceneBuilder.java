@@ -12,6 +12,7 @@ import net.danielthompson.danray.scenes.NaiveScene;
 import net.danielthompson.danray.scenes.AbstractScene;
 import net.danielthompson.danray.shading.*;
 import net.danielthompson.danray.shading.bxdf.BRDF;
+import net.danielthompson.danray.shading.bxdf.GlossyBRDF;
 import net.danielthompson.danray.shading.bxdf.LambertianBRDF;
 import net.danielthompson.danray.shading.bxdf.MirrorBRDF;
 import net.danielthompson.danray.shapes.*;
@@ -45,6 +46,25 @@ public class SceneBuilder {
       public static Color Yellow = new Color(255, 176, 59);
       public static Color Orange = new Color(182, 73, 38);
       public static Color Red = new Color(142, 40, 0);
+   }
+
+   public static class Solarized {
+      public static Color Base03 = new Color(0, 43, 54);
+      public static Color Base02 = new Color(7, 54, 66);
+      public static Color Base01 = new Color(88, 110, 117);
+      public static Color Base00 = new Color(101, 123, 131);
+      public static Color Base0 = new Color(131, 148, 150);
+      public static Color Base1 = new Color(147, 161, 161);
+      public static Color Base2 = new Color(238, 232, 213);
+      public static Color Base3 = new Color(253, 246, 227);
+      public static Color yellow = new Color(181, 137, 0);
+      public static Color orange = new Color(203, 75, 22 );
+      public static Color red = new Color(220, 50, 47);
+      public static Color magenta= new Color(211, 54, 130);
+      public static Color violet= new Color(108, 113, 196);
+      public static Color blue = new Color(38, 139, 210);
+      public static Color cyan = new Color(42, 161, 152);
+      public static Color green = new Color(133, 153, 0);
    }
 
    public static ClassLoader loader = SceneBuilder.class.getClassLoader();
@@ -327,7 +347,7 @@ public class SceneBuilder {
 
       Sphere sphere1 = new Sphere(compositeTransforms, material);
 
-      scene.addShape(sphere1);
+      //scene.addShape(sphere1);
 
       // yellow ball
 
@@ -338,7 +358,7 @@ public class SceneBuilder {
       inputTransforms = new Transform[2];
       //inputTransforms[0] = Transform.Translate(new Vector(-150.0f, -50.0f, 100.0f));
       //inputTransforms[1] = Transform.Scale(55f, 55f, 55f);
-      inputTransforms[0] = Transform.Translate(new Vector(-250.0f, -50.0f, 0.0f));
+      inputTransforms[0] = Transform.Translate(new Vector(-175.0f, -50.0f, 25.0f));
       inputTransforms[1] = Transform.Scale(50f);
 
       compositeTransforms = Transform.composite(inputTransforms);
@@ -350,7 +370,7 @@ public class SceneBuilder {
       // green ball
 
       material = new Material();
-      material.BRDF = MirrorBRDF;
+      material.BRDF = new GlossyBRDF(0.75f);
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Green);
 
       inputTransforms = new Transform[2];
@@ -361,19 +381,19 @@ public class SceneBuilder {
 
       Sphere sphere3 = new Sphere(compositeTransforms, material);
 
-      scene.addShape(sphere3);
+      //scene.addShape(sphere3);
 
-      // orange box
+      // green box
 
       material = new Material();
       material.BRDF = MirrorBRDF;
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Orange);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Solarized.Base02);
 
-      inputTransforms = new Transform[4];
-      inputTransforms[0] = Transform.Translate(new Vector(-200.0f, -200.0f, 0f));
-      inputTransforms[1] = Transform.RotateX(45);
-      inputTransforms[2] = Transform.RotateY(45);
-      inputTransforms[3] = Transform.Scale(100f, 100f, 100f);
+      inputTransforms = new Transform[2];
+      inputTransforms[0] = Transform.Translate(new Vector(-200.0f, -200.0f, -200f));
+      //inputTransforms[1] = Transform.RotateX(45);
+      //inputTransforms[2] = Transform.RotateY(45);
+      inputTransforms[1] = Transform.Scale(100f, 100f, 100f);
 
       compositeTransforms = Transform.composite(inputTransforms);
 
@@ -383,7 +403,7 @@ public class SceneBuilder {
 
       // white light
 
-      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(Color.white, 100000.0f);
+      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(Color.white, 10.0f);
 
       inputTransforms = new Transform[2];
       inputTransforms[0] = Transform.Translate(new Vector(300, 3300, -1500));
