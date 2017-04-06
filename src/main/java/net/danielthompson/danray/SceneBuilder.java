@@ -358,7 +358,7 @@ public class SceneBuilder {
       inputTransforms = new Transform[2];
       //inputTransforms[0] = Transform.Translate(new Vector(-150.0f, -50.0f, 100.0f));
       //inputTransforms[1] = Transform.Scale(55f, 55f, 55f);
-      inputTransforms[0] = Transform.Translate(new Vector(-175.0f, -50.0f, -200.0f));
+      inputTransforms[0] = Transform.Translate(new Vector(-175.0f, -75.0f, -200.0f));
       inputTransforms[1] = Transform.Scale(50f);
 
       compositeTransforms = Transform.composite(inputTransforms);
@@ -369,17 +369,17 @@ public class SceneBuilder {
 
       // green ball
 
-      material = new Material();
-      material.BRDF = new GlossyBRDF(0.75f);
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Green);
-
-      inputTransforms = new Transform[2];
-      inputTransforms[0] = Transform.Translate(new Vector(200.0f, -50.0f, 25.0f));
-      inputTransforms[1] = Transform.Scale(100f, 100f, 100f);
-
-      compositeTransforms = Transform.composite(inputTransforms);
-
-      Sphere sphere3 = new Sphere(compositeTransforms, material);
+//      material = new Material();
+//      material.BRDF = new GlossyBRDF(0.75f);
+//      material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Green);
+//
+//      inputTransforms = new Transform[2];
+//      inputTransforms[0] = Transform.Translate(new Vector(200.0f, -50.0f, 25.0f));
+//      inputTransforms[1] = Transform.Scale(100f, 100f, 100f);
+//
+//      compositeTransforms = Transform.composite(inputTransforms);
+//
+//      Sphere sphere3 = new Sphere(compositeTransforms, material);
 
       //scene.addShape(sphere3);
 

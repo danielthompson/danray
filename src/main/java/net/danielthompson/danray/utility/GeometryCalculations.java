@@ -75,7 +75,7 @@ public class GeometryCalculations {
    }
 
    public static float GetCosineWeightedIncidencePercentage(Vector incomingDirection, Normal normal) {
-      float dot = normal.Dot(incomingDirection) * 100;
+      float dot = normal.Dot(incomingDirection);
       dot = (dot < 0) ? -dot : 0;
       return dot;
    }

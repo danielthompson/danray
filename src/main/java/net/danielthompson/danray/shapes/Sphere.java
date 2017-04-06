@@ -152,7 +152,7 @@ public class Sphere extends AbstractShape {
          hits = worldSpaceRay.GetTAtPoint(worldSpaceIntersectionPoint);
       }
 
-      worldSpaceRay.MinT = hits;
+      worldSpaceRay.MinT = hits < worldSpaceRay.MinT ? hits : worldSpaceRay.MinT;
       return true;
    }
 

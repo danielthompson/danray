@@ -76,8 +76,8 @@ public class Box extends AbstractShape {
             maxT = worldSpaceRay.GetTAtPoint(worldSpaceSecondIntersectionPoint);
          }
 
-         worldSpaceRay.MinT = state.Hits ? minT : worldSpaceRay.MinT;
-         worldSpaceRay.MaxT = state.Hits ? maxT : worldSpaceRay.MaxT;
+         worldSpaceRay.MinT = state.Hits && minT < worldSpaceRay.MinT ? minT : worldSpaceRay.MinT;
+         worldSpaceRay.MaxT = state.Hits && maxT < worldSpaceRay.MaxT? maxT : worldSpaceRay.MaxT;
       }
 
       return state.Hits;

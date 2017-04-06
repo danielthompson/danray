@@ -64,6 +64,10 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
       // calculate direct light
 
+      if (x == 319 && y == 266) {
+         int j = 0;
+      }
+
       for (AbstractLight light : scene.Lights) {
          Point intersectionPoint = closestStateToRay.IntersectionPoint;
 
@@ -80,12 +84,12 @@ public class WhittedIntegrator extends AbstractIntegrator {
             if (
                   potentialOccluder == null
                         || !potentialOccluder.Hits
-                        || potentialOccluder.Shape.equals(closestStateToRay.Shape)
+                        || potentialOccluder.Shape.equals(closestShape)
                         || potentialOccluder.Shape.equals(light)
                   ) {
                float oneOverDistanceFromLightSourceSquared = 1 / lightLocation.SquaredDistanceBetween(closestStateToRay.IntersectionPoint);
 
-               IntersectionState state = closestStateToRay.Shape.getHitInfo(lightToNearestShape);
+               IntersectionState state = closestShape.getHitInfo(lightToNearestShape);
                if (state.Hits) {
 //                  float angleOfIncidencePercentage = GeometryCalculations.GetAngleOfIncidencePercentage(lightToNearestShape, closestStateToRay);
 //                  float angleOfIncidencePercentage = GeometryCalculations.GetIncidencePercentage(lightToNearestShape.Direction, closestStateToRay.Normal);
