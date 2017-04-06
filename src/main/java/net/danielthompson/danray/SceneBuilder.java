@@ -322,7 +322,7 @@ public class SceneBuilder {
       settings.Aperture = new CircleAperture(20);
 
       Transform[] inputTransforms = new Transform[2];
-      inputTransforms[0] = Transform.Translate(new Vector(0, 0, 500));
+      inputTransforms[0] = Transform.Translate(new Vector(-200, -50, 200));
       //inputTransforms[1] = Transform.RotateX(45);
       inputTransforms[1] = Transform.identity;
 
@@ -358,7 +358,7 @@ public class SceneBuilder {
       inputTransforms = new Transform[2];
       //inputTransforms[0] = Transform.Translate(new Vector(-150.0f, -50.0f, 100.0f));
       //inputTransforms[1] = Transform.Scale(55f, 55f, 55f);
-      inputTransforms[0] = Transform.Translate(new Vector(-175.0f, -50.0f, 25.0f));
+      inputTransforms[0] = Transform.Translate(new Vector(-175.0f, -50.0f, -200.0f));
       inputTransforms[1] = Transform.Scale(50f);
 
       compositeTransforms = Transform.composite(inputTransforms);
@@ -390,7 +390,7 @@ public class SceneBuilder {
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Solarized.Base02);
 
       inputTransforms = new Transform[2];
-      inputTransforms[0] = Transform.Translate(new Vector(-200.0f, -200.0f, -200f));
+      inputTransforms[0] = Transform.Translate(new Vector(-200.0f, -175.0f, -25f));
       //inputTransforms[1] = Transform.RotateX(45);
       //inputTransforms[2] = Transform.RotateY(45);
       inputTransforms[1] = Transform.Scale(100f, 100f, 100f);
@@ -403,7 +403,7 @@ public class SceneBuilder {
 
       // white light
 
-      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(Color.white, 10.0f);
+      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(Color.white, 1000000.0f);
 
       inputTransforms = new Transform[2];
       inputTransforms[0] = Transform.Translate(new Vector(300, 3300, -1500));
