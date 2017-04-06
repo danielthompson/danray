@@ -61,15 +61,12 @@ public class HitTests {
 
    @Test
    public void TestHitBox1() {
-      Point p0 = new Point(-1, -1, -1);
-      Point p1 = new Point(1, 1, 1);
+      Transform[] transforms = new Transform[2];
+      transforms[0] = Transform.Translate(new Vector(-1.0f, -1.0f, -1.0f));
+      transforms[1] = Transform.Scale(2.0f, 1.0f, 1.0f);
+      Transform compositeTransform[] = Transform.composite(transforms);
 
-      Transform t1 = Transform.Scale(2, 1, 1);
-
-      Transform objectToWorld = t1;
-      Transform worldToObject = t1.Invert();
-
-      Box box = new Box(p0, p1, null, objectToWorld, worldToObject);
+      Box box = new Box(compositeTransform, null);
 
       box.RecalculateWorldBoundingBox();
 
@@ -78,23 +75,20 @@ public class HitTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = box.getHitInfo(ray);
+      boolean hits = box.hits(ray);
 
-      Assert.assertTrue(state.Hits);
+      Assert.assertTrue(hits);
    }
 
    @Test
    public void TestHitBox2() {
-      Point p0 = new Point(-1, -1, -1);
-      Point p1 = new Point(1, 1, 1);
 
-      Transform t1 = Transform.Scale(2, 1, 1);
-      Transform t2 = Transform.Translate(new Vector(-1, -1, -1)).Apply(t1);
+      Transform[] transforms = new Transform[2];
+      transforms[0] = Transform.Translate(new Vector(-1.0f, -1.0f, -1.0f));
+      transforms[1] = Transform.Scale(4.0f, 2.0f, 2.0f);
+      Transform compositeTransform[] = Transform.composite(transforms);
 
-      Transform objectToWorld = t2;
-      Transform worldToObject = t2.Invert();
-
-      Box box = new Box(p0, p1, null, objectToWorld, worldToObject);
+      Box box = new Box(compositeTransform, null);
 
       box.RecalculateWorldBoundingBox();
 
@@ -103,9 +97,9 @@ public class HitTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = box.getHitInfo(ray);
+      boolean hits = box.hits(ray);
 
-      Assert.assertTrue(state.Hits);
+      Assert.assertTrue(hits);
    }
 
 }
