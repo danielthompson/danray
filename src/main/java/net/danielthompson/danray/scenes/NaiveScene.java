@@ -23,7 +23,7 @@ public class NaiveScene extends AbstractScene {
    @Override
    public IntersectionState getNearestShape(Ray ray, int x, int y) {
 
-      if (x == 319 && y == 266) {
+      if (x == 350 && y == 297) {
          int j = 0;
       }
 

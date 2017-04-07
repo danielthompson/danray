@@ -336,36 +336,20 @@ public class SceneBuilder {
 
       Material material = new Material();
 
-      material.BRDF = LambertianBRDF;
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Orange);
-
-      inputTransforms = new Transform[2];
-      inputTransforms[0] = Transform.Translate(new Vector(50.0f, 0.0f, 40.0f));
-      inputTransforms[1] = Transform.Scale(10f);
-
-      compositeTransforms = Transform.composite(inputTransforms);
-
-      Sphere sphere1 = new Sphere(compositeTransforms, material);
+//      material.BRDF = LambertianBRDF;
+//      material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Orange);
+//
+//      inputTransforms = new Transform[2];
+//      inputTransforms[0] = Transform.Translate(new Vector(50.0f, 0.0f, 40.0f));
+//      inputTransforms[1] = Transform.Scale(10f);
+//
+//      compositeTransforms = Transform.composite(inputTransforms);
+//
+//      Sphere sphere1 = new Sphere(compositeTransforms, material);
 
       //scene.addShape(sphere1);
 
-      // yellow ball
 
-      material = new Material();
-      material.BRDF = LambertianBRDF;
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Beige);
-
-      inputTransforms = new Transform[2];
-      //inputTransforms[0] = Transform.Translate(new Vector(-150.0f, -50.0f, 100.0f));
-      //inputTransforms[1] = Transform.Scale(55f, 55f, 55f);
-      inputTransforms[0] = Transform.Translate(new Vector(-175.0f, -75.0f, -200.0f));
-      inputTransforms[1] = Transform.Scale(50f);
-
-      compositeTransforms = Transform.composite(inputTransforms);
-
-      Sphere sphere2 = new Sphere(compositeTransforms, material);
-
-      scene.addShape(sphere2);
 
       // green ball
 
@@ -401,6 +385,24 @@ public class SceneBuilder {
 
       scene.addShape(box);
 
+      // yellow ball
+
+      material = new Material();
+      material.BRDF = LambertianBRDF;
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Beige);
+
+      inputTransforms = new Transform[2];
+      //inputTransforms[0] = Transform.Translate(new Vector(-150.0f, -50.0f, 100.0f));
+      //inputTransforms[1] = Transform.Scale(55f, 55f, 55f);
+      inputTransforms[0] = Transform.Translate(new Vector(-175.0f, -75.0f, -200.0f));
+      inputTransforms[1] = Transform.Scale(50f);
+
+      compositeTransforms = Transform.composite(inputTransforms);
+
+      Sphere sphere2 = new Sphere(compositeTransforms, material);
+
+      scene.addShape(sphere2);
+
       // white light
 
       SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(Color.white, 1000000.0f);
@@ -420,34 +422,34 @@ public class SceneBuilder {
 
       // red light
 
-      lightSPD = new SpectralPowerDistribution(Firenze.Orange, 100000.0f);
-
-      inputTransforms = new Transform[2];
-      inputTransforms[0] = Transform.Translate(new Vector(300, -3300, -1500));
-      inputTransforms[1] = Transform.Scale(100f, 100f, 100f);
-
-      compositeTransforms = Transform.composite(inputTransforms);
-
-      sphere = new Sphere(compositeTransforms, null);
-
-      light = new SphereLight(sphere, lightSPD);
+//      lightSPD = new SpectralPowerDistribution(Firenze.Orange, 100000.0f);
+//
+//      inputTransforms = new Transform[2];
+//      inputTransforms[0] = Transform.Translate(new Vector(300, -3300, -1500));
+//      inputTransforms[1] = Transform.Scale(100f, 100f, 100f);
+//
+//      compositeTransforms = Transform.composite(inputTransforms);
+//
+//      sphere = new Sphere(compositeTransforms, null);
+//
+//      light = new SphereLight(sphere, lightSPD);
 
       //scene.Shapes.add(light);
       //scene.Lights.add(light);
 
       // point light
 
-      lightSPD = new SpectralPowerDistribution(Color.white, 100000.0f);
-
-      inputTransforms = new Transform[2];
-      inputTransforms[0] = Transform.Translate(new Vector(300, -3300, -1500));
-      inputTransforms[1] = Transform.Scale(100f, 100f, 100f);
-
-      compositeTransforms = Transform.composite(inputTransforms);
-
-      sphere = new Sphere(compositeTransforms, null);
-
-      PointLight pointLight = new PointLight(lightSPD, new Point(300, 3300, -1500));
+//      lightSPD = new SpectralPowerDistribution(Color.white, 100000.0f);
+//
+//      inputTransforms = new Transform[2];
+//      inputTransforms[0] = Transform.Translate(new Vector(300, -3300, -1500));
+//      inputTransforms[1] = Transform.Scale(100f, 100f, 100f);
+//
+//      compositeTransforms = Transform.composite(inputTransforms);
+//
+//      sphere = new Sphere(compositeTransforms, null);
+//
+//      PointLight pointLight = new PointLight(lightSPD, new Point(300, 3300, -1500));
 
       //scene.Shapes.add(light);
       //scene.Lights.add(pointLight);
