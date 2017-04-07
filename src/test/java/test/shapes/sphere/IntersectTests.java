@@ -32,8 +32,6 @@ public class IntersectTests {
    @Test
    public void testIntersect1() throws Exception {
       Sphere sphere = new Sphere();
-      sphere.Origin = new Point(0, 0, 0);
-      sphere.Radius = 1;
 
       Point Origin = new Point(-10, 0, 0);
       Vector Direction = new Vector(1, 0, 0);
@@ -50,7 +48,6 @@ public class IntersectTests {
    @Test
    public void testIntersect2() throws Exception {
       Sphere sphere = new Sphere();
-      sphere.Origin = new Point(0, 0, 0);
       sphere.Radius = 10;
 
       Point Origin = new Point(0, 0, 0);

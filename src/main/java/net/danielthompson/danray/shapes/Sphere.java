@@ -185,7 +185,8 @@ public class Sphere extends AbstractShape {
 
       Sphere rhs = (Sphere) obj;
 
-      return (Origin.equals(rhs.Origin) && Radius == rhs.Radius && Material.equals(rhs.Material));
+      return !(Material != null && rhs.Material == null) && !(Material == null && rhs.Material != null) && (Origin.equals(rhs.Origin) && Radius == rhs.Radius && (Material == null || Material.equals(rhs.Material)));
+
    }
 
 }

@@ -16,49 +16,55 @@ public class TransformedIntersectionTests {
    @Test
    public void shouldHit1() throws Exception {
 
-      Point p1 = new Point(-1, -1, -1);
-      Point p2 = new Point(1, 1, 1);
       Material material = null;
 
-      Transform transform = Transform.Scale(2, 1, 1);
+      Transform[] transforms = new Transform[2];
+      transforms[0] = Transform.Scale(4.0f, 2.0f, 2.0f);
+      transforms[1] = Transform.Translate(new Vector(-0.5f, -0.5f, -0.5f));
+      Transform compositeTransform[] = Transform.composite(transforms);
 
-      Box box = new Box(p1, p2, material, transform, transform.Invert());
+      Box box = new Box(compositeTransform, material);
 
       Point origin = new Point(1.1f, 0, 10);
       Vector direction = new Vector(0, 0, -1);
 
       Ray ray = new Ray(origin, direction);
 
+      boolean hits = box.hits(ray);
+
       IntersectionState state = box.getHitInfo(ray);
 
       Point expectedIntersectionPoint = new Point(1.1f, 0, 1);
       Normal expectedNormalDirection = new Normal(0, 0, 1);
 
-      Assert.assertTrue(state.Hits, "Should hit");
-      Assert.assertEquals(state.IntersectionPoint, expectedIntersectionPoint);
+      Assert.assertTrue(hits, "Should hit");
+      AssertHelper.assertEquals(state.IntersectionPoint, expectedIntersectionPoint);
       AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 
    @Test
    public void shouldHit2() throws Exception {
 
-      Point p1 = new Point(0, 0, 0);
-      Point p2 = new Point(2, 2, 2);
       Material material = null;
 
-      Box box = new Box(p1, p2, material);
+      Transform[] transforms = new Transform[1];
+      transforms[0] = Transform.Scale(2.0f);
+      Transform compositeTransform[] = Transform.composite(transforms);
+
+      Box box = new Box(compositeTransform, material);
 
       Point origin = new Point(0, 1, 3);
       Vector direction = new Vector(1, 0, -1);
 
       Ray ray = new Ray(origin, direction);
 
+      boolean hits = box.hits(ray);
       IntersectionState state = box.getHitInfo(ray);
 
       Point expectedIntersectionPoint = new Point(1, 1, 2);
       Normal expectedNormalDirection = new Normal(0, 0, 1);
 
-      Assert.assertTrue(state.Hits, "Should hit");
+      Assert.assertTrue(hits, "Should hit");
       AssertHelper.assertEquals(state.IntersectionPoint, expectedIntersectionPoint);
       AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
@@ -66,23 +72,27 @@ public class TransformedIntersectionTests {
    @Test
    public void shouldHit3() throws Exception {
 
-      Point p1 = new Point(0, 0, 0);
-      Point p2 = new Point(2, 2, 2);
+      Material material = null;
 
-      Box box = new Box(p1, p2, null);
+      Transform[] transforms = new Transform[1];
+      transforms[0] = Transform.Scale(2.0f);
+      Transform compositeTransform[] = Transform.composite(transforms);
+
+      Box box = new Box(compositeTransform, material);
 
       Point origin = new Point(4, 1, 4);
       Vector direction = new Vector(-1, 0, -1);
 
       Ray ray = new Ray(origin, direction);
 
+      boolean hits = box.hits(ray);
       IntersectionState state = box.getHitInfo(ray);
 
       Point expectedIntersectionPoint = new Point(2, 1, 2);
       Normal expectedNormalDirection = new Normal(0, 0, 1);
 
       Assert.assertNotNull(state, "IntersectionState shouldn't be null");
-      Assert.assertTrue(state.Hits, "Should hit");
+      Assert.assertTrue(hits, "Should hit");
       Assert.assertNotNull(state.IntersectionPoint, "IntersectionPoint shouldn't be null if hits...");
       AssertHelper.assertEquals(state.IntersectionPoint, expectedIntersectionPoint);
       AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
@@ -91,22 +101,26 @@ public class TransformedIntersectionTests {
    @Test
    public void shouldHit4() throws Exception {
 
-      Point p1 = new Point(0, 0, 0);
-      Point p2 = new Point(2, 2, 2);
+      Material material = null;
 
-      Box box = new Box(p1, p2, null);
+      Transform[] transforms = new Transform[1];
+      transforms[0] = Transform.Scale(2.0f);
+      Transform compositeTransform[] = Transform.composite(transforms);
+
+      Box box = new Box(compositeTransform, material);
 
       Point origin = new Point(5, 1, 2);
       Vector direction = new Vector(-1, 0, 0);
 
       Ray ray = new Ray(origin, direction);
 
+      boolean hits = box.hits(ray);
       IntersectionState state = box.getHitInfo(ray);
 
       Point expectedIntersectionPoint = new Point(2, 1, 2);
       Normal expectedNormalDirection = new Normal(0, 0, 1);
 
-      Assert.assertTrue(state.Hits, "Should hit");
+      Assert.assertTrue(hits, "Should hit");
       AssertHelper.assertEquals(state.IntersectionPoint, expectedIntersectionPoint);
       AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
