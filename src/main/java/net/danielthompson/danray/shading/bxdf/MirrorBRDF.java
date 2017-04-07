@@ -39,6 +39,9 @@ public class MirrorBRDF extends BRDF {
       normal.Normalize();
       float factor = incoming.Dot(normal) * 2;
       Vector scaled = new Vector(Normal.Scale(normal, factor));
+
+      //Vector outgoing = Vector.Minus(incoming, scaled);
+
       Vector outgoing = Vector.Minus(ZeroVector, Vector.Minus(scaled, incoming));
 
       return outgoing;

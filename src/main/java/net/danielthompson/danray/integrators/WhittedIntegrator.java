@@ -64,9 +64,6 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
       // calculate direct light
 
-      if (x == 319 && y == 266) {
-         int j = 0;
-      }
 
       for (AbstractLight light : scene.Lights) {
          Point intersectionPoint = closestStateToRay.IntersectionPoint;
@@ -95,6 +92,16 @@ public class WhittedIntegrator extends AbstractIntegrator {
 //                  float angleOfIncidencePercentage = GeometryCalculations.GetIncidencePercentage(lightToNearestShape.Direction, closestStateToRay.Normal);
 
                   float angleOfIncidencePercentage = GeometryCalculations.GetCosineWeightedIncidencePercentage(lightToNearestShape.Direction, closestStateToRay.Normal);
+
+                  if (x == 393 && y == 288) { // inside
+                     int j = 0;
+                  }
+
+
+                  if (x == 404 && y == 288) { // out
+                     int j = 0;
+                  }
+
 
                   SpectralPowerDistribution scaledIncomingSPD = SpectralPowerDistribution.scale(light.SpectralPowerDistribution, angleOfIncidencePercentage);
                   scaledIncomingSPD.scale(oneOverDistanceFromLightSourceSquared);
