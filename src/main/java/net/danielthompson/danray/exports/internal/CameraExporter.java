@@ -17,14 +17,8 @@ public class CameraExporter {
       rootElement.setAttribute("Type", String.valueOf(object.getClass().getSimpleName()));
 
       Element orientation = document.createElement("CurrentOrientation");
-      orientation.appendChild(RayExporter.Process(object._currentOrientation, document, rootElement));
-      rootElement.appendChild(orientation);
 
-      if (object._rearFocalPoint != null) {
-         Element rearFocalPoint = document.createElement("RearFocalPoint");
-         rearFocalPoint.appendChild(PointExporter.Process(object._rearFocalPoint, document, rootElement));
-         rootElement.appendChild(rearFocalPoint);
-      }
+      rootElement.appendChild(orientation);
 
       parent.appendChild(rootElement);
 

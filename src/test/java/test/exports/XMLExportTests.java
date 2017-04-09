@@ -3,7 +3,7 @@ package test.exports;
 import net.danielthompson.danray.SceneBuilder;
 import net.danielthompson.danray.cameras.Camera;
 import net.danielthompson.danray.cameras.CameraSettings;
-import net.danielthompson.danray.cameras.SimplePointableCamera;
+import net.danielthompson.danray.cameras.PerspectiveCamera;
 import net.danielthompson.danray.cameras.apertures.Aperture;
 import net.danielthompson.danray.cameras.apertures.CircleAperture;
 import net.danielthompson.danray.cameras.apertures.SquareAperture;
@@ -564,7 +564,7 @@ public class XMLExportTests {
 
       settings.Orientation = new Ray(origin, direction);
 
-      final Camera object = new SimplePointableCamera(settings);
+      final Camera object = new PerspectiveCamera(settings, null);
 
       File file = new File(_dir, "abstractcamera.xml");
 

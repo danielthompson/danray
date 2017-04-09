@@ -12,7 +12,6 @@ import net.danielthompson.danray.scenes.NaiveScene;
 import net.danielthompson.danray.scenes.AbstractScene;
 import net.danielthompson.danray.shading.*;
 import net.danielthompson.danray.shading.bxdf.BRDF;
-import net.danielthompson.danray.shading.bxdf.GlossyBRDF;
 import net.danielthompson.danray.shading.bxdf.LambertianBRDF;
 import net.danielthompson.danray.shading.bxdf.MirrorBRDF;
 import net.danielthompson.danray.shapes.*;
@@ -88,7 +87,7 @@ public class SceneBuilder {
       Vector direction = new Vector(0, 0, -1);
       settings.Orientation = new Ray(origin, direction);
 
-      Camera camera = new SimplePointableCamera(settings);
+      Camera camera = new PerspectiveCamera(settings, null);
 
       AbstractScene scene = new NaiveScene(camera);
 
@@ -316,19 +315,19 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
-      settings.FieldOfView = 45f;
+      settings.FieldOfView = 50f;
 
       settings.FocusDistance = 500;
       settings.Aperture = new CircleAperture(20);
 
-      Transform[] inputTransforms = new Transform[2];
-      inputTransforms[0] = Transform.Translate(new Vector(0, 0, 200));
-      //inputTransforms[1] = Transform.RotateX(45);
-      inputTransforms[1] = Transform.identity;
+      Transform[] inputTransforms = new Transform[1];
+      inputTransforms[0] = Transform.Translate(new Vector(-200, 0, 200));
+      //inputTransforms[1] = Transform.RotateY(-45);
+      inputTransforms[0] = Transform.identity;
 
       Transform[] compositeTransforms = Transform.composite(inputTransforms);
 
-      Camera camera = new TransformCamera(settings, compositeTransforms[0]);
+      Camera camera = new PerspectiveCamera(settings, compositeTransforms[0]);
 
       AbstractScene scene = new NaiveScene(camera);
 
@@ -373,12 +372,12 @@ public class SceneBuilder {
       material.BRDF = MirrorBRDF;
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Solarized.cyan);
 
-      inputTransforms = new Transform[3];
-      inputTransforms[0] = Transform.Translate(new Vector(100.0f, 0.0f, -25f));
+      inputTransforms = new Transform[2];
+      inputTransforms[0] = Transform.Translate(new Vector(100.0f, 0.0f, -250f));
       //inputTransforms[1] = Transform.RotateX(45);
       //inputTransforms[2] = Transform.RotateY(45);
       inputTransforms[1] = Transform.Scale(100f, 100f, 100f);
-      inputTransforms[2] = Transform.Translate(new Vector(-.5f, -.5f, -.5f));
+      //inputTransforms[3] = Transform.Translate(new Vector(-.5f, -.5f, -.5f));
 
       compositeTransforms = Transform.composite(inputTransforms);
 
@@ -418,8 +417,8 @@ public class SceneBuilder {
 
       AbstractLight light = new SphereLight(sphere, lightSPD);
 
-      //scene.Shapes.add(light);
-      //scene.Lights.add(light);
+//      scene.Shapes.add(light);
+//      scene.Lights.add(light);
 
       // red light
 
@@ -476,7 +475,7 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
-      settings.FieldOfView = 50;
+      settings.FieldOfView = 25;
 
       settings.FocusDistance = 500;
       settings.Aperture = new CircleAperture(20);
@@ -485,11 +484,11 @@ public class SceneBuilder {
 //      inputTransforms[0] = Transform.Translate(new Vector(-300, 0, 200));
       inputTransforms[1] = Transform.RotateY(90);
       inputTransforms[0] = Transform.Translate(new Vector(28.2792f, 3.5f, 0));
-      inputTransforms[1] = Transform.identity;
+      //inputTransforms[1] = Transform.identity;
 
       Transform[] compositeTransforms = Transform.composite(inputTransforms);
 
-      Camera camera = new TransformCamera(settings, compositeTransforms[0]);
+      Camera camera = new PerspectiveCamera(settings, compositeTransforms[0]);
 
       AbstractScene scene = new NaiveScene(camera);
 
@@ -500,28 +499,62 @@ public class SceneBuilder {
 
       material = new Material();
       material.BRDF = MirrorBRDF;
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(Solarized.green);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.white);
 
-      inputTransforms = new Transform[3];
+      inputTransforms = new Transform[4];
       inputTransforms[0] = Transform.Translate(new Vector(.264069f, 4.09801f, 0));
       inputTransforms[1] = Transform.RotateZ(-39.8801f);
       inputTransforms[2] = Transform.Scale(2.1f, 0.3f, 8f);
-      //inputTransforms[3] = Transform.Translate(new Vector(-.5f, -.5f, -.5f));
+      inputTransforms[3] = Transform.Translate(new Vector(-.5f, -.5f, -.5f));
 
       compositeTransforms = Transform.composite(inputTransforms);
 
       box = new Box(compositeTransforms, material);
-      scene.Shapes.add(box);
+      //scene.Shapes.add(box);
 
       // strip 2
 
       material = new Material();
       material.BRDF = MirrorBRDF;
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(Solarized.cyan);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.white);
 
       inputTransforms = new Transform[4];
       inputTransforms[0] = Transform.Translate(new Vector(3.06163f, 2.71702f, 0));
-      inputTransforms[1] = Transform.RotateX(-35);
+      inputTransforms[1] = Transform.RotateZ(-22.2154f);
+      inputTransforms[2] = Transform.Scale(2.1f, 0.3f, 8f);
+      inputTransforms[3] = Transform.Translate(new Vector(-.5f, -.5f, -.5f));
+
+      compositeTransforms = Transform.composite(inputTransforms);
+
+      box = new Box(compositeTransforms, material);
+      //scene.Shapes.add(box);
+
+      // strip 3
+
+      material = new Material();
+      material.BRDF = MirrorBRDF;
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.white);
+
+      inputTransforms = new Transform[4];
+      inputTransforms[0] = Transform.Translate(new Vector(7.09981f, 1.81891f, 0f));
+      inputTransforms[1] = Transform.RotateZ(-10.6515f);
+      inputTransforms[2] = Transform.Scale(2.1f, 0.3f, 8f);
+      inputTransforms[3] = Transform.Translate(new Vector(-.5f, -.5f, -.5f));
+
+      compositeTransforms = Transform.composite(inputTransforms);
+
+      box = new Box(compositeTransforms, material);
+      //scene.Shapes.add(box);
+
+      // strip 4
+
+      material = new Material();
+      material.BRDF = MirrorBRDF;
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.white);
+
+      inputTransforms = new Transform[4];
+      inputTransforms[0] = Transform.Translate(new Vector(10.6769f, 1.23376f, 0f));
+      inputTransforms[1] = Transform.RotateZ(-7.00104f);
       inputTransforms[2] = Transform.Scale(2.1f, 0.3f, 8f);
       inputTransforms[3] = Transform.Translate(new Vector(-.5f, -.5f, -.5f));
 
@@ -530,64 +563,13 @@ public class SceneBuilder {
       box = new Box(compositeTransforms, material);
       scene.Shapes.add(box);
 
-      // strip 3
+      // light 3
 
-      material = new Material();
-      material.BRDF = MirrorBRDF;
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(Solarized.blue);
-
-      inputTransforms = new Transform[4];
-      inputTransforms[0] = Transform.Translate(new Vector(0.0f, -87.0f, -250f));
-      inputTransforms[1] = Transform.RotateX(-65);
-      inputTransforms[2] = Transform.Scale(500f, 50f, 1f);
-      inputTransforms[3] = Transform.Translate(new Vector(-.5f, -.5f, -.5f));
-
-      compositeTransforms = Transform.composite(inputTransforms);
-
-      box = new Box(compositeTransforms, material);
-      scene.Shapes.add(box);
-
-      // strip 4
-
-      material = new Material();
-      material.BRDF = MirrorBRDF;
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(Solarized.violet);
-
-      inputTransforms = new Transform[4];
-      inputTransforms[0] = Transform.Translate(new Vector(0.0f, -112, -187));
-      inputTransforms[1] = Transform.RotateX(-80);
-      inputTransforms[2] = Transform.Scale(500f, 50f, 1f);
-      inputTransforms[3] = Transform.Translate(new Vector(-.5f, -.5f, -.5f));
-
-      compositeTransforms = Transform.composite(inputTransforms);
-
-      box = new Box(compositeTransforms, material);
-      scene.Shapes.add(box);
-
-      for (int i = 0; i < 4; i++) {
-         SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(Color.white, 10000.0f);
-
-         inputTransforms = new Transform[2];
-         inputTransforms[0] = Transform.Translate(new Vector(((float)i - 1.5f) * 80, 100, -50));
-         inputTransforms[1] = Transform.Scale((float)Math.pow(i, 1.5) * 5 + 5);
-
-         compositeTransforms = Transform.composite(inputTransforms);
-
-         Sphere sphere = new Sphere(compositeTransforms, null);
-
-         AbstractLight light = new SphereLight(sphere, lightSPD);
-
-         scene.Shapes.add(light);
-         scene.Lights.add(light);
-      }
-
-      // white light
-
-      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(Color.white, 1000000.0f);
+      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(Color.white, 1.0f);
 
       inputTransforms = new Transform[2];
-      inputTransforms[0] = Transform.Translate(new Vector(300, 3300, -1500));
-      inputTransforms[1] = Transform.Scale(100f, 100f, 100f);
+      inputTransforms[0] = Transform.Translate(new Vector(0, 6.5f, 2.7f));
+      inputTransforms[1] = Transform.Scale(-0.05f);
 
       compositeTransforms = Transform.composite(inputTransforms);
 
@@ -595,8 +577,41 @@ public class SceneBuilder {
 
       AbstractLight light = new SphereLight(sphere, lightSPD);
 
-      //scene.Shapes.add(light);
-      //scene.Lights.add(light);
+      scene.Shapes.add(light);
+      scene.Lights.add(light);
+
+      // light 3
+
+      lightSPD = new SpectralPowerDistribution(Color.white, 1.0f);
+
+      inputTransforms = new Transform[2];
+      inputTransforms[0] = Transform.Translate(new Vector(0, 6.5f, 0));
+      inputTransforms[1] = Transform.Scale(-0.5f);
+
+      compositeTransforms = Transform.composite(inputTransforms);
+
+      sphere = new Sphere(compositeTransforms, null);
+
+      light = new SphereLight(sphere, lightSPD);
+
+      scene.Shapes.add(light);
+      scene.Lights.add(light);
+
+      // light 4
+
+      lightSPD = new SpectralPowerDistribution(Color.white, 1.0f);
+
+      inputTransforms = new Transform[1];
+      inputTransforms[0] = Transform.Translate(new Vector(0, 6.5f, -2.8f));
+
+      compositeTransforms = Transform.composite(inputTransforms);
+
+      sphere = new Sphere(compositeTransforms, null);
+
+      light = new SphereLight(sphere, lightSPD);
+
+      scene.Shapes.add(light);
+      scene.Lights.add(light);
 
       // red light
 
@@ -663,7 +678,7 @@ public class SceneBuilder {
       Vector direction = new Vector(0, -.35f, -1);
       settings.Orientation = new Ray(origin, direction);
 
-      Camera camera = new DepthOfFieldCamera(settings);
+      Camera camera = new PerspectiveCamera(settings, null);
 
       AbstractScene scene = new NaiveScene(camera);
 
@@ -720,16 +735,7 @@ public class SceneBuilder {
       Vector direction = new Vector(0, 1, -1);
       settings.Orientation = new Ray(origin, direction);
 
-      Camera camera = null;
-
-      if (Main.UseDepthOfField) {
-         camera = new DepthOfFieldCamera(settings);
-      }
-
-      else {
-//         camera = new IsometricCamera(settings);
-         camera = new SimplePointableCamera(settings);
-      }
+      Camera camera = new PerspectiveCamera(settings, null);
 
 //      AbstractScene scene = new NaiveScene(camera);
       AbstractScene scene = new KDCompactScene(camera);
@@ -850,16 +856,7 @@ public class SceneBuilder {
       Vector direction = new Vector(0, 0, -1);
       settings.Orientation = new Ray(origin, direction);
 
-      Camera camera = null;
-
-      if (Main.UseDepthOfField) {
-         camera = new DepthOfFieldCamera(settings);
-      }
-
-      else {
-//         camera = new IsometricCamera(settings);
-         camera = new SimplePointableCamera(settings);
-      }
+      Camera camera = new PerspectiveCamera(settings, null);
 
       AbstractScene scene = new NaiveScene(camera);
 //      AbstractScene scene = new KDCompactScene(camera);
@@ -919,28 +916,7 @@ public class SceneBuilder {
       Vector direction = new Vector(0, 0, -1);
       settings.Orientation = new Ray(origin, direction);
 
-      Camera camera = null;
-/*
-      CameraOrientationMovement movement = new CameraOrientationMovement();
-      movement.frame = 240;
-
-      Point finalOrigin = new Point(800, 400, 700);
-      Vector finalDirection = new Vector(-.50, 0, -1);
-      Ray finalOrientation = new Ray(finalOrigin, finalDirection);
-
-      movement.orientation = finalOrientation;
-      settings.Movement = movement;
-*/
-      if (Main.UseDepthOfField) {
-         camera = new DepthOfFieldCamera(settings);
-
-      }
-
-      else {
-         //camera = new IsometricCamera(x, y, rotation, zoomFactor, orientation);
-
-         camera = new SimplePointableCamera(settings);
-      }
+      Camera camera = new PerspectiveCamera(settings, null);
 
       AbstractScene scene = new NaiveScene(camera);
 
@@ -1085,15 +1061,7 @@ public class SceneBuilder {
       Vector direction = new Vector(-.1f, -.3f, -1);
       settings.Orientation = new Ray(origin, direction);
 
-      Camera camera = null;
-
-      if (Main.UseDepthOfField) {
-         camera = new DepthOfFieldCamera(settings);
-      }
-
-      else {
-         camera = new IsometricCamera(settings);
-      }
+      Camera camera = new PerspectiveCamera(settings, null);
 
       AbstractScene scene = new KDScene(camera);
 
@@ -1229,21 +1197,7 @@ public class SceneBuilder {
 
       settings.Orientation = new Ray(origin, direction);
 
-      Camera camera = null;
-/*
-      CameraOrientationMovement movement = new CameraOrientationMovement();
-      movement.frame = 240;
-      movement.orientation = new Ray(new Point(100, 300, 1500), new Vector(0, 0, -1));
-
-      settings.Movement = movement;
-*/
-      if (Main.UseDepthOfField) {
-         camera = new SimplePointableCamera(settings);
-      }
-
-      else {
-         camera = new SimplePointableCamera(settings);
-      }
+      Camera camera = new PerspectiveCamera(settings, null);
       //Vector orientation = new Vector(new Point(x/2, y/2, 1600), new Point(0, 0, -1));
 
       AbstractScene scene = new KDScene(camera);
@@ -1543,18 +1497,7 @@ public class SceneBuilder {
 
       settings.Orientation = new Ray(origin, direction);
 
-
-      Camera camera = null;
-
-      if (Main.UseDepthOfField) {
-         camera = new DepthOfFieldCamera(settings);
-      }
-
-      else {
-         camera = new SimplePointableCamera(settings);
-         //camera = new DepthOfFieldCamera(settings);
-
-      }
+      Camera camera = new PerspectiveCamera(settings, null);
 
       AbstractScene scene = new NaiveScene(camera);
 
@@ -1805,17 +1748,7 @@ public class SceneBuilder {
       float zoomFactor = 1.0f/2.0f;
       float focusDistance = 1487.0f;
 
-
-
-      Camera camera = null;
-
-      if (Main.UseDepthOfField) {
-         camera = new DepthOfFieldCamera(settings);
-      }
-
-      else {
-         camera = new SimplePointableCamera(settings);
-      }
+      Camera camera = new PerspectiveCamera(settings, null);
 
       KDScene scene = new KDScene(camera);
 
@@ -1966,17 +1899,7 @@ public class SceneBuilder {
 
       settings.Aperture = new CircleAperture(50);
 
-      Camera camera = null;
-
-      if (Main.UseDepthOfField) {
-         camera = new DepthOfFieldCamera(settings);
-      }
-
-      else {
-
-         camera = new SimplePointableCamera(settings);
-
-      }
+      Camera camera = new PerspectiveCamera(settings, null);
 
       KDScene scene = new KDScene(camera);
 
@@ -2082,7 +2005,7 @@ public class SceneBuilder {
       Vector direction = new Vector(0, 0, -1);
       settings.Orientation = new Ray(origin, direction);
 
-      Camera camera = new SimplePointableCamera(settings);
+      Camera camera = new PerspectiveCamera(settings, null);
 
       AbstractScene scene = new NaiveScene(camera);
 

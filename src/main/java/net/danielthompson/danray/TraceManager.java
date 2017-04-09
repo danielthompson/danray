@@ -614,12 +614,20 @@ public class TraceManager {
       Logger.Flush();
    }
 
-   public void moveOrigin(int x, int y, int z) {
-      Vector offset = new Vector(x, y, z);
-      _scene.Camera.moveOrigin(offset);
+   public void moveOriginAlongAxis(int x, int y, int z) {
+      Vector delta = new Vector(x, y, z);
+      _scene.Camera.moveOriginAlongAxis(delta);
       Render();
    }
 
+   public void moveOrigin(int x, int y, int z) {
+      Vector delta = new Vector(x, y, z);
+      _scene.Camera.moveOrigin(delta);
+      Render();
+   }
 
-
+   public void moveDirection(float x, float y, float z) {
+      _scene.Camera.moveDirection(x, y, z);
+      Render();
+   }
 }

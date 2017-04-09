@@ -1,5 +1,8 @@
 package net.danielthompson.danray.ui.opengl;
 
+import com.sun.deploy.trace.Trace;
+import net.danielthompson.danray.TraceManager;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashMap;
@@ -26,10 +29,12 @@ public class OpenGLKeyListener extends TimerTask implements KeyListener {
 
    private final float _sensitivityFactor = 10.0f;
 
-   public OpenGLKeyListener(OpenGLCameraState cameraState) {
+   private TraceManager _traceManager;
+
+   public OpenGLKeyListener(OpenGLCameraState cameraState, TraceManager traceManager) {
 
       _cameraState = cameraState;
-
+      _traceManager = traceManager;
       _timer.schedule(this, 0, 50);
 
       _keyPressHistories = new HashMap<>();
@@ -108,49 +113,49 @@ public class OpenGLKeyListener extends TimerTask implements KeyListener {
 
    public void processKeys() {
 
-      for (int keyCode : _keyPressHistories.keySet()) {
-         KeyHistory history = _keyPressHistories.get(keyCode);
-         float percentage = history.GetPercentage() * _sensitivityFactor;
-
-         float rad = (float) Math.toRadians(_cameraState._yRotation);
-         float cos = (float) (Math.cos(rad) * percentage);
-         float sin = (float) (Math.sin(rad) * percentage);
-
-         switch (keyCode) {
-            case KeyEvent.VK_W: {
-               _cameraState._position[0] += sin;
-               _cameraState._position[2] -= cos;
-               break;
-            }
-            case KeyEvent.VK_S: {
-               _cameraState._position[0] -= sin;
-               _cameraState._position[2] += cos;
-               break;
-            }
-            case KeyEvent.VK_A: {
-               _cameraState._position[0] -= cos;
-               _cameraState._position[2] -= sin;
-               break;
-            }
-            case KeyEvent.VK_D: {
-               _cameraState._position[0] += cos;
-               _cameraState._position[2] += sin;
-               break;
-            }
-            case KeyEvent.VK_E: {
-               _cameraState._yRotation += 10;
-               if (_cameraState._yRotation >= 360)
-                  _cameraState._yRotation %= 360;
-               break;
-            }
-            case KeyEvent.VK_Q: {
-               _cameraState._yRotation -= 10;
-               while (_cameraState._yRotation <= 0)
-                  _cameraState._yRotation += 360;
-               break;
-            }
-         }
-      }
+//      for (int keyCode : _keyPressHistories.keySet()) {
+//         KeyHistory history = _keyPressHistories.get(keyCode);
+//         float percentage = history.GetPercentage() * _sensitivityFactor;
+//
+//         float rad = (float) Math.toRadians(_cameraState._yRotation);
+//         float cos = (float) (Math.cos(rad) * percentage);
+//         float sin = (float) (Math.sin(rad) * percentage);
+//
+//         switch (keyCode) {
+//            case KeyEvent.VK_W: {
+//               _cameraState._position[0] += sin;
+//               _cameraState._position[2] -= cos;
+//               break;
+//            }
+//            case KeyEvent.VK_S: {
+//               _cameraState._position[0] -= sin;
+//               _cameraState._position[2] += cos;
+//               break;
+//            }
+//            case KeyEvent.VK_A: {
+//               _cameraState._position[0] -= cos;
+//               _cameraState._position[2] -= sin;
+//               break;
+//            }
+//            case KeyEvent.VK_D: {
+//               _cameraState._position[0] += cos;
+//               _cameraState._position[2] += sin;
+//               break;
+//            }
+//            case KeyEvent.VK_E: {
+//               _cameraState._yRotation += 10;
+//               if (_cameraState._yRotation >= 360)
+//                  _cameraState._yRotation %= 360;
+//               break;
+//            }
+//            case KeyEvent.VK_Q: {
+//               _cameraState._yRotation -= 10;
+//               while (_cameraState._yRotation <= 0)
+//                  _cameraState._yRotation += 360;
+//               break;
+//            }
+//         }
+//      }
    }
 
    @Override
@@ -181,9 +186,9 @@ public class OpenGLKeyListener extends TimerTask implements KeyListener {
          KeyHistory history = _keyPressHistories.get(keyCode);
          history.StartPress();
       }
-
-      System.out.println("pos: " + _cameraState._position[0] + " " + _cameraState._position[1] + " " +  _cameraState._position[2]);
-      System.out.println("y rot: " + _cameraState._yRotation);
+//
+//      System.out.println("pos: " + _cameraState._position[0] + " " + _cameraState._position[1] + " " +  _cameraState._position[2]);
+//      System.out.println("y rot: " + _cameraState._yRotation);
    }
 
    @Override

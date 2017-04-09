@@ -55,6 +55,8 @@ public class InfoJFrame extends javax.swing.JFrame {
 
    private final int MOVEMENT_AMOUNT = 20;
 
+   private final int ROTATION_AMOUNT = 10;
+
    /**
    * This method is called from within the constructor to initialize the form.
    * WARNING: Do NOT modify this code. The content of this method is always
@@ -713,75 +715,75 @@ public class InfoJFrame extends javax.swing.JFrame {
    }// </editor-fold>//GEN-END:initComponents
 
    private void originYMinusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_originYMinusButtonActionPerformed
-      _traceManager.moveOrigin(0, -MOVEMENT_AMOUNT, 0);
+      _traceManager.moveOriginAlongAxis(0, -MOVEMENT_AMOUNT, 0);
    }//GEN-LAST:event_originYMinusButtonActionPerformed
 
    private void originZPlusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_originZPlusButtonActionPerformed
-      _traceManager.moveOrigin(0, 0, MOVEMENT_AMOUNT);
+      _traceManager.moveOriginAlongAxis(0, 0, MOVEMENT_AMOUNT);
    }//GEN-LAST:event_originZPlusButtonActionPerformed
 
    private void originXPlusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_originXPlusButtonActionPerformed
-      _traceManager.moveOrigin(MOVEMENT_AMOUNT, 0, 0);
+      _traceManager.moveOriginAlongAxis(MOVEMENT_AMOUNT, 0, 0);
    }//GEN-LAST:event_originXPlusButtonActionPerformed
 
    private void originXMinusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_originXMinusButtonActionPerformed
-      _traceManager.moveOrigin(-MOVEMENT_AMOUNT, 0, 0);
+      _traceManager.moveOriginAlongAxis(-MOVEMENT_AMOUNT, 0, 0);
    }//GEN-LAST:event_originXMinusButtonActionPerformed
 
    private void originZMinusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_originZMinusButtonActionPerformed
-      _traceManager.moveOrigin(0, 0, -MOVEMENT_AMOUNT);
+      _traceManager.moveOriginAlongAxis(0, 0, -MOVEMENT_AMOUNT);
    }//GEN-LAST:event_originZMinusButtonActionPerformed
 
    private void originYPlusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_originYPlusButtonActionPerformed
-      _traceManager.moveOrigin(0, MOVEMENT_AMOUNT, 0);
+      _traceManager.moveOriginAlongAxis(0, MOVEMENT_AMOUNT, 0);
    }//GEN-LAST:event_originYPlusButtonActionPerformed
 
    private void originUpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_originUpButtonActionPerformed
-     // TODO add your handling code here:
+      _traceManager.moveOrigin(0, MOVEMENT_AMOUNT, 0);
    }//GEN-LAST:event_originUpButtonActionPerformed
 
    private void originForwardButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_originForwardButtonActionPerformed
-     // TODO add your handling code here:
+      _traceManager.moveOrigin(0, 0, -MOVEMENT_AMOUNT);
    }//GEN-LAST:event_originForwardButtonActionPerformed
 
    private void originLeftButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_originLeftButtonActionPerformed
-     // TODO add your handling code here:
+      _traceManager.moveOrigin(-MOVEMENT_AMOUNT, 0, 0);
    }//GEN-LAST:event_originLeftButtonActionPerformed
 
    private void originRightButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_originRightButtonActionPerformed
-     // TODO add your handling code here:
+      _traceManager.moveOrigin(MOVEMENT_AMOUNT, 0, 0);
    }//GEN-LAST:event_originRightButtonActionPerformed
 
    private void originBackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_originBackButtonActionPerformed
-     // TODO add your handling code here:
+      _traceManager.moveOrigin(0, 0, MOVEMENT_AMOUNT);
    }//GEN-LAST:event_originBackButtonActionPerformed
 
    private void originDownButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_originDownButtonActionPerformed
-     // TODO add your handling code here:
+      _traceManager.moveOrigin(0, -MOVEMENT_AMOUNT, 0);
    }//GEN-LAST:event_originDownButtonActionPerformed
 
    private void directionYPlusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_directionYPlusButtonActionPerformed
-     // TODO add your handling code here:
+      _traceManager.moveDirection(0, ROTATION_AMOUNT, 0);
    }//GEN-LAST:event_directionYPlusButtonActionPerformed
 
    private void directionZMinusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_directionZMinusButtonActionPerformed
-     // TODO add your handling code here:
+      _traceManager.moveDirection(0, 0, -ROTATION_AMOUNT);
    }//GEN-LAST:event_directionZMinusButtonActionPerformed
 
    private void directionXMinusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_directionXMinusButtonActionPerformed
-     // TODO add your handling code here:
+      _traceManager.moveDirection(-ROTATION_AMOUNT, 0, 0);
    }//GEN-LAST:event_directionXMinusButtonActionPerformed
 
    private void directionXPlusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_directionXPlusButtonActionPerformed
-     // TODO add your handling code here:
+      _traceManager.moveDirection(ROTATION_AMOUNT, 0, 0);
    }//GEN-LAST:event_directionXPlusButtonActionPerformed
 
    private void directionZPlusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_directionZPlusButtonActionPerformed
-     // TODO add your handling code here:
+      _traceManager.moveDirection(0, 0, ROTATION_AMOUNT);
    }//GEN-LAST:event_directionZPlusButtonActionPerformed
 
    private void directionYMinusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_directionYMinusButtonActionPerformed
-     // TODO add your handling code here:
+      _traceManager.moveDirection(0, -ROTATION_AMOUNT, 0);
    }//GEN-LAST:event_directionYMinusButtonActionPerformed
 
    private void directionUpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_directionUpButtonActionPerformed

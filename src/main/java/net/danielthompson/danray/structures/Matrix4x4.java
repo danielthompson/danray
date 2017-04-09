@@ -81,6 +81,30 @@ public class Matrix4x4 {
       matrix[3][3] = t33;
    }
 
+   public double[] getRowMajor() {
+      double[] rowMajor = new double[16];
+
+      for (int i = 0; i < 4; i++) {
+         for (int j = 0; j < 4; j++) {
+            rowMajor[i*4 + j] = matrix[i][j];
+         }
+      }
+
+      return rowMajor;
+   }
+
+   public double[] getColMajor() {
+      double[] colMajor = new double[16];
+
+      for (int i = 0; i < 4; i++) {
+         for (int j = 0; j < 4; j++) {
+            colMajor[j*4 + i] = matrix[i][j];
+         }
+      }
+
+      return colMajor;
+   }
+
    public Matrix4x4 Transpose() {
       return new Matrix4x4(
             matrix[0][0], matrix[1][0], matrix[2][0], matrix[3][0],

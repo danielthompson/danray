@@ -5,19 +5,14 @@ import net.danielthompson.danray.structures.*;
 /**
  * Created by dthompson on 03 Apr 17.
  */
-public class TransformCamera extends Camera {
-
-   public static final Point Origin = new Point(0, 0, 0);
-
-   public Transform cameraToWorld;
+public class PerspectiveCamera extends Camera {
 
    private float OneOverWidth;
 
    private float OneOverHeight;
 
-   public TransformCamera(CameraSettings settings, Transform cameraToWorld) {
-      super(settings);
-      this.cameraToWorld = cameraToWorld;
+   public PerspectiveCamera(CameraSettings settings, Transform cameraToWorld) {
+      super(settings, cameraToWorld);
 
       OneOverWidth = 1.0f / (float)Settings.X;
       OneOverHeight = 1.0f / (float)Settings.Y;
@@ -39,34 +34,11 @@ public class TransformCamera extends Camera {
 
       Vector direction = new Vector (imagePlanePixelInCameraSpace.X, imagePlanePixelInCameraSpace.Y, imagePlanePixelInCameraSpace.Z);
 
-      Ray cameraSpaceRay = new Ray(Origin, direction);
+      Ray cameraSpaceRay = new Ray(DefaultOrigin, direction);
 
       Ray worldSpaceRay = cameraToWorld.Apply(cameraSpaceRay);
 
       return worldSpaceRay;
-   }
-
-   public Ray[] getRays(float x, float y, int samples) {
-
-      Ray[] rays = new Ray[samples];
-
-      for (int i = 0; i < samples; i++) {
-         rays[i] = getRay(x, y);
-      }
-
-      return rays;
-   }
-
-   @Override
-   public Ray[] getRays(float[][] sampleLocations, int samples) {
-
-      Ray[] rays = new Ray[samples];
-
-      for (int i = 0; i < samples; i++) {
-         rays[i] = getRay(sampleLocations[i][0], sampleLocations[i][1]);
-      }
-
-      return rays;
    }
 
 

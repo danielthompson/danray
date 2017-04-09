@@ -10,8 +10,6 @@ import java.awt.event.MouseMotionListener;
 public class OpenGLMouseListener implements MouseListener, MouseMotionListener {
 
    private final OpenGLCameraState _cameraState;
-
-
    private boolean _first = true;
 
    public OpenGLMouseListener(OpenGLCameraState cameraState) {
@@ -48,38 +46,38 @@ public class OpenGLMouseListener implements MouseListener, MouseMotionListener {
    @Override
    public void mouseMoved(MouseEvent mouseEvent) {
 
-      if (_cameraState.hasFocus) {
-         if (_first) {
-            _first = false;
-
-         } else {
-            // mouse x - rotate about y axis
-
-            float xDiff = (mouseEvent.getX() - _cameraState.PrevMouseX) / 5.0f;
-            _cameraState._yRotation += xDiff;
-            if (_cameraState._yRotation >= 360)
-               _cameraState._yRotation %= 360;
-
-            while (_cameraState._yRotation < 0) {
-               _cameraState._yRotation += 360;
-            }
-
-            // mouse y - rotate about x axis
-
-            float yDiff = (mouseEvent.getY() - _cameraState.PrevMouseY) / 5.0f;
-            _cameraState._xRotation += yDiff;
-
-            if (_cameraState._xRotation >= 360)
-               _cameraState._xRotation %= 360;
-
-            while (_cameraState._xRotation < 0) {
-               _cameraState._xRotation += 360;
-            }
-         }
-         resetMousePosition(mouseEvent);
+//      if (_cameraState.hasFocus) {
+//         if (_first) {
+//            _first = false;
+//
+//         } else {
+//            // mouse x - rotate about y axis
+//
+//            float xDiff = (mouseEvent.getX() - _cameraState.PrevMouseX) / 5.0f;
+//            _cameraState._yRotation += xDiff;
+//            if (_cameraState._yRotation >= 360)
+//               _cameraState._yRotation %= 360;
+//
+//            while (_cameraState._yRotation < 0) {
+//               _cameraState._yRotation += 360;
+//            }
+//
+//            // mouse y - rotate about x axis
+//
+//            float yDiff = (mouseEvent.getY() - _cameraState.PrevMouseY) / 5.0f;
+//            _cameraState._xRotation += yDiff;
+//
+//            if (_cameraState._xRotation >= 360)
+//               _cameraState._xRotation %= 360;
+//
+//            while (_cameraState._xRotation < 0) {
+//               _cameraState._xRotation += 360;
+//            }
+//         }
+//         resetMousePosition(mouseEvent);
          /*_cameraState.PrevMouseX = mouseEvent.getX();
          _cameraState.PrevMouseY = mouseEvent.getY();*/
-      }
+//      }
 
    }
 

@@ -396,8 +396,11 @@ public class Transform {
    }
 
    public BoundingBox Apply(BoundingBox b) {
-      Point p1 = Apply(new Point(b.point1.X, b.point1.Y, b.point1.Z));
-      Point p2 = Apply(new Point(b.point1.X, b.point1.Y, b.point2.Z));
+      Point p1 = new Point(b.point1.X, b.point1.Y, b.point1.Z);
+      ApplyInPlace(p1);
+
+      Point p2 = new Point(b.point1.X, b.point1.Y, b.point2.Z);
+      ApplyInPlace(p2);
 
       BoundingBox transformed = new BoundingBox(p1, p2);
 

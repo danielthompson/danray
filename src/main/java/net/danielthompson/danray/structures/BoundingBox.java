@@ -279,9 +279,9 @@ public class BoundingBox {
       float p1z = Math.min(box.point1.Z, point.Z);
       Point p1 = new Point(p1x, p1y, p1z);
 
-      float p2x = Math.max(box.point1.X, point.X);
-      float p2y = Math.max(box.point1.Y, point.Y);
-      float p2z = Math.max(box.point1.Z, point.Z);
+      float p2x = Math.max(box.point2.X, point.X);
+      float p2y = Math.max(box.point2.Y, point.Y);
+      float p2z = Math.max(box.point2.Z, point.Z);
       Point p2 = new Point(p2x, p2y, p2z);
 
       return new BoundingBox(p1, p2);

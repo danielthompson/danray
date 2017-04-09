@@ -50,7 +50,9 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
 
       _cameraState = new OpenGLCameraState();
 
-      _keyListener = new OpenGLKeyListener(_cameraState);
+      _cameraState.Camera = _scene.Camera;
+
+      _keyListener = new OpenGLKeyListener(_cameraState, null);
       _mouseListener = new OpenGLMouseListener(_cameraState);
 
       addMouseListener(_mouseListener);
@@ -62,6 +64,8 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
       animator = new Animator(this);
 
       animator.start();
+
+
 
    }
 
@@ -78,13 +82,19 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
       boolean isGL3 = gl.isGL3();
       boolean isGL4 = gl.isGL4();
 
-      _cameraState._position[0] = _scene.Camera._currentOrientation.Origin.X;
-      _cameraState._position[1] = _scene.Camera._currentOrientation.Origin.Y;
-      _cameraState._position[2] = _scene.Camera._currentOrientation.Origin.Z;
+//      GLuint textureID;
+//
+//      gl.glGenTextures(1, &textureID);
+//      gl.glGenTextures()
+//      glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
 
-      _cameraState._direction[0] = _scene.Camera._currentOrientation.Direction.X;
-      _cameraState._direction[1] = _scene.Camera._currentOrientation.Direction.Y;
-      _cameraState._direction[2] = _scene.Camera._currentOrientation.Direction.Z;
+//      _cameraState._position[0] = _scene.Camera._currentOrientation.Origin.X;
+//      _cameraState._position[1] = _scene.Camera._currentOrientation.Origin.Y;
+//      _cameraState._position[2] = _scene.Camera._currentOrientation.Origin.Z;
+//
+//      _cameraState._direction[0] = _scene.Camera._currentOrientation.Direction.X;
+//      _cameraState._direction[1] = _scene.Camera._currentOrientation.Direction.Y;
+//      _cameraState._direction[2] = _scene.Camera._currentOrientation.Direction.Z;
 
       start = System.currentTimeMillis();
    }
@@ -107,11 +117,11 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
 
       int font = GLUT.BITMAP_HELVETICA_18;
       gl.glRasterPos2i(10, 90);
-      _glut.glutBitmapString(font, String.format("%.2f", _cameraState._position[0]));
+      _glut.glutBitmapString(font, String.format("%.2f", _scene.Camera.getOrigin().X));
       gl.glRasterPos2i(10, 50);
-      _glut.glutBitmapString(font, String.format("%.2f", _cameraState._position[1]));
+      _glut.glutBitmapString(font, String.format("%.2f", _scene.Camera.getOrigin().Y));
       gl.glRasterPos2i(10, 10);
-      _glut.glutBitmapString(font, String.format("%.2f", _cameraState._position[2]));
+      _glut.glutBitmapString(font, String.format("%.2f", _scene.Camera.getOrigin().Z));
 
       gl.glEnable(GL_DEPTH_TEST);
       gl.glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
@@ -133,9 +143,12 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
 
       // camera
       gl.glLoadIdentity();
-      gl.glRotatef((float)_cameraState._xRotation, 1, 0, 0);
-      gl.glRotatef((float)_cameraState._yRotation, 0, 1, 0);
-      gl.glTranslatef((float) -_cameraState._position[0], (float) -_cameraState._position[1], (float) -_cameraState._position[2]);
+      //gl.glRotatef((float)_cameraState._xRotation, 1, 0, 0);
+      //gl.glRotatef((float)_cameraState._yRotation, 0, 1, 0);
+      //gl.glTranslatef((float) -_cameraState._position[0], (float) -_cameraState._position[1], (float) -_cameraState._position[2]);
+
+      double[] colMajor = _scene.Camera.cameraToWorld._inverse.getColMajor();
+      gl.glMultMatrixd(colMajor, 0);
 
       // background
       gl.glClearColor(0f, .11f, 0.22f, 1f);
@@ -149,6 +162,14 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
          if (shape instanceof Sphere) {
             Sphere sphere = (Sphere)shape;
             Point origin = sphere.Origin;
+            float radius = sphere.Radius;
+
+            if (sphere.ObjectToWorld != null) {
+               origin = sphere.ObjectToWorld.Apply(origin);
+               radius = 50;
+            }
+
+
             gl.glTranslatef(((float)origin.X), ((float)origin.Y), ((float)origin.Z));
 
             if (sphere.InCurrentKDNode)
@@ -156,7 +177,7 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
             else
                gl.glColor3f(0.2f, 1.0f, 1.0f);
                //setColor(gl, sphere.Material);
-            _glu.gluSphere(quadric, sphere.Radius, 4, 4);
+            _glu.gluSphere(quadric, radius, 10, 10);
             gl.glTranslatef(-((float)origin.X), -((float)origin.Y), -((float)origin.Z));
          }
          else if (shape instanceof Box) {
@@ -231,23 +252,31 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
 
    private void drawBoundingBox(GL2 gl, BoundingBox box) {
 
-      float p0x = (float)box.point1.X;
-      float p0y = (float)box.point1.Y;
-      float p0z = (float)box.point1.Z;
-      float p1x = (float)box.point2.X;
-      float p1y = (float)box.point2.Y;
-      float p1z = (float)box.point2.Z;
+      float p0x = box.point1.X;
+      float p0y = box.point1.Y;
+      float p0z = box.point1.Z;
+      float p1x = box.point2.X;
+      float p1y = box.point2.Y;
+      float p1z = box.point2.Z;
       drawBox(gl, p0x, p0y, p0z, p1x, p1y, p1z);
    }
 
    private void drawBox(GL2 gl, Box box) {
 
-      float p0x = (float)box.point1.X;
-      float p0y = (float)box.point1.Y;
-      float p0z = (float)box.point1.Z;
-      float p1x = (float)box.point2.X;
-      float p1y = (float)box.point2.Y;
-      float p1z = (float)box.point2.Z;
+      Point p1 = Box.point1;
+      Point p2 = Box.point2;
+
+      if (box.ObjectToWorld != null) {
+         p1 = box.ObjectToWorld.Apply(p1);
+         p2 = box.ObjectToWorld.Apply(p2);
+      }
+
+      float p0x = p1.X;
+      float p0y = p1.Y;
+      float p0z = p1.Z;
+      float p1x = p2.X;
+      float p1y = p2.Y;
+      float p1z = p2.Z;
 
       setColor(gl, box.Material);
 

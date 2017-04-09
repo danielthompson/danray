@@ -1,10 +1,7 @@
 package net.danielthompson.danray.cameras;
 
 import net.danielthompson.danray.Logger;
-import net.danielthompson.danray.structures.Constants;
-import net.danielthompson.danray.structures.Point;
-import net.danielthompson.danray.structures.Ray;
-import net.danielthompson.danray.structures.Vector;
+import net.danielthompson.danray.structures.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.text.NumberFormat;
@@ -15,128 +12,81 @@ import java.text.NumberFormat;
 public abstract class Camera {
 
    public CameraSettings Settings;
-   protected final Vector _implicitDirection = new Vector(0, 0, -1);
 
-   protected final Vector zDir = new Vector(0, 0, 1);
-   public Ray _currentOrientation;
+   protected static final Vector DefaultDirection = new Vector(0, 0, -1);
+   protected static final Point DefaultOrigin = new Point(0, 0, 0);
+
+   public Transform cameraToWorld;
 
    protected int _currentFrame;
-   public Point _rearFocalPoint;
 
-   public Camera(CameraSettings settings) {
+   public Camera(CameraSettings settings, Transform cameraToWorld) {
       Settings = settings;
-      _currentOrientation = settings.Orientation;
 
-//      if (Settings.FocalLength > 0.0) {
-//         _rearFocalPoint = calculateRearFocalPoint(settings.Orientation, Settings.FocalLength);
-//      }
+      this.cameraToWorld = cameraToWorld;
    }
-
-   private Point calculateRearFocalPoint(Ray orientation, float focalLength) {
-      return orientation.GetPointAtT(-focalLength);
-   }
-
 
    public Vector getDirection() {
-      if (_currentOrientation != null)
-         return _currentOrientation.Direction;
-      return Settings.Orientation.Direction;
+      return cameraToWorld.Apply(DefaultDirection);
+   }
+
+   public Point getOrigin() {
+      return cameraToWorld.Apply(DefaultOrigin);
    }
 
    public void setFrame(int frame) {
       _currentFrame = frame;
-
-      if (Settings.Movement != null) {
-
-         float percentage = (float) _currentFrame / (float) Settings.Movement.frame;
-
-         Point newOrigin = Point.Interpolate(Settings.Orientation.Origin, Settings.Movement.orientation.Origin, percentage);
-         Vector newDirection = Vector.Interpolate(Settings.Orientation.Direction, Settings.Movement.orientation.Direction, percentage);
-
-         _currentOrientation = new Ray(newOrigin, newDirection);
-         _rearFocalPoint = calculateRearFocalPoint(_currentOrientation, Settings.FocalLength);
-
-         NumberFormat percentFormatter = NumberFormat.getPercentInstance();
-         String percentOut = percentFormatter.format(percentage);
-
-         Logger.Log("frame = [" + _currentFrame + "], movement frames = [" + Settings.Movement.frame + "], percentage = [" + percentOut + "]");
-         Logger.Log("origin = [" + newOrigin + "], direction = [" + newDirection + "]");
-      }
    }
 
-   public void moveOrigin(Vector offset) {
-      Settings.Orientation.Origin.Plus(offset);
-      _rearFocalPoint = calculateRearFocalPoint(Settings.Orientation, Settings.FocalLength);
+   public void moveOriginAlongAxis(Vector delta) {
+
+      Transform t = Transform.Translate(delta);
+      cameraToWorld = t.Apply(cameraToWorld);
    }
 
-   public Point getOrigin() {
-      if (_currentOrientation != null)
-         return _currentOrientation.Origin;
-      return Settings.Orientation.Origin;
+   public void moveOrigin(Vector delta) {
+
+      Transform t = Transform.Translate(delta);
+      cameraToWorld = cameraToWorld.Apply(t);
    }
 
-   public Point getWorldPointForPixel(float x, float y) {
-      // we define the absolute midpoint of the camera's screen to be at _currentOrientation.location.
-      // we arbitrarily assume that our camera is pointed at [0, 0, -1] -> straight down the z axis.
+   public void moveDirection(float x, float y, float z) {
 
-      // point is defined to be the midpoint of the camera in x and y: NDC (.5, .5):
-      //Point point = new Point(_currentOrientation.Origin.X, _currentOrientation.Origin.Y, _currentOrientation.Origin.Z);
+      Transform[] inputTransforms = new Transform[3];
+      inputTransforms[0] = Transform.RotateX(x);
+      inputTransforms[1] = Transform.RotateY(y);
+      inputTransforms[2] = Transform.RotateZ(z);
 
-      // first, find the world coordinate for the given pixel with this default camera orientation:
-      //int offsetX =
+      Transform[] compositeTransforms = Transform.composite(inputTransforms);
 
-      Point point = getDefaultOrientationWorldPointForPixel(x, y);
-
-      ConvertToWorldCoordinates(point);
-
-      return point;
+      cameraToWorld = compositeTransforms[0].Apply(cameraToWorld);
    }
 
-   protected void ConvertToWorldCoordinates(Point point) {
-      float dot = _currentOrientation.Direction.Dot(_implicitDirection);
-
-      if (Constants.WithinEpsilon(dot, -1)) {
-         point.Z = -point.Z;
-      }
-
-      else if (!Constants.WithinEpsilon(dot, 1)) {
-         Vector rotationDirection = _currentOrientation.Direction.Cross(zDir);
-         rotationDirection.Normalize();
-         Ray rotationAxis = new Ray(_currentOrientation.Origin, rotationDirection);
-
-         float theta = (float) Math.toDegrees(Math.acos(_currentOrientation.Direction.Dot(_implicitDirection)));
-
-         point.Rotate(rotationAxis, theta);
-         point.Rotate(_currentOrientation, Settings.Rotation);
-      }
-   }
-
-   protected Point getDefaultOrientationWorldPointForPixel(float x, float y) {
-      float Cx = _currentOrientation.Origin.X + Settings.ZoomFactor * (x - (float) Settings.X * .5f);
-      float Cy = _currentOrientation.Origin.Y + Settings.ZoomFactor * ((float) Settings.Y * .5f - y);
-      float Cz = _currentOrientation.Origin.Z;
-
-      return new Point(Cx, Cy, Cz);
-   }
-
-   public Ray getStochasticRayForPixel(float x, float y) {
-      return null;
-   }
-
-   public Ray[] getRays(float x, float y, int samplesPerPixel)
+   public Ray[] getRays(float x, float y, int samples)
    {
-      throw new NotImplementedException();
+
+      Ray[] rays = new Ray[samples];
+
+      for (int i = 0; i < samples; i++) {
+         rays[i] = getRay(x, y);
+      }
+
+      return rays;
    }
 
    public Ray[] getRays(float[][] sampleLocations, int samples) {
-      throw new NotImplementedException();
+
+      Ray[] rays = new Ray[samples];
+
+      for (int i = 0; i < samples; i++) {
+         rays[i] = getRay(sampleLocations[i][0], sampleLocations[i][1]);
+      }
+
+      return rays;
    }
 
    public Ray getRay(float x, float y) {
       throw new NotImplementedException();
    }
 
-   public Point getWorldPointForPixel(int x, int y) {
-      return getWorldPointForPixel((float) x, (float) y);
-   }
 }
