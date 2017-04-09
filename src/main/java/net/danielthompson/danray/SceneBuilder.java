@@ -322,7 +322,7 @@ public class SceneBuilder {
       settings.Aperture = new CircleAperture(20);
 
       Transform[] inputTransforms = new Transform[2];
-      inputTransforms[0] = Transform.Translate(new Vector(-200, -50, 200));
+      inputTransforms[0] = Transform.Translate(new Vector(0, 0, 200));
       //inputTransforms[1] = Transform.RotateX(45);
       inputTransforms[1] = Transform.identity;
 
@@ -371,13 +371,14 @@ public class SceneBuilder {
 
       material = new Material();
       material.BRDF = MirrorBRDF;
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(Solarized.Base02);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Solarized.cyan);
 
-      inputTransforms = new Transform[2];
-      inputTransforms[0] = Transform.Translate(new Vector(-200.0f, -175.0f, -25f));
+      inputTransforms = new Transform[3];
+      inputTransforms[0] = Transform.Translate(new Vector(100.0f, 0.0f, -25f));
       //inputTransforms[1] = Transform.RotateX(45);
       //inputTransforms[2] = Transform.RotateY(45);
       inputTransforms[1] = Transform.Scale(100f, 100f, 100f);
+      inputTransforms[2] = Transform.Translate(new Vector(-.5f, -.5f, -.5f));
 
       compositeTransforms = Transform.composite(inputTransforms);
 
@@ -394,7 +395,7 @@ public class SceneBuilder {
       inputTransforms = new Transform[2];
       //inputTransforms[0] = Transform.Translate(new Vector(-150.0f, -50.0f, 100.0f));
       //inputTransforms[1] = Transform.Scale(55f, 55f, 55f);
-      inputTransforms[0] = Transform.Translate(new Vector(-175.0f, -75.0f, -200.0f));
+      inputTransforms[0] = Transform.Translate(new Vector(0f, 0f, -200.0f));
       inputTransforms[1] = Transform.Scale(50f);
 
       compositeTransforms = Transform.composite(inputTransforms);
@@ -417,8 +418,185 @@ public class SceneBuilder {
 
       AbstractLight light = new SphereLight(sphere, lightSPD);
 
-      scene.Shapes.add(light);
-      scene.Lights.add(light);
+      //scene.Shapes.add(light);
+      //scene.Lights.add(light);
+
+      // red light
+
+//      lightSPD = new SpectralPowerDistribution(Firenze.Orange, 100000.0f);
+//
+//      inputTransforms = new Transform[2];
+//      inputTransforms[0] = Transform.Translate(new Vector(300, -3300, -1500));
+//      inputTransforms[1] = Transform.Scale(100f, 100f, 100f);
+//
+//      compositeTransforms = Transform.composite(inputTransforms);
+//
+//      sphere = new Sphere(compositeTransforms, null);
+//
+//      light = new SphereLight(sphere, lightSPD);
+
+      //scene.Shapes.add(light);
+      //scene.Lights.add(light);
+
+      // point light
+
+//      lightSPD = new SpectralPowerDistribution(Color.white, 100000.0f);
+//
+//      inputTransforms = new Transform[2];
+//      inputTransforms[0] = Transform.Translate(new Vector(300, -3300, -1500));
+//      inputTransforms[1] = Transform.Scale(100f, 100f, 100f);
+//
+//      compositeTransforms = Transform.composite(inputTransforms);
+//
+//      sphere = new Sphere(compositeTransforms, null);
+//
+//      PointLight pointLight = new PointLight(lightSPD, new Point(300, 3300, -1500));
+
+      //scene.Shapes.add(light);
+      //scene.Lights.add(pointLight);
+
+      // skybox
+
+      try {
+         URL url = loader.getResource("images/cubemap/desert 2 - captions.png");
+         scene.SkyBoxImage = ImageIO.read(url);
+      }
+      catch (IOException e) {
+         System.out.println("Couldn't load skybox: " + e.getMessage());
+         System.out.println("Working Directory = " +
+               System.getProperty("user.dir"));
+         System.exit(-1);
+      }
+
+      return scene;
+   }
+
+   public static AbstractScene GlossyStrips(int x, int y) {
+
+      CameraSettings settings = new CameraSettings();
+      settings.X = x;
+      settings.Y = y;
+      settings.FieldOfView = 50;
+
+      settings.FocusDistance = 500;
+      settings.Aperture = new CircleAperture(20);
+
+      Transform[] inputTransforms = new Transform[2];
+//      inputTransforms[0] = Transform.Translate(new Vector(-300, 0, 200));
+      inputTransforms[1] = Transform.RotateY(90);
+      inputTransforms[0] = Transform.Translate(new Vector(28.2792f, 3.5f, 0));
+      inputTransforms[1] = Transform.identity;
+
+      Transform[] compositeTransforms = Transform.composite(inputTransforms);
+
+      Camera camera = new TransformCamera(settings, compositeTransforms[0]);
+
+      AbstractScene scene = new NaiveScene(camera);
+
+      Material material;
+      Box box;
+
+      // strip 1
+
+      material = new Material();
+      material.BRDF = MirrorBRDF;
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Solarized.green);
+
+      inputTransforms = new Transform[3];
+      inputTransforms[0] = Transform.Translate(new Vector(.264069f, 4.09801f, 0));
+      inputTransforms[1] = Transform.RotateZ(-39.8801f);
+      inputTransforms[2] = Transform.Scale(2.1f, 0.3f, 8f);
+      //inputTransforms[3] = Transform.Translate(new Vector(-.5f, -.5f, -.5f));
+
+      compositeTransforms = Transform.composite(inputTransforms);
+
+      box = new Box(compositeTransforms, material);
+      scene.Shapes.add(box);
+
+      // strip 2
+
+      material = new Material();
+      material.BRDF = MirrorBRDF;
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Solarized.cyan);
+
+      inputTransforms = new Transform[4];
+      inputTransforms[0] = Transform.Translate(new Vector(3.06163f, 2.71702f, 0));
+      inputTransforms[1] = Transform.RotateX(-35);
+      inputTransforms[2] = Transform.Scale(2.1f, 0.3f, 8f);
+      inputTransforms[3] = Transform.Translate(new Vector(-.5f, -.5f, -.5f));
+
+      compositeTransforms = Transform.composite(inputTransforms);
+
+      box = new Box(compositeTransforms, material);
+      scene.Shapes.add(box);
+
+      // strip 3
+
+      material = new Material();
+      material.BRDF = MirrorBRDF;
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Solarized.blue);
+
+      inputTransforms = new Transform[4];
+      inputTransforms[0] = Transform.Translate(new Vector(0.0f, -87.0f, -250f));
+      inputTransforms[1] = Transform.RotateX(-65);
+      inputTransforms[2] = Transform.Scale(500f, 50f, 1f);
+      inputTransforms[3] = Transform.Translate(new Vector(-.5f, -.5f, -.5f));
+
+      compositeTransforms = Transform.composite(inputTransforms);
+
+      box = new Box(compositeTransforms, material);
+      scene.Shapes.add(box);
+
+      // strip 4
+
+      material = new Material();
+      material.BRDF = MirrorBRDF;
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Solarized.violet);
+
+      inputTransforms = new Transform[4];
+      inputTransforms[0] = Transform.Translate(new Vector(0.0f, -112, -187));
+      inputTransforms[1] = Transform.RotateX(-80);
+      inputTransforms[2] = Transform.Scale(500f, 50f, 1f);
+      inputTransforms[3] = Transform.Translate(new Vector(-.5f, -.5f, -.5f));
+
+      compositeTransforms = Transform.composite(inputTransforms);
+
+      box = new Box(compositeTransforms, material);
+      scene.Shapes.add(box);
+
+      for (int i = 0; i < 4; i++) {
+         SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(Color.white, 10000.0f);
+
+         inputTransforms = new Transform[2];
+         inputTransforms[0] = Transform.Translate(new Vector(((float)i - 1.5f) * 80, 100, -50));
+         inputTransforms[1] = Transform.Scale((float)Math.pow(i, 1.5) * 5 + 5);
+
+         compositeTransforms = Transform.composite(inputTransforms);
+
+         Sphere sphere = new Sphere(compositeTransforms, null);
+
+         AbstractLight light = new SphereLight(sphere, lightSPD);
+
+         scene.Shapes.add(light);
+         scene.Lights.add(light);
+      }
+
+      // white light
+
+      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(Color.white, 1000000.0f);
+
+      inputTransforms = new Transform[2];
+      inputTransforms[0] = Transform.Translate(new Vector(300, 3300, -1500));
+      inputTransforms[1] = Transform.Scale(100f, 100f, 100f);
+
+      compositeTransforms = Transform.composite(inputTransforms);
+
+      Sphere sphere = new Sphere(compositeTransforms, null);
+
+      AbstractLight light = new SphereLight(sphere, lightSPD);
+
+      //scene.Shapes.add(light);
+      //scene.Lights.add(light);
 
       // red light
 

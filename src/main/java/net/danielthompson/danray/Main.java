@@ -12,7 +12,7 @@ import net.danielthompson.danray.scenes.AbstractScene;
  */
 public class Main {
 
-   private static final RenderQualityPreset _preset = new LowQuality();
+   private static final RenderQualityPreset _preset = new MediumQuality();
    public static final boolean UseSpectralRendering = true;
    static final boolean UseDepthOfField = false;
 
@@ -25,6 +25,7 @@ public class Main {
       AbstractScene scene;
 
       scene = SceneBuilder.Default(_preset.getX(), _preset.getY());
+      scene = SceneBuilder.GlossyStrips(_preset.getX(), _preset.getY());
 
 //      scene = SceneBuilder.ManyRandomSpheres(_preset.getX(), _preset.getY());
       //scene = SceneBuilder.CornellBox(_preset.getX(), _preset.getY());

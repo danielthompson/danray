@@ -30,7 +30,7 @@ public class TransformCamera extends Camera {
 
       float aspectRatio = (float) Settings.X * OneOverHeight;
 
-      float tanFOVOver2 = (float)Math.tan(Settings.FieldOfView * .5f);
+      float tanFOVOver2 = (float)Math.tan(Math.toRadians(Settings.FieldOfView) * .5f);
 
       float pixelCameraX = (2 * pixelNDCx - 1) * aspectRatio * tanFOVOver2;
       float pixelCameraY = (1 - 2 * pixelNDCy) * tanFOVOver2;
