@@ -61,12 +61,14 @@ public abstract class AbstractScene {
 
    public String compile(TracerOptions _tracerOptions) {
       for (AbstractShape shape : Shapes) {
+         if (shape.ObjectToWorld == null) {
+            shape.ObjectToWorld = Transform.identity;
+            shape.WorldToObject = Transform.identity;
+         }
+
          shape.RecalculateWorldBoundingBox();
       }
 
-      for (AbstractLight light : Lights) {
-         light.RecalculateWorldBoundingBox();
-      }
 
       if (SkyBoxImage != null) {
          Skybox = new Box(Transform.identity, Transform.identity,null);
@@ -83,6 +85,8 @@ public abstract class AbstractScene {
          SkyBoxPosY = SkyBoxImage.getSubimage(tileSize, 0, tileSize, tileSize);
          SkyBoxPosZ = SkyBoxImage.getSubimage(tileSize * 3, tileSize, tileSize, tileSize);
       }
+
+
 
       return "Bounding boxes recalculated.\r\n";
    }

@@ -620,14 +620,19 @@ public class TraceManager {
       Render();
    }
 
-   public void moveOrigin(int x, int y, int z) {
+   public void moveOriginAlongOrientation(int x, int y, int z) {
       Vector delta = new Vector(x, y, z);
-      _scene.Camera.moveOrigin(delta);
+      _scene.Camera.moveOriginAlongOrientation(delta);
       Render();
    }
 
-   public void moveDirection(float x, float y, float z) {
-      _scene.Camera.moveDirection(x, y, z);
+   public void moveDirectionAlongAxis(float x, float y, float z) {
+      _scene.Camera.moveDirectionAlongAxis(x, y, z);
+      Render();
+   }
+
+   public void moveDirectionAlongOrientation(float x, float y, float z) {
+      _scene.Camera.moveDirectionAlongOrientation(x, y, z);
       Render();
    }
 }

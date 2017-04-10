@@ -2,6 +2,7 @@ package net.danielthompson.danray.ui.opengl;
 
 import com.jogamp.opengl.*;
 import com.jogamp.opengl.awt.GLCanvas;
+import com.jogamp.opengl.fixedfunc.GLLightingFunc;
 import com.jogamp.opengl.fixedfunc.GLMatrixFunc;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.glu.GLUquadric;
@@ -14,6 +15,7 @@ import net.danielthompson.danray.acceleration.KDScene;
 import net.danielthompson.danray.lights.AbstractLight;
 import net.danielthompson.danray.lights.PointLight;
 import net.danielthompson.danray.shading.Material;
+import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.shapes.AbstractShape;
 import net.danielthompson.danray.shapes.Box;
 
@@ -21,6 +23,7 @@ import net.danielthompson.danray.shapes.Sphere;
 import net.danielthompson.danray.structures.BoundingBox;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.scenes.AbstractScene;
+import net.danielthompson.danray.utility.GeometryCalculations;
 
 
 import java.nio.IntBuffer;
@@ -139,17 +142,12 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
 
       GL2 gl = drawable.getGL().getGL2();
 
-      gl.glEnable(gl.GL_LIGHTING);
-      gl.glEnable(gl.GL_LIGHT0);
-      gl.glEnable(gl.GL_COLOR_MATERIAL);
-
-
+      gl.glEnable(GLLightingFunc.GL_LIGHTING);
+      gl.glEnable(GLLightingFunc.GL_LIGHT0);
+      gl.glEnable(GLLightingFunc.GL_COLOR_MATERIAL);
 
       // camera
       gl.glLoadIdentity();
-      //gl.glRotatef((float)_cameraState._xRotation, 1, 0, 0);
-      //gl.glRotatef((float)_cameraState._yRotation, 0, 1, 0);
-      //gl.glTranslatef((float) -_cameraState._position[0], (float) -_cameraState._position[1], (float) -_cameraState._position[2]);
 
       double[] colMajor = _scene.Camera.cameraToWorld._inverse.getColMajor();
       gl.glMultMatrixd(colMajor, 0);
@@ -165,7 +163,13 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
       for (AbstractShape shape : _scene.Shapes) {
          gl.glPushMatrix();
          gl.glMultMatrixd(shape.ObjectToWorld._matrix.getColMajor(), 0);
-         setColor(gl, shape.Material);
+         if (shape instanceof AbstractLight) {
+            setColor(gl, ((AbstractLight) shape).SpectralPowerDistribution);
+         }
+         else {
+            setColor(gl, shape.Material);
+         }
+
          if (shape instanceof Sphere) {
             /*if (sphere.InCurrentKDNode)
                gl.glColor3f(0.2f, 0.2f, 0.2f);
@@ -247,6 +251,18 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
       gl.glColor3f(red, green, blue);
    }
 
+   private void setColor(GL2 gl, SpectralPowerDistribution spd) {
+      float red = spd.R * OneOver255;
+      float green = spd.G * OneOver255;
+      float blue = spd.B * OneOver255;
+
+      GeometryCalculations.clamp(0, red, 1);
+      GeometryCalculations.clamp(0, green, 1);
+      GeometryCalculations.clamp(0, blue, 1);
+
+      gl.glColor3f(red, green, blue);
+   }
+
    private void drawBoundingBox(GL2 gl, BoundingBox box) {
 
       float p0x = box.point1.X;
@@ -259,9 +275,6 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
    }
 
    private void drawBox(GL2 gl, Box box) {
-
-      Point[] points = box.getWorldPoints();
-
       drawBox(gl, 0, 0, 0, 1, 1, 1);
    }
 

@@ -202,6 +202,10 @@ public class GeometryCalculations {
       return reflectedRay;
    }
 
+   public static float clamp(float var0, float var1, float var2) {
+      return var1 < var0 ? var0 : (var1 > var2 ? var2 : var1);
+   }
+
    public static float UniformConePDF(float cosThetaMax) {
       return 1.0f / (2.0f * Constants.PI * (1.0f - cosThetaMax));
    }

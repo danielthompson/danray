@@ -1,6 +1,7 @@
 package net.danielthompson.danray.cameras;
 
 import net.danielthompson.danray.Logger;
+import net.danielthompson.danray.TraceManager;
 import net.danielthompson.danray.structures.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -44,13 +45,26 @@ public abstract class Camera {
       cameraToWorld = t.Apply(cameraToWorld);
    }
 
-   public void moveOrigin(Vector delta) {
+   public void moveOriginAlongOrientation(Vector delta) {
 
       Transform t = Transform.Translate(delta);
       cameraToWorld = cameraToWorld.Apply(t);
    }
 
-   public void moveDirection(float x, float y, float z) {
+   public void moveDirectionAlongOrientation(float x, float y, float z) {
+
+      Transform[] inputTransforms = new Transform[3];
+      inputTransforms[0] = Transform.RotateX(x);
+      inputTransforms[1] = Transform.RotateY(y);
+      inputTransforms[2] = Transform.RotateZ(z);
+
+      Transform[] compositeTransforms = Transform.composite(inputTransforms);
+
+      //cameraToWorld = compositeTransforms[0].Apply(cameraToWorld);
+      cameraToWorld = cameraToWorld.Apply(compositeTransforms[0]);
+   }
+
+   public void moveDirectionAlongAxis(float x, float y, float z) {
 
       Transform[] inputTransforms = new Transform[3];
       inputTransforms[0] = Transform.RotateX(x);
@@ -60,6 +74,7 @@ public abstract class Camera {
       Transform[] compositeTransforms = Transform.composite(inputTransforms);
 
       cameraToWorld = compositeTransforms[0].Apply(cameraToWorld);
+      //cameraToWorld = cameraToWorld.Apply(compositeTransforms[0]);
    }
 
    public Ray[] getRays(float x, float y, int samples)
