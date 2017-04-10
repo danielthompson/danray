@@ -23,6 +23,8 @@ import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.scenes.AbstractScene;
 
 
+import java.nio.IntBuffer;
+
 import static com.jogamp.opengl.GL.*;
 
 /**
@@ -141,6 +143,8 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
       gl.glEnable(gl.GL_LIGHT0);
       gl.glEnable(gl.GL_COLOR_MATERIAL);
 
+
+
       // camera
       gl.glLoadIdentity();
       //gl.glRotatef((float)_cameraState._xRotation, 1, 0, 0);
@@ -149,6 +153,10 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
 
       double[] colMajor = _scene.Camera.cameraToWorld._inverse.getColMajor();
       gl.glMultMatrixd(colMajor, 0);
+
+      int textureID;
+      gl.glGenTextures(1, 
+      glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
 
       // background
       gl.glClearColor(0f, .11f, 0.22f, 1f);
@@ -170,17 +178,19 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
             }
 
 
-            gl.glTranslatef(((float)origin.X), ((float)origin.Y), ((float)origin.Z));
+            gl.glTranslatef(origin.X, origin.Y, origin.Z);
 
-            if (sphere.InCurrentKDNode)
+            /*if (sphere.InCurrentKDNode)
                gl.glColor3f(0.2f, 0.2f, 0.2f);
             else
-               gl.glColor3f(0.2f, 1.0f, 1.0f);
+               gl.glColor3f(0.2f, 1.0f, 1.0f);*/
+            setColor(gl, sphere.Material);
                //setColor(gl, sphere.Material);
-            _glu.gluSphere(quadric, radius, 10, 10);
-            gl.glTranslatef(-((float)origin.X), -((float)origin.Y), -((float)origin.Z));
+            _glu.gluSphere(quadric, radius, 100, 100);
+            gl.glTranslatef(-origin.X, -origin.Y, -origin.Z);
          }
          else if (shape instanceof Box) {
+            setColor(gl, shape.Material);
             drawBox(gl, (Box)shape);
          }
       }
@@ -190,7 +200,7 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
       for (AbstractLight light : _scene.Lights) {
          if (light instanceof PointLight) {
             PointLight pointLight = (PointLight)light;
-            float[] lightpos = {(float)(pointLight.Location.X), (float)(pointLight.Location.Y), (float)(pointLight.Location.Z)};
+            float[] lightpos = {pointLight.Location.X, pointLight.Location.Y, pointLight.Location.Z};
             gl.glLightfv(gl.GL_LIGHT0, gl.GL_POSITION, lightpos, 0);
 
          }
@@ -374,7 +384,15 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
       gl.glViewport(x, y, width, height);
       gl.glMatrixMode(GLMatrixFunc.GL_PROJECTION);
       gl.glLoadIdentity();
-      _glu.gluPerspective(80.0, (float)width / (float)height, 1.0, 1000.0);
+
+      float fov = _scene.Camera.Settings.FieldOfView;
+      float aspect = (float)_scene.Camera.Settings.X / (float)_scene.Camera.Settings.Y;
+      float zNear = 1;
+      float zFar = 10000;
+
+      _glu.gluPerspective(fov, aspect, zNear, zFar);
+
+      //_glu.gluPerspective(80.0, (float)width / (float)height, 1.0, 1000.0);
       gl.glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
 
    }

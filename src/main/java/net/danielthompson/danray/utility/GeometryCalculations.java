@@ -34,7 +34,7 @@ public class GeometryCalculations {
    public static float[] randomPointOnPregeneratedSphere() {
 
 
-      if (randomSpherePointer > maxRandomSpherePoints - 500)
+      if (randomSpherePointer > maxRandomSpherePoints - 499)
          randomSpherePointer = 0;
       return RandomSpherePoints[randomSpherePointer++];
    }
