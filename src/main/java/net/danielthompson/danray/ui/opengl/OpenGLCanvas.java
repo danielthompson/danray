@@ -154,10 +154,6 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
       double[] colMajor = _scene.Camera.cameraToWorld._inverse.getColMajor();
       gl.glMultMatrixd(colMajor, 0);
 
-      int textureID;
-      gl.glGenTextures(1, 
-      glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
-
       // background
       gl.glClearColor(0f, .11f, 0.22f, 1f);
       gl.glClearDepthf(1f);

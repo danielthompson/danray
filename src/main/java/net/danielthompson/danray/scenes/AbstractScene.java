@@ -30,6 +30,13 @@ public abstract class AbstractScene {
 
    public BufferedImage SkyBoxImage;
 
+   public BufferedImage SkyBoxNegX;
+   public BufferedImage SkyBoxNegY;
+   public BufferedImage SkyBoxNegZ;
+   public BufferedImage SkyBoxPosX;
+   public BufferedImage SkyBoxPosY;
+   public BufferedImage SkyBoxPosZ;
+
    public Box Skybox;
 
    public Point SkyBoxPoint = new Point(0.5f, 0.5f, 0.5f);
@@ -63,75 +70,85 @@ public abstract class AbstractScene {
 
       if (SkyBoxImage != null) {
          Skybox = new Box(Transform.identity, Transform.identity,null);
+
+         int width = SkyBoxImage.getWidth();
+         int height = SkyBoxImage.getHeight();
+
+         int tileSize = width / 4;
+
+         SkyBoxNegX = SkyBoxImage.getSubimage(0, tileSize, tileSize, tileSize);
+         SkyBoxNegY = SkyBoxImage.getSubimage(tileSize, tileSize * 2, tileSize, tileSize);
+         SkyBoxNegZ = SkyBoxImage.getSubimage(tileSize, tileSize, tileSize, tileSize);
+         SkyBoxPosX = SkyBoxImage.getSubimage(tileSize * 2, tileSize, tileSize, tileSize);
+         SkyBoxPosY = SkyBoxImage.getSubimage(tileSize, 0, tileSize, tileSize);
+         SkyBoxPosZ = SkyBoxImage.getSubimage(tileSize * 3, tileSize, tileSize, tileSize);
       }
 
       return "Bounding boxes recalculated.\r\n";
    }
 
-   public SpectralPowerDistribution getSkyBoxSPD(Vector v) {
+   public SpectralPowerDistribution getSkyBoxSPD(Vector direction) {
 
-      if (SkyBoxImage == null)
+      if (SkyBoxNegX == null)
          return backgroundColor;
 
-      Ray r = new Ray(SkyBoxPoint, v);
+      Ray r = new Ray(SkyBoxPoint, direction);
 
       IntersectionState state = Skybox.getHitInfo(r);
 
       Point p = state.IntersectionPoint;
 
-      float x = 0.0f;
-      float y = 0.0f;
+      float u = 0.0f;
+      float v = 0.0f;
 
-      float width = SkyBoxImage.getWidth();
-      float height = SkyBoxImage.getHeight();
+      float width = SkyBoxNegX.getWidth();
+      float height = SkyBoxNegX.getHeight();
 
-      float tileSize = width * .25f;
+      BufferedImage texture = null;
+
+      //float tileSize = width * .25f;
 
       // left wall
 
-      x = Constants.WithinEpsilon(p.X, 0) ? tileSize - tileSize * p.Z : x;
-      y = Constants.WithinEpsilon(p.X, 0) ? height - (tileSize * p.Y + tileSize) : y;
+      texture = Constants.WithinEpsilon(p.X, 0) ? SkyBoxNegX : texture;
+      u = Constants.WithinEpsilon(p.X, 0) ? width - width * p.Z : u;
+      v = Constants.WithinEpsilon(p.X, 0) ? height - (height * p.Y) : v;
 
       // back wall
 
-      x = Constants.WithinEpsilon(p.Z, 0) ? tileSize * p.X + tileSize: x;
-      y = Constants.WithinEpsilon(p.Z, 0) ? height - (tileSize * p.Y + tileSize) : y;
+      texture = Constants.WithinEpsilon(p.Z, 0) ? SkyBoxNegZ : texture;
+      u = Constants.WithinEpsilon(p.Z, 0) ? width * p.X: u;
+      v = Constants.WithinEpsilon(p.Z, 0) ? height - (height * p.Y) : v;
 //      y = Constants.WithinEpsilon(p.Z, 0) ? .33f * height * (2 - p.Y) : y;
 
       // right wall
 
-      x = Constants.WithinEpsilon(p.X, 1) ? tileSize * p.Z + 2 * tileSize : x;
-      y = Constants.WithinEpsilon(p.X, 1) ? height - (tileSize * p.Y + tileSize) : y;
+      texture = Constants.WithinEpsilon(p.X, 1) ? SkyBoxPosX : texture;
+      u = Constants.WithinEpsilon(p.X, 1) ? width * p.Z: u;
+      v = Constants.WithinEpsilon(p.X, 1) ? height - (height * p.Y) : v;
 
       // front wall
 
-      x = Constants.WithinEpsilon(p.Z, 1) ? (tileSize - tileSize * p.X) + 3 * tileSize : x;
-      y = Constants.WithinEpsilon(p.Z, 1) ? height - (tileSize * p.Y + tileSize) : y;
+      texture = Constants.WithinEpsilon(p.Z, 1) ? SkyBoxPosZ : texture;
+      u = Constants.WithinEpsilon(p.Z, 1) ? (width - width * p.X) : u;
+      v = Constants.WithinEpsilon(p.Z, 1) ? height - (height * p.Y) : v;
 
       // top wall
 
-      x = Constants.WithinEpsilon(p.Y, 1) ? tileSize * p.X + tileSize : x;
-      y = Constants.WithinEpsilon(p.Y, 1) ? tileSize - tileSize * p.Z : y;
+      texture = Constants.WithinEpsilon(p.Y, 1) ? SkyBoxPosY : texture;
+      u = Constants.WithinEpsilon(p.Y, 1) ? width * p.X : u;
+      v = Constants.WithinEpsilon(p.Y, 1) ? height - height * p.Z : v;
 
       // bottom wall
 
-      x = Constants.WithinEpsilon(p.Y, 0) ? tileSize * p.X + tileSize : x;
-      y = Constants.WithinEpsilon(p.Y, 0) ? tileSize * p.Z + 2 * tileSize : y;
+      texture = Constants.WithinEpsilon(p.Y, 0) ? SkyBoxNegY : texture;
+      u = Constants.WithinEpsilon(p.Y, 0) ? width * p.X : u;
+      v = Constants.WithinEpsilon(p.Y, 0) ? height * p.Z : v;
 
-      int newX = (int)x - 1;
-      int newY = (int)y - 1;
+      u = (u == width) ? u - 1 : u;
+      v = (v == height) ? v - 1 : v;
 
-      if (newX >= width || newY >= height) {
-         int i = 0;
-      }
-      if (newX <= 0 || newY <= 0) {
-         int j = 0;
-         newX = 0;
-         newY = 0;
-      }
-
-
-      int rgb = SkyBoxImage.getRGB(newX, newY);
+      int rgb = texture.getRGB((int)u, (int)v);
 
       Color c = new Color(rgb);
 
