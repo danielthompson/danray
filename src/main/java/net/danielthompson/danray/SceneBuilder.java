@@ -11,9 +11,7 @@ import net.danielthompson.danray.lights.SphereLight;
 import net.danielthompson.danray.scenes.NaiveScene;
 import net.danielthompson.danray.scenes.AbstractScene;
 import net.danielthompson.danray.shading.*;
-import net.danielthompson.danray.shading.bxdf.BRDF;
-import net.danielthompson.danray.shading.bxdf.LambertianBRDF;
-import net.danielthompson.danray.shading.bxdf.MirrorBRDF;
+import net.danielthompson.danray.shading.bxdf.*;
 import net.danielthompson.danray.shapes.*;
 import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.structures.Point;
@@ -475,16 +473,11 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
-      settings.FieldOfView = 25;
-
-      settings.FocusDistance = 500;
-      settings.Aperture = new CircleAperture(20);
+      settings.FieldOfView = 20.114292f;
 
       Transform[] inputTransforms = new Transform[2];
-//      inputTransforms[0] = Transform.Translate(new Vector(-300, 0, 200));
-      inputTransforms[1] = Transform.RotateY(90);
       inputTransforms[0] = Transform.Translate(new Vector(28.2792f, 3.5f, 0));
-      //inputTransforms[1] = Transform.identity;
+      inputTransforms[1] = Transform.RotateY(90);
 
       Transform[] compositeTransforms = Transform.composite(inputTransforms);
 
@@ -498,14 +491,18 @@ public class SceneBuilder {
       // strip 1
 
       material = new Material();
-      material.BRDF = MirrorBRDF;
+      material.BRDF = new MirrorBRDF();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.white);
 
-      inputTransforms = new Transform[4];
+      inputTransforms = new Transform[5];
       inputTransforms[0] = Transform.Translate(new Vector(.264069f, 4.09801f, 0));
       inputTransforms[1] = Transform.RotateZ(-39.8801f);
+//      inputTransforms[1] = Transform.RotateZ(-65f);
       inputTransforms[2] = Transform.Scale(2.1f, 0.3f, 8f);
-      inputTransforms[3] = Transform.Translate(new Vector(-.5f, -.5f, -.5f));
+//      inputTransforms[3] = Transform.Scale(2);
+      inputTransforms[3] = Transform.identity;
+      inputTransforms[4] = Transform.Translate(new Vector(-.5f, -.5f, -.5f));
+//      inputTransforms[4] = Transform.identity;
 
       compositeTransforms = Transform.composite(inputTransforms);
 
@@ -515,14 +512,17 @@ public class SceneBuilder {
       // strip 2
 
       material = new Material();
-      material.BRDF = MirrorBRDF;
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.white);
+      material.BRDF = new MirrorBRDF();
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.gray);
 
-      inputTransforms = new Transform[4];
+      inputTransforms = new Transform[5];
       inputTransforms[0] = Transform.Translate(new Vector(3.06163f, 2.71702f, 0));
       inputTransforms[1] = Transform.RotateZ(-22.2154f);
       inputTransforms[2] = Transform.Scale(2.1f, 0.3f, 8f);
-      inputTransforms[3] = Transform.Translate(new Vector(-.5f, -.5f, -.5f));
+//      inputTransforms[3] = Transform.Scale(2);
+      inputTransforms[3] = Transform.identity;
+      inputTransforms[4] = Transform.Translate(new Vector(-.5f, -.5f, -.5f));
+//      inputTransforms[4] = Transform.identity;
 
       compositeTransforms = Transform.composite(inputTransforms);
 
@@ -532,14 +532,17 @@ public class SceneBuilder {
       // strip 3
 
       material = new Material();
-      material.BRDF = MirrorBRDF;
+      material.BRDF = new MirrorBRDF();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.white);
 
-      inputTransforms = new Transform[4];
+      inputTransforms = new Transform[5];
       inputTransforms[0] = Transform.Translate(new Vector(7.09981f, 1.81891f, 0f));
       inputTransforms[1] = Transform.RotateZ(-10.6515f);
       inputTransforms[2] = Transform.Scale(2.1f, 0.3f, 8f);
-      inputTransforms[3] = Transform.Translate(new Vector(-.5f, -.5f, -.5f));
+//      inputTransforms[3] = Transform.Scale(2);
+      inputTransforms[3] = Transform.identity;
+      inputTransforms[4] = Transform.Translate(new Vector(-.5f, -.5f, -.5f));
+//      inputTransforms[4] = Transform.identity;
 
       compositeTransforms = Transform.composite(inputTransforms);
 
@@ -549,27 +552,31 @@ public class SceneBuilder {
       // strip 4
 
       material = new Material();
-      material.BRDF = MirrorBRDF;
+      material.BRDF = new MirrorBRDF();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.white);
 
-      inputTransforms = new Transform[4];
+      inputTransforms = new Transform[5];
       inputTransforms[0] = Transform.Translate(new Vector(10.6769f, 1.23376f, 0f));
+//      inputTransforms[1] = Transform.RotateZ(-50);
       inputTransforms[1] = Transform.RotateZ(-7.00104f);
       inputTransforms[2] = Transform.Scale(2.1f, 0.3f, 8f);
-      inputTransforms[3] = Transform.Translate(new Vector(-.5f, -.5f, -.5f));
+//      inputTransforms[3] = Transform.Scale(2);
+      inputTransforms[3] = Transform.identity;
+      inputTransforms[4] = Transform.Translate(new Vector(-.5f, -.5f, -.5f));
+//      inputTransforms[4] = Transform.identity;
 
       compositeTransforms = Transform.composite(inputTransforms);
 
       box = new Box(compositeTransforms, material);
       scene.Shapes.add(box);
 
-      // light 3
+      // light 1
 
       SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(Color.white, 1.0f);
 
       inputTransforms = new Transform[2];
       inputTransforms[0] = Transform.Translate(new Vector(0, 6.5f, 2.7f));
-      inputTransforms[1] = Transform.Scale(-0.05f);
+      inputTransforms[1] = Transform.Scale(0.05f);
 
       compositeTransforms = Transform.composite(inputTransforms);
 
@@ -580,13 +587,13 @@ public class SceneBuilder {
       scene.Shapes.add(light);
       scene.Lights.add(light);
 
-      // light 3
+      // light 2
 
       lightSPD = new SpectralPowerDistribution(Color.white, 1.0f);
 
       inputTransforms = new Transform[2];
       inputTransforms[0] = Transform.Translate(new Vector(0, 6.5f, 0));
-      inputTransforms[1] = Transform.Scale(-0.5f);
+      inputTransforms[1] = Transform.Scale(0.5f);
 
       compositeTransforms = Transform.composite(inputTransforms);
 
@@ -597,7 +604,7 @@ public class SceneBuilder {
       scene.Shapes.add(light);
       scene.Lights.add(light);
 
-      // light 4
+      // light 3
 
       lightSPD = new SpectralPowerDistribution(Color.white, 1.0f);
 
@@ -650,7 +657,8 @@ public class SceneBuilder {
       // skybox
 
       try {
-         URL url = loader.getResource("images/cubemap/desert 2 - captions.png");
+//         URL url = loader.getResource("images/cubemap/desert 2 - captions.png");
+         URL url = loader.getResource("images/cubemap/simple.png");
          scene.SkyBoxImage = ImageIO.read(url);
       }
       catch (IOException e) {

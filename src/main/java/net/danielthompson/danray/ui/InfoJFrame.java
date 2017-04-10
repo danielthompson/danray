@@ -53,7 +53,7 @@ public class InfoJFrame extends javax.swing.JFrame {
       initComponents();
    }
 
-   private final int MOVEMENT_AMOUNT = 20;
+   private final int MOVEMENT_AMOUNT = 1;
 
    private final int ROTATION_AMOUNT = 10;
 

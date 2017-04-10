@@ -3,6 +3,7 @@ package net.danielthompson.danray;
 import net.danielthompson.danray.acceleration.KDScene;
 import net.danielthompson.danray.films.BoxFilterFilm;
 import net.danielthompson.danray.integrators.AbstractIntegrator;
+import net.danielthompson.danray.integrators.PathTraceIntegrator;
 import net.danielthompson.danray.integrators.WhittedIntegrator;
 import net.danielthompson.danray.presets.RenderQualityPreset;
 import net.danielthompson.danray.presets.TracerOptions;
