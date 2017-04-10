@@ -163,32 +163,23 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
       GLUquadric quadric = _glu.gluNewQuadric();
 
       for (AbstractShape shape : _scene.Shapes) {
+         gl.glPushMatrix();
+         gl.glMultMatrixd(shape.ObjectToWorld._matrix.getColMajor(), 0);
+         setColor(gl, shape.Material);
          if (shape instanceof Sphere) {
-            Sphere sphere = (Sphere)shape;
-            Point origin = sphere.Origin;
-            float radius = sphere.Radius;
-
-            if (sphere.ObjectToWorld != null) {
-               origin = sphere.ObjectToWorld.Apply(origin);
-               radius = 50;
-            }
-
-
-            gl.glTranslatef(origin.X, origin.Y, origin.Z);
-
             /*if (sphere.InCurrentKDNode)
                gl.glColor3f(0.2f, 0.2f, 0.2f);
             else
                gl.glColor3f(0.2f, 1.0f, 1.0f);*/
-            setColor(gl, sphere.Material);
-               //setColor(gl, sphere.Material);
-            _glu.gluSphere(quadric, radius, 100, 100);
-            gl.glTranslatef(-origin.X, -origin.Y, -origin.Z);
+
+            _glu.gluSphere(quadric, 1, 100, 100);
+            //gl.glTranslatef(-origin.X, -origin.Y, -origin.Z);
          }
          else if (shape instanceof Box) {
-            setColor(gl, shape.Material);
-            drawBox(gl, (Box)shape);
+           drawBox(gl, (Box)shape);
          }
+
+         gl.glPopMatrix();
       }
 
       // lights
@@ -269,24 +260,9 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
 
    private void drawBox(GL2 gl, Box box) {
 
-      Point p1 = Box.point1;
-      Point p2 = Box.point2;
+      Point[] points = box.getWorldPoints();
 
-      if (box.ObjectToWorld != null) {
-         p1 = box.ObjectToWorld.Apply(p1);
-         p2 = box.ObjectToWorld.Apply(p2);
-      }
-
-      float p0x = p1.X;
-      float p0y = p1.Y;
-      float p0z = p1.Z;
-      float p1x = p2.X;
-      float p1y = p2.Y;
-      float p1z = p2.Z;
-
-      setColor(gl, box.Material);
-
-      drawBox(gl, p0x, p0y, p0z, p1x, p1y, p1z);
+      drawBox(gl, 0, 0, 0, 1, 1, 1);
    }
 
    private void drawBox(GL2 gl, float p0x, float p0y, float p0z, float p1x, float p1y, float p1z) {

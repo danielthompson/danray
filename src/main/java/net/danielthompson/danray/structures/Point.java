@@ -32,6 +32,7 @@ public class Point implements Cloneable {
    }
 
    public Point clone() {
+      
       return new Point(X, Y, Z);
    }
 

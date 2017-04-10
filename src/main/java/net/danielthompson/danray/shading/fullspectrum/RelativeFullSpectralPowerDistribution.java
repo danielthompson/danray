@@ -18,17 +18,13 @@ public class RelativeFullSpectralPowerDistribution extends FullSpectrum {
 
    public RelativeFullSpectralPowerDistribution(RelativeFullSpectralPowerDistribution other) {
       this();
-      for (int i = 0; i < Buckets.length; i++) {
-         Buckets[i] = other.Buckets[i];
-      }
+      System.arraycopy(other.Buckets, 0, Buckets, 0, Buckets.length);
    }
 
    public FullSpectralPowerDistribution getSPD() {
       FullSpectralPowerDistribution spd = new FullSpectralPowerDistribution();
 
-      for (int i = 0; i < Buckets.length; i++) {
-         spd.Buckets[i] = Buckets[i];
-      }
+      System.arraycopy(Buckets, 0, spd.Buckets, 0, Buckets.length);
 
       return spd;
    }

@@ -201,4 +201,29 @@ public class Box extends AbstractShape {
       return ID + "";
    }
 
+   public Point[] getWorldPoints() {
+
+      Point[] points = new Point[8];
+
+      points[0] = new Point(0, 0, 0);
+      points[1] = new Point(0, 0, 1);
+      points[2] = new Point(0, 1, 0);
+      points[3] = new Point(0, 1, 1);
+      points[4] = new Point(1, 0, 0);
+      points[5] = new Point(1, 0, 1);
+      points[6] = new Point(1, 1, 0);
+      points[7] = new Point(1, 1, 1);
+
+      ObjectToWorld.ApplyInPlace(points[0]);
+      ObjectToWorld.ApplyInPlace(points[1]);
+      ObjectToWorld.ApplyInPlace(points[2]);
+      ObjectToWorld.ApplyInPlace(points[3]);
+      ObjectToWorld.ApplyInPlace(points[4]);
+      ObjectToWorld.ApplyInPlace(points[5]);
+      ObjectToWorld.ApplyInPlace(points[6]);
+      ObjectToWorld.ApplyInPlace(points[7]);
+
+      return points;
+   }
+
 }

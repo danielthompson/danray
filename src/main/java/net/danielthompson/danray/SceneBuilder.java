@@ -372,12 +372,12 @@ public class SceneBuilder {
       material.BRDF = MirrorBRDF;
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Solarized.cyan);
 
-      inputTransforms = new Transform[2];
+      inputTransforms = new Transform[4];
       inputTransforms[0] = Transform.Translate(new Vector(100.0f, 0.0f, -250f));
-      //inputTransforms[1] = Transform.RotateX(45);
+      inputTransforms[1] = Transform.RotateX(45);
       //inputTransforms[2] = Transform.RotateY(45);
-      inputTransforms[1] = Transform.Scale(100f, 100f, 100f);
-      //inputTransforms[3] = Transform.Translate(new Vector(-.5f, -.5f, -.5f));
+      inputTransforms[2] = Transform.Scale(100f, 100f, 100f);
+      inputTransforms[3] = Transform.Translate(new Vector(-.5f, -.5f, -.5f));
 
       compositeTransforms = Transform.composite(inputTransforms);
 
@@ -394,7 +394,7 @@ public class SceneBuilder {
       inputTransforms = new Transform[2];
       //inputTransforms[0] = Transform.Translate(new Vector(-150.0f, -50.0f, 100.0f));
       //inputTransforms[1] = Transform.Scale(55f, 55f, 55f);
-      inputTransforms[0] = Transform.Translate(new Vector(0f, 0f, -200.0f));
+      inputTransforms[0] = Transform.Translate(new Vector(-100f, 0f, -200.0f));
       inputTransforms[1] = Transform.Scale(50f);
 
       compositeTransforms = Transform.composite(inputTransforms);
