@@ -507,7 +507,7 @@ public class SceneBuilder {
       compositeTransforms = Transform.composite(inputTransforms);
 
       box = new Box(compositeTransforms, material);
-      //scene.Shapes.add(box);
+      scene.Shapes.add(box);
 
       // strip 2
 
@@ -527,7 +527,7 @@ public class SceneBuilder {
       compositeTransforms = Transform.composite(inputTransforms);
 
       box = new Box(compositeTransforms, material);
-      //scene.Shapes.add(box);
+      scene.Shapes.add(box);
 
       // strip 3
 
@@ -547,7 +547,7 @@ public class SceneBuilder {
       compositeTransforms = Transform.composite(inputTransforms);
 
       box = new Box(compositeTransforms, material);
-      //scene.Shapes.add(box);
+      scene.Shapes.add(box);
 
       // strip 4
 
@@ -559,6 +559,7 @@ public class SceneBuilder {
       inputTransforms[0] = Transform.Translate(new Vector(10.6769f, 1.23376f, 0f));
 //      inputTransforms[1] = Transform.RotateZ(-50);
       inputTransforms[1] = Transform.RotateZ(-7.00104f);
+//      inputTransforms[1] = Transform.identity;
       inputTransforms[2] = Transform.Scale(2.1f, 0.3f, 8f);
 //      inputTransforms[3] = Transform.Scale(2);
       inputTransforms[3] = Transform.identity;
@@ -657,8 +658,8 @@ public class SceneBuilder {
       // skybox
 
       try {
-//         URL url = loader.getResource("images/cubemap/desert 2 - captions.png");
-         URL url = loader.getResource("images/cubemap/simple.png");
+         URL url = loader.getResource("images/cubemap/desert 2 - captions.png");
+//         URL url = loader.getResource("images/cubemap/simple.png");
          scene.SkyBoxImage = ImageIO.read(url);
       }
       catch (IOException e) {

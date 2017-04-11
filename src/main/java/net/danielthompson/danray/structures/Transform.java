@@ -379,7 +379,7 @@ public class Transform {
 
    public Transform Apply(Transform t) {
       Matrix4x4 matrix = _matrix.Multiply(t._matrix);
-      Matrix4x4 inverse = _inverse.Multiply(t._inverse);
+      Matrix4x4 inverse = t._inverse.Multiply(_inverse);
 
       return new Transform(matrix, inverse);
    }
@@ -439,13 +439,19 @@ public class Transform {
          objectToWorld = objectToWorld.Apply(transforms[i]);
       }
 
-      Transform worldToObject = new Transform();
+      Transform worldToObject = new Transform(objectToWorld._inverse, objectToWorld._matrix);
 
-      for (int i = transforms.length - 1; i >= 0; i--) {
-         worldToObject = worldToObject.Apply(transforms[i]);
-      }
+//      Transform worldToObject = objectToWorld.Invert();
 
-      worldToObject = worldToObject.Invert();
+
+      // orig
+//      Transform worldToObject = new Transform();
+//
+//      for (int i = transforms.length - 1; i >= 0; i--) {
+//         worldToObject = worldToObject.Apply(transforms[i]);
+//      }
+//
+//      worldToObject = worldToObject.Invert();
 
       return new Transform[] {objectToWorld, worldToObject};
    }
