@@ -491,8 +491,8 @@ public class SceneBuilder {
       // strip 1
 
       material = new Material();
-      material.BRDF = new MirrorBRDF();
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.white);
+      material.BRDF = new GlossyBRDF(.98f);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.gray);
 
       inputTransforms = new Transform[5];
       inputTransforms[0] = Transform.Translate(new Vector(.264069f, 4.09801f, 0));
@@ -512,12 +512,12 @@ public class SceneBuilder {
       // strip 2
 
       material = new Material();
-      material.BRDF = new MirrorBRDF();
+      material.BRDF = new GlossyBRDF(.98f);
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.gray);
 
       inputTransforms = new Transform[5];
       inputTransforms[0] = Transform.Translate(new Vector(3.06163f, 2.71702f, 0));
-      inputTransforms[1] = Transform.RotateZ(-22.2154f);
+      inputTransforms[1] = Transform.RotateZ(-24f);
       inputTransforms[2] = Transform.Scale(2.1f, 0.3f, 8f);
 //      inputTransforms[3] = Transform.Scale(2);
       inputTransforms[3] = Transform.identity;
@@ -532,12 +532,12 @@ public class SceneBuilder {
       // strip 3
 
       material = new Material();
-      material.BRDF = new MirrorBRDF();
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.white);
+      material.BRDF = new GlossyBRDF(.98f);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.gray);
 
       inputTransforms = new Transform[5];
       inputTransforms[0] = Transform.Translate(new Vector(7.09981f, 1.81891f, 0f));
-      inputTransforms[1] = Transform.RotateZ(-10.6515f);
+      inputTransforms[1] = Transform.RotateZ(-14f);
       inputTransforms[2] = Transform.Scale(2.1f, 0.3f, 8f);
 //      inputTransforms[3] = Transform.Scale(2);
       inputTransforms[3] = Transform.identity;
@@ -552,13 +552,13 @@ public class SceneBuilder {
       // strip 4
 
       material = new Material();
-      material.BRDF = new MirrorBRDF();
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.white);
+      material.BRDF = new GlossyBRDF(.98f);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.gray);
 
       inputTransforms = new Transform[5];
       inputTransforms[0] = Transform.Translate(new Vector(10.6769f, 1.23376f, 0f));
 //      inputTransforms[1] = Transform.RotateZ(-50);
-      inputTransforms[1] = Transform.RotateZ(-7.00104f);
+      inputTransforms[1] = Transform.RotateZ(-9.25f);
 //      inputTransforms[1] = Transform.identity;
       inputTransforms[2] = Transform.Scale(2.1f, 0.3f, 8f);
 //      inputTransforms[3] = Transform.Scale(2);
@@ -573,7 +573,7 @@ public class SceneBuilder {
 
       // light 1
 
-      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(Color.white, 1.0f);
+      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(Color.white, 10.0f);
 
       inputTransforms = new Transform[2];
       inputTransforms[0] = Transform.Translate(new Vector(0, 6.5f, 2.7f));
@@ -590,7 +590,7 @@ public class SceneBuilder {
 
       // light 2
 
-      lightSPD = new SpectralPowerDistribution(Color.white, 1.0f);
+      lightSPD = new SpectralPowerDistribution(Color.white, 10.0f);
 
       inputTransforms = new Transform[2];
       inputTransforms[0] = Transform.Translate(new Vector(0, 6.5f, 0));
@@ -607,7 +607,7 @@ public class SceneBuilder {
 
       // light 3
 
-      lightSPD = new SpectralPowerDistribution(Color.white, 1.0f);
+      lightSPD = new SpectralPowerDistribution(Color.white, 10.0f);
 
       inputTransforms = new Transform[1];
       inputTransforms[0] = Transform.Translate(new Vector(0, 6.5f, -2.8f));
@@ -658,7 +658,7 @@ public class SceneBuilder {
       // skybox
 
       try {
-         URL url = loader.getResource("images/cubemap/desert 2 - captions.png");
+         URL url = loader.getResource("images/cubemap/desert 2.png");
 //         URL url = loader.getResource("images/cubemap/simple.png");
          scene.SkyBoxImage = ImageIO.read(url);
       }

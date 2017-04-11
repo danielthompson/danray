@@ -8,5 +8,11 @@ import java.util.Random;
 public abstract class AbstractSampler {
    public static Random Random = new Random();
 
+   public int SamplesPerPixel;
+
+   public AbstractSampler(int samplesPerPixel) {
+      SamplesPerPixel = samplesPerPixel;
+   }
+
    public abstract float[][] GetSamples(int x, int y, int n);
 }

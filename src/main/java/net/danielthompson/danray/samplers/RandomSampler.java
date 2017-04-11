@@ -7,6 +7,10 @@ import java.util.Random;
  */
 public class RandomSampler extends AbstractSampler {
 
+   public RandomSampler(int samplesPerPixel) {
+      super(samplesPerPixel);
+   }
+
    @Override
    public float[][] GetSamples(int x, int y, int n) {
       float[][] pixels = new float[n][2];

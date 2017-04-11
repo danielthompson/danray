@@ -21,6 +21,8 @@ public class PathTraceIntegrator extends AbstractIntegrator {
 
    public Sample GetSample(Ray ray, int depth, int x, int y) {
 
+
+
       Sample sample = new Sample();
       IntersectionState closestStateToRay = scene.getNearestShape(ray, x, y);
 
@@ -54,14 +56,17 @@ public class PathTraceIntegrator extends AbstractIntegrator {
          Normal intersectionNormal = closestStateToRay.Normal;
          Vector incomingDirection = ray.Direction;
 
+         if (x == 834 && y == 416) {
+            int j = 0;
+            Vector outgoingDirection = objectMaterial.BRDF.getVectorInPDF(intersectionNormal, incomingDirection);
+         }
+
          Vector outgoingDirection = objectMaterial.BRDF.getVectorInPDF(intersectionNormal, incomingDirection);
-         float scalePercentage = (float)objectMaterial.BRDF.f(incomingDirection, intersectionNormal, outgoingDirection);
+         float scalePercentage = objectMaterial.BRDF.f(incomingDirection, intersectionNormal, outgoingDirection);
 
          Ray bounceRay = new Ray(closestStateToRay.IntersectionPoint, outgoingDirection);
 
          bounceRay.OffsetOriginForward(Constants.HalfEpsilon);
-
-         //Ray indirectRay = GeometryCalculations.GetRandomRayInNormalHemisphere(closestStateToRay.IntersectionPoint, closestStateToRay.Normal);
 
          Sample incomingSample = GetSample(bounceRay, depth + 1, x, y);
 
@@ -76,8 +81,6 @@ public class PathTraceIntegrator extends AbstractIntegrator {
          SpectralPowerDistribution reflectedSPD = incomingSPD.reflectOff(reflectanceSpectrum);
 
          sample.SpectralPowerDistribution = reflectedSPD;
-
-         //reflectedSPD.scale(.9);
 
          return sample;
       }

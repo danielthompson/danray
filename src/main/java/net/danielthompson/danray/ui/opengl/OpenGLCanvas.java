@@ -14,6 +14,7 @@ import net.danielthompson.danray.acceleration.KDNode;
 import net.danielthompson.danray.acceleration.KDScene;
 import net.danielthompson.danray.lights.AbstractLight;
 import net.danielthompson.danray.lights.PointLight;
+import net.danielthompson.danray.lights.SphereLight;
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.shapes.AbstractShape;
@@ -165,12 +166,14 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
          gl.glMultMatrixd(shape.ObjectToWorld._matrix.getColMajor(), 0);
          if (shape instanceof AbstractLight) {
             setColor(gl, ((AbstractLight) shape).SpectralPowerDistribution);
+
+
          }
          else {
             setColor(gl, shape.Material);
          }
 
-         if (shape instanceof Sphere) {
+         if (shape instanceof Sphere || shape instanceof SphereLight) {
             /*if (sphere.InCurrentKDNode)
                gl.glColor3f(0.2f, 0.2f, 0.2f);
             else
@@ -252,9 +255,9 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
    }
 
    private void setColor(GL2 gl, SpectralPowerDistribution spd) {
-      float red = spd.R * OneOver255;
-      float green = spd.G * OneOver255;
-      float blue = spd.B * OneOver255;
+      float red = spd.R;
+      float green = spd.G;
+      float blue = spd.B;
 
       GeometryCalculations.clamp(0, red, 1);
       GeometryCalculations.clamp(0, green, 1);

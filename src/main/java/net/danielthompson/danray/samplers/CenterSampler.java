@@ -5,6 +5,10 @@ package net.danielthompson.danray.samplers;
  */
 public class CenterSampler extends AbstractSampler {
 
+   public CenterSampler(int samplesPerPixel) {
+      super(samplesPerPixel);
+   }
+
    @Override
    public float[][] GetSamples(int x, int y, int n) {
       float[][] pixels = new float[n][2];

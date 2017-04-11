@@ -33,7 +33,8 @@ public class GlossyBRDF extends BRDF {
    public float f(Vector incoming, Normal normal, Vector outgoing) {
 
       float lambertF = lambertianBRDF.f(incoming, normal, outgoing);
-      float mirrorF = mirrorBRDF.f(incoming, normal, outgoing);
+//      float mirrorF = mirrorBRDF.f(incoming, normal, outgoing);
+      float mirrorF = 1;
 
       float f = GeometryCalculations.Lerp(mirrorF, Gloss, lambertF, (1.0f - Gloss));
 

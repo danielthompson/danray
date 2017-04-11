@@ -57,7 +57,9 @@ public abstract class AbstractRunner implements Runnable {
       do {
          float[][] sampleLocations = Sampler.GetSamples(x, y, _samplesPerPixel);
 
-         Ray[] cameraRays = Scene.Camera.getRays(sampleLocations, _samplesPerPixel);
+         int numSamples = sampleLocations.length;
+
+         Ray[] cameraRays = Scene.Camera.getRays(sampleLocations, numSamples);
 
          Manager.InitialRays += cameraRays.length;
 
@@ -70,7 +72,7 @@ public abstract class AbstractRunner implements Runnable {
          }
 
          Film.AddSamples(x, y, samples);
-         reachedSamples += _samplesPerPixel;
+         reachedSamples += numSamples;
 
          iterations++;
       }

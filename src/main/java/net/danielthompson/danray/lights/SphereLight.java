@@ -20,6 +20,8 @@ public class SphereLight extends AbstractLight {
       super(spd);
       Sphere = sphere;
       WorldBoundingBox = sphere.WorldBoundingBox;
+      ObjectToWorld = sphere.ObjectToWorld;
+      WorldToObject = sphere.WorldToObject;
    }
 
    private static float[] randoms;
@@ -38,6 +40,7 @@ public class SphereLight extends AbstractLight {
    public void RecalculateWorldBoundingBox() {
       Sphere.RecalculateWorldBoundingBox();
       WorldBoundingBox = Sphere.WorldBoundingBox;
+
    }
 
    @Override
