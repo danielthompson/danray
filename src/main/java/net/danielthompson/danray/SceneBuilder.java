@@ -488,6 +488,26 @@ public class SceneBuilder {
       Material material;
       Box box;
 
+      // base
+
+      material = new Material();
+      material.BRDF = LambertianBRDF;
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.white);
+
+      inputTransforms = new Transform[5];
+      inputTransforms[0] = Transform.Translate(new Vector(0f, 0f, 0));
+      inputTransforms[1] = Transform.RotateZ(-10f);
+      inputTransforms[2] = Transform.Scale(24f, 0.1f, 16f);
+//      inputTransforms[3] = Transform.Scale(2);
+      inputTransforms[3] = Transform.identity;
+      inputTransforms[4] = Transform.Translate(new Vector(-.5f, -.5f, -.5f));
+//      inputTransforms[4] = Transform.identity;
+
+      compositeTransforms = Transform.composite(inputTransforms);
+
+      box = new Box(compositeTransforms, material);
+      scene.Shapes.add(box);
+
       // strip 1
 
       material = new Material();
@@ -573,7 +593,7 @@ public class SceneBuilder {
 
       // light 1
 
-      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(Color.white, 10.0f);
+      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(Color.white, 100.0f);
 
       inputTransforms = new Transform[2];
       inputTransforms[0] = Transform.Translate(new Vector(0, 6.5f, 2.7f));
@@ -590,7 +610,7 @@ public class SceneBuilder {
 
       // light 2
 
-      lightSPD = new SpectralPowerDistribution(Color.white, 10.0f);
+      lightSPD = new SpectralPowerDistribution(Color.white, 100.0f);
 
       inputTransforms = new Transform[2];
       inputTransforms[0] = Transform.Translate(new Vector(0, 6.5f, 0));
@@ -607,7 +627,7 @@ public class SceneBuilder {
 
       // light 3
 
-      lightSPD = new SpectralPowerDistribution(Color.white, 10.0f);
+      lightSPD = new SpectralPowerDistribution(Color.white, 100.0f);
 
       inputTransforms = new Transform[1];
       inputTransforms[0] = Transform.Translate(new Vector(0, 6.5f, -2.8f));
