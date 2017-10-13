@@ -42,7 +42,9 @@ public class MirrorBRDF extends BRDF {
 
       //Vector outgoing = Vector.Minus(incoming, scaled);
 
-      Vector outgoing = Vector.Minus(ZeroVector, Vector.Minus(scaled, incoming));
+      Vector outgoing = Vector.Minus(scaled, incoming);
+
+      outgoing = Vector.Minus(ZeroVector, outgoing);
 
       return outgoing;
 
