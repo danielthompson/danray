@@ -22,9 +22,11 @@ public class GlossyBRDF extends BRDF {
    public float f(float thetaIncoming, float thetaOutgoing) {
 
       float lambertF = lambertianBRDF.f(thetaIncoming, thetaOutgoing);
-      float mirrorF = mirrorBRDF.f(thetaIncoming, thetaOutgoing);
+//      float mirrorF = mirrorBRDF.f(thetaIncoming, thetaOutgoing);
+      float mirrorF = 1;
 
       float f = GeometryCalculations.Lerp(mirrorF, Gloss, lambertF, (1.0f - Gloss));
+//      float f = GeometryCalculations.Lerp(mirrorF, (1.0f - Gloss), lambertF, Gloss);
 
       return f;
    }
@@ -47,7 +49,9 @@ public class GlossyBRDF extends BRDF {
       Vector lambertVector = lambertianBRDF.getVectorInPDF(normal, incoming);
       Vector mirrorVector = mirrorBRDF.getVectorInPDF(normal, incoming);
 
-      Vector lerp = Vector.Lerp(mirrorVector, Gloss, lambertVector, (1.0f - Gloss));
+//      Vector lerp = Vector.Lerp(mirrorVector, Gloss, lambertVector, (1.0f - Gloss));
+      Vector lerp = Vector.Slerp(mirrorVector, Gloss, lambertVector, (1.0f - Gloss));
+//      Vector lerp = Vector.Lerp(mirrorVector, (1.0f - Gloss), lambertVector, Gloss);
 
       return lerp;
 

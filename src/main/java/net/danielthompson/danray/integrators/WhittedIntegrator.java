@@ -36,9 +36,9 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
       Sample sample = new Sample();
 
-      if (x == 102 && y == 285) {
-         int i = 0;
-      }
+//      if (x == 102 && y == 285) {
+//         int i = 0;
+//      }
 
       IntersectionState closestStateToRay = scene.getNearestShape(ray, x, y);
 
@@ -101,14 +101,14 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
                      float angleOfIncidencePercentage = GeometryCalculations.GetCosineWeightedIncidencePercentage(lightToNearestShape.Direction, closestStateToRay.Normal);
 
-                     if (x == 393 && y == 288) { // inside
-                        int j = 0;
-                     }
-
-
-                     if (x == 404 && y == 288) { // out
-                        int j = 0;
-                     }
+//                     if (x == 393 && y == 288) { // inside
+//                        int j = 0;
+//                     }
+//
+//
+//                     if (x == 404 && y == 288) { // out
+//                        int j = 0;
+//                     }
 
 
                      SpectralPowerDistribution scaledIncomingSPD = SpectralPowerDistribution.scale(light.SpectralPowerDistribution, angleOfIncidencePercentage);
@@ -124,6 +124,12 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
       directSPD = directSPD.reflectOff(objectMaterial.ReflectanceSpectrum);
 
+      if (x == 476 && y == 531) { // out
+         int j = 0;
+         depth++;
+         depth--;
+      }
+
       // base case
       if (depth >= maxDepth) {
          sample.SpectralPowerDistribution = directSPD;
@@ -133,6 +139,8 @@ public class WhittedIntegrator extends AbstractIntegrator {
       else {
          depth++;
          // reflected color
+
+
 
          Sample reflectedSample = null;
 
@@ -172,9 +180,10 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
             }
 
-            reflectedSPD = reflectedSample.SpectralPowerDistribution.scale(reflectedSample.SpectralPowerDistribution, reflectedWeight);
+            reflectedSPD = SpectralPowerDistribution.scale(reflectedSample.SpectralPowerDistribution, reflectedWeight);
 
-            reflectedSPD = reflectedSample.SpectralPowerDistribution.reflectOff(objectMaterial.ReflectanceSpectrum);
+//            reflectedSPD = reflectedSample.SpectralPowerDistribution.reflectOff(objectMaterial.ReflectanceSpectrum);
+            reflectedSPD = reflectedSPD.reflectOff(objectMaterial.ReflectanceSpectrum);
 
          }
 

@@ -120,6 +120,26 @@ public class Vector {
       return v;
    }
 
+   public static Vector Slerp(Vector v1, float w1, Vector v2, float w2) {
+
+      float cosOmega = v1.Dot(v2);
+      float omega = (float)Math.acos(cosOmega);
+
+      float oneOverSinOmega = (float)Math.sin(omega);
+
+      float ww1 = (float)Math.sin(w1 * omega) * oneOverSinOmega;
+      float ww2 = (float)Math.sin(w2 * omega) * oneOverSinOmega;
+
+
+      float x = v1.X * ww1 + v2.X * ww2;
+      float y = v1.Y * ww1 + v2.Y * ww2;
+      float z = v1.Z * ww1 + v2.Z * ww2;
+
+      Vector v = new Vector(x, y, z);
+      v.Normalize();
+      return v;
+   }
+
    public String toString() {
       return "X " + X + ", Y " + Y + ", Z " + Z;
    }

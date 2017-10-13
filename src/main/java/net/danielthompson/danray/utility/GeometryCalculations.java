@@ -47,7 +47,7 @@ public class GeometryCalculations {
          y = (float) random.nextGaussian();
          z = (float) random.nextGaussian();
          d2 = x*x + y*y + z*z;
-      } while (d2 <= Double.MIN_NORMAL);
+      } while (d2 <= Float.MIN_NORMAL);
       float s = (float) Math.sqrt(1.0 / d2);
       return new float[] {x*s, y*s, z*s};
    }
