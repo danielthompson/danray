@@ -176,6 +176,9 @@ public class Box extends AbstractShape {
                   System.out.println("point1: " + point1);
                   System.out.println("point2: " + point2);
                   System.out.println("hitpoint: " + state.IntersectionPoint);
+
+                  boolean isNan = Float.isNaN(objectSpaceRay.Direction.X);
+
                   throw new NullPointerException();
                }
             }

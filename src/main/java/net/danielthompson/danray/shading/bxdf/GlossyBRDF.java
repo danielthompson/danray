@@ -46,11 +46,35 @@ public class GlossyBRDF extends BRDF {
    @Override
    public Vector getVectorInPDF(Normal normal, Vector incoming) {
 
-      Vector lambertVector = lambertianBRDF.getVectorInPDF(normal, incoming);
       Vector mirrorVector = mirrorBRDF.getVectorInPDF(normal, incoming);
 
+      Normal mirrorAsNormal = new Normal(mirrorVector);
+
+      Vector lerp;
+
+      float dot = 0.0f;
+
+      do {
+         Vector lambertVector = lambertianBRDF.getVectorInPDF(mirrorAsNormal, incoming);
+         lerp = Vector.Slerp(mirrorVector, Gloss, lambertVector, (1.0f - Gloss));
+
+         dot = lerp.Dot(normal);
+
+         if (lerp.X == Float.NaN) {
+            // wtf?
+            lerp = Vector.Slerp(mirrorVector, Gloss, lambertVector, (1.0f - Gloss));
+
+            dot = lerp.Dot(normal);
+
+         }
+
+      } while (dot < 0);
+
+
+
+
 //      Vector lerp = Vector.Lerp(mirrorVector, Gloss, lambertVector, (1.0f - Gloss));
-      Vector lerp = Vector.Slerp(mirrorVector, Gloss, lambertVector, (1.0f - Gloss));
+      //Vector lerp = Vector.Slerp(mirrorVector, Gloss, lambertVector, (1.0f - Gloss));
 //      Vector lerp = Vector.Lerp(mirrorVector, (1.0f - Gloss), lambertVector, Gloss);
 
       return lerp;

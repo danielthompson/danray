@@ -137,7 +137,7 @@ public class TraceManager {
 
       if (_tracerOptions.numThreads == 0) {
          Logger.Log("No thread count specified at startup, defaulting to available cores.");
-         _tracerOptions.numThreads = cores;
+         _tracerOptions.numThreads = 1;
       }
 
       Logger.Log("Using " + _tracerOptions.numThreads + " threads.");

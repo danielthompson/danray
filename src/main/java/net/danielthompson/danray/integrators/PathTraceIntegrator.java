@@ -26,12 +26,32 @@ public class PathTraceIntegrator extends AbstractIntegrator {
 
       if (closestStateToRay == null || !closestStateToRay.Hits) {
 
-         if (closestStateToRay != null)
+         if (closestStateToRay != null) {
             sample.KDHeatCount = closestStateToRay.KDHeatCount;
+            boolean xNan = Float.isNaN(closestStateToRay.IntersectionPoint.X);
+            boolean yNan = Float.isNaN(closestStateToRay.IntersectionPoint.Y);
+            boolean zNan = Float.isNaN(closestStateToRay.IntersectionPoint.Z);
+
+            if (xNan || yNan || zNan) {
+               IntersectionState closestStateToRay2 = scene.getNearestShape(ray, x, y);
+               depth++;
+               depth--;
+            }
+
+         }
          sample.SpectralPowerDistribution = scene.getSkyBoxSPD(ray.Direction);
          return sample;
       }
 
+      boolean xNan = Float.isNaN(closestStateToRay.IntersectionPoint.X);
+      boolean yNan = Float.isNaN(closestStateToRay.IntersectionPoint.Y);
+      boolean zNan = Float.isNaN(closestStateToRay.IntersectionPoint.Z);
+
+      if (xNan || yNan || zNan) {
+         IntersectionState closestStateToRay2 = scene.getNearestShape(ray, x, y);
+         depth++;
+         depth--;
+      }
 
       if (closestStateToRay.Shape instanceof AbstractLight) {
          sample.SpectralPowerDistribution = ((AbstractLight) closestStateToRay.Shape).SpectralPowerDistribution;

@@ -93,6 +93,10 @@ public abstract class AbstractScene {
 
    public SpectralPowerDistribution getSkyBoxSPD(Vector direction) {
 
+      if (Float.isNaN(direction.X)) {
+         return backgroundColor;
+      }
+
       if (SkyBoxNegX == null)
          return backgroundColor;
 

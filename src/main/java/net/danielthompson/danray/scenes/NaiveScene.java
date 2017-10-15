@@ -50,11 +50,16 @@ public class NaiveScene extends AbstractScene {
 
       if (nearestShapeIndex >= 0) {
 
-         if (x == 555 && y == 644) { // inside
+//         if (x == 555 && y == 644) { // inside
+//
+//            closestStateToRay = Shapes.get(nearestShapeIndex).getHitInfo(ray);
+//         }
+         closestStateToRay = Shapes.get(nearestShapeIndex).getHitInfo(ray);
 
+         if (Float.isNaN(closestStateToRay.IntersectionPoint.X)) {
+            // wtf?
             closestStateToRay = Shapes.get(nearestShapeIndex).getHitInfo(ray);
          }
-         closestStateToRay = Shapes.get(nearestShapeIndex).getHitInfo(ray);
       }
 
       return closestStateToRay;
