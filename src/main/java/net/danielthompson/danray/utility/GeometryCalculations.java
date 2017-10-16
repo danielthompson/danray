@@ -5,6 +5,7 @@ import net.danielthompson.danray.structures.*;
 import org.apache.commons.math3.util.FastMath;
 
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by daniel on 3/17/15.
@@ -13,7 +14,7 @@ public class GeometryCalculations {
 
    public static Random random = new Random();
 
-   public static float[][] RandomSpherePoints = getRandomSpherePoints();
+   public static float[][] RandomSpherePoints = getRandomSpherePoints() ;
 
    private static final int maxRandomSpherePoints = 1000000;
 
@@ -41,11 +42,13 @@ public class GeometryCalculations {
 
    public static float[] randomPointOnSphere()
    {
+      ThreadLocalRandom rand = ThreadLocalRandom.current();
+
       float x, y, z, d2;
       do {
-         x = (float) random.nextGaussian();
-         y = (float) random.nextGaussian();
-         z = (float) random.nextGaussian();
+         x = (float) rand.nextGaussian();
+         y = (float) rand.nextGaussian();
+         z = (float) rand.nextGaussian();
          d2 = x*x + y*y + z*z;
       } while (d2 <= Float.MIN_NORMAL);
       float s = (float) Math.sqrt(1.0 / d2);

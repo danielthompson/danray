@@ -511,7 +511,7 @@ public class SceneBuilder {
       // strip 1
 
       material = new Material();
-      material.BRDF = new GlossyBRDF(.93f);
+      material.BRDF = new GlossyBRDF(1.f);
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.gray);
 
       inputTransforms = new Transform[5];
@@ -532,7 +532,7 @@ public class SceneBuilder {
       // strip 2
 
       material = new Material();
-      material.BRDF = new GlossyBRDF(.93f);
+      material.BRDF = new GlossyBRDF(.99f);
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.gray);
 
       inputTransforms = new Transform[5];
@@ -552,7 +552,7 @@ public class SceneBuilder {
       // strip 3
 
       material = new Material();
-      material.BRDF = new GlossyBRDF(.93f);
+      material.BRDF = new GlossyBRDF(.98f);
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.gray);
 
       inputTransforms = new Transform[5];
@@ -572,7 +572,7 @@ public class SceneBuilder {
       // strip 4
 
       material = new Material();
-      material.BRDF = new GlossyBRDF(.93f);
+      material.BRDF = new GlossyBRDF(.97f);
 //      material.BRDF = new MirrorBRDF();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.gray);
 

@@ -133,11 +133,11 @@ public class TraceManager {
       int cores = Runtime.getRuntime().availableProcessors();
       Logger.Log("Detected " + cores + " cores.");
 
-      //_tracerOptions.numThreads = 1;
+      _tracerOptions.numThreads = 2;
 
       if (_tracerOptions.numThreads == 0) {
          Logger.Log("No thread count specified at startup, defaulting to available cores.");
-         _tracerOptions.numThreads = 1;
+         _tracerOptions.numThreads = cores;
       }
 
       Logger.Log("Using " + _tracerOptions.numThreads + " threads.");
