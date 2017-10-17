@@ -13,6 +13,7 @@ import net.danielthompson.danray.films.AbstractFilm;
 import net.danielthompson.danray.samplers.AbstractSampler;
 import net.danielthompson.danray.samplers.CenterSampler;
 import net.danielthompson.danray.samplers.GridSampler;
+import net.danielthompson.danray.samplers.RandomSampler;
 import net.danielthompson.danray.shading.fullspectrum.FullSpectralBlender;
 import net.danielthompson.danray.shading.fullspectrum.FullSpectralPowerDistribution;
 import net.danielthompson.danray.states.IntersectionState;
@@ -115,7 +116,7 @@ public class TraceManager {
       _scene = scene;
       _integrator = new PathTraceIntegrator(_scene, renderQualityPreset.getMaxDepth());
       //_integrator = new WhittedIntegrator(_scene, renderQualityPreset.getMaxDepth());
-      _sampler = new GridSampler(renderQualityPreset.getSamplesPerPixel());
+      _sampler = new RandomSampler(renderQualityPreset.getSamplesPerPixel());
       _timer = new Timer();
       long numPixels = renderQualityPreset.getX() * renderQualityPreset.getY();
       _numPixelsDivisor = 1.0f / numPixels;
@@ -133,7 +134,7 @@ public class TraceManager {
       int cores = Runtime.getRuntime().availableProcessors();
       Logger.Log("Detected " + cores + " cores.");
 
-      _tracerOptions.numThreads = 2;
+      //_tracerOptions.numThreads = 2;
 
       if (_tracerOptions.numThreads == 0) {
          Logger.Log("No thread count specified at startup, defaulting to available cores.");

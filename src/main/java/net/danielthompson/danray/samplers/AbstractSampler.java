@@ -6,7 +6,6 @@ import java.util.Random;
  * Created by daniel on 5/15/16.
  */
 public abstract class AbstractSampler {
-   public static Random Random = new Random();
 
    public int SamplesPerPixel;
 

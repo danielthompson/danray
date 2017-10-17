@@ -63,43 +63,43 @@ public class BoxFilterFilm extends AbstractFilm {
       int newG = (int)GeometryCalculations.Lerp(existingImageColor.getGreen(), normalizedExistingImageWeight, newSampleColor.getGreen(), normalizedNewSampleWeight);
       int newB = (int)GeometryCalculations.Lerp(existingImageColor.getBlue(), normalizedExistingImageWeight, newSampleColor.getBlue(), normalizedNewSampleWeight);
 
-      if (newR == 255 && newG == 255 && newB == 255) {
-         int highestRIndex = 0;
-         int highestGIndex = 0;
-         int highestBIndex = 0;
-         int highestTotalIndex = 0;
-
-         float highestR = 0.0f;
-         float highestG = 0.0f;
-         float highestB = 0.0f;
-         float highestTotal = 0.0f;
-
-         for (int k = 0; k < samples.length; k++) {
-            Sample sample = samples[k];
-            if (sample.SpectralPowerDistribution.R > highestR) {
-               highestR = sample.SpectralPowerDistribution.R;
-               highestRIndex = k;
-            }
-            if (sample.SpectralPowerDistribution.G > highestG) {
-               highestG = sample.SpectralPowerDistribution.G;
-               highestGIndex = k;
-            }
-            if (sample.SpectralPowerDistribution.B > highestB) {
-               highestB = sample.SpectralPowerDistribution.B;
-               highestBIndex = k;
-            }
-
-            float total = sample.SpectralPowerDistribution.R + sample.SpectralPowerDistribution.G + sample.SpectralPowerDistribution.B;
-
-            if (total > highestTotal) {
-               total = highestTotal;
-               highestTotalIndex = k;
-            }
-
-         }
-
-         int l = 0;
-      }
+//      if (newR == 255 && newG == 255 && newB == 255) {
+//         int highestRIndex = 0;
+//         int highestGIndex = 0;
+//         int highestBIndex = 0;
+//         int highestTotalIndex = 0;
+//
+//         float highestR = 0.0f;
+//         float highestG = 0.0f;
+//         float highestB = 0.0f;
+//         float highestTotal = 0.0f;
+//
+//         for (int k = 0; k < samples.length; k++) {
+//            Sample sample = samples[k];
+//            if (sample.SpectralPowerDistribution.R > highestR) {
+//               highestR = sample.SpectralPowerDistribution.R;
+//               highestRIndex = k;
+//            }
+//            if (sample.SpectralPowerDistribution.G > highestG) {
+//               highestG = sample.SpectralPowerDistribution.G;
+//               highestGIndex = k;
+//            }
+//            if (sample.SpectralPowerDistribution.B > highestB) {
+//               highestB = sample.SpectralPowerDistribution.B;
+//               highestBIndex = k;
+//            }
+//
+//            float total = sample.SpectralPowerDistribution.R + sample.SpectralPowerDistribution.G + sample.SpectralPowerDistribution.B;
+//
+//            if (total > highestTotal) {
+//               total = highestTotal;
+//               highestTotalIndex = k;
+//            }
+//
+//         }
+//
+//         int l = 0;
+//      }
 
       Color finalColor = new Color(newR, newG, newB);
       Image.setRGB(xFloor, yFloor, finalColor.getRGB());
