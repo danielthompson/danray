@@ -9,9 +9,6 @@ import net.danielthompson.danray.shapes.AbstractShape;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.*;
 
-import java.util.ArrayList;
-
-
 /**
  * Created by daniel on 5/5/15.
  */
@@ -26,21 +23,39 @@ public class IterativePathTraceIntegrator extends AbstractIntegrator {
       Sample sample = new Sample();
       sample.SpectralPowerDistribution = new SpectralPowerDistribution();
 
-      for (int bounce = 0; bounce < depth; bounce++) {
+      Ray[] rays = new Ray[maxDepth];
+      float[] fs = new float[maxDepth];
+      SpectralPowerDistribution[] spds = new SpectralPowerDistribution[maxDepth];
+      ReflectanceSpectrum[] refls = new ReflectanceSpectrum[maxDepth];
+      IntersectionState[] states = new IntersectionState[maxDepth];
 
-         IntersectionState closestStateToRay = scene.getNearestShape(ray, x, y);
+      rays[0] = ray;
+
+      int bounces;
+
+      for (bounces = 0; bounces < depth; bounces++) {
+
+         spds[bounces] = new SpectralPowerDistribution();
+
+         IntersectionState closestStateToRay = scene.getNearestShape(rays[bounces], x, y);
+         states[bounces] = closestStateToRay;
 
          if (closestStateToRay == null || !closestStateToRay.Hits) {
 
-            if (closestStateToRay != null) {
-               sample.KDHeatCount = closestStateToRay.KDHeatCount;
+            if (bounces > 0) {
+               bounces++;
+               bounces--;
             }
-            sample.SpectralPowerDistribution.add(scene.getSkyBoxSPD(ray.Direction));
+            spds[bounces].add(scene.getSkyBoxSPD(ray.Direction));
             break;
          }
 
          if (closestStateToRay.Shape instanceof AbstractLight) {
-            sample.SpectralPowerDistribution.add(((AbstractLight) closestStateToRay.Shape).SpectralPowerDistribution);
+            if (bounces > 0) {
+               bounces++;
+               bounces--;
+            }
+            spds[bounces].add(((AbstractLight) closestStateToRay.Shape).SpectralPowerDistribution);
             break;
          }
 
@@ -49,28 +64,51 @@ public class IterativePathTraceIntegrator extends AbstractIntegrator {
             break;
          }
 
-         Material objectMaterial = closestShape.Material;
-         Normal intersectionNormal = closestStateToRay.Normal;
-         Vector incomingDirection = ray.Direction;
-         Vector outgoingDirection = objectMaterial.BRDF.getVectorInPDF(intersectionNormal, incomingDirection);
-         float scalePercentage = objectMaterial.BRDF.f(incomingDirection, intersectionNormal, outgoingDirection);
-         ray = new Ray(closestStateToRay.IntersectionPoint, outgoingDirection);
-         ray.OffsetOriginForward(Constants.HalfEpsilon);
+         if (bounces + 1 < maxDepth ) {
+            Material objectMaterial = closestShape.Material;
+            Normal intersectionNormal = closestStateToRay.Normal;
+            Vector incomingDirection = ray.Direction;
+            Vector outgoingDirection = objectMaterial.BRDF.getVectorInPDF(intersectionNormal, incomingDirection);
+            float scalePercentage = objectMaterial.BRDF.f(incomingDirection, intersectionNormal, outgoingDirection);
+            fs[bounces] = scalePercentage;
+            rays[bounces + 1] = new Ray(closestStateToRay.IntersectionPoint, outgoingDirection);
+            rays[bounces + 1].OffsetOriginForward(Constants.HalfEpsilon);
 
-         //Sample incomingSample = GetSample(bounceRay, depth + 1, x, y);
+            refls[bounces] = objectMaterial.ReflectanceSpectrum;
+         }
+      }
 
-         //SpectralPowerDistribution incomingSPD = incomingSample.SpectralPowerDistribution;
+      //SpectralPowerDistribution[] spds2 = new SpectralPowerDistribution[maxDepth];
 
-         //incomingSPD = SpectralPowerDistribution.scale(incomingSPD, scalePercentage);
+
+
+      for (int i = bounces; i >= 0; i++) {
+         if (bounces > 0) {
+            bounces++;
+            bounces--;
+         }
+
+         SpectralPowerDistribution spd = spds[i];
+         float f = fs[i];
+         ReflectanceSpectrum refl = refls[i];
+
+         if (refl == null) {
+            sample.SpectralPowerDistribution = spd;
+            break;
+         }
+
+         spd = SpectralPowerDistribution.scale(spd, f);
 
          // compute the interaction of the incoming SPD with the object's SRC
 
-         ReflectanceSpectrum reflectanceSpectrum = objectMaterial.ReflectanceSpectrum;
+         SpectralPowerDistribution reflectedSPD = spd.reflectOff(refl);
 
-         SpectralPowerDistribution reflectedSPD = sample.SpectralPowerDistribution.reflectOff(reflectanceSpectrum);
-
-         sample.SpectralPowerDistribution.add(reflectedSPD);
-
+         if (i > 0)
+            spds[i - 1] = reflectedSPD;
+         else {
+            sample.SpectralPowerDistribution = reflectedSPD;
+            break;
+         }
       }
 
       return sample;
