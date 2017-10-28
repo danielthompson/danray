@@ -20,6 +20,8 @@ public class IterativePathTraceIntegrator extends AbstractIntegrator {
 
    public Sample GetSample(Ray ray, int depth, int x, int y) {
 
+      int foo = 0;
+
       Sample sample = new Sample();
       sample.SpectralPowerDistribution = new SpectralPowerDistribution();
 
@@ -31,9 +33,20 @@ public class IterativePathTraceIntegrator extends AbstractIntegrator {
 
       rays[0] = ray;
 
-      int bounces;
+      int bounces = 0;
 
-      for (bounces = 0; bounces < depth; bounces++) {
+//      if (x == 356 && y == 261) {
+//         bounces++;
+//         bounces--;
+//      }
+
+
+      for (bounces = 0; bounces < maxDepth; bounces++) {
+
+//         if (bounces == 1) {
+//            foo++;
+//            foo--;
+//         }
 
          spds[bounces] = new SpectralPowerDistribution();
 
@@ -42,19 +55,19 @@ public class IterativePathTraceIntegrator extends AbstractIntegrator {
 
          if (closestStateToRay == null || !closestStateToRay.Hits) {
 
-            if (bounces > 0) {
-               bounces++;
-               bounces--;
-            }
+//            if (bounces > 0) {
+//               foo++;
+//               foo--;
+//            }
             spds[bounces].add(scene.getSkyBoxSPD(ray.Direction));
             break;
          }
 
          if (closestStateToRay.Shape instanceof AbstractLight) {
-            if (bounces > 0) {
-               bounces++;
-               bounces--;
-            }
+//            if (bounces > 0) {
+//               foo++;
+//               foo--;
+//            }
             spds[bounces].add(((AbstractLight) closestStateToRay.Shape).SpectralPowerDistribution);
             break;
          }
@@ -86,15 +99,20 @@ public class IterativePathTraceIntegrator extends AbstractIntegrator {
 
       else {
 
-         for (int i = bounces; i > 0; i++) {
+         for (int i = bounces - 1; i >= 0; i--) {
             if (bounces > 0) {
-               bounces++;
-               bounces--;
+               foo++;
+               foo--;
+            }
+
+            if (i >= spds.length) {
+               foo++;
+               foo--;
             }
 
             SpectralPowerDistribution spd = spds[i];
             float f = fs[i];
-            ReflectanceSpectrum refl = refls[i - 1];
+            ReflectanceSpectrum refl = refls[i];
 
             if (refl == null) {
                sample.SpectralPowerDistribution = spd;
@@ -102,8 +120,8 @@ public class IterativePathTraceIntegrator extends AbstractIntegrator {
             }
 
             if (spd == null) {
-               bounces++;
-               bounces--;
+               foo++;
+               foo--;
             } else {
                spd = SpectralPowerDistribution.scale(spd, f);
             }
@@ -114,8 +132,10 @@ public class IterativePathTraceIntegrator extends AbstractIntegrator {
 
             if (i > 0)
                spds[i - 1] = reflectedSPD;
+            else
+               sample.SpectralPowerDistribution = reflectedSPD;
          }
-         sample.SpectralPowerDistribution = spds[0];
+         //sample.SpectralPowerDistribution = spds[0];
       }
 
       return sample;
