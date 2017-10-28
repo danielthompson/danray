@@ -1,6 +1,5 @@
 package net.danielthompson.danray.ui.opengl;
 
-import com.sun.deploy.trace.Trace;
 import net.danielthompson.danray.TraceManager;
 
 import java.awt.event.KeyEvent;

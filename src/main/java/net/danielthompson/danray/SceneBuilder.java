@@ -911,7 +911,7 @@ public class SceneBuilder {
 
       Transform[]  compositeTransforms = Transform.composite(inputTransforms);
 
-      Box box = new Box(p0, p1, material);
+      Box box = new Box(compositeTransforms[0], compositeTransforms[1], material);
       scene.addShape(box);
 
       // right light

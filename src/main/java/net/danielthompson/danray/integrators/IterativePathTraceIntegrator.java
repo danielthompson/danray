@@ -80,35 +80,42 @@ public class IterativePathTraceIntegrator extends AbstractIntegrator {
 
       //SpectralPowerDistribution[] spds2 = new SpectralPowerDistribution[maxDepth];
 
+      if (bounces == 0) {
+         sample.SpectralPowerDistribution = spds[0];
+      }
 
+      else {
 
-      for (int i = bounces; i >= 0; i++) {
-         if (bounces > 0) {
-            bounces++;
-            bounces--;
+         for (int i = bounces; i > 0; i++) {
+            if (bounces > 0) {
+               bounces++;
+               bounces--;
+            }
+
+            SpectralPowerDistribution spd = spds[i];
+            float f = fs[i];
+            ReflectanceSpectrum refl = refls[i - 1];
+
+            if (refl == null) {
+               sample.SpectralPowerDistribution = spd;
+               break;
+            }
+
+            if (spd == null) {
+               bounces++;
+               bounces--;
+            } else {
+               spd = SpectralPowerDistribution.scale(spd, f);
+            }
+
+            // compute the interaction of the incoming SPD with the object's SRC
+
+            SpectralPowerDistribution reflectedSPD = spd.reflectOff(refl);
+
+            if (i > 0)
+               spds[i - 1] = reflectedSPD;
          }
-
-         SpectralPowerDistribution spd = spds[i];
-         float f = fs[i];
-         ReflectanceSpectrum refl = refls[i];
-
-         if (refl == null) {
-            sample.SpectralPowerDistribution = spd;
-            break;
-         }
-
-         spd = SpectralPowerDistribution.scale(spd, f);
-
-         // compute the interaction of the incoming SPD with the object's SRC
-
-         SpectralPowerDistribution reflectedSPD = spd.reflectOff(refl);
-
-         if (i > 0)
-            spds[i - 1] = reflectedSPD;
-         else {
-            sample.SpectralPowerDistribution = reflectedSPD;
-            break;
-         }
+         sample.SpectralPowerDistribution = spds[0];
       }
 
       return sample;
