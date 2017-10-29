@@ -115,11 +115,13 @@ public class TraceManager {
       _tracerOptions = tracerOptions;
       _samplesInverse = 1.0f / (renderQualityPreset.getSuperSamplesPerPixel() * renderQualityPreset.getSamplesPerPixel());
       _scene = scene;
-//      _integrator = new PathTraceIntegrator(_scene, renderQualityPreset.getMaxDepth());
-      _integrator = new IterativePathTraceIntegrator(_scene, renderQualityPreset.getMaxDepth());
-      //_integrator = new WhittedIntegrator(_scene, renderQualityPreset.getMaxDepth());
-      _sampler = new RandomSampler(renderQualityPreset.getSamplesPerPixel());
+      _integrator = new PathTraceIntegrator(_scene, renderQualityPreset.getMaxDepth());
+//      _integrator = new IterativePathTraceIntegrator(_scene, renderQualityPreset.getMaxDepth());
+//      _integrator = new WhittedIntegrator(_scene, renderQualityPreset.getMaxDepth());
+//      _sampler = new RandomSampler(renderQualityPreset.getSamplesPerPixel());
+      _sampler = new GridSampler(renderQualityPreset.getSamplesPerPixel());
       _timer = new Timer();
+
       long numPixels = renderQualityPreset.getX() * renderQualityPreset.getY();
       _numPixelsDivisor = 1.0f / numPixels;
       _ioHelper = new IOHelper();
@@ -411,7 +413,7 @@ public class TraceManager {
       }
       */
 
-      //_tracerOptions.numThreads = 1;
+      _tracerOptions.numThreads = 1;
 
       if (_tracerOptions.numThreads <= 1) {
          runner.run();

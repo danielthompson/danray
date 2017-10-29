@@ -1,11 +1,13 @@
 package net.danielthompson.danray.runners;
 
+import net.danielthompson.danray.Logger;
 import net.danielthompson.danray.TraceManager;
 import net.danielthompson.danray.presets.RenderQualityPreset;
 import net.danielthompson.danray.integrators.AbstractIntegrator;
 import net.danielthompson.danray.films.AbstractFilm;
 import net.danielthompson.danray.samplers.AbstractSampler;
 import net.danielthompson.danray.scenes.AbstractScene;
+import org.apache.commons.lang.exception.ExceptionUtils;
 
 /**
  * Created by daniel on 3/4/14.
@@ -101,7 +103,15 @@ public class TileRunner extends AbstractRunner {
                   int i = 0;
                }
 
-               trace(x, y);
+               try {
+                  trace(x, y);
+               }
+               catch (Exception e) {
+                  Logger.Log("Exception caught at (" + x + ", " + y + "): " + e.toString());
+                  Logger.Log(ExceptionUtils.getStackTrace(e));
+
+                  throw e;
+               }
             }
          }
          tile = getNextTile();

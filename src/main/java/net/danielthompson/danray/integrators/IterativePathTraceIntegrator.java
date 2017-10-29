@@ -27,47 +27,33 @@ public class IterativePathTraceIntegrator extends AbstractIntegrator {
 
       Ray[] rays = new Ray[maxDepth];
       float[] fs = new float[maxDepth];
-      SpectralPowerDistribution[] spds = new SpectralPowerDistribution[maxDepth];
+      SpectralPowerDistribution[] spds = new SpectralPowerDistribution[maxDepth + 1];
       ReflectanceSpectrum[] refls = new ReflectanceSpectrum[maxDepth];
       IntersectionState[] states = new IntersectionState[maxDepth];
 
+      spds[0] = new SpectralPowerDistribution();
       rays[0] = ray;
 
       int bounces = 0;
 
-//      if (x == 356 && y == 261) {
-//         bounces++;
-//         bounces--;
-//      }
+      if (x == 340 && y == 357) {
+         foo++;
+         foo--;
+      }
 
 
       for (bounces = 0; bounces < maxDepth; bounces++) {
-
-//         if (bounces == 1) {
-//            foo++;
-//            foo--;
-//         }
-
-         spds[bounces] = new SpectralPowerDistribution();
 
          IntersectionState closestStateToRay = scene.getNearestShape(rays[bounces], x, y);
          states[bounces] = closestStateToRay;
 
          if (closestStateToRay == null || !closestStateToRay.Hits) {
 
-//            if (bounces > 0) {
-//               foo++;
-//               foo--;
-//            }
-            spds[bounces].add(scene.getSkyBoxSPD(ray.Direction));
+            spds[bounces].add(scene.getSkyBoxSPD(rays[bounces].Direction));
             break;
          }
 
          if (closestStateToRay.Shape instanceof AbstractLight) {
-//            if (bounces > 0) {
-//               foo++;
-//               foo--;
-//            }
             spds[bounces].add(((AbstractLight) closestStateToRay.Shape).SpectralPowerDistribution);
             break;
          }
@@ -83,15 +69,18 @@ public class IterativePathTraceIntegrator extends AbstractIntegrator {
             Vector incomingDirection = ray.Direction;
             Vector outgoingDirection = objectMaterial.BRDF.getVectorInPDF(intersectionNormal, incomingDirection);
             float scalePercentage = objectMaterial.BRDF.f(incomingDirection, intersectionNormal, outgoingDirection);
+
             fs[bounces] = scalePercentage;
+            refls[bounces] = objectMaterial.ReflectanceSpectrum;
+
             rays[bounces + 1] = new Ray(closestStateToRay.IntersectionPoint, outgoingDirection);
             rays[bounces + 1].OffsetOriginForward(Constants.HalfEpsilon);
+            spds[bounces + 1] = new SpectralPowerDistribution();
 
-            refls[bounces] = objectMaterial.ReflectanceSpectrum;
          }
       }
 
-      //SpectralPowerDistribution[] spds2 = new SpectralPowerDistribution[maxDepth];
+
 
       if (bounces == 0) {
          sample.SpectralPowerDistribution = spds[0];
@@ -100,22 +89,33 @@ public class IterativePathTraceIntegrator extends AbstractIntegrator {
       else {
 
          for (int i = bounces - 1; i >= 0; i--) {
-            if (bounces > 0) {
+//            if (bounces > 0) {
+//               foo++;
+//               foo--;
+//            }
+//
+//            if (i >= spds.length) {
+//               foo++;
+//               foo--;
+//            }
+//
+            if (x == 340 && y == 357) {
                foo++;
                foo--;
             }
 
-            if (i >= spds.length) {
-               foo++;
-               foo--;
-            }
+            SpectralPowerDistribution spd = spds[i + 1];
 
-            SpectralPowerDistribution spd = spds[i];
-            float f = fs[i];
-            ReflectanceSpectrum refl = refls[i];
+            ReflectanceSpectrum refl = null;
+            float f = 0.0f;
+
+            f = fs[i];
+            refl = refls[i];
 
             if (refl == null) {
                sample.SpectralPowerDistribution = spd;
+               if (spd == null)
+                  sample.SpectralPowerDistribution = new SpectralPowerDistribution();
                break;
             }
 
@@ -131,7 +131,7 @@ public class IterativePathTraceIntegrator extends AbstractIntegrator {
             SpectralPowerDistribution reflectedSPD = spd.reflectOff(refl);
 
             if (i > 0)
-               spds[i - 1] = reflectedSPD;
+               spds[i] = reflectedSPD;
             else
                sample.SpectralPowerDistribution = reflectedSPD;
          }
