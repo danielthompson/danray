@@ -88,16 +88,6 @@ public class PathTraceIntegrator extends AbstractIntegrator {
 
          Sample incomingSample = GetSample(bounceRay, depth + 1, x, y);
 
-         if (x == 476 && y == 531 && depth == 1) {
-            int j = 0;
-         }
-
-
-         if (x == 831 && y == 304 && depth == 1) {
-            int j = 0;
-         }
-
-
          SpectralPowerDistribution incomingSPD = incomingSample.SpectralPowerDistribution;
 
          incomingSPD = SpectralPowerDistribution.scale(incomingSPD, scalePercentage);
