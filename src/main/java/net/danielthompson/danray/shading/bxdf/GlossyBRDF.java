@@ -16,6 +16,16 @@ public class GlossyBRDF extends BRDF {
 
    public GlossyBRDF(float gloss) {
       Gloss = gloss;
+
+
+      if (gloss == 1.0f) {
+         Delta = true;
+         Glossy = false;
+      }
+      else {
+         Delta = false;
+         Glossy = true;
+      }
    }
 
    @Override

@@ -59,14 +59,12 @@ public class IterativePathTraceIntegrator extends AbstractIntegrator {
             ray = new Ray(closestStateToRay.IntersectionPoint, outgoingDirection);
             ray.OffsetOriginForward(Constants.HalfEpsilon);
             spds[bounces + 1] = new SpectralPowerDistribution();
-
          }
       }
 
       for (int i = bounces - 1; i >= 0; i--) {
          SpectralPowerDistribution spd = spds[i + 1];
 
-         // fix this once direct lighting is added above
          if (refls[i] == null) {
             sample.SpectralPowerDistribution = spd;
             if (spd == null)
@@ -84,5 +82,4 @@ public class IterativePathTraceIntegrator extends AbstractIntegrator {
       sample.SpectralPowerDistribution = spds[0];
       return sample;
    }
-
 }

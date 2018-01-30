@@ -21,6 +21,8 @@ public abstract class AbstractShape {
 
    public Material Material;
 
+   public boolean IsConvex;
+
    public boolean InCurrentKDNode;
 
    BoundingEdge[] xBoundingEdges;

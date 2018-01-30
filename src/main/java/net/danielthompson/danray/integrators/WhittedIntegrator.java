@@ -21,8 +21,6 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
    private final int _airIndexOfRefraction = 1;
 
-
-
    public WhittedIntegrator(AbstractScene scene, int maxDepth) {
       super(scene, maxDepth);
    }
@@ -96,21 +94,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
                   IntersectionState state = closestShape.getHitInfo(lightToNearestShape);
                   if (state.Hits) {
-//                  float angleOfIncidencePercentage = GeometryCalculations.GetAngleOfIncidencePercentage(lightToNearestShape, closestStateToRay);
-//                  float angleOfIncidencePercentage = GeometryCalculations.GetIncidencePercentage(lightToNearestShape.Direction, closestStateToRay.Normal);
-
                      float angleOfIncidencePercentage = GeometryCalculations.GetCosineWeightedIncidencePercentage(lightToNearestShape.Direction, closestStateToRay.Normal);
-
-//                     if (x == 393 && y == 288) { // inside
-//                        int j = 0;
-//                     }
-//
-//
-//                     if (x == 404 && y == 288) { // out
-//                        int j = 0;
-//                     }
-
-
                      SpectralPowerDistribution scaledIncomingSPD = SpectralPowerDistribution.scale(light.SpectralPowerDistribution, angleOfIncidencePercentage);
                      scaledIncomingSPD.scale(oneOverDistanceFromLightSourceSquared);
                      directSPD.add(scaledIncomingSPD);
@@ -119,9 +103,6 @@ public class WhittedIntegrator extends AbstractIntegrator {
             }
          }
       }
-
-      //directSPD.add(backgroundColor);
-
       directSPD = directSPD.reflectOff(objectMaterial.ReflectanceSpectrum);
 
       if (x == 476 && y == 531) { // out

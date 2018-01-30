@@ -5,9 +5,11 @@ import net.danielthompson.danray.scenes.AbstractScene;
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.shading.ReflectanceSpectrum;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
+import net.danielthompson.danray.shading.bxdf.BRDF;
 import net.danielthompson.danray.shapes.AbstractShape;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.*;
+import net.danielthompson.danray.utility.GeometryCalculations;
 
 /**
  * Created by daniel on 5/5/15.
@@ -45,11 +47,48 @@ public class IterativeMISPathTraceIntegrator extends AbstractIntegrator {
          }
 
          AbstractShape closestShape = closestStateToRay.Shape;
+         Material objectMaterial = closestShape.Material;
+         BRDF brdf = objectMaterial.BRDF;
+         Normal intersectionNormal = closestStateToRay.Normal;
+         Vector incomingDirection = ray.Direction;
+
+         if (!brdf.Delta) {
+
+            for (AbstractLight light : scene.Lights) {
+               Point intersectionPoint = closestStateToRay.IntersectionPoint;
+
+               Point lightLocation = light.getRandomPointOnSurface();
+
+               Ray lightToNearestShape = intersectionPoint.CreateVectorFrom(lightLocation);
+
+               float dot = closestStateToRay.Normal.Dot(lightToNearestShape.Direction);
+
+               if (dot < 0) {
+
+                  IntersectionState potentialOccluder = scene.getNearestShape(lightToNearestShape, x, y);
+
+                  if (
+                        potentialOccluder == null
+                              || !potentialOccluder.Hits
+                              || potentialOccluder.Shape.equals(closestShape)
+                              || potentialOccluder.Shape.equals(light)
+                        ) {
+                     float oneOverDistanceFromLightSourceSquared = 1 / lightLocation.SquaredDistanceBetween(closestStateToRay.IntersectionPoint);
+
+                     IntersectionState state = closestShape.getHitInfo(lightToNearestShape);
+                     if (state.Hits) {
+                        float angleOfIncidencePercentage = GeometryCalculations.GetCosineWeightedIncidencePercentage(lightToNearestShape.Direction, closestStateToRay.Normal);
+                        float scalePercentage = objectMaterial.BRDF.f(incomingDirection, intersectionNormal, lightToNearestShape.Direction) * angleOfIncidencePercentage;
+                        SpectralPowerDistribution scaledIncomingSPD = SpectralPowerDistribution.scale(light.SpectralPowerDistribution, scalePercentage);
+                        scaledIncomingSPD.scale(oneOverDistanceFromLightSourceSquared);
+                        spds[bounces].add(scaledIncomingSPD);
+                     }
+                  }
+               }
+            }
+         }
 
          if (bounces + 1 < maxDepth ) {
-            Material objectMaterial = closestShape.Material;
-            Normal intersectionNormal = closestStateToRay.Normal;
-            Vector incomingDirection = ray.Direction;
             Vector outgoingDirection = objectMaterial.BRDF.getVectorInPDF(intersectionNormal, incomingDirection);
             float scalePercentage = objectMaterial.BRDF.f(incomingDirection, intersectionNormal, outgoingDirection);
 
@@ -78,7 +117,7 @@ public class IterativeMISPathTraceIntegrator extends AbstractIntegrator {
 
          SpectralPowerDistribution reflectedSPD = spd.reflectOff(refls[i]);
 
-         spds[i] = reflectedSPD;
+         spds[i].add(reflectedSPD);
       }
 
       sample.SpectralPowerDistribution = spds[0];

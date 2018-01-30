@@ -23,6 +23,8 @@ public abstract class BxDF {
     */
    public boolean Delta;
 
+   public boolean Glossy;
+
    /**
     * Gets an outgoing vector according to the BxDF's PDF.
     * Should be used for both delta and non-delta.

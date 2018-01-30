@@ -19,6 +19,7 @@ import net.danielthompson.danray.structures.Vector;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -64,7 +65,26 @@ public class SceneBuilder {
       public static Color green = new Color(133, 153, 0);
    }
 
-   public static ClassLoader loader = SceneBuilder.class.getClassLoader();
+   public static class Skyboxes {
+      public static String Desert2 = "images/cubemap/desert 2.png";
+      public static String Desert2Captions = "images/cubemap/desert 2 - captions.png";
+      public static BufferedImage Load(String path) {
+         try {
+            ClassLoader loader = SceneBuilder.class.getClassLoader();
+            URL url = loader.getResource(path);
+ //         URL url = loader.getResource("images/cubemap/simple.png");
+            return ImageIO.read(url);
+         }
+         catch (IOException e) {
+            System.out.println("Couldn't load skybox: " + e.getMessage());
+            System.out.println("Working Directory = " +
+                  System.getProperty("user.dir"));
+            System.exit(-1);
+         }
+
+         return null;
+      }
+   }
 
    public static BRDF LambertianBRDF = new LambertianBRDF();
 
@@ -454,16 +474,7 @@ public class SceneBuilder {
 
       // skybox
 
-      try {
-         URL url = loader.getResource("images/cubemap/desert 2 - captions.png");
-         scene.SkyBoxImage = ImageIO.read(url);
-      }
-      catch (IOException e) {
-         System.out.println("Couldn't load skybox: " + e.getMessage());
-         System.out.println("Working Directory = " +
-               System.getProperty("user.dir"));
-         System.exit(-1);
-      }
+      scene.SkyBoxImage = Skyboxes.Load(Skyboxes.Desert2Captions);
 
       return scene;
    }
@@ -594,7 +605,7 @@ public class SceneBuilder {
 
       // light 1
 
-      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(Color.white, 100.0f);
+      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(Color.white, 10f);
 
       inputTransforms = new Transform[2];
       inputTransforms[0] = Transform.Translate(new Vector(0, 6.5f, 2.7f));
@@ -611,7 +622,7 @@ public class SceneBuilder {
 
       // light 2
 
-      lightSPD = new SpectralPowerDistribution(Color.white, 100.0f);
+      lightSPD = new SpectralPowerDistribution(Color.white, 10f);
 
       inputTransforms = new Transform[2];
       inputTransforms[0] = Transform.Translate(new Vector(0, 6.5f, 0));
@@ -628,7 +639,7 @@ public class SceneBuilder {
 
       // light 3
 
-      lightSPD = new SpectralPowerDistribution(Color.white, 100.0f);
+      lightSPD = new SpectralPowerDistribution(Color.white, 10f);
 
       inputTransforms = new Transform[1];
       inputTransforms[0] = Transform.Translate(new Vector(0, 6.5f, -2.8f));
@@ -678,17 +689,7 @@ public class SceneBuilder {
 
       // skybox
 
-      try {
-         URL url = loader.getResource("images/cubemap/desert 2.png");
-//         URL url = loader.getResource("images/cubemap/simple.png");
-         scene.SkyBoxImage = ImageIO.read(url);
-      }
-      catch (IOException e) {
-         System.out.println("Couldn't load skybox: " + e.getMessage());
-         System.out.println("Working Directory = " +
-               System.getProperty("user.dir"));
-         System.exit(-1);
-      }
+      scene.SkyBoxImage = Skyboxes.Load(Skyboxes.Desert2);
 
       return scene;
    }
@@ -755,39 +756,41 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
-      settings.FocalLength = 150;
-      settings.Rotation = 0;
-      settings.ZoomFactor = 1.0f/8.0f;
-      settings.FocusDistance = 75;
-      settings.Aperture = new CircleAperture(10);
+      settings.FieldOfView = 15;
 
-      Point origin = new Point(80, 120, -100);
-      Vector direction = new Vector(0, 1, -1);
-      settings.Orientation = new Ray(origin, direction);
+      Transform[] inputTransforms = new Transform[1];
+      inputTransforms[0] = Transform.Translate(new Vector(0, 0, 1200));
+      Transform[] compositeTransforms = Transform.composite(inputTransforms);
 
-      Camera camera = new PerspectiveCamera(settings, null);
+//      Vector direction = new Vector(0, 1, -1);
+//      settings.Orientation = new Ray(origin, direction);
+
+      Camera camera = new PerspectiveCamera(settings, compositeTransforms[0]);
 
 //      AbstractScene scene = new NaiveScene(camera);
-      AbstractScene scene = new KDCompactScene(camera);
+      AbstractScene scene = new KDScene(camera);
 //      AbstractScene scene = new KDScene(camera);
       scene.numFrames = 1;
 
       // white vertical z plane
-      BRDF brdf = new LambertianBRDF();
+      BRDF brdf = new MirrorBRDF();
 
       Material material = new Material();
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(240, 240, 240));
-      material._specular = 1 - .75f;
-      material._reflectivity = .25f;
-
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(240, 120, 120));
       material.BRDF = brdf;
 
       float frontZ = -150;
 
-      Point p0 = new Point(-100, 0, frontZ - 1);
-      Point p1 = new Point(500, 600, frontZ);
+      inputTransforms = new Transform[3];
+      inputTransforms[0] = Transform.Translate(new Vector(0, 0, frontZ));
+      inputTransforms[1] = Transform.Scale(600, 600, 1f);
+      inputTransforms[2] = Transform.Translate(new Vector(-0.5f, -0.5f, -0.5f));
 
-      Box box = new Box(p0, p1, material);
+      //inputTransforms[1] = Transform.Translate(new Vector(-200f, -300f, -150));
+
+      compositeTransforms = Transform.composite(inputTransforms);
+
+      Box box = new Box(compositeTransforms, material);
       scene.addShape(box);
 
       int total = 320;
@@ -823,54 +826,29 @@ public class SceneBuilder {
 
             material = new Material();
             material.ReflectanceSpectrum = new ReflectanceSpectrum(color);
-            material._reflectivity = .3f;
-            material._transparency = 0;
-            material._specular = .1f;
-            material.BRDF = brdf;
+            material.BRDF = MirrorBRDF;
 
-            Sphere sphere = new Sphere(material);
-
-            float originX = sphereXInterval * i + (j % 5) * 3 + 50;
-            float originY = sphereYInterval * j + (yOffset[i * maxSmallSpheresY + j]) + 150;
+            float originX = sphereXInterval * i + (j % 5) * 3;
+            float originY = sphereYInterval * j + (yOffset[i * maxSmallSpheresY + j]);
             float originZ = frontZ + radius;
 
-            sphere.Origin = new Point(originX, originY, originZ);
-            sphere.Radius = radius;
+            inputTransforms = new Transform[2];
+            inputTransforms[0] = Transform.Translate(new Vector(originX - 150, originY - 150, originZ));
+            inputTransforms[1] = Transform.Scale(radius);
 
+            compositeTransforms = Transform.composite(inputTransforms);
+
+            Sphere sphere = new Sphere(compositeTransforms, material);
 
             scene.addShape(sphere);
          }
       }
 
-      // right light
-
-      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(20.0f, 20.0f, 20.0f);
-
-      Sphere sphere = new Sphere();
-      sphere.Origin = new Point(300, 300, 2300);
-      sphere.Radius = 1000;
-
-
-
-      AbstractLight light = new SphereLight(sphere, lightSPD);
-
-      scene.Shapes.add(light);
-      scene.addLight(light);
-
-      //scene.addLight(new PointLight(new Point(300, 300, 800), 30));
-
-      //scene.addLight(new PointLight(new Point(x / 20, y / 2, -100), 5.7));
-      //scene.addLight(new PointLight(new Point(19 * x / 20, y / 2, -100), 5.7));
-      //scene.addLight(new PointLight(new Point(x / 2, 3 * y / 4, -100), 5.7));
-
-      //scene.addLight(new PointLight(new Point(x / 2, y / 2, 300), 5.9));
-      //scene.addLight(new PointLight(new Point(x / 2, y / 2, 600), 10.0f));
-
+      scene.SkyBoxImage = Skyboxes.Load(Skyboxes.Desert2);
 
 
       return scene;
    }
-
 
    public static AbstractScene CornellBox(int x, int y) {
       CameraSettings settings = new CameraSettings();
@@ -936,20 +914,20 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
-      settings.FocalLength = 2000;
-      settings.Rotation = 0;
-      settings.ZoomFactor = 1;
-      settings.FocusDistance = 450;
+      settings.FieldOfView = 50f;
+
       settings.Aperture = new SquareAperture(2);
 
-      Point origin = new Point(300, 300, 250);
-      Vector direction = new Vector(0, 0, -1);
-      settings.Orientation = new Ray(origin, direction);
+      Transform[] inputTransforms = new Transform[1];
+      inputTransforms[0] = Transform.Translate(new Vector(300, 300, 1000));
 
-      Camera camera = new PerspectiveCamera(settings, null);
+      Transform[] compositeTransforms = Transform.composite(inputTransforms);
+
+      Camera camera = new PerspectiveCamera(settings, compositeTransforms[0]);
 
       AbstractScene scene = new NaiveScene(camera);
 
+      scene.SkyBoxImage = Skyboxes.Load(Skyboxes.Desert2);
       scene.numFrames = 1;
 
       // white vertical z plane
@@ -1153,64 +1131,6 @@ public class SceneBuilder {
       return scene;
    }
 
-
-/*
-   public static KDScene ReflectiveTriangleMeshWithLight(int x, int y) {
-      KDScene scene = new KDScene(null);
-
-      // teapot
-
-      WavefrontObjectImporter importer = new WavefrontObjectImporter(new File("models/teapot.obj"));
-      Material material = new Material();
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(182, 73, 38);
-      material._specular = 1 - .5;
-      material._reflectivity = .5;
-      material._transparency = 0;
-
-      TriangleMesh mesh = importer.Process();
-      mesh.SetMaterial(material);
-      mesh.SetRotation(new Tuple(160, 20, 20));
-      mesh.SetOrigin(new Point(2 * x / 3, y / 2, 400));
-
-      scene.addShape(mesh);
-/*
-      // sphere
-
-      material = new Material();
-      material.setColor(new Color(70, 137, 102));
-      material.setDiffuse(.33);
-      material.setReflectivity(.33);
-      material.setTransparency(.33);
-      material.setIndexOfRefraction(1.333);
-
-      Sphere sphere = new Sphere(material);
-      sphere.Origin = new Point(2 * x / 5, y / 3, 400.0f);
-      sphere.Radius = y / 6;
-
-      scene.addShape(sphere);
-
-      // plane
-
-      Point planeOrigin = new Point(0, 0, 0);
-      Point planeNormal = new Point(0, 0, -1);
-
-      Vector planeNormal1 = new Vector(planeOrigin, planeNormal);
-
-      material = new Material();
-      material.setColor(new Color(182, 73, 38));
-      material.setDiffuse(.5);
-      material.setReflectivity(.5);
-
-      ImplicitPlane plane = new ImplicitPlane(planeOrigin, planeNormal, material);
-      scene.addShape(plane);
-*/
-      // lights
-
-     // scene.addLight(new PointLight(new Point(x / 3, y / 2, 900), 20.0f));
-     // scene.addLight(new PointLight(new Point(2 * x / 3, 2 * y / 3, 900), 20.0f));
-   //   return scene;
- //  }
-//*/
    public static AbstractScene FourReflectiveSphereWithLights(int x, int y) {
 
       CameraSettings settings = new CameraSettings();
@@ -1509,7 +1429,6 @@ public class SceneBuilder {
       //scene.addLight(new PointLight(new Point(575, 180, -200), 5.0f));
       return scene;
    }
-
 
    public static AbstractScene FourReflectiveSphereWithLightsPointable(int x, int y) {
 
@@ -1914,109 +1833,114 @@ public class SceneBuilder {
       return scene;
    }
 
-   public static KDScene AreaLightSourceTest(int x, int y) {
+   public static AbstractScene AreaLightSourceTest(int x, int y) {
 
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
-      settings.FocalLength = 1200;
-      settings.ZoomFactor = 1;
-      settings.FocusDistance = 1487;
+      settings.FieldOfView = 25f;
 
-      Point origin = new Point(0, 500, 2500);
-      Vector direction = new Vector(0, 0, -1);
-      settings.Orientation = new Ray(origin, direction);
+//      settings.Aperture = new CircleAperture(50);
 
-      settings.Aperture = new CircleAperture(50);
+      Transform[] inputTransforms = new Transform[1];
+      inputTransforms[0] = Transform.Translate(new Vector(0, 500, 2500));
 
-      Camera camera = new PerspectiveCamera(settings, null);
+      Transform[] compositeTransforms = Transform.composite(inputTransforms);
 
-      KDScene scene = new KDScene(camera);
+      Camera camera = new PerspectiveCamera(settings, compositeTransforms[0]);
+
+      NaiveScene scene = new NaiveScene(camera);
+
+      Material material;
+      Box box;
+      Sphere sphere;
 
       // lights
-//
-//      SphereLight sphereLight = new SphereLight(400);
-//      sphereLight.Origin = new Point(0, 2000, 0);
-//      sphereLight.Radius = 1000;
-//
-//      PointLight pointLight = new PointLight(new Point(0, 2000, 0), 1000);
-//
-//      scene.addLight(sphereLight);
-//      //scene.addLight(pointLight);
 
-      Material material = new Material();
-
-      // horizontal white plane
-
-      Point planeOrigin = new Point(0, 0, 0);
-      Normal planeNormal = new Normal(0, 1, 0);
+      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(Color.white, 1000f);
 
       material = new Material();
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
-      material._specular = 0;
+      material.BRDF = LambertianBRDF;
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Green);
+      material._transparency = 0;
+      material._indexOfRefraction = 1.2f;
 
-      ImplicitPlane plane = new ImplicitPlane(planeOrigin, planeNormal, material);
-      scene.addShape(plane);
+      inputTransforms = new Transform[2];
+      inputTransforms[0] = Transform.Translate(new Vector(0, 2000, 0));
+      inputTransforms[1] = Transform.Scale(500);
+      compositeTransforms = Transform.composite(inputTransforms);
 
-      // blue vertical z plane
-/*
-      planeOrigin = new Point(-200, 0, 0);
-      planeNormal = new Point(0, 0, 1);
+      sphere = new Sphere(compositeTransforms, material);
 
-      planeNormal1 = new Vector(planeOrigin, planeNormal);
+      SphereLight sphereLight = new SphereLight(sphere, lightSPD);
+
+      scene.addLight(sphereLight);
+      scene.addShape(sphereLight);
+
+      // Bottom box
 
       material = new Material();
-      material.setColor(new Color(0, 131, 255));
-      material.setDiffuse(1);
+      material.BRDF = MirrorBRDF;
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Beige);
 
-      plane = new ImplicitPlane(planeOrigin, planeNormal, material);
-      scene.addShape(plane);
-*/
+      inputTransforms = new Transform[2];
+      inputTransforms[0] = Transform.Scale(1000f, 0.1f, 1000f);
+      inputTransforms[1] = Transform.Translate(new Vector(-.5f, -1f, -.5f));
+
+      compositeTransforms = Transform.composite(inputTransforms);
+
+      box = new Box(compositeTransforms, material);
+      scene.Shapes.add(box);
 
       // left green sphere
 
       material = new Material();
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(70, 137, 102));
-      material._specular = 1 - .5f;
-      material._reflectivity = .5f;
+      material.BRDF = MirrorBRDF;
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Green);
       material._transparency = 0;
       material._indexOfRefraction = 1.2f;
 
-      Sphere sphere = new Sphere(material);
-      sphere.Origin = new Point(-500, 300, 0.0f);
-      sphere.Radius = 150;
+      inputTransforms = new Transform[2];
+      inputTransforms[0] = Transform.Translate(new Vector(-500, 300, 0.0f));
+      inputTransforms[1] = Transform.Scale(150f);
+      compositeTransforms = Transform.composite(inputTransforms);
 
+      sphere = new Sphere(compositeTransforms, material);
       scene.addShape(sphere);
 
       // right green sphere
 
       material = new Material();
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(70, 137, 102));
-      material._specular = 1 - .5f;
-      material._reflectivity = .5f;
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Green);
+      material.BRDF = MirrorBRDF;
       material._transparency = 0;
       material._indexOfRefraction = 1.2f;
 
-      sphere = new Sphere(material);
-      sphere.Origin = new Point(500, 500, 0.0f);
-      sphere.Radius = 150;
+      inputTransforms = new Transform[2];
+      inputTransforms[0] = Transform.Translate(new Vector(500, 500, 0.0f));
+      inputTransforms[1] = Transform.Scale(150f);
+      compositeTransforms = Transform.composite(inputTransforms);
 
+      sphere = new Sphere(compositeTransforms, material);
       scene.addShape(sphere);
 
       // middle
 
       material = new Material();
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(70, 137, 102));
-      material._specular = 1 - .5f;
-      material._reflectivity = .5f;
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Green);
+      material.BRDF = MirrorBRDF;
       material._transparency = 0;
       material._indexOfRefraction = 1.2f;
 
-      sphere = new Sphere(material);
-      sphere.Origin = new Point(0, 150, 0.0f);
-      sphere.Radius = 150;
+      inputTransforms = new Transform[2];
+      inputTransforms[0] = Transform.Translate(new Vector(0, 150, 0.0f));
+      inputTransforms[1] = Transform.Scale(150f);
+      compositeTransforms = Transform.composite(inputTransforms);
 
+      sphere = new Sphere(compositeTransforms, material);
       scene.addShape(sphere);
+
+      scene.SkyBoxImage = Skyboxes.Load(Skyboxes.Desert2);
 
       return scene;
    }
