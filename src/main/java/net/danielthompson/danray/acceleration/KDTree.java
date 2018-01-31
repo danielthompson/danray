@@ -131,7 +131,7 @@ public class KDTree {
 
                   if (upperBound <= split) {
                      if (lessThanBoundingBox == null)
-                        lessThanBoundingBox = drawableBox;
+                        lessThanBoundingBox = new BoundingBox(drawableBox);
                      else {
                         BoundingBox.ExpandBoundingBox(lessThanBoundingBox, drawableBox);
                      }
@@ -140,7 +140,7 @@ public class KDTree {
 
                   else if (lowerBound >= split) {
                      if (greaterThanBoundingBox == null)
-                        greaterThanBoundingBox = drawableBox;
+                        greaterThanBoundingBox = new BoundingBox(drawableBox);
                      else {
                         BoundingBox.ExpandBoundingBox(greaterThanBoundingBox, drawableBox);
                      }
@@ -148,13 +148,13 @@ public class KDTree {
                   }
                   else {
                      if (lessThanBoundingBox == null)
-                        lessThanBoundingBox = drawableBox;
+                        lessThanBoundingBox = new BoundingBox(drawableBox);
                      else {
                         BoundingBox.ExpandBoundingBox(lessThanBoundingBox, drawableBox);
                      }
 
                      if (greaterThanBoundingBox == null)
-                        greaterThanBoundingBox = drawableBox;
+                        greaterThanBoundingBox = new BoundingBox(drawableBox);
                      else {
                         BoundingBox.ExpandBoundingBox(greaterThanBoundingBox, drawableBox);
                      }
@@ -168,8 +168,8 @@ public class KDTree {
                if (lessThanList.size() == 0 || greaterThanList.size() == 0)
                   continue;
 
-               if (lessThanList.size() >= node.Shapes.size() || greaterThanList.size() >= node.Shapes.size())
-                  continue;
+//               if (lessThanList.size() >= node.Shapes.size() || greaterThanList.size() >= node.Shapes.size())
+//                  continue;
 
                if (lessThanList.size() == greaterThanList.size()) {
 

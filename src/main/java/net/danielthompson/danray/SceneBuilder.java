@@ -756,7 +756,7 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
-      settings.FieldOfView = 15;
+      settings.FieldOfView = 20;
 
       Transform[] inputTransforms = new Transform[1];
       inputTransforms[0] = Transform.Translate(new Vector(0, 0, 1200));
@@ -791,14 +791,16 @@ public class SceneBuilder {
       compositeTransforms = Transform.composite(inputTransforms);
 
       Box box = new Box(compositeTransforms, material);
-      scene.addShape(box);
+      //scene.addShape(box);
 
-      int total = 320;
+      int maxShapes = 40;
 
-      int sphereXInterval = 10;
+      int total = 100;
+
+      int sphereXInterval = 20;
       int maxSmallSpheresX = total / sphereXInterval;
 
-      int sphereYInterval = 10;
+      int sphereYInterval = 20;
       int maxSmallSpheresY = total / sphereYInterval;
 
       float radius = sphereXInterval / 3;
@@ -807,6 +809,8 @@ public class SceneBuilder {
       for (int i = 0; i < yOffset.length; i++) {
          yOffset[i] = 0;
       }
+
+      int num = 0;
 
       for (int i = 0; i < maxSmallSpheresX; i++) {
          for (int j = 0; j < maxSmallSpheresY; j++) {
@@ -840,7 +844,8 @@ public class SceneBuilder {
 
             Sphere sphere = new Sphere(compositeTransforms, material);
 
-            scene.addShape(sphere);
+            if (num++ < maxShapes)
+               scene.addShape(sphere);
          }
       }
 
@@ -967,13 +972,13 @@ public class SceneBuilder {
          scene.addShape(sphere);
       }
 
-      int maxSmallSpheresX = 15;
+      int maxSmallSpheresX = 2;
       int sphereXInterval = 40;
 
-      int maxSmallSpheresY = 15;
+      int maxSmallSpheresY = 2;
       int sphereYInterval = 40;
 
-      int maxSmallSpheresZ = 15;
+      int maxSmallSpheresZ = 2;
       int sphereZInterval = 40;
 
       for (int i = 0; i < maxSmallSpheresX; i++) {

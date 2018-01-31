@@ -48,6 +48,9 @@ public class WhittedIntegrator extends AbstractIntegrator {
          return sample;
       }
 
+
+
+
       sample.KDHeatCount = closestStateToRay.KDHeatCount;
 
       if (closestStateToRay.Shape instanceof AbstractLight) {
@@ -141,6 +144,8 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
             Point offsetIntersection = Point.Plus(closestStateToRay.IntersectionPoint, Vector.Scale(outgoingDirection, Constants.Epsilon * 1000));
 //            Point offsetIntersection = closestStateToRay.IntersectionPoint;
+
+
 
             Ray reflectedRay = new Ray(offsetIntersection, outgoingDirection);
 

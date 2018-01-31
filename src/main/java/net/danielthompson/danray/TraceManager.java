@@ -136,7 +136,7 @@ public class TraceManager {
       int cores = Runtime.getRuntime().availableProcessors();
       Logger.Log("Detected " + cores + " cores.");
 
-      //_tracerOptions.numThreads = 2;
+      _tracerOptions.numThreads = 1;
 
       if (_tracerOptions.numThreads == 0) {
          Logger.Log("No thread count specified at startup, defaulting to available cores.");
@@ -217,7 +217,7 @@ public class TraceManager {
             Dimension canvasSize = new Dimension(new Dimension(_qualityPreset.getX(), _qualityPreset.getY() + 22));
 
             _glFrame.setSize(canvasSize);
-            _glFrame.setBounds(_qualityPreset.getX() + 10, 0, _qualityPreset.getX(), _qualityPreset.getY() + 22);
+            _glFrame.setBounds(10, 0, _qualityPreset.getX(), _qualityPreset.getY() + 22);
             _glFrame.setVisible(true);
          }
 
@@ -230,7 +230,7 @@ public class TraceManager {
                Dimension frameSize = new Dimension(200, 500);
 
                _kdFrame.setSize(frameSize);
-               _kdFrame.setBounds(_qualityPreset.getX() * 2 + 10, 0, frameSize.width, frameSize.height + 22);
+               _kdFrame.setBounds(_qualityPreset.getX()  + 10, 0, frameSize.width, frameSize.height + 22);
                _kdFrame.setVisible(true);
             }
          }

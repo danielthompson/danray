@@ -10,6 +10,7 @@ import com.jogamp.opengl.glu.GLUquadric;
 
 import com.jogamp.opengl.util.Animator;
 import com.jogamp.opengl.util.gl2.GLUT;
+import net.danielthompson.danray.SceneBuilder;
 import net.danielthompson.danray.acceleration.KDNode;
 import net.danielthompson.danray.acceleration.KDScene;
 import net.danielthompson.danray.lights.AbstractLight;
@@ -17,6 +18,7 @@ import net.danielthompson.danray.lights.PointLight;
 import net.danielthompson.danray.lights.SphereLight;
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
+import net.danielthompson.danray.shading.Spectrum;
 import net.danielthompson.danray.shapes.AbstractShape;
 import net.danielthompson.danray.shapes.Box;
 
@@ -161,36 +163,6 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
       // scene Shapes
       GLUquadric quadric = _glu.gluNewQuadric();
 
-      for (AbstractShape shape : _scene.Shapes) {
-         gl.glPushMatrix();
-         gl.glMultMatrixd(shape.ObjectToWorld._matrix.getColMajor(), 0);
-         if (shape instanceof AbstractLight) {
-            setColor(gl, ((AbstractLight) shape).SpectralPowerDistribution);
-
-
-         }
-         else {
-            setColor(gl, shape.Material);
-         }
-
-         if (shape instanceof Sphere || shape instanceof SphereLight) {
-            /*if (sphere.InCurrentKDNode)
-               gl.glColor3f(0.2f, 0.2f, 0.2f);
-            else
-               gl.glColor3f(0.2f, 1.0f, 1.0f);*/
-
-            _glu.gluSphere(quadric, 1, 100, 100);
-            //gl.glTranslatef(-origin.X, -origin.Y, -origin.Z);
-         }
-         else if (shape instanceof Box) {
-           drawBox(gl, (Box)shape);
-         }
-
-         gl.glPopMatrix();
-      }
-
-      // lights
-
       for (AbstractLight light : _scene.Lights) {
          if (light instanceof PointLight) {
             PointLight pointLight = (PointLight)light;
@@ -199,8 +171,6 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
 
          }
       }
-
-      // kd nodes
 
       if (_scene instanceof KDScene) {
          KDScene scene = (KDScene)_scene;
@@ -213,25 +183,75 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
          gl.glDisable(GL.GL_BLEND);
       }
 
+      else {
+         for (AbstractShape shape : _scene.Shapes) {
+            gl.glPushMatrix();
+            gl.glMultMatrixd(shape.ObjectToWorld._matrix.getColMajor(), 0);
+            if (shape instanceof AbstractLight) {
+               setColor(gl, ((AbstractLight) shape).SpectralPowerDistribution);
+            } else {
+               setColor(gl, shape.Material);
+            }
+
+            if (shape instanceof Sphere || shape instanceof SphereLight) {
+            /*if (sphere.InCurrentKDNode)
+               gl.glColor3f(0.2f, 0.2f, 0.2f);
+            else
+               gl.glColor3f(0.2f, 1.0f, 1.0f);*/
+
+               _glu.gluSphere(quadric, 1, 100, 100);
+               //gl.glTranslatef(-origin.X, -origin.Y, -origin.Z);
+            } else if (shape instanceof Box) {
+               drawBox(gl, (Box) shape);
+            }
+
+            gl.glPopMatrix();
+         }
+      }
+
       drawOverlay(gl);
       checkError(gl, "display");
       //drawable.swapBuffers();
    }
 
    private void DrawNodes(GL2 gl, KDNode node) {
-      if (node != null) {
-         if (node.equals(SelectedNode)) {
-            gl.glColor4f(.25f, 0.25f, 1.0f, .5f);
-            drawBoundingBox(gl, node.BoundingBox);
+      gl.glColor4f(.25f, 0.25f, 1.0f, .5f);
+      if (SelectedNode != null)
+         drawBoundingBox(gl, SelectedNode.BoundingBox);
+
+      GLUquadric quadric = _glu.gluNewQuadric();
+
+      SpectralPowerDistribution red = new SpectralPowerDistribution(SceneBuilder.Solarized.red);
+      SpectralPowerDistribution blue = new SpectralPowerDistribution(SceneBuilder.Solarized.blue);
+
+      for (AbstractShape shape : _scene.Shapes) {
+         gl.glPushMatrix();
+         gl.glMultMatrixd(shape.ObjectToWorld._matrix.getColMajor(), 0);
+
+         Spectrum color;
+
+         if (shape.InCurrentKDNode)
+            color = Spectrum.Lerp(red, .5f, shape.Material.ReflectanceSpectrum, .5f);
+         else
+            color = Spectrum.Lerp(blue, .5f, shape.Material.ReflectanceSpectrum, .5f);
+
+         SpectralPowerDistribution spd = new SpectralPowerDistribution();
+         spd.R = color.R;
+         spd.G = color.G;
+         spd.B = color.B;
+
+         setColor(gl, spd);
+
+         if (shape instanceof Sphere || shape instanceof SphereLight) {
+
+            _glu.gluSphere(quadric, 1, 10, 10);
+            //gl.glTranslatef(-origin.X, -origin.Y, -origin.Z);
          }
-         else {
-            //gl.glColor4f(0.2f, 0.2f, 0.2f, .2f);
-            if (node.LeftChild != null)
-               DrawNodes(gl, node.LeftChild);
-            if (node.RightChild != null) {
-               DrawNodes(gl, node.RightChild);
-            }
+         else if (shape instanceof Box) {
+            drawBox(gl, (Box)shape);
          }
+
+         gl.glPopMatrix();
       }
    }
 

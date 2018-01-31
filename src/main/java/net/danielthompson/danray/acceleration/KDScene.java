@@ -47,19 +47,6 @@ public class KDScene extends AbstractScene {
       return GetClosestDrawableToRay(totalShapes, ray);
    }
 
-   private IntersectionState GetClosestDrawableInNode(KDNode node, Ray ray) {
-      IntersectionState closestStateToRay = null;
-      for (AbstractShape shape : node.Shapes) {
-         IntersectionState state = shape.getHitInfo(ray);
-
-         if (state.Hits && (closestStateToRay == null || state.TMin < closestStateToRay.TMin)) {
-            closestStateToRay = state;
-         }
-      }
-
-      return closestStateToRay;
-   }
-
    private IntersectionState GetClosestDrawableToRay(List<AbstractShape> shapes, Ray ray) {
       IntersectionState closestStateToRay = null;
       for (AbstractShape shape : shapes) {
@@ -126,7 +113,7 @@ public class KDScene extends AbstractScene {
 
       count++;
       if (node.isLeaf()) {
-         IntersectionState closestState = GetClosestDrawableInNode(node, ray);
+         IntersectionState closestState = getNearestShapeIteratively(node.Shapes, ray);
          if (closestState == null)
             closestState = new IntersectionState();
          closestState.KDHeatCount = count;

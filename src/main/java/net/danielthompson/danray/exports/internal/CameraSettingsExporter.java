@@ -18,10 +18,10 @@ public class CameraSettingsExporter {
       rootElement.setAttribute("ZoomFactor", String.valueOf(object.ZoomFactor));
       rootElement.setAttribute("FocusDistance", String.valueOf(object.FocusDistance));
 
-      Element orientation = document.createElement("Orientation");
-      orientation.appendChild(RayExporter.Process(object.Orientation, document, rootElement));
-      rootElement.appendChild(orientation);
-      rootElement.appendChild(ApertureExporter.Process(object.Aperture, document, rootElement));
+//      Element orientation = document.createElement("Orientation");
+//      orientation.appendChild(RayExporter.Process(object.Orientation, document, rootElement));
+//      rootElement.appendChild(orientation);
+//      rootElement.appendChild(ApertureExporter.Process(object.Aperture, document, rootElement));
 
       parent.appendChild(rootElement);
 

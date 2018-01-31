@@ -22,54 +22,12 @@ public class NaiveScene extends AbstractScene {
 
    @Override
    public IntersectionState getNearestShape(Ray ray, int x, int y) {
-
-      if (x == 405 && y == 293) {
-         int j = 0;
-      }
-
-      int nearestShapeIndex = -1;
-
-      float closestT = ray.MinT;
-
-      boolean test = false;
-
-      for (int i = 0; i < Shapes.size(); i++) {
-
-         AbstractShape shape = Shapes.get(i);
-
-         boolean hits = shape.hits(ray);
-
-         test = (hits && ray.MinT >= Constants.Epsilon && ray.MinT < closestT);
-
-         nearestShapeIndex = test ? i : nearestShapeIndex;
-
-         closestT = test ? ray.MinT : closestT;
-      }
-
-      IntersectionState closestStateToRay = null;
-
-      if (nearestShapeIndex >= 0) {
-
-//         if (x == 555 && y == 644) { // inside
-//
-//            closestStateToRay = Shapes.get(nearestShapeIndex).getHitInfo(ray);
-//         }
-         closestStateToRay = Shapes.get(nearestShapeIndex).getHitInfo(ray);
-
-         if (Float.isNaN(closestStateToRay.IntersectionPoint.X)) {
-            // wtf?
-            closestStateToRay = Shapes.get(nearestShapeIndex).getHitInfo(ray);
-         }
-      }
-
-      return closestStateToRay;
+      return getNearestShapeIteratively(Shapes, ray);
    }
 
 
    @Override
    public String compile(TracerOptions _tracerOptions) {
       return super.compile(_tracerOptions);
-
    }
-
 }

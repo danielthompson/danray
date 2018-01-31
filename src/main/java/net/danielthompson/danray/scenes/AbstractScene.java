@@ -59,6 +59,40 @@ public abstract class AbstractScene {
 
    public abstract IntersectionState getNearestShape(Ray ray, int x, int y);
 
+   public IntersectionState getNearestShapeIteratively(List<AbstractShape> shapes, Ray ray) {
+      int nearestShapeIndex = -1;
+
+      float closestT = ray.MinT;
+
+      boolean test = false;
+
+      for (int i = 0; i < shapes.size(); i++) {
+
+         AbstractShape shape = shapes.get(i);
+
+         boolean hits = shape.hits(ray);
+
+         test = (hits && ray.MinT >= Constants.Epsilon && ray.MinT < closestT);
+
+         nearestShapeIndex = test ? i : nearestShapeIndex;
+
+         closestT = test ? ray.MinT : closestT;
+      }
+
+      IntersectionState closestStateToRay = null;
+
+      if (nearestShapeIndex >= 0) {
+         closestStateToRay = shapes.get(nearestShapeIndex).getHitInfo(ray);
+
+         if (Float.isNaN(closestStateToRay.IntersectionPoint.X)) {
+            // wtf?
+            closestStateToRay = shapes.get(nearestShapeIndex).getHitInfo(ray);
+         }
+      }
+
+      return closestStateToRay;
+   }
+
    public String compile(TracerOptions _tracerOptions) {
       for (AbstractShape shape : Shapes) {
          if (shape.ObjectToWorld == null) {
