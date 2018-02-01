@@ -3,7 +3,7 @@ package net.danielthompson.danray.shapes;
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.*;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 
 /**
  * Created by daniel on 2/17/14.

@@ -5,7 +5,7 @@ import net.danielthompson.danray.acceleration.KDAxis;
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.*;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 
 import java.util.List;
 
@@ -118,7 +118,7 @@ public class TriangleMesh extends AbstractShape {
 
    @Override
    public boolean hits(Ray worldSpaceRay) {
-      throw new NotImplementedException();
+      throw new java.lang.UnsupportedOperationException();
    }
 
    /*

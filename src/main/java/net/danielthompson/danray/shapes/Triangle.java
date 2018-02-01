@@ -7,7 +7,6 @@ import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.Constants;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Ray;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * DanRay
@@ -71,7 +70,7 @@ public class Triangle extends AbstractShape {
 
    @Override
    public boolean hits(Ray worldSpaceRay) {
-      throw new NotImplementedException();
+      throw new java.lang.UnsupportedOperationException();
    }
 
    public static IntersectionState GetHitInfo(AbstractShape shape, Ray ray, Point vertex0, Point vertex1, Point vertex2) {

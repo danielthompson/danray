@@ -30,6 +30,8 @@ import net.danielthompson.danray.utility.GeometryCalculations;
 
 
 import java.nio.IntBuffer;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.jogamp.opengl.GL.*;
 
@@ -215,9 +217,36 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
    }
 
    private void DrawNodes(GL2 gl, KDNode node) {
-      gl.glColor4f(.25f, 0.25f, 1.0f, .5f);
-      if (SelectedNode != null)
-         drawBoundingBox(gl, SelectedNode.BoundingBox);
+
+      gl.glPolygonMode(GL_FRONT_AND_BACK, gl.GL_LINE);
+
+      List<KDNode> nodes = new ArrayList<>();
+      nodes.add(node);
+
+      while (nodes.size() > 0) {
+
+         KDNode currentNode = nodes.remove(0);
+
+         // draw current node
+         if (currentNode.equals(SelectedNode)) {
+            gl.glColor4f(1f, 1f, 1.0f, 1.f);
+         }
+         else {
+            gl.glColor4f(0f, 0f, 1.0f, 1.0f);
+         }
+
+         drawBoundingBox(gl, currentNode.BoundingBox);
+
+         if (currentNode.LeftChild != null) {
+            nodes.add(currentNode.LeftChild);
+         }
+         if (currentNode.RightChild != null) {
+            nodes.add(currentNode.RightChild);
+         }
+
+      }
+
+      gl.glPolygonMode(GL_FRONT_AND_BACK, gl.GL_FILL);
 
       GLUquadric quadric = _glu.gluNewQuadric();
 
@@ -294,7 +323,26 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
       float p1x = box.point2.X;
       float p1y = box.point2.Y;
       float p1z = box.point2.Z;
-      drawBox(gl, p0x, p0y, p0z, p1x, p1y, p1z);
+      drawBoxAsLines(gl, p0x, p0y, p0z, p1x, p1y, p1z);
+   }
+
+   private void drawBoxAsLines(GL2 gl, float p0x, float p0y, float p0z, float p1x, float p1y, float p1z) {
+
+      gl.glLineWidth(2.5f);
+
+      gl.glBegin(GL_LINE_STRIP);
+
+
+      gl.glVertex3f(p0x, p0y, p0z);
+      gl.glVertex3f(p1x, p0y, p0z);
+
+      gl.glVertex3f(p1x, p1y, p0z);
+
+      gl.glVertex3f(p0x, p1y, p0z);
+
+      gl.glVertex3f(p0x, p0y, p0z);
+
+      gl.glEnd();
    }
 
    private void drawBox(GL2 gl, Box box) {

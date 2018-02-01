@@ -5,7 +5,7 @@ import net.danielthompson.danray.acceleration.KDAxis;
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.*;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 
 /**
  * Created by daniel on 2/16/15.
@@ -53,7 +53,7 @@ public abstract class AbstractShape {
    }
 
    public boolean hits(Ray worldSpaceRay) {
-      throw new NotImplementedException();
+      throw new java.lang.UnsupportedOperationException();
    }
 
    public Point calculateIntersectionPoint(Ray worldSpaceRay) {
@@ -74,7 +74,7 @@ public abstract class AbstractShape {
    }
 
    public Normal calculateIntersectionNormal(Ray worldSpaceRay, float t) {
-      throw new NotImplementedException();
+      throw new java.lang.UnsupportedOperationException();
    }
 
    public BoundingEdge[] GetBoundingEdges(KDAxis axis) {

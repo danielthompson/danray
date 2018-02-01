@@ -3,7 +3,7 @@ package net.danielthompson.danray.cameras;
 import net.danielthompson.danray.Logger;
 import net.danielthompson.danray.TraceManager;
 import net.danielthompson.danray.structures.*;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 
 import java.text.NumberFormat;
 
@@ -101,7 +101,7 @@ public abstract class Camera {
    }
 
    public Ray getRay(float x, float y) {
-      throw new NotImplementedException();
+      throw new java.lang.UnsupportedOperationException();
    }
 
 }
