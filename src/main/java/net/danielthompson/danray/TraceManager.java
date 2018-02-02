@@ -136,7 +136,7 @@ public class TraceManager {
       int cores = Runtime.getRuntime().availableProcessors();
       Logger.Log("Detected " + cores + " cores.");
 
-      _tracerOptions.numThreads = 1;
+//      _tracerOptions.numThreads = 1;
 
       if (_tracerOptions.numThreads == 0) {
          Logger.Log("No thread count specified at startup, defaulting to available cores.");
@@ -145,7 +145,7 @@ public class TraceManager {
 
       Logger.Log("Using " + _tracerOptions.numThreads + " threads.");
 
-      Logger.Log("Scene has " + _scene.Shapes.size() + " drawables, " + _scene.Lights.size() + " radiatables.");
+      Logger.Log("Scene has " + _scene.Shapes.size() + " shapes, " + _scene.Lights.size() + " lights.");
       Logger.Log("Scene is implemented with " + _scene.ImplementationType);
       Logger.Log("Compiling scene...");
       Date start = new Date();

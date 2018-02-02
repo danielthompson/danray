@@ -46,6 +46,14 @@ public class IterativeMISPathTraceIntegrator extends AbstractIntegrator {
             break;
          }
 
+         // get direct lighting contribution
+
+         for (int i = 0; i < scene.Lights.size(); i++) {
+            AbstractLight light = scene.Lights.get(i);
+
+
+         }
+
          AbstractShape closestShape = closestStateToRay.Shape;
          Material objectMaterial = closestShape.Material;
          BRDF brdf = objectMaterial.BRDF;

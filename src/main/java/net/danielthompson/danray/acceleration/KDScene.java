@@ -182,7 +182,7 @@ public class KDScene extends AbstractScene {
             }
          }
 
-         if (farState.Hits) {
+         if (farState.Hits && !bestCandidateState.Hits) {
             IntersectionState bestFarState = TraverseTreeBetter(farNode, ray, count);
             if (bestFarState != null) {
                if (bestFarState.Hits) //{

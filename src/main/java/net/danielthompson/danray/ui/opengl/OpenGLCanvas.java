@@ -2,7 +2,6 @@ package net.danielthompson.danray.ui.opengl;
 
 import com.jogamp.opengl.*;
 import com.jogamp.opengl.awt.GLCanvas;
-import com.jogamp.opengl.fixedfunc.GLLightingFunc;
 import com.jogamp.opengl.fixedfunc.GLMatrixFunc;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.glu.GLUquadric;
@@ -24,12 +23,11 @@ import net.danielthompson.danray.shapes.Box;
 
 import net.danielthompson.danray.shapes.Sphere;
 import net.danielthompson.danray.structures.BoundingBox;
-import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.scenes.AbstractScene;
 import net.danielthompson.danray.utility.GeometryCalculations;
 
 
-import java.nio.IntBuffer;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,7 +60,7 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
 
       _cameraState.Camera = _scene.Camera;
 
-      _keyListener = new OpenGLKeyListener(_cameraState, null);
+      _keyListener = new OpenGLKeyListener(_cameraState);
       _mouseListener = new OpenGLMouseListener(_cameraState);
 
       addMouseListener(_mouseListener);
@@ -91,6 +89,9 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
       boolean isGL2 = gl.isGL2();
       boolean isGL3 = gl.isGL3();
       boolean isGL4 = gl.isGL4();
+
+      gl.glClearColor(.25f, .25f, .25f, 1f);
+      gl.glEnable(GL.GL_LINE_SMOOTH);
 
 //      GLuint textureID;
 //
@@ -147,9 +148,9 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
 
       GL2 gl = drawable.getGL().getGL2();
 
-      gl.glEnable(GLLightingFunc.GL_LIGHTING);
-      gl.glEnable(GLLightingFunc.GL_LIGHT0);
-      gl.glEnable(GLLightingFunc.GL_COLOR_MATERIAL);
+//      gl.glEnable(GLLightingFunc.GL_LIGHTING);
+//      gl.glEnable(GLLightingFunc.GL_LIGHT0);
+//      gl.glEnable(GLLightingFunc.GL_COLOR_MATERIAL);
 
       // camera
       gl.glLoadIdentity();
@@ -158,7 +159,7 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
       gl.glMultMatrixd(colMajor, 0);
 
       // background
-      gl.glClearColor(0f, .11f, 0.22f, 1f);
+
       gl.glClearDepthf(1f);
       gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
 
@@ -204,7 +205,7 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
                _glu.gluSphere(quadric, 1, 100, 100);
                //gl.glTranslatef(-origin.X, -origin.Y, -origin.Z);
             } else if (shape instanceof Box) {
-               drawBox(gl, (Box) shape);
+               //drawBox(gl, (Box) shape);
             }
 
             gl.glPopMatrix();
@@ -218,70 +219,94 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
 
    private void DrawNodes(GL2 gl, KDNode node) {
 
-      gl.glPolygonMode(GL_FRONT_AND_BACK, gl.GL_LINE);
-
       List<KDNode> nodes = new ArrayList<>();
       nodes.add(node);
+
+      List<Integer> depths = new ArrayList<>();
+      depths.add(0);
+
+      int maxDepth = node.GetMaxDepth();
+
+      GLUquadric quadric = _glu.gluNewQuadric();
 
       while (nodes.size() > 0) {
 
          KDNode currentNode = nodes.remove(0);
+         int depth = depths.remove(0);
+
+         boolean leaf = (currentNode.LeftChild == null);
+
+         if (leaf) {
+            SpectralPowerDistribution red = new SpectralPowerDistribution(SceneBuilder.Solarized.red);
+            SpectralPowerDistribution blue = new SpectralPowerDistribution(SceneBuilder.Solarized.blue);
+
+            for (AbstractShape shape : currentNode.Shapes) {
+               gl.glPushMatrix();
+               gl.glMultMatrixd(shape.ObjectToWorld._matrix.getColMajor(), 0);
+
+               Spectrum color;
+
+               if (shape.InCurrentKDNode)
+                  color = new Spectrum(SceneBuilder.Firenze.Beige);
+               else
+                  color = new Spectrum(SceneBuilder.Firenze.Yellow);
+
+               SpectralPowerDistribution spd = new SpectralPowerDistribution();
+               spd.R = color.R;
+               spd.G = color.G;
+               spd.B = color.B;
+
+               setColor(gl, spd);
+
+               if (shape instanceof Sphere || shape instanceof SphereLight) {
+
+                  _glu.gluSphere(quadric, 1, 8, 8);
+                  //gl.glTranslatef(-origin.X, -origin.Y, -origin.Z);
+               }
+               else if (shape instanceof Box) {
+                  //drawBox(gl, (Box)shape);
+               }
+
+               gl.glPopMatrix();
+            }
+         }
+
+         float depthPercentage = ((float)depth / (float)maxDepth);
+
+         float r = SceneBuilder.Solarized.blue.getRed()  * OneOver255;
+         float g = SceneBuilder.Solarized.blue.getGreen() * OneOver255;
+         float b = SceneBuilder.Solarized.blue.getBlue() * OneOver255;
+         float a = (1.0f - depthPercentage) * 0.5f;
 
          // draw current node
          if (currentNode.equals(SelectedNode)) {
-            gl.glColor4f(1f, 1f, 1.0f, 1.f);
+            gl.glColor4f(r, g, b, a);
          }
          else {
-            gl.glColor4f(0f, 0f, 1.0f, 1.0f);
+            gl.glColor4f(r, g, b, a);
          }
 
-         drawBoundingBox(gl, currentNode.BoundingBox);
+         drawBoundingBox(gl, currentNode.BoundingBox, 0.5f);
 
          if (currentNode.LeftChild != null) {
             nodes.add(currentNode.LeftChild);
+            depths.add(depth + 1);
          }
          if (currentNode.RightChild != null) {
             nodes.add(currentNode.RightChild);
+            depths.add(depth + 1);
          }
 
       }
 
-      gl.glPolygonMode(GL_FRONT_AND_BACK, gl.GL_FILL);
 
-      GLUquadric quadric = _glu.gluNewQuadric();
+      if (SelectedNode != null) {
+         gl.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
-      SpectralPowerDistribution red = new SpectralPowerDistribution(SceneBuilder.Solarized.red);
-      SpectralPowerDistribution blue = new SpectralPowerDistribution(SceneBuilder.Solarized.blue);
-
-      for (AbstractShape shape : _scene.Shapes) {
-         gl.glPushMatrix();
-         gl.glMultMatrixd(shape.ObjectToWorld._matrix.getColMajor(), 0);
-
-         Spectrum color;
-
-         if (shape.InCurrentKDNode)
-            color = Spectrum.Lerp(red, .5f, shape.Material.ReflectanceSpectrum, .5f);
-         else
-            color = Spectrum.Lerp(blue, .5f, shape.Material.ReflectanceSpectrum, .5f);
-
-         SpectralPowerDistribution spd = new SpectralPowerDistribution();
-         spd.R = color.R;
-         spd.G = color.G;
-         spd.B = color.B;
-
-         setColor(gl, spd);
-
-         if (shape instanceof Sphere || shape instanceof SphereLight) {
-
-            _glu.gluSphere(quadric, 1, 10, 10);
-            //gl.glTranslatef(-origin.X, -origin.Y, -origin.Z);
-         }
-         else if (shape instanceof Box) {
-            drawBox(gl, (Box)shape);
-         }
-
-         gl.glPopMatrix();
+         drawBoundingBox(gl, SelectedNode.BoundingBox, 1.0f);
       }
+
+
    }
 
    public void SetNode(KDNode node) {
@@ -315,7 +340,11 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
       gl.glColor3f(red, green, blue);
    }
 
-   private void drawBoundingBox(GL2 gl, BoundingBox box) {
+   private void setColor(GL2 gl, Color color) {
+
+   }
+
+   private void drawBoundingBox(GL2 gl, BoundingBox box, float width) {
 
       float p0x = box.point1.X;
       float p0y = box.point1.Y;
@@ -323,15 +352,19 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
       float p1x = box.point2.X;
       float p1y = box.point2.Y;
       float p1z = box.point2.Z;
-      drawBoxAsLines(gl, p0x, p0y, p0z, p1x, p1y, p1z);
+      drawBoxAsLines(gl, p0x, p0y, p0z, p1x, p1y, p1z, width);
    }
 
-   private void drawBoxAsLines(GL2 gl, float p0x, float p0y, float p0z, float p1x, float p1y, float p1z) {
+   private void drawBoxAsLines(GL2 gl, float p0x, float p0y, float p0z, float p1x, float p1y, float p1z, float width) {
 
-      gl.glLineWidth(2.5f);
+      //gl.glDisable(GL.GL_BLEND);
+
+      if (width < 1.0f)
+         width = 1.0f;
+
+      gl.glLineWidth(width);
 
       gl.glBegin(GL_LINE_STRIP);
-
 
       gl.glVertex3f(p0x, p0y, p0z);
       gl.glVertex3f(p1x, p0y, p0z);
@@ -343,6 +376,37 @@ public class OpenGLCanvas extends GLCanvas implements GLEventListener{
       gl.glVertex3f(p0x, p0y, p0z);
 
       gl.glEnd();
+
+      gl.glBegin(GL.GL_LINE_STRIP);
+
+      gl.glVertex3f(p0x, p0y, p1z);
+      gl.glVertex3f(p1x, p0y, p1z);
+
+      gl.glVertex3f(p1x, p1y, p1z);
+
+      gl.glVertex3f(p0x, p1y, p1z);
+
+      gl.glVertex3f(p0x, p0y, p1z);
+
+      gl.glEnd();
+
+      gl.glBegin(GL.GL_LINES);
+
+      gl.glVertex3f(p0x, p0y, p0z);
+      gl.glVertex3f(p0x, p0y, p1z);
+
+      gl.glVertex3f(p1x, p0y, p0z);
+      gl.glVertex3f(p1x, p0y, p1z);
+
+      gl.glVertex3f(p0x, p1y, p0z);
+      gl.glVertex3f(p0x, p1y, p1z);
+
+      gl.glVertex3f(p1x, p1y, p0z);
+      gl.glVertex3f(p1x, p1y, p1z);
+
+      gl.glEnd();
+
+      //gl.glEnable(GL.GL_BLEND);
    }
 
    private void drawBox(GL2 gl, Box box) {

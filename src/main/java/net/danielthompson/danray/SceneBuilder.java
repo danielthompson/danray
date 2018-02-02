@@ -756,7 +756,7 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
-      settings.FieldOfView = 20;
+      settings.FieldOfView = 22;
 
       Transform[] inputTransforms = new Transform[1];
       inputTransforms[0] = Transform.Translate(new Vector(0, 0, 1200));
@@ -793,9 +793,9 @@ public class SceneBuilder {
       Box box = new Box(compositeTransforms, material);
       //scene.addShape(box);
 
-      int maxShapes = 40;
+      int maxShapes = 400;
 
-      int total = 100;
+      int total = 400;
 
       int sphereXInterval = 20;
       int maxSmallSpheresX = total / sphereXInterval;

@@ -115,7 +115,7 @@ public class KDTree {
          for (KDAxis axis : axes) {
             //BoundingEdge[] splits = getSortedBoundingEdges(node.Shapes, axis);
             BoundingEdge[] splits = getEdgesWithObjectsForAxis(node.Shapes, axis);
-            for (int i = 0; i < splits.length; i = i + 3) {
+            for (int i = 0; i < splits.length; i = i + 1) {
                float split = splits[i].Value;
 
                BoundingBox lessThanBoundingBox = null;
@@ -477,44 +477,83 @@ public class KDTree {
    private static void ReduceBoundingBox(BoundingBox box, List<AbstractShape> objects) {
 
       // x
-      BoundingEdge[] edges = getMinMaxBoundingEdges(objects, KDAxis.X);
 
-      float xLowerBound = box.getLowerBoundInAxis(KDAxis.X);
-      if (edges[0].Value > xLowerBound && edges[0].Lower)
-         xLowerBound = edges[0].Value;
+      float xLowerBound = Float.MAX_VALUE;
+      float yLowerBound = Float.MAX_VALUE;
+      float zLowerBound = Float.MAX_VALUE;
 
-      float xUpperBound = box.getUpperBoundInAxis(KDAxis.X);
-      if (edges[1].Value < xUpperBound && !edges[1].Lower)
-         xUpperBound = edges[1].Value;
+      float xUpperBound = -Float.MAX_VALUE;
+      float yUpperBound = -Float.MAX_VALUE;
+      float zUpperBound = -Float.MAX_VALUE;
 
-      // y
-      edges = getMinMaxBoundingEdges(objects, KDAxis.Y);
+      for (AbstractShape shape : objects) {
+         if (shape.WorldBoundingBox.point1.X < xLowerBound)
+            xLowerBound = shape.WorldBoundingBox.point1.X;
+         if (shape.WorldBoundingBox.point1.Y < yLowerBound)
+            yLowerBound = shape.WorldBoundingBox.point1.Y;
+         if (shape.WorldBoundingBox.point1.Z < zLowerBound)
+            zLowerBound = shape.WorldBoundingBox.point1.Z;
 
-      float yLowerBound = box.getLowerBoundInAxis(KDAxis.Y);
-      if (edges[0].Value > yLowerBound && edges[0].Lower)
-         yLowerBound = edges[0].Value;
+         if (shape.WorldBoundingBox.point2.X > xUpperBound)
+            xUpperBound = shape.WorldBoundingBox.point2.X;
+         if (shape.WorldBoundingBox.point2.Y > yUpperBound)
+            yUpperBound = shape.WorldBoundingBox.point2.Y;
+         if (shape.WorldBoundingBox.point2.Z > zUpperBound)
+            zUpperBound = shape.WorldBoundingBox.point2.Z;
+      }
 
-      float yUpperBound = box.getUpperBoundInAxis(KDAxis.Y);
-      if (edges[1].Value < yUpperBound && !edges[1].Lower)
-         yUpperBound = edges[1].Value;
+      if (xLowerBound > box.point1.X)
+         box.point1.X = xLowerBound;
+      if (yLowerBound > box.point1.Y)
+         box.point1.Y = yLowerBound;
+      if (zLowerBound > box.point1.Z)
+         box.point1.Z = zLowerBound;
 
-      // z
-      edges = getMinMaxBoundingEdges(objects, KDAxis.Z);
-
-      float zLowerBound = box.getLowerBoundInAxis(KDAxis.Z);
-      if (edges[0].Value > zLowerBound && edges[0].Lower)
-         zLowerBound = edges[0].Value;
-
-      float zUpperBound = box.getUpperBoundInAxis(KDAxis.Z);
-      if (edges[1].Value < zUpperBound && !edges[1].Lower)
-         zUpperBound = edges[1].Value;
-
-      box.point1.X = xLowerBound;
-      box.point1.Y = yLowerBound;
-      box.point1.Z = zLowerBound;
-
-      box.point2.X = xUpperBound;
-      box.point2.Y = yUpperBound;
-      box.point2.Z = zUpperBound;
+      if (xUpperBound < box.point2.X)
+         box.point2.X = xUpperBound;
+      if (yUpperBound < box.point2.Y)
+         box.point2.Y = yUpperBound;
+      if (zUpperBound < box.point2.Z)
+         box.point2.Z = zUpperBound;
+//
+//      BoundingEdge[] edges = getMinMaxBoundingEdges(objects, KDAxis.X);
+//
+//      float xLowerBound = box.getLowerBoundInAxis(KDAxis.X);
+//      if (edges[0].Value > xLowerBound && edges[0].Lower)
+//         xLowerBound = edges[0].Value;
+//
+//      float xUpperBound = box.getUpperBoundInAxis(KDAxis.X);
+//      if (edges[1].Value < xUpperBound && !edges[1].Lower)
+//         xUpperBound = edges[1].Value;
+//
+//      // y
+//      edges = getMinMaxBoundingEdges(objects, KDAxis.Y);
+//
+//      float yLowerBound = box.getLowerBoundInAxis(KDAxis.Y);
+//      if (edges[0].Value > yLowerBound && edges[0].Lower)
+//         yLowerBound = edges[0].Value;
+//
+//      float yUpperBound = box.getUpperBoundInAxis(KDAxis.Y);
+//      if (edges[1].Value < yUpperBound && !edges[1].Lower)
+//         yUpperBound = edges[1].Value;
+//
+//      // z
+//      edges = getMinMaxBoundingEdges(objects, KDAxis.Z);
+//
+//      float zLowerBound = box.getLowerBoundInAxis(KDAxis.Z);
+//      if (edges[0].Value > zLowerBound && edges[0].Lower)
+//         zLowerBound = edges[0].Value;
+//
+//      float zUpperBound = box.getUpperBoundInAxis(KDAxis.Z);
+//      if (edges[1].Value < zUpperBound && !edges[1].Lower)
+//         zUpperBound = edges[1].Value;
+//
+//      box.point1.X = xLowerBound;
+//      box.point1.Y = yLowerBound;
+//      box.point1.Z = zLowerBound;
+//
+//      box.point2.X = xUpperBound;
+//      box.point2.Y = yUpperBound;
+//      box.point2.Z = zUpperBound;
    }
 }
