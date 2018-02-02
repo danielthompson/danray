@@ -13,11 +13,11 @@ import javax.swing.tree.DefaultMutableTreeNode;
  */
 public class KDJFrame extends JFrame implements TreeSelectionListener {
    private final KDScene _scene;
-   private OpenGLCanvas _canvas;
+   private AbstractOpenGLCanvas _canvas;
 
    private final JTree _tree;
 
-   public KDJFrame(KDScene scene, OpenGLCanvas canvas) {
+   public KDJFrame(KDScene scene, AbstractOpenGLCanvas canvas) {
       super("kd-Tree Nodes");
       _scene = scene;
       _canvas = canvas;

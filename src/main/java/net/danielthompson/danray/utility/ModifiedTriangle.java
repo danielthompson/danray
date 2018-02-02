@@ -119,7 +119,7 @@ public class ModifiedTriangle implements GLEventListener, KeyListener, MouseList
 
       gl.glLoadIdentity();
       //gl.glRotatef((float)_yRotation, 0, 1, 0);
-      /*_glu.gluLookAt(_position[0], _position[1], _position[2],
+      /*GLU.gluLookAt(_position[0], _position[1], _position[2],
             _sceneCenter[0], _sceneCenter[1], _sceneCenter[2],
             _up[0], _up[1], _up[2]);
 */

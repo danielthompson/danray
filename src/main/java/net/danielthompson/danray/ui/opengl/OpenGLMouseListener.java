@@ -36,8 +36,6 @@ public class OpenGLMouseListener implements MouseListener, MouseMotionListener {
 
    }
 
-
-
    @Override
    public void mouseDragged(MouseEvent e) {
 
@@ -46,37 +44,37 @@ public class OpenGLMouseListener implements MouseListener, MouseMotionListener {
    @Override
    public void mouseMoved(MouseEvent mouseEvent) {
 
-//      if (_cameraState.hasFocus) {
+//      if (CameraState.hasFocus) {
 //         if (_first) {
 //            _first = false;
 //
 //         } else {
 //            // mouse x - rotate about y axis
 //
-//            float xDiff = (mouseEvent.getX() - _cameraState.PrevMouseX) / 5.0f;
-//            _cameraState._yRotation += xDiff;
-//            if (_cameraState._yRotation >= 360)
-//               _cameraState._yRotation %= 360;
+//            float xDiff = (mouseEvent.getX() - CameraState.PrevMouseX) / 5.0f;
+//            CameraState._yRotation += xDiff;
+//            if (CameraState._yRotation >= 360)
+//               CameraState._yRotation %= 360;
 //
-//            while (_cameraState._yRotation < 0) {
-//               _cameraState._yRotation += 360;
+//            while (CameraState._yRotation < 0) {
+//               CameraState._yRotation += 360;
 //            }
 //
 //            // mouse y - rotate about x axis
 //
-//            float yDiff = (mouseEvent.getY() - _cameraState.PrevMouseY) / 5.0f;
-//            _cameraState._xRotation += yDiff;
+//            float yDiff = (mouseEvent.getY() - CameraState.PrevMouseY) / 5.0f;
+//            CameraState._xRotation += yDiff;
 //
-//            if (_cameraState._xRotation >= 360)
-//               _cameraState._xRotation %= 360;
+//            if (CameraState._xRotation >= 360)
+//               CameraState._xRotation %= 360;
 //
-//            while (_cameraState._xRotation < 0) {
-//               _cameraState._xRotation += 360;
+//            while (CameraState._xRotation < 0) {
+//               CameraState._xRotation += 360;
 //            }
 //         }
 //         resetMousePosition(mouseEvent);
-         /*_cameraState.PrevMouseX = mouseEvent.getX();
-         _cameraState.PrevMouseY = mouseEvent.getY();*/
+         /*CameraState.PrevMouseX = mouseEvent.getX();
+         CameraState.PrevMouseY = mouseEvent.getY();*/
 //      }
 
    }

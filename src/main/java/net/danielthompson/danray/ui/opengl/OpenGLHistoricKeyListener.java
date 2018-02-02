@@ -116,41 +116,41 @@ public class OpenGLHistoricKeyListener extends TimerTask implements KeyListener 
 //         KeyHistory history = _keyPressHistories.get(keyCode);
 //         float percentage = history.GetPercentage() * _sensitivityFactor;
 //
-//         float rad = (float) Math.toRadians(_cameraState._yRotation);
+//         float rad = (float) Math.toRadians(CameraState._yRotation);
 //         float cos = (float) (Math.cos(rad) * percentage);
 //         float sin = (float) (Math.sin(rad) * percentage);
 //
 //         switch (keyCode) {
 //            case KeyEvent.VK_W: {
-//               _cameraState._position[0] += sin;
-//               _cameraState._position[2] -= cos;
+//               CameraState._position[0] += sin;
+//               CameraState._position[2] -= cos;
 //               break;
 //            }
 //            case KeyEvent.VK_S: {
-//               _cameraState._position[0] -= sin;
-//               _cameraState._position[2] += cos;
+//               CameraState._position[0] -= sin;
+//               CameraState._position[2] += cos;
 //               break;
 //            }
 //            case KeyEvent.VK_A: {
-//               _cameraState._position[0] -= cos;
-//               _cameraState._position[2] -= sin;
+//               CameraState._position[0] -= cos;
+//               CameraState._position[2] -= sin;
 //               break;
 //            }
 //            case KeyEvent.VK_D: {
-//               _cameraState._position[0] += cos;
-//               _cameraState._position[2] += sin;
+//               CameraState._position[0] += cos;
+//               CameraState._position[2] += sin;
 //               break;
 //            }
 //            case KeyEvent.VK_E: {
-//               _cameraState._yRotation += 10;
-//               if (_cameraState._yRotation >= 360)
-//                  _cameraState._yRotation %= 360;
+//               CameraState._yRotation += 10;
+//               if (CameraState._yRotation >= 360)
+//                  CameraState._yRotation %= 360;
 //               break;
 //            }
 //            case KeyEvent.VK_Q: {
-//               _cameraState._yRotation -= 10;
-//               while (_cameraState._yRotation <= 0)
-//                  _cameraState._yRotation += 360;
+//               CameraState._yRotation -= 10;
+//               while (CameraState._yRotation <= 0)
+//                  CameraState._yRotation += 360;
 //               break;
 //            }
 //         }
@@ -186,8 +186,8 @@ public class OpenGLHistoricKeyListener extends TimerTask implements KeyListener 
          history.StartPress();
       }
 //
-//      System.out.println("pos: " + _cameraState._position[0] + " " + _cameraState._position[1] + " " +  _cameraState._position[2]);
-//      System.out.println("y rot: " + _cameraState._yRotation);
+//      System.out.println("pos: " + CameraState._position[0] + " " + CameraState._position[1] + " " +  CameraState._position[2]);
+//      System.out.println("y rot: " + CameraState._yRotation);
    }
 
    @Override
