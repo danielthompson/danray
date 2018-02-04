@@ -59,9 +59,9 @@ public class OpenGL3Canvas extends AbstractOpenGLCanvas {
       addMouseMotionListener(MouseListener);
       addKeyListener(KeyListener);
 
-      animator = new Animator(this);
+      Animator = new Animator(this);
 
-      animator.start();
+      Animator.start();
 
    }
 
@@ -98,43 +98,111 @@ public class OpenGL3Canvas extends AbstractOpenGLCanvas {
       FloatBuffer vertexBuffer = GLBuffers.newDirectFloatBuffer(vertexData);
       ShortBuffer elementBuffer = GLBuffers.newDirectShortBuffer(elementData);
 
-      gl.glGenBuffers(Buffer.MAX, bufferName);
+      // generate buffer object names
+      gl.glGenBuffers(
+            Buffer.MAX, // number of names to be generated
+            bufferName // array to store names in
+      );
 
-      gl.glBindBuffer(GL_ARRAY_BUFFER, bufferName.get(Buffer.VERTEX));
-      gl.glBufferData(GL_ARRAY_BUFFER, vertexBuffer.capacity() * Float.BYTES, vertexBuffer, GL_STATIC_DRAW);
+      // bind a named buffer object
+      gl.glBindBuffer(
+            GL_ARRAY_BUFFER, // target - vertex attributes
+            bufferName.get(Buffer.VERTEX) // name of buffer object
+      );
+
+      // create and initialize a buffer object's data store
+      gl.glBufferData(
+            GL_ARRAY_BUFFER, // target - vertex attributes
+            vertexBuffer.capacity() * Float.BYTES, // size in bytes
+            vertexBuffer, // data to copy in
+            GL_STATIC_DRAW // usage hint (STATIC - modify once, used many times; DRAW - modified by app, source for GL commands)
+      );
+
+      // unbind the binding point's previously bound buffer object
       gl.glBindBuffer(GL_ARRAY_BUFFER, 0);
 
+      // bind a named buffer objectr
       gl.glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferName.get(Buffer.ELEMENT));
-      gl.glBufferData(GL_ELEMENT_ARRAY_BUFFER, elementBuffer.capacity() * Short.BYTES, elementBuffer, GL_STATIC_DRAW);
+
+      // create and initialize a buffer object's data store
+      gl.glBufferData(
+            GL_ELEMENT_ARRAY_BUFFER, // target -  vertex array indices
+            elementBuffer.capacity() * Short.BYTES, // size in bytes
+            elementBuffer, // data to copy in
+            GL_STATIC_DRAW // usage hint (STATIC - modify once, used many times; DRAW - modified by app, source for GL commands)
+      );
+
+      // unbind the binding point's previously bound buffer object
       gl.glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-
+      // bind a named buffer object
       gl.glBindBuffer(gl.GL_UNIFORM_BUFFER, bufferName.get(Buffer.GLOBAL_MATRICES));
-      gl.glBufferData(gl.GL_UNIFORM_BUFFER, 16 * Float.BYTES * 2, null, gl.GL_STREAM_DRAW);
+
+      // create and initialize a buffer object's data store
+      gl.glBufferData(
+            gl.GL_UNIFORM_BUFFER, // target - uniform block storage
+            16 * Float.BYTES * 2, // size in bytes
+            null, // data to copy
+            gl.GL_STREAM_DRAW // usage hint (STREAM = modify once, use a few times; DRAW - modified by app, source for GL commands
+      );
+
+      // unbind the binding point's previously bound buffer object
       gl.glBindBuffer(gl.GL_UNIFORM_BUFFER, 0);
 
-      gl.glBindBufferBase(gl.GL_UNIFORM_BUFFER, OpenGL3Semantic.Uniform.GLOBAL_MATRICES, bufferName.get(Buffer.GLOBAL_MATRICES));
+      // bind a buffer object to an indexed buffer target
+      gl.glBindBufferBase(
+            gl.GL_UNIFORM_BUFFER, // target - uniform block storage
+            OpenGL3Semantic.Uniform.GLOBAL_MATRICES, // index of the binding point within target
+            bufferName.get(Buffer.GLOBAL_MATRICES) // name of the buffer object to bind to the target
+      );
 
       checkError(gl, "initBuffers");
    }
 
    private void initVertexArray(GL3 gl) {
 
+      // generate vertex array object (VAO) names
       gl.glGenVertexArrays(1, vertexArrayName);
+
+      // bind a vertex array object (VAO)
       gl.glBindVertexArray(vertexArrayName.get(0));
       {
+         // bind a named buffer object (GL_ARRAY_BUFFER - vertex attributes)
          gl.glBindBuffer(GL_ARRAY_BUFFER, bufferName.get(Buffer.VERTEX));
          {
             int stride = (2 + 3) * Float.BYTES;
             int offset = 0;
 
+            // enable or disable a generic vertex attribute array for currently bound VAO
             gl.glEnableVertexAttribArray(OpenGL3Semantic.Attr.POSITION);
-            gl.glVertexAttribPointer(OpenGL3Semantic.Attr.POSITION, 2, GL_FLOAT, false, stride, offset);
+
+            // define an array of generic vertex attribute data
+            gl.glVertexAttribPointer(
+                  OpenGL3Semantic.Attr.POSITION, // index of the generic vertex attribute to be modified
+                  2, // number of components per generic vertex attribute
+                  GL_FLOAT, // data type of each component in the array
+                  false, // specifies whether fixed-point data values should be normalized
+                  stride, // byte offset between consecutive generic vertex attributes
+                  offset // offset of the first generic vertex attribute
+            );
 
             offset = 2 * Float.BYTES;
+
+            // enable or disable a generic vertex attribute array for the currently bound VAO
             gl.glEnableVertexAttribArray(OpenGL3Semantic.Attr.COLOR);
-            gl.glVertexAttribPointer(OpenGL3Semantic.Attr.COLOR, 3, GL_FLOAT, false, stride, offset);
+
+            // define an array of generic vertex attribute data
+            gl.glVertexAttribPointer(
+                  OpenGL3Semantic.Attr.COLOR, // index of the generic vertex attribute to be modified
+                  3, // number of components per generic vertex attribute
+                  GL_FLOAT,  // data type of each component in the array
+                  false,  // specifies whether fixed-point data values should be normalized
+                  stride, // byte offset between consecutive generic vertex attributes
+                  offset // offset of the first generic vertex attribute
+            );
          }
+
+         // unbind  
          gl.glBindBuffer(GL_ARRAY_BUFFER, 0);
 
          gl.glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferName.get(Buffer.ELEMENT));
@@ -229,6 +297,8 @@ public class OpenGL3Canvas extends AbstractOpenGLCanvas {
          for (int i = 0; i < 16; i++) {
             matBuffer.put(i, modelToWorldMat[i]);
          }
+
+         // Modifies the value of a uniform variable or a uniform variable array.
          gl.glUniformMatrix4fv(program.modelToWorldMatUL, 1, false, matBuffer);
       }
 
@@ -262,6 +332,8 @@ public class OpenGL3Canvas extends AbstractOpenGLCanvas {
 
       int name, modelToWorldMatUL;
 
+
+
       // "shaders/gl3", "hello-triangle", "hello-triangle");
 
       Program(GL3 gl, Class context, String root, String vertex, String fragment) {
@@ -270,7 +342,7 @@ public class OpenGL3Canvas extends AbstractOpenGLCanvas {
             gl, // GL2ES2
             GL2ES2.GL_VERTEX_SHADER, // int type
             this.getClass(),  // Class<?> context
-            root, // string srcRoot
+               "/shaders/gl3", //root, // string srcRoot
             null, // string binRoot
             vertex, // string basename
             true
@@ -279,7 +351,7 @@ public class OpenGL3Canvas extends AbstractOpenGLCanvas {
             gl, // GL2ES2
             GL2ES2.GL_FRAGMENT_SHADER,  // int type
             this.getClass(), // Class<?> context
-            root, // string srcRoot
+            "/shaders/gl3", //root, // string srcRoot
             null, // string binRoot
             fragment, // string basename
             true
@@ -296,13 +368,11 @@ public class OpenGL3Canvas extends AbstractOpenGLCanvas {
 
          shaderProgram.link(gl, System.err);
 
-
          modelToWorldMatUL = gl.glGetUniformLocation(name, "model");
 
          if (modelToWorldMatUL == -1) {
             System.err.println("uniform 'model' not found!");
          }
-
 
          int globalMatricesBI = gl.glGetUniformBlockIndex(name, "GlobalMatrices");
 

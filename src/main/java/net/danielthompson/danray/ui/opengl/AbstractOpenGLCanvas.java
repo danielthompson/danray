@@ -15,7 +15,7 @@ import static com.jogamp.opengl.GL.*;
 
 public abstract class AbstractOpenGLCanvas extends GLCanvas  implements GLEventListener {
 
-   public static Animator animator;
+   public static Animator Animator;
    protected static float OneOver255 = 1 / 255.0f;
    public AbstractScene Scene;
    public KDNode SelectedNode;

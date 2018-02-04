@@ -11,9 +11,11 @@
       <entry name="!?*.kt" />
       <entry name="!?*.clj" />
       <entry name="!?*.aj" />
-      <entry name="!?*.glsl" />
-      <entry name="!?*.frag" />
-      <entry name="!?*.vert" />
+      <entry name="?*.glsl" />
+      <entry name="?*.frag" />
+      <entry name="?*.vert" />
+      <entry name="?*.fp" />
+      <entry name="?*.vp" />
     </wildcardResourcePatterns>
     <annotationProcessing>
       <profile name="Maven default annotation processors profile" enabled="true">

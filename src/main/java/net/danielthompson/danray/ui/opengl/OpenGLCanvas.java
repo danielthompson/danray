@@ -56,9 +56,9 @@ public class OpenGLCanvas extends AbstractOpenGLCanvas {
 
       GLU = new GLU();
       GLUT = new GLUT();
-      animator = new Animator(this);
+      Animator = new Animator(this);
 
-      animator.start();
+      Animator.start();
 
    }
 
