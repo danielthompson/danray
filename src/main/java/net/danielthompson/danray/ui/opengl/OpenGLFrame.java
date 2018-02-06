@@ -17,11 +17,25 @@ public class OpenGLFrame extends JFrame {
    public OpenGLFrame(AbstractScene scene) {
       super("OpenGL View");
       GLProfile.initSingleton();
-      GLProfile glp = GLProfile.getDefault();
-      GLCapabilities caps = new GLCapabilities(glp);
+
+      String profileToUse = GLProfile.GL3;
+
+      GLProfile profile = GLProfile.get(profileToUse);
+      GLCapabilities caps = new GLCapabilities(profile);
+
       caps.setHardwareAccelerated(true);
-      //caps.setDoubleBuffered(true);
-      Canvas = new OpenGL3Canvas(caps, scene);
+      //caps.setDoubleBuffered(true);s
+
+      switch (profileToUse) {
+         case GLProfile.GL3: {
+            Canvas = new OpenGL3Canvas(caps, scene);
+            break;
+         }
+         default: {
+            Canvas = new OpenGLCanvas(caps, scene);
+            break;
+         }
+      }
 
       //Add the split pane to this panel.
       add(Canvas);
