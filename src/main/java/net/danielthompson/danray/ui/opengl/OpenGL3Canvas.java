@@ -8,7 +8,6 @@ import com.jogamp.opengl.util.glsl.ShaderCode;
 import com.jogamp.opengl.util.glsl.ShaderProgram;
 import net.danielthompson.danray.scenes.AbstractScene;
 
-
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
@@ -24,8 +23,8 @@ public class OpenGL3Canvas extends AbstractOpenGLCanvas {
 
    private float[] _vertexLocations = {
          0, 0, 0,
+         1, 0, 0,
          0, 1, 0,
-         1, 0, 0
    };
 
    private float[] _vertexColors = {
@@ -34,7 +33,7 @@ public class OpenGL3Canvas extends AbstractOpenGLCanvas {
          0, 1, 0
    };
 
-   private short[] _elementData = {0, 2, 1};
+   private short[] _elementData = {0, 1, 2};
 
    private interface Buffer {
 
@@ -215,7 +214,7 @@ public class OpenGL3Canvas extends AbstractOpenGLCanvas {
             // define an array of generic vertex attribute data
             gl.glVertexAttribPointer(
                   OpenGL3Semantic.Attr.POSITION, // index of the generic vertex attribute to be modified
-                  2, // number of components per generic vertex attribute
+                  3, // number of components per generic vertex attribute
                   GL_FLOAT, // data type of each component in the array
                   false, // specifies whether fixed-point data values should be normalized
                   stride, // byte offset between consecutive generic vertex attributes
@@ -307,33 +306,53 @@ public class OpenGL3Canvas extends AbstractOpenGLCanvas {
 
       GL3 gl = drawable.getGL().getGL3();
 
+//      // view matrix
+//      {
+//         float[] eye = { 0, 0, -15}; // current location
+//         float[] center = {0, 0, 0}; // what to look at
+//         float[] up = {0, 1, 0}; //
+//
+//         float[] temp = new float[16];
+//
+//         float[] view = new float[16];
+//         FloatUtil.makeLookAt(
+//               view, // matrix
+//               0, // offset into matrix
+//               eye, // eye
+//               0, // eye offset
+//               center, // center
+//               0, // center offset
+//               up, // up
+//               0, // up offset
+//               temp // temp storage
+//         );
+//
+//         for (int i = 0; i < 16; i++) {
+//            _matBuffer.put(i, view[i]);
+//         }
+//         gl.glBindBuffer(gl.GL_UNIFORM_BUFFER, _bufferName.get(Buffer.GLOBAL_MATRICES));
+//
+//         // update a subset of a buffer object's data store
+//         gl.glBufferSubData(
+//               gl.GL_UNIFORM_BUFFER, // target
+//               16 * Float.BYTES, // offset
+//               16 * Float.BYTES,  // size
+//               _matBuffer // data
+//         );
+//         gl.glBindBuffer(gl.GL_UNIFORM_BUFFER, 0);
+//      }
+
       // view matrix
       {
-         float[] eye = { 0, 0, -10}; // current location
-         float[] center = {0, 0, 0}; // what to look at
-         float[] up = {0, 1, 0}; //
-
-         float[] temp = new float[16];
-
          float[] view = new float[16];
-         FloatUtil.makeLookAt(
-               view, // matrix
-               0, // offset into matrix
-               eye, // eye
-               0, // eye offset
-               center, // center
-               0, // center offset
-               up, // up
-               0, // up offset
-               temp // temp storage
-         );
+         FloatUtil.makeIdentity(view);
 
          for (int i = 0; i < 16; i++) {
             _matBuffer.put(i, view[i]);
          }
-         gl.glBindBuffer(gl.GL_UNIFORM_BUFFER, _bufferName.get(Buffer.GLOBAL_MATRICES));
-         gl.glBufferSubData(gl.GL_UNIFORM_BUFFER, 16 * Float.BYTES, 16 * Float.BYTES, _matBuffer);
-         gl.glBindBuffer(gl.GL_UNIFORM_BUFFER, 0);
+         gl.glBindBuffer(GL3.GL_UNIFORM_BUFFER, _bufferName.get(Buffer.GLOBAL_MATRICES));
+         gl.glBufferSubData(GL3.GL_UNIFORM_BUFFER, 16 * Float.BYTES, 16 * Float.BYTES, _matBuffer);
+         gl.glBindBuffer(GL3.GL_UNIFORM_BUFFER, 0);
       }
 
       gl.glClearBufferfv(gl.GL_COLOR, 0, _clearColor);
@@ -344,23 +363,23 @@ public class OpenGL3Canvas extends AbstractOpenGLCanvas {
 
       // model matrix
       {
-//         long now = System.currentTimeMillis();
-//         float diff = (float) (now - _start) / 1_000f;
-//
-//         float[] scale = FloatUtil.makeScale(new float[16], true, 0.5f, 0.5f, 0.5f);
-//         float[] zRotation = FloatUtil.makeRotationEuler(new float[16], 0, diff, 0, 0);
-//         float[] modelToWorldMat = FloatUtil.multMatrix(scale, zRotation);
-//
-//         for (int i = 0; i < 16; i++) {
-//            _matBuffer.put(i, modelToWorldMat[i]);
-//         }
+         long now = System.currentTimeMillis();
+         float diff = (float) (now - _start) / 1_000f;
 
-         float[] identity = new float[16];
-         FloatUtil.makeIdentity(identity);
+         float[] scale = FloatUtil.makeScale(new float[16], true, 0.5f, 0.5f, 0.5f);
+         float[] zRotation = FloatUtil.makeRotationEuler(new float[16], 0, diff, 0, 0);
+         float[] modelToWorldMat = FloatUtil.multMatrix(scale, zRotation);
 
          for (int i = 0; i < 16; i++) {
-            _matBuffer.put(i, identity[i]);
+            _matBuffer.put(i, modelToWorldMat[i]);
          }
+
+//         float[] identity = new float[16];
+//         FloatUtil.makeIdentity(identity);
+//
+//         for (int i = 0; i < 16; i++) {
+//            _matBuffer.put(i, identity[i]);
+//         }
 
          // Modifies the value of a uniform variable or a uniform variable array.
          gl.glUniformMatrix4fv(_program.modelToWorldMatUL, 1, false, _matBuffer);
@@ -393,10 +412,21 @@ public class OpenGL3Canvas extends AbstractOpenGLCanvas {
       );
 
       float[] ortho = new float[16];
-      FloatUtil.makeOrtho(ortho, 0, false, -1, 1, -1, 1, 1, -1);
+      FloatUtil.makeOrtho(
+            ortho, // matrix
+            0, // offset
+            false, // initialize matrix to identity
+            -10, // left
+            10, // right
+            -10, // bottom
+            10, // top
+            10, // zNear
+            -10 // zFar
+      );
 
       for (int i = 0; i < 16; i++) {
-         _matBuffer.put(i, perspective[i]);
+//         _matBuffer.put(i, perspective[i]);
+         _matBuffer.put(i, ortho[i]);
       }
 
       // bind named buffer to binding point

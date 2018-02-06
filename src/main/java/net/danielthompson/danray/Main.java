@@ -3,6 +3,8 @@ package net.danielthompson.danray;
 import net.danielthompson.danray.presets.*;
 import net.danielthompson.danray.scenes.AbstractScene;
 
+import java.io.IOException;
+
 
 /**
  * DanRay
@@ -21,6 +23,13 @@ public class Main {
    static TraceManager traceManager;
 
    static public void main(String[] args) {
+
+//      try {
+//         System.in.read();
+//      }
+//      catch (IOException e) {
+//
+//      }
 
       AbstractScene scene;
 
