@@ -11,8 +11,6 @@ import net.danielthompson.danray.scenes.AbstractScene;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.jogamp.opengl.GL.*;
 
@@ -32,6 +30,8 @@ public class OpenGL3Canvas extends AbstractOpenGLCanvas {
          0, 0, 1,
          0, 1, 0
    };
+
+   private float[] _ballVerts;
 
    private short[] _elementData = {0, 1, 2};
 
@@ -68,6 +68,8 @@ public class OpenGL3Canvas extends AbstractOpenGLCanvas {
       Animator = new Animator(this);
 
       Animator.start();
+
+      _ballVerts = getBallVertsOnly();
    }
 
    @Override
@@ -259,42 +261,112 @@ public class OpenGL3Canvas extends AbstractOpenGLCanvas {
       checkError(gl, "initProgram");
    }
 
-   private List<Float> getBallVerts() {
-      List<Float> ballVerts = new ArrayList<>();
+   private float[] getBallVertsOnly() {
 
-      for(int i = 0; i <= 40; i++)
+      int levels = 40;
+      int stride = 6;
+
+      float[] ballVerts = new float[(levels + 1) * (levels + 1) * stride];
+
+      for(int i = 0; i <= levels; i++)
       {
-         float lat0 = (float) (Math.PI * (-0.5 + (float) (i - 1) / 40));
+         float lat0 = (float) (Math.PI * (-0.5 + (float) (i - 1) / levels));
          float z0  = (float) Math.sin(lat0);
          float zr0 = (float) Math.cos(lat0);
 
-         float lat1 = (float) (Math.PI * (-0.5 + (float) i / 40));
+         float lat1 = (float) (Math.PI * (-0.5 + (float) i / levels));
          float z1 = (float) Math.sin(lat1);
          float zr1 = (float) Math.cos(lat1);
 
-         for(int j = 0; j <= 40; j++)
+         for(int j = 0; j <= levels; j++)
          {
-            float lng = (float) (2 * Math.PI * (float) (j - 1) / 40);
+            int index = (i * levels + j) * stride;
+
+            float lng = (float) (2 * Math.PI * (float) (j - 1) / levels);
             float x = (float) Math.cos(lng);
             float y = (float) Math.sin(lng);
 
-            ballVerts.add(x * zr0); //X
-            ballVerts.add(y * zr0); //Y
-            ballVerts.add(z0);      //Z
+            ballVerts[index] = x * zr0;
+            ballVerts[index + 1] = y * zr0;
+            ballVerts[index + 2] = z0;
 
-            ballVerts.add(0.0f);
-            ballVerts.add(1.0f);
-            ballVerts.add(0.0f);
-            ballVerts.add(1.0f); //R,G,B,A
+            //ballVerts.add(x * zr0); //X
+            //ballVerts.add(y * zr0); //Y
+            //ballVerts.add(z0);      //Z
 
-            ballVerts.add(x * zr1); //X
-            ballVerts.add(y * zr1); //Y
-            ballVerts.add(z1);      //Z
+            ballVerts[index + 3] = x * zr1;
+            ballVerts[index + 4] = y * zr1;
+            ballVerts[index + 5] = z1;
 
-            ballVerts.add(0.0f);
-            ballVerts.add(1.0f);
-            ballVerts.add(0.0f);
-            ballVerts.add(1.0f); //R,G,B,A
+//            ballVerts.add(x * zr1); //X
+//            ballVerts.add(y * zr1); //Y
+//            ballVerts.add(z1);      //Z
+
+         }
+      }
+
+      return ballVerts;
+   }
+
+   private float[] getBallVertsWithColor() {
+
+      int levels = 40;
+
+      float[] ballVerts = new float[(levels + 1) * (levels + 1) * 14];
+
+      for(int i = 0; i <= levels; i++)
+      {
+         float lat0 = (float) (Math.PI * (-0.5 + (float) (i - 1) / levels));
+         float z0  = (float) Math.sin(lat0);
+         float zr0 = (float) Math.cos(lat0);
+
+         float lat1 = (float) (Math.PI * (-0.5 + (float) i / levels));
+         float z1 = (float) Math.sin(lat1);
+         float zr1 = (float) Math.cos(lat1);
+
+         for(int j = 0; j <= levels; j++)
+         {
+            int index = (i * levels + j) * 14;
+
+            float lng = (float) (2 * Math.PI * (float) (j - 1) / levels);
+            float x = (float) Math.cos(lng);
+            float y = (float) Math.sin(lng);
+
+            ballVerts[index] = x * zr0;
+            ballVerts[index + 1] = y * zr0;
+            ballVerts[index + 2] = z0;
+
+            //ballVerts.add(x * zr0); //X
+            //ballVerts.add(y * zr0); //Y
+            //ballVerts.add(z0);      //Z
+
+            ballVerts[index + 3] = 0.0f;
+            ballVerts[index + 4] = 1.0f;
+            ballVerts[index + 5] = 0.0f;
+            ballVerts[index + 6] = 1.0f;
+
+//            ballVerts.add(0.0f);
+//            ballVerts.add(1.0f);
+//            ballVerts.add(0.0f);
+//            ballVerts.add(1.0f); //R,G,B,A
+
+            ballVerts[index + 7] = x * zr1;
+            ballVerts[index + 8] = y * zr1;
+            ballVerts[index + 9] = z1;
+
+//            ballVerts.add(x * zr1); //X
+//            ballVerts.add(y * zr1); //Y
+//            ballVerts.add(z1);      //Z
+
+            ballVerts[index + 10] = 0.0f;
+            ballVerts[index + 11] = 1.0f;
+            ballVerts[index + 12] = 0.0f;
+            ballVerts[index + 13] = 1.0f;
+
+//            ballVerts.add(0.0f);
+//            ballVerts.add(1.0f);
+//            ballVerts.add(0.0f);
+//            ballVerts.add(1.0f); //R,G,B,A
          }
       }
 
