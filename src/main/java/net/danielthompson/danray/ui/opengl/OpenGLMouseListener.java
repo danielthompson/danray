@@ -80,8 +80,8 @@ public class OpenGLMouseListener implements MouseListener, MouseMotionListener {
    }
 
    private void resetMousePosition(MouseEvent event) {
-      _cameraState.PrevMouseX = event.getX();
-      _cameraState.PrevMouseY = event.getY();
+//      _cameraState.PrevMouseX = event.getX();
+//      _cameraState.PrevMouseY = event.getY();
    }
 //
 //   @Override
