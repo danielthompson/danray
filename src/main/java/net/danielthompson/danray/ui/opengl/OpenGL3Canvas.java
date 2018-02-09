@@ -19,21 +19,8 @@ import static com.jogamp.opengl.GL.*;
  */
 public class OpenGL3Canvas extends AbstractOpenGLCanvas {
 
-   private float[] _triangleVertexPositions = {
-         0, 0, 0,
-         100, 0, 0,
-         0, 100, 0,
-   };
-
-   private float[] _triangleVertexColors = {
-         1, 0, 0,
-         0, 0, 1,
-         0, 1, 0
-   };
-
-   private short[] _triangleVertexIndices = {0, 1, 2};
-
-   private float[] _sphereVertexPositions;
+   private GLShape _triangle = new GLShape();
+   private GLShape _sphere = new GLShape();
 
    private interface Buffer {
 
@@ -72,7 +59,22 @@ public class OpenGL3Canvas extends AbstractOpenGLCanvas {
 
       Animator.start();
 
-      _sphereVertexPositions = getBallVertsOnly();
+      _triangle.VertexPositions = new float[] {
+            0, 0, 0,
+            100, 0, 0,
+            0, 100, 0,
+      };
+
+      _triangle.VertexColors = new float[] {
+            1, 0, 0,
+            0, 0, 1,
+            0, 1, 0
+      };
+
+      _triangle.VertexIndices = new short[] {0, 1, 2};
+
+      _sphere.VertexPositions = getBallVertsOnly();
+
    }
 
    @Override
@@ -111,11 +113,8 @@ public class OpenGL3Canvas extends AbstractOpenGLCanvas {
 
    private void initBuffers(GL3 gl) {
 
-      FloatBuffer vertexLocationBuffer = GLBuffers.newDirectFloatBuffer(_triangleVertexPositions);
-      FloatBuffer vertexColorBuffer = GLBuffers.newDirectFloatBuffer(_triangleVertexColors);
-      FloatBuffer sphereLocationBuffer = GLBuffers.newDirectFloatBuffer(_sphereVertexPositions);
-
-      ShortBuffer elementBuffer = GLBuffers.newDirectShortBuffer(_triangleVertexIndices);
+      _triangle.initBuffers();
+      _sphere.initBuffers();
 
       // generate buffer object names
       gl.glGenBuffers(
@@ -134,8 +133,8 @@ public class OpenGL3Canvas extends AbstractOpenGLCanvas {
       // create and initialize a buffer object's data store
       gl.glBufferData(
             GL_ARRAY_BUFFER, // target - vertex attributes
-            vertexLocationBuffer.capacity() * Float.BYTES, // size in bytes
-            vertexLocationBuffer, // data to copy in
+            _triangle.VertexPositionBuffer.capacity() * Float.BYTES, // size in bytes
+            _triangle.VertexPositionBuffer, // data to copy in
             GL_STATIC_DRAW // usage hint (STATIC - modify once, used many times; DRAW - modified by app, source for GL commands)
       );
 
@@ -150,8 +149,8 @@ public class OpenGL3Canvas extends AbstractOpenGLCanvas {
       // create and initialize a buffer object's data store
       gl.glBufferData(
             GL_ARRAY_BUFFER, // target - vertex attributes
-            vertexColorBuffer.capacity() * Float.BYTES, // size in bytes
-            vertexColorBuffer, // data to copy in
+            _triangle.VertexColorBuffer.capacity() * Float.BYTES, // size in bytes
+            _triangle.VertexColorBuffer, // data to copy in
             GL_STATIC_DRAW // usage hint (STATIC - modify once, used many times; DRAW - modified by app, source for GL commands)
       );
 
@@ -165,8 +164,8 @@ public class OpenGL3Canvas extends AbstractOpenGLCanvas {
 
       gl.glBufferData(
             GL_ARRAY_BUFFER,
-            sphereLocationBuffer.capacity() * Float.BYTES,
-            sphereLocationBuffer,
+            _sphere.VertexPositionBuffer.capacity() * Float.BYTES,
+            _sphere.VertexPositionBuffer,
             GL_STATIC_DRAW
       );
 
@@ -181,8 +180,8 @@ public class OpenGL3Canvas extends AbstractOpenGLCanvas {
       // create and initialize a buffer object's data store
       gl.glBufferData(
             GL_ELEMENT_ARRAY_BUFFER, // target -  vertex array indices
-            elementBuffer.capacity() * Short.BYTES, // size in bytes
-            elementBuffer, // data to copy in
+            _triangle.VertexIndexBuffer.capacity() * Short.BYTES, // size in bytes
+            _triangle.VertexIndexBuffer, // data to copy in
             GL_STATIC_DRAW // usage hint (STATIC - modify once, used many times; DRAW - modified by app, source for GL commands)
       );
 
@@ -454,7 +453,7 @@ public class OpenGL3Canvas extends AbstractOpenGLCanvas {
          gl.glUniformMatrix4fv(_program.modelToWorldMatUL, 1, false, _matBuffer);
       }
 
-      gl.glDrawElements(GL_TRIANGLES, _triangleVertexIndices.length, GL_UNSIGNED_SHORT, 0);
+      gl.glDrawElements(GL_TRIANGLES, _triangle.VertexIndices.length, GL_UNSIGNED_SHORT, 0);
 
       gl.glBindVertexArray(0);
 
