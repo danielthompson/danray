@@ -3,6 +3,7 @@ package net.danielthompson.danray.ui.opengl;
 import com.jogamp.opengl.GL3;
 import com.jogamp.opengl.math.FloatUtil;
 import com.jogamp.opengl.util.GLBuffers;
+import net.danielthompson.danray.structures.Transform;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
@@ -40,7 +41,12 @@ public class GL3Shape {
 
    public ShortBuffer VertexIndexBuffer;
 
+   long _start = System.currentTimeMillis();
+
+   float Divisor = 1.0f / 1000.0f;
+
    public void initBuffers(GL3 gl) {
+
       // generate buffer object names
       gl.glGenBuffers(
             Buffer.MAX, // number of names to be generated
@@ -173,23 +179,22 @@ public class GL3Shape {
 
       // model matrix
       {
-//         long now = System.currentTimeMillis();
-//         float diff = (float) (now - _start) / 1_000f;
-//
-//         float[] scale = FloatUtil.makeScale(new float[16], true, 0.5f, 0.5f, 0.5f);
-//         float[] zRotation = FloatUtil.makeRotationEuler(new float[16], 0, diff, 0, 0);
-//         float[] modelToWorldMat = FloatUtil.multMatrix(scale, zRotation);
-//
-//         for (int i = 0; i < 16; i++) {
-//            _matBuffer.put(i, modelToWorldMat[i]);
-//         }
-
-         float[] identity = new float[16];
-         FloatUtil.makeIdentity(identity);
+         long now = System.currentTimeMillis();
+         float diff = (float) (now - _start) * Divisor;
+         float[] scale = FloatUtil.makeScale(new float[16], true, 500f, 500f, 500f);
+         float[] zRotation = FloatUtil.makeRotationEuler(new float[16], 0, diff, 0, 0);
+         float[] modelToWorldMat = FloatUtil.multMatrix(scale, zRotation);
 
          for (int i = 0; i < 16; i++) {
-            _matBuffer.put(i, identity[i]);
+            _matBuffer.put(i, modelToWorldMat[i]);
          }
+
+//         float[] identity = new float[16];
+//         FloatUtil.makeIdentity(identity);
+//
+//         for (int i = 0; i < 16; i++) {
+//            _matBuffer.put(i, identity[i]);
+//         }
 
          // Modifies the value of a uniform variable or a uniform variable array.
          gl.glUniformMatrix4fv(Program.modelToWorldMatUL, 1, false, _matBuffer);
@@ -198,6 +203,9 @@ public class GL3Shape {
       gl.glDrawElements(GL_TRIANGLES, VertexIndices.length, GL_UNSIGNED_SHORT, 0);
 
       gl.glBindVertexArray(0);
+
+
+
    }
 
    public void dispose(GL3 gl) {

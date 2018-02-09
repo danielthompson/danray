@@ -46,19 +46,71 @@ public class OpenGL3Canvas extends AbstractOpenGLCanvas {
 
       _triangle.VertexPositions = new float[] {
             0, 0, 0,
-            100, 0, 0,
-            0, 100, 0,
+            1, 0, 0,
+            0, 1, 0,
+            1, 1, 0/*,
+            200, 100, 0,
+            100, 200, 0,*/
       };
 
       _triangle.VertexColors = new float[] {
             1, 0, 0,
             0, 0, 1,
-            0, 1, 0
+            0, 1, 0,
+            1, 0, 0/*,
+            0, 0, 1,
+            0, 1, 0*/
       };
 
-      _triangle.VertexIndices = new short[] {0, 1, 2};
+      _triangle.VertexIndices = new short[] {0, 1, 2, 2, 1, 3};
 
       _sphere.VertexPositions = getBallVertsOnly();
+
+      _sphere.VertexIndices = new short[_sphere.VertexPositions.length];
+
+      for (short i = 0; i < _sphere.VertexPositions.length; i += 3) {
+
+         short triangleIndex = (short)(i / 3);
+
+         if (triangleIndex % 2 == 0) {
+            _sphere.VertexIndices[i] =       triangleIndex;
+            _sphere.VertexIndices[i + 1] =   (short)(triangleIndex + 1);
+            _sphere.VertexIndices[i + 2] =   (short)(triangleIndex + 2);
+         }
+         else {
+            _sphere.VertexIndices[i] =       (short)(triangleIndex + 1);
+            _sphere.VertexIndices[i + 1] =   (short)(triangleIndex);
+            _sphere.VertexIndices[i + 2] =   (short)(triangleIndex + 2);
+         }
+      }
+
+      _sphere.VertexColors = new float[_sphere.VertexPositions.length];
+
+
+
+      for (short i = 0; i < _sphere.VertexPositions.length; i += 3) {
+//         _sphere.VertexIndices[i] = i;
+//         _sphere.VertexIndices[i + 1] = (short)(i + 1);
+//         _sphere.VertexIndices[i + 2] = (short)(i + 2);
+
+         if (i % 9 == 0) {
+            _sphere.VertexColors[i] = 1.0f;
+            _sphere.VertexColors[i + 1] = 0.0f;
+            _sphere.VertexColors[i + 2] = 0.0f;
+         }
+         else if (i % 9 == 3) {
+            _sphere.VertexColors[i] = 0.0f;
+            _sphere.VertexColors[i + 1] = 1.0f;
+            _sphere.VertexColors[i + 2] = 0.0f;
+         }
+         else if (i % 9 == 6) {
+            _sphere.VertexColors[i] = 0.0f;
+            _sphere.VertexColors[i + 1] = 0.0f;
+            _sphere.VertexColors[i + 2] = 1.0f;
+         }
+
+
+      }
 
    }
 
@@ -67,6 +119,7 @@ public class OpenGL3Canvas extends AbstractOpenGLCanvas {
       GL3 gl = drawable.getGL().getGL3();
 
       _triangle.dispose(gl);
+      _sphere.dispose(gl);
 
       System.exit(0);
    }
@@ -76,6 +129,18 @@ public class OpenGL3Canvas extends AbstractOpenGLCanvas {
       System.out.println("init");
 
       GL3 gl = drawable.getGL().getGL3();
+
+      String vendor = gl.glGetString(GL.GL_VENDOR);
+      System.out.println("Vendor: [" + vendor + "]");
+
+      String renderer = gl.glGetString(GL.GL_RENDERER);
+      System.out.println("Renderer: [" + renderer + "]");
+
+      String version = gl.glGetString(GL.GL_VERSION);
+      System.out.println("Version: [" + version + "]");
+
+      String glslVersion = gl.glGetString(GL3.GL_SHADING_LANGUAGE_VERSION);
+      System.out.println("GLSL Version: [" + glslVersion + "]");
 
       initBuffers(gl);
 
@@ -95,6 +160,7 @@ public class OpenGL3Canvas extends AbstractOpenGLCanvas {
    private void initBuffers(GL3 gl) {
 
       _triangle.initBuffers(gl);
+      _sphere.initBuffers(gl);
 
       // generate buffer object names
       gl.glGenBuffers(
@@ -131,19 +197,21 @@ public class OpenGL3Canvas extends AbstractOpenGLCanvas {
    private void initVertexArray(GL3 gl) {
 
       _triangle.initVertexArray(gl);
+      _sphere.initVertexArray(gl);
 
    }
 
    private void initProgram(GL3 gl) {
 
       _triangle.initProgram(gl);
+      _sphere.initProgram(gl);
 
       checkError(gl, "initProgram");
    }
 
    private float[] getBallVertsOnly() {
 
-      int levels = 40;
+      int levels = 10;
       int stride = 6;
 
       float[] ballVerts = new float[(levels + 1) * (levels + 1) * stride];
@@ -283,11 +351,12 @@ public class OpenGL3Canvas extends AbstractOpenGLCanvas {
       gl.glClearBufferfv(gl.GL_COLOR, 0, _clearColor);
       gl.glClearBufferfv(gl.GL_DEPTH, 0, _clearDepth);
 
-      _triangle.display(gl);
+      //_triangle.display(gl);
+
+      _sphere.display(gl);
 
       checkError(gl, "display");
    }
-
 
    @Override
    public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
@@ -326,7 +395,5 @@ public class OpenGL3Canvas extends AbstractOpenGLCanvas {
 
       // set the viewport
       gl.glViewport(x, y, width, height);
-
    }
-
 }

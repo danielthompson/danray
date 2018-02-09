@@ -18,6 +18,8 @@ public class OpenGLFrame extends JFrame {
       super("OpenGL View");
       GLProfile.initSingleton();
 
+
+
       String profileToUse = GLProfile.GL3;
 
       GLProfile profile = GLProfile.get(profileToUse);
