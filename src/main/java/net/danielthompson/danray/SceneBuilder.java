@@ -756,7 +756,7 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
-      settings.FieldOfView = 2f;
+      settings.FieldOfView = 20;
 
       Transform[] inputTransforms = new Transform[1];
       inputTransforms[0] = Transform.Translate(new Vector(0, 0, 1200));

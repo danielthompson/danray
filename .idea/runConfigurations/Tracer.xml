@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Trace with Window" type="Application" factoryName="Application">
+  <configuration default="false" name="Tracer" type="Application" factoryName="Application">
     <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
     <option name="MAIN_CLASS_NAME" value="net.danielthompson.danray.Main" />
     <option name="VM_PARAMETERS" value="" />

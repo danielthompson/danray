@@ -194,7 +194,7 @@ public class GL3Shape {
 //            _matBuffer.put(i, modelToWorldMat[i]);
 //         }
 
-         double[] colMajor = ObjectToWorld._inverse.getColMajor();
+         double[] colMajor = ObjectToWorld._matrix.getColMajor();
 
          for (int i = 0; i < 16; i++) {
             _matBuffer.put(i, (float)colMajor[i]);

@@ -241,7 +241,7 @@ public class OpenGL3Canvas extends AbstractOpenGLCanvas {
 
    private float[] getBallVertsOnly() {
 
-      int levels = 10;
+      int levels = 5;
       int stride = 6;
 
       float[] ballVerts = new float[(levels + 1) * (levels + 1) * stride];
@@ -396,12 +396,14 @@ public class OpenGL3Canvas extends AbstractOpenGLCanvas {
 
       float aspect = (float)width / (float)height;
 
+      float fieldOfViewRad = (float)Math.toRadians(Scene.Camera.Settings.FieldOfView);
+
       float[] perspective = new float[16];
       FloatUtil.makePerspective(
             perspective, // matrix
             0, // offset into matrix
             true, // initialize to identity first
-            1f, // angle in radians
+            fieldOfViewRad, // angle in radians
             aspect, // aspect ratio
             0.1f, // znear
             10000f // zfar
