@@ -43,7 +43,9 @@ public class GL3Shape {
 
    long _start = System.currentTimeMillis();
 
-   float Divisor = 1.0f / 1000.0f;
+   float Divisor = 1.0f / 5000.0f;
+
+   Transform ObjectToWorld;
 
    public void initBuffers(GL3 gl) {
 
@@ -179,14 +181,23 @@ public class GL3Shape {
 
       // model matrix
       {
-         long now = System.currentTimeMillis();
-         float diff = (float) (now - _start) * Divisor;
-         float[] scale = FloatUtil.makeScale(new float[16], true, 500f, 500f, 500f);
-         float[] zRotation = FloatUtil.makeRotationEuler(new float[16], 0, diff, 0, 0);
-         float[] modelToWorldMat = FloatUtil.multMatrix(scale, zRotation);
+//         long now = System.currentTimeMillis();
+//         float diff = (float) (now - _start) * Divisor;
+//
+//         diff = 1.0f;
+//
+//         float[] scale = FloatUtil.makeScale(new float[16], true, 500f, 500f, 500f);
+//         float[] zRotation = FloatUtil.makeRotationEuler(new float[16], 0, diff, 0, 0);
+//         float[] modelToWorldMat = FloatUtil.multMatrix(scale, zRotation);
+//
+//         for (int i = 0; i < 16; i++) {
+//            _matBuffer.put(i, modelToWorldMat[i]);
+//         }
+
+         double[] colMajor = ObjectToWorld._inverse.getColMajor();
 
          for (int i = 0; i < 16; i++) {
-            _matBuffer.put(i, modelToWorldMat[i]);
+            _matBuffer.put(i, (float)colMajor[i]);
          }
 
 //         float[] identity = new float[16];
