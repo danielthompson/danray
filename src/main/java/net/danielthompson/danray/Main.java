@@ -72,12 +72,16 @@ public class Main {
 
       for (int i = 0; i < args.length; i++) {
          String arg = args[i];
+
          switch (arg) {
             case "-tracerWindow":
                options.showTracerWindow = true;
                break;
             case "-countWindow":
                options.showCountWindow = true;
+               break;
+            case "-notrace":
+               options.noTrace = true;
                break;
             case "-openGLWindow":
                options.showOpenGLWindow = true;

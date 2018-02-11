@@ -8,6 +8,7 @@ import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.Animator;
 import com.jogamp.opengl.util.gl2.GLUT;
 import net.danielthompson.danray.acceleration.KDNode;
+import net.danielthompson.danray.cameras.Camera;
 import net.danielthompson.danray.scenes.AbstractScene;
 import net.danielthompson.danray.shapes.AbstractShape;
 
@@ -29,6 +30,9 @@ public abstract class AbstractOpenGLCanvas extends GLCanvas  implements GLEventL
       super(caps);
 
       addGLEventListener(this);
+
+      CameraState = new OpenGLCameraState();
+      CameraState.Camera = scene.Camera;
 
       MouseListener = new OpenGLMouseListener(CameraState);
       Scene = scene;

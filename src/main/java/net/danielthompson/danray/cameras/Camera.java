@@ -39,6 +39,10 @@ public abstract class Camera {
       _currentFrame = frame;
    }
 
+   /**
+    * Moves the camera origin by the specified vector.
+    * @param delta
+    */
    public void moveOriginAlongAxis(Vector delta) {
 
       Transform t = Transform.Translate(delta);
@@ -51,6 +55,12 @@ public abstract class Camera {
       cameraToWorld = cameraToWorld.Apply(t);
    }
 
+   /**
+    *
+    * @param x
+    * @param y
+    * @param z
+    */
    public void moveDirectionAlongOrientation(float x, float y, float z) {
 
       Transform[] inputTransforms = new Transform[3];

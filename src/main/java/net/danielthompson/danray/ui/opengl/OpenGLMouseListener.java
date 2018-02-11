@@ -10,7 +10,14 @@ import java.awt.event.MouseMotionListener;
 public class OpenGLMouseListener implements MouseListener, MouseMotionListener {
 
    private final OpenGLCameraState _cameraState;
-   private boolean _first = true;
+
+   private int _prevX;
+   private int _prevY;
+   private boolean _prevPressed;
+
+   private boolean _pressed;
+
+   private float _sensitivity = 0.05f;
 
    public OpenGLMouseListener(OpenGLCameraState cameraState) {
 
@@ -19,30 +26,43 @@ public class OpenGLMouseListener implements MouseListener, MouseMotionListener {
 
    @Override
    public void mouseClicked(MouseEvent mouseEvent) {
-
-      resetMousePosition(mouseEvent);
       _cameraState.hasFocus = true;
-
-
    }
 
    @Override
    public void mousePressed(MouseEvent mouseEvent) {
-
+      _pressed = true;
    }
 
    @Override
    public void mouseReleased(MouseEvent mouseEvent) {
-
+      _pressed = false;
    }
 
    @Override
    public void mouseDragged(MouseEvent e) {
 
+      int x = e.getX();
+      int y = e.getY();
+
+      if (_prevPressed) {
+         float xDiff = _sensitivity * (float)(x - _prevX);
+         float yDiff = _sensitivity * (float)(y - _prevY);
+
+         _cameraState.Camera.moveDirectionAlongOrientation(0, xDiff, 0);
+         _cameraState.Camera.moveDirectionAlongOrientation(yDiff, 0, 0);
+      }
+
+      _prevX = x;
+      _prevY = y;
+      _prevPressed = _pressed;
+
+
    }
 
    @Override
    public void mouseMoved(MouseEvent mouseEvent) {
+
 
 //      if (CameraState.hasFocus) {
 //         if (_first) {
@@ -79,24 +99,11 @@ public class OpenGLMouseListener implements MouseListener, MouseMotionListener {
 
    }
 
-   private void resetMousePosition(MouseEvent event) {
-//      _cameraState.PrevMouseX = event.getX();
-//      _cameraState.PrevMouseY = event.getY();
-   }
-//
-//   @Override
-//   public void mouseDragged(MouseEvent mouseEvent) {
-//
-//   }
-//
-//   @Override
-//   public void mouseWheelMoved(MouseEvent mouseEvent) {
-//
-//   }
+
 
    @Override
    public void mouseEntered(MouseEvent mouseEvent) {
-      resetMousePosition(mouseEvent);
+
    }
 
    @Override

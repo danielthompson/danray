@@ -12,6 +12,7 @@ public class TracerOptions {
    public boolean showInfoWindow = false;
    public boolean showHeatWindow = false;
    public boolean spectral = false;
+   public boolean noTrace = false;
    public int numThreads;
    public boolean displayAllPaths;
 

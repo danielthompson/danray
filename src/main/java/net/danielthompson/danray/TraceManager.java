@@ -164,12 +164,14 @@ public class TraceManager {
    public void Render() {
       SetupWindows();
 
-      for (int i = 0; i < _scene.numFrames; i++) {
+      if (!_tracerOptions.noTrace) {
 
-         if (_tracerOptions.displayAllPaths) {
+         for (int i = 0; i < _scene.numFrames; i++) {
 
-            for (int k = 2; k <= _qualityPreset.getMaxDepth(); k++) {
-               //for (int s = 1; s <= k + 1; s++) {
+            if (_tracerOptions.displayAllPaths) {
+
+               for (int k = 2; k <= _qualityPreset.getMaxDepth(); k++) {
+                  //for (int s = 1; s <= k + 1; s++) {
                   //int k = 2;
                   int s = 1;
                   int t = k + 1 - s;
@@ -181,18 +183,18 @@ public class TraceManager {
                   _ioHelper.Save(_heatImage, "heat" + getOutputString(k, s, t));
                   TeardownFrame();
                   //break;
-               //}
-               //break;
+                  //}
+                  //break;
+               }
+            } else {
+               SetupFrame(-1, -1);
+               Trace(i, -1, -1);
+               Log(i, -1, -1);
+               _ioHelper.Save(_traceImage, "trace" + getOutputString(i));
+               _ioHelper.Save(_countImage, "count" + getOutputString(i));
+               _ioHelper.Save(_heatImage, "heat" + getOutputString(i));
+               TeardownFrame();
             }
-         }
-         else {
-            SetupFrame(-1, -1);
-            Trace(i, -1, -1);
-            Log(i, -1, -1);
-            _ioHelper.Save(_traceImage, "trace" + getOutputString(i));
-            _ioHelper.Save(_countImage, "count" + getOutputString(i));
-            _ioHelper.Save(_heatImage, "heat" + getOutputString(i));
-            TeardownFrame();
          }
       }
    }
