@@ -1,4 +1,4 @@
-package net.danielthompson.danray.ui.opengl;
+package net.danielthompson.danray.ui.gl.gl2;
 
 import com.jogamp.opengl.*;
 import com.jogamp.opengl.fixedfunc.GLMatrixFunc;
@@ -23,6 +23,10 @@ import net.danielthompson.danray.shapes.Box;
 import net.danielthompson.danray.shapes.Sphere;
 import net.danielthompson.danray.structures.BoundingBox;
 import net.danielthompson.danray.scenes.AbstractScene;
+import net.danielthompson.danray.ui.gl.common.GLCameraState;
+import net.danielthompson.danray.ui.gl.common.GLKeyListener;
+import net.danielthompson.danray.ui.gl.common.GLMouseListener;
+import net.danielthompson.danray.ui.gl.common.AbstractGLCanvas;
 import net.danielthompson.danray.utility.GeometryCalculations;
 
 
@@ -35,20 +39,19 @@ import static com.jogamp.opengl.GL.*;
 /**
  * Created by daniel on 3/4/14.
  */
-public class OpenGLCanvas extends AbstractOpenGLCanvas {
+public class GL2Canvas extends AbstractGLCanvas {
 
-
-   public OpenGLCanvas(GLCapabilities caps, AbstractScene scene) {
+   public GL2Canvas(GLCapabilities caps, AbstractScene scene) {
       super(caps, scene);
       Scene = scene;
       addGLEventListener(this);
 
-      CameraState = new OpenGLCameraState();
+      CameraState = new GLCameraState();
 
       CameraState.Camera = Scene.Camera;
 
-      KeyListener = new OpenGLKeyListener(CameraState);
-      MouseListener = new OpenGLMouseListener(CameraState);
+      KeyListener = new GLKeyListener(CameraState);
+      MouseListener = new GLMouseListener(CameraState);
 
       addMouseListener(MouseListener);
       addMouseMotionListener(MouseListener);

@@ -1,9 +1,11 @@
-package net.danielthompson.danray.ui.opengl;
+package net.danielthompson.danray.ui.gl.common;
 
 import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLProfile;
-import com.jogamp.opengl.awt.GLCanvas;
 import net.danielthompson.danray.scenes.AbstractScene;
+import net.danielthompson.danray.ui.gl.common.AbstractGLCanvas;
+import net.danielthompson.danray.ui.gl.gl2.GL2Canvas;
+import net.danielthompson.danray.ui.gl.gl3.GL3Canvas;
 
 import javax.swing.*;
 
@@ -11,10 +13,10 @@ import javax.swing.*;
 /**
  * Created by daniel on 3/8/16.
  */
-public class OpenGLFrame extends JFrame {
-   public AbstractOpenGLCanvas Canvas;
+public class GLFrame extends JFrame {
+   public AbstractGLCanvas Canvas;
 
-   public OpenGLFrame(AbstractScene scene) {
+   public GLFrame(AbstractScene scene) {
       super("OpenGL View");
       GLProfile.initSingleton();
 
@@ -30,11 +32,11 @@ public class OpenGLFrame extends JFrame {
 
       switch (profileToUse) {
          case GLProfile.GL3: {
-            Canvas = new OpenGL3Canvas(caps, scene);
+            Canvas = new GL3Canvas(caps, scene);
             break;
          }
          default: {
-            Canvas = new OpenGLCanvas(caps, scene);
+            Canvas = new GL2Canvas(caps, scene);
             break;
          }
       }

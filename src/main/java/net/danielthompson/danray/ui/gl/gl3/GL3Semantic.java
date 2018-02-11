@@ -1,6 +1,6 @@
-package net.danielthompson.danray.ui.opengl;
+package net.danielthompson.danray.ui.gl.gl3;
 
-abstract public class OpenGL3Semantic {
+abstract public class GL3Semantic {
 
    public interface Attr {
 

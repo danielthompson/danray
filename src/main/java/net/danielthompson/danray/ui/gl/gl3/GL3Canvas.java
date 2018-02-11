@@ -1,4 +1,4 @@
-package net.danielthompson.danray.ui.opengl;
+package net.danielthompson.danray.ui.gl.gl3;
 
 import com.jogamp.opengl.*;
 import com.jogamp.opengl.math.FloatUtil;
@@ -6,6 +6,7 @@ import com.jogamp.opengl.util.Animator;
 import com.jogamp.opengl.util.GLBuffers;
 import net.danielthompson.danray.scenes.AbstractScene;
 import net.danielthompson.danray.shapes.AbstractShape;
+import net.danielthompson.danray.ui.gl.common.AbstractGLCanvas;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
@@ -17,7 +18,7 @@ import static com.jogamp.opengl.GL.*;
 /**
  * Created by daniel on 3/4/14.
  */
-public class OpenGL3Canvas extends AbstractOpenGLCanvas {
+public class GL3Canvas extends AbstractGLCanvas {
 
    private GL3Shape _triangle = new GL3Shape();
 
@@ -35,7 +36,7 @@ public class OpenGL3Canvas extends AbstractOpenGLCanvas {
 
    private FloatBuffer _matBuffer = GLBuffers.newDirectFloatBuffer(16);
 
-   public OpenGL3Canvas(GLCapabilities caps, AbstractScene scene) {
+   public GL3Canvas(GLCapabilities caps, AbstractScene scene) {
       super(caps, scene);
 
       CameraState.Camera = Scene.Camera;
@@ -211,7 +212,7 @@ public class OpenGL3Canvas extends AbstractOpenGLCanvas {
       // bind a buffer object to an indexed buffer target
       gl.glBindBufferBase(
             gl.GL_UNIFORM_BUFFER, // target - uniform block storage
-            OpenGL3Semantic.Uniform.GLOBAL_MATRICES, // index of the binding point within target
+            GL3Semantic.Uniform.GLOBAL_MATRICES, // index of the binding point within target
             _vboNames.get(Buffer.GLOBAL_MATRICES) // name of the buffer object to bind to the target
       );
 

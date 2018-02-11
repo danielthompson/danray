@@ -1,23 +1,19 @@
-package net.danielthompson.danray.ui.opengl;
+package net.danielthompson.danray.ui.gl.common;
 
-import net.danielthompson.danray.TraceManager;
 import net.danielthompson.danray.structures.Vector;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Created by daniel on 3/8/16.
  */
-public class OpenGLKeyListener implements KeyListener {
+public class GLKeyListener implements KeyListener {
 
-   private final OpenGLCameraState _cameraState;
+   private final GLCameraState _cameraState;
 
 
-   public OpenGLKeyListener(OpenGLCameraState cameraState) {
+   public GLKeyListener(GLCameraState cameraState) {
 
       _cameraState = cameraState;
    }

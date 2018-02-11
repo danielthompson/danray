@@ -1,4 +1,4 @@
-package net.danielthompson.danray.ui.opengl;
+package net.danielthompson.danray.ui.gl.common;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -7,9 +7,9 @@ import java.awt.event.MouseMotionListener;
 /**
  * Created by daniel on 3/8/16.
  */
-public class OpenGLMouseListener implements MouseListener, MouseMotionListener {
+public class GLMouseListener implements MouseListener, MouseMotionListener {
 
-   private final OpenGLCameraState _cameraState;
+   private final GLCameraState _cameraState;
 
    private int _prevX;
    private int _prevY;
@@ -19,7 +19,7 @@ public class OpenGLMouseListener implements MouseListener, MouseMotionListener {
 
    private float _sensitivity = 0.05f;
 
-   public OpenGLMouseListener(OpenGLCameraState cameraState) {
+   public GLMouseListener(GLCameraState cameraState) {
       _cameraState = cameraState;
    }
 

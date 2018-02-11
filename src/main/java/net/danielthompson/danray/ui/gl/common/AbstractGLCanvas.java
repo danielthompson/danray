@@ -1,4 +1,4 @@
-package net.danielthompson.danray.ui.opengl;
+package net.danielthompson.danray.ui.gl.common;
 
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GLCapabilities;
@@ -8,13 +8,12 @@ import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.Animator;
 import com.jogamp.opengl.util.gl2.GLUT;
 import net.danielthompson.danray.acceleration.KDNode;
-import net.danielthompson.danray.cameras.Camera;
 import net.danielthompson.danray.scenes.AbstractScene;
 import net.danielthompson.danray.shapes.AbstractShape;
 
 import static com.jogamp.opengl.GL.*;
 
-public abstract class AbstractOpenGLCanvas extends GLCanvas  implements GLEventListener {
+public abstract class AbstractGLCanvas extends GLCanvas  implements GLEventListener {
 
    public static Animator Animator;
    protected static float OneOver255 = 1 / 255.0f;
@@ -22,24 +21,24 @@ public abstract class AbstractOpenGLCanvas extends GLCanvas  implements GLEventL
    public KDNode SelectedNode;
    protected GLU GLU;
    protected GLUT GLUT;
-   protected OpenGLKeyListener KeyListener;
-   protected OpenGLMouseListener MouseListener;
-   protected OpenGLCameraState CameraState;
+   protected GLKeyListener KeyListener;
+   protected GLMouseListener MouseListener;
+   protected GLCameraState CameraState;
 
-   public AbstractOpenGLCanvas(GLCapabilities caps, AbstractScene scene) {
+   public AbstractGLCanvas(GLCapabilities caps, AbstractScene scene) {
       super(caps);
 
       addGLEventListener(this);
 
-      CameraState = new OpenGLCameraState();
+      CameraState = new GLCameraState();
       CameraState.Camera = scene.Camera;
 
-      MouseListener = new OpenGLMouseListener(CameraState);
+      MouseListener = new GLMouseListener(CameraState);
       Scene = scene;
       GLU = new GLU();
       GLUT = new GLUT();
-      CameraState = new OpenGLCameraState();
-      KeyListener = new OpenGLKeyListener(CameraState);
+      CameraState = new GLCameraState();
+      KeyListener = new GLKeyListener(CameraState);
    }
 
    public void SetNode(KDNode node) {

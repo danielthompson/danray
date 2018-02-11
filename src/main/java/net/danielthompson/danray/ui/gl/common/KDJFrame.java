@@ -1,7 +1,8 @@
-package net.danielthompson.danray.ui.opengl;
+package net.danielthompson.danray.ui.gl.common;
 
 import net.danielthompson.danray.acceleration.KDNode;
 import net.danielthompson.danray.acceleration.KDScene;
+import net.danielthompson.danray.ui.gl.common.AbstractGLCanvas;
 
 import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
@@ -13,11 +14,11 @@ import javax.swing.tree.DefaultMutableTreeNode;
  */
 public class KDJFrame extends JFrame implements TreeSelectionListener {
    private final KDScene _scene;
-   private AbstractOpenGLCanvas _canvas;
+   private AbstractGLCanvas _canvas;
 
    private final JTree _tree;
 
-   public KDJFrame(KDScene scene, AbstractOpenGLCanvas canvas) {
+   public KDJFrame(KDScene scene, AbstractGLCanvas canvas) {
       super("kd-Tree Nodes");
       _scene = scene;
       _canvas = canvas;

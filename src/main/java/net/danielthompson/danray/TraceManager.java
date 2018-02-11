@@ -9,8 +9,6 @@ import net.danielthompson.danray.runners.PixelRunner;
 import net.danielthompson.danray.runners.TileRunner;
 import net.danielthompson.danray.films.AbstractFilm;
 import net.danielthompson.danray.samplers.AbstractSampler;
-import net.danielthompson.danray.samplers.CenterSampler;
-import net.danielthompson.danray.samplers.GridSampler;
 import net.danielthompson.danray.samplers.RandomSampler;
 import net.danielthompson.danray.shading.fullspectrum.FullSpectralBlender;
 import net.danielthompson.danray.shading.fullspectrum.FullSpectralPowerDistribution;
@@ -19,8 +17,8 @@ import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.scenes.AbstractScene;
 import net.danielthompson.danray.structures.Vector;
 import net.danielthompson.danray.ui.*;
-import net.danielthompson.danray.ui.opengl.KDJFrame;
-import net.danielthompson.danray.ui.opengl.OpenGLFrame;
+import net.danielthompson.danray.ui.gl.common.KDJFrame;
+import net.danielthompson.danray.ui.gl.common.GLFrame;
 import net.danielthompson.danray.utility.IOHelper;
 
 import javax.swing.*;
@@ -61,7 +59,7 @@ public class TraceManager {
    private Graphics _heatGraphics;
    private Frame _heatFrame;
 
-   private OpenGLFrame _glFrame;
+   private GLFrame _glFrame;
 /*
    private Graphics _infoGraphics;
    private InfoFrame _infoFrame;
@@ -214,7 +212,7 @@ public class TraceManager {
          // gl window
 
          if (_glFrame == null) {
-            _glFrame = new OpenGLFrame(_scene);
+            _glFrame = new GLFrame(_scene);
 
             Dimension canvasSize = new Dimension(new Dimension(_qualityPreset.getX(), _qualityPreset.getY() + 22));
 

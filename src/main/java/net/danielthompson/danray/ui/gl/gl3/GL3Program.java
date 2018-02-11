@@ -1,17 +1,17 @@
-package net.danielthompson.danray.ui.opengl;
+package net.danielthompson.danray.ui.gl.gl3;
 
 import com.jogamp.opengl.GL2ES2;
 import com.jogamp.opengl.GL3;
 import com.jogamp.opengl.util.glsl.ShaderCode;
 import com.jogamp.opengl.util.glsl.ShaderProgram;
 
-public class Program {
+public class GL3Program {
 
    public int name, modelToWorldMatUL;
 
    // "shaders/gl3", "hello-triangle", "hello-triangle");
 
-   public Program(GL3 gl, String vertex, String fragment) {
+   public GL3Program(GL3 gl, String vertex, String fragment) {
 
       ShaderCode vertShader = ShaderCode.create(
          gl, // GL2ES2
@@ -54,6 +54,6 @@ public class Program {
       if (globalMatricesBI == -1) {
          System.err.println("block index 'GlobalMatrices' not found!");
       }
-      gl.glUniformBlockBinding(name, globalMatricesBI, OpenGL3Semantic.Uniform.GLOBAL_MATRICES);
+      gl.glUniformBlockBinding(name, globalMatricesBI, GL3Semantic.Uniform.GLOBAL_MATRICES);
    }
 }

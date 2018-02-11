@@ -1,7 +1,6 @@
-package net.danielthompson.danray.ui.opengl;
+package net.danielthompson.danray.ui.gl.gl3;
 
 import com.jogamp.opengl.GL3;
-import com.jogamp.opengl.math.FloatUtil;
 import com.jogamp.opengl.util.GLBuffers;
 import net.danielthompson.danray.structures.Transform;
 
@@ -27,7 +26,7 @@ public class GL3Shape {
 
    private FloatBuffer _matBuffer = GLBuffers.newDirectFloatBuffer(16);
 
-   public Program Program;
+   public GL3Program Program;
 
    public float[] VertexPositions;
 
@@ -126,11 +125,11 @@ public class GL3Shape {
             int offset = 0;
 
             // enable or disable a generic vertex attribute array for currently bound VAO
-            gl.glEnableVertexAttribArray(OpenGL3Semantic.Attr.POSITION);
+            gl.glEnableVertexAttribArray(GL3Semantic.Attr.POSITION);
 
             // define an array of generic vertex attribute data
             gl.glVertexAttribPointer(
-                  OpenGL3Semantic.Attr.POSITION, // index of the generic vertex attribute to be modified
+                  GL3Semantic.Attr.POSITION, // index of the generic vertex attribute to be modified
                   3, // number of components per generic vertex attribute
                   GL_FLOAT, // data type of each component in the array
                   false, // specifies whether fixed-point data values should be normalized
@@ -146,11 +145,11 @@ public class GL3Shape {
             int offset = 0;
 
             // enable or disable a generic vertex attribute array for the currently bound VAO
-            gl.glEnableVertexAttribArray(OpenGL3Semantic.Attr.COLOR);
+            gl.glEnableVertexAttribArray(GL3Semantic.Attr.COLOR);
 
             // define an array of generic vertex attribute data
             gl.glVertexAttribPointer(
-                  OpenGL3Semantic.Attr.COLOR, // index of the generic vertex attribute to be modified
+                  GL3Semantic.Attr.COLOR, // index of the generic vertex attribute to be modified
                   3, // number of components per generic vertex attribute
                   GL_FLOAT,  // data type of each component in the array
                   false,  // specifies whether fixed-point data values should be normalized
@@ -170,7 +169,7 @@ public class GL3Shape {
    }
 
    public void initProgram(GL3 gl) {
-      Program = new Program(gl, "hello-triangle", "hello-triangle");
+      Program = new GL3Program(gl, "hello-triangle", "hello-triangle");
    }
 
    public void display(GL3 gl) {
