@@ -67,11 +67,7 @@ public class GL3Canvas extends AbstractGLCanvas {
             0, 1, 0*/
       };
 
-
-
       _triangle.VertexIndices = new short[] {0, 1, 2, 2, 1, 3};
-
-
 
       for (AbstractShape shape : scene.Shapes) {
          GL3Shape sphere = new GL3Shape();
@@ -101,8 +97,6 @@ public class GL3Canvas extends AbstractGLCanvas {
          }
 
          sphere.VertexColors = new float[sphere.VertexPositions.length];
-
-
 
          for (short i = 0; i < sphere.VertexPositions.length; i += 3) {
 //         _sphere.VertexIndices[i] = i;
@@ -359,6 +353,9 @@ public class GL3Canvas extends AbstractGLCanvas {
 
       // view matrix (camera)
       {
+         if (CameraState.ActiveOriginMovement != null) {
+            Scene.Camera.moveOriginAlongOrientation(CameraState.ActiveOriginMovement);
+         }
 
          double[] colMajor = Scene.Camera.cameraToWorld._inverse.getColMajor();
 

@@ -9,9 +9,8 @@ import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 
 import static com.jogamp.opengl.GL.*;
-import static com.jogamp.opengl.GL.GL_FLOAT;
 
-public class GL3Shape {
+public class GL3InstancedShape {
 
    public interface Buffer {
 

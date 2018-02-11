@@ -1,5 +1,6 @@
 package net.danielthompson.danray.ui.gl.common;
 
+import net.danielthompson.danray.cameras.Camera;
 import net.danielthompson.danray.structures.Vector;
 
 import java.awt.event.KeyEvent;
@@ -11,7 +12,6 @@ import java.awt.event.KeyListener;
 public class GLKeyListener implements KeyListener {
 
    private final GLCameraState _cameraState;
-
 
    public GLKeyListener(GLCameraState cameraState) {
 
@@ -37,19 +37,23 @@ public class GLKeyListener implements KeyListener {
 
       switch (keyCode) {
          case KeyEvent.VK_W: {
-            _cameraState.Camera.moveOriginAlongOrientation(new Vector(0f, 0f, -10f));
+            _cameraState.ActiveOriginMovement = new Vector(0f, 0f, -10f);
+            //_cameraState.Camera.moveOriginAlongOrientation(new Vector(0f, 0f, -10f));
             break;
          }
          case KeyEvent.VK_S: {
-            _cameraState.Camera.moveOriginAlongOrientation(new Vector(0f, 0f, 10f));
+            _cameraState.ActiveOriginMovement = new Vector(0f, 0f, 10f);
+            //_cameraState.Camera.moveOriginAlongOrientation(new Vector(0f, 0f, 10f));
             break;
          }
          case KeyEvent.VK_A: {
-            _cameraState.Camera.moveOriginAlongOrientation(new Vector(-10f, 0f, 0f));
+            _cameraState.ActiveOriginMovement = new Vector(-10f, 0f, 0f);
+            //_cameraState.Camera.moveOriginAlongOrientation(new Vector(-10f, 0f, 0f));
             break;
          }
          case KeyEvent.VK_D: {
-            _cameraState.Camera.moveOriginAlongOrientation(new Vector(10f, 0f, 0f));
+            _cameraState.ActiveOriginMovement = new Vector(10f, 0f, 00f);
+            //_cameraState.Camera.moveOriginAlongOrientation(new Vector(10f, 0f, 0f));
             break;
          }
 
@@ -59,6 +63,6 @@ public class GLKeyListener implements KeyListener {
 
    @Override
    public void keyReleased(KeyEvent e) {
-
+      _cameraState.ActiveOriginMovement = null;
    }
 }
