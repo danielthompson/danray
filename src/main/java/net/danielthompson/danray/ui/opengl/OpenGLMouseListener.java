@@ -20,7 +20,6 @@ public class OpenGLMouseListener implements MouseListener, MouseMotionListener {
    private float _sensitivity = 0.05f;
 
    public OpenGLMouseListener(OpenGLCameraState cameraState) {
-
       _cameraState = cameraState;
    }
 
@@ -37,6 +36,7 @@ public class OpenGLMouseListener implements MouseListener, MouseMotionListener {
    @Override
    public void mouseReleased(MouseEvent mouseEvent) {
       _pressed = false;
+      _prevPressed = false;
    }
 
    @Override
@@ -56,50 +56,12 @@ public class OpenGLMouseListener implements MouseListener, MouseMotionListener {
       _prevX = x;
       _prevY = y;
       _prevPressed = _pressed;
-
-
    }
 
    @Override
    public void mouseMoved(MouseEvent mouseEvent) {
 
-
-//      if (CameraState.hasFocus) {
-//         if (_first) {
-//            _first = false;
-//
-//         } else {
-//            // mouse x - rotate about y axis
-//
-//            float xDiff = (mouseEvent.getX() - CameraState.PrevMouseX) / 5.0f;
-//            CameraState._yRotation += xDiff;
-//            if (CameraState._yRotation >= 360)
-//               CameraState._yRotation %= 360;
-//
-//            while (CameraState._yRotation < 0) {
-//               CameraState._yRotation += 360;
-//            }
-//
-//            // mouse y - rotate about x axis
-//
-//            float yDiff = (mouseEvent.getY() - CameraState.PrevMouseY) / 5.0f;
-//            CameraState._xRotation += yDiff;
-//
-//            if (CameraState._xRotation >= 360)
-//               CameraState._xRotation %= 360;
-//
-//            while (CameraState._xRotation < 0) {
-//               CameraState._xRotation += 360;
-//            }
-//         }
-//         resetMousePosition(mouseEvent);
-         /*CameraState.PrevMouseX = mouseEvent.getX();
-         CameraState.PrevMouseY = mouseEvent.getY();*/
-//      }
-
    }
-
-
 
    @Override
    public void mouseEntered(MouseEvent mouseEvent) {
@@ -110,5 +72,4 @@ public class OpenGLMouseListener implements MouseListener, MouseMotionListener {
    public void mouseExited(MouseEvent mouseEvent) {
 
    }
-
 }
