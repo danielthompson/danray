@@ -13,4 +13,11 @@ public class GLCameraState {
    public Camera Camera;
 
    public Vector ActiveOriginMovement;
+
+   public Vector ActiveDirectionMovement;
+
+   public GLCameraState() {
+      ActiveOriginMovement = new Vector(0, 0, 0);
+      ActiveDirectionMovement = new Vector(0, 0, 0);
+   }
 }

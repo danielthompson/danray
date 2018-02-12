@@ -55,12 +55,10 @@ public abstract class Camera {
       cameraToWorld = cameraToWorld.Apply(t);
    }
 
-   /**
-    *
-    * @param x
-    * @param y
-    * @param z
-    */
+   public void moveDirectionAlongOrientation(Vector delta) {
+      moveDirectionAlongOrientation(delta.X, delta.Y, delta.Z);
+   }
+
    public void moveDirectionAlongOrientation(float x, float y, float z) {
 
       Transform[] inputTransforms = new Transform[3];

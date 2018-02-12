@@ -28,10 +28,15 @@ out vec3 interpolatedColor;
 
 void main() {
 
+    vec4 modelPosition = model * vec4(position, 1);
+
+    vec4 viewPosition = view * (modelPosition);
+
     // Normally gl_Position is in Clip Space and we calculate it by
     // multiplying together all the matrices
-    gl_Position = proj * (view * (model * vec4(position, 1)));
+    gl_Position = proj * viewPosition;
 
     // We assign the color to the outgoing variable.
+//    interpolatedColor = color;
     interpolatedColor = color;
 }

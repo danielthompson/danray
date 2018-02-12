@@ -236,7 +236,7 @@ public class GL3Canvas extends AbstractGLCanvas {
 
    private float[] getBallVertsOnly() {
 
-      int levels = 5;
+      int levels = 20;
       int stride = 6;
 
       float[] ballVerts = new float[(levels + 1) * (levels + 1) * stride];
@@ -353,9 +353,20 @@ public class GL3Canvas extends AbstractGLCanvas {
 
       // view matrix (camera)
       {
-         if (CameraState.ActiveOriginMovement != null) {
-            Scene.Camera.moveOriginAlongOrientation(CameraState.ActiveOriginMovement);
-         }
+         Scene.Camera.moveOriginAlongOrientation(CameraState.ActiveOriginMovement);
+         Scene.Camera.moveDirectionAlongOrientation(CameraState.ActiveDirectionMovement);
+
+         float originDecay = 0.9f;
+
+         CameraState.ActiveOriginMovement.X *= originDecay;
+         CameraState.ActiveOriginMovement.Y *= originDecay;
+         CameraState.ActiveOriginMovement.Z *= originDecay;
+
+         float directionDecay = 0.8f;
+
+         CameraState.ActiveDirectionMovement.X *= directionDecay;
+         CameraState.ActiveDirectionMovement.Y *= directionDecay;
+         CameraState.ActiveDirectionMovement.Z *= directionDecay;
 
          double[] colMajor = Scene.Camera.cameraToWorld._inverse.getColMajor();
 

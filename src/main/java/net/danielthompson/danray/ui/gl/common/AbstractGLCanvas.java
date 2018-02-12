@@ -37,7 +37,6 @@ public abstract class AbstractGLCanvas extends GLCanvas  implements GLEventListe
       Scene = scene;
       GLU = new GLU();
       GLUT = new GLUT();
-      CameraState = new GLCameraState();
       KeyListener = new GLKeyListener(CameraState);
    }
 

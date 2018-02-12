@@ -17,7 +17,7 @@ public class GLMouseListener implements MouseListener, MouseMotionListener {
 
    private boolean _pressed;
 
-   private float _sensitivity = 0.05f;
+   private float _sensitivity = .01f;
 
    public GLMouseListener(GLCameraState cameraState) {
       _cameraState = cameraState;
@@ -30,6 +30,7 @@ public class GLMouseListener implements MouseListener, MouseMotionListener {
 
    @Override
    public void mousePressed(MouseEvent mouseEvent) {
+
       _pressed = true;
    }
 
@@ -49,8 +50,9 @@ public class GLMouseListener implements MouseListener, MouseMotionListener {
          float xDiff = _sensitivity * (float)(x - _prevX);
          float yDiff = _sensitivity * (float)(y - _prevY);
 
-         _cameraState.Camera.moveDirectionAlongOrientation(0, xDiff, 0);
-         _cameraState.Camera.moveDirectionAlongOrientation(yDiff, 0, 0);
+         _cameraState.ActiveDirectionMovement.X += yDiff;
+         _cameraState.ActiveDirectionMovement.Y += xDiff;
+
       }
 
       _prevX = x;

@@ -35,34 +35,46 @@ public class GLKeyListener implements KeyListener {
          //_canvas.destroy();
       }
 
+      float x = 0.0f;
+      float y = 0.0f;
+      float z = 0.0f;
+
       switch (keyCode) {
          case KeyEvent.VK_W: {
-            _cameraState.ActiveOriginMovement = new Vector(0f, 0f, -10f);
+            z += -10f;
+            //_cameraState.ActiveOriginMovement = new Vector(0f, 0f, -10f);
             //_cameraState.Camera.moveOriginAlongOrientation(new Vector(0f, 0f, -10f));
             break;
          }
          case KeyEvent.VK_S: {
-            _cameraState.ActiveOriginMovement = new Vector(0f, 0f, 10f);
+            z += 10f;
+            //_cameraState.ActiveOriginMovement = new Vector(0f, 0f, 10f);
             //_cameraState.Camera.moveOriginAlongOrientation(new Vector(0f, 0f, 10f));
             break;
          }
          case KeyEvent.VK_A: {
-            _cameraState.ActiveOriginMovement = new Vector(-10f, 0f, 0f);
+            x += -10f;
+            //_cameraState.ActiveOriginMovement = new Vector(-10f, 0f, 0f);
             //_cameraState.Camera.moveOriginAlongOrientation(new Vector(-10f, 0f, 0f));
             break;
          }
          case KeyEvent.VK_D: {
-            _cameraState.ActiveOriginMovement = new Vector(10f, 0f, 00f);
+            x += 10f;
+            //_cameraState.ActiveOriginMovement = new Vector(10f, 0f, 00f);
             //_cameraState.Camera.moveOriginAlongOrientation(new Vector(10f, 0f, 0f));
             break;
          }
-
       }
+
+      _cameraState.ActiveOriginMovement.X += x;
+      _cameraState.ActiveOriginMovement.Y += y;
+      _cameraState.ActiveOriginMovement.Z += z;
+
 
    }
 
    @Override
    public void keyReleased(KeyEvent e) {
-      _cameraState.ActiveOriginMovement = null;
+      //_cameraState.ActiveOriginMovement = null;
    }
 }

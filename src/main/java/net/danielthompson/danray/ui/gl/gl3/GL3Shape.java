@@ -169,6 +169,7 @@ public class GL3Shape {
    }
 
    public void initProgram(GL3 gl) {
+
       Program = new GL3Program(gl, "hello-triangle", "hello-triangle");
    }
 
