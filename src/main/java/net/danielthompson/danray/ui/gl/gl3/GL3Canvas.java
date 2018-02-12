@@ -358,9 +358,14 @@ public class GL3Canvas extends AbstractGLCanvas {
 
          float originDecay = 0.9f;
 
-         CameraState.ActiveOriginMovement.X *= originDecay;
+         if (CameraState.DecayOriginX) {
+            CameraState.ActiveOriginMovement.X *= originDecay;
+         }
          CameraState.ActiveOriginMovement.Y *= originDecay;
-         CameraState.ActiveOriginMovement.Z *= originDecay;
+         if (CameraState.DecayOriginZ) {
+            CameraState.ActiveOriginMovement.Z *= originDecay;
+         }
+
 
          float directionDecay = 0.8f;
 
