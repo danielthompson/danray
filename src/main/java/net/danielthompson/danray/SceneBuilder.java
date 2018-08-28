@@ -1,6 +1,5 @@
 package net.danielthompson.danray;
 
-import com.sun.jdi.Mirror;
 import net.danielthompson.danray.acceleration.KDScene;
 import net.danielthompson.danray.acceleration.compactkd.KDCompactScene;
 import net.danielthompson.danray.cameras.*;
