@@ -20,7 +20,7 @@ public abstract class AbstractLight extends AbstractShape {
 
    /**
     * Returns a random point on the surface of the light, in world space.
-    * @return A random point on the surface of the light, in world space.
+    * @return A random poinRt on the surface of the light, in world space.
     */
    public abstract Point getRandomPointOnSurface();
 

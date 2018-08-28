@@ -41,10 +41,6 @@ public class GL3Canvas extends AbstractGLCanvas {
 
       CameraState.Camera = Scene.Camera;
 
-      addMouseListener(MouseListener);
-      addMouseMotionListener(MouseListener);
-      addKeyListener(KeyListener);
-
       Animator = new Animator(this);
 
       Animator.start();
@@ -349,23 +345,53 @@ public class GL3Canvas extends AbstractGLCanvas {
    @Override
    public void display(GLAutoDrawable drawable) {
 
+      System.out.println("display");
+
       GL3 gl = drawable.getGL().getGL3();
 
       // view matrix (camera)
       {
+         // move camera
+
          Scene.Camera.moveOriginAlongOrientation(CameraState.ActiveOriginMovement);
          Scene.Camera.moveDirectionAlongOrientation(CameraState.ActiveDirectionMovement);
 
          float originDecay = 0.9f;
 
-         if (CameraState.DecayOriginX) {
-            CameraState.ActiveOriginMovement.X *= originDecay;
+         // decay movement rates
+
+         CameraState.ActiveOriginMovement.X *= originDecay;
+
+         CameraState.ActiveOriginMovement.Z *= originDecay;
+
+         // calculate next camera movement position
+
+         if (CameraState.MoveForward) {
+            CameraState.ActiveOriginMovement.Z--;
+            if (CameraState.ActiveOriginMovement.Z < -10) {
+               CameraState.ActiveOriginMovement.Z = -10;
+            }
+
          }
-         CameraState.ActiveOriginMovement.Y *= originDecay;
-         if (CameraState.DecayOriginZ) {
-            CameraState.ActiveOriginMovement.Z *= originDecay;
+         if (CameraState.MoveBackward) {
+            CameraState.ActiveOriginMovement.Z++;
+            if (CameraState.ActiveOriginMovement.Z > 10) {
+               CameraState.ActiveOriginMovement.Z = 10;
+            }
          }
 
+         if (CameraState.MoveLeft) {
+            CameraState.ActiveOriginMovement.X--;
+            if (CameraState.ActiveOriginMovement.X < -10) {
+               CameraState.ActiveOriginMovement.X = -10;
+            }
+         }
+         if (CameraState.MoveRight) {
+            CameraState.ActiveOriginMovement.X++;
+            if (CameraState.ActiveOriginMovement.X > 10) {
+               CameraState.ActiveOriginMovement.X = 10;
+            }
+         }
 
          float directionDecay = 0.8f;
 

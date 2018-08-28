@@ -441,18 +441,6 @@ public class Transform {
 
       Transform worldToObject = new Transform(objectToWorld._inverse, objectToWorld._matrix);
 
-//      Transform worldToObject = objectToWorld.Invert();
-
-
-      // orig
-//      Transform worldToObject = new Transform();
-//
-//      for (int i = transforms.length - 1; i >= 0; i--) {
-//         worldToObject = worldToObject.Apply(transforms[i]);
-//      }
-//
-//      worldToObject = worldToObject.Invert();
-
       return new Transform[] {objectToWorld, worldToObject};
    }
 

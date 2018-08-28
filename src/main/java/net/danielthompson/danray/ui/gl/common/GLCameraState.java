@@ -13,8 +13,10 @@ public class GLCameraState {
    public Camera Camera;
 
    public Vector ActiveOriginMovement;
-   public boolean DecayOriginX = true;
-   public boolean DecayOriginZ = true;
+   public boolean MoveForward = false;
+   public boolean MoveBackward = false;
+   public boolean MoveLeft = false;
+   public boolean MoveRight = false;
 
 
    public Vector ActiveDirectionMovement;

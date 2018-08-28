@@ -51,6 +51,7 @@ public class Ray {
    }
 
    public Point GetPointAtT(float t) {
+
       return Point.Plus(Origin, Vector.Scale(Direction, t));
    }
 

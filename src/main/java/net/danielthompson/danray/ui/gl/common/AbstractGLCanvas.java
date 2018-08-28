@@ -11,6 +11,8 @@ import net.danielthompson.danray.acceleration.KDNode;
 import net.danielthompson.danray.scenes.AbstractScene;
 import net.danielthompson.danray.shapes.AbstractShape;
 
+import java.awt.*;
+
 import static com.jogamp.opengl.GL.*;
 
 public abstract class AbstractGLCanvas extends GLCanvas  implements GLEventListener {
@@ -34,10 +36,10 @@ public abstract class AbstractGLCanvas extends GLCanvas  implements GLEventListe
       CameraState.Camera = scene.Camera;
 
       MouseListener = new GLMouseListener(CameraState);
+      KeyListener = new GLKeyListener(CameraState);
       Scene = scene;
       GLU = new GLU();
       GLUT = new GLUT();
-      KeyListener = new GLKeyListener(CameraState);
    }
 
    public void SetNode(KDNode node) {
@@ -79,5 +81,11 @@ public abstract class AbstractGLCanvas extends GLCanvas  implements GLEventListe
          throw new Error();
       }
       return error == GL_NO_ERROR;
+   }
+
+   public void addListeners(Frame frame) {
+      this.addKeyListener(KeyListener);
+      this.addMouseListener(MouseListener);
+      this.addMouseMotionListener(MouseListener);
    }
 }

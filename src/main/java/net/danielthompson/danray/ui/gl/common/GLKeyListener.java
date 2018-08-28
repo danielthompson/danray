@@ -1,8 +1,5 @@
 package net.danielthompson.danray.ui.gl.common;
 
-import net.danielthompson.danray.cameras.Camera;
-import net.danielthompson.danray.structures.Vector;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -16,8 +13,8 @@ public class GLKeyListener implements KeyListener {
    public GLKeyListener(GLCameraState cameraState) {
 
       _cameraState = cameraState;
+      System.out.println("GLKeyListener()");
    }
-
 
    @Override
    public void keyTyped(KeyEvent e) {
@@ -27,46 +24,36 @@ public class GLKeyListener implements KeyListener {
    @Override
    public void keyPressed(KeyEvent e) {
 
+      System.out.println("keyPressed()");
+
       int keyCode = e.getKeyCode();
 
       if (keyCode == KeyEvent.VK_ESCAPE) {
          _cameraState.hasFocus = false;
-         // OpenGLCanvas.animator.stop();
-         //_canvas.destroy();
       }
-
-      float x = 0.0f;
-      float y = 0.0f;
-      float z = 0.0f;
 
       switch (keyCode) {
          case KeyEvent.VK_W: {
-            z += -10f;
-            _cameraState.DecayOriginZ = false;
+            _cameraState.MoveForward = true;
+            System.out.println("W pressed");
             break;
          }
          case KeyEvent.VK_S: {
-            z += 10f;
-            _cameraState.DecayOriginZ = false;
+            _cameraState.MoveBackward = true;
+            System.out.println("S pressed");
             break;
          }
          case KeyEvent.VK_A: {
-            x += -10f;
-            _cameraState.DecayOriginX = false;
+            _cameraState.MoveLeft = true;
+            System.out.println("A pressed");
             break;
          }
          case KeyEvent.VK_D: {
-            x += 10f;
-            _cameraState.DecayOriginX = false;
+            _cameraState.MoveRight = true;
+            System.out.println("D pressed");
             break;
          }
       }
-
-      _cameraState.ActiveOriginMovement.X += x;
-      _cameraState.ActiveOriginMovement.Y += y;
-      _cameraState.ActiveOriginMovement.Z += z;
-
-
    }
 
    @Override
@@ -75,19 +62,23 @@ public class GLKeyListener implements KeyListener {
 
       switch (keyCode) {
          case KeyEvent.VK_W: {
-            _cameraState.DecayOriginZ = true;
+            _cameraState.MoveForward = false;
+            System.out.println("W released");
             break;
          }
          case KeyEvent.VK_S: {
-            _cameraState.DecayOriginZ = true;
+            _cameraState.MoveBackward = false;
+            System.out.println("S released");
             break;
          }
          case KeyEvent.VK_A: {
-            _cameraState.DecayOriginX = true;
+            _cameraState.MoveLeft = false;
+            System.out.println("A released");
             break;
          }
          case KeyEvent.VK_D: {
-            _cameraState.DecayOriginX = true;
+            _cameraState.MoveRight = false;
+            System.out.println("D released");
             break;
          }
       }

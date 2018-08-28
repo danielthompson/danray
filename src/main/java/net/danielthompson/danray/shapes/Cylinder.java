@@ -22,6 +22,10 @@ public class Cylinder extends AbstractShape {
       RecalculateWorldBoundingBox();
    }
 
+   public Cylinder(Transform[] transforms, Material material) {
+      this(1.0f, 1.0f, transforms[1], transforms[0], material);
+   }
+
    @Override
    public void RecalculateWorldBoundingBox() {
       WorldBoundingBox = new BoundingBox(new Point(-Radius, 0, -Radius), new Point(Radius, Height, Radius));

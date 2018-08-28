@@ -9,6 +9,7 @@ import net.danielthompson.danray.runners.PixelRunner;
 import net.danielthompson.danray.runners.TileRunner;
 import net.danielthompson.danray.films.AbstractFilm;
 import net.danielthompson.danray.samplers.AbstractSampler;
+import net.danielthompson.danray.samplers.CenterSampler;
 import net.danielthompson.danray.samplers.RandomSampler;
 import net.danielthompson.danray.shading.fullspectrum.FullSpectralBlender;
 import net.danielthompson.danray.shading.fullspectrum.FullSpectralPowerDistribution;
@@ -19,6 +20,7 @@ import net.danielthompson.danray.structures.Vector;
 import net.danielthompson.danray.ui.*;
 import net.danielthompson.danray.ui.gl.common.KDJFrame;
 import net.danielthompson.danray.ui.gl.common.GLFrame;
+import net.danielthompson.danray.ui.lwjgl.GLRenderer;
 import net.danielthompson.danray.utility.IOHelper;
 
 import javax.swing.*;
@@ -114,8 +116,9 @@ public class TraceManager {
 //      _integrator = new IterativePathTraceIntegrator(_scene, renderQualityPreset.getMaxDepth());
 //      _integrator = new IterativeMISPathTraceIntegrator(_scene, renderQualityPreset.getMaxDepth());
       _integrator = new WhittedIntegrator(_scene, renderQualityPreset.getMaxDepth());
-      _sampler = new RandomSampler(renderQualityPreset.getSamplesPerPixel());
+      //_sampler = new RandomSampler(renderQualityPreset.getSamplesPerPixel());
 //      _sampler = new GridSampler(renderQualityPreset.getSamplesPerPixel());
+      _sampler = new RandomSampler(renderQualityPreset.getSamplesPerPixel());
       _timer = new Timer();
 
       long numPixels = renderQualityPreset.getX() * renderQualityPreset.getY();
@@ -209,17 +212,21 @@ public class TraceManager {
 
       if (_tracerOptions.showOpenGLWindow) {
 
-         // gl window
+         GLRenderer renderer = new GLRenderer(_scene);
 
-         if (_glFrame == null) {
-            _glFrame = new GLFrame(_scene);
-
-            Dimension canvasSize = new Dimension(new Dimension(_qualityPreset.getX(), _qualityPreset.getY() + 22));
-
-            _glFrame.setSize(canvasSize);
-            _glFrame.setBounds(10, 0, _qualityPreset.getX(), _qualityPreset.getY() + 22);
-            _glFrame.setVisible(true);
-         }
+         renderer.run();
+//
+//         // gl window
+//
+//         if (_glFrame == null) {
+//            _glFrame = new GLFrame(_scene);
+//
+//            Dimension canvasSize = new Dimension(new Dimension(_qualityPreset.getX(), _qualityPreset.getY() + 22));
+//
+//            _glFrame.setSize(canvasSize);
+//            _glFrame.setBounds(10, 0, _qualityPreset.getX(), _qualityPreset.getY() + 22);
+//            _glFrame.setVisible(true);
+//         }
 
          // kd window
          if (_tracerOptions.showKDWindow && _scene instanceof KDScene) {
@@ -411,7 +418,7 @@ public class TraceManager {
       }
       */
 
-      //_tracerOptions.numThreads = 1;
+//      _tracerOptions.numThreads = 1;
 
       if (_tracerOptions.numThreads <= 1) {
          runner.run();

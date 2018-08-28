@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <spd power="0.0" version="1">
-    <bucket power="0.014508721" wavelength="380"/>
-    <bucket power="0.015865283" wavelength="390"/>
-    <bucket power="0.024025127" wavelength="400"/>
-    <bucket power="0.026559912" wavelength="410"/>
-    <bucket power="0.02712481" wavelength="420"/>
-    <bucket power="0.025165316" wavelength="430"/>
-    <bucket power="0.030444058" wavelength="440"/>
-    <bucket power="0.033969373" wavelength="450"/>
-    <bucket power="0.034202788" wavelength="460"/>
-    <bucket power="0.033346064" wavelength="470"/>
-    <bucket power="0.03365438" wavelength="480"/>
-    <bucket power="0.031589646" wavelength="490"/>
-    <bucket power="0.03174729" wavelength="500"/>
-    <bucket power="0.031296715" wavelength="510"/>
-    <bucket power="0.030422283" wavelength="520"/>
-    <bucket power="0.03126391" wavelength="530"/>
-    <bucket power="0.030310512" wavelength="540"/>
-    <bucket power="0.030206287" wavelength="550"/>
-    <bucket power="0.029031668" wavelength="560"/>
-    <bucket power="0.027967423" wavelength="570"/>
-    <bucket power="0.027808852" wavelength="580"/>
-    <bucket power="0.025746908" wavelength="590"/>
-    <bucket power="0.0261303" wavelength="600"/>
-    <bucket power="0.026012111" wavelength="610"/>
-    <bucket power="0.025460394" wavelength="620"/>
-    <bucket power="0.02418007" wavelength="630"/>
-    <bucket power="0.024299273" wavelength="640"/>
-    <bucket power="0.023233114" wavelength="650"/>
-    <bucket power="0.023287635" wavelength="660"/>
-    <bucket power="0.023886617" wavelength="670"/>
-    <bucket power="0.022727208" wavelength="680"/>
-    <bucket power="0.020241255" wavelength="690"/>
-    <bucket power="0.020789316" wavelength="700"/>
-    <bucket power="0.021584755" wavelength="710"/>
-    <bucket power="0.017884668" wavelength="720"/>
-    <bucket power="0.020288955" wavelength="730"/>
-    <bucket power="0.021799007" wavelength="740"/>
-    <bucket power="0.01846202" wavelength="750"/>
-    <bucket power="0.013475977" wavelength="760"/>
+<bucket power="0.014508721" wavelength="380"/>
+<bucket power="0.015865283" wavelength="390"/>
+<bucket power="0.024025127" wavelength="400"/>
+<bucket power="0.026559912" wavelength="410"/>
+<bucket power="0.02712481" wavelength="420"/>
+<bucket power="0.025165316" wavelength="430"/>
+<bucket power="0.030444058" wavelength="440"/>
+<bucket power="0.033969373" wavelength="450"/>
+<bucket power="0.034202788" wavelength="460"/>
+<bucket power="0.033346064" wavelength="470"/>
+<bucket power="0.03365438" wavelength="480"/>
+<bucket power="0.031589646" wavelength="490"/>
+<bucket power="0.03174729" wavelength="500"/>
+<bucket power="0.031296715" wavelength="510"/>
+<bucket power="0.030422283" wavelength="520"/>
+<bucket power="0.03126391" wavelength="530"/>
+<bucket power="0.030310512" wavelength="540"/>
+<bucket power="0.030206287" wavelength="550"/>
+<bucket power="0.029031668" wavelength="560"/>
+<bucket power="0.027967423" wavelength="570"/>
+<bucket power="0.027808852" wavelength="580"/>
+<bucket power="0.025746908" wavelength="590"/>
+<bucket power="0.0261303" wavelength="600"/>
+<bucket power="0.026012111" wavelength="610"/>
+<bucket power="0.025460394" wavelength="620"/>
+<bucket power="0.02418007" wavelength="630"/>
+<bucket power="0.024299273" wavelength="640"/>
+<bucket power="0.023233114" wavelength="650"/>
+<bucket power="0.023287635" wavelength="660"/>
+<bucket power="0.023886617" wavelength="670"/>
+<bucket power="0.022727208" wavelength="680"/>
+<bucket power="0.020241255" wavelength="690"/>
+<bucket power="0.020789316" wavelength="700"/>
+<bucket power="0.021584755" wavelength="710"/>
+<bucket power="0.017884668" wavelength="720"/>
+<bucket power="0.020288955" wavelength="730"/>
+<bucket power="0.021799007" wavelength="740"/>
+<bucket power="0.01846202" wavelength="750"/>
+<bucket power="0.013475977" wavelength="760"/>
 </spd>

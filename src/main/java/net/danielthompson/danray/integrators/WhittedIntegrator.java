@@ -34,9 +34,9 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
       Sample sample = new Sample();
 
-//      if (x == 102 && y == 285) {
-//         int i = 0;
-//      }
+      if (x == 180 && y == 230) {
+         int i = 0;
+      }
 
       IntersectionState closestStateToRay = scene.getNearestShape(ray, x, y);
 
