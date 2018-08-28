@@ -358,11 +358,11 @@ public class SceneBuilder {
 
       material = new Material();
       material.BRDF = new GlossyBRDF(0.85f);
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(Solarized.cyan);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Solarized.blue);
 
       inputTransforms = new Transform[2];
-      inputTransforms[0] = Transform.Translate(new Vector(100.0f, 0.0f, -200f));
-      inputTransforms[1] = Transform.Scale(50f);
+      inputTransforms[0] = Transform.Translate(new Vector(100.0f, -25.0f, -200f));
+      inputTransforms[1] = Transform.Scale(25f);
 
       compositeTransforms = Transform.composite(inputTransforms);
 
@@ -386,19 +386,38 @@ public class SceneBuilder {
 
       // other box
 
-      material = new Material();
-      material.BRDF = new GlossyBRDF(0.98f);
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Yellow);
+      for (int i = 0; i < 4; i++) {
+         material = new Material();
+         material.BRDF = new GlossyBRDF(0.99f);
 
-      inputTransforms = new Transform[] {
-            Transform.Translate(new Vector(0, -50f, -200f)),
-            Transform.RotateY(20f),
-            Transform.Scale(10f, 20f, 10f),
-            Transform.Translate(new Vector(-0.5f, 0, -0.5f))
-      };
-      compositeTransforms = Transform.composite(inputTransforms);
+         switch (i) {
+            case 0:
+               material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Yellow);
+               break;
+            case 1:
+               material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Red);
+               break;
+            case 2:
+               material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Green);
+               break;
+            case 3:
+               material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Orange);
+               break;
+         }
 
-      scene.addShape(new Box(compositeTransforms, material));
+
+         inputTransforms = new Transform[] {
+               Transform.Translate(new Vector(-45 + (i * 30), -50f, -125f)),
+               Transform.RotateY(30f + (i * 20)),
+               Transform.Scale(10f, 10f + (i * 4), 10f),
+               Transform.Translate(new Vector(-0.5f, 0, -0.5f))
+         };
+         compositeTransforms = Transform.composite(inputTransforms);
+
+         scene.addShape(new Box(compositeTransforms, material));
+      }
+
+
 
 //      // cylinder
 //
@@ -441,9 +460,10 @@ public class SceneBuilder {
 
       SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(Color.white, 1000.0f);
 
-      inputTransforms = new Transform[2];
-      inputTransforms[0] = Transform.Translate(new Vector(0, 0, -250));
-      inputTransforms[1] = Transform.Scale(25);
+      inputTransforms = new Transform[] {
+            Transform.Translate(new Vector(0, 0, -250)),
+            Transform.Scale(25)
+      };
 
       compositeTransforms = Transform.composite(inputTransforms);
 
