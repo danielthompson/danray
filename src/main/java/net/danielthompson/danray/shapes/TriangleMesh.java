@@ -3,7 +3,7 @@ package net.danielthompson.danray.shapes;
 import net.danielthompson.danray.acceleration.BoundingEdge;
 import net.danielthompson.danray.acceleration.KDAxis;
 import net.danielthompson.danray.shading.Material;
-import net.danielthompson.danray.states.IntersectionState;
+import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
 
 
@@ -98,14 +98,14 @@ public class TriangleMesh extends AbstractShape {
    }
 
    @Override
-   public IntersectionState getHitInfo(Ray ray) {
+   public Intersection getHitInfo(Ray ray) {
 
-      IntersectionState closestStateToRay = new IntersectionState();
+      Intersection closestStateToRay = new Intersection();
       closestStateToRay.Hits = false;
       closestStateToRay.TMin = Float.MAX_VALUE;
 
       for (List<Point> face : _faces) {
-         IntersectionState state = Triangle.GetHitInfo(this, ray, face.get(0), face.get(1), face.get(2));
+         Intersection state = Triangle.GetHitInfo(this, ray, face.get(0), face.get(1), face.get(2));
 
          if (state.Hits && state.TMin < closestStateToRay.TMin) {
             closestStateToRay = state;
@@ -122,7 +122,7 @@ public class TriangleMesh extends AbstractShape {
    }
 
    /*
-   public Ray GetNormal(IntersectionState state) {
+   public Ray GetNormal(Intersection state) {
       return new Ray(state.Face.get(0), state.Face.get(0).Cross(state.Face.get(1)));
    }
    */

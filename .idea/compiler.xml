@@ -25,6 +25,8 @@
         <module name="DanRay" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="10" />
+    <bytecodeTargetLevel target="11">
+      <module name="DanRay" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>

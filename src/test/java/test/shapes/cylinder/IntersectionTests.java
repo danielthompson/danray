@@ -2,7 +2,7 @@ package test.shapes.cylinder;
 
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.shapes.Cylinder;
-import net.danielthompson.danray.states.IntersectionState;
+import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.structures.Point;
 import org.testng.Assert;
@@ -28,7 +28,7 @@ public class IntersectionTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = cylinder.getHitInfo(ray);
+      Intersection state = cylinder.getHitInfo(ray);
 
       Assert.assertFalse(state.Hits, "Shouldn't hit");
    }
@@ -47,14 +47,14 @@ public class IntersectionTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = cylinder.getHitInfo(ray);
+      Intersection state = cylinder.getHitInfo(ray);
 
       Point expectedIntersectionPoint = new Point(0, 1, 0);
       Normal expectedNormalDirection = new Normal(0, 1, 0);
 
       Assert.assertTrue(state.Hits, "Should hit");
 
-      AssertHelper.assertEquals(state.IntersectionPoint, expectedIntersectionPoint);
+      AssertHelper.assertEquals(state.Location, expectedIntersectionPoint);
       AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 
@@ -72,14 +72,14 @@ public class IntersectionTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = cylinder.getHitInfo(ray);
+      Intersection state = cylinder.getHitInfo(ray);
 
       Point expectedIntersectionPoint = new Point(0, 0, 0);
       Normal expectedNormalDirection = new Normal(0, -1, 0);
 
       Assert.assertTrue(state.Hits, "Should hit");
 
-      AssertHelper.assertEquals(state.IntersectionPoint, expectedIntersectionPoint);
+      AssertHelper.assertEquals(state.Location, expectedIntersectionPoint);
       AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 
@@ -97,14 +97,14 @@ public class IntersectionTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = cylinder.getHitInfo(ray);
+      Intersection state = cylinder.getHitInfo(ray);
 
       Point expectedIntersectionPoint = new Point(0, 0, 0);
       Normal expectedNormalDirection = new Normal(0, -1, 0);
 
       Assert.assertTrue(state.Hits, "Should hit");
 
-      AssertHelper.assertEquals(state.IntersectionPoint, expectedIntersectionPoint);
+      AssertHelper.assertEquals(state.Location, expectedIntersectionPoint);
       AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 
@@ -122,14 +122,14 @@ public class IntersectionTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = cylinder.getHitInfo(ray);
+      Intersection state = cylinder.getHitInfo(ray);
 
       Point expectedIntersectionPoint = new Point(0, 1, 0);
       Normal expectedNormalDirection = new Normal(0, 1, 0);
 
       Assert.assertTrue(state.Hits, "Should hit");
 
-      AssertHelper.assertEquals(state.IntersectionPoint, expectedIntersectionPoint);
+      AssertHelper.assertEquals(state.Location, expectedIntersectionPoint);
       AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 
@@ -147,7 +147,7 @@ public class IntersectionTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = cylinder.getHitInfo(ray);
+      Intersection state = cylinder.getHitInfo(ray);
 
       Assert.assertFalse(state.Hits, "Shouldn't hit");
    }
@@ -166,14 +166,14 @@ public class IntersectionTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = cylinder.getHitInfo(ray);
+      Intersection state = cylinder.getHitInfo(ray);
 
       Point expectedIntersectionPoint = new Point(0, .5f, -1);
       Normal expectedNormalDirection = new Normal(0, 0, -1);
 
       Assert.assertTrue(state.Hits, "Should hit");
 
-      AssertHelper.assertEquals(state.IntersectionPoint, expectedIntersectionPoint);
+      AssertHelper.assertEquals(state.Location, expectedIntersectionPoint);
       AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 
@@ -191,14 +191,14 @@ public class IntersectionTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = cylinder.getHitInfo(ray);
+      Intersection state = cylinder.getHitInfo(ray);
 
       Point expectedIntersectionPoint = new Point(1, .5f, 0);
       Normal expectedNormalDirection = new Normal(1, 0, 0);
 
       Assert.assertTrue(state.Hits, "Should hit");
 
-      AssertHelper.assertEquals(state.IntersectionPoint, expectedIntersectionPoint);
+      AssertHelper.assertEquals(state.Location, expectedIntersectionPoint);
       AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 
@@ -216,14 +216,14 @@ public class IntersectionTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = cylinder.getHitInfo(ray);
+      Intersection state = cylinder.getHitInfo(ray);
 
       Point expectedIntersectionPoint = new Point(1, .5f, 0);
       Normal expectedNormalDirection = new Normal(1, 0, 0);
 
       Assert.assertTrue(state.Hits, "Should hit");
 
-      AssertHelper.assertEquals(state.IntersectionPoint, expectedIntersectionPoint);
+      AssertHelper.assertEquals(state.Location, expectedIntersectionPoint);
       AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 
@@ -241,14 +241,14 @@ public class IntersectionTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = cylinder.getHitInfo(ray);
+      Intersection state = cylinder.getHitInfo(ray);
 
       Point expectedIntersectionPoint = new Point(0, 1, 0);
       Normal expectedNormalDirection = new Normal(0, 1, 0);
 
       Assert.assertTrue(state.Hits, "Should hit");
 
-      AssertHelper.assertEquals(state.IntersectionPoint, expectedIntersectionPoint);
+      AssertHelper.assertEquals(state.Location, expectedIntersectionPoint);
       AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 
@@ -267,14 +267,14 @@ public class IntersectionTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = cylinder.getHitInfo(ray);
+      Intersection state = cylinder.getHitInfo(ray);
 
       Point expectedIntersectionPoint = new Point(0, 0, 0);
       Normal expectedNormalDirection = new Normal(0, -1, 0);
 
       Assert.assertTrue(state.Hits, "Should hit");
 
-      AssertHelper.assertEquals(state.IntersectionPoint, expectedIntersectionPoint);
+      AssertHelper.assertEquals(state.Location, expectedIntersectionPoint);
       AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 

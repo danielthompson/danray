@@ -6,21 +6,21 @@ package net.danielthompson.danray.states;
 public class MemoryManager {
    public static final int NumInstances = 1024;
 
-   public static final IntersectionState[] Stack = new IntersectionState[NumInstances];
+   public static final Intersection[] Stack = new Intersection[NumInstances];
 
    public static int AvailablePointer;
 
    public MemoryManager() {
       for (int i = 0; i < NumInstances; i++) {
-         Stack[i] = new IntersectionState();
+         Stack[i] = new Intersection();
       }
    }
 
-   public static IntersectionState Get() {
+   public static Intersection Get() {
       return Stack[AvailablePointer++];
    }
 
-   public static void Clean(IntersectionState state) {
+   public static void Clean(Intersection state) {
       state.Face = null;
       state.Hits = false;
 

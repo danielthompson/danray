@@ -1,5 +1,8 @@
 package net.danielthompson.danray.samplers;
 
+import net.danielthompson.danray.utility.GeometryCalculations;
+
+import java.security.SecureRandom;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -17,8 +20,8 @@ public class RandomSampler extends AbstractSampler {
       float[][] pixels = new float[n][2];
 
       for (int i = 0; i < n; i++) {
-         pixels[i][0] = x + ThreadLocalRandom.current().nextFloat();
-         pixels[i][1] = y + ThreadLocalRandom.current().nextFloat();
+         pixels[i][0] = (float) (x + GeometryCalculations.splitRandom.get().nextDouble());
+         pixels[i][1] = (float) (y + GeometryCalculations.splitRandom.get().nextDouble());
       }
 
       return pixels;

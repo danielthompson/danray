@@ -1,6 +1,6 @@
 package test.shapes.sphere;
 
-import net.danielthompson.danray.states.IntersectionState;
+import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.Constants;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.shapes.Sphere;
@@ -39,7 +39,7 @@ public class IntersectTests {
 
       boolean hits = sphere.hits(ray);
 
-      Point actualIntersection = sphere.getHitInfo(ray).IntersectionPoint;
+      Point actualIntersection = sphere.getHitInfo(ray).Location;
       Point expectedIntersection = new Point(-1, 0, 0);
 
       AssertHelper.assertEquals(actualIntersection, expectedIntersection);
@@ -56,9 +56,9 @@ public class IntersectTests {
 
       boolean hits = sphere.hits(ray);
 
-      IntersectionState actualIntersectionState = sphere.getHitInfo(ray);
+      Intersection actualIntersectionState = sphere.getHitInfo(ray);
 
-      Point actualIntersection = actualIntersectionState.IntersectionPoint;
+      Point actualIntersection = actualIntersectionState.Location;
       Point expectedIntersection = new Point(10, 0, 0);
 
       Assert.assertTrue(actualIntersectionState.Hits, "ray from inside sphere should hit sphere");

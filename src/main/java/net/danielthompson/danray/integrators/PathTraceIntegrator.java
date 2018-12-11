@@ -6,7 +6,7 @@ import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.shading.ReflectanceSpectrum;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.shapes.AbstractShape;
-import net.danielthompson.danray.states.IntersectionState;
+import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
 
 
@@ -22,39 +22,23 @@ public class PathTraceIntegrator extends AbstractIntegrator {
    public Sample GetSample(Ray ray, int depth, int x, int y) {
 
       Sample sample = new Sample();
-      IntersectionState closestStateToRay = scene.getNearestShape(ray, x, y);
+      Intersection intersection = scene.getNearestShape(ray, x, y);
 
-      if (closestStateToRay == null || !closestStateToRay.Hits) {
+      if (intersection == null || !intersection.Hits) {
 
-         if (closestStateToRay != null) {
-            sample.KDHeatCount = closestStateToRay.KDHeatCount;
-            boolean xNan = Float.isNaN(closestStateToRay.IntersectionPoint.X);
-            boolean yNan = Float.isNaN(closestStateToRay.IntersectionPoint.Y);
-            boolean zNan = Float.isNaN(closestStateToRay.IntersectionPoint.Z);
-
-            if (xNan || yNan || zNan) {
-               IntersectionState closestStateToRay2 = scene.getNearestShape(ray, x, y);
-               depth++;
-               depth--;
-            }
+         if (intersection != null) {
+            sample.KDHeatCount = intersection.KDHeatCount;
 
          }
          sample.SpectralPowerDistribution = scene.getSkyBoxSPD(ray.Direction);
          return sample;
       }
 
-      boolean xNan = Float.isNaN(closestStateToRay.IntersectionPoint.X);
-      boolean yNan = Float.isNaN(closestStateToRay.IntersectionPoint.Y);
-      boolean zNan = Float.isNaN(closestStateToRay.IntersectionPoint.Z);
+      intersection.x = x;
+      intersection.y = y;
 
-      if (xNan || yNan || zNan) {
-         IntersectionState closestStateToRay2 = scene.getNearestShape(ray, x, y);
-         depth++;
-         depth--;
-      }
-
-      if (closestStateToRay.Shape instanceof AbstractLight) {
-         sample.SpectralPowerDistribution = ((AbstractLight) closestStateToRay.Shape).SpectralPowerDistribution;
+      if (intersection.Shape instanceof AbstractLight) {
+         sample.SpectralPowerDistribution = ((AbstractLight) intersection.Shape).SpectralPowerDistribution;
          return sample;
       }
 
@@ -64,27 +48,23 @@ public class PathTraceIntegrator extends AbstractIntegrator {
          return sample;
       }
       else {
-         AbstractShape closestShape = closestStateToRay.Shape;
-         if (closestShape == null) {
-            sample.SpectralPowerDistribution = new SpectralPowerDistribution();
-            return sample;
-         }
+
+         AbstractShape closestShape = intersection.Shape;
+//         if (closestShape == null) {
+//            sample.SpectralPowerDistribution = new SpectralPowerDistribution();
+//            return sample;
+//         }
          Material objectMaterial = closestShape.Material;
 
-         Normal intersectionNormal = closestStateToRay.Normal;
+         Normal intersectionNormal = intersection.Normal;
          Vector incomingDirection = ray.Direction;
-//
-//         if (x == 476 && y == 531) {
-//            int j = 0;
-//            Vector outgoingDirection = objectMaterial.BRDF.getVectorInPDF(intersectionNormal, incomingDirection);
-//         }
 
-         Vector outgoingDirection = objectMaterial.BRDF.getVectorInPDF(intersectionNormal, incomingDirection);
+         Vector outgoingDirection = objectMaterial.BRDF.getVectorInPDF(intersection, incomingDirection);
          float scalePercentage = objectMaterial.BRDF.f(incomingDirection, intersectionNormal, outgoingDirection);
 
-         Ray bounceRay = new Ray(closestStateToRay.IntersectionPoint, outgoingDirection);
+         Ray bounceRay = new Ray(intersection.Location, outgoingDirection);
 
-         bounceRay.OffsetOriginForward(Constants.HalfEpsilon);
+         bounceRay.OffsetOriginForward(Constants.DoubleEpsilon);
 
          Sample incomingSample = GetSample(bounceRay, depth + 1, x, y);
 

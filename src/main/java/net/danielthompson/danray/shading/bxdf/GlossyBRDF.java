@@ -14,9 +14,10 @@ public class GlossyBRDF extends BRDF {
 
    public float Gloss = 0.5f;
 
+   private float _diffuse;
+
    public GlossyBRDF(float gloss) {
       Gloss = gloss;
-
 
       if (gloss == 1.0f) {
          Delta = true;
@@ -26,17 +27,16 @@ public class GlossyBRDF extends BRDF {
          Delta = false;
          Glossy = true;
       }
+
+      _diffuse = 1.0f - gloss;
    }
 
    @Override
    public float f(float thetaIncoming, float thetaOutgoing) {
 
       float lambertF = lambertianBRDF.f(thetaIncoming, thetaOutgoing);
-//      float mirrorF = mirrorBRDF.f(thetaIncoming, thetaOutgoing);
       float mirrorF = 1;
-
-      float f = GeometryCalculations.Lerp(mirrorF, Gloss, lambertF, (1.0f - Gloss));
-//      float f = GeometryCalculations.Lerp(mirrorF, (1.0f - Gloss), lambertF, Gloss);
+      float f = GeometryCalculations.Lerp(mirrorF, Gloss, lambertF, _diffuse);
 
       return f;
    }
@@ -48,7 +48,7 @@ public class GlossyBRDF extends BRDF {
 //      float mirrorF = mirrorBRDF.f(incoming, normal, outgoing);
       float mirrorF = 1;
 
-      float f = GeometryCalculations.Lerp(mirrorF, Gloss, lambertF, (1.0f - Gloss));
+      float f = GeometryCalculations.Lerp(mirrorF, Gloss, lambertF, _diffuse);
 
       return f;
    }
@@ -62,30 +62,8 @@ public class GlossyBRDF extends BRDF {
 
       Vector lerp;
 
-      float dot = 0.0f;
-
-//      do {
-         Vector lambertVector = lambertianBRDF.getVectorInPDF(mirrorAsNormal, incoming);
-         lerp = Vector.Slerp(mirrorVector, Gloss, lambertVector, (1.0f - Gloss));
-
-//         dot = lerp.Dot(normal);
-//
-////         if (lerp.X == Float.NaN) {
-////            // wtf?
-////            lerp = Vector.Slerp(mirrorVector, Gloss, lambertVector, (1.0f - Gloss));
-////
-////            dot = lerp.Dot(normal);
-////
-////         }
-//
-//      } while (dot < 0);
-
-
-
-
-//      Vector lerp = Vector.Lerp(mirrorVector, Gloss, lambertVector, (1.0f - Gloss));
-      //Vector lerp = Vector.Slerp(mirrorVector, Gloss, lambertVector, (1.0f - Gloss));
-//      Vector lerp = Vector.Lerp(mirrorVector, (1.0f - Gloss), lambertVector, Gloss);
+      Vector lambertVector = lambertianBRDF.getVectorInPDF(mirrorAsNormal, incoming);
+      lerp = Vector.Slerp(mirrorVector, Gloss, lambertVector, _diffuse);
 
       return lerp;
 

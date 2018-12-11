@@ -12,10 +12,21 @@ public class Sample {
 
    public SpectralPowerDistribution SpectralPowerDistribution;
 
+   public float x, y;
+
    public int KDHeatCount;
 
-   public Sample() {
+   @Override
+   public String toString() {
 
-      //Statistics = new Statistics();
+      float sum = 0;
+
+      if (SpectralPowerDistribution != null) {
+         sum += SpectralPowerDistribution.R;
+         sum += SpectralPowerDistribution.G;
+         sum += SpectralPowerDistribution.B;
+      }
+
+      return "Total: " + sum;
    }
 }

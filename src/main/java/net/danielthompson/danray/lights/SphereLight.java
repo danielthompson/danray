@@ -2,12 +2,9 @@ package net.danielthompson.danray.lights;
 
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.shapes.Sphere;
-import net.danielthompson.danray.states.IntersectionState;
+import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.utility.GeometryCalculations;
-import org.apache.commons.math3.util.FastMath;
-
-import static net.danielthompson.danray.structures.Constants.NumberOfPregeneratedRandoms;
 
 /**
  * Created by daniel on 3/8/14.
@@ -24,18 +21,6 @@ public class SphereLight extends AbstractLight {
       WorldToObject = sphere.WorldToObject;
    }
 
-   private static float[] randoms;
-
-   static {
-      randoms = new float[NumberOfPregeneratedRandoms];
-
-      for (int i = 0; i < NumberOfPregeneratedRandoms; i++) {
-         randoms[i] = (float) FastMath.random();
-      }
-   }
-
-   private static int randomPointer;
-
    @Override
    public void RecalculateWorldBoundingBox() {
       Sphere.RecalculateWorldBoundingBox();
@@ -49,30 +34,13 @@ public class SphereLight extends AbstractLight {
    }
 
    @Override
-   public IntersectionState getHitInfo(Ray ray) {
-      IntersectionState state = Sphere.getHitInfo(ray);
+   public Intersection getHitInfo(Ray ray) {
+      Intersection state = Sphere.getHitInfo(ray);
       if (state != null && state.Shape == Sphere)
          state.Shape = this;
       return state;
    }
 
-   private Point getRandomPoint() {
-      float x;
-      float y;
-      float z;
-
-      //synchronized (mutex) {
-      x = randoms[randomPointer];
-      randomPointer = (randomPointer + 1) & NumberOfPregeneratedRandoms;
-      y = randoms[randomPointer];
-      randomPointer = (randomPointer + 1) & NumberOfPregeneratedRandoms;
-      z = randoms[randomPointer];
-      randomPointer = (randomPointer + 1) & NumberOfPregeneratedRandoms;
-      //}
-
-      Point point = new Point(x, y, z);
-      return point;
-   }
 
    @Override
    public Point getRandomPointOnSurface() {
@@ -127,7 +95,7 @@ public class SphereLight extends AbstractLight {
 
       Vector v = new Vector(point.X, point.Y, point.Z);
 
-      Vector direction = new Vector(GeometryCalculations.randomPointOnPregeneratedSphere());
+      Vector direction = new Vector(GeometryCalculations.randomPointOnSphere());
 
       if (v.Dot(direction) < 0)
          direction.Scale(-1);

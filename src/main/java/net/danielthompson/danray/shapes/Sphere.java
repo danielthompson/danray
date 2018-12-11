@@ -2,7 +2,7 @@ package net.danielthompson.danray.shapes;
 
 import net.danielthompson.danray.acceleration.KDAxis;
 import net.danielthompson.danray.shading.Material;
-import net.danielthompson.danray.states.IntersectionState;
+import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
 
 /**
@@ -56,42 +56,6 @@ public class Sphere extends AbstractShape {
    }
 
    @Override
-   public IntersectionState getHitInfo(Ray worldSpaceRay) {
-
-      IntersectionState state = new IntersectionState();
-      state.Hits = true;
-      state.Shape = this;
-
-      // we need to find the normal, for which we need the intersectionpoint in object space
-
-      Point worldSpaceIntersectionPoint = worldSpaceRay.GetPointAtT(worldSpaceRay.MinT);
-
-      state.IntersectionPoint = worldSpaceIntersectionPoint;
-
-      Point objectSpaceIntersectionPoint = worldSpaceIntersectionPoint;
-
-      if (WorldToObject != null) {
-         objectSpaceIntersectionPoint = WorldToObject.Apply(worldSpaceIntersectionPoint);
-      }
-
-      objectSpaceIntersectionPoint.Minus(Origin);
-
-      Normal objectSpaceNormal = new Normal(objectSpaceIntersectionPoint.X, objectSpaceIntersectionPoint.Y, objectSpaceIntersectionPoint.Z);
-
-      Normal worldSpaceNormal = objectSpaceNormal;
-
-      if (ObjectToWorld != null) {
-         worldSpaceNormal = ObjectToWorld.Apply(worldSpaceNormal);
-      }
-
-      worldSpaceNormal.Normalize();
-
-      state.Normal = worldSpaceNormal;
-
-      return state;
-   }
-
-   @Override
    public boolean hits(Ray worldSpaceRay) {
       Ray objectSpaceRay = worldSpaceRay;
 
@@ -99,9 +63,11 @@ public class Sphere extends AbstractShape {
          objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
       }
 
+      Vector v = Point.Minus(objectSpaceRay.Origin, Origin);
+
       float a = objectSpaceRay.Direction.Dot(objectSpaceRay.Direction);
-      float b = 2 * (objectSpaceRay.Direction.Dot(Point.Minus(objectSpaceRay.Origin, Origin)));
-      float c = Point.Minus(objectSpaceRay.Origin, Origin).Dot(Point.Minus(objectSpaceRay.Origin, Origin)) - (Radius * Radius);
+      float b = 2 * (objectSpaceRay.Direction.Dot(v));
+      float c = v.Dot(v) - (Radius * Radius);
 
       float discriminant = (b * b) - (4 * a * c);
 
@@ -152,6 +118,33 @@ public class Sphere extends AbstractShape {
 
       worldSpaceRay.MinT = hits < worldSpaceRay.MinT ? hits : worldSpaceRay.MinT;
       return true;
+   }
+
+
+   @Override
+   public Intersection getHitInfo(Ray worldSpaceRay) {
+
+      Point worldSpaceIntersectionPoint = worldSpaceRay.GetPointAtT(worldSpaceRay.MinT);
+      Point objectSpaceIntersectionPoint = worldSpaceIntersectionPoint;
+
+      if (WorldToObject != null) {
+         objectSpaceIntersectionPoint = WorldToObject.Apply(worldSpaceIntersectionPoint);
+      }
+
+      Vector direction = Point.Minus(objectSpaceIntersectionPoint, Origin);
+      Normal objectSpaceNormal = new Normal(direction);
+
+      Intersection intersection = new Intersection();
+      intersection.Hits = true;
+      intersection.Shape = this;
+      intersection.Location = objectSpaceIntersectionPoint;
+      intersection.Normal = objectSpaceNormal;
+
+      calculateTangents(intersection);
+
+      ToWorldSpace(intersection, worldSpaceRay);
+
+      return intersection;
    }
 
    @Override

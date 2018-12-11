@@ -24,7 +24,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //
 //   public FullSpectralPowerDistribution GetSPDForRay(Ray ray, int depth) {
 //      FullSpectralPowerDistribution lightSPD = new FullSpectralPowerDistribution();
-//      IntersectionState closestStateToRay = scene.getNearestShape(ray);
+//      Intersection closestStateToRay = scene.getNearestShape(ray);
 //
 //      // degenerate cases
 //
@@ -120,7 +120,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //            Point connectingOrigin = eyePath.surfacePoint;
 //            Ray connectingRay = new Ray(connectingOrigin, connectingDirection);
 //            float maxT = connectingRay.GetTAtPoint(eyePath.surfacePoint);
-//            IntersectionState potentialOccluder = scene.getNearestShapeBetween(connectingRay, 0, maxT);
+//            Intersection potentialOccluder = scene.getNearestShapeBetween(connectingRay, 0, maxT);
 //
 //            // if nothing occludes, then we should proceed
 //            if (potentialOccluder == null) {
@@ -222,7 +222,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //               if (brdfPDF > 0 ) {
 //                  Ray connectingRay = new Ray(lightVertex.surfacePoint, directionFromLightToPoint);
 //                  float maxT = connectingRay.GetTAtPoint(eyeVertex.surfacePoint);
-//                  IntersectionState potentialOccluder = scene.getNearestShapeBetween(connectingRay, 0, maxT);
+//                  Intersection potentialOccluder = scene.getNearestShapeBetween(connectingRay, 0, maxT);
 ////                  SpectralPowerDistribution red = RelativeSpectralPowerDistributionLibrary.Red.getSPD();
 ////                  SpectralPowerDistribution blue = RelativeSpectralPowerDistributionLibrary.Blue.getSPD();
 ////
@@ -276,7 +276,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 ////            Point connectingOrigin = lightPath.surfacePoint;
 ////            Ray connectingRay = new Ray(connectingOrigin, connectingDirection);
 ////            float maxT = connectingRay.GetTAtPoint(eyeVertex.surfacePoint);
-////            IntersectionState potentialOccluder = scene.getNearestShapeBetween(connectingRay, 0, maxT);
+////            Intersection potentialOccluder = scene.getNearestShapeBetween(connectingRay, 0, maxT);
 ////
 ////            // if nothing occludes, then we should proceed
 ////            if (potentialOccluder == null) {
@@ -332,7 +332,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //   }
 //
 //
-//   public FullSpectralPowerDistribution combineV1(Ray initialRay, IntersectionState closestStateToRay, ArrayList<LightVertex> lightPaths) {
+//   public FullSpectralPowerDistribution combineV1(Ray initialRay, Intersection closestStateToRay, ArrayList<LightVertex> lightPaths) {
 //
 //      FullSpectralPowerDistribution lightSPD = new FullSpectralPowerDistribution();
 //
@@ -343,7 +343,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //            continue;
 //         }
 //         Point lightBouncePoint = path.surfacePoint;
-//         Point intersectionPoint = closestStateToRay.IntersectionPoint;
+//         Point intersectionPoint = closestStateToRay.Location;
 //
 //         Ray lightRay = intersectionPoint.CreateVectorFrom(lightBouncePoint);
 //         lightRay.OffsetOriginForward(.01);
@@ -365,7 +365,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //
 //         // if any light is getting reflected back in our initial direction, check to see if there are any occluders
 //         if (brdf > 0) {
-//            IntersectionState potentialOccluder = scene.getNearestShape(lightRay);
+//            Intersection potentialOccluder = scene.getNearestShape(lightRay);
 //
 //            if (potentialOccluder == null || potentialOccluder.Shape.equals(closestStateToRay.Shape)) {
 //               FullSpectralPowerDistribution scaledSPD = FullSpectralPowerDistribution.scale(path.incomingSPD, 1);
@@ -381,7 +381,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //
 //   public FullSpectralPowerDistribution getDirectLightingContribution(LightVertex vertex) {
 //
-//      IntersectionState closestStateToRay = vertex.state;
+//      Intersection closestStateToRay = vertex.state;
 //      Point surfacePoint = vertex.surfacePoint;
 //
 //      FullSpectralPowerDistribution directSPD = new FullSpectralPowerDistribution();
@@ -407,7 +407,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //            if (lightPDF > 0) {
 //               // assuming any light would hit, are there any occluders?
 //
-//               IntersectionState potentialOccluder = scene.getNearestShape(lightRayFromCurrentRadiatableToClosestDrawable);
+//               Intersection potentialOccluder = scene.getNearestShape(lightRayFromCurrentRadiatableToClosestDrawable);
 //
 //               boolean noOccluder = (potentialOccluder == null);
 //               boolean shadowRayHitLight = !noOccluder && potentialOccluder.Shape.equals(radiatable);
@@ -417,7 +417,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //               }
 //
 //               noOccluder = (potentialOccluder == null);
-//               boolean targetIntersection = !noOccluder && (potentialOccluder.Shape.equals(closestStateToRay.Shape) && Constants.WithinEpsilon(potentialOccluder.IntersectionPoint, closestStateToRay.IntersectionPoint));
+//               boolean targetIntersection = !noOccluder && (potentialOccluder.Shape.equals(closestStateToRay.Shape) && Constants.WithinEpsilon(potentialOccluder.Location, closestStateToRay.Location));
 //               shadowRayHitLight = !noOccluder && potentialOccluder.Shape.equals(radiatable);
 //
 //               if (shadowRayHitLight) {
@@ -426,7 +426,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //               }
 //
 //               if (noOccluder || targetIntersection) {
-//                  IntersectionState state = closestStateToRay.Shape.getHitInfo(lightRayFromCurrentRadiatableToClosestDrawable);
+//                  Intersection state = closestStateToRay.Shape.getHitInfo(lightRayFromCurrentRadiatableToClosestDrawable);
 //                  if (state.hits) {
 //                     // figure out how much light is shining by sampling the light
 //
@@ -536,7 +536,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //      public FullSpectralReflectanceCurve curve;
 //      public Point surfacePoint;
 //      public BRDF surfaceBRDF;
-//      public IntersectionState state;
+//      public Intersection state;
 //      public Normal surfaceNormal;
 //      public float calculatedPDF;
 //
@@ -565,7 +565,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //      LightVertex l = new LightVertex();
 //
 //      // does the ray hit anything?
-//      IntersectionState closestStateToRay = scene.getNearestShape(ray);
+//      Intersection closestStateToRay = scene.getNearestShape(ray);
 //
 //      if (closestStateToRay == null) {
 //         // if not, we're done
@@ -615,7 +615,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //
 //
 //
-//      float pdf = firstLight.getPDF(closestStateToRay.IntersectionPoint, incomingDirection);
+//      float pdf = firstLight.getPDF(closestStateToRay.Location, incomingDirection);
 //      float pdfPercentage = (4 * Constants.PI) / pdf;
 //
 //      FullSpectralPowerDistribution incomingSPD = firstLight.getSpectralPowerDistribution();
@@ -636,7 +636,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //      l.surfaceBRDF = objectMaterial.BRDF;
 //      l.curve = curve;
 //      l.surfaceNormal = intersectionNormal;
-//      l.surfacePoint = closestStateToRay.IntersectionPoint;
+//      l.surfacePoint = closestStateToRay.Location;
 //      l.outgoingDirection = outgoingDirection;
 //      l.outgoingSPD = reflectedSPD;
 //
@@ -647,7 +647,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //      LightVertex l = new LightVertex();
 //
 //      // does the ray hit anything?
-//      IntersectionState closestStateToRay = scene.getNearestShape(ray);
+//      Intersection closestStateToRay = scene.getNearestShape(ray);
 //
 //      if (closestStateToRay == null || closestStateToRay.Shape instanceof SpectralRadiatable) {
 //         // if not, we're done
@@ -691,7 +691,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //         l.curve = curve;
 //         l.surfaceBRDF = objectMaterial.BRDF;
 //         l.surfaceNormal = intersectionNormal;
-//         l.surfacePoint = closestStateToRay.IntersectionPoint;
+//         l.surfacePoint = closestStateToRay.Location;
 //         l.outgoingDirection = outgoingDirection;
 //
 //         return l;
@@ -763,7 +763,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //      LightVertex l = new LightVertex();
 //
 //      // does the ray hit anything?
-//      IntersectionState closestStateToRay = scene.getNearestShape(ray);
+//      Intersection closestStateToRay = scene.getNearestShape(ray);
 //
 //      if (closestStateToRay == null) {
 //         // if not, we're done
@@ -790,7 +790,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //         l.surfaceBRDF = objectMaterial.BRDF;
 //         l.curve = objectMaterial.FullSpectralReflectanceCurve;
 //         l.surfaceNormal = intersectionNormal;
-//         l.surfacePoint = closestStateToRay.IntersectionPoint;
+//         l.surfacePoint = closestStateToRay.Location;
 //         l.state = closestStateToRay;
 //         l.outgoingDirection = ray.Direction;
 //

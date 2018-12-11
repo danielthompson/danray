@@ -1,8 +1,8 @@
 package test.shapes.implicitplane;
 
 import net.danielthompson.danray.shapes.ImplicitPlane;
+import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
-import net.danielthompson.danray.states.IntersectionState;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -38,12 +38,12 @@ public class GetHitInfoTests {
 
       Ray ray = new Ray(vectorOrigin, vectorDirection);
 
-      IntersectionState state = plane.getHitInfo(ray);
+      Intersection state = plane.getHitInfo(ray);
 
       Point expectedHitPoint = new Point(2, 0, 2);
 
       Assert.assertTrue(state.Hits);
-      Assert.assertEquals(state.IntersectionPoint, expectedHitPoint);
+      Assert.assertEquals(state.Location, expectedHitPoint);
    }
 
    @Test
@@ -59,12 +59,12 @@ public class GetHitInfoTests {
 
       Ray ray = new Ray(vectorOrigin, vectorDirection);
 
-      IntersectionState state = plane.getHitInfo(ray);
+      Intersection state = plane.getHitInfo(ray);
 
       Point expectedHitPoint = new Point(500, 500, 0);
 
       Assert.assertTrue(state.Hits);
-      Assert.assertEquals(state.IntersectionPoint, expectedHitPoint);
+      Assert.assertEquals(state.Location, expectedHitPoint);
    }
 
    @Test
@@ -80,12 +80,12 @@ public class GetHitInfoTests {
 
       Ray ray = new Ray(vectorOrigin, vectorDirection);
 
-      IntersectionState state = plane.getHitInfo(ray);
+      Intersection state = plane.getHitInfo(ray);
 
       Point expectedHitPoint = new Point(500, 500, -499);
 
       Assert.assertTrue(state.Hits);
-      Assert.assertEquals(state.IntersectionPoint, expectedHitPoint);
+      Assert.assertEquals(state.Location, expectedHitPoint);
    }
 
    @Test
@@ -101,7 +101,7 @@ public class GetHitInfoTests {
 
       Ray ray = new Ray(vectorOrigin, vectorDirection);
 
-      IntersectionState state = plane.getHitInfo(ray);
+      Intersection state = plane.getHitInfo(ray);
 
       //Point expectedHitPoint = new Point(500, 500, -499);
 
@@ -121,7 +121,7 @@ public class GetHitInfoTests {
 
       Ray ray = new Ray(vectorOrigin, vectorDirection);
 
-      IntersectionState state = plane.getHitInfo(ray);
+      Intersection state = plane.getHitInfo(ray);
 
       //Point expectedHitPoint = new Point(500, 500, -499);
 
@@ -140,7 +140,7 @@ public class GetHitInfoTests {
 
       Ray ray = new Ray(vectorOrigin, vectorDirection);
 
-      IntersectionState state = plane.getHitInfo(ray);
+      Intersection state = plane.getHitInfo(ray);
 
       //Point expectedHitPoint = new Point(500, 500, -499);
 

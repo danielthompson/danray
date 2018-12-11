@@ -1,7 +1,7 @@
 package net.danielthompson.danray.shapes;
 
 import net.danielthompson.danray.shading.Material;
-import net.danielthompson.danray.states.IntersectionState;
+import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
 
 
@@ -32,11 +32,11 @@ public class ImplicitPlane extends AbstractShape {
    }
 
    @Override
-   public IntersectionState getHitInfo(Ray ray) {
+   public Intersection getHitInfo(Ray ray) {
       float numerator = (Point.Minus(Origin, ray.Origin)).Dot(Normal);
       float denominator = ray.Direction.Dot(Normal);
 
-      IntersectionState state = new IntersectionState();
+      Intersection state = new Intersection();
 
       // if they are orthogonal, then they don't hit.
       if (Constants.WithinEpsilon(denominator, 0.0f)) {
@@ -50,7 +50,7 @@ public class ImplicitPlane extends AbstractShape {
          if (T > 0.0) {
             state.Hits = true;
             state.TMin = T;
-            state.IntersectionPoint = ray.GetPointAtT(state.TMin);
+            state.Location = ray.GetPointAtT(state.TMin);
             state.Normal = Normal;
             state.Shape = this;
          }

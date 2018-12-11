@@ -1,7 +1,7 @@
 package net.danielthompson.danray.structures;
 
 import net.danielthompson.danray.acceleration.KDAxis;
-import net.danielthompson.danray.states.IntersectionState;
+import net.danielthompson.danray.states.Intersection;
 
 /**
  * User: daniel
@@ -76,16 +76,16 @@ public class BoundingBox {
       return median;
    }
 
-   public IntersectionState GetHitInfo(Ray ray) {
+   public Intersection GetHitInfo(Ray ray) {
       return BoundingBox.GetHitInfoNew(point1, point2, ray);
    }
 
    // orig
-   public static IntersectionState GetHitInfoOld(Point p1, Point p2, Ray ray) {
+   public static Intersection GetHitInfoOld(Point p1, Point p2, Ray ray) {
       float maxBoundFarT = Float.MAX_VALUE;
       float minBoundNearT = 0;
 
-      IntersectionState state = new IntersectionState();
+      Intersection state = new Intersection();
       state.Hits = true;
 
       // X
@@ -148,12 +148,12 @@ public class BoundingBox {
 
    }
 
-   public static IntersectionState GetHitInfoNew(Point p1, Point p2, Ray ray) {
+   public static Intersection GetHitInfoNew(Point p1, Point p2, Ray ray) {
       float maxBoundFarT = Float.MAX_VALUE;
       float minBoundNearT = 0;
 
-      IntersectionState state = new IntersectionState();
-      state.Hits = true;
+      Intersection intersection = new Intersection();
+      intersection.Hits = true;
 
       // X
       float tNear = (p1.X - ray.Origin.X) * ray.DirectionInverse.X;
@@ -166,11 +166,11 @@ public class BoundingBox {
       minBoundNearT = (tNear > minBoundNearT) ? tNear : minBoundNearT;
       maxBoundFarT = (tFar < maxBoundFarT) ? tFar : maxBoundFarT;
       if (minBoundNearT > maxBoundFarT) {
-         state.Hits = false;
-         return state;
+         intersection.Hits = false;
+         return intersection;
       }
-      state.TMin = minBoundNearT;
-      state.TMax = maxBoundFarT;
+      intersection.TMin = minBoundNearT;
+      intersection.TMax = maxBoundFarT;
 
       // Y
       tNear = (p1.Y - ray.Origin.Y) * ray.DirectionInverse.Y;
@@ -184,12 +184,12 @@ public class BoundingBox {
       maxBoundFarT = (tFar < maxBoundFarT) ? tFar : maxBoundFarT;
 
       if (minBoundNearT > maxBoundFarT) {
-         state.Hits = false;
-         return state;
+         intersection.Hits = false;
+         return intersection;
       }
 
-      state.TMin = minBoundNearT;
-      state.TMax = maxBoundFarT;
+      intersection.TMin = minBoundNearT;
+      intersection.TMax = maxBoundFarT;
 
       // Z
       tNear = (p1.Z - ray.Origin.Z) * ray.DirectionInverse.Z;
@@ -203,14 +203,14 @@ public class BoundingBox {
       maxBoundFarT = (tFar < maxBoundFarT) ? tFar : maxBoundFarT;
 
       if (minBoundNearT > maxBoundFarT) {
-         state.Hits = false;
-         return state;
+         intersection.Hits = false;
+         return intersection;
       }
 
-      state.TMin = minBoundNearT;
-      state.TMax = maxBoundFarT;
+      intersection.TMin = minBoundNearT;
+      intersection.TMax = maxBoundFarT;
 
-      return state;
+      return intersection;
    }
 
    public boolean Hits(Ray ray) {

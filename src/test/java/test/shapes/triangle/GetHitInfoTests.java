@@ -1,7 +1,7 @@
 //package test.shapes.triangle;
 //
 //import net.danielthompson.danray.shapes.Triangle;
-//import net.danielthompson.danray.states.IntersectionState;
+//import net.danielthompson.danray.states.Intersection;
 //import net.danielthompson.danray.structures.Point;
 //import net.danielthompson.danray.structures.Ray;
 //import net.danielthompson.danray.structures.Vector;
@@ -42,13 +42,13 @@
 //
 //      Ray incomingRay = new Ray(rayOrigin, rayDirection);
 //
-//      IntersectionState state = triangle.getHitInfo(incomingRay);
+//      Intersection state = triangle.getHitInfo(incomingRay);
 //
 //      Assert.assertTrue(state.hits);
 //
 //      Point expectedIntersection = new Point(1, 1, 0);
 //
-//      Assert.assertEquals(state.IntersectionPoint, expectedIntersection);
+//      Assert.assertEquals(state.Location, expectedIntersection);
 //   }
 //
 //   @Test
@@ -65,13 +65,13 @@
 //
 //      Ray incomingRay = new Ray(rayOrigin, rayDirection);
 //
-//      IntersectionState state = triangle.getHitInfo(incomingRay);
+//      Intersection state = triangle.getHitInfo(incomingRay);
 //
 //      Assert.assertTrue(state.hits);
 //
 //      Point expectedIntersection = new Point(0, 0, 0);
 //
-//      Assert.assertEquals(state.IntersectionPoint, expectedIntersection);
+//      Assert.assertEquals(state.Location, expectedIntersection);
 //   }
 //
 //   @Test
@@ -88,13 +88,13 @@
 //
 //      Ray incomingRay = new Ray(rayOrigin, rayDirection);
 //
-//      IntersectionState state = triangle.getHitInfo(incomingRay);
+//      Intersection state = triangle.getHitInfo(incomingRay);
 //
 //      Assert.assertTrue(state.hits);
 //
 //      Point expectedIntersection = new Point(1, 1, 0);
 //
-//      Assert.assertEquals(state.IntersectionPoint, expectedIntersection);
+//      Assert.assertEquals(state.Location, expectedIntersection);
 //   }
 //
 //   @Test
@@ -111,7 +111,7 @@
 //
 //      Ray incomingRay = new Ray(rayOrigin, rayDirection);
 //
-//      IntersectionState state = triangle.getHitInfo(incomingRay);
+//      Intersection state = triangle.getHitInfo(incomingRay);
 //
 //      Assert.assertFalse(state.hits);
 //   }

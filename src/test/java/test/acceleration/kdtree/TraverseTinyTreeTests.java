@@ -4,7 +4,7 @@ import net.danielthompson.danray.acceleration.KDNode;
 import net.danielthompson.danray.acceleration.KDScene;
 import net.danielthompson.danray.shapes.AbstractShape;
 import net.danielthompson.danray.shapes.Sphere;
-import net.danielthompson.danray.states.IntersectionState;
+import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.BoundingBox;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Ray;
@@ -94,7 +94,7 @@ public class TraverseTinyTreeTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = scene.getNearestShape(ray, 0, 0);
+      Intersection state = scene.getNearestShape(ray, 0, 0);
 
       Assert.assertNotNull(state, "intersection state should not be null");
       Assert.assertTrue(state.Hits, "state should hit");

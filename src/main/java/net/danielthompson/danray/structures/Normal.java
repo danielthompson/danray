@@ -20,6 +20,14 @@ public class Normal {
       Z = v.Z;
    }
 
+   public Normal Cross(Vector vector) {
+      return new Normal(
+            Y * vector.Z - Z * vector.Y,
+            Z * vector.X - X * vector.Z,
+            X * vector.Y - Y * vector.X);
+   }
+
+
    public float Length() {
       return (float) Math.sqrt(X * X + Y * Y + Z * Z);
    }

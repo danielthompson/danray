@@ -1,7 +1,7 @@
 package net.danielthompson.danray.shapes;
 
 import net.danielthompson.danray.shading.Material;
-import net.danielthompson.danray.states.IntersectionState;
+import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
 
 /**
@@ -35,14 +35,14 @@ public class Cylinder extends AbstractShape {
    }
 
    @Override
-   public IntersectionState getHitInfo(Ray worldSpaceRay) {
+   public Intersection getHitInfo(Ray worldSpaceRay) {
       Ray objectSpaceRay = worldSpaceRay;
 
       if (WorldToObject != null) {
          objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
       }
 
-      IntersectionState state = new IntersectionState();
+      Intersection state = new Intersection();
 
       // check for intersection with upper disk
 
@@ -82,7 +82,7 @@ public class Cylinder extends AbstractShape {
 
       if (discriminant < 0) {
          state.Hits = false;
-         state.IntersectionPoint = null;
+         state.Location = null;
          return state;
       }
 
@@ -143,12 +143,12 @@ public class Cylinder extends AbstractShape {
             if (t0Hits && t0 <= t1) {
                state.TMin = t0;
                state.Normal = t0Normal;
-               state.IntersectionPoint = objectSpaceRay.ScaleFromOrigin(t0);
+               state.Location = objectSpaceRay.ScaleFromOrigin(t0);
             }
             else if (t1Hits && t1 <= t0) {
                state.TMin = t1;
                state.Normal = t1Normal;
-               state.IntersectionPoint = objectSpaceRay.ScaleFromOrigin(t1);
+               state.Location = objectSpaceRay.ScaleFromOrigin(t1);
             }
          }
          // case 2 - hits only discs
@@ -156,12 +156,12 @@ public class Cylinder extends AbstractShape {
             if (tTop < tBottom) {
                state.TMin = tTop;
                state.Normal = topNormal;
-               state.IntersectionPoint = objectSpaceRay.ScaleFromOrigin(tTop);
+               state.Location = objectSpaceRay.ScaleFromOrigin(tTop);
             }
             else {
                state.TMin = tBottom;
                state.Normal = bottomNormal;
-               state.IntersectionPoint = objectSpaceRay.ScaleFromOrigin(tBottom);
+               state.Location = objectSpaceRay.ScaleFromOrigin(tBottom);
             }
          }
 
@@ -171,22 +171,22 @@ public class Cylinder extends AbstractShape {
                if (t0 <= tTop) {
                   state.TMin = t0;
                   state.Normal = t0Normal;
-                  state.IntersectionPoint = objectSpaceRay.ScaleFromOrigin(t0);
+                  state.Location = objectSpaceRay.ScaleFromOrigin(t0);
                } else {
                   state.TMin = tTop;
                   state.Normal = topNormal;
-                  state.IntersectionPoint = objectSpaceRay.ScaleFromOrigin(tTop);
+                  state.Location = objectSpaceRay.ScaleFromOrigin(tTop);
                }
             }
             else {
                if (t1 <= tTop) {
                   state.TMin = t1;
                   state.Normal = t1Normal;
-                  state.IntersectionPoint = objectSpaceRay.ScaleFromOrigin(t1);
+                  state.Location = objectSpaceRay.ScaleFromOrigin(t1);
                } else {
                   state.TMin = tTop;
                   state.Normal = topNormal;
-                  state.IntersectionPoint = objectSpaceRay.ScaleFromOrigin(tTop);
+                  state.Location = objectSpaceRay.ScaleFromOrigin(tTop);
                }
             }
          }
@@ -199,22 +199,22 @@ public class Cylinder extends AbstractShape {
                if (t0 <= tBottom) {
                   state.TMin = t0;
                   state.Normal = t0Normal;
-                  state.IntersectionPoint = objectSpaceRay.ScaleFromOrigin(t0);
+                  state.Location = objectSpaceRay.ScaleFromOrigin(t0);
                } else {
                   state.TMin = tBottom;
                   state.Normal = bottomNormal;
-                  state.IntersectionPoint = objectSpaceRay.ScaleFromOrigin(tBottom);
+                  state.Location = objectSpaceRay.ScaleFromOrigin(tBottom);
                }
             }
             else {
                if (t1 <= tBottom) {
                   state.TMin = t1;
                   state.Normal = t1Normal;
-                  state.IntersectionPoint = objectSpaceRay.ScaleFromOrigin(t1);
+                  state.Location = objectSpaceRay.ScaleFromOrigin(t1);
                } else {
                   state.TMin = tBottom;
                   state.Normal = topNormal;
-                  state.IntersectionPoint = objectSpaceRay.ScaleFromOrigin(tBottom);
+                  state.Location = objectSpaceRay.ScaleFromOrigin(tBottom);
                }
             }
          }
@@ -224,10 +224,10 @@ public class Cylinder extends AbstractShape {
 
          // other stuff
          if (ObjectToWorld != null) {
-            state.IntersectionPoint = ObjectToWorld.Apply(state.IntersectionPoint);
+            state.Location = ObjectToWorld.Apply(state.Location);
             state.Normal = ObjectToWorld.Apply(state.Normal);
             if (ObjectToWorld.HasScale()) {
-               state.TMin = worldSpaceRay.GetTAtPoint(state.IntersectionPoint);
+               state.TMin = worldSpaceRay.GetTAtPoint(state.Location);
             }
          }
 

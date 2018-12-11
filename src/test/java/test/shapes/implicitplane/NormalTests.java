@@ -1,10 +1,10 @@
 package test.shapes.implicitplane;
 
 import net.danielthompson.danray.shapes.ImplicitPlane;
+import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.Normal;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Ray;
-import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.Vector;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -41,11 +41,11 @@ public class NormalTests {
 
       Ray ray = new Ray(vectorOrigin, vectorDirection);
 
-      IntersectionState state = plane.getHitInfo(ray);
+      Intersection state = plane.getHitInfo(ray);
 
       Point expectedHitPoint = new Point(2, 0, 2);
 
       Assert.assertTrue(state.Hits);
-      Assert.assertEquals(state.IntersectionPoint, expectedHitPoint);
+      Assert.assertEquals(state.Location, expectedHitPoint);
    }
 }
