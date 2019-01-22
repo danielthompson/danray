@@ -6,8 +6,8 @@ import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.shading.bxdf.BRDF;
 import net.danielthompson.danray.shapes.AbstractShape;
+import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
-import net.danielthompson.danray.states.IntersectionState;
 
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.utility.GeometryCalculations;
@@ -38,7 +38,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
          int i = 0;
       }
 
-      IntersectionState closestStateToRay = scene.getNearestShape(ray, x, y);
+      Intersection closestStateToRay = scene.getNearestShape(ray, x, y);
 
       if (closestStateToRay == null || !closestStateToRay.Hits) {
 
@@ -75,7 +75,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
       else {
 
          for (AbstractLight light : scene.Lights) {
-            Point intersectionPoint = closestStateToRay.IntersectionPoint;
+            Point intersectionPoint = closestStateToRay.Location;
 
             Point lightLocation = light.getRandomPointOnSurface();
 
@@ -85,7 +85,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
             if (dot < 0) {
 
-               IntersectionState potentialOccluder = scene.getNearestShape(lightToNearestShape, x, y);
+               Intersection potentialOccluder = scene.getNearestShape(lightToNearestShape, x, y);
 
                if (
                      potentialOccluder == null
@@ -93,9 +93,9 @@ public class WhittedIntegrator extends AbstractIntegrator {
                            || potentialOccluder.Shape.equals(closestShape)
                            || potentialOccluder.Shape.equals(light)
                      ) {
-                  float oneOverDistanceFromLightSourceSquared = 1 / lightLocation.SquaredDistanceBetween(closestStateToRay.IntersectionPoint);
+                  float oneOverDistanceFromLightSourceSquared = 1 / lightLocation.SquaredDistanceBetween(closestStateToRay.Location);
 
-                  IntersectionState state = closestShape.getHitInfo(lightToNearestShape);
+                  Intersection state = closestShape.getHitInfo(lightToNearestShape);
                   if (state.Hits) {
                      float angleOfIncidencePercentage = GeometryCalculations.GetCosineWeightedIncidencePercentage(lightToNearestShape.Direction, closestStateToRay.Normal);
                      SpectralPowerDistribution scaledIncomingSPD = SpectralPowerDistribution.scale(light.SpectralPowerDistribution, angleOfIncidencePercentage);
@@ -142,8 +142,8 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
             Vector outgoingDirection = objectMaterial.BRDF.getVectorInPDF(closestStateToRay.Normal, ray.Direction);
 
-            Point offsetIntersection = Point.Plus(closestStateToRay.IntersectionPoint, Vector.Scale(outgoingDirection, Constants.Epsilon * 1000));
-//            Point offsetIntersection = closestStateToRay.IntersectionPoint;
+            Point offsetIntersection = Point.Plus(closestStateToRay.Location, Vector.Scale(outgoingDirection, Constants.Epsilon * 1000));
+//            Point offsetIntersection = closestStateToRay.Location;
 
 
 
@@ -176,7 +176,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
          Sample refractedSample = null;
          /*
          else if (objectMaterial.getReflectivity() > 0) {
-            Ray reflectedRay = GeometryCalculations.GetReflectedRay(closestStateToRay.IntersectionPoint, closestStateToRay.Normal, ray);
+            Ray reflectedRay = GeometryCalculations.GetReflectedRay(closestStateToRay.Location, closestStateToRay.Normal, ray);
 
             reflectedColor = GetSample(reflectedRay, depth, oldIndexOfRefraction);
 

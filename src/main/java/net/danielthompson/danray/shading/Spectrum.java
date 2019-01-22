@@ -29,6 +29,10 @@ public class Spectrum {
       B += s1.B;
    }
 
+   public float sum() {
+      return R + G + B;
+   }
+
    public Spectrum(Color c) {
       R = c.getRed() * OneOver255f;
       G = c.getGreen() * OneOver255f;

@@ -1,16 +1,7 @@
 package test.benchmark;
 
-import net.danielthompson.danray.shapes.Sphere;
-import net.danielthompson.danray.states.IntersectionState;
-import net.danielthompson.danray.structures.BoundingBox;
-import net.danielthompson.danray.structures.Point;
-import net.danielthompson.danray.structures.Ray;
-import net.danielthompson.danray.structures.Vector;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import java.text.DecimalFormat;
 
 /**
  * Created by dthompson on 3/11/2016.
@@ -39,12 +30,12 @@ public class CreationBenchmarks {
 //
 //
 //
-//      IntersectionState[] array = new IntersectionState[n];
+//      Intersection[] array = new Intersection[n];
 //
 //      final long startTime = System.currentTimeMillis();
 //
 //      for (int i = 0; i < n; i++) {
-//         array[i] = new IntersectionState();
+//         array[i] = new Intersection();
 //      }
 //
 //      final long endTime = System.currentTimeMillis();

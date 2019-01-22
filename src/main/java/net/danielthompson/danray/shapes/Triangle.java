@@ -3,8 +3,7 @@ package net.danielthompson.danray.shapes;
 import net.danielthompson.danray.acceleration.BoundingEdge;
 import net.danielthompson.danray.acceleration.KDAxis;
 import net.danielthompson.danray.shading.Material;
-import net.danielthompson.danray.states.IntersectionState;
-import net.danielthompson.danray.structures.Constants;
+import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Ray;
 
@@ -64,7 +63,7 @@ public class Triangle extends AbstractShape {
    }
 
    @Override
-   public IntersectionState getHitInfo(Ray ray) {
+   public Intersection getHitInfo(Ray ray) {
       return GetHitInfo(this, ray, _vertex0, _vertex1, _vertex2);
    }
 
@@ -73,8 +72,8 @@ public class Triangle extends AbstractShape {
       throw new java.lang.UnsupportedOperationException();
    }
 
-   public static IntersectionState GetHitInfo(AbstractShape shape, Ray ray, Point vertex0, Point vertex1, Point vertex2) {
-      IntersectionState state = new IntersectionState();
+   public static Intersection GetHitInfo(AbstractShape shape, Ray ray, Point vertex0, Point vertex1, Point vertex2) {
+      Intersection state = new Intersection();
 /*
       Point E1 = Point.Minus(vertex1, vertex0);
       Point E2 = Point.Minus(vertex2, vertex0);
@@ -90,7 +89,7 @@ public class Triangle extends AbstractShape {
 
       if (t > 0 && u >= 0 && v >= 0 && u + v <= 1.0) {
          state.hits = true;
-         state.IntersectionPoint = ray.ScaleFromOrigin(t);
+         state.Location = ray.ScaleFromOrigin(t);
          state.Drawable = drawable;
          state.T = t;
       }
@@ -100,7 +99,7 @@ public class Triangle extends AbstractShape {
       return state;
    }
 
-   public static Ray GetNormal(Triangle triangle, IntersectionState state) {
+   public static Ray GetNormal(Triangle triangle, Intersection state) {
       // TODO
       return null; //return new Ray(triangle._vertex0, triangle._normalDirection);
    }

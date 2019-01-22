@@ -1,14 +1,12 @@
 package test.shapes.sphere;
 
+import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.shapes.Sphere;
-import net.danielthompson.danray.states.IntersectionState;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import static java.lang.Math.sqrt;
 
 /**
  * DanRay
@@ -36,8 +34,8 @@ public class NormalTests {
       sphere.Origin = new Point(0, 0, 0);
       sphere.Radius = 1;
 
-      IntersectionState state = new IntersectionState();
-      state.IntersectionPoint = new Point(1, 0, 0);
+      Intersection state = new Intersection();
+      state.Location = new Point(1, 0, 0);
       state.Normal = new Normal(1, 0, 0);
       state.Hits = true;
 
@@ -55,8 +53,8 @@ public class NormalTests {
       sphere.Origin = new Point(0, 0, 0);
       sphere.Radius = 1;
 
-      IntersectionState state = new IntersectionState();
-      state.IntersectionPoint = new Point(0, 1, 0);
+      Intersection state = new Intersection();
+      state.Location = new Point(0, 1, 0);
       state.Normal = new Normal(0, 1, 0);
       state.Hits = true;
 
@@ -75,8 +73,8 @@ public class NormalTests {
       sphere.Origin = new Point(4, 4, 0);
       sphere.Radius = 1;
 
-      IntersectionState state = new IntersectionState();
-      state.IntersectionPoint = new Point(sphere.Origin.X - sphere.Radius / (Constants.Root2), sphere.Origin.Y - sphere.Radius / (Constants.Root2), 0);
+      Intersection state = new Intersection();
+      state.Location = new Point(sphere.Origin.X - sphere.Radius / (Constants.Root2), sphere.Origin.Y - sphere.Radius / (Constants.Root2), 0);
       state.Normal = new Normal(- sphere.Radius / (Constants.Root2), - sphere.Radius / (Constants.Root2), 0);
       state.Hits = true;
 
@@ -96,8 +94,8 @@ public class NormalTests {
       sphere.Origin = new Point(0, 0, 0);
       sphere.Radius = 1;
 
-      IntersectionState state = new IntersectionState();
-      state.IntersectionPoint = new Point(1, 0, 0);
+      Intersection state = new Intersection();
+      state.Location = new Point(1, 0, 0);
       state.Normal = new Normal(1, 0, 0);
       state.Hits = true;
 

@@ -46,6 +46,13 @@ public class Vector {
             X * vector.Y - Y * vector.X);
    }
 
+   public Vector Cross(Normal normal) {
+      return new Vector(
+            Y * normal.Z - Z * normal.Y,
+            Z * normal.X - X * normal.Z,
+            X * normal.Y - Y * normal.X);
+   }
+
    public float Dot(Vector vector) {
       return (X * vector.X + Y * vector.Y + Z * vector.Z);
    }

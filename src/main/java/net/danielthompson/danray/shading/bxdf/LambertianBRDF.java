@@ -1,7 +1,9 @@
 package net.danielthompson.danray.shading.bxdf;
 
+import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.utility.GeometryCalculations;
+import net.danielthompson.danray.utility.MonteCarloCalculations;
 
 /**
  * Created by daniel on 8/16/15.
@@ -11,28 +13,36 @@ public class LambertianBRDF extends BRDF {
    @Override
    public float f(float thetaIncoming, float thetaOutgoing) {
 
-      return (float) (Math.cos(thetaIncoming) * Math.cos(thetaOutgoing));
+      //      return (float) (Math.cos(thetaIncoming) * Math.cos(thetaOutgoing));
 
-//      return Constants.OneOverPi;
+      return Constants.OneOverPi;
    }
 
    @Override
    public float f(Vector incoming, Normal normal, Vector outgoing) {
 
-      float cosThetaIncoming = -incoming.Dot(normal);
-      float cosThetaOutgoing = normal.Dot(outgoing);
-
-      return Math.abs(cosThetaIncoming * cosThetaOutgoing);
+//      float cosThetaIncoming = -incoming.Dot(normal);
+//      float cosThetaOutgoing = normal.Dot(outgoing);
+//
+//      return Math.abs(cosThetaIncoming * cosThetaOutgoing);
 
 //      //if (incoming.Dot(normal) <= 0 && normal.Dot(outgoing) >= 0)
-//         return Constants.OneOverPi;
+         return Constants.OneOverPi;
 //      //return 0;
    }
 
    @Override
    public Vector getVectorInPDF(Normal normal, Vector incoming) {
+
+
+      //Vector outgoing = MonteCarloCalculations.CosineSampleHemisphere();
+
+      //outgoing = LocalToWorld(outgoing);
+
       float[] xyz = GeometryCalculations.randomPointOnSphere();
-//      float[] xyz = GeometryCalculations.randomPointOnPregeneratedSphere();
+
+
+
 
       Vector outgoing = new Vector(xyz[0], xyz[1], xyz[2]);
 
@@ -41,4 +51,5 @@ public class LambertianBRDF extends BRDF {
 
       return outgoing;
    }
+
 }

@@ -2,9 +2,8 @@ package test.tracers.tracer;
 
 import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.utility.GeometryCalculations;
-import net.danielthompson.danray.integrators.WhittedIntegrator;
 import net.danielthompson.danray.shapes.Sphere;
-import net.danielthompson.danray.states.IntersectionState;
+import net.danielthompson.danray.states.Intersection;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -33,8 +32,8 @@ public class PercentageTests {
       sphere.Origin = new Point(0, 0, 0);
       sphere.Radius = 1;
 
-      IntersectionState state = new IntersectionState();
-      state.IntersectionPoint = new Point(1, 0, 0);
+      Intersection state = new Intersection();
+      state.Location = new Point(1, 0, 0);
       state.Normal = new Normal(1, 0, 0);
       state.Hits = true;
 
@@ -54,8 +53,8 @@ public class PercentageTests {
       sphere.Origin = new Point(0, 0, 0);
       sphere.Radius = 1;
 
-      IntersectionState state = new IntersectionState();
-      state.IntersectionPoint = new Point(1, 0, 0);
+      Intersection state = new Intersection();
+      state.Location = new Point(1, 0, 0);
       state.Normal = new Normal(1, 0, 0);
       state.Hits = true;
 
@@ -75,8 +74,8 @@ public class PercentageTests {
       sphere.Origin = new Point(0, 0, 0);
       sphere.Radius = 1;
 
-      IntersectionState state = new IntersectionState();
-      state.IntersectionPoint = new Point(1, 0, 0);
+      Intersection state = new Intersection();
+      state.Location = new Point(1, 0, 0);
       state.Normal = new Normal(1, 0, 0);
       state.Hits = true;
 

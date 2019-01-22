@@ -4,7 +4,7 @@ import net.danielthompson.danray.cameras.Camera;
 import net.danielthompson.danray.presets.TracerOptions;
 import net.danielthompson.danray.scenes.AbstractScene;
 import net.danielthompson.danray.shapes.AbstractShape;
-import net.danielthompson.danray.states.IntersectionState;
+import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.Ray;
 
 /**
@@ -25,18 +25,18 @@ public class KDCompactScene extends AbstractScene {
    }
 
    @Override
-   public IntersectionState getNearestShape(Ray ray, int x, int y) {
+   public Intersection getNearestShape(Ray ray, int x, int y) {
       // all rays by definition hit the root node
 
-      IntersectionState state = TraverseTreeBetter(0, ray, 0);
+      Intersection state = TraverseTreeBetter(0, ray, 0);
 
       return state;
    }
 
-   private IntersectionState GetClosestDrawableInNode(KDCompactNode node, Ray ray) {
-      IntersectionState closestStateToRay = null;
+   private Intersection GetClosestDrawableInNode(KDCompactNode node, Ray ray) {
+      Intersection closestStateToRay = null;
       for (AbstractShape shape : node.Shapes) {
-         IntersectionState state = shape.getHitInfo(ray);
+         Intersection state = shape.getHitInfo(ray);
 
          if (state.Hits && (closestStateToRay == null || state.TMin < closestStateToRay.TMin)) {
             closestStateToRay = state;
@@ -46,7 +46,7 @@ public class KDCompactScene extends AbstractScene {
       return closestStateToRay;
    }
 
-   public IntersectionState TraverseTreeBetter(int index, Ray ray, int count) {
+   public Intersection TraverseTreeBetter(int index, Ray ray, int count) {
 
       int leftIndex = 2 * index + 1;
       int rightIndex = 2 * index + 2;
@@ -55,9 +55,9 @@ public class KDCompactScene extends AbstractScene {
 
       if (rightIndex > Size || Nodes[leftIndex] == null) {
          // it's a leaf
-         IntersectionState closestState = GetClosestDrawableInNode(Nodes[index], ray);
+         Intersection closestState = GetClosestDrawableInNode(Nodes[index], ray);
          if (closestState == null)
-            closestState = new IntersectionState();
+            closestState = new Intersection();
          closestState.KDHeatCount = count;
          return closestState;
       }
@@ -66,23 +66,23 @@ public class KDCompactScene extends AbstractScene {
          KDCompactNode leftNode = Nodes[leftIndex];
          KDCompactNode rightNode = Nodes[rightIndex];
 
-         IntersectionState leftState = KDCompactScene.GetHitInfo(leftNode, ray);
-         IntersectionState rightState = KDCompactScene.GetHitInfo(rightNode, ray);
+         Intersection leftState = KDCompactScene.GetHitInfo(leftNode, ray);
+         Intersection rightState = KDCompactScene.GetHitInfo(rightNode, ray);
 
-         IntersectionState nearState = leftState.TMin < rightState.TMin ? leftState : rightState;
+         Intersection nearState = leftState.TMin < rightState.TMin ? leftState : rightState;
          int nearIndex = leftState.TMin < rightState.TMin ? leftIndex : rightIndex;
          //KDCompactNode nearNode = leftState.TMin < rightState.TMin ? leftNode : rightNode;
 
-         IntersectionState farState = leftState.TMin >= rightState.TMin ? leftState : rightState;
+         Intersection farState = leftState.TMin >= rightState.TMin ? leftState : rightState;
          int farIndex = leftState.TMin >= rightState.TMin ? leftIndex : rightIndex;
          //KDCompactNode farNode = leftState.TMin >= rightState.TMin ? leftNode : rightNode;
 
-         IntersectionState bestCandidateState = new IntersectionState();
+         Intersection bestCandidateState = new Intersection();
          bestCandidateState.Hits = false;
          bestCandidateState.KDHeatCount = count;
 
          if (nearState.Hits) {
-            IntersectionState bestNearState = TraverseTreeBetter(nearIndex, ray, count);
+            Intersection bestNearState = TraverseTreeBetter(nearIndex, ray, count);
             if (bestNearState != null) {
                if (bestNearState.Hits)
                   bestCandidateState = bestNearState;
@@ -90,7 +90,7 @@ public class KDCompactScene extends AbstractScene {
          }
 
          if (farState.Hits) {
-            IntersectionState bestFarState = TraverseTreeBetter(farIndex, ray, count);
+            Intersection bestFarState = TraverseTreeBetter(farIndex, ray, count);
             if (bestFarState != null) {
                if (bestFarState.Hits) //{
                   bestCandidateState = (bestCandidateState.TMin >= 0 && bestCandidateState.TMin <= bestFarState.TMin)
@@ -103,11 +103,11 @@ public class KDCompactScene extends AbstractScene {
       }
    }
 
-   public static IntersectionState GetHitInfo(KDCompactNode node, Ray ray) {
+   public static Intersection GetHitInfo(KDCompactNode node, Ray ray) {
       float maxBoundFarT = Float.MAX_VALUE;
       float minBoundNearT = 0;
 
-      IntersectionState state = new IntersectionState();
+      Intersection state = new Intersection();
       state.Hits = true;
 
       // X

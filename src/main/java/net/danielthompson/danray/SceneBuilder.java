@@ -34,6 +34,7 @@ import static java.awt.Color.red;
 public class SceneBuilder {
 
    public static int nextID = 0;
+
    public static int getNextID() {
       return nextID++;
    }
@@ -56,10 +57,10 @@ public class SceneBuilder {
       public static Color Base2 = new Color(238, 232, 213);
       public static Color Base3 = new Color(253, 246, 227);
       public static Color yellow = new Color(181, 137, 0);
-      public static Color orange = new Color(203, 75, 22 );
+      public static Color orange = new Color(203, 75, 22);
       public static Color red = new Color(220, 50, 47);
-      public static Color magenta= new Color(211, 54, 130);
-      public static Color violet= new Color(108, 113, 196);
+      public static Color magenta = new Color(211, 54, 130);
+      public static Color violet = new Color(108, 113, 196);
       public static Color blue = new Color(38, 139, 210);
       public static Color cyan = new Color(42, 161, 152);
       public static Color green = new Color(133, 153, 0);
@@ -69,14 +70,14 @@ public class SceneBuilder {
       public static String Desert2 = "images/cubemap/desert 2.png";
       public static String Desert2Captions = "images/cubemap/desert 2 - captions.png";
       public static String Garden = "images/cubemap/garden.png";
+
       public static BufferedImage Load(String path) {
          try {
             ClassLoader loader = SceneBuilder.class.getClassLoader();
             URL url = loader.getResource(path);
- //         URL url = loader.getResource("images/cubemap/simple.png");
+            //         URL url = loader.getResource("images/cubemap/simple.png");
             return ImageIO.read(url);
-         }
-         catch (IOException e) {
+         } catch (IOException e) {
             System.out.println("Couldn't load skybox: " + e.getMessage());
             System.out.println("Working Directory = " +
                   System.getProperty("user.dir"));
@@ -98,7 +99,7 @@ public class SceneBuilder {
       settings.Y = y;
       settings.FocalLength = 1200;
       settings.Rotation = 0;
-      settings.ZoomFactor =  1.5f;
+      settings.ZoomFactor = 1.5f;
       settings.FocusDistance = 500;
       settings.Aperture = new CircleAperture(20);
 
@@ -276,19 +277,19 @@ public class SceneBuilder {
 
       for (int i = 0; i < 10; i++) {
          //for (int j = 0; j < 10; j++) {
-            list = new ArrayList<>();
-            list.add(Transform.Translate(new Vector(i * 120 - 800, i * 120 - 800, i * i * 20)));
-            list.add(Transform.Scale(50, 50, 50));
-            transforms = Transform.composite(list);
+         list = new ArrayList<>();
+         list.add(Transform.Translate(new Vector(i * 120 - 800, i * 120 - 800, i * i * 20)));
+         list.add(Transform.Scale(50, 50, 50));
+         transforms = Transform.composite(list);
 
-            objectToWorld = transforms[0];
-            worldToObject = transforms[1];
+         objectToWorld = transforms[0];
+         worldToObject = transforms[1];
 
-            p0 = new Point(-1, -1, -1);
-            p1 = new Point(1, 1, 1);
-            box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
-            box.ID = getNextID();
-            //scene.Drawables.add(box);
+         p0 = new Point(-1, -1, -1);
+         p1 = new Point(1, 1, 1);
+         box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
+         box.ID = getNextID();
+         //scene.Drawables.add(box);
 
          //}
       }
@@ -339,11 +340,18 @@ public class SceneBuilder {
       settings.FocusDistance = 500;
       settings.Aperture = new CircleAperture(20);
 
-      Transform[] inputTransforms = new Transform[] {
-//            Transform.Translate(new Vector(0, 100, 0)),
-//            Transform.RotateX(-20),
+      Transform[] inputTransforms = new Transform[]{
+            Transform.Translate(new Vector(0, 0, 0)),
+            Transform.RotateY(0),
+            Transform.RotateX(-10),
+
             Transform.identity
       };
+//      Transform[] inputTransforms = new Transform[]{
+//            Transform.Translate(new Vector(0, 1000, -250)),
+//            Transform.RotateX(-90),
+//            Transform.identity
+//      };
 
       Transform[] compositeTransforms = Transform.composite(inputTransforms);
 
@@ -356,66 +364,66 @@ public class SceneBuilder {
       Material material = new Material();
 
       material = new Material();
-      material.BRDF = new GlossyBRDF(0.85f);
+      material.BRDF = LambertianBRDF;
+//      material.BRDF = new GlossyBRDF(0.85f);
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Solarized.blue);
 
       inputTransforms = new Transform[2];
-      inputTransforms[0] = Transform.Translate(new Vector(100.0f, -25.0f, -200f));
+      inputTransforms[0] = Transform.Translate(new Vector(100.0f, -15.0f, -200f));
       inputTransforms[1] = Transform.Scale(25f);
 
       compositeTransforms = Transform.composite(inputTransforms);
 
       scene.addShape(new Sphere(compositeTransforms, material));
 
-      // left ball
-
-      material = new Material();
-      material.BRDF = MirrorBRDF;
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Beige);
-
-      inputTransforms = new Transform[] {
-            Transform.Translate(new Vector(-100.0f, -25.0f, -200f)),
-            Transform.RotateZ(45f),
-            Transform.Scale(50f, 25f, 25f)
-      };
-
-      compositeTransforms = Transform.composite(inputTransforms);
-
-      scene.addShape(new Sphere(compositeTransforms, material));
+//      // left ball
+//
+//      material = new Material();
+//      material.BRDF = MirrorBRDF;
+//      material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Beige);
+//
+//      inputTransforms = new Transform[]{
+//            Transform.Translate(new Vector(-100.0f, -25.0f, -200f)),
+//            Transform.RotateZ(45f),
+//            Transform.Scale(50f, 25f, 25f)
+//      };
+//
+//      compositeTransforms = Transform.composite(inputTransforms);
+//
+//      scene.addShape(new Sphere(compositeTransforms, material));
 
       // other box
-
-      for (int i = 0; i < 4; i++) {
-         material = new Material();
-         material.BRDF = new GlossyBRDF(0.99f);
-
-         switch (i) {
-            case 0:
-               material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Yellow);
-               break;
-            case 1:
-               material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Red);
-               break;
-            case 2:
-               material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Green);
-               break;
-            case 3:
-               material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Orange);
-               break;
-         }
-
-
-         inputTransforms = new Transform[] {
-               Transform.Translate(new Vector(-45 + (i * 30), -50f, -125f)),
-               Transform.RotateY(30f + (i * 20)),
-               Transform.Scale(10f, 10f + (i * 4), 10f),
-               Transform.Translate(new Vector(-0.5f, 0, -0.5f))
-         };
-         compositeTransforms = Transform.composite(inputTransforms);
-
-         scene.addShape(new Box(compositeTransforms, material));
-      }
-
+//
+//      for (int i = 0; i < 4; i++) {
+//         material = new Material();
+//         material.BRDF = new GlossyBRDF(0.99f);
+//
+//         switch (i) {
+//            case 0:
+//               material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Yellow);
+//               break;
+//            case 1:
+//               material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Red);
+//               break;
+//            case 2:
+//               material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Green);
+//               break;
+//            case 3:
+//               material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Orange);
+//               break;
+//         }
+//
+//
+//         inputTransforms = new Transform[]{
+//               Transform.Translate(new Vector(-45 + (i * 30), -50f, -125f)),
+//               Transform.RotateY(30f + (i * 20)),
+//               Transform.Scale(10f, 10f + (i * 4), 10f),
+//               Transform.Translate(new Vector(-0.5f, 0, -0.5f))
+//         };
+//         compositeTransforms = Transform.composite(inputTransforms);
+//
+//         scene.addShape(new Box(compositeTransforms, material));
+//      }
 
 
 //      // cylinder
@@ -437,10 +445,11 @@ public class SceneBuilder {
       // bottom box
 
       material = new Material();
-      material.BRDF = new GlossyBRDF(0.85f);
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(Solarized.Base01);
+//      material.BRDF = new GlossyBRDF(0.85f);
+      material.BRDF = LambertianBRDF;
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Solarized.Base3);
 
-      inputTransforms = new Transform[] {
+      inputTransforms = new Transform[]{
             Transform.Translate(new Vector(0, -50f, -200f)),
             //Transform.RotateX(10f),
             Transform.Scale(1000f, 1f, 1000f),
@@ -457,10 +466,10 @@ public class SceneBuilder {
       material.BRDF = MirrorBRDF;
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.WHITE);
 
-      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(Color.white, 1000.0f);
+      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(Color.white, 100.0f);
 
-      inputTransforms = new Transform[] {
-            Transform.Translate(new Vector(0, 0, -250)),
+      inputTransforms = new Transform[]{
+            Transform.Translate(new Vector(0, -15, -250)),
             Transform.Scale(25)
       };
 
@@ -470,12 +479,12 @@ public class SceneBuilder {
 
       AbstractLight light = new SphereLight(sphere, lightSPD);
 
-      scene.Shapes.add(sphere);
-      scene.Lights.add(light);
+      scene.Shapes.add(light);
+      //scene.Lights.add(light);
 
       // skybox
 
-      scene.SkyBoxImage = Skyboxes.Load(Skyboxes.Desert2);
+      //scene.SkyBoxImage = Skyboxes.Load(Skyboxes.Desert2);
 
       return scene;
    }
@@ -893,7 +902,7 @@ public class SceneBuilder {
       inputTransforms[0] = Transform.Translate(new Vector(-0.5f, -0.5f, -0.5f));
       inputTransforms[1] = Transform.Scale(2000f);
 
-      Transform[]  compositeTransforms = Transform.composite(inputTransforms);
+      Transform[] compositeTransforms = Transform.composite(inputTransforms);
 
       Box box = new Box(compositeTransforms[0], compositeTransforms[1], material);
       scene.addShape(box);
@@ -905,7 +914,6 @@ public class SceneBuilder {
       Sphere sphere = new Sphere();
       sphere.Origin = new Point(0, 250, -250);
       sphere.Radius = 50;
-
 
 
       AbstractLight light = new SphereLight(sphere, lightSPD);
@@ -986,13 +994,13 @@ public class SceneBuilder {
          for (int j = 0; j < maxSmallSpheresY; j++) {
             //for (int k = 0; k < maxSmallSpheresZ; k++) {
 
-               int constant = 128;
+            int constant = 128;
 
-               int red = (int) (((float)i / (float)maxSmallSpheresX) * (255 - constant) + constant);
-               int green = (int) (((float)j / (float)maxSmallSpheresY) * (255 - constant) + constant);
-               int blue = (int) (Math.random() * (255 - constant) + constant);
+            int red = (int) (((float) i / (float) maxSmallSpheresX) * (255 - constant) + constant);
+            int green = (int) (((float) j / (float) maxSmallSpheresY) * (255 - constant) + constant);
+            int blue = (int) (Math.random() * (255 - constant) + constant);
 
-               Color color = new Color(red, green, blue);
+            Color color = new Color(red, green, blue);
                /*
                Color color = null;
                float chance = Math.random();
@@ -1016,23 +1024,23 @@ public class SceneBuilder {
                else {
                   color = new Color(255, 176, 59);
                }*/
-               material = new Material();
+            material = new Material();
             material.ReflectanceSpectrum = new ReflectanceSpectrum(color);
             material._reflectivity = .3f;
             material._transparency = 0;
             material._specular = 1 - .7f;
             material.BRDF = brdf;
 
-               Sphere sphere = new Sphere(material);
+            Sphere sphere = new Sphere(material);
 
-               float originX = (float) (sphereXInterval * i + Math.random() * 5 - 10);
-               float originY = (float) (sphereYInterval * j + Math.random() * 5 - 10);
-               float originZ = /*sphereZInterval * k + */ (float) (Math.random() * 100 + 60);
+            float originX = (float) (sphereXInterval * i + Math.random() * 5 - 10);
+            float originY = (float) (sphereYInterval * j + Math.random() * 5 - 10);
+            float originZ = /*sphereZInterval * k + */ (float) (Math.random() * 100 + 60);
 
-               sphere.Origin = new Point(originX, originY, originZ);
-               sphere.Radius = (float) (Math.random() * 5 + 5);
+            sphere.Origin = new Point(originX, originY, originZ);
+            sphere.Radius = (float) (Math.random() * 5 + 5);
 
-               scene.addShape(sphere);
+            scene.addShape(sphere);
             //}
          }
       }
@@ -1040,7 +1048,6 @@ public class SceneBuilder {
       Sphere sphere = new Sphere();
       sphere.Origin = new Point(300, 300, 3000);
       sphere.Radius = 70;
-
 
 
       SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(100000.0f, 100000.0f, 100000.0f);
@@ -1104,25 +1111,25 @@ public class SceneBuilder {
 
       for (int i = 10; i <= 110; i += 50) {
          //for (int j = 10; j <= 110; j+= 50) {
-            for (int k = 10; k <= 100; k+= 50) {
-               float originX = i + offset;
-               float originY = i - offset;
-               float originZ = k + 15;
+         for (int k = 10; k <= 100; k += 50) {
+            float originX = i + offset;
+            float originY = i - offset;
+            float originZ = k + 15;
 
-               material = new Material();
+            material = new Material();
 
-               material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(0, 131, 255));
-               material._reflectivity = .2f;
-               material._transparency = 0;
-               material._specular = 1 - .8f;
-               //material.setIndexOfRefraction(1.1);
+            material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(0, 131, 255));
+            material._reflectivity = .2f;
+            material._transparency = 0;
+            material._specular = 1 - .8f;
+            //material.setIndexOfRefraction(1.1);
 
-               Sphere sphere = new Sphere(material);
-               sphere.Origin = new Point(originX, originY, originZ);
-               sphere.Radius = 20;
-               scene.addShape(sphere);
-               offset += increment;
-            }
+            Sphere sphere = new Sphere(material);
+            sphere.Origin = new Point(originX, originY, originZ);
+            sphere.Radius = 20;
+            scene.addShape(sphere);
+            offset += increment;
+         }
 
          //}
          offset += increment;
@@ -1180,7 +1187,6 @@ public class SceneBuilder {
       scene.addShape(sphere);*/
 
 
-
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(70, 137, 102));
       material._specular = 1 - .2f;
@@ -1230,7 +1236,6 @@ public class SceneBuilder {
       scene.addShape(box);
 
 
-
       for (int i = 0; i < 1; i++) {
          p0 = new Point(-100, -100, -100);
          p1 = new Point(100, 100, 100);
@@ -1259,7 +1264,6 @@ public class SceneBuilder {
          box = new Box(p0, p1, material, objectToWorld, worldToObject);
          scene.addShape(box);
       }
-
 
 
       material = new Material();
@@ -1539,7 +1543,6 @@ public class SceneBuilder {
       planeOrigin = new Point(0, 0, -1000);
       planeNormal = new Normal(0, 0, 1);
 
-      
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
@@ -1554,7 +1557,6 @@ public class SceneBuilder {
       planeOrigin = new Point(800, 0, 0);
       planeNormal = new Normal(-1, 0, 0);
 
-      
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
@@ -1569,7 +1571,6 @@ public class SceneBuilder {
       planeOrigin = new Point(-200, 0, 0);
       planeNormal = new Normal(1, 0, 0);
 
-      
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(0, 131, 255));
@@ -1680,7 +1681,6 @@ public class SceneBuilder {
       scene.addShape(sphere);
 
 
-
       return scene;
    }
 
@@ -1700,7 +1700,7 @@ public class SceneBuilder {
       settings.Aperture = new CircleAperture(50);
       settings.ZoomFactor = 0.5f;
 
-      float zoomFactor = 1.0f/2.0f;
+      float zoomFactor = 1.0f / 2.0f;
       float focusDistance = 1487.0f;
 
       Camera camera = new PerspectiveCamera(settings, null);
@@ -1766,7 +1766,6 @@ public class SceneBuilder {
       planeOrigin = new Point(0, 0, -400);
       planeNormal = new Normal(0, 0, 1);
 
-      
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
@@ -1781,7 +1780,6 @@ public class SceneBuilder {
       planeOrigin = new Point(800, 0, 0);
       planeNormal = new Normal(-1, 0, 0);
 
-      
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
@@ -1796,7 +1794,6 @@ public class SceneBuilder {
       planeOrigin = new Point(-200, 0, 0);
       planeNormal = new Normal(1, 0, 0);
 
-      
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(0, 131, 255));
@@ -1957,7 +1954,7 @@ public class SceneBuilder {
       settings.Y = y;
       settings.FocalLength = 1200;
       settings.Rotation = 0;
-      settings.ZoomFactor =  1.5f;
+      settings.ZoomFactor = 1.5f;
       settings.FocusDistance = 500;
       settings.Aperture = new CircleAperture(20);
 

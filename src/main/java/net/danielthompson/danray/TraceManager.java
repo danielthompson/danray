@@ -5,15 +5,16 @@ import net.danielthompson.danray.films.BoxFilterFilm;
 import net.danielthompson.danray.integrators.*;
 import net.danielthompson.danray.presets.RenderQualityPreset;
 import net.danielthompson.danray.presets.TracerOptions;
+import net.danielthompson.danray.runners.BottomUpTileRunner;
 import net.danielthompson.danray.runners.PixelRunner;
-import net.danielthompson.danray.runners.TileRunner;
 import net.danielthompson.danray.films.AbstractFilm;
 import net.danielthompson.danray.samplers.AbstractSampler;
 import net.danielthompson.danray.samplers.CenterSampler;
+import net.danielthompson.danray.samplers.GridSampler;
 import net.danielthompson.danray.samplers.RandomSampler;
 import net.danielthompson.danray.shading.fullspectrum.FullSpectralBlender;
 import net.danielthompson.danray.shading.fullspectrum.FullSpectralPowerDistribution;
-import net.danielthompson.danray.states.IntersectionState;
+import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.scenes.AbstractScene;
 import net.danielthompson.danray.structures.Vector;
@@ -112,13 +113,14 @@ public class TraceManager {
       _tracerOptions = tracerOptions;
       _samplesInverse = 1.0f / (renderQualityPreset.getSuperSamplesPerPixel() * renderQualityPreset.getSamplesPerPixel());
       _scene = scene;
-//      _integrator = new PathTraceIntegrator(_scene, renderQualityPreset.getMaxDepth());
+      _integrator = new PathTraceIntegrator(_scene, renderQualityPreset.getMaxDepth());
 //      _integrator = new IterativePathTraceIntegrator(_scene, renderQualityPreset.getMaxDepth());
 //      _integrator = new IterativeMISPathTraceIntegrator(_scene, renderQualityPreset.getMaxDepth());
-      _integrator = new WhittedIntegrator(_scene, renderQualityPreset.getMaxDepth());
-      //_sampler = new RandomSampler(renderQualityPreset.getSamplesPerPixel());
-//      _sampler = new GridSampler(renderQualityPreset.getSamplesPerPixel());
-      _sampler = new RandomSampler(renderQualityPreset.getSamplesPerPixel());
+//      _integrator = new WhittedIntegrator(_scene, renderQualityPreset.getMaxDepth());
+//      _sampler = new RandomSampler(renderQualityPreset.getSamplesPerPixel());
+      _sampler = new GridSampler(renderQualityPreset.getSamplesPerPixel());
+//      _sampler = new RandomSampler(renderQualityPreset.getSamplesPerPixel());
+//      _sampler = new CenterSampler(renderQualityPreset.getSamplesPerPixel());
       _timer = new Timer();
 
       long numPixels = renderQualityPreset.getX() * renderQualityPreset.getY();
@@ -329,13 +331,13 @@ public class TraceManager {
    public void setMouseClickXY(final int x, final int y) {
       Ray[] cameraRays = _scene.Camera.getRays(x, y, 1);
 
-      IntersectionState state = _scene.getNearestShape(cameraRays[0], x, y);
+      Intersection state = _scene.getNearestShape(cameraRays[0], x, y);
 
       if (state != null) {
 
-         float xx = state.IntersectionPoint.X;
-         float yy = state.IntersectionPoint.Y;
-         float zz = state.IntersectionPoint.Z;
+         float xx = state.Location.X;
+         float yy = state.Location.Y;
+         float zz = state.Location.Z;
 
          if (_infoJFrame != null)
             _infoJFrame.setSceneLocation(xx, yy, zz);
@@ -410,7 +412,7 @@ public class TraceManager {
 
 
 
-      Runnable runner = new TileRunner(this, _integrator, _scene, _qualityPreset, _film, _sampler, frame);
+      Runnable runner = new BottomUpTileRunner(this, _integrator, _scene, _qualityPreset, _film, _sampler, frame);
 
       /*
       if (s >= 0 || t >= 0) {

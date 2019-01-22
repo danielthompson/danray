@@ -6,7 +6,7 @@ import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.shading.ReflectanceSpectrum;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.shapes.AbstractShape;
-import net.danielthompson.danray.states.IntersectionState;
+import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
 
 /**
@@ -32,7 +32,7 @@ public class IterativePathTraceIntegrator extends AbstractIntegrator {
 
       for (bounces = 0; bounces < maxDepth; bounces++) {
 
-         IntersectionState closestStateToRay = scene.getNearestShape(ray, x, y);
+         Intersection closestStateToRay = scene.getNearestShape(ray, x, y);
          if (closestStateToRay == null || !closestStateToRay.Hits) {
 
             spds[bounces].add(scene.getSkyBoxSPD(ray.Direction));
@@ -56,7 +56,7 @@ public class IterativePathTraceIntegrator extends AbstractIntegrator {
             fs[bounces] = scalePercentage;
             refls[bounces] = objectMaterial.ReflectanceSpectrum;
 
-            ray = new Ray(closestStateToRay.IntersectionPoint, outgoingDirection);
+            ray = new Ray(closestStateToRay.Location, outgoingDirection);
             ray.OffsetOriginForward(Constants.HalfEpsilon);
             spds[bounces + 1] = new SpectralPowerDistribution();
          }

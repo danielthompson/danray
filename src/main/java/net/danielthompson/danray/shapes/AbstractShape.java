@@ -3,7 +3,7 @@ package net.danielthompson.danray.shapes;
 import net.danielthompson.danray.acceleration.BoundingEdge;
 import net.danielthompson.danray.acceleration.KDAxis;
 import net.danielthompson.danray.shading.Material;
-import net.danielthompson.danray.states.IntersectionState;
+import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
 
 
@@ -20,8 +20,6 @@ public abstract class AbstractShape {
    public Transform WorldToObject;
 
    public Material Material;
-
-   public boolean IsConvex;
 
    public boolean InCurrentKDNode;
 
@@ -48,7 +46,7 @@ public abstract class AbstractShape {
      * @param ray
     * @return
     */
-   public IntersectionState getHitInfo(Ray ray) {
+   public Intersection getHitInfo(Ray ray) {
       return null;
    }
 
@@ -73,8 +71,30 @@ public abstract class AbstractShape {
       return worldSpaceIntersectionPoint;
    }
 
-   public Normal calculateIntersectionNormal(Ray worldSpaceRay, float t) {
-      throw new java.lang.UnsupportedOperationException();
+   protected void calculateTangents(Intersection intersection) {
+      // TODO fix such that TangentU and TangentV are actually in du & dv directions (once texture mapping is implemented)
+
+      Vector v1 = Constants.PositiveX.Cross(intersection.Normal);
+      Vector v2 = Constants.PositiveY.Cross(intersection.Normal);
+
+      intersection.TangentU = (v1.LengthSquared() > v2.LengthSquared()) ? v1 : v2;
+      intersection.TangentV = intersection.TangentU.Cross(intersection.Normal);
+      intersection.TangentU = intersection.TangentV.Cross(intersection.Normal);
+   }
+
+   protected void ToWorldSpace(Intersection intersection, Ray worldSpaceRay) {
+      if (ObjectToWorld != null) {
+         intersection.Location = ObjectToWorld.Apply(intersection.Location);
+         intersection.Normal = ObjectToWorld.Apply(intersection.Normal);
+         intersection.TangentU = ObjectToWorld.Apply(intersection.TangentU);
+         intersection.TangentV = ObjectToWorld.Apply(intersection.TangentV);
+         if (ObjectToWorld.HasScale()) {
+            intersection.Normal.Normalize();
+            intersection.TangentU.Normalize();
+            intersection.TangentV.Normalize();
+            intersection.TMin = worldSpaceRay.GetTAtPoint(intersection.Location);
+         }
+      }
    }
 
    public BoundingEdge[] GetBoundingEdges(KDAxis axis) {

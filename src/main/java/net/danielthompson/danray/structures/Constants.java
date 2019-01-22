@@ -9,13 +9,12 @@ package net.danielthompson.danray.structures;
 public class Constants {
    public static final float Epsilon = .00001f;
    public static final float HalfEpsilon = Epsilon * .5f;
+   public static final float DoubleEpsilon = Epsilon * 2f;
    public static final float UnitTestDelta = .001f;
    //public static final float Epsilon = .000000001265;
    //public static final float Epsilon = .0000000001006;
 
    public static final float NOHIT = -1.0f;
-
-   public static final int NumberOfPregeneratedRandoms = 65537;
 
    public static final float PI = (float) Math.PI;
    public static final float OneOverPi = (float) (1.0f / Math.PI);
@@ -35,6 +34,13 @@ public class Constants {
 
    public static final float Root2 = (float) Math.sqrt(2);
    public static final float Root3 = (float) Math.sqrt(3);
+
+   public final static Vector NegativeX = new Vector(-1, 0, 0);
+   public final static Vector NegativeY = new Vector(0, -1, 0);
+   public final static Vector NegativeZ = new Vector(0, 0, -1);
+   public final static Vector PositiveX = new Vector(1, 0, 0);
+   public final static Vector PositiveY = new Vector(0, 1, 0);
+   public final static Vector PositiveZ = new Vector(0, 0, 1);
 
    public static boolean WithinEpsilon(float number, float target) {
       return WithinEpsilon(number, target, Epsilon);

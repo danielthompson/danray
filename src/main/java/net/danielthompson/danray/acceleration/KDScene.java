@@ -2,7 +2,7 @@ package net.danielthompson.danray.acceleration;
 
 import net.danielthompson.danray.presets.TracerOptions;
 import net.danielthompson.danray.shapes.*;
-import net.danielthompson.danray.states.IntersectionState;
+import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.cameras.Camera;
 import net.danielthompson.danray.scenes.AbstractScene;
 import net.danielthompson.danray.structures.*;
@@ -29,16 +29,16 @@ public class KDScene extends AbstractScene {
    }
 
    @Override
-   public IntersectionState getNearestShape(Ray ray, int x, int y) {
+   public Intersection getNearestShape(Ray ray, int x, int y) {
       // all rays by definition hit the root node
 
-      IntersectionState state = TraverseTreeBetter(rootNode, ray, 0);
+      Intersection state = TraverseTreeBetter(rootNode, ray, 0);
 
       return state;
    }
 
 
-   public IntersectionState GetClosestDrawableOrPlaneToRay(List<AbstractShape> shapes, Ray ray) {
+   public Intersection GetClosestDrawableOrPlaneToRay(List<AbstractShape> shapes, Ray ray) {
 
       List<AbstractShape> totalShapes = new ArrayList<>();
 
@@ -47,10 +47,10 @@ public class KDScene extends AbstractScene {
       return GetClosestDrawableToRay(totalShapes, ray);
    }
 
-   private IntersectionState GetClosestDrawableToRay(List<AbstractShape> shapes, Ray ray) {
-      IntersectionState closestStateToRay = null;
+   private Intersection GetClosestDrawableToRay(List<AbstractShape> shapes, Ray ray) {
+      Intersection closestStateToRay = null;
       for (AbstractShape shape : shapes) {
-         IntersectionState state = shape.getHitInfo(ray);
+         Intersection state = shape.getHitInfo(ray);
 
          if (state.Hits) {
             if (closestStateToRay == null) {
@@ -65,9 +65,9 @@ public class KDScene extends AbstractScene {
       return closestStateToRay;
    }
 
-   public IntersectionState TraverseTree(KDNode node, Ray ray) {
+   public Intersection TraverseTree(KDNode node, Ray ray) {
       if (node.isLeaf()) {
-         IntersectionState closestState = GetClosestDrawableOrPlaneToRay(node.Shapes, ray);
+         Intersection closestState = GetClosestDrawableOrPlaneToRay(node.Shapes, ray);
 
          return closestState;
       }
@@ -76,22 +76,22 @@ public class KDScene extends AbstractScene {
          KDNode leftNode = node.LeftChild;
          KDNode rightNode = node.RightChild;
 
-         IntersectionState leftState = leftNode.getHitInfo(ray);
-         IntersectionState rightState = rightNode.getHitInfo(ray);
+         Intersection leftState = leftNode.getHitInfo(ray);
+         Intersection rightState = rightNode.getHitInfo(ray);
 
          boolean hitsLeft = leftState.Hits;
          boolean hitsRight = rightState.Hits;
 
-         IntersectionState bestStateSoFar = null;
+         Intersection bestStateSoFar = null;
 
          if (hitsLeft) {
-            IntersectionState bestCandidateState = TraverseTree(leftNode, ray);
+            Intersection bestCandidateState = TraverseTree(leftNode, ray);
             if (bestCandidateState != null && bestCandidateState.Hits)
                bestStateSoFar = bestCandidateState;
          }
 
          if (hitsRight) {
-            IntersectionState bestCandidateState = TraverseTree(rightNode, ray);
+            Intersection bestCandidateState = TraverseTree(rightNode, ray);
             if (bestCandidateState != null && bestCandidateState.Hits && (bestStateSoFar == null || bestCandidateState.TMin < bestStateSoFar.TMin)) {
                bestStateSoFar = bestCandidateState;
             }
@@ -109,13 +109,13 @@ public class KDScene extends AbstractScene {
       return node.BoundingBox.point2;
    }
 
-   public IntersectionState TraverseTreeBetter(KDNode node, Ray ray, int count) {
+   public Intersection TraverseTreeBetter(KDNode node, Ray ray, int count) {
 
       count++;
       if (node.isLeaf()) {
-         IntersectionState closestState = getNearestShapeIteratively(node.Shapes, ray);
+         Intersection closestState = getNearestShapeIteratively(node.Shapes, ray);
          if (closestState == null)
-            closestState = new IntersectionState();
+            closestState = new Intersection();
          closestState.KDHeatCount = count;
          return closestState;
       }
@@ -124,14 +124,14 @@ public class KDScene extends AbstractScene {
          KDNode leftNode = node.LeftChild;
          KDNode rightNode = node.RightChild;
 
-         IntersectionState leftState = BoundingBox.GetHitInfoNew(getPoint1(leftNode), getPoint2(leftNode), ray);
-         IntersectionState rightState = BoundingBox.GetHitInfoNew(getPoint1(rightNode), getPoint2(rightNode), ray);
+         Intersection leftState = BoundingBox.GetHitInfoNew(getPoint1(leftNode), getPoint2(leftNode), ray);
+         Intersection rightState = BoundingBox.GetHitInfoNew(getPoint1(rightNode), getPoint2(rightNode), ray);
 
-         //IntersectionState leftState = BoundingBox.GetHitInfoNew(leftNode.BoundingBox.point1, leftNode.BoundingBox.point2, ray);
-         //IntersectionState rightState = BoundingBox.GetHitInfoNew(rightNode.BoundingBox.point1, rightNode.BoundingBox.point2, ray);
+         //Intersection leftState = BoundingBox.GetHitInfoNew(leftNode.BoundingBox.point1, leftNode.BoundingBox.point2, ray);
+         //Intersection rightState = BoundingBox.GetHitInfoNew(rightNode.BoundingBox.point1, rightNode.BoundingBox.point2, ray);
 
-         //IntersectionState leftState = leftNode.getHitInfo(ray);
-         //IntersectionState rightState = rightNode.getHitInfo(ray);
+         //Intersection leftState = leftNode.getHitInfo(ray);
+         //Intersection rightState = rightNode.getHitInfo(ray);
 
          /*
 
@@ -161,18 +161,18 @@ public class KDScene extends AbstractScene {
          if (leftState.TMin == rightState.TMin)
             ;
          */
-         IntersectionState nearState = leftState.TMin < rightState.TMin ? leftState : rightState;
+         Intersection nearState = leftState.TMin < rightState.TMin ? leftState : rightState;
          KDNode nearNode = leftState.TMin < rightState.TMin ? leftNode : rightNode;
 
-         IntersectionState farState = leftState.TMin >= rightState.TMin ? leftState : rightState;
+         Intersection farState = leftState.TMin >= rightState.TMin ? leftState : rightState;
          KDNode farNode = leftState.TMin >= rightState.TMin ? leftNode : rightNode;
 
-         IntersectionState bestCandidateState = new IntersectionState();
+         Intersection bestCandidateState = new Intersection();
          bestCandidateState.Hits = false;
          bestCandidateState.KDHeatCount = count;
 
          if (nearState.Hits) {
-            IntersectionState bestNearState = TraverseTreeBetter(nearNode, ray, count);
+            Intersection bestNearState = TraverseTreeBetter(nearNode, ray, count);
             if (bestNearState != null) {
                if (bestNearState.Hits)
                   bestCandidateState = bestNearState;
@@ -183,7 +183,7 @@ public class KDScene extends AbstractScene {
          }
 
          if (farState.Hits && !bestCandidateState.Hits) {
-            IntersectionState bestFarState = TraverseTreeBetter(farNode, ray, count);
+            Intersection bestFarState = TraverseTreeBetter(farNode, ray, count);
             if (bestFarState != null) {
                if (bestFarState.Hits) //{
                   bestCandidateState = (bestCandidateState.TMin >= 0 && bestCandidateState.TMin <= bestFarState.TMin)
@@ -199,9 +199,9 @@ public class KDScene extends AbstractScene {
       }
    }
 
-   public IntersectionState TraverseTreeIterative(KDNode rootNode, Ray ray) {
+   public Intersection TraverseTreeIterative(KDNode rootNode, Ray ray) {
 
-      IntersectionState rootState = rootNode.getHitInfo(ray);
+      Intersection rootState = rootNode.getHitInfo(ray);
 
       if (rootState == null || !rootState.Hits)
          return rootState;
@@ -216,7 +216,7 @@ public class KDScene extends AbstractScene {
 
          todos[todoPos] = new KToDo(rootNode, ray.MinT, ray.MaxT);
 
-         IntersectionState closestState = null;
+         Intersection closestState = null;
 
          KDNode node = todos[todoPos].Node;
 
@@ -305,6 +305,6 @@ public class KDScene extends AbstractScene {
 
    private class KDIntersectionState {
       public KDNode Node;
-      public IntersectionState State;
+      public Intersection State;
    }
 }

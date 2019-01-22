@@ -2,7 +2,7 @@ package net.danielthompson.danray.acceleration;
 
 import net.danielthompson.danray.shapes.AbstractShape;
 
-import net.danielthompson.danray.states.IntersectionState;
+import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.BoundingBox;
 import net.danielthompson.danray.structures.Ray;
 
@@ -78,7 +78,7 @@ public class KDNode {
       return BoundingBox.Hits(ray);
    }
 
-   public IntersectionState getHitInfo(Ray ray) {
+   public Intersection getHitInfo(Ray ray) {
       //return BoundingBox.GetHitInfo(ray);
       return BoundingBox.GetHitInfoNew(BoundingBox.point1, BoundingBox.point2, ray);
    }

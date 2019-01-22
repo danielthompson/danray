@@ -2,7 +2,7 @@
 //
 //import net.danielthompson.danray.scenes.NaiveScene;
 //import net.danielthompson.danray.scenes.AbstractScene;
-//import net.danielthompson.danray.states.IntersectionState;
+//import net.danielthompson.danray.states.Intersection;
 //import net.danielthompson.danray.structures.*;
 //import net.danielthompson.danray.structures.Point;
 //import org.testng.Assert;
@@ -97,7 +97,7 @@
 //
 //         Ray ray = light.getRandomRayInPDF();
 //
-//         IntersectionState state = scene.getNearestShape(ray);
+//         Intersection state = scene.getNearestShape(ray);
 //
 //         Assert.assertNull(state);
 //

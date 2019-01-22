@@ -2,9 +2,7 @@ package net.danielthompson.danray.scenes;
 
 import net.danielthompson.danray.cameras.Camera;
 import net.danielthompson.danray.presets.TracerOptions;
-import net.danielthompson.danray.shapes.AbstractShape;
-import net.danielthompson.danray.states.IntersectionState;
-import net.danielthompson.danray.structures.Constants;
+import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.Ray;
 
 /**
@@ -21,7 +19,7 @@ public class NaiveScene extends AbstractScene {
    }
 
    @Override
-   public IntersectionState getNearestShape(Ray ray, int x, int y) {
+   public Intersection getNearestShape(Ray ray, int x, int y) {
       if (x == 180 && y == 230) {
          x++;
          x--;

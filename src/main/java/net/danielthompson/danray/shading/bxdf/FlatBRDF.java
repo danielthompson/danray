@@ -10,8 +10,6 @@ import net.danielthompson.danray.utility.GeometryCalculations;
  */
 public class FlatBRDF extends BRDF {
 
-
-
    @Override
    public float f(float thetaIncoming, float thetaOutgoing) {
 

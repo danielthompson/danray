@@ -1,7 +1,7 @@
 package test.structures.boundingbox;
 
 
-import net.danielthompson.danray.states.IntersectionState;
+import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -32,7 +32,7 @@ public class IntersectionTests {
       Ray ray = new Ray(origin, direction);
 
       // act
-      IntersectionState state = box.GetHitInfo(ray);
+      Intersection state = box.GetHitInfo(ray);
 
       // assert
       Assert.assertNotNull(state, "intersection state shouldn't be null");

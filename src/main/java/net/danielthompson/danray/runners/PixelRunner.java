@@ -57,11 +57,12 @@ public class PixelRunner extends AbstractRunner {
             pixel[0] = _xPointer;
             pixel[1] = _yPointer;
 
-            _xPointer++;
+            _yPointer++;
 
-            if (_xPointer >= _x) {
-               _xPointer = 0;
-               _yPointer++;
+            if (_yPointer >= _y) {
+               _xPointer++;
+               _yPointer = 0;
+
             }
          }
       }

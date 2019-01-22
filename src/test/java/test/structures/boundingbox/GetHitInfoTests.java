@@ -1,13 +1,11 @@
 package test.structures.boundingbox;
 
-import net.danielthompson.danray.shapes.Box;
-import net.danielthompson.danray.states.IntersectionState;
+import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import test.AssertHelper;
 
 /**
  * DanRay
@@ -39,7 +37,7 @@ public class GetHitInfoTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = box.GetHitInfo(ray);
+      Intersection state = box.GetHitInfo(ray);
 
       Assert.assertTrue(state.Hits, "Should hit");
    }
@@ -57,7 +55,7 @@ public class GetHitInfoTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = box.GetHitInfo(ray);
+      Intersection state = box.GetHitInfo(ray);
 
       Assert.assertTrue(state.Hits, "Should hit");
    }
@@ -75,9 +73,9 @@ public class GetHitInfoTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = box.GetHitInfo(ray);
+      Intersection state = box.GetHitInfo(ray);
 
-      Assert.assertNotNull(state, "IntersectionState shouldn't be null");
+      Assert.assertNotNull(state, "Intersection shouldn't be null");
       Assert.assertTrue(state.Hits, "Should hit");
    }
 
@@ -94,10 +92,10 @@ public class GetHitInfoTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = box.GetHitInfo(ray);
+      Intersection state = box.GetHitInfo(ray);
 
 
-      Assert.assertNotNull(state, "IntersectionState shouldn't be null");
+      Assert.assertNotNull(state, "Intersection shouldn't be null");
       Assert.assertTrue(state.Hits, "Should hit");
    }
 
@@ -117,7 +115,7 @@ public class GetHitInfoTests {
 
             Ray ray = new Ray(origin, direction);
 
-            IntersectionState state = box.GetHitInfo(ray);
+            Intersection state = box.GetHitInfo(ray);
 
             Assert.assertTrue(state.Hits, "Should hit");
          }
@@ -137,7 +135,7 @@ public class GetHitInfoTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = box.GetHitInfo(ray);
+      Intersection state = box.GetHitInfo(ray);
 
       //Vector expectedNormalDirection = new Vector(-1, 0, 0);
 
@@ -158,11 +156,11 @@ public class GetHitInfoTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = box.GetHitInfo(ray);
+      Intersection state = box.GetHitInfo(ray);
 
 
       Assert.assertFalse(state.Hits, "Shouldn't hit");
-      Assert.assertNull(state.IntersectionPoint, "Shouldn't be an intersection point if the ray doesn't hit");
+      Assert.assertNull(state.Location, "Shouldn't be an intersection point if the ray doesn't hit");
       Assert.assertNull(state.Normal, "Shouldn't be a normal for no hit");
    }
 
@@ -179,10 +177,10 @@ public class GetHitInfoTests {
 
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = box.GetHitInfo(ray);
+      Intersection state = box.GetHitInfo(ray);
 
       Assert.assertFalse(state.Hits, "Shouldn't hit");
-      Assert.assertNull(state.IntersectionPoint, "Shouldn't be an intersection point if the ray doesn't hit");
+      Assert.assertNull(state.Location, "Shouldn't be an intersection point if the ray doesn't hit");
       Assert.assertNull(state.Normal, "Shouldn't be a normal for no hit");
    }
 
@@ -199,10 +197,10 @@ public class GetHitInfoTests {
       Vector direction = new Vector(-1, 0, 1);
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = box.GetHitInfo(ray);
+      Intersection state = box.GetHitInfo(ray);
 
       Assert.assertFalse(state.Hits, "Shouldn't hit");
-      Assert.assertNull(state.IntersectionPoint, "Shouldn't be an intersection point if the ray doesn't hit");
+      Assert.assertNull(state.Location, "Shouldn't be an intersection point if the ray doesn't hit");
       Assert.assertNull(state.Normal, "Shouldn't be a normal for no hit");
    }
 
@@ -219,10 +217,10 @@ public class GetHitInfoTests {
       Vector direction = new Vector(-1, 1, 1);
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = box.GetHitInfo(ray);
+      Intersection state = box.GetHitInfo(ray);
 
       Assert.assertFalse(state.Hits, "Shouldn't hit");
-      Assert.assertNull(state.IntersectionPoint, "Shouldn't be an intersection point if the ray doesn't hit");
+      Assert.assertNull(state.Location, "Shouldn't be an intersection point if the ray doesn't hit");
       Assert.assertNull(state.Normal, "Shouldn't be a normal for no hit");
    }
 
@@ -239,10 +237,10 @@ public class GetHitInfoTests {
       Vector direction = new Vector(1, 0, -1);
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = box.GetHitInfo(ray);
+      Intersection state = box.GetHitInfo(ray);
 
       Assert.assertFalse(state.Hits, "Shouldn't hit");
-      Assert.assertNull(state.IntersectionPoint, "Shouldn't be an intersection point if the ray doesn't hit");
+      Assert.assertNull(state.Location, "Shouldn't be an intersection point if the ray doesn't hit");
       Assert.assertNull(state.Normal, "Shouldn't be a normal for no hit");
    }
 
@@ -259,10 +257,10 @@ public class GetHitInfoTests {
       Vector direction = new Vector(0, -1, -1);
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = box.GetHitInfo(ray);
+      Intersection state = box.GetHitInfo(ray);
 
       Assert.assertFalse(state.Hits, "Shouldn't hit");
-      Assert.assertNull(state.IntersectionPoint, "Shouldn't be an intersection point if the ray doesn't hit");
+      Assert.assertNull(state.Location, "Shouldn't be an intersection point if the ray doesn't hit");
       Assert.assertNull(state.Normal, "Shouldn't be a normal for no hit");
    }
 
@@ -284,10 +282,10 @@ public class GetHitInfoTests {
                   Vector direction = new Vector(0, j, k);
                   Ray ray = new Ray(origin, direction);
 
-                  IntersectionState state = box.GetHitInfo(ray);
+                  Intersection state = box.GetHitInfo(ray);
 
                   Assert.assertFalse(state.Hits, "Shouldn't hit");
-                  Assert.assertNull(state.IntersectionPoint, "Shouldn't be an intersection point if the ray doesn't hit");
+                  Assert.assertNull(state.Location, "Shouldn't be an intersection point if the ray doesn't hit");
                   Assert.assertNull(state.Normal, "Shouldn't be a normal for no hit");
                }
             }
@@ -308,10 +306,10 @@ public class GetHitInfoTests {
       Vector direction = new Vector(-1, 1, -1);
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = box.GetHitInfo(ray);
+      Intersection state = box.GetHitInfo(ray);
 
       Assert.assertFalse(state.Hits, "Shouldn't hit");
-      Assert.assertNull(state.IntersectionPoint, "Shouldn't be an intersection point if the ray doesn't hit");
+      Assert.assertNull(state.Location, "Shouldn't be an intersection point if the ray doesn't hit");
       Assert.assertNull(state.Normal, "Shouldn't be a normal for no hit");
    }
 
@@ -328,10 +326,10 @@ public class GetHitInfoTests {
       Vector direction = new Vector(.711770f, .021852f, -.702072f);
       Ray ray = new Ray(origin, direction);
 
-      IntersectionState state = box.GetHitInfo(ray);
+      Intersection state = box.GetHitInfo(ray);
 
       Assert.assertFalse(state.Hits, "Shouldn't hit");
-      Assert.assertNull(state.IntersectionPoint, "Shouldn't be an intersection point if the ray doesn't hit");
+      Assert.assertNull(state.Location, "Shouldn't be an intersection point if the ray doesn't hit");
       Assert.assertNull(state.Normal, "Shouldn't be a normal for no hit");
    }
 }

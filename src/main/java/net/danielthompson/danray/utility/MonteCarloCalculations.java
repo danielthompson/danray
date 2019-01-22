@@ -3,6 +3,8 @@ package net.danielthompson.danray.utility;
 import net.danielthompson.danray.structures.Constants;
 import net.danielthompson.danray.structures.Vector;
 
+import java.security.SecureRandom;
+
 /**
  * Created by daniel on 8/29/15.
  */
@@ -14,12 +16,13 @@ public class MonteCarloCalculations {
     */
    public static float[] RejectionSampleUnitDisc() {
 
+
       float x;
       float y;
 
       do {
-         x = (float) (1 - 2 * GeometryCalculations.random.nextDouble());
-         y = (float) (1 - 2 * GeometryCalculations.random.nextDouble());
+         x = (float) (1 - 2 * GeometryCalculations.splitRandom.get().nextDouble());
+         y = (float) (1 - 2 * GeometryCalculations.splitRandom.get().nextDouble());
       } while (x * x + y * y > 1);
 
       return new float[] {x, y};
@@ -27,12 +30,19 @@ public class MonteCarloCalculations {
 
    public static Vector CosineSampleHemisphere() {
 
-      float[] xy = RejectionSampleUnitDisc();
-      float x = xy[0];
-      float y = xy[1];
-      float z = (float) Math.sqrt(Math.max(0, 1 - x * x - y * y));
+      float[] xz = RejectionSampleUnitDisc();
+      float x = xz[0];
+      float z = xz[1];
+
+      float value = 1 - x * x - z * z;
+
+      float y = (float) Math.sqrt(value);
+      // max not needed due to RejectionSampleUnitDisc() implementation
+//      float y = (float) Math.sqrt(Math.max(0, value));
+
 
       Vector ret = new Vector(x, y, z);
+
       return ret;
    }
 

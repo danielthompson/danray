@@ -7,7 +7,7 @@ import net.danielthompson.danray.presets.TracerOptions;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.shapes.AbstractShape;
 import net.danielthompson.danray.shapes.Box;
-import net.danielthompson.danray.states.IntersectionState;
+import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.structures.Point;
 
@@ -57,9 +57,9 @@ public abstract class AbstractScene {
       Lights.add(light);
    }
 
-   public abstract IntersectionState getNearestShape(Ray ray, int x, int y);
+   public abstract Intersection getNearestShape(Ray ray, int x, int y);
 
-   public IntersectionState getNearestShapeIteratively(List<AbstractShape> shapes, Ray ray) {
+   public Intersection getNearestShapeIteratively(List<AbstractShape> shapes, Ray ray) {
       int nearestShapeIndex = -1;
 
       float closestT = ray.MinT;
@@ -79,12 +79,14 @@ public abstract class AbstractScene {
          closestT = test ? ray.MinT : closestT;
       }
 
-      IntersectionState closestStateToRay = null;
+      Intersection closestStateToRay = null;
 
       if (nearestShapeIndex >= 0) {
          closestStateToRay = shapes.get(nearestShapeIndex).getHitInfo(ray);
 
-         if (Float.isNaN(closestStateToRay.IntersectionPoint.X)) {
+
+
+         if (Float.isNaN(closestStateToRay.Location.X)) {
             // wtf?
             closestStateToRay = shapes.get(nearestShapeIndex).getHitInfo(ray);
          }
@@ -136,9 +138,9 @@ public abstract class AbstractScene {
 
       Ray r = new Ray(SkyBoxPoint, direction);
 
-      IntersectionState state = Skybox.getHitInfo(r);
+      Intersection state = Skybox.getHitInfo(r);
 
-      Point p = state.IntersectionPoint;
+      Point p = state.Location;
 
       float u = 0.0f;
       float v = 0.0f;

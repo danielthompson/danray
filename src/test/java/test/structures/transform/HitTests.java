@@ -2,7 +2,6 @@ package test.structures.transform;
 
 import junit.framework.Assert;
 import net.danielthompson.danray.shapes.Box;
-import net.danielthompson.danray.states.IntersectionState;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Transform;
