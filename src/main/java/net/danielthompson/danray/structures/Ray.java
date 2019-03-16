@@ -94,4 +94,10 @@ public class Ray {
    public String toString() {
       return "Origin: " + Origin + ", Direction: " + Direction;
    }
+
+   public void OffsetOrigin(Normal intersectionNormal) {
+      Origin.X += (intersectionNormal.X + Constants.DoubleEpsilon);
+      Origin.Y += (intersectionNormal.Y + Constants.DoubleEpsilon);
+      Origin.Z += (intersectionNormal.Z + Constants.DoubleEpsilon);
+   }
 }

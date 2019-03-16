@@ -28,7 +28,6 @@ public class PathTraceIntegrator extends AbstractIntegrator {
 
          if (intersection != null) {
             sample.KDHeatCount = intersection.KDHeatCount;
-
          }
          sample.SpectralPowerDistribution = scene.getSkyBoxSPD(ray.Direction);
          return sample;
@@ -64,7 +63,8 @@ public class PathTraceIntegrator extends AbstractIntegrator {
 
          Ray bounceRay = new Ray(intersection.Location, outgoingDirection);
 
-         bounceRay.OffsetOriginForward(Constants.DoubleEpsilon);
+         bounceRay.OffsetOrigin(intersectionNormal);
+         //bounceRay.OffsetOriginForward(Constants.DoubleEpsilon);
 
          Sample incomingSample = GetSample(bounceRay, depth + 1, x, y);
 

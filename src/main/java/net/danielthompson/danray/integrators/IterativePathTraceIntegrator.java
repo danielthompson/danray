@@ -32,32 +32,32 @@ public class IterativePathTraceIntegrator extends AbstractIntegrator {
 
       for (bounces = 0; bounces < maxDepth; bounces++) {
 
-         Intersection closestStateToRay = scene.getNearestShape(ray, x, y);
-         if (closestStateToRay == null || !closestStateToRay.Hits) {
+         Intersection intersection = scene.getNearestShape(ray, x, y);
+         if (intersection == null || !intersection.Hits) {
 
             spds[bounces].add(scene.getSkyBoxSPD(ray.Direction));
             break;
          }
 
-         if (closestStateToRay.Shape instanceof AbstractLight) {
-            spds[bounces].add(((AbstractLight) closestStateToRay.Shape).SpectralPowerDistribution);
+         if (intersection.Shape instanceof AbstractLight) {
+            spds[bounces].add(((AbstractLight) intersection.Shape).SpectralPowerDistribution);
             break;
          }
 
-         AbstractShape closestShape = closestStateToRay.Shape;
+         AbstractShape closestShape = intersection.Shape;
 
          if (bounces + 1 < maxDepth ) {
             Material objectMaterial = closestShape.Material;
-            Normal intersectionNormal = closestStateToRay.Normal;
+            Normal intersectionNormal = intersection.Normal;
             Vector incomingDirection = ray.Direction;
-            Vector outgoingDirection = objectMaterial.BRDF.getVectorInPDF(intersectionNormal, incomingDirection);
+            Vector outgoingDirection = objectMaterial.BRDF.getVectorInPDF(intersection, incomingDirection);
             float scalePercentage = objectMaterial.BRDF.f(incomingDirection, intersectionNormal, outgoingDirection);
 
             fs[bounces] = scalePercentage;
             refls[bounces] = objectMaterial.ReflectanceSpectrum;
 
-            ray = new Ray(closestStateToRay.Location, outgoingDirection);
-            ray.OffsetOriginForward(Constants.HalfEpsilon);
+            ray = new Ray(intersection.Location, outgoingDirection);
+            ray.OffsetOrigin(intersectionNormal);
             spds[bounces + 1] = new SpectralPowerDistribution();
          }
       }

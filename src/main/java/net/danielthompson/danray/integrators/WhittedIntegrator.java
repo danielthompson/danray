@@ -48,9 +48,6 @@ public class WhittedIntegrator extends AbstractIntegrator {
          return sample;
       }
 
-
-
-
       sample.KDHeatCount = closestStateToRay.KDHeatCount;
 
       if (closestStateToRay.Shape instanceof AbstractLight) {

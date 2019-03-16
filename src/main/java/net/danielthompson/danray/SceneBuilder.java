@@ -469,7 +469,7 @@ public class SceneBuilder {
       SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(Color.white, 100.0f);
 
       inputTransforms = new Transform[]{
-            Transform.Translate(new Vector(0, -15, -250)),
+            Transform.Translate(new Vector(0, 100, -250)),
             Transform.Scale(25)
       };
 
