@@ -1,7 +1,6 @@
 package net.danielthompson.danray;
 
 import net.danielthompson.danray.acceleration.KDScene;
-import net.danielthompson.danray.acceleration.compactkd.KDCompactScene;
 import net.danielthompson.danray.cameras.*;
 import net.danielthompson.danray.cameras.apertures.CircleAperture;
 import net.danielthompson.danray.cameras.apertures.SquareAperture;
@@ -729,8 +728,6 @@ public class SceneBuilder {
 
       Material material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
-      material._specular = 1 - .5f;
-      material._reflectivity = .5f;
 
       ImplicitPlane plane = new ImplicitPlane(planeOrigin, planeNormal, material);
       scene.addShape(plane);
@@ -740,8 +737,6 @@ public class SceneBuilder {
       for (int i = 0; i < 9; i++) {
          material = new Material();
          material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(0, 131, 255));
-         material._specular = 1 - .5f;
-         material._reflectivity = .5f;
 
          Sphere sphere = new Sphere(material);
          int coord = -850 + (175 * i);
@@ -890,8 +885,6 @@ public class SceneBuilder {
 
       Material material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(120, 240, 240));
-      material._specular = 1 - .75f;
-      material._reflectivity = .25f;
 
       material.BRDF = brdf;
 
@@ -968,9 +961,6 @@ public class SceneBuilder {
 
 
          material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(0, 131, 255));
-         material._reflectivity = .2f;
-         material._transparency = 0;
-         material._specular = 1 - .8f;
          material.BRDF = brdf;
          //material.setIndexOfRefraction(1.1);
 
@@ -1026,9 +1016,6 @@ public class SceneBuilder {
                }*/
             material = new Material();
             material.ReflectanceSpectrum = new ReflectanceSpectrum(color);
-            material._reflectivity = .3f;
-            material._transparency = 0;
-            material._specular = 1 - .7f;
             material.BRDF = brdf;
 
             Sphere sphere = new Sphere(material);
@@ -1093,8 +1080,6 @@ public class SceneBuilder {
 
       Material material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
-      material._specular = 1 - .75f;
-      material._reflectivity = .25f;
 
       Point b0 = new Point(-10000, -10000, -1);
       Point b1 = new Point(10000, 10000, 0);
@@ -1119,9 +1104,6 @@ public class SceneBuilder {
             material = new Material();
 
             material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(0, 131, 255));
-            material._reflectivity = .2f;
-            material._transparency = 0;
-            material._specular = 1 - .8f;
             //material.setIndexOfRefraction(1.1);
 
             Sphere sphere = new Sphere(material);
@@ -1189,9 +1171,6 @@ public class SceneBuilder {
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(70, 137, 102));
-      material._specular = 1 - .2f;
-      material._reflectivity = 0;
-      material._transparency = .8f;
       material._indexOfRefraction = 1.2f;
 
       sphere = new Sphere(material);
@@ -1202,9 +1181,6 @@ public class SceneBuilder {
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
-      material._specular = 1 - .5f;
-      material._reflectivity = .5f;
-      material._transparency = 0;
       material._indexOfRefraction = 1.0f;
 
       sphere = new Sphere(material);
@@ -1216,9 +1192,6 @@ public class SceneBuilder {
       p0 = new Point(-100, -100, -100);
       p1 = new Point(100, 100, 100);
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(30, 120, 120));
-      material._reflectivity = .4f;
-      material._specular = .3f;
-      material._specular = 1 - .4f;
 
       ArrayList<Transform> list = new ArrayList<>();
       list.add(Transform.Translate(new Vector(-200, 100, 1000)));
@@ -1242,9 +1215,6 @@ public class SceneBuilder {
 
          material = new Material();
          material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(0, i * 10, 220));
-         material._reflectivity = .4f;
-         material._specular = .3f;
-         material._specular = 1 - .4f;
 
          list = new ArrayList<>();
 
@@ -1268,8 +1238,6 @@ public class SceneBuilder {
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 176, 59));
-      material._reflectivity = .01f;
-      material._specular = 1 - .99f;
 
       sphere = new Sphere(material);
       sphere.Origin = new Point(-200, 100, 500);
@@ -1279,9 +1247,7 @@ public class SceneBuilder {
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(182, 73, 38));
-      material._reflectivity = .2f;
       //material.setSpecular(.3);
-      material._specular = 1 - .8f;
 
       list = new ArrayList<>();
       list.add(Transform.Translate(new Vector(500, 200, 900)));
@@ -1302,9 +1268,7 @@ public class SceneBuilder {
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(128, 38, 163));
-      material._reflectivity = .2f;
       //material.setSpecular(.3);
-      material._specular = 1 - .8f;
 
       list = new ArrayList<>();
       list.add(Transform.Translate(new Vector(400, 50, 400)));
@@ -1324,8 +1288,6 @@ public class SceneBuilder {
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(142, 40, 0));
-      material._reflectivity = .95f;
-      material._specular = 1 - .05f;
 
       sphere = new Sphere(material);
       sphere.Origin = new Point(160, 300, 300.0f);
@@ -1341,8 +1303,6 @@ public class SceneBuilder {
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
-      material._specular = 1 - .95f;
-      material._reflectivity = .05f;
 
       box = new Box(p0, p1, material);
 
@@ -1356,8 +1316,6 @@ public class SceneBuilder {
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 131, 0));
-      material._specular = 1 - .5f;
-      material._reflectivity = .5f;
 
       box = new Box(p0, p1, material);
 
@@ -1373,8 +1331,6 @@ public class SceneBuilder {
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
-      material._specular = 1 - .75f;
-      material._reflectivity = .25f;
 
       box = new Box(p0, p1, material);
       scene.addShape(box);
@@ -1386,8 +1342,6 @@ public class SceneBuilder {
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
-      material._specular = 1 - .75f;
-      material._reflectivity = .25f;
 
       box = new Box(p0, p1, material);
       //scene.addShape(box);
@@ -1399,8 +1353,6 @@ public class SceneBuilder {
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(0, 131, 255));
-      material._specular = 1 - .75f;
-      material._reflectivity = .25f;
 
       box = new Box(p0, p1, material);
       //scene.addShape(box);
@@ -1413,8 +1365,6 @@ public class SceneBuilder {
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(0, 131, 255));
-      material._specular = 1 - .75f;
-      material._reflectivity = .25f;
 
       box = new Box(p0, p1, material);
       //scene.addShape(box);
@@ -1532,8 +1482,6 @@ public class SceneBuilder {
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 131, 0));
-      material._specular = 1 - .5f;
-      material._reflectivity = .5f;
 
       ImplicitPlane plane = new ImplicitPlane(planeOrigin, planeNormal, material);
       scene.addShape(plane);
@@ -1546,8 +1494,6 @@ public class SceneBuilder {
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
-      material._specular = 0;
-      material._reflectivity = 0;
 
       plane = new ImplicitPlane(planeOrigin, planeNormal, material);
       scene.addShape(plane);
@@ -1560,8 +1506,6 @@ public class SceneBuilder {
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
-      material._specular = 1 - .9f;
-      material._reflectivity = .1f;
 
       plane = new ImplicitPlane(planeOrigin, planeNormal, material);
       scene.addShape(plane);
@@ -1574,8 +1518,6 @@ public class SceneBuilder {
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(0, 131, 255));
-      material._specular = 0;
-      material._reflectivity = 0;
 
       plane = new ImplicitPlane(planeOrigin, planeNormal, material);
       scene.addShape(plane);
@@ -1585,9 +1527,6 @@ public class SceneBuilder {
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(70, 137, 102));
-      material._specular = 1 - .5f;
-      material._reflectivity = .5f;
-      material._transparency = 0;
       material._indexOfRefraction = 1.2f;
 
       Sphere sphere = new Sphere(material);
@@ -1600,9 +1539,6 @@ public class SceneBuilder {
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(70, 137, 102));
-      material._specular = 1 - .5f;
-      material._reflectivity = .5f;
-      material._transparency = 0;
       material._indexOfRefraction = 1.2f;
 
       sphere = new Sphere(material);
@@ -1615,9 +1551,6 @@ public class SceneBuilder {
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
-      material._specular = 1 - .1f;
-      material._reflectivity = .9f;
-      material._transparency = 0;
       material._indexOfRefraction = 1.3f;
 
       sphere = new Sphere(material);
@@ -1630,8 +1563,6 @@ public class SceneBuilder {
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(182, 73, 38));
-      material._reflectivity = .5f;
-      material._specular = 1 - .5f;
 
       sphere = new Sphere(material);
       sphere.Origin = new Point(800, 350, 1000.0f);
@@ -1645,8 +1576,6 @@ public class SceneBuilder {
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 176, 59));
-      material._reflectivity = .5f;
-      material._specular = 1 - .5f;
 
       sphere = new Sphere(material);
       sphere.Origin = new Point(-200, 100, 1000);
@@ -1658,8 +1587,6 @@ public class SceneBuilder {
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(142, 40, 0));
-      material._reflectivity = .5f;
-      material._specular = 1 - .5f;
 
       sphere = new Sphere(material);
       sphere.Origin = new Point(160, 300, 300.0f);
@@ -1671,8 +1598,6 @@ public class SceneBuilder {
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(62, 96, 111));
-      material._reflectivity = .6f;
-      material._specular = 1 - .4f;
 
       sphere = new Sphere(material);
       sphere.Origin = new Point(250, 300, 300.0f);
@@ -1755,8 +1680,6 @@ public class SceneBuilder {
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 131, 0));
-      material._specular = 1;
-      material._reflectivity = .1f;
 
       ImplicitPlane plane = new ImplicitPlane(planeOrigin, planeNormal, material);
       scene.addShape(plane);
@@ -1769,8 +1692,6 @@ public class SceneBuilder {
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
-      material._specular = 1;
-      material._reflectivity = .25f;
 
       plane = new ImplicitPlane(planeOrigin, planeNormal, material);
       scene.addShape(plane);
@@ -1783,8 +1704,6 @@ public class SceneBuilder {
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
-      material._specular = 1;
-      material._reflectivity = .25f;
 
       plane = new ImplicitPlane(planeOrigin, planeNormal, material);
       scene.addShape(plane);
@@ -1797,7 +1716,6 @@ public class SceneBuilder {
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(0, 131, 255));
-      material._specular = 0;
 
       plane = new ImplicitPlane(planeOrigin, planeNormal, material);
       scene.addShape(plane);
@@ -1807,9 +1725,6 @@ public class SceneBuilder {
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(70, 137, 102));
-      material._specular = 1 - .5f;
-      material._reflectivity = .5f;
-      material._transparency = 0;
       material._indexOfRefraction = 1.2f;
 
       Sphere sphere = new Sphere(material);
@@ -1822,9 +1737,6 @@ public class SceneBuilder {
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(70, 137, 102));
-      material._specular = 1 - .5f;
-      material._reflectivity = .5f;
-      material._transparency = 0;
       material._indexOfRefraction = 1.2f;
 
       sphere = new Sphere(material);
@@ -1865,7 +1777,6 @@ public class SceneBuilder {
       material = new Material();
       material.BRDF = LambertianBRDF;
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Green);
-      material._transparency = 0;
       material._indexOfRefraction = 1.2f;
 
       inputTransforms = new Transform[2];
@@ -1900,7 +1811,6 @@ public class SceneBuilder {
       material = new Material();
       material.BRDF = MirrorBRDF;
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Green);
-      material._transparency = 0;
       material._indexOfRefraction = 1.2f;
 
       inputTransforms = new Transform[2];
@@ -1916,7 +1826,6 @@ public class SceneBuilder {
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Green);
       material.BRDF = MirrorBRDF;
-      material._transparency = 0;
       material._indexOfRefraction = 1.2f;
 
       inputTransforms = new Transform[2];
@@ -1932,7 +1841,6 @@ public class SceneBuilder {
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Green);
       material.BRDF = MirrorBRDF;
-      material._transparency = 0;
       material._indexOfRefraction = 1.2f;
 
       inputTransforms = new Transform[2];
@@ -1968,7 +1876,6 @@ public class SceneBuilder {
 
       Material material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.blue);
-      material._reflectivity = .33f;
       //material.setTransparency(.33);
       //material.setIndexOfRefraction(1.333);
 

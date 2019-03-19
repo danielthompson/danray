@@ -22,10 +22,7 @@ public class MaterialExporter {
 //         rootElement.appendChild(BRDFExporter.Process(object.BRDF, document, rootElement));
 //      }
 
-      rootElement.setAttribute("Reflectivity", String.valueOf(object._reflectivity));
-      rootElement.setAttribute("Transparency", String.valueOf(object._transparency));
       rootElement.setAttribute("IndexOfRefraction", String.valueOf(object._indexOfRefraction));
-      rootElement.setAttribute("Specular", String.valueOf(object._specular));
       parent.appendChild(rootElement);
 
 
