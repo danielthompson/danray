@@ -192,13 +192,33 @@ public abstract class AbstractScene {
       u = (u == width) ? u - 1 : u;
       v = (v == height) ? v - 1 : v;
 
-      int rgb = texture.getRGB((int)u, (int)v);
-
-      Color c = new Color(rgb);
+      Color c = BoxFilterSkybox(texture, u, v);
 
       SpectralPowerDistribution spd = new SpectralPowerDistribution(c);
 
       return spd;
+   }
+
+   private Color BoxFilterSkybox(BufferedImage texture, float u, float v) {
+      int rgb = texture.getRGB((int)u, (int)v);
+      Color c = new Color(rgb);
+      return c;
+   }
+
+   private Color TriangleFilterSkybox(BufferedImage texture, float u, float v) {
+      int x, y;
+      float weight;
+
+      // top left
+
+      float squaredDistanceTopLeft =
+      x = (int)Math.floor(u + 0.5);
+      y = (int)Math.floor(v + 0.5);
+
+
+
+
+      return null;
    }
 
 }

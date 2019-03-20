@@ -85,6 +85,7 @@ public class PathTraceIntegrator extends AbstractIntegrator {
             // compute the interaction of the incoming SPD with the object's SRC
             ReflectanceSpectrum reflectanceSpectrum = objectMaterial.ReflectanceSpectrum;
             SpectralPowerDistribution reflectedSPD = incomingSPD.reflectOff(reflectanceSpectrum);
+            reflectedSPD.scale(objectMaterial.BRDFweight);
             sample.SpectralPowerDistribution.add(reflectedSPD);
          }
 
@@ -118,6 +119,7 @@ public class PathTraceIntegrator extends AbstractIntegrator {
             // compute the interaction of the incoming SPD with the object's SRC
             ReflectanceSpectrum reflectanceSpectrum = objectMaterial.ReflectanceSpectrum;
             SpectralPowerDistribution reflectedSPD = incomingSPD.reflectOff(reflectanceSpectrum);
+            reflectedSPD.scale(objectMaterial.BTDFweight);
             sample.SpectralPowerDistribution.add(reflectedSPD);
          }
 

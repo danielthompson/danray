@@ -7,7 +7,9 @@ public class Material {
 
    public ReflectanceSpectrum ReflectanceSpectrum;
    public BRDF BRDF;
+   public float BRDFweight = 1.0f;
    public BTDF BTDF;
+   public float BTDFweight = 1.0f;
    public float IndexOfRefraction;
 
    public Material() {

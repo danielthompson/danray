@@ -371,15 +371,17 @@ public class SceneBuilder {
       Material material = new Material();
 
       material = new Material();
-      //material.BRDF = LambertianBRDF;
+      material.BRDF = LambertianBRDF;
       material.BTDF = SpecularBTDF;
+      material.BRDFweight = 0.25f;
+      material.BTDFweight = 0.75f;
       material.IndexOfRefraction = 1.52f;
 //      material.reflect = new GlossyBRDF(0.85f);
 //      material.ReflectanceSpectrum = new ReflectanceSpectrum(Solarized.blue);
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.WHITE);
 
       inputTransforms = new Transform[2];
-      inputTransforms[0] = Transform.Translate(new Vector(100.0f, -15.0f, -200f));
+      inputTransforms[0] = Transform.Translate(new Vector(25.0f, -15.0f, -200f));
       inputTransforms[1] = Transform.Scale(25f);
 
       compositeTransforms = Transform.composite(inputTransforms);
@@ -457,6 +459,7 @@ public class SceneBuilder {
       material = new Material();
 //      material.reflect = new GlossyBRDF(0.85f);
       material.BRDF = LambertianBRDF;
+      material.BTDFweight = 0.0f;
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Solarized.Base3);
 
       inputTransforms = new Transform[]{
@@ -467,7 +470,7 @@ public class SceneBuilder {
       };
       compositeTransforms = Transform.composite(inputTransforms);
 
-      //scene.addShape(new Box(compositeTransforms, material));
+      scene.addShape(new Box(compositeTransforms, material));
 
 
       // white light
@@ -489,7 +492,7 @@ public class SceneBuilder {
 
       AbstractLight light = new SphereLight(sphere, lightSPD);
 
-      //scene.Shapes.add(light);
+      scene.Shapes.add(light);
       //scene.Lights.add(light);
 
       // skybox
