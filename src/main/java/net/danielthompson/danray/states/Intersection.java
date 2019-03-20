@@ -23,6 +23,7 @@ public class Intersection {
    public Normal Normal;
    public Vector TangentU;
    public Vector TangentV;
+   public float IndexOfRefraction;
 
    public float x;
    public float y;

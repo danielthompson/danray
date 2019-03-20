@@ -3,7 +3,7 @@
 //import net.danielthompson.danray.structures.Normal;
 //import net.danielthompson.danray.structures.Vector;
 //
-//public class PhongBRDF extends BRDF {
+//public class PhongBRDF extends reflect {
 //
 //   private float _ambient;
 //

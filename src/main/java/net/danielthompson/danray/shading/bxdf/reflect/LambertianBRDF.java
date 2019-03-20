@@ -1,9 +1,8 @@
-package net.danielthompson.danray.shading.bxdf;
+package net.danielthompson.danray.shading.bxdf.reflect;
 
-import net.danielthompson.danray.states.Intersection;
+import net.danielthompson.danray.shading.bxdf.BRDF;
 import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.utility.GeometryCalculations;
-import net.danielthompson.danray.utility.MonteCarloCalculations;
 
 /**
  * Created by daniel on 8/16/15.

@@ -1,7 +1,7 @@
 package test.shading.bxdf;
 
 import net.danielthompson.danray.shading.bxdf.BRDF;
-import net.danielthompson.danray.shading.bxdf.MirrorBRDF;
+import net.danielthompson.danray.shading.bxdf.reflect.MirrorBRDF;
 import net.danielthompson.danray.structures.*;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -28,7 +28,7 @@ public class MirrorBRDFTests {
 //
 //   @Test
 //   public void testGetVectorInPDF() throws Exception {
-//      BRDF brdf = new MirrorBRDF();
+//      reflect brdf = new MirrorBRDF();
 //
 //      Normal n = new Normal(0, 1, 0);
 //      Vector v = new Vector(1, -1, 0);

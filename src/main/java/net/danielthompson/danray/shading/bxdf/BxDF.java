@@ -1,6 +1,5 @@
 package net.danielthompson.danray.shading.bxdf;
 
-import net.danielthompson.danray.Logger;
 import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.Normal;
 import net.danielthompson.danray.structures.Vector;

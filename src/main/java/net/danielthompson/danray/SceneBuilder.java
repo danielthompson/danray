@@ -10,7 +10,12 @@ import net.danielthompson.danray.lights.SphereLight;
 import net.danielthompson.danray.scenes.NaiveScene;
 import net.danielthompson.danray.scenes.AbstractScene;
 import net.danielthompson.danray.shading.*;
-import net.danielthompson.danray.shading.bxdf.*;
+import net.danielthompson.danray.shading.bxdf.BRDF;
+import net.danielthompson.danray.shading.bxdf.BTDF;
+import net.danielthompson.danray.shading.bxdf.reflect.GlossyBRDF;
+import net.danielthompson.danray.shading.bxdf.reflect.LambertianBRDF;
+import net.danielthompson.danray.shading.bxdf.reflect.MirrorBRDF;
+import net.danielthompson.danray.shading.bxdf.transmit.SpecularBTDF;
 import net.danielthompson.danray.shapes.*;
 import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.structures.Point;
@@ -69,6 +74,7 @@ public class SceneBuilder {
       public static String Desert2 = "images/cubemap/desert 2.png";
       public static String Desert2Captions = "images/cubemap/desert 2 - captions.png";
       public static String Garden = "images/cubemap/garden.png";
+      public static String Desert1 = "images/cubemap/desert1.jpg";
 
       public static BufferedImage Load(String path) {
          try {
@@ -90,6 +96,8 @@ public class SceneBuilder {
    public static BRDF LambertianBRDF = new LambertianBRDF();
 
    public static BRDF MirrorBRDF = new MirrorBRDF();
+
+   public static BTDF SpecularBTDF = new SpecularBTDF();
 
    public static AbstractScene SpectralLemon(int x, int y) {
 
@@ -363,9 +371,12 @@ public class SceneBuilder {
       Material material = new Material();
 
       material = new Material();
-      material.BRDF = LambertianBRDF;
-//      material.BRDF = new GlossyBRDF(0.85f);
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(Solarized.blue);
+      //material.BRDF = LambertianBRDF;
+      material.BTDF = SpecularBTDF;
+      material.IndexOfRefraction = 1.52f;
+//      material.reflect = new GlossyBRDF(0.85f);
+//      material.ReflectanceSpectrum = new ReflectanceSpectrum(Solarized.blue);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.WHITE);
 
       inputTransforms = new Transform[2];
       inputTransforms[0] = Transform.Translate(new Vector(100.0f, -15.0f, -200f));
@@ -378,7 +389,7 @@ public class SceneBuilder {
 //      // left ball
 //
 //      material = new Material();
-//      material.BRDF = MirrorBRDF;
+//      material.reflect = MirrorBRDF;
 //      material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Beige);
 //
 //      inputTransforms = new Transform[]{
@@ -395,7 +406,7 @@ public class SceneBuilder {
 //
 //      for (int i = 0; i < 4; i++) {
 //         material = new Material();
-//         material.BRDF = new GlossyBRDF(0.99f);
+//         material.reflect = new GlossyBRDF(0.99f);
 //
 //         switch (i) {
 //            case 0:
@@ -428,7 +439,7 @@ public class SceneBuilder {
 //      // cylinder
 //
 //      material = new Material();
-//      material.BRDF = new GlossyBRDF(0.95f);
+//      material.reflect = new GlossyBRDF(0.95f);
 //      material.ReflectanceSpectrum = new ReflectanceSpectrum(Solarized.blue);
 //
 //      inputTransforms = new Transform[] {
@@ -444,7 +455,7 @@ public class SceneBuilder {
       // bottom box
 
       material = new Material();
-//      material.BRDF = new GlossyBRDF(0.85f);
+//      material.reflect = new GlossyBRDF(0.85f);
       material.BRDF = LambertianBRDF;
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Solarized.Base3);
 
@@ -456,7 +467,7 @@ public class SceneBuilder {
       };
       compositeTransforms = Transform.composite(inputTransforms);
 
-      scene.addShape(new Box(compositeTransforms, material));
+      //scene.addShape(new Box(compositeTransforms, material));
 
 
       // white light
@@ -478,12 +489,12 @@ public class SceneBuilder {
 
       AbstractLight light = new SphereLight(sphere, lightSPD);
 
-      scene.Shapes.add(light);
+      //scene.Shapes.add(light);
       //scene.Lights.add(light);
 
       // skybox
 
-      //scene.SkyBoxImage = Skyboxes.Load(Skyboxes.Desert2);
+      scene.SkyBoxImage = Skyboxes.Load(Skyboxes.Desert1);
 
       return scene;
    }
@@ -593,7 +604,7 @@ public class SceneBuilder {
 
       material = new Material();
       material.BRDF = new GlossyBRDF(.97f);
-//      material.BRDF = new MirrorBRDF();
+//      material.reflect = new MirrorBRDF();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.gray);
 
       inputTransforms = new Transform[5];
@@ -946,7 +957,7 @@ public class SceneBuilder {
 //      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
 //      material._specular = 1 - .75;
 //      material._reflectivity = .25;
-//      material.BRDF = brdf;
+//      material.reflect = brdf;
 //
 //      ImplicitPlane plane = new ImplicitPlane(planeOrigin, planeNormal, material);
 //      scene.addShape(plane);
@@ -1171,7 +1182,7 @@ public class SceneBuilder {
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(70, 137, 102));
-      material._indexOfRefraction = 1.2f;
+      material.IndexOfRefraction = 1.2f;
 
       sphere = new Sphere(material);
       sphere.Origin = new Point(-200, 700, 500.0f);
@@ -1181,7 +1192,7 @@ public class SceneBuilder {
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
-      material._indexOfRefraction = 1.0f;
+      material.IndexOfRefraction = 1.0f;
 
       sphere = new Sphere(material);
       sphere.Origin = new Point(500, 100, 600.0f);
@@ -1527,7 +1538,7 @@ public class SceneBuilder {
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(70, 137, 102));
-      material._indexOfRefraction = 1.2f;
+      material.IndexOfRefraction = 1.2f;
 
       Sphere sphere = new Sphere(material);
       sphere.Origin = new Point(-200, 350, -100.0f);
@@ -1539,7 +1550,7 @@ public class SceneBuilder {
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(70, 137, 102));
-      material._indexOfRefraction = 1.2f;
+      material.IndexOfRefraction = 1.2f;
 
       sphere = new Sphere(material);
       sphere.Origin = new Point(500, 350, 500.0f);
@@ -1551,7 +1562,7 @@ public class SceneBuilder {
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
-      material._indexOfRefraction = 1.3f;
+      material.IndexOfRefraction = 1.3f;
 
       sphere = new Sphere(material);
       sphere.Origin = new Point(500, 100, 600.0f);
@@ -1725,7 +1736,7 @@ public class SceneBuilder {
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(70, 137, 102));
-      material._indexOfRefraction = 1.2f;
+      material.IndexOfRefraction = 1.2f;
 
       Sphere sphere = new Sphere(material);
       sphere.Origin = new Point(100, 350, -100.0f);
@@ -1737,7 +1748,7 @@ public class SceneBuilder {
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(70, 137, 102));
-      material._indexOfRefraction = 1.2f;
+      material.IndexOfRefraction = 1.2f;
 
       sphere = new Sphere(material);
       sphere.Origin = new Point(500, 350, -100.0f);
@@ -1777,7 +1788,7 @@ public class SceneBuilder {
       material = new Material();
       material.BRDF = LambertianBRDF;
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Green);
-      material._indexOfRefraction = 1.2f;
+      material.IndexOfRefraction = 1.2f;
 
       inputTransforms = new Transform[2];
       inputTransforms[0] = Transform.Translate(new Vector(0, 2000, 0));
@@ -1811,7 +1822,7 @@ public class SceneBuilder {
       material = new Material();
       material.BRDF = MirrorBRDF;
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Green);
-      material._indexOfRefraction = 1.2f;
+      material.IndexOfRefraction = 1.2f;
 
       inputTransforms = new Transform[2];
       inputTransforms[0] = Transform.Translate(new Vector(-500, 300, 0.0f));
@@ -1826,7 +1837,7 @@ public class SceneBuilder {
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Green);
       material.BRDF = MirrorBRDF;
-      material._indexOfRefraction = 1.2f;
+      material.IndexOfRefraction = 1.2f;
 
       inputTransforms = new Transform[2];
       inputTransforms[0] = Transform.Translate(new Vector(500, 500, 0.0f));
@@ -1841,7 +1852,7 @@ public class SceneBuilder {
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Green);
       material.BRDF = MirrorBRDF;
-      material._indexOfRefraction = 1.2f;
+      material.IndexOfRefraction = 1.2f;
 
       inputTransforms = new Transform[2];
       inputTransforms[0] = Transform.Translate(new Vector(0, 150, 0.0f));

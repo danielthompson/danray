@@ -1,13 +1,14 @@
 package net.danielthompson.danray.shading;
 
 import net.danielthompson.danray.shading.bxdf.BRDF;
+import net.danielthompson.danray.shading.bxdf.BTDF;
 
 public class Material {
 
    public ReflectanceSpectrum ReflectanceSpectrum;
    public BRDF BRDF;
-
-   public float _indexOfRefraction;
+   public BTDF BTDF;
+   public float IndexOfRefraction;
 
    public Material() {
       // intentionally empty
@@ -15,8 +16,6 @@ public class Material {
 
    public Material(ReflectanceSpectrum spectrum, float indexOfRefraction) {
       ReflectanceSpectrum = spectrum;
-      _indexOfRefraction = indexOfRefraction;
+      IndexOfRefraction = indexOfRefraction;
    }
-
-
 }

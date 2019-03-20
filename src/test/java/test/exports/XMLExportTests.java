@@ -9,7 +9,7 @@
 //import net.danielthompson.danray.cameras.apertures.SquareAperture;
 //import net.danielthompson.danray.exports.internal.*;
 //import net.danielthompson.danray.scenes.AbstractScene;
-//import net.danielthompson.danray.shading.bxdf.BRDF;
+//import net.danielthompson.danray.shading.bxdf.reflect;
 //import net.danielthompson.danray.shading.bxdf.GaussianBRDF;
 //import net.danielthompson.danray.shading.bxdf.LambertianBRDF;
 //import net.danielthompson.danray.shading.fullspectrum.*;
@@ -289,7 +289,7 @@
 //   @Test
 //   public void testBRDFExport1() throws Exception {
 //
-//      final BRDF object = new GaussianBRDF(1);
+//      final reflect object = new GaussianBRDF(1);
 //
 //      File file = new File(_dir, "brdf-gaussian.xml");
 //
@@ -310,7 +310,7 @@
 //   @Test
 //   public void testBRDFExport2() throws Exception {
 //
-//      final BRDF object = new LambertianBRDF();
+//      final reflect object = new LambertianBRDF();
 //
 //      File file = new File(_dir, "brdf-lambertian.xml");
 //
@@ -332,7 +332,7 @@
 //   public void testMaterialExport1() throws Exception {
 //
 ////      final Material object = new Material();
-////      object.BRDF = new LambertianBRDF();
+////      object.reflect = new LambertianBRDF();
 ////      object.Color = Color.green;
 ////      object.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.LemonSkin;
 ////
@@ -414,7 +414,7 @@
 ////      Transform t2 = Transform.Translate(new Vector(-500, -200, -900));
 ////
 ////      final Material material = new Material();
-////      material.BRDF = new LambertianBRDF();
+////      material.reflect = new LambertianBRDF();
 ////      material.Color = Color.green;
 ////      material.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.LemonSkin;
 ////
@@ -443,7 +443,7 @@
 ////      Transform t2 = Transform.Translate(new Vector(-500, -200, -900));
 ////
 ////      final Material material = new Material();
-////      material.BRDF = new LambertianBRDF();
+////      material.reflect = new LambertianBRDF();
 ////      material.Color = Color.green;
 ////      material.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.LemonSkin;
 ////
@@ -472,7 +472,7 @@
 ////      Transform t2 = Transform.Translate(new Vector(-500, -200, -900));
 ////
 ////      final Material material = new Material();
-////      material.BRDF = new LambertianBRDF();
+////      material.reflect = new LambertianBRDF();
 ////      material.Color = Color.green;
 ////      material.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.LemonSkin;
 ////
@@ -498,7 +498,7 @@
 //   public void testImplicitPlaneExport() throws Exception {
 //
 ////      final Material material = new Material();
-////      material.BRDF = new LambertianBRDF();
+////      material.reflect = new LambertianBRDF();
 ////      material.Color = Color.green;
 ////      material.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.LemonSkin;
 ////
@@ -524,7 +524,7 @@
 //   public void testSphereExport() throws Exception {
 //
 ////      final Material material = new Material();
-////      material.BRDF = new LambertianBRDF();
+////      material.reflect = new LambertianBRDF();
 ////      material.Color = Color.green;
 ////      material.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.LemonSkin;
 ////

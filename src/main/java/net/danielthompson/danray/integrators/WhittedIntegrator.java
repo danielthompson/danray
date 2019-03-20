@@ -133,7 +133,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
 //            if (x == 555 && y == 644) { // inside
 //               int j = 0;
-//               Vector outgoingDirection = objectMaterial.BRDF.getVectorInPDF(closestStateToRay.Normal, ray.Direction);
+//               Vector outgoingDirection = objectMaterial.reflect.getVectorInPDF(closestStateToRay.Normal, ray.Direction);
 //            }
 
 

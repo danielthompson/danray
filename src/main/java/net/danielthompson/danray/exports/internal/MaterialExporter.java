@@ -18,11 +18,11 @@ public class MaterialExporter {
 //      if (object.FullSpectralReflectanceCurve != null) {
 //         rootElement.appendChild(SRCExporter.Process(object.FullSpectralReflectanceCurve, document, rootElement));
 //      }
-//      if (object.BRDF != null) {
-//         rootElement.appendChild(BRDFExporter.Process(object.BRDF, document, rootElement));
+//      if (object.reflect != null) {
+//         rootElement.appendChild(BRDFExporter.Process(object.reflect, document, rootElement));
 //      }
 
-      rootElement.setAttribute("IndexOfRefraction", String.valueOf(object._indexOfRefraction));
+      rootElement.setAttribute("IndexOfRefraction", String.valueOf(object.IndexOfRefraction));
       parent.appendChild(rootElement);
 
 

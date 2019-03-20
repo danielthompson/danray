@@ -1,5 +1,6 @@
-package net.danielthompson.danray.shading.bxdf;
+package net.danielthompson.danray.shading.bxdf.reflect;
 
+import net.danielthompson.danray.shading.bxdf.BRDF;
 import net.danielthompson.danray.structures.Constants;
 import net.danielthompson.danray.structures.Normal;
 import net.danielthompson.danray.structures.Vector;

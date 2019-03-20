@@ -95,9 +95,15 @@ public class Ray {
       return "Origin: " + Origin + ", Direction: " + Direction;
    }
 
-   public void OffsetOrigin(Normal intersectionNormal) {
+   public void OffsetOriginOutwards(Normal intersectionNormal) {
       Origin.X += (intersectionNormal.X + Constants.DoubleEpsilon);
       Origin.Y += (intersectionNormal.Y + Constants.DoubleEpsilon);
       Origin.Z += (intersectionNormal.Z + Constants.DoubleEpsilon);
+   }
+
+   public void OffsetOriginInwards(Normal intersectionNormal) {
+      Origin.X -= (intersectionNormal.X + Constants.DoubleEpsilon);
+      Origin.Y -= (intersectionNormal.Y + Constants.DoubleEpsilon);
+      Origin.Z -= (intersectionNormal.Z + Constants.DoubleEpsilon);
    }
 }

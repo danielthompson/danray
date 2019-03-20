@@ -10,7 +10,7 @@ import org.w3c.dom.Element;
 public class BRDFExporter {
    public static Element Process(BRDF object, Document document, Element parent) {
 
-      Element rootElement = document.createElement("BRDF");
+      Element rootElement = document.createElement("reflect");
       rootElement.setAttribute("Type", String.valueOf(object.getClass().getSimpleName()));
       parent.appendChild(rootElement);
 

@@ -212,7 +212,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 ////            outgoing.scale(lightDensityTowardsPoint * 1000);
 ////            return outgoing;
 //            if (lightDensityTowardsPoint > 0) {
-//               // check to see if the eye vertex's BRDF will reflect anything from the light back to the previous eye vertex
+//               // check to see if the eye vertex's reflect will reflect anything from the light back to the previous eye vertex
 //               Vector outgoingDirection = Vector.Scale(eyeVertex.incomingDirection, -1);
 //               outgoingDirection.Normalize();
 //               float brdfPDF = eyeVertex.surfaceBRDF.f(directionFromLightToPoint, eyeVertex.surfaceNormal, outgoingDirection);
@@ -361,7 +361,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //
 //         float incomingRadiantIntensityFactorForLambert = MonteCarloCalculations.CosineHemispherePDF(cosTheta, 0);
 //
-//         float brdf = closestStateToRay.Shape.GetMaterial().BRDF.f(incomingDirection, surfaceNormal, outgoingDirection);
+//         float brdf = closestStateToRay.Shape.GetMaterial().reflect.f(incomingDirection, surfaceNormal, outgoingDirection);
 //
 //         // if any light is getting reflected back in our initial direction, check to see if there are any occluders
 //         if (brdf > 0) {
@@ -393,7 +393,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //
 //         lightRayFromCurrentRadiatableToClosestDrawable.OffsetOriginForward(.0001);
 //
-//         // is it possible for the BRDF to reflect light from this incoming direction to our pregenerated outgoing direction?
+//         // is it possible for the reflect to reflect light from this incoming direction to our pregenerated outgoing direction?
 //
 //         Vector pregeneratedOutgoing = Vector.Scale(vertex.outgoingDirection, -1);
 //
@@ -530,12 +530,12 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //      public FullSpectralPowerDistribution incomingSPD;
 //
 //      /**
-//       * PDF of the source of the incoming light (BRDF or light).
+//       * PDF of the source of the incoming light (reflect or light).
 //       */
 //      public float incomingPDF;
 //      public FullSpectralReflectanceCurve curve;
 //      public Point surfacePoint;
-//      public BRDF surfaceBRDF;
+//      public reflect surfaceBRDF;
 //      public Intersection state;
 //      public Normal surfaceNormal;
 //      public float calculatedPDF;
@@ -546,7 +546,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //      public SpectralRadiatable radiatable;
 //
 //      /**
-//       * The outgoing bounce direction calculated from the surface's BRDF.
+//       * The outgoing bounce direction calculated from the surface's reflect.
 //       */
 //      public Vector outgoingDirection;
 //
@@ -623,7 +623,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //
 //      FullSpectralReflectanceCurve curve = objectMaterial.FullSpectralReflectanceCurve;
 //      FullSpectralPowerDistribution reflectedSPD = incomingSPD.reflectOff(curve);
-//      Vector outgoingDirection = objectMaterial.BRDF.getVectorInPDF(intersectionNormal, incomingDirection);
+//      Vector outgoingDirection = objectMaterial.reflect.getVectorInPDF(intersectionNormal, incomingDirection);
 //
 //      float cosTheta = intersectionNormal.Dot(outgoingDirection);
 //      float incomingRadiantIntensityFactorForLambert = MonteCarloCalculations.CosineHemispherePDF(cosTheta, 0);
@@ -633,7 +633,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //      l.incomingDirection = ray.Direction;
 //      l.incomingPDF = pdfPercentage;
 //      l.incomingSPD = incomingSPD;
-//      l.surfaceBRDF = objectMaterial.BRDF;
+//      l.surfaceBRDF = objectMaterial.reflect;
 //      l.curve = curve;
 //      l.surfaceNormal = intersectionNormal;
 //      l.surfacePoint = closestStateToRay.Location;
@@ -668,7 +668,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //         Normal intersectionNormal = closestStateToRay.Normal;
 //         Vector incomingDirection = ray.Direction;
 //
-//         BRDF brdf = objectMaterial.BRDF;
+//         reflect brdf = objectMaterial.reflect;
 //         Vector outgoingDirection = brdf.getVectorInPDF(intersectionNormal, incomingDirection);
 //         float calculatedPDF = brdf.f(incomingDirection, intersectionNormal, outgoingDirection);
 //
@@ -689,7 +689,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //         l.incomingDirection = outgoingDirection;
 //         l.incomingSPD = outgoingSPD;
 //         l.curve = curve;
-//         l.surfaceBRDF = objectMaterial.BRDF;
+//         l.surfaceBRDF = objectMaterial.reflect;
 //         l.surfaceNormal = intersectionNormal;
 //         l.surfacePoint = closestStateToRay.Location;
 //         l.outgoingDirection = outgoingDirection;
@@ -783,11 +783,11 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //         Normal intersectionNormal = closestStateToRay.Normal;
 //         Vector incomingDirection = ray.Direction;
 //
-//         BRDF brdf = objectMaterial.BRDF;
+//         reflect brdf = objectMaterial.reflect;
 //         Vector outgoingDirection = brdf.getVectorInPDF(intersectionNormal, incomingDirection);
 //
 //         l.incomingDirection = outgoingDirection;
-//         l.surfaceBRDF = objectMaterial.BRDF;
+//         l.surfaceBRDF = objectMaterial.reflect;
 //         l.curve = objectMaterial.FullSpectralReflectanceCurve;
 //         l.surfaceNormal = intersectionNormal;
 //         l.surfacePoint = closestStateToRay.Location;
