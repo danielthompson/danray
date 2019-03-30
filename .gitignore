@@ -4,3 +4,4 @@ natives/**
 target/**
 .idea/**
 test/**
+*.class
