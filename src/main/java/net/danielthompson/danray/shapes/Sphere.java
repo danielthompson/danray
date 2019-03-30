@@ -76,11 +76,8 @@ public class Sphere extends AbstractShape {
       }
 
       float root = (float) Math.sqrt(discriminant);
-
       float oneOverTwoA = .5f / a;
-
       float t0 = (-b + root) * oneOverTwoA;
-
       float t1 = (-b - root) * oneOverTwoA;
 
       float hits;
@@ -124,6 +121,12 @@ public class Sphere extends AbstractShape {
    @Override
    public Intersection getHitInfo(Ray worldSpaceRay) {
 
+      Ray objectSpaceRay = worldSpaceRay;
+
+      if (WorldToObject != null) {
+         objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
+      }
+
       Point worldSpaceIntersectionPoint = worldSpaceRay.GetPointAtT(worldSpaceRay.MinT);
       Point objectSpaceIntersectionPoint = worldSpaceIntersectionPoint;
 
@@ -139,6 +142,8 @@ public class Sphere extends AbstractShape {
       intersection.Shape = this;
       intersection.Location = objectSpaceIntersectionPoint;
       intersection.Normal = objectSpaceNormal;
+      intersection.OriginInside = Inside(objectSpaceRay.Origin) || OnSurface(objectSpaceRay.Origin);
+      intersection.Entering = objectSpaceNormal.Dot(objectSpaceRay.Direction) < 0;
 
       calculateTangents(intersection);
 

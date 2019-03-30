@@ -56,7 +56,7 @@ public class KDScene extends AbstractScene {
             if (closestStateToRay == null) {
                closestStateToRay = state;
             }
-            if (state.TMin < closestStateToRay.TMin) {
+            if (state.t < closestStateToRay.t) {
                closestStateToRay = state;
             }
          }
@@ -92,7 +92,7 @@ public class KDScene extends AbstractScene {
 
          if (hitsRight) {
             Intersection bestCandidateState = TraverseTree(rightNode, ray);
-            if (bestCandidateState != null && bestCandidateState.Hits && (bestStateSoFar == null || bestCandidateState.TMin < bestStateSoFar.TMin)) {
+            if (bestCandidateState != null && bestCandidateState.Hits && (bestStateSoFar == null || bestCandidateState.t < bestStateSoFar.t)) {
                bestStateSoFar = bestCandidateState;
             }
          }
@@ -161,11 +161,11 @@ public class KDScene extends AbstractScene {
          if (leftState.TMin == rightState.TMin)
             ;
          */
-         Intersection nearState = leftState.TMin < rightState.TMin ? leftState : rightState;
-         KDNode nearNode = leftState.TMin < rightState.TMin ? leftNode : rightNode;
+         Intersection nearState = leftState.t < rightState.t ? leftState : rightState;
+         KDNode nearNode = leftState.t < rightState.t ? leftNode : rightNode;
 
-         Intersection farState = leftState.TMin >= rightState.TMin ? leftState : rightState;
-         KDNode farNode = leftState.TMin >= rightState.TMin ? leftNode : rightNode;
+         Intersection farState = leftState.t >= rightState.t ? leftState : rightState;
+         KDNode farNode = leftState.t >= rightState.t ? leftNode : rightNode;
 
          Intersection bestCandidateState = new Intersection();
          bestCandidateState.Hits = false;
@@ -186,7 +186,7 @@ public class KDScene extends AbstractScene {
             Intersection bestFarState = TraverseTreeBetter(farNode, ray, count);
             if (bestFarState != null) {
                if (bestFarState.Hits) //{
-                  bestCandidateState = (bestCandidateState.TMin >= 0 && bestCandidateState.TMin <= bestFarState.TMin)
+                  bestCandidateState = (bestCandidateState.t >= 0 && bestCandidateState.t <= bestFarState.t)
                         ? bestCandidateState : bestFarState;
                /*} else {
                   fallBackState.KDHeatCount = bestCandidateState.KDHeatCount;
@@ -207,8 +207,9 @@ public class KDScene extends AbstractScene {
          return rootState;
 
       else {
-         float minT = rootState.TMin;
-         float maxT = rootState.TMax;
+         float minT = rootState.t;
+         // TODO fix - rootState.maxT got deleted!
+         float maxT = rootState.t;
 
          Vector inverseDirection = new Vector(1.0f/ ray.Direction.X, 1.0f / ray.Direction.Y, 1.0f / ray.Direction.Z);
          KToDo[] todos = new KToDo[64];

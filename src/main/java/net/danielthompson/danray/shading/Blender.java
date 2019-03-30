@@ -155,6 +155,25 @@ public class Blender {
       return true;
    }
 
+   public static Color BlendWeighted(Color c1, float w1, Color c2, float w2) {
+      float[] color1 = c1.getRGBColorComponents(null);
+      float[] color2 = c2.getRGBColorComponents(null);
+
+      float[] result = new float[3];
+
+      float divisor = 1.0f / (w1 + w2);
+
+      for (int i = 0; i < color1.length; i++) {
+         float weightedC1 = (color1[i] * w1);
+         float weightedC2 = (color2[i] * w2);
+
+         result[i] = divisor * (weightedC1 + weightedC2);
+      }
+
+      return new Color(result[0], result[1], result[2]);
+
+   }
+
    public static Color BlendWeighted(Color c1, int w1, Color c2, int w2) {
       float[] color1 = c1.getRGBColorComponents(null);
       float[] color2 = c2.getRGBColorComponents(null);

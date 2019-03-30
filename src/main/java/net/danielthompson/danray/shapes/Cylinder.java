@@ -141,12 +141,12 @@ public class Cylinder extends AbstractShape {
 
          if (!topHits && !bottomHits && (t0Hits || t1Hits)) {
             if (t0Hits && t0 <= t1) {
-               state.TMin = t0;
+               state.t = t0;
                state.Normal = t0Normal;
                state.Location = objectSpaceRay.ScaleFromOrigin(t0);
             }
             else if (t1Hits && t1 <= t0) {
-               state.TMin = t1;
+               state.t = t1;
                state.Normal = t1Normal;
                state.Location = objectSpaceRay.ScaleFromOrigin(t1);
             }
@@ -154,12 +154,12 @@ public class Cylinder extends AbstractShape {
          // case 2 - hits only discs
          else if (topHits && bottomHits && !t0Hits && !t1Hits) {
             if (tTop < tBottom) {
-               state.TMin = tTop;
+               state.t = tTop;
                state.Normal = topNormal;
                state.Location = objectSpaceRay.ScaleFromOrigin(tTop);
             }
             else {
-               state.TMin = tBottom;
+               state.t = tBottom;
                state.Normal = bottomNormal;
                state.Location = objectSpaceRay.ScaleFromOrigin(tBottom);
             }
@@ -169,22 +169,22 @@ public class Cylinder extends AbstractShape {
          else if (topHits && !bottomHits) {
             if (t0Hits && !t1Hits) {
                if (t0 <= tTop) {
-                  state.TMin = t0;
+                  state.t = t0;
                   state.Normal = t0Normal;
                   state.Location = objectSpaceRay.ScaleFromOrigin(t0);
                } else {
-                  state.TMin = tTop;
+                  state.t = tTop;
                   state.Normal = topNormal;
                   state.Location = objectSpaceRay.ScaleFromOrigin(tTop);
                }
             }
             else {
                if (t1 <= tTop) {
-                  state.TMin = t1;
+                  state.t = t1;
                   state.Normal = t1Normal;
                   state.Location = objectSpaceRay.ScaleFromOrigin(t1);
                } else {
-                  state.TMin = tTop;
+                  state.t = tTop;
                   state.Normal = topNormal;
                   state.Location = objectSpaceRay.ScaleFromOrigin(tTop);
                }
@@ -197,22 +197,22 @@ public class Cylinder extends AbstractShape {
          else if (!topHits && bottomHits) {
             if (t0Hits && !t1Hits) {
                if (t0 <= tBottom) {
-                  state.TMin = t0;
+                  state.t = t0;
                   state.Normal = t0Normal;
                   state.Location = objectSpaceRay.ScaleFromOrigin(t0);
                } else {
-                  state.TMin = tBottom;
+                  state.t = tBottom;
                   state.Normal = bottomNormal;
                   state.Location = objectSpaceRay.ScaleFromOrigin(tBottom);
                }
             }
             else {
                if (t1 <= tBottom) {
-                  state.TMin = t1;
+                  state.t = t1;
                   state.Normal = t1Normal;
                   state.Location = objectSpaceRay.ScaleFromOrigin(t1);
                } else {
-                  state.TMin = tBottom;
+                  state.t = tBottom;
                   state.Normal = topNormal;
                   state.Location = objectSpaceRay.ScaleFromOrigin(tBottom);
                }
@@ -227,7 +227,7 @@ public class Cylinder extends AbstractShape {
             state.Location = ObjectToWorld.Apply(state.Location);
             state.Normal = ObjectToWorld.Apply(state.Normal);
             if (ObjectToWorld.HasScale()) {
-               state.TMin = worldSpaceRay.GetTAtPoint(state.Location);
+               state.t = worldSpaceRay.GetTAtPoint(state.Location);
             }
          }
 

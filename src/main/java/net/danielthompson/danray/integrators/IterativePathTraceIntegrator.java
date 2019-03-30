@@ -35,7 +35,7 @@ public class IterativePathTraceIntegrator extends AbstractIntegrator {
          Intersection intersection = scene.getNearestShape(ray, x, y);
          if (intersection == null || !intersection.Hits) {
 
-            spds[bounces].add(scene.getSkyBoxSPD(ray.Direction));
+            spds[bounces].add(scene.Skybox.getSkyBoxSPD(ray.Direction));
             break;
          }
 

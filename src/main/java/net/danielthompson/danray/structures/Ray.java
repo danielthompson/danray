@@ -13,7 +13,17 @@ public class Ray {
 
    public Vector DirectionInverse;
 
-   public float MinT = Float.MAX_VALUE;;
+   /**
+    * The t-value for the closest intersection found so far.
+    * Should be set only by Shape hit() routines.
+    */
+   public float MinT = Float.MAX_VALUE;
+
+   /**
+    * The maximum t value that an intersection should return true for.
+    * Should be set only by the acceleration structure during traversal.
+    * Shape hit() routines should compare against this, but should not change it.
+    */
    public float MaxT = Float.MAX_VALUE;
 
    /**

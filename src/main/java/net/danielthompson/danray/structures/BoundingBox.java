@@ -104,8 +104,8 @@ public class BoundingBox {
          state.Hits = false;
          return state;
       }
-      state.TMin = minBoundNearT;
-      state.TMax = maxBoundFarT;
+      state.t = minBoundNearT;
+      //state.TMax = maxBoundFarT;
 
       tNear = (p1.Y - ray.Origin.Y) * ray.DirectionInverse.Y;
       tFar = (p2.Y - ray.Origin.Y) * ray.DirectionInverse.Y;
@@ -122,8 +122,8 @@ public class BoundingBox {
          return state;
       }
 
-      state.TMin = minBoundNearT;
-      state.TMax = maxBoundFarT;
+      state.t = minBoundNearT;
+      //state.TMax = maxBoundFarT;
 
       //rayInverse = ray.DirectionInverse.Z;
       tNear = (p1.Z - ray.Origin.Z) * ray.DirectionInverse.Z;
@@ -141,8 +141,8 @@ public class BoundingBox {
          return state;
       }
 
-      state.TMin = minBoundNearT;
-      state.TMax = maxBoundFarT;
+      state.t = minBoundNearT;
+      //state.TMax = maxBoundFarT;
 
       return state;
 
@@ -169,8 +169,9 @@ public class BoundingBox {
          intersection.Hits = false;
          return intersection;
       }
-      intersection.TMin = minBoundNearT;
-      intersection.TMax = maxBoundFarT;
+
+      intersection.t = minBoundNearT;
+      //intersection.TMax = maxBoundFarT;
 
       // Y
       tNear = (p1.Y - ray.Origin.Y) * ray.DirectionInverse.Y;
@@ -188,8 +189,8 @@ public class BoundingBox {
          return intersection;
       }
 
-      intersection.TMin = minBoundNearT;
-      intersection.TMax = maxBoundFarT;
+      intersection.t = minBoundNearT;
+      //intersection.TMax = maxBoundFarT;
 
       // Z
       tNear = (p1.Z - ray.Origin.Z) * ray.DirectionInverse.Z;
@@ -207,8 +208,8 @@ public class BoundingBox {
          return intersection;
       }
 
-      intersection.TMin = minBoundNearT;
-      intersection.TMax = maxBoundFarT;
+      intersection.t = minBoundNearT;
+      //intersection.TMax = maxBoundFarT;
 
       return intersection;
    }

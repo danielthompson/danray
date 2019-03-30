@@ -55,22 +55,22 @@ public class Box extends AbstractShape {
 
       Intersection intersection = BoundingBox.GetHitInfoNew(point1, point2, objectSpaceRay);
 
-      float minT = intersection.TMin;
-      float maxT = intersection.TMax;
+      float minT = intersection.t;
+      //float maxT = intersection.TMax;
 
       if (intersection.Hits) {
          if (ObjectToWorld != null && ObjectToWorld.HasScale()) {
-            Point objectSpaceFirstIntersectionPoint = objectSpaceRay.GetPointAtT(intersection.TMin);
+            Point objectSpaceFirstIntersectionPoint = objectSpaceRay.GetPointAtT(intersection.t);
             Point worldSpaceFirstIntersectionPoint = ObjectToWorld.Apply(objectSpaceFirstIntersectionPoint);
             minT = worldSpaceRay.GetTAtPoint(worldSpaceFirstIntersectionPoint);
 
-            Point objectSpaceSecondIntersectionPoint = objectSpaceRay.GetPointAtT(intersection.TMax);
-            Point worldSpaceSecondIntersectionPoint = ObjectToWorld.Apply(objectSpaceSecondIntersectionPoint);
-            maxT = worldSpaceRay.GetTAtPoint(worldSpaceSecondIntersectionPoint);
+            //Point objectSpaceSecondIntersectionPoint = objectSpaceRay.GetPointAtT(intersection.TMax);
+            //Point worldSpaceSecondIntersectionPoint = ObjectToWorld.Apply(objectSpaceSecondIntersectionPoint);
+            //maxT = worldSpaceRay.GetTAtPoint(worldSpaceSecondIntersectionPoint);
          }
 
          worldSpaceRay.MinT = intersection.Hits && minT < worldSpaceRay.MinT ? minT : worldSpaceRay.MinT;
-         worldSpaceRay.MaxT = intersection.Hits && maxT < worldSpaceRay.MaxT? maxT : worldSpaceRay.MaxT;
+         //worldSpaceRay.MaxT = intersection.Hits && maxT < worldSpaceRay.MaxT? maxT : worldSpaceRay.MaxT;
       }
 
       return intersection.Hits;
@@ -91,7 +91,7 @@ public class Box extends AbstractShape {
 
       if (intersection.Hits) {
          intersection.Shape = this;
-         intersection.Location = objectSpaceRay.GetPointAtT(intersection.TMin);
+         intersection.Location = objectSpaceRay.GetPointAtT(intersection.t);
 
          intersection.Normal = Constants.WithinEpsilon(point1.X, intersection.Location.X) ? new Normal(Constants.NegativeX) : intersection.Normal;
          intersection.Normal = Constants.WithinEpsilon(point1.Y, intersection.Location.Y) ? new Normal(Constants.NegativeY) : intersection.Normal;
@@ -101,16 +101,16 @@ public class Box extends AbstractShape {
          intersection.Normal = Constants.WithinEpsilon(point2.Z, intersection.Location.Z) ? new Normal(Constants.PositiveZ) : intersection.Normal;
 
          if (intersection.Normal == null) {
-            intersection.Location = objectSpaceRay.GetPointAtT(intersection.TMax);
-
-            intersection.Normal = Constants.WithinEpsilon(point1.X, intersection.Location.X) ? new Normal(Constants.NegativeX) : intersection.Normal;
-            intersection.Normal = Constants.WithinEpsilon(point1.Y, intersection.Location.Y) ? new Normal(Constants.NegativeY) : intersection.Normal;
-            intersection.Normal = Constants.WithinEpsilon(point1.Z, intersection.Location.Z) ? new Normal(Constants.NegativeZ) : intersection.Normal;
-            intersection.Normal = Constants.WithinEpsilon(point2.X, intersection.Location.X) ? new Normal(Constants.PositiveX) : intersection.Normal;
-            intersection.Normal = Constants.WithinEpsilon(point2.Y, intersection.Location.Y) ? new Normal(Constants.PositiveY) : intersection.Normal;
-            intersection.Normal = Constants.WithinEpsilon(point2.Z, intersection.Location.Z) ? new Normal(Constants.PositiveZ) : intersection.Normal;
-
-            if (intersection.Normal == null) {
+//            intersection.Location = objectSpaceRay.GetPointAtT(intersection.TMax);
+//
+//            intersection.Normal = Constants.WithinEpsilon(point1.X, intersection.Location.X) ? new Normal(Constants.NegativeX) : intersection.Normal;
+//            intersection.Normal = Constants.WithinEpsilon(point1.Y, intersection.Location.Y) ? new Normal(Constants.NegativeY) : intersection.Normal;
+//            intersection.Normal = Constants.WithinEpsilon(point1.Z, intersection.Location.Z) ? new Normal(Constants.NegativeZ) : intersection.Normal;
+//            intersection.Normal = Constants.WithinEpsilon(point2.X, intersection.Location.X) ? new Normal(Constants.PositiveX) : intersection.Normal;
+//            intersection.Normal = Constants.WithinEpsilon(point2.Y, intersection.Location.Y) ? new Normal(Constants.PositiveY) : intersection.Normal;
+//            intersection.Normal = Constants.WithinEpsilon(point2.Z, intersection.Location.Z) ? new Normal(Constants.PositiveZ) : intersection.Normal;
+//
+//            if (intersection.Normal == null) {
                float smallest = Float.MAX_VALUE;
 
                float p1xDiff = point1.X - intersection.Location.X;
@@ -150,7 +150,7 @@ public class Box extends AbstractShape {
                   boolean isNan = Float.isNaN(objectSpaceRay.Direction.X);
 
                   throw new NullPointerException();
-               }
+               //}
             }
          }
 

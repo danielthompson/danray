@@ -1,5 +1,6 @@
 package test.shapes.sphere;
 
+import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.shapes.Sphere;
 import net.danielthompson.danray.structures.Ray;
@@ -38,6 +39,21 @@ public class HitTests {
       Ray ray = new Ray(Origin, Direction);
 
       boolean hits = sphere.hits(ray);
+
+      Assert.assertTrue(hits, "Vector should hit sphere.");
+   }
+
+   @Test
+   public void testOrthogonalHitX2TValues() throws Exception {
+      Sphere sphere = new Sphere();
+
+      Point Origin = new Point(-2, 0, 0);
+      Vector Direction = new Vector(1, 0, 0);
+      Ray ray = new Ray(Origin, Direction);
+
+      boolean hits = sphere.hits(ray);
+
+      Intersection intersection = sphere.getHitInfo(ray);
 
       Assert.assertTrue(hits, "Vector should hit sphere.");
    }

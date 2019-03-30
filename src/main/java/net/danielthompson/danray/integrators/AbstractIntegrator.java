@@ -21,14 +21,4 @@ public abstract class AbstractIntegrator {
    public Sample GetSample(Ray ray, int depth, int x, int y) {
       return null;
    }
-
-   public SpectralPowerDistribution getSkyboxSPD(Vector v) {
-
-      // intersect it with a 1x1x1 box and find intersection point
-
-
-
-
-      return null;
-   }
 }

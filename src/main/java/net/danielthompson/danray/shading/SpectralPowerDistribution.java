@@ -23,6 +23,12 @@ public class SpectralPowerDistribution extends Spectrum {
       super (c, power);
    }
 
+   public SpectralPowerDistribution(SpectralPowerDistribution spd) {
+      R = spd.R;
+      G = spd.G;
+      B = spd.B;
+   }
+
    public static SpectralPowerDistribution Lerp(SpectralPowerDistribution s1, float w1, SpectralPowerDistribution s2, float w2) {
       SpectralPowerDistribution s = new SpectralPowerDistribution();
 
@@ -61,6 +67,16 @@ public class SpectralPowerDistribution extends Spectrum {
       B *= percentage;
    }
 
+   public SpectralPowerDistribution reflectOffInverse(ReflectanceSpectrum curve) {
+      SpectralPowerDistribution reflected = new SpectralPowerDistribution();
+
+      reflected.R = R * (1.0f - curve.R);
+      reflected.G = G * (1.0f - curve.G);
+      reflected.B = B * (1.0f - curve.B);
+
+      return reflected;
+   }
+
    public SpectralPowerDistribution reflectOff(ReflectanceSpectrum curve) {
       SpectralPowerDistribution reflected = new SpectralPowerDistribution();
 
@@ -70,6 +86,4 @@ public class SpectralPowerDistribution extends Spectrum {
 
       return reflected;
    }
-
-
 }

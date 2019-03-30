@@ -9,12 +9,14 @@ import net.danielthompson.danray.lights.PointLight;
 import net.danielthompson.danray.lights.SphereLight;
 import net.danielthompson.danray.scenes.NaiveScene;
 import net.danielthompson.danray.scenes.AbstractScene;
+import net.danielthompson.danray.scenes.skyboxes.*;
 import net.danielthompson.danray.shading.*;
 import net.danielthompson.danray.shading.bxdf.BRDF;
 import net.danielthompson.danray.shading.bxdf.BTDF;
 import net.danielthompson.danray.shading.bxdf.reflect.GlossyBRDF;
 import net.danielthompson.danray.shading.bxdf.reflect.LambertianBRDF;
 import net.danielthompson.danray.shading.bxdf.reflect.MirrorBRDF;
+import net.danielthompson.danray.shading.bxdf.subsurface.SubsurfaceScatteringFunction;
 import net.danielthompson.danray.shading.bxdf.transmit.SpecularBTDF;
 import net.danielthompson.danray.shapes.*;
 import net.danielthompson.danray.structures.*;
@@ -27,6 +29,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.List;
 
 import static java.awt.Color.red;
 
@@ -342,43 +345,43 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
-      settings.FieldOfView = 50f;
+      settings.FieldOfView = 25f;
 
       settings.FocusDistance = 500;
       settings.Aperture = new CircleAperture(20);
 
       Transform[] inputTransforms = new Transform[]{
-            Transform.Translate(new Vector(0, 0, 0)),
+            Transform.Translate(new Vector(25, 35, 0)),
             Transform.RotateY(0),
-            Transform.RotateX(-10),
-
-            Transform.identity
+            Transform.RotateX(-15)
       };
-//      Transform[] inputTransforms = new Transform[]{
-//            Transform.Translate(new Vector(0, 1000, -250)),
-//            Transform.RotateX(-90),
-//            Transform.identity
-//      };
 
       Transform[] compositeTransforms = Transform.composite(inputTransforms);
-
       Camera camera = new PerspectiveCamera(settings, compositeTransforms[0]);
 
       AbstractScene scene = new NaiveScene(camera);
 
       // right ball
 
-      Material material = new Material();
-
+      Material material;
       material = new Material();
-      material.BRDF = LambertianBRDF;
-      material.BTDF = SpecularBTDF;
-      material.BRDFweight = 0.25f;
-      material.BTDFweight = 0.75f;
+      material.BxDFs.add(SpecularBTDF);
+      material.Weights.add(1.0f);
       material.IndexOfRefraction = 1.52f;
+
+//      material.BRDF = LambertianBRDF;
+//      material.BRDFweight = 1.0f;
+
+//      material.BSSRDF = new SubsurfaceScatteringFunction(
+//            .1f,
+//            25.0f,
+//            .5f);
+//      material.BSSRDFweight = 1.0f;
+
 //      material.reflect = new GlossyBRDF(0.85f);
 //      material.ReflectanceSpectrum = new ReflectanceSpectrum(Solarized.blue);
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.WHITE);
+
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Orange);
 
       inputTransforms = new Transform[2];
       inputTransforms[0] = Transform.Translate(new Vector(25.0f, -15.0f, -200f));
@@ -388,79 +391,15 @@ public class SceneBuilder {
 
       scene.addShape(new Sphere(compositeTransforms, material));
 
-//      // left ball
-//
-//      material = new Material();
-//      material.reflect = MirrorBRDF;
-//      material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Beige);
-//
-//      inputTransforms = new Transform[]{
-//            Transform.Translate(new Vector(-100.0f, -25.0f, -200f)),
-//            Transform.RotateZ(45f),
-//            Transform.Scale(50f, 25f, 25f)
-//      };
-//
-//      compositeTransforms = Transform.composite(inputTransforms);
-//
-//      scene.addShape(new Sphere(compositeTransforms, material));
-
-      // other box
-//
-//      for (int i = 0; i < 4; i++) {
-//         material = new Material();
-//         material.reflect = new GlossyBRDF(0.99f);
-//
-//         switch (i) {
-//            case 0:
-//               material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Yellow);
-//               break;
-//            case 1:
-//               material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Red);
-//               break;
-//            case 2:
-//               material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Green);
-//               break;
-//            case 3:
-//               material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Orange);
-//               break;
-//         }
-//
-//
-//         inputTransforms = new Transform[]{
-//               Transform.Translate(new Vector(-45 + (i * 30), -50f, -125f)),
-//               Transform.RotateY(30f + (i * 20)),
-//               Transform.Scale(10f, 10f + (i * 4), 10f),
-//               Transform.Translate(new Vector(-0.5f, 0, -0.5f))
-//         };
-//         compositeTransforms = Transform.composite(inputTransforms);
-//
-//         scene.addShape(new Box(compositeTransforms, material));
-//      }
-
-
-//      // cylinder
-//
-//      material = new Material();
-//      material.reflect = new GlossyBRDF(0.95f);
-//      material.ReflectanceSpectrum = new ReflectanceSpectrum(Solarized.blue);
-//
-//      inputTransforms = new Transform[] {
-//            Transform.Translate(new Vector(20, -50f, -200f)),
-//            Transform.RotateY(20f),
-//            Transform.Scale(10f, 20f, 10f),
-//            Transform.Translate(new Vector(-0.5f, 0, -0.5f))
-//      };
-//      compositeTransforms = Transform.composite(inputTransforms);
-//
-//      scene.addShape(new Cylinder(compositeTransforms, material));
-
       // bottom box
 
       material = new Material();
 //      material.reflect = new GlossyBRDF(0.85f);
-      material.BRDF = LambertianBRDF;
-      material.BTDFweight = 0.0f;
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(Solarized.Base3);
+
+      material.BxDFs.add(LambertianBRDF);
+      material.Weights.add(1.0f);
+
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.WHITE);
 
       inputTransforms = new Transform[]{
             Transform.Translate(new Vector(0, -50f, -200f)),
@@ -472,17 +411,20 @@ public class SceneBuilder {
 
       scene.addShape(new Box(compositeTransforms, material));
 
-
       // white light
 
       material = new Material();
+
+      material.BxDFs.add(MirrorBRDF);
+      material.Weights.add(1.0f);
+
       material.BRDF = MirrorBRDF;
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.WHITE);
 
-      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(Color.white, 100.0f);
+      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(Color.white, 50.0f);
 
       inputTransforms = new Transform[]{
-            Transform.Translate(new Vector(0, 100, -250)),
+            Transform.Translate(new Vector(25, 100, -275)),
             Transform.Scale(25)
       };
 
@@ -497,7 +439,24 @@ public class SceneBuilder {
 
       // skybox
 
-      scene.SkyBoxImage = Skyboxes.Load(Skyboxes.Desert1);
+      // scene.Skybox = new RGBSkybox();
+
+//      scene.Skybox = new HalfGradientSkybox(Solarized.Base02, Color.WHITE);
+      List<Color> colors = new ArrayList<>();
+
+      //colors.add(new Color(190, 211, 226));
+      colors.add(new Color(81, 144, 213));
+      colors.add(Firenze.Beige);
+      //colors.add(new Color(17, 49, 110));
+
+
+      List<Float> locations = new ArrayList<>();
+      locations.add(.5f);
+      locations.add(.58f);
+      //locations.add(.65f);
+
+      //scene.Skybox = new SteppedGradientSkybox(colors, locations);
+      //scene.SkyBoxImage = Skyboxes.Load(Skyboxes.Desert1);
 
       return scene;
    }
@@ -712,7 +671,7 @@ public class SceneBuilder {
 
       // skybox
 
-      scene.SkyBoxImage = Skyboxes.Load(Skyboxes.Desert2);
+      scene.Skybox = new CubeMappedSkybox(Skyboxes.Load(Skyboxes.Desert2));
 
       return scene;
    }
@@ -868,7 +827,7 @@ public class SceneBuilder {
          }
       }
 
-      scene.SkyBoxImage = Skyboxes.Load(Skyboxes.Desert2);
+      scene.Skybox = new CubeMappedSkybox(Skyboxes.Load(Skyboxes.Desert2));
 
 
       return scene;
@@ -948,7 +907,7 @@ public class SceneBuilder {
 
       AbstractScene scene = new NaiveScene(camera);
 
-      scene.SkyBoxImage = Skyboxes.Load(Skyboxes.Desert2);
+      scene.Skybox = new CubeMappedSkybox(Skyboxes.Load(Skyboxes.Desert2));
       scene.numFrames = 1;
 
       // white vertical z plane
@@ -1865,7 +1824,7 @@ public class SceneBuilder {
       sphere = new Sphere(compositeTransforms, material);
       scene.addShape(sphere);
 
-      scene.SkyBoxImage = Skyboxes.Load(Skyboxes.Desert2);
+      scene.Skybox = new CubeMappedSkybox(Skyboxes.Load(Skyboxes.Desert2));
 
       return scene;
    }

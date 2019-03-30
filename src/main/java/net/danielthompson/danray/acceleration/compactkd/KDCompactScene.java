@@ -38,7 +38,7 @@ public class KDCompactScene extends AbstractScene {
       for (AbstractShape shape : node.Shapes) {
          Intersection state = shape.getHitInfo(ray);
 
-         if (state.Hits && (closestStateToRay == null || state.TMin < closestStateToRay.TMin)) {
+         if (state.Hits && (closestStateToRay == null || state.t < closestStateToRay.t)) {
             closestStateToRay = state;
          }
       }
@@ -69,12 +69,12 @@ public class KDCompactScene extends AbstractScene {
          Intersection leftState = KDCompactScene.GetHitInfo(leftNode, ray);
          Intersection rightState = KDCompactScene.GetHitInfo(rightNode, ray);
 
-         Intersection nearState = leftState.TMin < rightState.TMin ? leftState : rightState;
-         int nearIndex = leftState.TMin < rightState.TMin ? leftIndex : rightIndex;
+         Intersection nearState = leftState.t < rightState.t ? leftState : rightState;
+         int nearIndex = leftState.t < rightState.t ? leftIndex : rightIndex;
          //KDCompactNode nearNode = leftState.TMin < rightState.TMin ? leftNode : rightNode;
 
-         Intersection farState = leftState.TMin >= rightState.TMin ? leftState : rightState;
-         int farIndex = leftState.TMin >= rightState.TMin ? leftIndex : rightIndex;
+         Intersection farState = leftState.t >= rightState.t ? leftState : rightState;
+         int farIndex = leftState.t >= rightState.t ? leftIndex : rightIndex;
          //KDCompactNode farNode = leftState.TMin >= rightState.TMin ? leftNode : rightNode;
 
          Intersection bestCandidateState = new Intersection();
@@ -93,7 +93,7 @@ public class KDCompactScene extends AbstractScene {
             Intersection bestFarState = TraverseTreeBetter(farIndex, ray, count);
             if (bestFarState != null) {
                if (bestFarState.Hits) //{
-                  bestCandidateState = (bestCandidateState.TMin >= 0 && bestCandidateState.TMin <= bestFarState.TMin)
+                  bestCandidateState = (bestCandidateState.t >= 0 && bestCandidateState.t <= bestFarState.t)
                         ? bestCandidateState : bestFarState;
             }
          }
@@ -124,8 +124,10 @@ public class KDCompactScene extends AbstractScene {
          state.Hits = false;
          return state;
       }
-      state.TMin = minBoundNearT;
-      state.TMax = maxBoundFarT;
+      state.t = minBoundNearT;
+
+      // fix
+      state.t = maxBoundFarT;
 
       // Y
       tNear = (node.p0y - ray.Origin.Y) * ray.DirectionInverse.Y;
@@ -143,8 +145,9 @@ public class KDCompactScene extends AbstractScene {
          return state;
       }
 
-      state.TMin = minBoundNearT;
-      state.TMax = maxBoundFarT;
+      // TODO fix max T?
+      state.t = maxBoundFarT;
+      state.t = minBoundNearT;
 
       // Z
       tNear = (node.p0z - ray.Origin.Z) * ray.DirectionInverse.Z;
@@ -162,8 +165,9 @@ public class KDCompactScene extends AbstractScene {
          return state;
       }
 
-      state.TMin = minBoundNearT;
-      state.TMax = maxBoundFarT;
+      // TODO fix max t values?
+      state.t = maxBoundFarT;
+      state.t = minBoundNearT;
 
       return state;
    }

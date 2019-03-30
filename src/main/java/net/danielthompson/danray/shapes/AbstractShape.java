@@ -94,7 +94,7 @@ public abstract class AbstractShape {
             intersection.Normal.Normalize();
             intersection.TangentU.Normalize();
             intersection.TangentV.Normalize();
-            intersection.TMin = worldSpaceRay.GetTAtPoint(intersection.Location);
+            intersection.t = worldSpaceRay.GetTAtPoint(intersection.Location);
          }
       }
    }

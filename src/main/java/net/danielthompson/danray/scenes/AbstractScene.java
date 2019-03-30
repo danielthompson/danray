@@ -4,6 +4,7 @@ import net.danielthompson.danray.cameras.Camera;
 import net.danielthompson.danray.lights.AbstractLight;
 import net.danielthompson.danray.presets.TracerOptions;
 
+import net.danielthompson.danray.scenes.skyboxes.AbstractSkybox;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.shapes.AbstractShape;
 import net.danielthompson.danray.shapes.Box;
@@ -22,26 +23,12 @@ import java.util.List;
 public abstract class AbstractScene {
    public int numFrames = 1;
    public Camera Camera;
+   public AbstractSkybox Skybox;
 
    public String ImplementationType = "Base Scene";
 
    public List<AbstractLight> Lights;
    public List<AbstractShape> Shapes;
-
-   public BufferedImage SkyBoxImage;
-
-   public BufferedImage SkyBoxNegX;
-   public BufferedImage SkyBoxNegY;
-   public BufferedImage SkyBoxNegZ;
-   public BufferedImage SkyBoxPosX;
-   public BufferedImage SkyBoxPosY;
-   public BufferedImage SkyBoxPosZ;
-
-   public Box Skybox;
-
-   public Point SkyBoxPoint = new Point(0.5f, 0.5f, 0.5f);
-
-   private final SpectralPowerDistribution backgroundColor = new SpectralPowerDistribution(Color.BLACK);
 
    public AbstractScene(Camera camera) {
       Camera = camera;
@@ -57,25 +44,27 @@ public abstract class AbstractScene {
       Lights.add(light);
    }
 
+   public SpectralPowerDistribution getEnvironmentColor(Vector v) {
+      if (Skybox == null) {
+         return new SpectralPowerDistribution(Color.BLACK);
+      }
+      else {
+         return Skybox.getSkyBoxSPD(v);
+      }
+   }
+
    public abstract Intersection getNearestShape(Ray ray, int x, int y);
 
    public Intersection getNearestShapeIteratively(List<AbstractShape> shapes, Ray ray) {
       int nearestShapeIndex = -1;
-
       float closestT = ray.MinT;
-
       boolean test = false;
 
       for (int i = 0; i < shapes.size(); i++) {
-
          AbstractShape shape = shapes.get(i);
-
          boolean hits = shape.hits(ray);
-
          test = (hits && ray.MinT >= Constants.Epsilon && ray.MinT < closestT);
-
          nearestShapeIndex = test ? i : nearestShapeIndex;
-
          closestT = test ? ray.MinT : closestT;
       }
 
@@ -83,9 +72,6 @@ public abstract class AbstractScene {
 
       if (nearestShapeIndex >= 0) {
          closestStateToRay = shapes.get(nearestShapeIndex).getHitInfo(ray);
-
-
-
          if (Float.isNaN(closestStateToRay.Location.X)) {
             // wtf?
             closestStateToRay = shapes.get(nearestShapeIndex).getHitInfo(ray);
@@ -104,121 +90,6 @@ public abstract class AbstractScene {
 
          shape.RecalculateWorldBoundingBox();
       }
-
-
-      if (SkyBoxImage != null) {
-         Skybox = new Box(Transform.identity, Transform.identity,null);
-
-         int width = SkyBoxImage.getWidth();
-         int height = SkyBoxImage.getHeight();
-
-         int tileSize = width / 4;
-
-         SkyBoxNegX = SkyBoxImage.getSubimage(0, tileSize, tileSize, tileSize);
-         SkyBoxNegY = SkyBoxImage.getSubimage(tileSize, tileSize * 2, tileSize, tileSize);
-         SkyBoxNegZ = SkyBoxImage.getSubimage(tileSize, tileSize, tileSize, tileSize);
-         SkyBoxPosX = SkyBoxImage.getSubimage(tileSize * 2, tileSize, tileSize, tileSize);
-         SkyBoxPosY = SkyBoxImage.getSubimage(tileSize, 0, tileSize, tileSize);
-         SkyBoxPosZ = SkyBoxImage.getSubimage(tileSize * 3, tileSize, tileSize, tileSize);
-      }
-
-
-
       return "Bounding boxes recalculated.\r\n";
    }
-
-   public SpectralPowerDistribution getSkyBoxSPD(Vector direction) {
-
-      if (Float.isNaN(direction.X)) {
-         return backgroundColor;
-      }
-
-      if (SkyBoxNegX == null)
-         return backgroundColor;
-
-      Ray r = new Ray(SkyBoxPoint, direction);
-
-      Intersection state = Skybox.getHitInfo(r);
-
-      Point p = state.Location;
-
-      float u = 0.0f;
-      float v = 0.0f;
-
-      float width = SkyBoxNegX.getWidth();
-      float height = SkyBoxNegX.getHeight();
-
-      BufferedImage texture = null;
-
-      //float tileSize = width * .25f;
-
-      // left wall
-
-      texture = Constants.WithinEpsilon(p.X, 0) ? SkyBoxNegX : texture;
-      u = Constants.WithinEpsilon(p.X, 0) ? width - width * p.Z : u;
-      v = Constants.WithinEpsilon(p.X, 0) ? height - (height * p.Y) : v;
-
-      // back wall
-
-      texture = Constants.WithinEpsilon(p.Z, 0) ? SkyBoxNegZ : texture;
-      u = Constants.WithinEpsilon(p.Z, 0) ? width * p.X: u;
-      v = Constants.WithinEpsilon(p.Z, 0) ? height - (height * p.Y) : v;
-//      y = Constants.WithinEpsilon(p.Z, 0) ? .33f * height * (2 - p.Y) : y;
-
-      // right wall
-
-      texture = Constants.WithinEpsilon(p.X, 1) ? SkyBoxPosX : texture;
-      u = Constants.WithinEpsilon(p.X, 1) ? width * p.Z: u;
-      v = Constants.WithinEpsilon(p.X, 1) ? height - (height * p.Y) : v;
-
-      // front wall
-
-      texture = Constants.WithinEpsilon(p.Z, 1) ? SkyBoxPosZ : texture;
-      u = Constants.WithinEpsilon(p.Z, 1) ? (width - width * p.X) : u;
-      v = Constants.WithinEpsilon(p.Z, 1) ? height - (height * p.Y) : v;
-
-      // top wall
-
-      texture = Constants.WithinEpsilon(p.Y, 1) ? SkyBoxPosY : texture;
-      u = Constants.WithinEpsilon(p.Y, 1) ? width * p.X : u;
-      v = Constants.WithinEpsilon(p.Y, 1) ? height - height * p.Z : v;
-
-      // bottom wall
-
-      texture = Constants.WithinEpsilon(p.Y, 0) ? SkyBoxNegY : texture;
-      u = Constants.WithinEpsilon(p.Y, 0) ? width * p.X : u;
-      v = Constants.WithinEpsilon(p.Y, 0) ? height * p.Z : v;
-
-      u = (u == width) ? u - 1 : u;
-      v = (v == height) ? v - 1 : v;
-
-      Color c = BoxFilterSkybox(texture, u, v);
-
-      SpectralPowerDistribution spd = new SpectralPowerDistribution(c);
-
-      return spd;
-   }
-
-   private Color BoxFilterSkybox(BufferedImage texture, float u, float v) {
-      int rgb = texture.getRGB((int)u, (int)v);
-      Color c = new Color(rgb);
-      return c;
-   }
-
-   private Color TriangleFilterSkybox(BufferedImage texture, float u, float v) {
-      int x, y;
-      float weight;
-
-      // top left
-
-      float squaredDistanceTopLeft =
-      x = (int)Math.floor(u + 0.5);
-      y = (int)Math.floor(v + 0.5);
-
-
-
-
-      return null;
-   }
-
 }
