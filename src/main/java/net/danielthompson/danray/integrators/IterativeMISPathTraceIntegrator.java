@@ -97,7 +97,7 @@ public class IterativeMISPathTraceIntegrator extends AbstractIntegrator {
          }
 
          if (bounces + 1 < maxDepth ) {
-            Vector outgoingDirection = objectMaterial.BRDF.getVectorInPDF(intersectionNormal, incomingDirection);
+            Vector outgoingDirection = objectMaterial.BRDF.getVectorInPDF(intersectionNormal, incomingDirection, 1, 1);
             float scalePercentage = objectMaterial.BRDF.f(incomingDirection, intersectionNormal, outgoingDirection);
 
             fs[bounces] = scalePercentage;

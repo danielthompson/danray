@@ -1,7 +1,7 @@
 package test.shading.bxdf;
 
 import net.danielthompson.danray.shading.bxdf.BRDF;
-import net.danielthompson.danray.shading.bxdf.reflect.MirrorBRDF;
+import net.danielthompson.danray.shading.bxdf.reflect.SpecularBRDF;
 import net.danielthompson.danray.structures.*;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -28,7 +28,7 @@ public class MirrorBRDFTests {
 //
 //   @Test
 //   public void testGetVectorInPDF() throws Exception {
-//      reflect brdf = new MirrorBRDF();
+//      reflect brdf = new SpecularBRDF();
 //
 //      Normal n = new Normal(0, 1, 0);
 //      Vector v = new Vector(1, -1, 0);
@@ -100,9 +100,9 @@ public class MirrorBRDFTests {
 
    @Test(dataProvider = "MirrorBRDFProvider")
    public void testGetVectorInPDF(Normal n, Vector v, Vector expected) {
-      BRDF brdf = new MirrorBRDF();
+      BRDF brdf = new SpecularBRDF();
 
-      Vector actual = brdf.getVectorInPDF(n, v);
+      Vector actual = brdf.getVectorInPDF(n, v, 1, 1);
 
       Assert.assertNotNull(actual);
 

@@ -31,7 +31,7 @@ public class LambertianBRDF extends BRDF {
    }
 
    @Override
-   public Vector getVectorInPDF(Normal normal, Vector incoming) {
+   public Vector getVectorInPDF(Normal normal, Vector incoming, float leavingIndexOfRefraction, float enteringIndexOfRefraction) {
 
 
       //Vector outgoing = MonteCarloCalculations.CosineSampleHemisphere();

@@ -86,9 +86,27 @@ public class PathTraceIntegrator extends AbstractIntegrator {
             BxDF bxdf = objectMaterial.BxDFs.get(i);
             float weight = objectMaterial.Weights.get(i);
 
-            Vector outgoingDirection = bxdf.getVectorInPDF(intersection, incomingDirection);
+            boolean leavingMaterial = true;
+            float enteringIndexOfRefraction = objectMaterial.IndexOfRefraction;
+
+            if (bxdf.Transmission) {
+               leavingMaterial = intersectionNormal.Dot(incomingDirection) > 0;
+
+               if (leavingMaterial) {
+                  enteringIndexOfRefraction = 1f;
+               }
+            }
+
+            Vector outgoingDirection = bxdf.getVectorInPDF(intersection, incomingDirection, indexOfRefraction, enteringIndexOfRefraction);
             float scalePercentage = bxdf.f(incomingDirection, intersectionNormal, outgoingDirection);
             Ray bounceRay = new Ray(intersection.Location, outgoingDirection);
+
+            if (leavingMaterial) {
+               bounceRay.OffsetOriginOutwards(intersectionNormal);
+            }
+            else {
+               bounceRay.OffsetOriginInwards(intersectionNormal);
+            }
 
             bounceRay.OffsetOriginOutwards(intersectionNormal);
             //bounceRay.OffsetOriginForward(Constants.DoubleEpsilon);

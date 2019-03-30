@@ -23,7 +23,7 @@ public class GaussianBRDF extends BRDF {
    }
 
    @Override
-   public Vector getVectorInPDF(Normal normal, Vector outgoing) {
+   public Vector getVectorInPDF(Normal normal, Vector incoming, float leavingIndexOfRefraction, float enteringIndexOfRefraction) {
       return null;
    }
 

@@ -60,6 +60,8 @@ public abstract class BxDF {
 
    public boolean Glossy;
 
+   public boolean Transmission = false;
+
    /**
     * Gets an outgoing vector according to the BxDF's PDF.
     * Should be used for both delta and non-delta.
@@ -67,9 +69,13 @@ public abstract class BxDF {
     * @param incoming The incoming vector.
     * @return A vector randomly sampled according to the BxDF's PDF.
     */
-   public abstract Vector getVectorInPDF(Normal normal, Vector incoming);
+   public abstract Vector getVectorInPDF(Normal normal, Vector incoming, float leavingIndexOfRefraction, float enteringIndexOfRefraction);
 
-   public Vector getVectorInPDF(Intersection intersection, Vector incoming) {
+   public Vector getVectorInPDF(Normal normal, Vector incoming) {
+      return getVectorInPDF(normal, incoming, 1, 1);
+   }
+
+   public Vector getVectorInPDF(Intersection intersection, Vector incoming, float leavingIndexOfRefraction, float enteringIndexOfRefraction) {
       Vector localSpaceOutgoing = MonteCarloCalculations.CosineSampleHemisphere();
 
 //      if (intersection.x == 119 && (intersection.y == 315 || intersection.y == 311)) {
@@ -78,6 +84,10 @@ public abstract class BxDF {
 
       Vector worldSpaceOutgoing = LocalToWorld(intersection, localSpaceOutgoing);
       return worldSpaceOutgoing;
+   }
+
+   public Vector getVectorInPDF(Intersection intersection, Vector incoming) {
+      return getVectorInPDF(intersection, incoming, 1, 1);
    }
 
    /**

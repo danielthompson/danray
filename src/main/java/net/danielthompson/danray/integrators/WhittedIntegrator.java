@@ -137,7 +137,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
 //            }
 
 
-            Vector outgoingDirection = objectMaterial.BRDF.getVectorInPDF(closestStateToRay.Normal, ray.Direction);
+            Vector outgoingDirection = objectMaterial.BRDF.getVectorInPDF(closestStateToRay.Normal, ray.Direction, 1, 1);
 
             Point offsetIntersection = Point.Plus(closestStateToRay.Location, Vector.Scale(outgoingDirection, Constants.Epsilon * 1000));
 //            Point offsetIntersection = closestStateToRay.Location;

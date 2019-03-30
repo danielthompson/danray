@@ -11,7 +11,7 @@ import net.danielthompson.danray.utility.GeometryCalculations;
 public class GlossyBRDF extends BRDF {
 
    private LambertianBRDF lambertianBRDF = new LambertianBRDF();
-   private MirrorBRDF mirrorBRDF = new MirrorBRDF();
+   private SpecularBRDF mirrorBRDF = new SpecularBRDF();
 
    public float Gloss = 0.5f;
 
@@ -55,15 +55,15 @@ public class GlossyBRDF extends BRDF {
    }
 
    @Override
-   public Vector getVectorInPDF(Normal normal, Vector incoming) {
+   public Vector getVectorInPDF(Normal normal, Vector incoming, float leavingIndexOfRefraction, float enteringIndexOfRefraction) {
 
-      Vector mirrorVector = mirrorBRDF.getVectorInPDF(normal, incoming);
+      Vector mirrorVector = mirrorBRDF.getVectorInPDF(normal, incoming, 0, 0);
 
       Normal mirrorAsNormal = new Normal(mirrorVector);
 
       Vector lerp;
 
-      Vector lambertVector = lambertianBRDF.getVectorInPDF(mirrorAsNormal, incoming);
+      Vector lambertVector = lambertianBRDF.getVectorInPDF(mirrorAsNormal, incoming, 0, 0);
       lerp = Vector.Slerp(mirrorVector, Gloss, lambertVector, _diffuse);
 
       return lerp;

@@ -6,10 +6,6 @@ import net.danielthompson.danray.structures.Vector;
 import org.apache.commons.lang.NotImplementedException;
 
 public class SpecularBTDF extends BTDF {
-   @Override
-   public Vector getVectorInPDF(Normal normal, Vector incoming) {
-      throw new NotImplementedException();
-   }
 
    @Override
    public Vector getVectorInPDF(Normal normal, Vector incoming, float leavingIndexOfRefraction, float enteringIndexOfRefraction) {

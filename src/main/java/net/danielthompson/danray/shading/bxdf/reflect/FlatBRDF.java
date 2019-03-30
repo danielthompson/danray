@@ -26,7 +26,7 @@ public class FlatBRDF extends BRDF {
    }
 
    @Override
-   public Vector getVectorInPDF(Normal normal, Vector incoming) {
+   public Vector getVectorInPDF(Normal normal, Vector incoming, float leavingIndexOfRefraction, float enteringIndexOfRefraction) {
 
       float[] xyz = GeometryCalculations.randomPointOnSphere();
 

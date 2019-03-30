@@ -1,6 +1,7 @@
 package net.danielthompson.danray.shading.bxdf.reflect;
 
 import net.danielthompson.danray.shading.bxdf.BRDF;
+import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.Constants;
 import net.danielthompson.danray.structures.Normal;
 import net.danielthompson.danray.structures.Vector;
@@ -9,11 +10,11 @@ import net.danielthompson.danray.utility.GeometryCalculations;
 /**
  * Created by dthompson on 21 May 15.
  */
-public class MirrorBRDF extends BRDF {
+public class SpecularBRDF extends BRDF {
 
    private Vector ZeroVector = new Vector(0,0,0);
 
-   public MirrorBRDF() {
+   public SpecularBRDF() {
       Delta = true;
    }
 
@@ -36,7 +37,7 @@ public class MirrorBRDF extends BRDF {
    }
 
    @Override
-   public Vector getVectorInPDF(Normal normal, Vector incoming) {
+   public Vector getVectorInPDF(Normal normal, Vector incoming, float leavingIndexOfRefraction, float enteringIndexOfRefraction) {
       normal.Normalize();
       float factor = incoming.Dot(normal) * 2;
       Vector scaled = new Vector(Normal.Scale(normal, factor));
@@ -48,6 +49,5 @@ public class MirrorBRDF extends BRDF {
       outgoing = Vector.Minus(ZeroVector, outgoing);
 
       return outgoing;
-
    }
 }
