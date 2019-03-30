@@ -408,7 +408,7 @@ public class SceneBuilder {
       };
       compositeTransforms = Transform.composite(inputTransforms);
 
-      scene.addShape(new Box(compositeTransforms, material));
+      //scene.addShape(new Box(compositeTransforms, material));
 
       // white light
 
@@ -433,7 +433,7 @@ public class SceneBuilder {
 
       AbstractLight light = new SphereLight(sphere, lightSPD);
 
-      scene.Shapes.add(light);
+      //scene.Shapes.add(light);
       //scene.Lights.add(light);
 
       // skybox

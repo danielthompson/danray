@@ -6,6 +6,7 @@ import net.danielthompson.danray.structures.Constants;
 import net.danielthompson.danray.structures.Normal;
 import net.danielthompson.danray.structures.Vector;
 import net.danielthompson.danray.utility.GeometryCalculations;
+import net.danielthompson.danray.utility.MonteCarloCalculations;
 
 /**
  * Created by dthompson on 21 May 15.
@@ -34,6 +35,11 @@ public class SpecularBRDF extends BRDF {
 
       return f(thetaIncoming, thetaOutgoing);
 
+   }
+
+   @Override
+   public Vector getVectorInPDF(Intersection intersection, Vector incoming, float leavingIndexOfRefraction, float enteringIndexOfRefraction) {
+      return getVectorInPDF(intersection.Normal, incoming, leavingIndexOfRefraction, enteringIndexOfRefraction);
    }
 
    @Override
