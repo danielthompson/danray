@@ -59,13 +59,14 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
       Material objectMaterial = closestShape.Material;
 
-      BRDF brdf = objectMaterial.BRDF;
+      //BRDF brdf = objectMaterial.BRDF;
 
       SpectralPowerDistribution directSPD = new SpectralPowerDistribution();
 
       // calculate direct light
 
-      if (brdf.Delta) {
+//      if (brdf.Delta) {
+      if (false) {
 
       }
 
@@ -129,7 +130,9 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
          SpectralPowerDistribution reflectedSPD = null;
 
-         if (objectMaterial.BRDF != null) {
+         // TODO fix
+         if (true) {
+         //if (objectMaterial.BRDF != null) {
 
 //            if (x == 555 && y == 644) { // inside
 //               int j = 0;
@@ -137,7 +140,8 @@ public class WhittedIntegrator extends AbstractIntegrator {
 //            }
 
 
-            Vector outgoingDirection = objectMaterial.BRDF.getVectorInPDF(closestStateToRay.Normal, ray.Direction, 1, 1);
+            // TODO fix
+            Vector outgoingDirection = new Vector(1, 0, 0); //objectMaterial.BRDF.getVectorInPDF(closestStateToRay.Normal, ray.Direction, 1, 1);
 
             Point offsetIntersection = Point.Plus(closestStateToRay.Location, Vector.Scale(outgoingDirection, Constants.Epsilon * 1000));
 //            Point offsetIntersection = closestStateToRay.Location;
@@ -148,7 +152,9 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
             reflectedSample = GetSample(reflectedRay, depth, oldIndexOfRefraction, x, y);
 
-            if (objectMaterial.BRDF.Delta) {
+            // TODO fix
+//            if (objectMaterial.BRDF.Delta) {
+            if (true) {
                reflectedWeight = 1.0f;
             }
 
@@ -159,7 +165,8 @@ public class WhittedIntegrator extends AbstractIntegrator {
                float angleIncoming = GeometryCalculations.radiansBetween(reversedIncoming, closestStateToRay.Normal);
                float angleOutgoing = GeometryCalculations.radiansBetween(outgoingDirection, closestStateToRay.Normal);
 
-               reflectedWeight = objectMaterial.BRDF.f(angleIncoming, angleOutgoing);
+               // TODO fix
+               reflectedWeight = 1.0f; //objectMaterial.BRDF.f(angleIncoming, angleOutgoing);
 
             }
 

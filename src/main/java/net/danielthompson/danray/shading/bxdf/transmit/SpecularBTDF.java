@@ -1,11 +1,16 @@
 package net.danielthompson.danray.shading.bxdf.transmit;
 
 import net.danielthompson.danray.shading.bxdf.BTDF;
+import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.Normal;
 import net.danielthompson.danray.structures.Vector;
 import org.apache.commons.lang.NotImplementedException;
 
 public class SpecularBTDF extends BTDF {
+
+   public SpecularBTDF() {
+      Delta = true;
+   }
 
    @Override
    public Vector getVectorInPDF(Normal normal, Vector incoming, float leavingIndexOfRefraction, float enteringIndexOfRefraction) {

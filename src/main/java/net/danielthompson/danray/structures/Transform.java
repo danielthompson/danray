@@ -101,16 +101,20 @@ public class Transform {
     * @return
     */
    public static Transform Translate(Vector delta) {
+      return Translate(delta.X, delta.Y, delta.Z);
+   }
+
+   public static Transform Translate(float x, float y, float z) {
       Matrix4x4 matrix = new Matrix4x4(
-            1, 0, 0, delta.X,
-            0, 1, 0, delta.Y,
-            0, 0, 1, delta.Z,
+            1, 0, 0, x,
+            0, 1, 0, y,
+            0, 0, 1, z,
             0, 0, 0, 1);
 
       Matrix4x4 inverse = new Matrix4x4(
-            1, 0, 0, -delta.X,
-            0, 1, 0, -delta.Y,
-            0, 0, 1, -delta.Z,
+            1, 0, 0, -x,
+            0, 1, 0, -y,
+            0, 0, 1, -z,
             0, 0, 0, 1);
 
       Transform transform = new Transform(matrix, inverse);

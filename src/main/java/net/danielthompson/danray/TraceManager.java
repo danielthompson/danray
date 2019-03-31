@@ -420,7 +420,7 @@ public class TraceManager {
       }
       */
 
-//      _tracerOptions.numThreads = 1;
+//      _tracerOptions.numThreads = 8;
 
       if (_tracerOptions.numThreads <= 1) {
          runner.run();

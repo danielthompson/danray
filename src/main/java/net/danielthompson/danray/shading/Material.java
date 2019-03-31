@@ -14,10 +14,6 @@ public class Material {
    public final List<Float> Weights = new ArrayList<>();
 
    public ReflectanceSpectrum ReflectanceSpectrum;
-   public BRDF BRDF;
-   public float BRDFweight = 1.0f;
-   public BTDF BTDF;
-   public float BTDFweight = 1.0f;
 
    public SubsurfaceScatteringFunction BSSRDF;
    public float BSSRDFweight = 1.0f;

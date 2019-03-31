@@ -56,12 +56,14 @@ public class IterativeMISPathTraceIntegrator extends AbstractIntegrator {
 
          AbstractShape closestShape = closestStateToRay.Shape;
          Material objectMaterial = closestShape.Material;
-         BRDF brdf = objectMaterial.BRDF;
+         // TODO fix
+         //BRDF brdf = objectMaterial.BRDF;
          Normal intersectionNormal = closestStateToRay.Normal;
          Vector incomingDirection = ray.Direction;
 
-         if (!brdf.Delta) {
-
+         // TODO fix
+         //if (!brdf.Delta) {
+         if (true) {
             for (AbstractLight light : scene.Lights) {
                Point intersectionPoint = closestStateToRay.Location;
 
@@ -86,7 +88,9 @@ public class IterativeMISPathTraceIntegrator extends AbstractIntegrator {
                      Intersection state = closestShape.getHitInfo(lightToNearestShape);
                      if (state.Hits) {
                         float angleOfIncidencePercentage = GeometryCalculations.GetCosineWeightedIncidencePercentage(lightToNearestShape.Direction, closestStateToRay.Normal);
-                        float scalePercentage = objectMaterial.BRDF.f(incomingDirection, intersectionNormal, lightToNearestShape.Direction) * angleOfIncidencePercentage;
+
+                        // TODO fix
+                        float scalePercentage = 1.0f; //objectMaterial.BRDF.f(incomingDirection, intersectionNormal, lightToNearestShape.Direction) * angleOfIncidencePercentage;
                         SpectralPowerDistribution scaledIncomingSPD = SpectralPowerDistribution.scale(light.SpectralPowerDistribution, scalePercentage);
                         scaledIncomingSPD.scale(oneOverDistanceFromLightSourceSquared);
                         spds[bounces].add(scaledIncomingSPD);
@@ -97,8 +101,10 @@ public class IterativeMISPathTraceIntegrator extends AbstractIntegrator {
          }
 
          if (bounces + 1 < maxDepth ) {
-            Vector outgoingDirection = objectMaterial.BRDF.getVectorInPDF(intersectionNormal, incomingDirection, 1, 1);
-            float scalePercentage = objectMaterial.BRDF.f(incomingDirection, intersectionNormal, outgoingDirection);
+            // TODO fix
+
+            Vector outgoingDirection = new Vector(1, 0, 0); //objectMaterial.BRDF.getVectorInPDF(intersectionNormal, incomingDirection, 1, 1);
+            float scalePercentage = 1.0f; //objectMaterial.BRDF.f(incomingDirection, intersectionNormal, outgoingDirection);
 
             fs[bounces] = scalePercentage;
             refls[bounces] = objectMaterial.ReflectanceSpectrum;
