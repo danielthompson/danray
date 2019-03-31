@@ -4,9 +4,9 @@ package net.danielthompson.danray.presets;
  * Created by daniel on 11/22/14.
  */
 public class LowQuality implements RenderQualityPreset {
-   private final int _x = 1920, _y = 1080;
+   private final int _x = 640, _y = 480;
    private final int _maxDepth = 5;
-   private final int _samplesPerPixel = 65536;
+   private final int _samplesPerPixel = 256;
    private final int _superSamplesPerPixel = 1;
    private final int _airIndexOfRefraction = 1;
 

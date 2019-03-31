@@ -19,7 +19,7 @@ public class GLFrame extends Frame {
       super("OpenGL View");
       GLProfile.initSingleton();
 
-      String profileToUse = GLProfile.GL3;
+      String profileToUse = GLProfile.GL2;
 
       GLProfile profile = GLProfile.get(profileToUse);
       GLCapabilities caps = new GLCapabilities(profile);

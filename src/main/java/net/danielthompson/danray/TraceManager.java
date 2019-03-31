@@ -214,21 +214,21 @@ public class TraceManager {
 
       if (_tracerOptions.showOpenGLWindow) {
 
-         GLRenderer renderer = new GLRenderer(_scene);
+//         GLRenderer renderer = new GLRenderer(_scene);
+//
+//         renderer.run();
 
-         renderer.run();
-//
-//         // gl window
-//
-//         if (_glFrame == null) {
-//            _glFrame = new GLFrame(_scene);
-//
-//            Dimension canvasSize = new Dimension(new Dimension(_qualityPreset.getX(), _qualityPreset.getY() + 22));
-//
-//            _glFrame.setSize(canvasSize);
-//            _glFrame.setBounds(10, 0, _qualityPreset.getX(), _qualityPreset.getY() + 22);
-//            _glFrame.setVisible(true);
-//         }
+         // gl window
+
+         if (_glFrame == null) {
+            _glFrame = new GLFrame(_scene);
+
+            Dimension canvasSize = new Dimension(new Dimension(_qualityPreset.getX(), _qualityPreset.getY() + 22));
+
+            _glFrame.setSize(canvasSize);
+            _glFrame.setBounds(10, 0, _qualityPreset.getX(), _qualityPreset.getY() + 22);
+            _glFrame.setVisible(true);
+         }
 
          // kd window
          if (_tracerOptions.showKDWindow && _scene instanceof KDScene) {
@@ -420,8 +420,8 @@ public class TraceManager {
       }
       */
 
-//      _tracerOptions.numThreads = 8;
-
+//      _tracerOptions.numThreads = 1;
+//
       if (_tracerOptions.numThreads <= 1) {
          runner.run();
       }

@@ -100,7 +100,6 @@ public class SceneBuilder {
    public static BTDF LambertianBTDF = new LambertianBTDF();
 
    public static BRDF SpecularBRDF = new SpecularBRDF();
-
    public static BTDF SpecularBTDF = new SpecularBTDF();
 
    public static AbstractScene SpectralLemon(int x, int y) {
@@ -352,9 +351,9 @@ public class SceneBuilder {
       settings.Aperture = new CircleAperture(20);
 
       Transform[] inputTransforms = new Transform[]{
-            Transform.Translate(0, 0, 0),
+            Transform.Translate(0, 0, 200),
             Transform.RotateY(0),
-            Transform.RotateX(-5)
+            Transform.RotateX(-10)
       };
 
       Transform[] compositeTransforms = Transform.composite(inputTransforms);
@@ -381,7 +380,7 @@ public class SceneBuilder {
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.WHITE);
 
       inputTransforms = new Transform[] {
-            Transform.Translate(35.0f, -25.0f, -200f),
+            Transform.Translate(35.0f, -25.0f, 0f),
             Transform.Scale(25f)
       };
 
@@ -392,16 +391,16 @@ public class SceneBuilder {
       // left ball
 
       material = new Material();
-//      material.BxDFs.add(SpecularBTDF);
-//      material.Weights.add(0.75f);
-      material.BxDFs.add(LambertianBTDF);
-      material.Weights.add(1f);
+      material.BxDFs.add(SpecularBTDF);
+      material.Weights.add(1.0f);
+//      material.BxDFs.add(LambertianBRDF);
+//      material.Weights.add(1f);
       material.IndexOfRefraction = 1.52f;
 
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.WHITE);
 
       inputTransforms = new Transform[] {
-            Transform.Translate(-35.0f, -25.0f, -200f),
+            Transform.Translate(-35.0f, -25.0f, 0f),
             Transform.Scale(25f)
       };
 
@@ -420,7 +419,7 @@ public class SceneBuilder {
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.WHITE);
 
       inputTransforms = new Transform[]{
-            Transform.Translate(new Vector(0, -50f, -200f)),
+            Transform.Translate(new Vector(0, -52f, 0f)),
             //Transform.RotateX(10f),
             Transform.Scale(1000f, 1f, 1000f),
             Transform.Translate(new Vector(-0.5f, -0.5f, -0.5f))
@@ -442,7 +441,7 @@ public class SceneBuilder {
       SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(Color.white, 50.0f);
 
       inputTransforms = new Transform[]{
-            Transform.Translate(new Vector(-50, 100, -275)),
+            Transform.Translate(new Vector(-50, 100, -75)),
             Transform.Scale(25)
       };
 
@@ -470,7 +469,7 @@ public class SceneBuilder {
 
       List<Float> locations = new ArrayList<>();
       locations.add(.5f);
-      locations.add(.58f);
+      locations.add(.57f);
       //locations.add(.65f);
 
       scene.Skybox = new SteppedGradientSkybox(colors, locations);

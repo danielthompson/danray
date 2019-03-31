@@ -1,5 +1,6 @@
 package net.danielthompson.danray.integrators;
 
+import net.danielthompson.danray.Logger;
 import net.danielthompson.danray.lights.AbstractLight;
 import net.danielthompson.danray.scenes.AbstractScene;
 import net.danielthompson.danray.shading.Material;
@@ -29,24 +30,28 @@ public class PathTraceIntegrator extends AbstractIntegrator {
       _x = x;
       _y = y;
 
-      return GetSample(ray, depth, 1.0f);
-//
-//      if (_x == 324 && _y == 361) {
-//         return GetSample(ray, depth, 1.0f);
-//      }
-//
-//      Sample sample = new Sample();
-//      sample.SpectralPowerDistribution = new SpectralPowerDistribution(0, 0, 0);
-//      return sample;
+      if (false) {
+         if (_x == 319 && _y == 302) {
+            return GetSample(ray, depth, 1.0f);
+         }
+         Sample sample = new Sample();
+         sample.SpectralPowerDistribution = new SpectralPowerDistribution(0, 0, 0);
+         return sample;
+      }
+      else {
+         return GetSample(ray, depth, 1.0f);
+      }
 
    }
 
    private Sample GetSample(Ray ray, int depth, float indexOfRefraction) {
 
+//      Logger.Log(depth, ray);
       Sample sample = new Sample();
       Intersection intersection = scene.getNearestShape(ray, _x, _y);
 
       if (intersection == null || !intersection.Hits) {
+         //Logger.Log(depth, "Hits: " + false);
 
          if (intersection != null) {
             sample.KDHeatCount = intersection.KDHeatCount;
@@ -54,6 +59,10 @@ public class PathTraceIntegrator extends AbstractIntegrator {
          sample.SpectralPowerDistribution = scene.getEnvironmentColor(ray.Direction);
          return sample;
       }
+
+//      Logger.Log(depth, "Hits: " + intersection.Hits);
+//      Logger.Log(depth, intersection.Location);
+//      Logger.Log(depth, intersection.Normal);
 
       intersection.x = _x;
       intersection.y = _y;
