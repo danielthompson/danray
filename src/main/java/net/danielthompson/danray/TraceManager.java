@@ -137,22 +137,22 @@ public class TraceManager {
    public void Compile() {
 
       int cores = Runtime.getRuntime().availableProcessors();
-      Logger.Log("Detected " + cores + " cores.");
+      Logger.Log(Logger.Level.Info, "Detected " + cores + " cores.");
 
 //      _tracerOptions.numThreads = 1;
 
       if (_tracerOptions.numThreads == 0) {
-         Logger.Log("No thread count specified at startup, defaulting to available cores.");
+         Logger.Log(Logger.Level.Info, "No thread count specified at startup, defaulting to available cores.");
          _tracerOptions.numThreads = cores;
       }
 
-      Logger.Log("Using " + _tracerOptions.numThreads + " threads.");
+      Logger.Log(Logger.Level.Info, "Using " + _tracerOptions.numThreads + " threads.");
 
-      Logger.Log("Scene has " + _scene.Shapes.size() + " shapes, " + _scene.Lights.size() + " lights.");
-      Logger.Log("Scene is implemented with " + _scene.ImplementationType);
-      Logger.Log("Compiling scene...");
+      Logger.Log(Logger.Level.Info, "Scene has " + _scene.Shapes.size() + " shapes, " + _scene.Lights.size() + " lights.");
+      Logger.Log(Logger.Level.Info, "Scene is implemented with " + _scene.ImplementationType);
+      Logger.Log(Logger.Level.Info, "Compiling scene...");
       Date start = new Date();
-      Logger.Log(_scene.compile(_tracerOptions));
+      Logger.Log(Logger.Level.Info, _scene.compile(_tracerOptions));
       Date end = new Date();
       String duration = getDurationString(start, end);
 
@@ -161,7 +161,7 @@ public class TraceManager {
          _inverseKDNodeCount = 1.0f / (float) kdNodeCount;
          _inverseKDNodeCount *= 1;
       }
-      Logger.Log("Finished compiling scene in " + duration);
+      Logger.Log(Logger.Level.Info, "Finished compiling scene in " + duration);
    }
 
    public void Render() {
@@ -389,13 +389,13 @@ public class TraceManager {
       _maxX = _maxY = _maxZ = -Float.MAX_VALUE;
 
       if (s >= 0 || t >= 0) {
-         Logger.Log("rendering with lightpath length s = [" + s +"] and eyepath length t = [" + t + "]");
+         Logger.Log(Logger.Level.Info, "rendering with lightpath length s = [" + s +"] and eyepath length t = [" + t + "]");
       }
-      Logger.Log("image is " + _qualityPreset.getX() + " x " + _qualityPreset.getY() );
-      Logger.Log("pixel threshold: " + _qualityPreset.getConvergenceTerminationThreshold());
-      Logger.Log("samples: " + _qualityPreset.getSamplesPerPixel() + "; super samples: " + _qualityPreset.getSuperSamplesPerPixel());
-      Logger.Log("max depth: " + _qualityPreset.getMaxDepth());
-      Logger.Log("depth of field: " + (_qualityPreset.getUseDepthOfField() ? "yes" : "no"));
+      Logger.Log(Logger.Level.Info, "image is " + _qualityPreset.getX() + " x " + _qualityPreset.getY() );
+      Logger.Log(Logger.Level.Info, "pixel threshold: " + _qualityPreset.getConvergenceTerminationThreshold());
+      Logger.Log(Logger.Level.Info, "samples: " + _qualityPreset.getSamplesPerPixel() + "; super samples: " + _qualityPreset.getSuperSamplesPerPixel());
+      Logger.Log(Logger.Level.Info, "max depth: " + _qualityPreset.getMaxDepth());
+      Logger.Log(Logger.Level.Info, "depth of field: " + (_qualityPreset.getUseDepthOfField() ? "yes" : "no"));
 
    }
 
@@ -404,7 +404,7 @@ public class TraceManager {
    }
 
    public void Trace(int frame, int s, int t) {
-      Logger.Log("Rendering frame " + frame + "...");
+      Logger.Log(Logger.Level.Info, "Rendering frame " + frame + "...");
 
       _renderStartTime = new Date();
 
@@ -420,7 +420,7 @@ public class TraceManager {
       }
       */
 
-//      _tracerOptions.numThreads = 1;
+      _tracerOptions.numThreads = 4;
 //
       if (_tracerOptions.numThreads <= 1) {
          runner.run();
@@ -439,69 +439,12 @@ public class TraceManager {
                thread.join();
             }
             catch (InterruptedException e) {
-               Logger.Log("Caught interrupted exception.");
+               Logger.Log(Logger.Level.Warning, "Caught interrupted exception.");
             }
          }
       }
 
       Main.Finished = true;
-   }
-
-   public void ToneMap(int frame) {
-
-      Logger.Log("Starting tone mapping...");
-
-      final float min = 0;
-      final float max = 1.9999695f;
-
-      final float xScale = max / (_maxX - _minX);
-      Logger.Log("Min X = " + _minX + ", Max X = " + _maxX);
-      Logger.Log("X Scale = " + xScale);
-
-      final float yScale = max / (_maxY - _minY);
-      Logger.Log("Min Y = " + _minY + ", Max Y = " + _maxY);
-      Logger.Log("Y Scale = " + yScale);
-
-      final float zScale = max / (_maxZ - _minZ);
-      Logger.Log("Min Z = " + _minZ + ", Max X = " + _maxZ);
-      Logger.Log("Z Scale = " + zScale);
-
-      float scale = -Float.MAX_VALUE;
-
-      /*if (xScale > scale)
-         scale = xScale;
-
-      if (yScale > scale)
-         scale = yScale;
-
-      if (zScale > scale)
-         scale = zScale;*/
-
-      for (int x = 0; x < _qualityPreset.getX(); x++) {
-         for (int y = 0; y < _qualityPreset.getY(); y++) {
-            // normalize XYZ
-
-            float[] xyz = _tracePixelXYZ[x][y];
-
-            xyz[0] *= yScale;
-            xyz[1] = xyz[1] * yScale;
-            xyz[2] *= yScale;
-
-            // convert to RGB
-
-            Color c = FullSpectralBlender.ConvertXYZtoRGB(xyz[0], xyz[1], xyz[2], null);
-
-            // set in picture
-
-            //_traceImage.setRGB(x, y, c.getRGB());
-
-         }
-      }
-
-      _traceCanvas.update(_traceGraphics);
-
-      Logger.Log("Tone mapping complete.");
-
    }
 
    public void SetPixelXYZ(int[] pixel, float[] xyzBlendSoFar) {
@@ -534,16 +477,16 @@ public class TraceManager {
 
       String duration = getDurationString(_renderStartTime, end);
       if (s >= 0 || t >= 0) {
-         Logger.Log("Finished rendering lightpath length [s] = " + s + ", eyepath length [t] = " + t + " in " + duration);
+         Logger.Log(Logger.Level.Info, "Finished rendering lightpath length [s] = " + s + ", eyepath length [t] = " + t + " in " + duration);
       }
       else {
-         Logger.Log("Finished rendering frame " + frame + " in " + duration);
+         Logger.Log(Logger.Level.Info, "Finished rendering frame " + frame + " in " + duration);
       }
       int pixels = _qualityPreset.getX() * _qualityPreset.getY();
-      Logger.Log(integerFormatter.format(pixels) +  " pixels, " + integerFormatter.format(InitialRays) +  " initial rays");
+      Logger.Log(Logger.Level.Info, integerFormatter.format(pixels) +  " pixels, " + integerFormatter.format(InitialRays) +  " initial rays");
 
       long fillRate = (long)(pixels * 1000 / (float)milliseconds);
-      Logger.Log(integerFormatter.format(fillRate) + " pixels / sec fillrate");
+      Logger.Log(Logger.Level.Info, integerFormatter.format(fillRate) + " pixels / sec fillrate");
    }
 
    public String getDurationString(Date start, Date end) {
@@ -563,7 +506,7 @@ public class TraceManager {
 
    public void Trace(int[] pixel) {
       PixelRunner runner = new PixelRunner(this, _integrator, _scene, _qualityPreset, _film, _sampler, 0);
-      Logger.Log("Tracing single pixel " + pixel[0] + " x " + pixel[1]);
+      Logger.Log(Logger.Level.Info, "Tracing single pixel " + pixel[0] + " x " + pixel[1]);
       runner.trace(pixel[0], pixel[1]);
    }
 
@@ -589,7 +532,7 @@ public class TraceManager {
       if (_numRenderedPixels % _numPixelsStep == 0) {
          int percent = (int)(_numRenderedPixels * _numPixelsDivisor * 100);
 
-         Logger.Log("Rendered " + percent + "%" );
+         Logger.Log(Logger.Level.Info, "Rendered " + percent + "%" );
       }
 
 

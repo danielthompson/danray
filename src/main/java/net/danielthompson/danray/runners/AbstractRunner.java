@@ -93,8 +93,8 @@ public abstract class AbstractRunner implements Runnable {
          Manager.SetKDHeatForPixel(x, y, heatCount);
          Manager.SetRayCountForPixel(x, y, reachedSamples);
       } catch (Exception e) {
-         Logger.Log("Exception caught at (" + x + ", " + y + "): " + e.toString());
-         Logger.Log(ExceptionUtils.getStackTrace(e));
+         Logger.Log(Logger.Level.Error, "Exception caught at (" + x + ", " + y + "): " + e.toString());
+         Logger.Log(Logger.Level.Error, ExceptionUtils.getStackTrace(e));
 
          throw e;
       }

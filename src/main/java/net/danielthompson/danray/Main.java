@@ -76,11 +76,35 @@ public class Main {
          String arg = args[i];
 
          switch (arg) {
-            case "-tracerWindow":
-               options.showTracerWindow = true;
-               break;
             case "-countWindow":
                options.showCountWindow = true;
+               break;
+            case "-displayallpaths":
+               options.displayAllPaths = true;
+               break;
+            case "-heatWindow":
+               options.showHeatWindow = true;
+               break;
+            case "-infoWindow":
+               options.showInfoWindow = true;
+               break;
+            case "-kdWindow":
+               options.showKDWindow = true;
+               break;
+            case "-logLevel":
+               Logger.Level level = Logger.Level.Error;
+               if (i + 1 < args.length) {
+                  try {
+                     level = Logger.Level.valueOf(args[i + 1]);
+                  } catch (IllegalArgumentException e) {
+                     Logger.Log(Logger.Level.Warning, "Couldn't parse log level: [" + args[i + 1]+ "], defaulting to Error.");
+                  }
+               }
+               else {
+                  Logger.Log(Logger.Level.Warning, "Log level specified but value missing, defaulting to Error.");
+               }
+
+               Logger.LogLevel = level;
                break;
             case "-notrace":
                options.noTrace = true;
@@ -88,17 +112,8 @@ public class Main {
             case "-openGLWindow":
                options.showOpenGLWindow = true;
                break;
-            case "-kdWindow":
-               options.showKDWindow = true;
-               break;
             case "-spectrumWindow":
                options.showSpectrumWindow = true;
-               break;
-            case "-infoWindow":
-               options.showInfoWindow = true;
-               break;
-            case "-heatWindow":
-               options.showHeatWindow = true;
                break;
             case "-threads":
                if (i + 1 < args.length) {
@@ -106,24 +121,20 @@ public class Main {
                   try {
                      numThreads = Integer.parseInt(args[i + 1]);
                   } catch (NumberFormatException e) {
-                     Logger.Log("Couldn't parse number of threads: [" + args[i + 1]+ "].");
+                     Logger.Log(Logger.Level.Warning, "Couldn't parse number of threads: [" + args[i + 1]+ "].");
                   }
 
                   options.numThreads = numThreads;
                }
                else {
-                  Logger.Log("Threads specified but number missing.");
+                  Logger.Log(Logger.Level.Warning, "Threads specified but number missing.");
                }
                break;
-            case "-displayallpaths": {
-               options.displayAllPaths = true;
+            case "-tracerWindow":
+               options.showTracerWindow = true;
                break;
-            }
-
          }
       }
-
-
       return options;
    }
 }
