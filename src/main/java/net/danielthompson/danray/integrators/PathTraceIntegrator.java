@@ -46,12 +46,12 @@ public class PathTraceIntegrator extends AbstractIntegrator {
 
    private Sample GetSample(Ray ray, int depth, float indexOfRefraction) {
 
-//      Logger.Log(depth, ray);
+      Logger.Log(Logger.Level.Debug, depth, ray);
       Sample sample = new Sample();
       Intersection intersection = scene.getNearestShape(ray, _x, _y);
 
       if (intersection == null || !intersection.Hits) {
-         //Logger.Log(depth, "Hits: " + false);
+         Logger.Log(Logger.Level.Debug, depth, "Hits: " + false);
 
          if (intersection != null) {
             sample.KDHeatCount = intersection.KDHeatCount;
@@ -60,9 +60,9 @@ public class PathTraceIntegrator extends AbstractIntegrator {
          return sample;
       }
 
-//      Logger.Log(depth, "Hits: " + intersection.Hits);
-//      Logger.Log(depth, intersection.Location);
-//      Logger.Log(depth, intersection.Normal);
+      Logger.Log(Logger.Level.Debug, depth, "Hits: " + intersection.Hits);
+      Logger.Log(Logger.Level.Debug, depth, intersection.Location);
+      Logger.Log(Logger.Level.Debug, depth, intersection.Normal);
 
       intersection.x = _x;
       intersection.y = _y;

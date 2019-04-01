@@ -17,9 +17,28 @@ import java.util.Date;
  */
 public class Logger {
 
+   public enum Level {
+      Info(1),
+      Warning(2),
+      Error(3),
+      Debug(4);
+
+      private int _value;
+
+      Level(int value) {
+         _value = value;
+      }
+
+      public int getNumVal() {
+         return _value;
+      }
+   }
+
+   public static Level LogLevel = Logger.Level.Error;
+
    private static SimpleDateFormat sdf = new SimpleDateFormat("[yyyy-MM-dd hh:mm:ss.SSS] ");
 
-   private static ArrayList<PrintStream> _streams = new ArrayList<PrintStream>();
+   private static final ArrayList<PrintStream> _streams = new ArrayList<PrintStream>();
 
    public static void AddOutput(PrintStream stream) {
       _streams.add(stream);
@@ -36,43 +55,39 @@ public class Logger {
       }
    }
 
-   public static void Log(String text) {
-      if (true) {
+   public static void Log(Level level, String text) {
+      if (level._value <= LogLevel._value) {
          Date date = Calendar.getInstance().getTime();
-
+         String logText = " [" + level.name().substring(0, 1) + "] " + sdf.format(date) + text;
          synchronized (_streams) {
             for (PrintStream stream : _streams) {
-               stream.println(sdf.format(date) + text);
+               stream.println(logText);
                stream.flush();
             }
          }
       }
    }
 
-   public static void Log(int depth, String text) {
+   public static void Log(Level level, int depth, String text) {
       String spacer = " ".repeat(depth);
-      Log(spacer + text);
+      Log(level, spacer + text);
    }
 
-   public static void Log(Point p) {
-      Log("X: " + p.X + " Y: " + p.Y + " Z: " + p.Z);
+   public static void Log(Level level, int depth, Point p) {
+      String spacer = " ".repeat(depth);
+      Log(level, spacer + "Point: (" + p.X + ", " + p.Y + ", " + p.Z + ")");
    }
 
-   public static void Log(int depth, Point p) {
+   public static void Log(Level level, int depth, Normal n) {
       String spacer = " ".repeat(depth);
-      Log(spacer + "Point: (" + p.X + ", " + p.Y + ", " + p.Z + ")");
+      Log(level, spacer + "Normal: (" + n.X + ", " + n.Y + ", " + n.Z + ")");
    }
 
-   public static void Log(int depth, Normal n) {
+   public static void Log(Level level, int depth, Ray r) {
       String spacer = " ".repeat(depth);
-      Log(spacer + "Normal: (" + n.X + ", " + n.Y + ", " + n.Z + ")");
-   }
-
-   public static void Log(int depth, Ray r) {
-      String spacer = " ".repeat(depth);
-      Log(spacer + "Ray(Point({" + f(r.Origin.X) + ", " + f(r.Origin.Y) + ", " + f(r.Origin.Z) + "}), Vector(Point({" + f(r.Direction.X) + ", " + f(r.Direction.Y) + ", " + f(r.Direction.Z) + "})))");
-      Log(spacer + "Origin: (" + r.Origin.X + ", " + r.Origin.Y + ", " + r.Origin.Z + ")");
-      Log(spacer + "Direction: (" + r.Direction.X + ", " + r.Direction.Y + ", " + r.Direction.Z + ")");
+      Log(level, spacer + "Ray(Point({" + f(r.Origin.X) + ", " + f(r.Origin.Y) + ", " + f(r.Origin.Z) + "}), Vector(Point({" + f(r.Direction.X) + ", " + f(r.Direction.Y) + ", " + f(r.Direction.Z) + "})))");
+      Log(level, spacer + "Origin: (" + r.Origin.X + ", " + r.Origin.Y + ", " + r.Origin.Z + ")");
+      Log(level, spacer + "Direction: (" + r.Direction.X + ", " + r.Direction.Y + ", " + r.Direction.Z + ")");
    }
 
    private static String f(float f) {
