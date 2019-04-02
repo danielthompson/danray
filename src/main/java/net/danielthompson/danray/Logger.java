@@ -69,25 +69,33 @@ public class Logger {
    }
 
    public static void Log(Level level, int depth, String text) {
-      String spacer = " ".repeat(depth);
-      Log(level, spacer + text);
+      if (level._value <= LogLevel._value) {
+         String spacer = " ".repeat(depth);
+         Log(level, spacer + text);
+      }
    }
 
    public static void Log(Level level, int depth, Point p) {
-      String spacer = " ".repeat(depth);
-      Log(level, spacer + "Point: (" + p.X + ", " + p.Y + ", " + p.Z + ")");
+      if (level._value <= LogLevel._value) {
+         String spacer = " ".repeat(depth);
+         Log(level, spacer + "Point: (" + p.X + ", " + p.Y + ", " + p.Z + ")");
+      }
    }
 
    public static void Log(Level level, int depth, Normal n) {
-      String spacer = " ".repeat(depth);
-      Log(level, spacer + "Normal: (" + n.X + ", " + n.Y + ", " + n.Z + ")");
+      if (level._value <= LogLevel._value) {
+         String spacer = " ".repeat(depth);
+         Log(level, spacer + "Normal: (" + n.X + ", " + n.Y + ", " + n.Z + ")");
+      }
    }
 
    public static void Log(Level level, int depth, Ray r) {
-      String spacer = " ".repeat(depth);
-      Log(level, spacer + "Ray(Point({" + f(r.Origin.X) + ", " + f(r.Origin.Y) + ", " + f(r.Origin.Z) + "}), Vector(Point({" + f(r.Direction.X) + ", " + f(r.Direction.Y) + ", " + f(r.Direction.Z) + "})))");
-      Log(level, spacer + "Origin: (" + r.Origin.X + ", " + r.Origin.Y + ", " + r.Origin.Z + ")");
-      Log(level, spacer + "Direction: (" + r.Direction.X + ", " + r.Direction.Y + ", " + r.Direction.Z + ")");
+      if (level._value <= LogLevel._value) {
+         String spacer = " ".repeat(depth);
+         Log(level, spacer + "Ray(Point({" + f(r.Origin.X) + ", " + f(r.Origin.Y) + ", " + f(r.Origin.Z) + "}), Vector(Point({" + f(r.Direction.X) + ", " + f(r.Direction.Y) + ", " + f(r.Direction.Z) + "})))");
+         Log(level, spacer + "Origin: (" + r.Origin.X + ", " + r.Origin.Y + ", " + r.Origin.Z + ")");
+         Log(level, spacer + "Direction: (" + r.Direction.X + ", " + r.Direction.Y + ", " + r.Direction.Z + ")");
+      }
    }
 
    private static String f(float f) {
