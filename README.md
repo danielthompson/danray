@@ -15,10 +15,10 @@
 
 ![Trace](renders/trace2.png)
 
-## Normals
+### Normals
 
 ![Trace](renders/trace3.png)
 
-## Depth maps
+### Depth maps
 
 ![Trace](renders/trace4.png)
