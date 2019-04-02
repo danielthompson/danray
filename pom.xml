@@ -122,10 +122,8 @@
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>RELEASE</version>
-            <scope>compile</scope>
+            <version>17.0.0</version>
         </dependency>
-
     </dependencies>
     <profiles>
         <profile>
@@ -210,18 +208,7 @@
                 <groupId>org.eluder.coveralls</groupId>
                 <artifactId>coveralls-maven-plugin</artifactId>
                 <version>4.3.0</version>
-                <!--<configuration>-->
-                    <!--<repoToken>yourcoverallsprojectrepositorytoken</repoToken>-->
-                <!--</configuration>-->
             </plugin>
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-compiler-plugin</artifactId>-->
-                <!--<configuration>-->
-                    <!--<source>3.6.1</source>-->
-                    <!--<target>3.6.1</target>-->
-                <!--</configuration>-->
-            <!--</plugin>-->
         </plugins>
     </build>
     
