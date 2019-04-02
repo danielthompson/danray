@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
  * Created by daniel on 5/13/16.
  */
 public abstract class AbstractFilm {
-   public final float FilmSpeed = 100.0f;
+   public final float FilmSpeed = 200.0f;
    public final BufferedImage Image;
    public final float[][] Weights;
    public int Width;

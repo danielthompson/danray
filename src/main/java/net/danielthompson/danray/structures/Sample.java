@@ -11,9 +11,7 @@ import java.awt.Color;
 public class Sample {
 
    public SpectralPowerDistribution SpectralPowerDistribution;
-
    public float x, y;
-
    public int KDHeatCount;
 
    @Override
