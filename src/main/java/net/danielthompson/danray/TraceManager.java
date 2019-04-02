@@ -118,6 +118,7 @@ public class TraceManager {
 //      _integrator = new IterativeMISPathTraceIntegrator(_scene, renderQualityPreset.getMaxDepth());
 //      _integrator = new WhittedIntegrator(_scene, renderQualityPreset.getMaxDepth());
       _integrator = new DepthIntegrator(_scene, 1);
+//      _integrator = new NormalIntegrator(_scene, 1);
 //      _sampler = new RandomSampler(renderQualityPreset.getSamplesPerPixel());
       _sampler = new GridSampler(renderQualityPreset.getSamplesPerPixel());
 //      _sampler = new RandomSampler(renderQualityPreset.getSamplesPerPixel());
