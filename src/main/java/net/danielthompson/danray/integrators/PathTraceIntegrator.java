@@ -142,63 +142,6 @@ public class PathTraceIntegrator extends AbstractIntegrator {
             filteredSPD.scale(weight);
             sample.SpectralPowerDistribution.add(filteredSPD);
          }
-//
-//         // reflect
-//         if (objectMaterial.BRDF != null) {
-//            Vector outgoingDirection = objectMaterial.BRDF.getVectorInPDF(intersection, incomingDirection);
-//            float scalePercentage = objectMaterial.BRDF.f(incomingDirection, intersectionNormal, outgoingDirection);
-//            Ray bounceRay = new Ray(intersection.Location, outgoingDirection);
-//
-//            bounceRay.OffsetOriginOutwards(intersectionNormal);
-//            //bounceRay.OffsetOriginForward(Constants.DoubleEpsilon);
-//
-//            Sample reflectSample = GetSample(bounceRay, depth + 1, indexOfRefraction);
-//            SpectralPowerDistribution incomingSPD = reflectSample.SpectralPowerDistribution;
-//            incomingSPD = SpectralPowerDistribution.scale(incomingSPD, scalePercentage);
-//
-//            // compute the interaction of the incoming SPD with the object's SRC
-//            ReflectanceSpectrum reflectanceSpectrum = objectMaterial.ReflectanceSpectrum;
-//            SpectralPowerDistribution reflectedSPD = incomingSPD.reflectOff(reflectanceSpectrum);
-//            reflectedSPD.scale(objectMaterial.BRDFweight);
-//            sample.SpectralPowerDistribution.add(reflectedSPD);
-//         }
-//
-//         // refract
-//         if (objectMaterial.BTDF != null) {
-//            float leavingIndexOfRefraction = indexOfRefraction;
-//            float enteringIndexOfRefraction = objectMaterial.IndexOfRefraction;
-//
-//            boolean leavingMaterial = intersectionNormal.Dot(incomingDirection) > 0;
-//
-//            if (leavingMaterial) {
-//               enteringIndexOfRefraction = 1f;
-//            }
-//
-//            Vector outgoingDirection = objectMaterial.BTDF.getVectorInPDF(intersectionNormal, incomingDirection, leavingIndexOfRefraction, enteringIndexOfRefraction);
-////            Vector outgoingDirection = new Vector(1, 1, 1);
-//            //float scalePercentage = objectMaterial.BTDF.f(incomingDirection, intersectionNormal, outgoingDirection);
-//            Ray bounceRay = new Ray(intersection.Location, outgoingDirection);
-//
-//            if (leavingMaterial) {
-//               bounceRay.OffsetOriginOutwards(intersectionNormal);
-//            }
-//            else {
-//               bounceRay.OffsetOriginInwards(intersectionNormal);
-//            }
-//
-//            Sample refractSample = GetSample(bounceRay, depth + 1, enteringIndexOfRefraction);
-//            SpectralPowerDistribution incomingSPD = refractSample.SpectralPowerDistribution;
-//            incomingSPD = SpectralPowerDistribution.scale(incomingSPD, 1.0f);
-//
-//            // compute the interaction of the incoming SPD with the object's SRC
-//            ReflectanceSpectrum reflectanceSpectrum = objectMaterial.ReflectanceSpectrum;
-//            SpectralPowerDistribution reflectedSPD = incomingSPD.reflectOff(reflectanceSpectrum);
-//            reflectedSPD.scale(objectMaterial.BTDFweight);
-//            sample.SpectralPowerDistribution.add(reflectedSPD);
-//         }
-//
-//
-//
 //         if (objectMaterial.BSSRDF != null) {
 //
 //            float transmittance = objectMaterial.BSSRDF.Transmittance;

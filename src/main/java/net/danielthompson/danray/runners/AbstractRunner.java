@@ -6,7 +6,6 @@ import net.danielthompson.danray.presets.RenderQualityPreset;
 import net.danielthompson.danray.integrators.AbstractIntegrator;
 import net.danielthompson.danray.films.AbstractFilm;
 import net.danielthompson.danray.samplers.AbstractSampler;
-import net.danielthompson.danray.samplers.CenterSampler;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Sample;
 import net.danielthompson.danray.scenes.AbstractScene;
@@ -58,19 +57,10 @@ public abstract class AbstractRunner implements Runnable {
          int heatCount = 0;
 
          do {
-//            Logger.Log("Getting samples...");
-
             float[][] sampleLocations = Sampler.GetSamples(x, y, _samplesPerPixel);
-
-            //Logger.Log("Getting samples... done");
-
             int numSamples = sampleLocations.length;
-
-
             Ray[] cameraRays = Scene.Camera.getRays(sampleLocations, numSamples);
-
             Manager.InitialRays += cameraRays.length;
-
             Sample[] samples = new Sample[cameraRays.length];
             for (int i = 0; i < cameraRays.length; i++) {
 
@@ -78,9 +68,6 @@ public abstract class AbstractRunner implements Runnable {
                samples[i].x = sampleLocations[i][0];
                samples[i].y = sampleLocations[i][1];
                heatCount += samples[i].KDHeatCount;
-               if (samples[i].SpectralPowerDistribution.sum() > 0.f) {
-                  int k = 0;
-               }
                //Manager.Statistics[x][y].Add(samples[i].Statistics);
             }
             Film.AddSamples(x, y, samples);
@@ -98,6 +85,5 @@ public abstract class AbstractRunner implements Runnable {
 
          throw e;
       }
-
    }
 }
