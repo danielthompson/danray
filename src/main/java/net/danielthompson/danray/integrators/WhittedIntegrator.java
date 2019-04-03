@@ -1,6 +1,6 @@
 package net.danielthompson.danray.integrators;
 
-import net.danielthompson.danray.lights.AbstractLight;
+import net.danielthompson.danray.lights.ILight;
 import net.danielthompson.danray.scenes.AbstractScene;
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
@@ -50,8 +50,8 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
       sample.KDHeatCount = closestStateToRay.KDHeatCount;
 
-      if (closestStateToRay.Shape instanceof AbstractLight) {
-         sample.SpectralPowerDistribution = ((AbstractLight)closestStateToRay.Shape).SpectralPowerDistribution;
+      if (closestStateToRay.Shape instanceof ILight) {
+         sample.SpectralPowerDistribution = ((ILight)closestStateToRay.Shape).SpectralPowerDistribution;
          return sample;
       }
 
@@ -72,7 +72,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
       else {
 
-         for (AbstractLight light : scene.Lights) {
+         for (ILight light : scene.Lights) {
             Point intersectionPoint = closestStateToRay.Location;
 
             Point lightLocation = light.getRandomPointOnSurface();

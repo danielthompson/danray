@@ -9,7 +9,7 @@ import net.danielthompson.danray.structures.Vector;
 /**
  * Created by daniel on 6/25/16.
  */
-public class ShapeLight extends AbstractLight {
+public class ShapeLight extends ILight {
 
    public AbstractShape Shape;
 

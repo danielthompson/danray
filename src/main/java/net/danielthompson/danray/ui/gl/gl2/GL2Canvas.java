@@ -11,7 +11,7 @@ import com.jogamp.opengl.util.gl2.GLUT;
 import net.danielthompson.danray.SceneBuilder;
 import net.danielthompson.danray.acceleration.KDNode;
 import net.danielthompson.danray.acceleration.KDScene;
-import net.danielthompson.danray.lights.AbstractLight;
+import net.danielthompson.danray.lights.ILight;
 import net.danielthompson.danray.lights.PointLight;
 import net.danielthompson.danray.lights.SphereLight;
 import net.danielthompson.danray.shading.Material;
@@ -133,7 +133,7 @@ public class GL2Canvas extends AbstractGLCanvas {
       // scene Shapes
       GLUquadric quadric = GLU.gluNewQuadric();
 
-      for (AbstractLight light : Scene.Lights) {
+      for (ILight light : Scene.Lights) {
          if (light instanceof PointLight) {
             PointLight pointLight = (PointLight)light;
             float[] lightpos = {pointLight.Location.X, pointLight.Location.Y, pointLight.Location.Z};
@@ -157,8 +157,8 @@ public class GL2Canvas extends AbstractGLCanvas {
          for (AbstractShape shape : Scene.Shapes) {
             gl.glPushMatrix();
             gl.glMultMatrixd(shape.ObjectToWorld._matrix.getColMajor(), 0);
-            if (shape instanceof AbstractLight) {
-               setColor(gl, ((AbstractLight) shape).SpectralPowerDistribution);
+            if (shape instanceof ILight) {
+               setColor(gl, ((ILight) shape).SpectralPowerDistribution);
             } else {
                setColor(gl, shape.Material);
             }

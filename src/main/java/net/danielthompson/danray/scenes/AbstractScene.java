@@ -1,19 +1,16 @@
 package net.danielthompson.danray.scenes;
 
 import net.danielthompson.danray.cameras.Camera;
-import net.danielthompson.danray.lights.AbstractLight;
+import net.danielthompson.danray.lights.ILight;
 import net.danielthompson.danray.presets.TracerOptions;
 
 import net.danielthompson.danray.scenes.skyboxes.AbstractSkybox;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.shapes.AbstractShape;
-import net.danielthompson.danray.shapes.Box;
 import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
-import net.danielthompson.danray.structures.Point;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +24,7 @@ public abstract class AbstractScene {
 
    public String ImplementationType = "Base Scene";
 
-   public List<AbstractLight> Lights;
+   public List<ILight> Lights;
    public List<AbstractShape> Shapes;
 
    public AbstractScene(Camera camera) {
@@ -36,12 +33,15 @@ public abstract class AbstractScene {
       Lights = new ArrayList<>();
    }
 
-   public void addShape(AbstractShape shape) {
-      Shapes.add(shape);
+   public void add(ILight light) {
+      Lights.add((ILight)light);
    }
 
-   public void addLight(AbstractLight light) {
-      Lights.add(light);
+   public void add(AbstractShape shape) {
+      if (shape instanceof ILight) {
+         Lights.add((ILight)shape);
+      }
+      Shapes.add(shape);
    }
 
    public SpectralPowerDistribution getEnvironmentColor(Vector v) {

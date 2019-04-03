@@ -7,23 +7,13 @@ import net.danielthompson.danray.structures.*;
 /**
  * Created by daniel on 6/25/16.
  */
-public abstract class AbstractLight {
-
-   public int ID;
-
-   public SpectralPowerDistribution SpectralPowerDistribution;
-
-   AbstractShape Shape;
-
-   public AbstractLight(SpectralPowerDistribution spd) {
-      SpectralPowerDistribution = spd;
-   }
+public interface ILight {
 
    /**
     * Returns a random point on the surface of the light, in world space.
     * @return A random poinRt on the surface of the light, in world space.
     */
-   public abstract Point getRandomPointOnSurface();
+   Point getRandomPointOnSurface();
 
    /**
     * Returns a random point on the surface of the light, in world space, that is within the hemisphere
@@ -31,7 +21,7 @@ public abstract class AbstractLight {
     * @param side The direction from the origin for which to provide a point.
     * @return A random point on the surface of the light, in world space.
     */
-   public abstract Point getRandomPointOnSideOf(Vector side);
+   Point getRandomPointOnSideOf(Vector side);
 
    /**
     * Returns a random point on the surface of the light, in world space, such that that the point is
@@ -39,9 +29,9 @@ public abstract class AbstractLight {
     * @param point The point that defines the direction from the origin for which to provide a point.
     * @return A random point on th esurface of the light, in world space.
     */
-   public abstract Point getRandomPointOnSideOf(Point point);
+   Point getRandomPointOnSideOf(Point point);
 
-   public abstract Ray getRandomRayInPDF();
+   Ray getRandomRayInPDF();
 
    /**
     * Returns the probability [0, 1] that the given direction to the given point
@@ -50,5 +40,5 @@ public abstract class AbstractLight {
     * @param directionFromLightToPoint The vector from a previously determined point on the light to the given point.
     * @return The probability [0, 1] that the direction to the point will be sampled.
     */
-   public abstract float getPDF(Point point, Vector directionFromLightToPoint);
+   float getPDF(Point point, Vector directionFromLightToPoint);
 }

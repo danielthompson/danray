@@ -9,14 +9,11 @@ import net.danielthompson.danray.utility.GeometryCalculations;
 /**
  * Created by daniel on 3/8/14.
  */
-public class SphereLight extends AbstractLight {
+public class SphereLight extends Sphere implements ILight {
 
-   public Sphere Sphere;
-
-   public SphereLight(Sphere sphere, SpectralPowerDistribution spd) {
-      super(spd);
-      Sphere = sphere;
-
+   public SphereLight(Transform[] transforms, SpectralPowerDistribution spd) {
+      super(transforms, null);
+      this.spd = spd;
    }
 
    @Override
@@ -26,11 +23,11 @@ public class SphereLight extends AbstractLight {
 
       Point point = new Point(xyz);
 
-      point.Scale(Sphere.Radius);
-      point.Plus(Sphere.Origin);
+      point.Scale(Radius);
+      point.Plus(Origin);
 
-      if (Sphere.ObjectToWorld != null) {
-         point = Sphere.ObjectToWorld.Apply(point);
+      if (ObjectToWorld != null) {
+         point = ObjectToWorld.Apply(point);
       }
 
       return point;
@@ -41,7 +38,7 @@ public class SphereLight extends AbstractLight {
 
       // this is all in world space
       Point surfacePoint = getRandomPointOnSurface();
-      Vector directionFromSurfacePointToOrigin = Vector.Minus(surfacePoint, Sphere.Origin);
+      Vector directionFromSurfacePointToOrigin = Vector.Minus(surfacePoint, Origin);
       if (directionFromSurfacePointToOrigin.Dot(side) < 0) {
          surfacePoint = new Point(-surfacePoint.X, -surfacePoint.Y, -surfacePoint.Z);
       }
@@ -51,13 +48,13 @@ public class SphereLight extends AbstractLight {
 
    @Override
    public Point getRandomPointOnSideOf(Point point) {
-      if (Sphere.WorldToObject != null)
-         point = Sphere.WorldToObject.Apply(point);
+      if (WorldToObject != null)
+         point = WorldToObject.Apply(point);
 
-      Vector directionToPoint = Vector.Minus(point, Sphere.Origin);
+      Vector directionToPoint = Vector.Minus(point, Origin);
 
-      if (Sphere.ObjectToWorld != null)
-         directionToPoint = Sphere.ObjectToWorld.Apply(directionToPoint);
+      if (ObjectToWorld != null)
+         directionToPoint = ObjectToWorld.Apply(directionToPoint);
 
       Point result = getRandomPointOnSideOf(directionToPoint);
       return result;
@@ -79,22 +76,22 @@ public class SphereLight extends AbstractLight {
       Ray ray = new Ray(point, direction);
       ray.OffsetOriginForward(.00001f);
 
-      if (Sphere.ObjectToWorld != null)
-         Sphere.ObjectToWorld.Apply(ray);
+      if (ObjectToWorld != null)
+         ObjectToWorld.Apply(ray);
       return ray;
    }
 
    @Override
    public float getPDF(Point point, Vector directionFromLightToPoint) {
 
-      Point origin = new Point(Sphere.Origin);
+      Point origin = new Point(Origin);
 
-      if (Sphere.ObjectToWorld != null)
-         origin = Sphere.ObjectToWorld.Apply(origin);
+      if (ObjectToWorld != null)
+         origin = ObjectToWorld.Apply(origin);
 
       float sqrDist = (float) point.SquaredDistanceBetween(origin);
 
-      float sinThetaMax2 = (float) (Sphere.Radius * Sphere.Radius) / sqrDist;
+      float sinThetaMax2 = (float) (Radius * Radius) / sqrDist;
       //float sinTheta = Math.sqrt(sinThetaMax2);
       float cosThetaMax = (float) Math.sqrt(Math.max(0, 1 - sinThetaMax2));
 

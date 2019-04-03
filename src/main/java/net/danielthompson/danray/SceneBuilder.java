@@ -4,7 +4,7 @@ import net.danielthompson.danray.acceleration.KDScene;
 import net.danielthompson.danray.cameras.*;
 import net.danielthompson.danray.cameras.apertures.CircleAperture;
 import net.danielthompson.danray.cameras.apertures.SquareAperture;
-import net.danielthompson.danray.lights.AbstractLight;
+import net.danielthompson.danray.lights.ILight;
 import net.danielthompson.danray.lights.PointLight;
 import net.danielthompson.danray.lights.SphereLight;
 import net.danielthompson.danray.scenes.NaiveScene;
@@ -132,7 +132,7 @@ public class SceneBuilder {
       sphere.Origin = new Point(2000, 15000, 15000);
       sphere.Radius = 1000;
 
-      AbstractLight light = new SphereLight(sphere, lightSPD);
+      ILight light = new SphereLight(sphere, lightSPD);
 
       //scene.Shapes.add(light);
       scene.addLight(light);
@@ -447,11 +447,9 @@ public class SceneBuilder {
 
       compositeTransforms = Transform.composite(inputTransforms);
 
-      Sphere sphere = new Sphere(compositeTransforms, material);
+      SphereLight light = new SphereLight(compositeTransforms, lightSPD);
 
-      AbstractLight light = new SphereLight(sphere, lightSPD);
-
-      scene.Shapes.add(light);
+      scene.add(light);
       //scene.Lights.add(light);
 
       // skybox
@@ -614,7 +612,7 @@ public class SceneBuilder {
 
       Sphere sphere = new Sphere(compositeTransforms, null);
 
-      AbstractLight light = new SphereLight(sphere, lightSPD);
+      ILight light = new SphereLight(sphere, lightSPD);
 
       scene.Shapes.add(light);
       scene.Lights.add(light);
@@ -899,7 +897,7 @@ public class SceneBuilder {
       sphere.Radius = 50;
 
 
-      AbstractLight light = new SphereLight(sphere, lightSPD);
+      ILight light = new SphereLight(sphere, lightSPD);
 
       scene.Shapes.add(light);
       scene.addLight(light);
@@ -1029,7 +1027,7 @@ public class SceneBuilder {
 
       SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(100000.0f, 100000.0f, 100000.0f);
 
-      AbstractLight light = new SphereLight(sphere, lightSPD);
+      ILight light = new SphereLight(sphere, lightSPD);
 
       scene.Shapes.add(light);
       scene.addLight(light);

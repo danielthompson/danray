@@ -2,8 +2,9 @@ package net.danielthompson.danray.shapes;
 
 import net.danielthompson.danray.acceleration.BoundingEdge;
 import net.danielthompson.danray.acceleration.KDAxis;
-import net.danielthompson.danray.lights.AbstractLight;
+import net.danielthompson.danray.lights.ILight;
 import net.danielthompson.danray.shading.Material;
+import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
 
@@ -18,7 +19,8 @@ public abstract class AbstractShape {
    public Transform ObjectToWorld;
    public Transform WorldToObject;
    public Material Material;
-   public AbstractLight Light;
+   public ILight Light;
+   public SpectralPowerDistribution spd;
 
    public boolean InCurrentKDNode;
 

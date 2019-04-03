@@ -1,7 +1,7 @@
 package net.danielthompson.danray.integrators;
 
 import net.danielthompson.danray.Logger;
-import net.danielthompson.danray.lights.AbstractLight;
+import net.danielthompson.danray.lights.ILight;
 import net.danielthompson.danray.scenes.AbstractScene;
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.shading.ReflectanceSpectrum;
@@ -66,8 +66,8 @@ public class PathTraceIntegrator extends AbstractIntegrator {
       intersection.x = _x;
       intersection.y = _y;
 
-      if (intersection.Shape instanceof AbstractLight) {
-         sample.SpectralPowerDistribution = ((AbstractLight) intersection.Shape).SpectralPowerDistribution;
+      if (intersection.Shape instanceof ILight) {
+         sample.SpectralPowerDistribution = ((ILight) intersection.Shape).SpectralPowerDistribution;
          return sample;
       }
 

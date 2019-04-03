@@ -1,6 +1,6 @@
 package net.danielthompson.danray.integrators;
 
-import net.danielthompson.danray.lights.AbstractLight;
+import net.danielthompson.danray.lights.ILight;
 import net.danielthompson.danray.scenes.AbstractScene;
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.shading.ReflectanceSpectrum;
@@ -41,15 +41,15 @@ public class IterativeMISPathTraceIntegrator extends AbstractIntegrator {
             break;
          }
 
-         if (closestStateToRay.Shape instanceof AbstractLight) {
-            spds[bounces].add(((AbstractLight) closestStateToRay.Shape).SpectralPowerDistribution);
+         if (closestStateToRay.Shape instanceof ILight) {
+            spds[bounces].add(((ILight) closestStateToRay.Shape).SpectralPowerDistribution);
             break;
          }
 
          // get direct lighting contribution
 
          for (int i = 0; i < scene.Lights.size(); i++) {
-            AbstractLight light = scene.Lights.get(i);
+            ILight light = scene.Lights.get(i);
 
 
          }
@@ -64,7 +64,7 @@ public class IterativeMISPathTraceIntegrator extends AbstractIntegrator {
          // TODO fix
          //if (!brdf.Delta) {
          if (true) {
-            for (AbstractLight light : scene.Lights) {
+            for (ILight light : scene.Lights) {
                Point intersectionPoint = closestStateToRay.Location;
 
                Point lightLocation = light.getRandomPointOnSurface();

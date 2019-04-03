@@ -1,6 +1,6 @@
 package net.danielthompson.danray.integrators;
 
-import net.danielthompson.danray.lights.AbstractLight;
+import net.danielthompson.danray.lights.ILight;
 import net.danielthompson.danray.scenes.AbstractScene;
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.shading.ReflectanceSpectrum;
@@ -39,8 +39,8 @@ public class IterativePathTraceIntegrator extends AbstractIntegrator {
             break;
          }
 
-         if (intersection.Shape instanceof AbstractLight) {
-            spds[bounces].add(((AbstractLight) intersection.Shape).SpectralPowerDistribution);
+         if (intersection.Shape instanceof ILight) {
+            spds[bounces].add(((ILight) intersection.Shape).SpectralPowerDistribution);
             break;
          }
 

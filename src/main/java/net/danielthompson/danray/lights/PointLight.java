@@ -12,7 +12,7 @@ import net.danielthompson.danray.structures.Vector;
  * Date: 6/30/13
  * Time: 9:30
  */
-public class PointLight extends AbstractLight {
+public class PointLight extends ILight {
 
    public Point Location;
 
