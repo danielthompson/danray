@@ -16,31 +16,8 @@ public class SphereLight extends AbstractLight {
    public SphereLight(Sphere sphere, SpectralPowerDistribution spd) {
       super(spd);
       Sphere = sphere;
-      WorldBoundingBox = sphere.WorldBoundingBox;
-      ObjectToWorld = sphere.ObjectToWorld;
-      WorldToObject = sphere.WorldToObject;
-   }
-
-   @Override
-   public void RecalculateWorldBoundingBox() {
-      Sphere.RecalculateWorldBoundingBox();
-      WorldBoundingBox = Sphere.WorldBoundingBox;
 
    }
-
-   @Override
-   public boolean hits(Ray ray) {
-      return Sphere.hits(ray);
-   }
-
-   @Override
-   public Intersection getHitInfo(Ray ray) {
-      Intersection state = Sphere.getHitInfo(ray);
-      if (state != null && state.Shape == Sphere)
-         state.Shape = this;
-      return state;
-   }
-
 
    @Override
    public Point getRandomPointOnSurface() {
@@ -86,7 +63,6 @@ public class SphereLight extends AbstractLight {
       return result;
    }
 
-
    @Override
    public Ray getRandomRayInPDF() {
       Point point = getRandomPointOnSurface();
@@ -108,7 +84,6 @@ public class SphereLight extends AbstractLight {
       return ray;
    }
 
-
    @Override
    public float getPDF(Point point, Vector directionFromLightToPoint) {
 
@@ -127,7 +102,4 @@ public class SphereLight extends AbstractLight {
 
       return pdf; //TODO
    }
-
-
-
 }

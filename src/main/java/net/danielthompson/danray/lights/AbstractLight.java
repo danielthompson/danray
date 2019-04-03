@@ -7,14 +7,15 @@ import net.danielthompson.danray.structures.*;
 /**
  * Created by daniel on 6/25/16.
  */
-public abstract class AbstractLight extends AbstractShape {
+public abstract class AbstractLight {
 
    public int ID;
 
    public SpectralPowerDistribution SpectralPowerDistribution;
 
+   AbstractShape Shape;
+
    public AbstractLight(SpectralPowerDistribution spd) {
-      super(null);
       SpectralPowerDistribution = spd;
    }
 

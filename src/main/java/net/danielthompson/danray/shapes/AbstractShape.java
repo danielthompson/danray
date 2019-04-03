@@ -2,10 +2,10 @@ package net.danielthompson.danray.shapes;
 
 import net.danielthompson.danray.acceleration.BoundingEdge;
 import net.danielthompson.danray.acceleration.KDAxis;
+import net.danielthompson.danray.lights.AbstractLight;
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
-
 
 /**
  * Created by daniel on 2/16/15.
@@ -15,13 +15,10 @@ public abstract class AbstractShape {
    public int ID;
 
    public BoundingBox WorldBoundingBox;
-
    public Transform ObjectToWorld;
    public Transform WorldToObject;
-
    public Material Material;
-
-   public boolean IsConvex;
+   public AbstractLight Light;
 
    public boolean InCurrentKDNode;
 
