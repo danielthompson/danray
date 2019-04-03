@@ -14,7 +14,7 @@ import java.util.Scanner;
  * Date: 7/13/13
  * Time: 15:30
  */
-public class WavefrontObjectImporter {
+public class WavefrontObjectImporter extends AbstractFileImporter {
 
    private File _file;
 

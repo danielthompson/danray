@@ -12,7 +12,7 @@ import org.w3c.dom.*;
 /**
  * Created by dthompson on 14 Aug 15.
  */
-public class SPDFileImporter {
+public class SPDFileImporter extends AbstractFileImporter {
 
    private File _file;
 
