@@ -1,4 +1,13 @@
 package net.danielthompson.danray.imports;
 
-public abstract class AbstractFileImporter {
+import java.io.File;
+
+public abstract class AbstractFileImporter<T> {
+   protected File file;
+
+   AbstractFileImporter(File file) {
+      this.file = file;
+   }
+
+   public abstract T Process();
 }

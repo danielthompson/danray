@@ -16,21 +16,19 @@ import java.util.Scanner;
  */
 public class WavefrontObjectImporter extends AbstractFileImporter {
 
-   private File _file;
-
    private List<Point> _vertices;
    private List<List<Point>> _faces;
 
    public WavefrontObjectImporter(File file) {
-      _file = file;
+      super(file);
       _vertices = new ArrayList<Point>();
       _faces = new ArrayList<List<Point>>();
-
    }
 
+   @Override
    public TriangleMesh Process() {
       try {
-         Scanner scanner = new Scanner(_file);
+         Scanner scanner = new Scanner(file);
          while (scanner.hasNext()) {
             String token = scanner.next();
             if (token.equals("#"))
@@ -50,7 +48,7 @@ public class WavefrontObjectImporter extends AbstractFileImporter {
          }
       }
       catch (FileNotFoundException e) {
-         System.out.println("Can't find file " + _file.getAbsolutePath());
+         System.out.println("Can't find file " + file.getAbsolutePath());
          return null;
       }
 

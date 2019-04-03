@@ -12,15 +12,13 @@ import org.w3c.dom.*;
 /**
  * Created by dthompson on 14 Aug 15.
  */
-public class SPDFileImporter extends AbstractFileImporter {
-
-   private File _file;
+public class SPDFileImporter extends AbstractFileImporter<FullSpectralPowerDistribution> {
 
    public SPDFileImporter(File file) {
-
-      _file = file;
+      super(file);
    }
 
+   @Override
    public FullSpectralPowerDistribution Process() {
 
       FullSpectralPowerDistribution spd = new FullSpectralPowerDistribution();
@@ -33,7 +31,7 @@ public class SPDFileImporter extends AbstractFileImporter {
          DocumentBuilder db = dbf.newDocumentBuilder();
          // parse using the builder to get the DOM mapping of the
          // XML file
-         dom = db.parse(_file);
+         dom = db.parse(file);
 
          Element doc = dom.getDocumentElement();
 
@@ -46,7 +44,7 @@ public class SPDFileImporter extends AbstractFileImporter {
 
                break;
             default:
-               throw new RuntimeException("Can't import [" + _file.getName() + "], unsupported file version (" + version + ").");
+               throw new RuntimeException("Can't import [" + file.getName() + "], unsupported file version (" + version + ").");
          }
 
       }
@@ -64,20 +62,15 @@ public class SPDFileImporter extends AbstractFileImporter {
    }
 
    public FullSpectralPowerDistribution ImportV1(Element spdNode) {
-
       FullSpectralPowerDistribution spd = new FullSpectralPowerDistribution();
-
       spd.Power = getDoubleValue(spdNode, "power");
-
       System.err.println("SPD has power [" + spd.Power + "]");
-
       NodeList buckets = spdNode.getElementsByTagName("bucket");
 
       for (int i = 0; i < buckets.getLength(); i++) {
          Node bucket = buckets.item(i);
          spd.Buckets[i] = getFloatValue(bucket, "power");
       }
-
       return spd;
    }
 
@@ -89,7 +82,6 @@ public class SPDFileImporter extends AbstractFileImporter {
    private float getFloatValue(Element element, String attribute) {
       String value = element.getAttribute(attribute);
       float floatValue = Float.parseFloat(value);
-
       return floatValue;
    }
 
@@ -101,21 +93,17 @@ public class SPDFileImporter extends AbstractFileImporter {
    private float getDoubleValue(Element element, String attribute) {
       String value = element.getAttribute(attribute);
       float floatValue = Float.parseFloat(value);
-
       return floatValue;
    }
 
    private int getIntValue(Element element, String attribute) {
       String value = element.getAttribute(attribute);
       int intValue = Integer.parseInt(value);
-
       return intValue;
    }
 
    private int getIntValue(Node node, String attribute) {
-
       Element e = (Element)node;
       return getIntValue(e, attribute);
-
    }
 }
