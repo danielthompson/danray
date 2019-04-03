@@ -13,7 +13,6 @@ import net.danielthompson.danray.structures.*;
 
 import java.io.Console;
 
-
 /**
  * Created by daniel on 5/5/15.
  */
@@ -72,22 +71,15 @@ public class PathTraceIntegrator extends AbstractIntegrator {
          return sample;
       }
 
+      sample.SpectralPowerDistribution = new SpectralPowerDistribution();
+
       // base case
       if (depth >= maxDepth || intersection.Shape == null) {
-         sample.SpectralPowerDistribution = new SpectralPowerDistribution();
          return sample;
       }
       else {
-
-         sample.SpectralPowerDistribution = new SpectralPowerDistribution();
-
          AbstractShape closestShape = intersection.Shape;
-//         if (closestShape == null) {
-//            sample.SpectralPowerDistribution = new SpectralPowerDistribution();
-//            return sample;
-//         }
          Material objectMaterial = closestShape.Material;
-
          Normal intersectionNormal = intersection.Normal;
          Vector incomingDirection = ray.Direction;
 
@@ -107,30 +99,22 @@ public class PathTraceIntegrator extends AbstractIntegrator {
             }
 
             Vector outgoingDirection = bxdf.getVectorInPDF(intersection, incomingDirection, indexOfRefraction, enteringIndexOfRefraction);
-
             float scalePercentage = 1.0f;
 
             if (!bxdf.Delta) {
                scalePercentage = bxdf.f(incomingDirection, intersectionNormal, outgoingDirection);
             }
-
             if (leavingMaterial && outgoingDirection.Dot(intersectionNormal) < 0) {
                outgoingDirection.Scale(-1);
             }
 
             Ray bounceRay = new Ray(intersection.Location, outgoingDirection);
-
-
-
             if (leavingMaterial) {
                bounceRay.OffsetOriginOutwards(intersectionNormal);
             }
             else {
                bounceRay.OffsetOriginInwards(intersectionNormal);
             }
-
-           // bounceRay.OffsetOriginOutwards(intersectionNormal);
-            //bounceRay.OffsetOriginForward(Constants.DoubleEpsilon);
 
             Sample nextSample = GetSample(bounceRay, depth + 1, indexOfRefraction);
             SpectralPowerDistribution nextSPD = nextSample.SpectralPowerDistribution;
