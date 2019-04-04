@@ -29,11 +29,6 @@ public class CameraSettings {
    public float FieldOfView;
 
    /**
-    * Camera's origin and direction in world space. Required.
-    */
-   public Ray Orientation;
-
-   /**
     * Movement of the orientation in time. Optional.
     */
    public CameraOrientationMovement Movement;
