@@ -24,11 +24,6 @@ public class CameraSettings {
    public float FieldOfView;
 
    /**
-    * Aperture of the lens. Results in an image with DOF. Optional.
-    */
-   public Aperture Aperture;
-
-   /**
     * Distance in world coordinates to the focus point. &gt;0 required for DOF, otherwise optional.
     */
    public float FocusDistance;

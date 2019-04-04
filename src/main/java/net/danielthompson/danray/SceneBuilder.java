@@ -2,8 +2,6 @@ package net.danielthompson.danray;
 
 import net.danielthompson.danray.acceleration.KDScene;
 import net.danielthompson.danray.cameras.*;
-import net.danielthompson.danray.cameras.apertures.CircleAperture;
-import net.danielthompson.danray.cameras.apertures.SquareAperture;
 import net.danielthompson.danray.lights.AbstractLight;
 import net.danielthompson.danray.lights.PointLight;
 import net.danielthompson.danray.lights.SphereLight;
@@ -107,7 +105,6 @@ public class SceneBuilder {
       settings.X = x;
       settings.Y = y;
       settings.FocusDistance = 500;
-      settings.Aperture = new CircleAperture(20);
 
       Point origin = new Point(0, 0, 4000);
       Vector direction = new Vector(0, 0, -1);
@@ -343,7 +340,6 @@ public class SceneBuilder {
       settings.FieldOfView = 35f;
 
       settings.FocusDistance = 500;
-      settings.Aperture = new CircleAperture(20);
 
       Transform[] inputTransforms = new Transform[]{
             Transform.Translate(0, 0, 200),
@@ -694,7 +690,6 @@ public class SceneBuilder {
       settings.X = x;
       settings.Y = y;
       settings.FocusDistance = 500;
-      settings.Aperture = new CircleAperture(20);
 
       Point origin = new Point(100, 75, 700);
       Vector direction = new Vector(0, -.35f, -1);
@@ -846,7 +841,6 @@ public class SceneBuilder {
       settings.X = x;
       settings.Y = y;
       settings.FocusDistance = 75;
-      settings.Aperture = new CircleAperture(10);
 
       Point origin = new Point(0, 0, 250);
       Vector direction = new Vector(0, 0, -1);
@@ -900,7 +894,6 @@ public class SceneBuilder {
       settings.Y = y;
       settings.FieldOfView = 50f;
 
-      settings.Aperture = new SquareAperture(2);
 
       Transform[] inputTransforms = new Transform[1];
       inputTransforms[0] = Transform.Translate(new Vector(300, 300, 1000));
@@ -1037,7 +1030,6 @@ public class SceneBuilder {
       settings.X = x;
       settings.Y = y;
       settings.FocusDistance = 500;
-      settings.Aperture = new SquareAperture(5);
 
       Point origin = new Point(100, 200, 600);
       Vector direction = new Vector(-.1f, -.3f, -1);
@@ -1105,7 +1097,6 @@ public class SceneBuilder {
       settings.X = x;
       settings.Y = y;
       settings.FocusDistance = 250;
-      settings.Aperture = new SquareAperture(5);
 
       Point origin = new Point(100, 800, 1500);
       Vector direction = new Vector(0, -1, -1);
@@ -1364,7 +1355,6 @@ public class SceneBuilder {
       settings.X = x;
       settings.Y = y;
       settings.FocusDistance = 500;
-      settings.Aperture = new CircleAperture(50);
 
       Point origin = new Point(300, 300, 2500);
       Vector direction = new Vector(0, 0, -1);
@@ -1576,16 +1566,11 @@ public class SceneBuilder {
 
       Point origin = new Point(300, 300, 2500);
       Vector direction = new Vector(0, 0, -1);
-      Ray orientation = new Ray(origin, direction);
 
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
       settings.FocusDistance = 1487;
-      settings.Aperture = new CircleAperture(50);
-
-      float zoomFactor = 1.0f / 2.0f;
-      float focusDistance = 1487.0f;
 
       Camera camera = new PerspectiveCamera(settings, null);
 
@@ -1714,8 +1699,6 @@ public class SceneBuilder {
       settings.Y = y;
       settings.FieldOfView = 25f;
 
-//      settings.Aperture = new CircleAperture(50);
-
       Transform[] inputTransforms = new Transform[1];
       inputTransforms[0] = Transform.Translate(new Vector(0, 500, 2500));
 
@@ -1820,10 +1803,6 @@ public class SceneBuilder {
       settings.X = x;
       settings.Y = y;
       settings.FocusDistance = 500;
-      settings.Aperture = new CircleAperture(20);
-
-      Point origin = new Point(0, 0, 4000);
-      Vector direction = new Vector(0, 0, -1);
 
       Camera camera = new PerspectiveCamera(settings, null);
 
