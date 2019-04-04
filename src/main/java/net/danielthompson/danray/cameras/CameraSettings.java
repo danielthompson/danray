@@ -29,11 +29,6 @@ public class CameraSettings {
    public float FieldOfView;
 
    /**
-    * Movement of the orientation in time. Optional.
-    */
-   public CameraOrientationMovement Movement;
-
-   /**
     * Aperture of the lens. Results in an image with DOF. Optional.
     */
    public Aperture Aperture;
