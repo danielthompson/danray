@@ -107,7 +107,6 @@ public class SceneBuilder {
       settings.X = x;
       settings.Y = y;
       settings.FocalLength = 1200;
-      settings.ZoomFactor = 1.5f;
       settings.FocusDistance = 500;
       settings.Aperture = new CircleAperture(20);
 
@@ -697,7 +696,6 @@ public class SceneBuilder {
       settings.X = x;
       settings.Y = y;
       settings.FocalLength = 1200;
-      settings.ZoomFactor = 1;
       settings.FocusDistance = 500;
       settings.Aperture = new CircleAperture(20);
 
@@ -852,7 +850,6 @@ public class SceneBuilder {
       settings.X = x;
       settings.Y = y;
       settings.FocalLength = 150;
-      settings.ZoomFactor = 1.0f;
       settings.FocusDistance = 75;
       settings.Aperture = new CircleAperture(10);
 
@@ -1046,7 +1043,6 @@ public class SceneBuilder {
       settings.X = x;
       settings.Y = y;
       settings.FocalLength = 100000000;
-      settings.ZoomFactor = 1 / 2.0f;
       settings.FocusDistance = 500;
       settings.Aperture = new SquareAperture(5);
 
@@ -1117,7 +1113,6 @@ public class SceneBuilder {
       settings.X = x;
       settings.Y = y;
       settings.FocalLength = 1200;
-      settings.ZoomFactor = 1 / 1.5f;
       settings.FocusDistance = 250;
       settings.Aperture = new SquareAperture(5);
 
@@ -1380,7 +1375,6 @@ public class SceneBuilder {
       settings.X = x;
       settings.Y = y;
       settings.FocalLength = 1200;
-      settings.ZoomFactor = 1 / 2.0f;
       settings.FocusDistance = 500;
       settings.Aperture = new CircleAperture(50);
 
@@ -1605,7 +1599,6 @@ public class SceneBuilder {
       settings.FocusDistance = 1487;
       settings.Orientation = orientation;
       settings.Aperture = new CircleAperture(50);
-      settings.ZoomFactor = 0.5f;
 
       float zoomFactor = 1.0f / 2.0f;
       float focusDistance = 1487.0f;
@@ -1843,7 +1836,6 @@ public class SceneBuilder {
       settings.X = x;
       settings.Y = y;
       settings.FocalLength = 1200;
-      settings.ZoomFactor = 1.5f;
       settings.FocusDistance = 500;
       settings.Aperture = new CircleAperture(20);
 

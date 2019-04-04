@@ -14,7 +14,6 @@ public class CameraSettingsExporter {
       rootElement.setAttribute("X", String.valueOf(object.X));
       rootElement.setAttribute("Y", String.valueOf(object.Y));
       rootElement.setAttribute("FocalLength", String.valueOf(object.FocalLength));
-      rootElement.setAttribute("ZoomFactor", String.valueOf(object.ZoomFactor));
       rootElement.setAttribute("FocusDistance", String.valueOf(object.FocusDistance));
 
 //      Element orientation = document.createElement("Orientation");
