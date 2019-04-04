@@ -38,15 +38,20 @@ public class PBRTImporter extends AbstractFileImporter<AbstractScene> {
          Constants.Camera,
          Constants.Film,
          Constants.Integrator,
+         Constants.LightSource,
          Constants.LookAt,
          Constants.MakeNamedMaterial,
+         Constants.Material,
          Constants.NamedMaterial,
          Constants.PixelFilter,
          Constants.Sampler,
          Constants.Shape,
+         Constants.Texture,
          Constants.TransformBegin,
          Constants.TransformEnd,
-         Constants.Translate
+         Constants.Translate,
+         Constants.WorldBegin,
+         Constants.WorldEnd
    );
 
    List<String> sceneWideDirectives = Arrays.asList(
@@ -63,9 +68,12 @@ public class PBRTImporter extends AbstractFileImporter<AbstractScene> {
          Constants.PixelFilter,
          Constants.Sampler,
          //Constants.Shape,
+         Constants.Texture,
          Constants.TransformBegin,
          Constants.TransformEnd,
          Constants.Translate
+         //Constants.WorldBegin,
+         //Constants.WorldEnd
    );
 
    List<String> worldDirectives = Arrays.asList(
@@ -76,12 +84,15 @@ public class PBRTImporter extends AbstractFileImporter<AbstractScene> {
          //Constants.Camera,
          //Constants.Film,
          //Constants.Integrator,
+         Constants.LightSource,
          Constants.LookAt,
          Constants.MakeNamedMaterial,
+         Constants.Material,
          Constants.NamedMaterial,
          //Constants.PixelFilter,
          //Constants.Sampler,
          Constants.Shape,
+         Constants.Texture,
          Constants.TransformBegin,
          Constants.TransformEnd,
          Constants.Translate
@@ -143,6 +154,11 @@ public class PBRTImporter extends AbstractFileImporter<AbstractScene> {
                   }
 
                }
+
+               int lastIndex = tokens.size()- 1;
+
+               if (tokens.get(lastIndex).size() == 0)
+                  tokens.remove(lastIndex);
 
                sourceLineNumber++;
 
