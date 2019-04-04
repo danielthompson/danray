@@ -1,9 +1,5 @@
 package net.danielthompson.danray.cameras;
 
-import net.danielthompson.danray.animation.CameraOrientationMovement;
-import net.danielthompson.danray.cameras.apertures.Aperture;
-import net.danielthompson.danray.structures.Ray;
-
 /**
  * Created by daniel on 5/3/15.
  */

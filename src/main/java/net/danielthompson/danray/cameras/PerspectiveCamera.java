@@ -8,7 +8,6 @@ import net.danielthompson.danray.structures.*;
 public class PerspectiveCamera extends Camera {
 
    private float OneOverWidth;
-
    private float OneOverHeight;
    private float aspectRatio;
    private float tanFOVOver2;
@@ -23,6 +22,20 @@ public class PerspectiveCamera extends Camera {
       tanFOVOver2 = (float)Math.tan(Math.toRadians(Settings.FieldOfView) * .5f);
    }
 
+   public PerspectiveCamera(Transform cameraToWorld) {
+      super(null, cameraToWorld);
+   }
+
+   public void resetSettings(CameraSettings settings) {
+      this.Settings = settings;
+      OneOverWidth = 1.0f / (float)Settings.X;
+      OneOverHeight = 1.0f / (float)Settings.Y;
+
+      aspectRatio = (float) Settings.X * OneOverHeight;
+      tanFOVOver2 = (float)Math.tan(Math.toRadians(Settings.FieldOfView) * .5f);
+   }
+
+   @Override
    public Ray getRay(float x, float y) {
 
       float pixelNDCx = (x + 0.5f) * OneOverWidth;
@@ -41,6 +54,4 @@ public class PerspectiveCamera extends Camera {
 
       return worldSpaceRay;
    }
-
-
 }

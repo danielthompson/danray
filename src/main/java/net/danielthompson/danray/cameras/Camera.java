@@ -1,11 +1,6 @@
 package net.danielthompson.danray.cameras;
 
-import net.danielthompson.danray.Logger;
-import net.danielthompson.danray.TraceManager;
 import net.danielthompson.danray.structures.*;
-
-
-import java.text.NumberFormat;
 
 /**
  * Created by daniel on 1/12/14.
@@ -14,16 +9,15 @@ public abstract class Camera {
 
    public CameraSettings Settings;
 
-   protected static final Vector DefaultDirection = new Vector(0, 0, -1);
-   protected static final Point DefaultOrigin = new Point(0, 0, 0);
+   private static final Vector DefaultDirection = new Vector(0, 0, -1);
+   static final Point DefaultOrigin = new Point(0, 0, 0);
 
    public Transform cameraToWorld;
 
-   protected int _currentFrame;
+   private int _currentFrame;
 
    public Camera(CameraSettings settings, Transform cameraToWorld) {
       Settings = settings;
-
       this.cameraToWorld = cameraToWorld;
    }
 
@@ -108,8 +102,5 @@ public abstract class Camera {
       return rays;
    }
 
-   public Ray getRay(float x, float y) {
-      throw new java.lang.UnsupportedOperationException();
-   }
-
+   public abstract Ray getRay(float x, float y);
 }

@@ -1,8 +1,11 @@
 package net.danielthompson.danray.imports;
 
+import net.danielthompson.danray.Logger;
 import net.danielthompson.danray.cameras.Camera;
+import net.danielthompson.danray.cameras.CameraSettings;
 import net.danielthompson.danray.cameras.PerspectiveCamera;
 import net.danielthompson.danray.scenes.AbstractScene;
+import net.danielthompson.danray.scenes.NaiveScene;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Transform;
 import net.danielthompson.danray.structures.Vector;
@@ -22,9 +25,13 @@ public class PBRTImporter extends AbstractFileImporter<AbstractScene> {
    }
 
    private Transform _currentTransformationMatrix;
+   private Camera _camera;
+   private CameraSettings _cameraSettings;
+   private AbstractScene _abstractScene;
 
    @Override
    public AbstractScene Process() {
+
       try {
          Scanner scanner = new Scanner(file);
 
@@ -50,6 +57,10 @@ public class PBRTImporter extends AbstractFileImporter<AbstractScene> {
                   parseCamera(scanner);
                   break;
                }
+               default: {
+                  Logger.Log(Logger.Level.Warning, "Skipping [" + next + "] during parse...");
+                  break;
+               }
             }
 
          }
@@ -58,21 +69,44 @@ public class PBRTImporter extends AbstractFileImporter<AbstractScene> {
          e.printStackTrace();
       }
 
-      return null;
+      return _abstractScene;
    }
 
    private void parseCamera(Scanner scanner) {
       String implementation = scanner.next().toLowerCase();
 
-      Camera camera;
-
       switch (implementation) {
-         case "\"perspective\"":
-            //camera = new PerspectiveCamera(null, null);
+         case "\"perspective\"": {
+            _camera = new PerspectiveCamera(_currentTransformationMatrix);
+            break;
+         }
+         default: {
             // TODO fix
-            // need to create camera after some other stuff...
+            Logger.Log(Logger.Level.Warning, "Parser found " + implementation + " camera, but using Perspective because that's the only one implemented right now.");
+            _camera = new PerspectiveCamera(_currentTransformationMatrix);
+            break;
+         }
       }
 
+      _cameraSettings = new CameraSettings();
+
+      String type = scanner.next();
+      String name = scanner.next();
+      float value = scanner.nextFloat();
+
+      switch (name) {
+         case "fov\"": {
+            _cameraSettings.FieldOfView = value;
+            break;
+         }
+         default: {
+            // TODO fix
+            Logger.Log(Logger.Level.Warning, "Parser found " + type + " " + name + " camera value, disregarding...");
+            break;
+         }
+      }
+
+      _abstractScene = new NaiveScene(_camera);
 
    }
 
