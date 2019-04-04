@@ -1,5 +1,7 @@
 package net.danielthompson.danray.imports;
 
+import net.danielthompson.danray.cameras.Camera;
+import net.danielthompson.danray.cameras.PerspectiveCamera;
 import net.danielthompson.danray.scenes.AbstractScene;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Transform;
@@ -44,6 +46,10 @@ public class PBRTImporter extends AbstractFileImporter<AbstractScene> {
                   parseLookAt(scanner);
                   break;
                }
+               case "Camera": {
+                  parseCamera(scanner);
+                  break;
+               }
             }
 
          }
@@ -55,17 +61,33 @@ public class PBRTImporter extends AbstractFileImporter<AbstractScene> {
       return null;
    }
 
+   private void parseCamera(Scanner scanner) {
+      String implementation = scanner.next().toLowerCase();
+
+      Camera camera;
+
+      switch (implementation) {
+         case "\"perspective\"":
+            camera = new PerspectiveCamera(null);
+            // TODO fix
+            // need to create camera after some other stuff...
+      }
+
+
+   }
+
    private void parseLookAt(Scanner scanner) {
       String next;
       List<Float> floats = new ArrayList<>();
 
-      while (scanner.hasNext()) {
+      for (int i = 0; i < 9; i++) {
          if (scanner.hasNextFloat()) {
             floats.add(scanner.nextFloat());
          }
          else {
             next = scanner.next();
             if (next.startsWith("#")) {
+               i--;
                scanner.nextLine();
             }
          }
