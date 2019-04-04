@@ -19,11 +19,6 @@ public class CameraSettings {
    public int Y;
 
    /**
-    * Focal length of the simulated lens. Must be &lt;= 0. 0 is isometric; &gt; 0 is perspective. Required.
-    */
-   public float FocalLength;
-
-   /**
     * Focal length of the simulated lens. Must be 0 &lt;= fov &gt;= 360. Required.
     */
    public float FieldOfView;
@@ -37,7 +32,4 @@ public class CameraSettings {
     * Distance in world coordinates to the focus point. &gt;0 required for DOF, otherwise optional.
     */
    public float FocusDistance;
-
-
-
 }

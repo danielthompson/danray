@@ -106,7 +106,6 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
-      settings.FocalLength = 1200;
       settings.FocusDistance = 500;
       settings.Aperture = new CircleAperture(20);
 
@@ -694,7 +693,6 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
-      settings.FocalLength = 1200;
       settings.FocusDistance = 500;
       settings.Aperture = new CircleAperture(20);
 
@@ -847,7 +845,6 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
-      settings.FocalLength = 150;
       settings.FocusDistance = 75;
       settings.Aperture = new CircleAperture(10);
 
@@ -1039,7 +1036,6 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
-      settings.FocalLength = 100000000;
       settings.FocusDistance = 500;
       settings.Aperture = new SquareAperture(5);
 
@@ -1108,7 +1104,6 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
-      settings.FocalLength = 1200;
       settings.FocusDistance = 250;
       settings.Aperture = new SquareAperture(5);
 
@@ -1368,7 +1363,6 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
-      settings.FocalLength = 1200;
       settings.FocusDistance = 500;
       settings.Aperture = new CircleAperture(50);
 
@@ -1587,7 +1581,6 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
-      settings.FocalLength = 1200;
       settings.FocusDistance = 1487;
       settings.Aperture = new CircleAperture(50);
 
@@ -1826,7 +1819,6 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
-      settings.FocalLength = 1200;
       settings.FocusDistance = 500;
       settings.Aperture = new CircleAperture(20);
 
