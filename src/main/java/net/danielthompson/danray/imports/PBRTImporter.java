@@ -68,7 +68,7 @@ public class PBRTImporter extends AbstractFileImporter<AbstractScene> {
 
       switch (implementation) {
          case "\"perspective\"":
-            camera = new PerspectiveCamera(null, null);
+            //camera = new PerspectiveCamera(null, null);
             // TODO fix
             // need to create camera after some other stuff...
       }
