@@ -13,7 +13,6 @@ import net.danielthompson.danray.scenes.skyboxes.*;
 import net.danielthompson.danray.shading.*;
 import net.danielthompson.danray.shading.bxdf.BRDF;
 import net.danielthompson.danray.shading.bxdf.BTDF;
-import net.danielthompson.danray.shading.bxdf.reflect.GlossyBRDF;
 import net.danielthompson.danray.shading.bxdf.reflect.LambertianBRDF;
 import net.danielthompson.danray.shading.bxdf.reflect.SpecularBRDF;
 import net.danielthompson.danray.shading.bxdf.transmit.LambertianBTDF;
@@ -108,7 +107,6 @@ public class SceneBuilder {
       settings.X = x;
       settings.Y = y;
       settings.FocalLength = 1200;
-      settings.Rotation = 0;
       settings.ZoomFactor = 1.5f;
       settings.FocusDistance = 500;
       settings.Aperture = new CircleAperture(20);
@@ -699,7 +697,6 @@ public class SceneBuilder {
       settings.X = x;
       settings.Y = y;
       settings.FocalLength = 1200;
-      settings.Rotation = 0;
       settings.ZoomFactor = 1;
       settings.FocusDistance = 500;
       settings.Aperture = new CircleAperture(20);
@@ -855,7 +852,6 @@ public class SceneBuilder {
       settings.X = x;
       settings.Y = y;
       settings.FocalLength = 150;
-      settings.Rotation = 0;
       settings.ZoomFactor = 1.0f;
       settings.FocusDistance = 75;
       settings.Aperture = new CircleAperture(10);
@@ -1050,7 +1046,6 @@ public class SceneBuilder {
       settings.X = x;
       settings.Y = y;
       settings.FocalLength = 100000000;
-      settings.Rotation = 0;
       settings.ZoomFactor = 1 / 2.0f;
       settings.FocusDistance = 500;
       settings.Aperture = new SquareAperture(5);
@@ -1122,7 +1117,6 @@ public class SceneBuilder {
       settings.X = x;
       settings.Y = y;
       settings.FocalLength = 1200;
-      settings.Rotation = 0;
       settings.ZoomFactor = 1 / 1.5f;
       settings.FocusDistance = 250;
       settings.Aperture = new SquareAperture(5);
@@ -1386,7 +1380,6 @@ public class SceneBuilder {
       settings.X = x;
       settings.Y = y;
       settings.FocalLength = 1200;
-      settings.Rotation = 0;
       settings.ZoomFactor = 1 / 2.0f;
       settings.FocusDistance = 500;
       settings.Aperture = new CircleAperture(50);
@@ -1609,7 +1602,6 @@ public class SceneBuilder {
       settings.X = x;
       settings.Y = y;
       settings.FocalLength = 1200;
-      settings.Rotation = 100;
       settings.FocusDistance = 1487;
       settings.Orientation = orientation;
       settings.Aperture = new CircleAperture(50);
@@ -1851,7 +1843,6 @@ public class SceneBuilder {
       settings.X = x;
       settings.Y = y;
       settings.FocalLength = 1200;
-      settings.Rotation = 0;
       settings.ZoomFactor = 1.5f;
       settings.FocusDistance = 500;
       settings.Aperture = new CircleAperture(20);
