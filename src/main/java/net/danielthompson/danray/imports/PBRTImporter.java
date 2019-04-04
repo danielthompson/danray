@@ -4,6 +4,7 @@ import net.danielthompson.danray.Logger;
 import net.danielthompson.danray.cameras.Camera;
 import net.danielthompson.danray.cameras.CameraSettings;
 import net.danielthompson.danray.cameras.PerspectiveCamera;
+import net.danielthompson.danray.imports.pbrt.Constants;
 import net.danielthompson.danray.scenes.AbstractScene;
 import net.danielthompson.danray.scenes.NaiveScene;
 import net.danielthompson.danray.structures.Point;
@@ -13,9 +14,9 @@ import net.danielthompson.danray.structures.Vector;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Stack;
 import java.util.regex.Pattern;
 
 public class PBRTImporter extends AbstractFileImporter<AbstractScene> {
@@ -29,11 +30,131 @@ public class PBRTImporter extends AbstractFileImporter<AbstractScene> {
    private CameraSettings _cameraSettings;
    private AbstractScene _abstractScene;
 
+   List<String> allDirectives = Arrays.asList(
+         Constants.Accelerator,
+         Constants.AreaLightSource,
+         Constants.AttributeBegin,
+         Constants.AttributeEnd,
+         Constants.Camera,
+         Constants.Film,
+         Constants.Integrator,
+         Constants.LookAt,
+         Constants.MakeNamedMaterial,
+         Constants.NamedMaterial,
+         Constants.PixelFilter,
+         Constants.Sampler,
+         Constants.Shape,
+         Constants.TransformBegin,
+         Constants.TransformEnd,
+         Constants.Translate
+   );
+
+   List<String> sceneWideDirectives = Arrays.asList(
+         Constants.Accelerator,
+         //Constants.AreaLightSource,
+         //Constants.AttributeBegin,
+         //Constants.AttributeEnd,
+         Constants.Camera,
+         Constants.Film,
+         Constants.Integrator,
+         Constants.LookAt,
+         Constants.MakeNamedMaterial,
+         //Constants.NamedMaterial,
+         Constants.PixelFilter,
+         Constants.Sampler,
+         //Constants.Shape,
+         Constants.TransformBegin,
+         Constants.TransformEnd,
+         Constants.Translate
+   );
+
+   List<String> worldDirectives = Arrays.asList(
+         //Constants.Accelerator,
+         Constants.AreaLightSource,
+         Constants.AttributeBegin,
+         Constants.AttributeEnd,
+         //Constants.Camera,
+         //Constants.Film,
+         //Constants.Integrator,
+         Constants.LookAt,
+         Constants.MakeNamedMaterial,
+         Constants.NamedMaterial,
+         //Constants.PixelFilter,
+         //Constants.Sampler,
+         Constants.Shape,
+         Constants.TransformBegin,
+         Constants.TransformEnd,
+         Constants.Translate
+         //Constants.WorldBegin,
+         //Constants.WorldEnd
+   );
+
    @Override
    public AbstractScene Process() {
 
       try {
+
+         List<List<String>> tokens = new ArrayList<>();
+
          Scanner scanner = new Scanner(file);
+         // scan
+         if (scanner.hasNext())
+         {
+            int sourceLineNumber = 0;
+            int targetLineNumber = -1;
+            String line;
+            while (scanner.hasNextLine())
+            {
+               line = scanner.nextLine();
+               tokens.add(new ArrayList<>());
+               String word;
+
+               Scanner wordScanner = new Scanner(line);
+               while (wordScanner.hasNext())
+               {
+                  word = wordScanner.next();
+                  // strip out comments
+                  if (word.startsWith("#"))
+                     break;
+
+                  if (allDirectives.contains(word)) {
+                     // if this is a directive, then we move on to a new line
+                     targetLineNumber++;
+                  }
+
+                  // split brackets, if needed
+                  if (word.length() > 1) {
+                     int lastIndex = word.length() - 1;
+
+                     if (word.charAt(0) == '[') {
+                        tokens.get(targetLineNumber).add("[");
+                        tokens.get(targetLineNumber).add(word.substring(1, lastIndex));
+                     }
+                     else if (word.charAt(lastIndex) == ']') {
+                        tokens.get(targetLineNumber).add(word.substring(0, lastIndex - 1));
+                        tokens.get(targetLineNumber).add("]");
+                     }
+                     else {
+                        tokens.get(targetLineNumber).add(word);
+                     }
+                  }
+                  else {
+                     tokens.get(targetLineNumber).add(word);
+                  }
+
+               }
+
+               sourceLineNumber++;
+
+            }
+
+         }
+         else {
+            //throw std::invalid_argument("Couldn't open file " + Filename);
+         }
+
+         Scanner scanner2 = new Scanner(file);
+
 
          boolean inDirective = false;
 
@@ -57,6 +178,10 @@ public class PBRTImporter extends AbstractFileImporter<AbstractScene> {
                   parseCamera(scanner);
                   break;
                }
+               case "Sampler": {
+                  parseSampler(scanner);
+                  break;
+               }
                default: {
                   Logger.Log(Logger.Level.Warning, "Skipping [" + next + "] during parse...");
                   break;
@@ -70,6 +195,15 @@ public class PBRTImporter extends AbstractFileImporter<AbstractScene> {
       }
 
       return _abstractScene;
+   }
+
+   private void parseSampler(Scanner scanner) {
+      String implementation = scanner.next().toLowerCase();
+      switch (implementation) {
+         case "\"halton\"": {
+
+         }
+      }
    }
 
    private void parseCamera(Scanner scanner) {
