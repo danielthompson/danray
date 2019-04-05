@@ -5,6 +5,8 @@ import net.danielthompson.danray.cameras.Camera;
 import net.danielthompson.danray.cameras.CameraSettings;
 import net.danielthompson.danray.cameras.PerspectiveCamera;
 import net.danielthompson.danray.imports.pbrt.Constants;
+import net.danielthompson.danray.imports.pbrt.PBRTArgument;
+import net.danielthompson.danray.imports.pbrt.PBRTDirective;
 import net.danielthompson.danray.scenes.AbstractScene;
 import net.danielthompson.danray.scenes.NaiveScene;
 import net.danielthompson.danray.structures.Point;
@@ -166,46 +168,102 @@ public class PBRTImporter extends AbstractFileImporter<AbstractScene> {
 
          }
          else {
-            //throw std::invalid_argument("Couldn't open file " + Filename);
+            Logger.Log(Logger.Level.Error, "Input file " + file.getAbsolutePath() + " had no content, aborting.");
+            throw new RuntimeException();
          }
 
-         Scanner scanner2 = new Scanner(file);
+         // parse
 
+         List<PBRTDirective> sceneDirectives = new ArrayList<>();
+         List<PBRTDirective> worldDirectives = new ArrayList<>();
 
-         boolean inDirective = false;
+         {
+            List<PBRTDirective> currentDirectives = sceneDirectives;
 
-         String commentSkipRegex = "#.*$";
-         Pattern commentSkipPattern = Pattern.compile(commentSkipRegex);
+            for (List<String> line : tokens) {
+               PBRTDirective currentDirective = new PBRTDirective();
 
-         String next;
+               if (line.size() == 0)
+                  continue;
 
-         while (scanner.hasNext()) {
-            next = scanner.next();
-            if (next.startsWith("#")) {
-               scanner.nextLine();
-               continue;
+               currentDirective.Name = line.get(0);
+
+               if (currentDirective.Name.equals(Constants.WorldBegin))
+                  currentDirectives = worldDirectives;
+
+               if (line.size() == 1) {
+                  currentDirectives.add(currentDirective);
+                  continue;
+               }
+
+               String line1 = line.get(1);
+
+               if (IsQuoted(line1)) {
+                  currentDirective.Identifier = line1.substring(1, line1.length() - 1);
+               }
+               else {
+                  currentDirective.Arguments = new ArrayList<>();
+                  PBRTArgument argument = new PBRTArgument();
+                  argument.Type = "float";
+                  argument.Values = new ArrayList<>();
+
+                  for (int i = 1; i < line.size(); i++) {
+                     argument.Values.add(line.get(i));
+                  }
+
+                  currentDirective.Arguments.add(argument);
+                  currentDirectives.add(currentDirective);
+                  continue;
+               }
+
+               if (line.size() == 2) {
+                  currentDirectives.add(currentDirective);
+                  continue;
+               }
+
+               currentDirective.Arguments = new ArrayList<>();
+               PBRTArgument currentArgument = new PBRTArgument();
+               boolean inValue = false;
+               int i = 2;
+               while (i < line.size()) {
+                  if (StartQuoted(line.get(i)) && EndQuoted(line.get(i + 1))) {
+                     // we're in an argument
+                     currentArgument.Type = line.get(i).substring(1, line.get(i).length()/* - 1*/);
+                     currentArgument.Name = line.get(i + 1).substring(0, line.get(i + 1).length() - 1);
+                     inValue = true;
+                     i += 2;
+                     continue;
+                  }
+                  if (line.get(i) == "[") {
+                     inValue = true;
+                     i++;
+                     continue;
+                  }
+                  if (line.get(i) == "]") {
+                     inValue = false;
+                     i++;
+                     currentDirective.Arguments.add(currentArgument);
+                     currentArgument = new PBRTArgument();
+                     continue;
+                  }
+                  if (inValue) {
+                     if (IsQuoted(line.get(i))) {
+                        currentArgument.Values.add(line.get(i).substring(1, line.get(i).length() - 2));
+                     } else {
+                        currentArgument.Values.add(line.get(i));
+                     }
+                     i++;
+                     continue;
+                  }
+               }
+
+               if (inValue) {
+                  currentDirective.Arguments.add(currentArgument);
+               }
+
+               currentDirectives.add(currentDirective);
             }
-            switch (next) {
-               case "LookAt": {
-                  parseLookAt(scanner);
-                  break;
-               }
-               case "Camera": {
-                  parseCamera(scanner);
-                  break;
-               }
-               case "Sampler": {
-                  parseSampler(scanner);
-                  break;
-               }
-               default: {
-                  Logger.Log(Logger.Level.Warning, "Skipping [" + next + "] during parse...");
-                  break;
-               }
-            }
-
          }
-
       } catch (FileNotFoundException e) {
          e.printStackTrace();
       }
@@ -258,6 +316,18 @@ public class PBRTImporter extends AbstractFileImporter<AbstractScene> {
 
       _abstractScene = new NaiveScene(_camera);
 
+   }
+
+   private boolean IsQuoted(String token) {
+      return (token.charAt(0) == '"' && token.charAt(token.length() - 1) == '"');
+   }
+
+   private boolean StartQuoted(String token) {
+      return (token.charAt(0) == '"' && token.charAt(token.length() - 1) != '"');
+   }
+
+   private boolean EndQuoted(String token) {
+      return (token.charAt(0) != '"' && token.charAt(token.length() - 1) == '"');
    }
 
    private void parseLookAt(Scanner scanner) {
