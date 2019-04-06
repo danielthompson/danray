@@ -133,20 +133,41 @@ public class PBRTImporter extends AbstractFileImporter<AbstractScene> {
                   if (allDirectives.contains(word)) {
                      // if this is a directive, then we move on to a new line
                      targetLineNumber++;
+                     tokens.get(targetLineNumber).add(word);
+                     continue;
                   }
 
                   // split brackets, if needed
                   if (word.length() > 1) {
                      int lastIndex = word.length() - 1;
 
-                     if (word.charAt(0) == '[') {
+                     if (StartBracketed(word)) {
                         tokens.get(targetLineNumber).add("[");
                         tokens.get(targetLineNumber).add(word.substring(1, lastIndex));
                      }
-                     else if (word.charAt(lastIndex) == ']') {
-                        tokens.get(targetLineNumber).add(word.substring(0, lastIndex - 1));
+                     else if (EndBracketed(word)) {
+                        tokens.get(targetLineNumber).add(word.substring(0, lastIndex));
                         tokens.get(targetLineNumber).add("]");
                      }
+                     else if (IsBracketed(word)) {
+                        tokens.get(targetLineNumber).add("[");
+                        tokens.get(targetLineNumber).add(word.substring(1, lastIndex));
+                        tokens.get(targetLineNumber).add("]");
+                     }
+                     else if (StartQuoted(word)) {
+                        tokens.get(targetLineNumber).add("\"");
+                        tokens.get(targetLineNumber).add(word.substring(1));
+                     }
+                     else if (EndQuoted(word)) {
+                        tokens.get(targetLineNumber).add(word.substring(0, lastIndex));
+                        tokens.get(targetLineNumber).add("\"");
+                     }
+                     else if (IsQuoted(word)) {
+                        tokens.get(targetLineNumber).add("\"");
+                        tokens.get(targetLineNumber).add(word.substring(1, lastIndex));
+                        tokens.get(targetLineNumber).add("\"");
+                     }
+
                      else {
                         tokens.get(targetLineNumber).add(word);
                      }
@@ -320,6 +341,18 @@ public class PBRTImporter extends AbstractFileImporter<AbstractScene> {
 
       _abstractScene = new NaiveScene(_camera);
 
+   }
+
+   private boolean IsBracketed(String token) {
+      return (token.charAt(0) == '[' && token.charAt(token.length() - 1) == ']');
+   }
+
+   private boolean StartBracketed(String token) {
+      return (token.charAt(0) == '[' && token.charAt(token.length() - 1) != ']');
+   }
+
+   private boolean EndBracketed(String token) {
+      return (token.charAt(0) != '[' && token.charAt(token.length() - 1) == ']');
    }
 
    private boolean IsQuoted(String token) {
