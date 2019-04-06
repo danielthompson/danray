@@ -3,10 +3,9 @@ package net.danielthompson.danray.imports.pbrt;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PBRTArgument {
-   public String Type;
+public class PBRTArgument<T> {
    public String Name;
-   public List<String> Values = new ArrayList<>();
+   public List<T> Values = new ArrayList<>();
 
    @Override
    public String toString() {

@@ -1,25 +1,25 @@
 package net.danielthompson.danray.imports.pbrt;
 
 public class Constants {
-   public static String Accelerator = "Accelerator";
-   public static String AreaLightSource = "AreaLightSource";
-   public static String AttributeBegin = "AttributeBegin";
-   public static String AttributeEnd = "AttributeEnd";
-   public static String Camera = "Camera";
-   public static String Film = "Film";
-   public static String Integrator = "Integrator";
-   public static String LightSource = "LightSource";
-   public static String LookAt = "LookAt";
-   public static String MakeNamedMaterial = "MakeNamedMaterial";
-   public static String Material = "Material";
-   public static String NamedMaterial = "NamedMaterial";
-   public static String PixelFilter = "PixelFilter";
-   public static String Sampler = "Sampler";
-   public static String Shape = "Shape";
-   public static String Texture = "Texture";
-   public static String TransformBegin = "TransformBegin";
-   public static String TransformEnd = "TransformEnd";
-   public static String Translate = "Translate";
-   public static String WorldBegin = "WorldBegin";
-   public static String WorldEnd = "WorldEnd";
+   public static final String Accelerator = "Accelerator";
+   public static final String AreaLightSource = "AreaLightSource";
+   public static final String AttributeBegin = "AttributeBegin";
+   public static final String AttributeEnd = "AttributeEnd";
+   public static final String Camera = "Camera";
+   public static final String Film = "Film";
+   public static final String Integrator = "Integrator";
+   public static final String LightSource = "LightSource";
+   public static final String LookAt = "LookAt"; // done
+   public static final String MakeNamedMaterial = "MakeNamedMaterial";
+   public static final String Material = "Material";
+   public static final String NamedMaterial = "NamedMaterial";
+   public static final String PixelFilter = "PixelFilter";
+   public static final String Sampler = "Sampler";
+   public static final String Shape = "Shape";
+   public static final String Texture = "Texture";
+   public static final String TransformBegin = "TransformBegin";
+   public static final String TransformEnd = "TransformEnd";
+   public static final String Translate = "Translate";
+   public static final String WorldBegin = "WorldBegin"; // done
+   public static final String WorldEnd = "WorldEnd";
 }

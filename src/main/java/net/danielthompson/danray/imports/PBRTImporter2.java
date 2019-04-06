@@ -224,7 +224,7 @@ public class PBRTImporter2 extends AbstractFileImporter<AbstractScene> {
                else {
                   currentDirective.Arguments = new ArrayList<>();
                   PBRTArgument argument = new PBRTArgument();
-                  argument.Type = "float";
+                  //argument.Type = "float";
                   argument.Values = new ArrayList<>();
 
                   for (int i = 1; i < line.size(); i++) {
@@ -248,7 +248,7 @@ public class PBRTImporter2 extends AbstractFileImporter<AbstractScene> {
                while (i < line.size()) {
                   if (StartQuoted(line.get(i)) && EndQuoted(line.get(i + 1))) {
                      // we're in an argument
-                     currentArgument.Type = line.get(i).substring(1, line.get(i).length()/* - 1*/);
+                     //currentArgument.Type = line.get(i).substring(1, line.get(i).length()/* - 1*/);
                      currentArgument.Name = line.get(i + 1).substring(0, line.get(i + 1).length() - 1);
                      inValue = true;
                      i += 2;

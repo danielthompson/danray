@@ -209,8 +209,52 @@ public class PBRTImporter extends AbstractFileImporter<AbstractScene> {
 
                currentDirective.Name = line.get(0);
 
+               switch (currentDirective.Name) {
+                  case Constants.WorldBegin: {
+                     currentDirectives = worldDirectives;
+                     continue;
+                  }
+                  case Constants.LookAt: {
+                     currentDirective.Arguments = new ArrayList<>();
+                     PBRTArgument argument = new PBRTArgument<Float>();
+                     argument.Values = new ArrayList<>();
+
+                     for (int i = 1; i < line.size(); i++) {
+                        argument.Values.add(Float.parseFloat(line.get(i)));
+                     }
+
+                     currentDirective.Arguments.add(argument);
+                     currentDirectives.add(currentDirective);
+                     continue;
+                  }
+                  case Constants.Camera: {
+                     if (!line.get(1).equals("\"")) {
+                        Logger.Log(Logger.Level.Error, "Failed to parse starting quote around Camera identifier.");
+                        return null;
+                     }
+
+                     String identifier = line.get(2);
+                     if (identifier.equals("perspective")) {
+                        currentDirective.Identifier = "perspective";
+                     }
+                     else {
+                        Logger.Log(Logger.Level.Warning, "Parsed " + identifier + " for camera identifier, but using perspective instead.");
+                     }
+
+                     if (!line.get(3).equals("\"")) {
+                        Logger.Log(Logger.Level.Error, "Failed to parse ending quote around Camera identifier.");
+                        return null;
+                     }
+
+
+
+                     break;
+                  }
+
+               }
+
                if (currentDirective.Name.equals(Constants.WorldBegin))
-                  currentDirectives = worldDirectives;
+
 
                if (line.size() == 1) {
                   currentDirectives.add(currentDirective);
@@ -222,24 +266,6 @@ public class PBRTImporter extends AbstractFileImporter<AbstractScene> {
                }
 
                String line1 = line.get(1);
-
-               if (IsQuoted(line1)) {
-                  currentDirective.Identifier = line1.substring(1, line1.length() - 1);
-               }
-               else {
-                  currentDirective.Arguments = new ArrayList<>();
-                  PBRTArgument argument = new PBRTArgument();
-                  argument.Type = "float";
-                  argument.Values = new ArrayList<>();
-
-                  for (int i = 1; i < line.size(); i++) {
-                     argument.Values.add(line.get(i));
-                  }
-
-                  currentDirective.Arguments.add(argument);
-                  currentDirectives.add(currentDirective);
-                  continue;
-               }
 
                if (line.size() == 2) {
                   currentDirectives.add(currentDirective);
@@ -253,7 +279,7 @@ public class PBRTImporter extends AbstractFileImporter<AbstractScene> {
                while (i < line.size()) {
                   if (StartQuoted(line.get(i)) && EndQuoted(line.get(i + 1))) {
                      // we're in an argument
-                     currentArgument.Type = line.get(i).substring(1, line.get(i).length()/* - 1*/);
+                     //currentArgument.Type = line.get(i).substring(1, line.get(i).length()/* - 1*/);
                      currentArgument.Name = line.get(i + 1).substring(0, line.get(i + 1).length() - 1);
                      inValue = true;
                      i += 2;

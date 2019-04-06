@@ -26,6 +26,13 @@ public class PBRTImporterTests {
    }
 
    @Test
+   public void testImportExample() throws Exception {
+      File file = new File("src/test/resources/pbrt-scenes/example.pbrt");
+      PBRTImporter importer = new PBRTImporter(file);
+      AbstractScene scene = importer.Process();
+   }
+
+   @Test
    public void testImportBrackets() throws Exception {
       File file = new File("src/test/resources/pbrt-scenes/brackets1.pbrt");
       PBRTImporter importer = new PBRTImporter(file);
