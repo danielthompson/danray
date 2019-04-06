@@ -7,4 +7,9 @@ public class PBRTArgument {
    public String Type;
    public String Name;
    public List<String> Values = new ArrayList<>();
+
+   @Override
+   public String toString() {
+      return Name;
+   }
 }

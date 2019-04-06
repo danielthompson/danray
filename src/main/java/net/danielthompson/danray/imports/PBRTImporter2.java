@@ -13,17 +13,15 @@ import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Transform;
 import net.danielthompson.danray.structures.Vector;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 
-public class PBRTImporter extends AbstractFileImporter<AbstractScene> {
+public class PBRTImporter2 extends AbstractFileImporter<AbstractScene> {
 
-   public PBRTImporter(File file) {
+   public PBRTImporter2(File file) {
       super(file);
    }
 
@@ -104,6 +102,28 @@ public class PBRTImporter extends AbstractFileImporter<AbstractScene> {
 
    @Override
    public AbstractScene Process() {
+
+      try {
+         FileReader reader = new FileReader(file);
+         while (true) {
+            int result = reader.read();
+            if (result == -1)
+               break;
+            char input = (char)result;
+
+            switch (input) {
+               case ('L'): {
+
+               }
+
+            }
+         }
+      }
+      catch (IOException e) {
+         e.printStackTrace();
+      }
+
+
 
       try {
 
@@ -194,10 +214,6 @@ public class PBRTImporter extends AbstractFileImporter<AbstractScene> {
                if (line.size() == 1) {
                   currentDirectives.add(currentDirective);
                   continue;
-               }
-
-               if (currentDirective.Name.equals(Constants.Film)) {
-                  int i = 0;
                }
 
                String line1 = line.get(1);
