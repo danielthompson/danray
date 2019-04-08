@@ -5,10 +5,11 @@ import net.danielthompson.danray.cameras.Camera;
 import net.danielthompson.danray.cameras.CameraSettings;
 import net.danielthompson.danray.cameras.PerspectiveCamera;
 import net.danielthompson.danray.imports.pbrt.Constants;
-import net.danielthompson.danray.imports.pbrt.PBRTArgument;
 import net.danielthompson.danray.imports.pbrt.PBRTDirective;
+import net.danielthompson.danray.imports.pbrt.directives.*;
 import net.danielthompson.danray.scenes.AbstractScene;
 import net.danielthompson.danray.scenes.NaiveScene;
+import net.danielthompson.danray.structures.Pair;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Transform;
 import net.danielthompson.danray.structures.Vector;
@@ -16,15 +17,14 @@ import net.danielthompson.danray.structures.Vector;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 
 public class PBRTImporter extends AbstractFileImporter<AbstractScene> {
 
    public PBRTImporter(File file) {
       super(file);
+      _currentTransformationMatrix = Transform.identity;
    }
 
    private Transform _currentTransformationMatrix;
@@ -32,303 +32,227 @@ public class PBRTImporter extends AbstractFileImporter<AbstractScene> {
    private CameraSettings _cameraSettings;
    private AbstractScene _abstractScene;
 
-   List<String> allDirectives = Arrays.asList(
-         Constants.Accelerator,
-         Constants.AreaLightSource,
-         Constants.AttributeBegin,
-         Constants.AttributeEnd,
-         Constants.Camera,
-         Constants.Film,
-         Constants.Integrator,
-         Constants.LightSource,
-         Constants.LookAt,
-         Constants.MakeNamedMaterial,
-         Constants.Material,
-         Constants.NamedMaterial,
-         Constants.PixelFilter,
-         Constants.Sampler,
-         Constants.Shape,
-         Constants.Texture,
-         Constants.TransformBegin,
-         Constants.TransformEnd,
-         Constants.Translate,
-         Constants.WorldBegin,
-         Constants.WorldEnd
-   );
-
-   List<String> sceneWideDirectives = Arrays.asList(
-         Constants.Accelerator,
-         //Constants.AreaLightSource,
-         //Constants.AttributeBegin,
-         //Constants.AttributeEnd,
-         Constants.Camera,
-         Constants.Film,
-         Constants.Integrator,
-         Constants.LookAt,
-         Constants.MakeNamedMaterial,
-         //Constants.NamedMaterial,
-         Constants.PixelFilter,
-         Constants.Sampler,
-         //Constants.Shape,
-         Constants.Texture,
-         Constants.TransformBegin,
-         Constants.TransformEnd,
-         Constants.Translate
-         //Constants.WorldBegin,
-         //Constants.WorldEnd
-   );
-
-   List<String> worldDirectives = Arrays.asList(
-         //Constants.Accelerator,
-         Constants.AreaLightSource,
-         Constants.AttributeBegin,
-         Constants.AttributeEnd,
-         //Constants.Camera,
-         //Constants.Film,
-         //Constants.Integrator,
-         Constants.LightSource,
-         Constants.LookAt,
-         Constants.MakeNamedMaterial,
-         Constants.Material,
-         Constants.NamedMaterial,
-         //Constants.PixelFilter,
-         //Constants.Sampler,
-         Constants.Shape,
-         Constants.Texture,
-         Constants.TransformBegin,
-         Constants.TransformEnd,
-         Constants.Translate
-         //Constants.WorldBegin,
-         //Constants.WorldEnd
-   );
-
    @Override
    public AbstractScene Process() {
+      List<List<String>> tokens = Lex();
+      Pair<List<PBRTDirective>, List<PBRTDirective>> parsedDirectives = Parse(tokens);
 
+      List<PBRTDirective> worldDirectives = parsedDirectives.Item1;
+      List<PBRTDirective> sceneDirectives = parsedDirectives.Item2;
+
+      Camera camera;
+
+      for (PBRTDirective directive : sceneDirectives) {
+         switch (directive.Identifier) {
+            case Constants.LookAt: {
+               Transform transform = ((LookAtDirective)directive).Parse();
+               _currentTransformationMatrix.Apply(transform);
+               break;
+            }
+            case Constants.Camera: {
+               CameraDirective cameraDirective = (CameraDirective)directive;
+               //camera = cameraDirective.Parse();
+               break;
+            }
+         }
+      }
+
+      return null;
+   }
+
+   public List<List<String>> Lex(String s) {
+      Scanner scanner = new Scanner(s);
+      return Lex(scanner);
+   }
+
+   public List<List<String>> Lex() {
+      Scanner scanner = null;
       try {
+         scanner = new Scanner(file);
+         return Lex(scanner);
+      }
+      catch (FileNotFoundException e) {
+         e.printStackTrace();
+         throw new RuntimeException();
+      }
+   }
 
-         List<List<String>> tokens = new ArrayList<>();
+   public List<List<String>> Lex(Scanner scanner) {
 
-         Scanner scanner = new Scanner(file);
-         // scan
-         if (scanner.hasNext())
+      List<List<String>> tokens = new ArrayList<>();
+
+      // scan
+      if (scanner.hasNext())
+      {
+         int sourceLineNumber = 0;
+         int targetLineNumber = -1;
+         String line;
+         while (scanner.hasNextLine())
          {
-            int sourceLineNumber = 0;
-            int targetLineNumber = -1;
-            String line;
-            while (scanner.hasNextLine())
+            line = scanner.nextLine();
+            tokens.add(new ArrayList<>());
+            String word;
+
+            Scanner wordScanner = new Scanner(line);
+            while (wordScanner.hasNext())
             {
-               line = scanner.nextLine();
-               tokens.add(new ArrayList<>());
-               String word;
+               word = wordScanner.next();
+               // strip out comments
+               if (word.startsWith("#"))
+                  break;
 
-               Scanner wordScanner = new Scanner(line);
-               while (wordScanner.hasNext())
-               {
-                  word = wordScanner.next();
-                  // strip out comments
-                  if (word.startsWith("#"))
-                     break;
+               if (Constants.AllDirectives.contains(word)) {
+                  // if this is a directive, then we move on to a new line
+                  targetLineNumber++;
+                  tokens.get(targetLineNumber).add(word);
+                  continue;
+               }
 
-                  if (allDirectives.contains(word)) {
-                     // if this is a directive, then we move on to a new line
-                     targetLineNumber++;
-                     tokens.get(targetLineNumber).add(word);
-                     continue;
+               // split brackets, if needed
+               if (word.length() > 1) {
+                  int lastIndex = word.length() - 1;
+
+                  if (StartBracketed(word)) {
+                     tokens.get(targetLineNumber).add("[");
+                     tokens.get(targetLineNumber).add(word.substring(1, lastIndex));
+                  }
+                  else if (EndBracketed(word)) {
+                     tokens.get(targetLineNumber).add(word.substring(0, lastIndex));
+                     tokens.get(targetLineNumber).add("]");
+                  }
+                  else if (IsBracketed(word)) {
+                     tokens.get(targetLineNumber).add("[");
+                     tokens.get(targetLineNumber).add(word.substring(1, lastIndex));
+                     tokens.get(targetLineNumber).add("]");
+                  }
+                  else if (StartQuoted(word)) {
+                     tokens.get(targetLineNumber).add("\"");
+                     tokens.get(targetLineNumber).add(word.substring(1));
+                  }
+                  else if (EndQuoted(word)) {
+                     tokens.get(targetLineNumber).add(word.substring(0, lastIndex));
+                     tokens.get(targetLineNumber).add("\"");
+                  }
+                  else if (IsQuoted(word)) {
+                     tokens.get(targetLineNumber).add("\"");
+                     tokens.get(targetLineNumber).add(word.substring(1, lastIndex));
+                     tokens.get(targetLineNumber).add("\"");
                   }
 
-                  // split brackets, if needed
-                  if (word.length() > 1) {
-                     int lastIndex = word.length() - 1;
-
-                     if (StartBracketed(word)) {
-                        tokens.get(targetLineNumber).add("[");
-                        tokens.get(targetLineNumber).add(word.substring(1, lastIndex));
-                     }
-                     else if (EndBracketed(word)) {
-                        tokens.get(targetLineNumber).add(word.substring(0, lastIndex));
-                        tokens.get(targetLineNumber).add("]");
-                     }
-                     else if (IsBracketed(word)) {
-                        tokens.get(targetLineNumber).add("[");
-                        tokens.get(targetLineNumber).add(word.substring(1, lastIndex));
-                        tokens.get(targetLineNumber).add("]");
-                     }
-                     else if (StartQuoted(word)) {
-                        tokens.get(targetLineNumber).add("\"");
-                        tokens.get(targetLineNumber).add(word.substring(1));
-                     }
-                     else if (EndQuoted(word)) {
-                        tokens.get(targetLineNumber).add(word.substring(0, lastIndex));
-                        tokens.get(targetLineNumber).add("\"");
-                     }
-                     else if (IsQuoted(word)) {
-                        tokens.get(targetLineNumber).add("\"");
-                        tokens.get(targetLineNumber).add(word.substring(1, lastIndex));
-                        tokens.get(targetLineNumber).add("\"");
-                     }
-
-                     else {
-                        tokens.get(targetLineNumber).add(word);
-                     }
-                  }
                   else {
                      tokens.get(targetLineNumber).add(word);
                   }
-
                }
-
-               int lastIndex = tokens.size()- 1;
-
-               if (tokens.get(lastIndex).size() == 0)
-                  tokens.remove(lastIndex);
-
-               sourceLineNumber++;
+               else {
+                  tokens.get(targetLineNumber).add(word);
+               }
 
             }
 
+            int lastIndex = tokens.size()- 1;
+
+            if (tokens.get(lastIndex).size() == 0)
+               tokens.remove(lastIndex);
+
+            sourceLineNumber++;
+
          }
-         else {
-            Logger.Log(Logger.Level.Error, "Input file " + file.getAbsolutePath() + " had no content, aborting.");
-            throw new RuntimeException();
-         }
 
-         // parse
-
-         List<PBRTDirective> sceneDirectives = new ArrayList<>();
-         List<PBRTDirective> worldDirectives = new ArrayList<>();
-
-         {
-            List<PBRTDirective> currentDirectives = sceneDirectives;
-
-            for (List<String> line : tokens) {
-               PBRTDirective currentDirective = new PBRTDirective();
-
-               if (line.size() == 0)
-                  continue;
-
-               currentDirective.Name = line.get(0);
-
-               switch (currentDirective.Name) {
-                  case Constants.WorldBegin: {
-                     currentDirectives = worldDirectives;
-                     continue;
-                  }
-                  case Constants.LookAt: {
-                     currentDirective.Arguments = new ArrayList<>();
-                     PBRTArgument argument = new PBRTArgument<Float>();
-                     argument.Values = new ArrayList<>();
-
-                     for (int i = 1; i < line.size(); i++) {
-                        argument.Values.add(Float.parseFloat(line.get(i)));
-                     }
-
-                     currentDirective.Arguments.add(argument);
-                     currentDirectives.add(currentDirective);
-                     continue;
-                  }
-                  case Constants.Camera: {
-                     if (!line.get(1).equals("\"")) {
-                        Logger.Log(Logger.Level.Error, "Failed to parse starting quote around Camera identifier.");
-                        return null;
-                     }
-
-                     String identifier = line.get(2);
-                     if (identifier.equals("perspective")) {
-                        currentDirective.Identifier = "perspective";
-                     }
-                     else {
-                        Logger.Log(Logger.Level.Warning, "Parsed " + identifier + " for camera identifier, but using perspective instead.");
-                     }
-
-                     if (!line.get(3).equals("\"")) {
-                        Logger.Log(Logger.Level.Error, "Failed to parse ending quote around Camera identifier.");
-                        return null;
-                     }
-
-
-
-                     break;
-                  }
-
-               }
-
-               if (currentDirective.Name.equals(Constants.WorldBegin))
-
-
-               if (line.size() == 1) {
-                  currentDirectives.add(currentDirective);
-                  continue;
-               }
-
-               if (currentDirective.Name.equals(Constants.Film)) {
-                  int i = 0;
-               }
-
-               String line1 = line.get(1);
-
-               if (line.size() == 2) {
-                  currentDirectives.add(currentDirective);
-                  continue;
-               }
-
-               currentDirective.Arguments = new ArrayList<>();
-               PBRTArgument currentArgument = new PBRTArgument();
-               boolean inValue = false;
-               int i = 2;
-               while (i < line.size()) {
-                  if (StartQuoted(line.get(i)) && EndQuoted(line.get(i + 1))) {
-                     // we're in an argument
-                     //currentArgument.Type = line.get(i).substring(1, line.get(i).length()/* - 1*/);
-                     currentArgument.Name = line.get(i + 1).substring(0, line.get(i + 1).length() - 1);
-                     inValue = true;
-                     i += 2;
-                     continue;
-                  }
-                  if (line.get(i) == "[") {
-                     inValue = true;
-                     i++;
-                     continue;
-                  }
-                  if (line.get(i) == "]") {
-                     inValue = false;
-                     i++;
-                     currentDirective.Arguments.add(currentArgument);
-                     currentArgument = new PBRTArgument();
-                     continue;
-                  }
-                  if (inValue) {
-                     if (IsQuoted(line.get(i))) {
-                        currentArgument.Values.add(line.get(i).substring(1, line.get(i).length() - 2));
-                     } else {
-                        currentArgument.Values.add(line.get(i));
-                     }
-                     i++;
-                     continue;
-                  }
-               }
-
-               if (inValue) {
-                  currentDirective.Arguments.add(currentArgument);
-               }
-
-               currentDirectives.add(currentDirective);
-            }
-         }
-      } catch (FileNotFoundException e) {
-         e.printStackTrace();
+      }
+      else {
+         Logger.Log(Logger.Level.Error, "Input file " + file.getAbsolutePath() + " had no content, aborting.");
+         throw new RuntimeException();
       }
 
-      return _abstractScene;
+      return tokens;
    }
 
-   private void parseSampler(Scanner scanner) {
-      String implementation = scanner.next().toLowerCase();
-      switch (implementation) {
-         case "\"halton\"": {
+   public Pair<List<PBRTDirective>, List<PBRTDirective>> Parse(List<List<String>> tokens) {
+      List<PBRTDirective> sceneDirectives = new ArrayList<>();
+      List<PBRTDirective> worldDirectives = new ArrayList<>();
+      List<PBRTDirective> currentDirectives = sceneDirectives;
 
+      for (List<String> line : tokens) {
+
+         if (line.size() == 0)
+            continue;
+
+         String directiveName = line.get(0);
+
+         PBRTDirective directive = null;
+
+         switch (directiveName) {
+            case Constants.AttributeBegin: {
+               directive = new AttributeBeginDirective();
+               break;
+            }
+            case Constants.AttributeEnd: {
+               directive = new AttributeEndDirective();
+               break;
+            }
+            case Constants.Camera: {
+               directive = new CameraDirective(line);
+               break;
+            }
+            case Constants.Film: {
+               directive = new FilmDirective(line);
+               break;
+            }
+            case Constants.Integrator: {
+               directive = new IntegratorDirective(line);
+               break;
+            }
+            case Constants.LightSource: {
+               directive = new LightSourceDirective(line);
+               break;
+            }
+            case Constants.LookAt: {
+               directive = new LookAtDirective(line);
+               break;
+            }
+            case Constants.Material: {
+               directive = new MaterialDirective(line);
+               break;
+            }
+            case Constants.Sampler: {
+               directive = new SamplerDirective(line);
+               break;
+            }
+            case Constants.Shape: {
+               directive = new ShapeDirective(line);
+               break;
+            }
+            case Constants.Texture: {
+               directive = new TextureDirective(line);
+               break;
+            }
+            case Constants.Translate: {
+               directive = new TranslateDirective(line);
+               break;
+            }
+            case Constants.WorldBegin: {
+               currentDirectives = worldDirectives;
+               break;
+            }
+            case Constants.WorldEnd: {
+               currentDirectives = null;
+               break;
+            }
+            default: {
+               Logger.Log(Logger.Level.Error, "Found unknown directive during parsing: " + directiveName);
+               throw new RuntimeException();
+            }
          }
+
+         if (currentDirectives != null)
+            currentDirectives.add(directive);
       }
+
+      Pair<List<PBRTDirective>, List<PBRTDirective>> returnValues = new Pair<>();
+      returnValues.Item1 = worldDirectives;
+      returnValues.Item2 = sceneDirectives;
+
+      return returnValues;
    }
 
    private void parseCamera(Scanner scanner) {
