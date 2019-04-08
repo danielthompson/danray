@@ -1,6 +1,7 @@
 package net.danielthompson.danray.imports.pbrt.directives;
 
 import net.danielthompson.danray.imports.pbrt.Constants;
+import net.danielthompson.danray.imports.pbrt.PBRTArgument;
 import net.danielthompson.danray.imports.pbrt.PBRTDirective;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Transform;
@@ -10,26 +11,28 @@ import java.util.List;
 
 public class LookAtDirective extends PBRTDirective {
 
+   PBRTArgument<Float> Argument;
+
    public LookAtDirective(List<String> tokens) {
       super(tokens);
       this.Identifier = Constants.LookAt;
+
+      Argument = new PBRTArgument<>();
+
+      if (tokens.size() != 10) {
+         throw new RuntimeException("LookAt directive should have exactly 10 tokens");
+      }
+
+      for (int i = 1; i <= 9; i++) {
+         float value = parseFloat(Words.get(i));
+         Argument.Values.add(value);
+      }
    }
 
    public Transform Parse() {
-      float ex = Float.parseFloat(Words.get(1));
-      float ey = Float.parseFloat(Words.get(2));
-      float ez = Float.parseFloat(Words.get(3));
-      float lx = Float.parseFloat(Words.get(4));
-      float ly = Float.parseFloat(Words.get(5));
-      float lz = Float.parseFloat(Words.get(6));
-      float ux = Float.parseFloat(Words.get(7));
-      float uy = Float.parseFloat(Words.get(8));
-      float uz = Float.parseFloat(Words.get(9));
-
-      Point eye = new Point(ex, ey, ez);
-      Point lookAt = new Point(lx, ly, lz);
-      Vector up = new Vector(ux, uy, uz);
-
+      Point eye =    new Point(Argument.Values.get(0), Argument.Values.get(1), Argument.Values.get(2));
+      Point lookAt = new Point(Argument.Values.get(3), Argument.Values.get(4), Argument.Values.get(5));
+      Vector up =    new Vector(Argument.Values.get(6), Argument.Values.get(7), Argument.Values.get(8));
       return Transform.LookAt(eye, lookAt, up);
    }
 }

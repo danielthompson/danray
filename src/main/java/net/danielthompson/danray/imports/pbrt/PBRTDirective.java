@@ -1,5 +1,7 @@
 package net.danielthompson.danray.imports.pbrt;
 
+import net.danielthompson.danray.Logger;
+
 import java.util.List;
 
 public abstract class PBRTDirective {
@@ -18,4 +20,15 @@ public abstract class PBRTDirective {
    }
 
    public List<PBRTArgument> Arguments;
+
+   protected float parseFloat(String s) {
+      try {
+         float value = Float.parseFloat(s);
+         return value;
+      }
+      catch (NumberFormatException e) {
+         Logger.Log(Logger.Level.Error, "Couldn't parse a float from [" + s + "]");
+         throw e;
+      }
+   }
 }
