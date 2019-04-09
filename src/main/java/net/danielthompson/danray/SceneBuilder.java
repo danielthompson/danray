@@ -369,7 +369,7 @@ public class SceneBuilder {
 
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.WHITE);
       material.CheckerboardTexture = new CheckerboardTexture();
-      material.CheckerboardTexture.Size = 1.0f;
+      material.CheckerboardTexture.Size = 16;
       material.CheckerboardTexture.Even = new ReflectanceSpectrum(Color.white);
       material.CheckerboardTexture.Odd = new ReflectanceSpectrum(Color.GRAY);
 
@@ -378,12 +378,12 @@ public class SceneBuilder {
             Transform.RotateX(45f),
             Transform.RotateY(45f),
             Transform.Scale(50f),
-            Transform.Translate(new Vector(-0.5f, -0.5f, -0.5f))
+            //Transform.Translate(new Vector(-0.5f, -0.5f, -0.5f))
       };
       compositeTransforms = Transform.composite(inputTransforms);
 
-      scene.addShape(new Box(compositeTransforms, material));
-
+//      scene.addShape(new Box(compositeTransforms, material));
+      scene.addShape(new Sphere(compositeTransforms, material));
 
       // right ball
 

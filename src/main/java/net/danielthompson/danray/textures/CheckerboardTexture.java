@@ -3,7 +3,7 @@ package net.danielthompson.danray.textures;
 import net.danielthompson.danray.shading.ReflectanceSpectrum;
 
 public class CheckerboardTexture {
-   public float Size = 1.0f;
+   public int Size = 1;
    public ReflectanceSpectrum Odd;
    public ReflectanceSpectrum Even;
 }
