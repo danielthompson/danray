@@ -94,15 +94,15 @@ public class Box extends AbstractShape {
          intersection.Shape = this;
          intersection.Location = objectSpaceRay.GetPointAtT(intersection.t);
 
-         if (intersection.Location.X == 0 || intersection.Location.X == 1) {
+         if (Constants.WithinEpsilon(intersection.Location.X, 0) || Constants.WithinEpsilon(intersection.Location.X, 1)) {
             intersection.u = intersection.Location.Y;
             intersection.v = intersection.Location.Z;
          }
-         else if (intersection.Location.Y == 0 || intersection.Location.Y == 1) {
+         else if (Constants.WithinEpsilon(intersection.Location.Y, 0) || Constants.WithinEpsilon(intersection.Location.Y, 1)) {
             intersection.u = intersection.Location.Z;
             intersection.v = intersection.Location.X;
          }
-         else if (intersection.Location.Z == 0 || intersection.Location.Z == 1) {
+         else if (Constants.WithinEpsilon(intersection.Location.Z, 0) || Constants.WithinEpsilon(intersection.Location.Z, 1)) {
             intersection.u = intersection.Location.X;
             intersection.v = intersection.Location.Y;
          }

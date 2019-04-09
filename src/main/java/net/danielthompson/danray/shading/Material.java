@@ -4,6 +4,7 @@ import net.danielthompson.danray.shading.bxdf.BRDF;
 import net.danielthompson.danray.shading.bxdf.BTDF;
 import net.danielthompson.danray.shading.bxdf.BxDF;
 import net.danielthompson.danray.shading.bxdf.subsurface.SubsurfaceScatteringFunction;
+import net.danielthompson.danray.textures.AbstractTexture;
 import net.danielthompson.danray.textures.CheckerboardTexture;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class Material {
 
    public ReflectanceSpectrum ReflectanceSpectrum;
 
-   public CheckerboardTexture CheckerboardTexture;
+   public AbstractTexture Texture;
 
    public SubsurfaceScatteringFunction BSSRDF;
    public float BSSRDFweight = 1.0f;

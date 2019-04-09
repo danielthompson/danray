@@ -368,11 +368,14 @@ public class SceneBuilder {
       material.Weights.add(1.0f);
 
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.WHITE);
-      material.CheckerboardTexture = new CheckerboardTexture();
-      material.CheckerboardTexture.UScale = 3;
-      material.CheckerboardTexture.VScale = 4;
-      material.CheckerboardTexture.Even = new ReflectanceSpectrum(Color.white);
-      material.CheckerboardTexture.Odd = new ReflectanceSpectrum(Color.GRAY);
+
+      CheckerboardTexture texture = new CheckerboardTexture();
+      texture.UScale = 4;
+      texture.VScale = 4;
+      texture.Even = new ReflectanceSpectrum(Color.white);
+      texture.Odd = new ReflectanceSpectrum(Color.GRAY);
+
+      material.Texture = texture;
 
       inputTransforms = new Transform[]{
             Transform.Translate(new Vector(0, 0f, 0f)),
@@ -384,7 +387,7 @@ public class SceneBuilder {
       compositeTransforms = Transform.composite(inputTransforms);
 
 //      scene.addShape(new Box(compositeTransforms, material));
-      scene.addShape(new Sphere(compositeTransforms, material));
+      //scene.addShape(new Sphere(compositeTransforms, material));
 
       // right ball
 
@@ -393,8 +396,9 @@ public class SceneBuilder {
 //      material.BxDFs.add(SpecularBTDF);
 //      material.Weights.add(0.75f);
       material.BxDFs.add(LambertianBRDF);
-      material.Weights.add(1f);
+      material.Weights.add(2f);
       material.IndexOfRefraction = 1.52f;
+      material.Texture = texture;
 
 //      material.BSSRDF = new SubsurfaceScatteringFunction(
 //            .1f,
@@ -411,7 +415,7 @@ public class SceneBuilder {
 
       compositeTransforms = Transform.composite(inputTransforms);
 
-      //scene.addShape(new Sphere(compositeTransforms, material));
+      scene.addShape(new Sphere(compositeTransforms, material));
 
       // left ball
 
@@ -431,7 +435,7 @@ public class SceneBuilder {
 
       compositeTransforms = Transform.composite(inputTransforms);
 
-      //scene.addShape(new Sphere(compositeTransforms, material));
+      scene.addShape(new Sphere(compositeTransforms, material));
 
       // bottom box
 
@@ -442,19 +446,23 @@ public class SceneBuilder {
       material.Weights.add(1.0f);
 
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.WHITE);
-      material.CheckerboardTexture = new CheckerboardTexture();
-      material.CheckerboardTexture.Even = new ReflectanceSpectrum(Color.white);
-      material.CheckerboardTexture.Odd = new ReflectanceSpectrum(Color.GRAY);
+
+      texture = new CheckerboardTexture();
+      texture.UScale = 16;
+      texture.VScale = 16;
+      texture.Even = new ReflectanceSpectrum(Color.white);
+      texture.Odd = new ReflectanceSpectrum(Color.GRAY);
+      material.Texture = texture;
 
       inputTransforms = new Transform[]{
             Transform.Translate(new Vector(0, -52f, 0f)),
-            //Transform.RotateX(10f),
+            Transform.RotateY(45f),
             Transform.Scale(1000f, 1f, 1000f),
             Transform.Translate(new Vector(-0.5f, -0.5f, -0.5f))
       };
       compositeTransforms = Transform.composite(inputTransforms);
 
-      //scene.addShape(new Box(compositeTransforms, material));
+      scene.addShape(new Box(compositeTransforms, material));
 
       // white light
 
@@ -489,9 +497,9 @@ public class SceneBuilder {
       //scene.Skybox = new HalfGradientSkybox(Solarized.Base02, Color.WHITE);
       List<Color> colors = new ArrayList<>();
 
-      //colors.add(new Color(190, 211, 226));
       colors.add(Firenze.Beige);
-      colors.add(new Color(81, 144, 213));
+      colors.add(new Color(190, 211, 226));
+      //colors.add(new Color(81, 144, 213));
       //colors.add(new Color(17, 49, 110));
 
       List<Float> locations = new ArrayList<>();

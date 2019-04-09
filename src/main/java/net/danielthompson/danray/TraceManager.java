@@ -422,7 +422,7 @@ public class TraceManager {
       }
       */
 
-      _tracerOptions.numThreads = 4;
+      //_tracerOptions.numThreads = 4;
 //
       if (_tracerOptions.numThreads <= 1) {
          runner.run();
