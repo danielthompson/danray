@@ -123,19 +123,10 @@ public class PathTraceIntegrator extends AbstractIntegrator {
 
             ReflectanceSpectrum reflectanceSpectrum = objectMaterial.ReflectanceSpectrum;
 
-
             // compute the interaction of the incoming SPD with the object's SRC
             if (objectMaterial.CheckerboardTexture != null) {
                // intersection must compute u and v!
-               CheckerboardTexture tex = objectMaterial.CheckerboardTexture;
-               int u = (int)(Math.floor(tex.Size * intersection.u)) % 2;
-               int v = (int)(Math.floor(tex.Size * intersection.v)) % 2;
-               if (u == v) {
-                  reflectanceSpectrum = tex.Even;
-               }
-               else {
-                  reflectanceSpectrum = tex.Odd;
-               }
+               reflectanceSpectrum = objectMaterial.CheckerboardTexture.Evaluate(intersection.u, intersection.v);
             }
             SpectralPowerDistribution filteredSPD = nextSPD.reflectOff(reflectanceSpectrum);
             filteredSPD.scale(weight);

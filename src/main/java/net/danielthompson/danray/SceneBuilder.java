@@ -369,7 +369,8 @@ public class SceneBuilder {
 
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.WHITE);
       material.CheckerboardTexture = new CheckerboardTexture();
-      material.CheckerboardTexture.Size = 16;
+      material.CheckerboardTexture.UScale = 3;
+      material.CheckerboardTexture.VScale = 4;
       material.CheckerboardTexture.Even = new ReflectanceSpectrum(Color.white);
       material.CheckerboardTexture.Odd = new ReflectanceSpectrum(Color.GRAY);
 
