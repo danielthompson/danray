@@ -42,6 +42,8 @@ public class PBRTImporter extends AbstractFileImporter<AbstractScene> {
 
       Camera camera;
 
+
+
       for (PBRTDirective directive : sceneDirectives) {
          switch (directive.Identifier) {
             case Constants.LookAt: {

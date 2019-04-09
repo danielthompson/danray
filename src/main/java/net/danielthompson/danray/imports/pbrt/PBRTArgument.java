@@ -5,7 +5,6 @@ import java.util.List;
 
 public class PBRTArgument<T> {
    public String Name;
-   public String Type;
    public List<T> Values = new ArrayList<>();
 
    @Override

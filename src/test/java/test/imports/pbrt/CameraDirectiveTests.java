@@ -1,6 +1,7 @@
 package test.imports.pbrt;
 
 import net.danielthompson.danray.imports.PBRTImporter;
+import net.danielthompson.danray.imports.pbrt.directives.CameraDirective;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -20,7 +21,7 @@ public class CameraDirectiveTests {
    }
 
    @Test
-   public void testImportExample() {
+   public void testImport1() {
       String s = "Camera \"perspective\" \"float fov\" 45";
 
       PBRTImporter importer = new PBRTImporter(null);
@@ -34,15 +35,47 @@ public class CameraDirectiveTests {
       Assert.assertNotNull(words);
       Assert.assertEquals(10, words.size());
 
-      Assert.assertEquals("LookAt", words.get(0));
-      Assert.assertEquals("3", words.get(1));
-      Assert.assertEquals("4", words.get(2));
-      Assert.assertEquals("1.5", words.get(3));
-      Assert.assertEquals(".5", words.get(4));
-      Assert.assertEquals(".5", words.get(5));
-      Assert.assertEquals("0", words.get(6));
-      Assert.assertEquals("0", words.get(7));
-      Assert.assertEquals("0", words.get(8));
-      Assert.assertEquals("1", words.get(9));
+      Assert.assertEquals("Camera", words.get(0));
+      Assert.assertEquals("\"", words.get(1));
+      Assert.assertEquals("perspective", words.get(2));
+      Assert.assertEquals("\"", words.get(3));
+      Assert.assertEquals("\"", words.get(4));
+      Assert.assertEquals("float", words.get(5));
+      Assert.assertEquals("fov", words.get(6));
+      Assert.assertEquals("\"", words.get(7));
+      Assert.assertEquals("45", words.get(8));
+   }
+
+   @Test
+   public void testImportSingleArgument() {
+      String s = "Camera \"perspective\" \"float fov\" 45";
+
+      PBRTImporter importer = new PBRTImporter(null);
+      List<List<String>> listOfWords = importer.Lex(s);
+
+      List<String> words = listOfWords.get(0);
+      CameraDirective directive = new CameraDirective(words);
+   }
+
+   @Test
+   public void testImportDuplicateArgument() {
+      String s = "Camera \"perspective\" \"float fov\" 45 \"float fov\" 45";
+
+      PBRTImporter importer = new PBRTImporter(null);
+      List<List<String>> listOfWords = importer.Lex(s);
+
+      List<String> words = listOfWords.get(0);
+      CameraDirective directive = new CameraDirective(words);
+   }
+
+   @Test
+   public void testImportMultiplesArgument() {
+      String s = "Camera \"perspective\" \"float fov\" 45 \"float fov\" 45";
+
+      PBRTImporter importer = new PBRTImporter(null);
+      List<List<String>> listOfWords = importer.Lex(s);
+
+      List<String> words = listOfWords.get(0);
+      CameraDirective directive = new CameraDirective(words);
    }
 }

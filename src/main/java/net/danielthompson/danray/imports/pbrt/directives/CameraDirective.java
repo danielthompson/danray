@@ -1,5 +1,7 @@
 package net.danielthompson.danray.imports.pbrt.directives;
 
+import net.danielthompson.danray.cameras.Camera;
+import net.danielthompson.danray.cameras.PerspectiveCamera;
 import net.danielthompson.danray.imports.pbrt.Constants;
 import net.danielthompson.danray.imports.pbrt.PBRTArgument;
 import net.danielthompson.danray.imports.pbrt.PBRTDirective;
@@ -9,20 +11,29 @@ import java.util.List;
 
 public class CameraDirective extends PBRTDirective {
 
+   List<PBRTArgument> Arguments;
+
    public CameraDirective(List<String> words) {
       super(words);
       this.Identifier = Constants.Camera;
-      this.Type = words.get(2);
+      this.Type = getType(words);
 
-      Arguments = new ArrayList<PBRTArgument>();
+      Arguments = new ArrayList<>();
 
-      for (int i = 3; i < words.size(); i += 8) {
-         PBRTArgument argument = new PBRTArgument();
-         argument.Name = words.get(i + 1);
-         argument.Type = words.get(i + 4);
-         argument.Values = new ArrayList<>();
-         argument.Values.add(words.get(i + 6));
+      for (int i = 4; i < words.size(); i += 8) {
+         PBRTArgument<Float> arg = getFloatArgument(words, 4);
+         Arguments.add(arg);
       }
    }
 
+   public Camera Parse() {
+      float fov;
+
+      for (PBRTArgument arg : Arguments) {
+         if (arg.Name.equals("fov"))
+            fov = (Float)arg.Values.get(0);
+      }
+
+      return new PerspectiveCamera(null, null);
+   }
 }
