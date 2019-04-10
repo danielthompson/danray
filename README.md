@@ -11,7 +11,7 @@
 
 ![Trace](renders/trace1.png)
 
-### Diffuse interreflection
+### Diffuse interreflection, procedural textures
 
 ![Trace](renders/trace2.png)
 
