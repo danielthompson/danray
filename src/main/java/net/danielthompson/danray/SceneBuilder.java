@@ -22,6 +22,7 @@ import net.danielthompson.danray.shapes.*;
 import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Vector;
+import net.danielthompson.danray.textures.CheckerboardTexture;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -347,29 +348,57 @@ public class SceneBuilder {
       settings.Y = y;
       settings.FieldOfView = 35f;
 
-      settings.FocusDistance = 500;
-      settings.Aperture = new CircleAperture(20);
-
       Transform[] inputTransforms = new Transform[]{
             Transform.Translate(0, 0, 200),
             Transform.RotateY(0),
-            Transform.RotateX(-10)
+            Transform.RotateX(0)
       };
 
       Transform[] compositeTransforms = Transform.composite(inputTransforms);
       Camera camera = new PerspectiveCamera(settings, compositeTransforms[0]);
 
       AbstractScene scene = new NaiveScene(camera);
+      Material material;
+
+      // center textured box
+      material = new Material();
+//      material.reflect = new GlossyBRDF(0.85f);
+
+      material.BxDFs.add(LambertianBRDF);
+      material.Weights.add(1.0f);
+
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.WHITE);
+
+      CheckerboardTexture texture = new CheckerboardTexture();
+      texture.UScale = 4;
+      texture.VScale = 4;
+      texture.Even = new ReflectanceSpectrum(Color.white);
+      texture.Odd = new ReflectanceSpectrum(Color.GRAY);
+
+      material.Texture = texture;
+
+      inputTransforms = new Transform[]{
+            Transform.Translate(new Vector(0, 0f, 0f)),
+            Transform.RotateX(45f),
+            Transform.RotateY(45f),
+            Transform.Scale(50f),
+            //Transform.Translate(new Vector(-0.5f, -0.5f, -0.5f))
+      };
+      compositeTransforms = Transform.composite(inputTransforms);
+
+//      scene.addShape(new Box(compositeTransforms, material));
+      //scene.addShape(new Sphere(compositeTransforms, material));
 
       // right ball
 
-      Material material;
+
       material = new Material();
 //      material.BxDFs.add(SpecularBTDF);
 //      material.Weights.add(0.75f);
       material.BxDFs.add(LambertianBRDF);
-      material.Weights.add(1f);
+      material.Weights.add(2f);
       material.IndexOfRefraction = 1.52f;
+      material.Texture = texture;
 
 //      material.BSSRDF = new SubsurfaceScatteringFunction(
 //            .1f,
@@ -418,9 +447,16 @@ public class SceneBuilder {
 
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.WHITE);
 
+      texture = new CheckerboardTexture();
+      texture.UScale = 16;
+      texture.VScale = 16;
+      texture.Even = new ReflectanceSpectrum(Color.white);
+      texture.Odd = new ReflectanceSpectrum(Color.GRAY);
+      material.Texture = texture;
+
       inputTransforms = new Transform[]{
             Transform.Translate(new Vector(0, -52f, 0f)),
-            //Transform.RotateX(10f),
+            Transform.RotateY(45f),
             Transform.Scale(1000f, 1f, 1000f),
             Transform.Translate(new Vector(-0.5f, -0.5f, -0.5f))
       };
@@ -451,7 +487,7 @@ public class SceneBuilder {
 
       AbstractLight light = new SphereLight(sphere, lightSPD);
 
-      scene.Shapes.add(light);
+      //scene.Shapes.add(light);
       //scene.Lights.add(light);
 
       // skybox
@@ -461,11 +497,10 @@ public class SceneBuilder {
       //scene.Skybox = new HalfGradientSkybox(Solarized.Base02, Color.WHITE);
       List<Color> colors = new ArrayList<>();
 
-      //colors.add(new Color(190, 211, 226));
       colors.add(Firenze.Beige);
-      colors.add(new Color(81, 144, 213));
+      colors.add(new Color(190, 211, 226));
+      //colors.add(new Color(81, 144, 213));
       //colors.add(new Color(17, 49, 110));
-
 
       List<Float> locations = new ArrayList<>();
       locations.add(.5f);

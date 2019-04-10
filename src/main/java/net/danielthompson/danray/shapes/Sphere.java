@@ -134,6 +134,8 @@ public class Sphere extends AbstractShape {
          objectSpaceIntersectionPoint = WorldToObject.Apply(worldSpaceIntersectionPoint);
       }
 
+
+
       Vector direction = Point.Minus(objectSpaceIntersectionPoint, Origin);
       Normal objectSpaceNormal = new Normal(direction);
 
@@ -144,6 +146,22 @@ public class Sphere extends AbstractShape {
       intersection.Normal = objectSpaceNormal;
       intersection.OriginInside = Inside(objectSpaceRay.Origin) || OnSurface(objectSpaceRay.Origin);
       intersection.Entering = objectSpaceNormal.Dot(objectSpaceRay.Direction) < 0;
+
+      intersection.u = 0.5f + (float)Math.atan2(-objectSpaceNormal.Z, -objectSpaceNormal.X) * Constants.OneOver2Pi;
+      intersection.v = 0.5f - (float)Math.asin(-objectSpaceNormal.Y) * Constants.OneOverPi;
+
+//      if (intersection.Location.X == 0 || intersection.Location.X == 1) {
+//         intersection.u = intersection.Location.Y;
+//         intersection.v = intersection.Location.Z;
+//      }
+//      else if (intersection.Location.Y == 0 || intersection.Location.Y == 1) {
+//         intersection.u = intersection.Location.Z;
+//         intersection.v = intersection.Location.X;
+//      }
+//      else if (intersection.Location.Z == 0 || intersection.Location.Z == 1) {
+//         intersection.u = intersection.Location.X;
+//         intersection.v = intersection.Location.Y;
+//      }
 
       calculateTangents(intersection);
 

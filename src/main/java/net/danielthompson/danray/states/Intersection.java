@@ -84,6 +84,16 @@ public class Intersection {
     */
    public float y;
 
+   /**
+    * The u texture coordinate.
+    */
+   public float u;
+
+   /**
+    * The v texture coordinate.
+    */
+   public float v;
+
    public int KDHeatCount;
 
    public int InstanceID;

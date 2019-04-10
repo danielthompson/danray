@@ -87,11 +87,25 @@ public class Box extends AbstractShape {
 
       Intersection intersection = BoundingBox.GetHitInfoNew(point1, point2, objectSpaceRay);
 
+
       // TODO fix this garbage with this some boundary testing
 
       if (intersection.Hits) {
          intersection.Shape = this;
          intersection.Location = objectSpaceRay.GetPointAtT(intersection.t);
+
+         if (Constants.WithinEpsilon(intersection.Location.X, 0) || Constants.WithinEpsilon(intersection.Location.X, 1)) {
+            intersection.u = intersection.Location.Y;
+            intersection.v = intersection.Location.Z;
+         }
+         else if (Constants.WithinEpsilon(intersection.Location.Y, 0) || Constants.WithinEpsilon(intersection.Location.Y, 1)) {
+            intersection.u = intersection.Location.Z;
+            intersection.v = intersection.Location.X;
+         }
+         else if (Constants.WithinEpsilon(intersection.Location.Z, 0) || Constants.WithinEpsilon(intersection.Location.Z, 1)) {
+            intersection.u = intersection.Location.X;
+            intersection.v = intersection.Location.Y;
+         }
 
          intersection.Normal = Constants.WithinEpsilon(point1.X, intersection.Location.X) ? new Normal(Constants.NegativeX) : intersection.Normal;
          intersection.Normal = Constants.WithinEpsilon(point1.Y, intersection.Location.Y) ? new Normal(Constants.NegativeY) : intersection.Normal;
