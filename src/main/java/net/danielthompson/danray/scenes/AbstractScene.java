@@ -49,7 +49,7 @@ public abstract class AbstractScene {
          return new SpectralPowerDistribution(Color.BLACK);
       }
       else {
-         return Skybox.getSkyBoxSPD(v);
+         return SpectralPowerDistribution.scale(Skybox.getSkyBoxSPD(v), Constants.PI);
       }
    }
 
