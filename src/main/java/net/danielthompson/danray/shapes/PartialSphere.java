@@ -98,6 +98,8 @@ public class PartialSphere extends AbstractShape {
 
       float hits = Constants.NOHIT;
 
+      boolean flipNormals = false;
+
       if (t1 < Constants.Epsilon) {
          hits = (t0 >= Constants.Epsilon && theta0 <= Theta && phi0 <= Phi) ? t0 : Constants.NOHIT;
       }
@@ -120,6 +122,7 @@ public class PartialSphere extends AbstractShape {
                }
                // case 1b: t0 not real, t1 real
                else if (theta1 <= Theta && phi1 <= Phi) {
+                  flipNormals = true;
                   hits = t1;
                }
                // case 1c: t0 not real, t1 not real
@@ -129,12 +132,14 @@ public class PartialSphere extends AbstractShape {
             }
             // case 2: t1 < t0
             else if (t1 < t0) {
-               // case 2a: t1 real
+               // case 2a: t1 real - hitting closer boundary
                if (theta1 <= Theta && phi1 <= Phi)
                   hits = t1;
-               // case 2b: t1 not real, t0 real
-               else if (theta0 <= Theta && phi0 <= Phi)
+               // case 2b: t1 not real, t0 real - hitting further boundary
+               else if (theta0 <= Theta && phi0 <= Phi) {
                   hits = t0;
+                  flipNormals = true;
+               }
                // case 2c: t1 not real, t1 not real
                else
                   hits = Constants.NOHIT;
@@ -154,6 +159,8 @@ public class PartialSphere extends AbstractShape {
          Point worldSpaceIntersectionPoint = ObjectToWorld.Apply(objectSpaceIntersectionPoint);
          hits = worldSpaceRay.GetTAtPoint(worldSpaceIntersectionPoint);
       }
+
+      worldSpaceRay.FlipNormals = flipNormals;
 
       worldSpaceRay.MinT = hits < worldSpaceRay.MinT ? hits : worldSpaceRay.MinT;
       return true;
@@ -177,6 +184,10 @@ public class PartialSphere extends AbstractShape {
 
       Vector direction = Point.Minus(objectSpaceIntersectionPoint, Origin);
       Normal objectSpaceNormal = new Normal(direction);
+
+      if (worldSpaceRay.FlipNormals) {
+         objectSpaceNormal.Scale(-1f);
+      }
 
       Intersection intersection = new Intersection();
       intersection.Hits = true;
