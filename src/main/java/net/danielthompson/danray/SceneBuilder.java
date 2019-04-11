@@ -392,7 +392,7 @@ public class SceneBuilder {
 
       // right ball
       material = new Material();
-      material.BxDFs.add(LambertianBRDF);
+      material.BxDFs.add(SpecularBRDF);
       material.Weights.add(1f);
       material.IndexOfRefraction = 1.52f;
 
@@ -401,7 +401,7 @@ public class SceneBuilder {
       texture.VScale = 16;
       texture.Even = new ReflectanceSpectrum(Firenze.Green);
       texture.Odd = new ReflectanceSpectrum(Color.WHITE);
-      material.Texture = texture;
+      material.Texture =  new ConstantTexture(new ReflectanceSpectrum(Color.WHITE));// texture;
 
       inputTransforms = new Transform[] {
             Transform.Translate(35.0f, -25.0f, 0f),
@@ -431,7 +431,10 @@ public class SceneBuilder {
 
       compositeTransforms = Transform.composite(inputTransforms);
 
-      scene.addShape(new Sphere(compositeTransforms, material));
+      float theta = Constants.PI * 2.0f;
+      float phi = Constants.PI * 0.25f;
+
+      scene.addShape(new PartialSphere(compositeTransforms, material, theta, phi));
 
       // bottom box
 
