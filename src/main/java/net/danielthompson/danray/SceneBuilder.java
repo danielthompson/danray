@@ -425,13 +425,14 @@ public class SceneBuilder {
       material.Texture = constantTexture;
 
       inputTransforms = new Transform[] {
+            Transform.RotateY(75),
             Transform.Translate(-35.0f, -25.0f, 0f),
             Transform.Scale(25f)
       };
 
       compositeTransforms = Transform.composite(inputTransforms);
 
-      float theta = 0;
+      float theta = -Constants.PIOver2;
       float phi = Constants.PI;
 
       scene.addShape(new PartialSphere(compositeTransforms, material, theta, phi));

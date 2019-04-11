@@ -112,10 +112,33 @@ public class PartialSphere extends AbstractShape {
             hits = t0;
          }
          else {
-            if (t0 < t1 && theta0 <= Theta && phi0 <= Phi)
-               hits = t0;
-            else if (t1 < t0 && theta1 <= Theta && phi1 <= Phi)
-               hits = t1;
+            // case 1: t0 < t1
+            if (t0 < t1) {
+               // case 1a: t0 real
+               if (theta0 <= Theta && phi0 <= Phi) {
+                  hits = t0;
+               }
+               // case 1b: t0 not real, t1 real
+               else if (theta1 <= Theta && phi1 <= Phi) {
+                  hits = t1;
+               }
+               // case 1c: t0 not real, t1 not real
+               else {
+                  hits = Constants.NOHIT;
+               }
+            }
+            // case 2: t1 < t0
+            else if (t1 < t0) {
+               // case 2a: t1 real
+               if (theta1 <= Theta && phi1 <= Phi)
+                  hits = t1;
+               // case 2b: t1 not real, t0 real
+               else if (theta0 <= Theta && phi0 <= Phi)
+                  hits = t0;
+               // case 2c: t1 not real, t1 not real
+               else
+                  hits = Constants.NOHIT;
+            }
          }
       }
 
