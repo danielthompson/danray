@@ -19,47 +19,32 @@ public class BoxFilterFilm extends AbstractFilm {
    @Override
    public void AddSamples(float x, float y, Sample[] samples) {
 
-      float newSampleWeight = samples.length;
-
       int xFloor = (int)x;
       int yFloor = (int)y;
 
-      Spectrum spectrum = new Spectrum();
+      Weights[xFloor][yFloor] += samples.length;
+
+      float oneOverSamples = Weights[xFloor][yFloor];
+
+      if (Samples[xFloor][yFloor] == null)
+         Samples[xFloor][yFloor] = new Spectrum();
 
       for (Sample sample : samples) {
-         spectrum.R += (sample.SpectralPowerDistribution.R);
-         spectrum.G += (sample.SpectralPowerDistribution.G);
-         spectrum.B += (sample.SpectralPowerDistribution.B);
+         Samples[xFloor][yFloor].R += (sample.SpectralPowerDistribution.R);
+         Samples[xFloor][yFloor].G += (sample.SpectralPowerDistribution.G);
+         Samples[xFloor][yFloor].B += (sample.SpectralPowerDistribution.B);
       }
 
-      float R = spectrum.R / newSampleWeight;
-      float G = spectrum.G / newSampleWeight;
-      float B = spectrum.B / newSampleWeight;
+      float r = Samples[xFloor][yFloor].R * oneOverSamples;
+      float g = Samples[xFloor][yFloor].G * oneOverSamples;
+      float b = Samples[xFloor][yFloor].B * oneOverSamples;
 
-      float clampedR = clamp(0.0f, R, 1.0f);
-      float clampedG = clamp(0.0f, G, 1.0f);
-      float clampedB = clamp(0.0f, B, 1.0f);
+      int clampedR = (int)clamp(0.0f, r, 255.0f);
+      int clampedG = (int)clamp(0.0f, g, 255.0f);
+      int clampedB = (int)clamp(0.0f, b, 255.0f);
 
       Color newSampleColor = new Color(clampedR, clampedG, clampedB);
 
-      float existingImageWeight = Weights[xFloor][yFloor];
-
-      float weightsum = existingImageWeight + newSampleWeight;
-
-      float normalizedExistingImageWeight = existingImageWeight / weightsum;
-      float normalizedNewSampleWeight = newSampleWeight / weightsum;
-
-      Color existingImageColor = new Color(Image.getRGB(xFloor, yFloor));
-
-      int newR = (int)GeometryCalculations.Lerp(existingImageColor.getRed(), normalizedExistingImageWeight, newSampleColor.getRed(), normalizedNewSampleWeight);
-      int newG = (int)GeometryCalculations.Lerp(existingImageColor.getGreen(), normalizedExistingImageWeight, newSampleColor.getGreen(), normalizedNewSampleWeight);
-      int newB = (int)GeometryCalculations.Lerp(existingImageColor.getBlue(), normalizedExistingImageWeight, newSampleColor.getBlue(), normalizedNewSampleWeight);
-
-      Color finalColor = new Color(newR, newG, newB);
-      Image.setRGB(xFloor, yFloor, finalColor.getRGB());
-
-      Weights[xFloor][yFloor] = weightsum;
-
+      Image.setRGB(xFloor, yFloor, newSampleColor.getRGB());
    }
-
 }
