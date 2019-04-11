@@ -10,8 +10,8 @@ public class Ray {
 
    public Vector Direction;
    public Point Origin;
-
    public Vector DirectionInverse;
+   public boolean FlipNormals = false;
 
    /**
     * The t-value for the closest intersection found so far.

@@ -204,8 +204,8 @@ public class GL2Canvas extends AbstractGLCanvas {
          boolean leaf = (currentNode.LeftChild == null);
 
          if (leaf) {
-            SpectralPowerDistribution red = new SpectralPowerDistribution(SceneBuilder.Solarized.red);
-            SpectralPowerDistribution blue = new SpectralPowerDistribution(SceneBuilder.Solarized.blue);
+            SpectralPowerDistribution red = new SpectralPowerDistribution(SceneBuilder.Colors.Solarized.red);
+            SpectralPowerDistribution blue = new SpectralPowerDistribution(SceneBuilder.Colors.Solarized.blue);
 
             for (AbstractShape shape : currentNode.Shapes) {
                gl.glPushMatrix();
@@ -214,9 +214,9 @@ public class GL2Canvas extends AbstractGLCanvas {
                Spectrum color;
 
                if (shape.InCurrentKDNode)
-                  color = new Spectrum(SceneBuilder.Firenze.Beige);
+                  color = new Spectrum(SceneBuilder.Colors.Firenze.Beige);
                else
-                  color = new Spectrum(SceneBuilder.Firenze.Yellow);
+                  color = new Spectrum(SceneBuilder.Colors.Firenze.Yellow);
 
                SpectralPowerDistribution spd = new SpectralPowerDistribution();
                spd.R = color.R;
@@ -240,9 +240,9 @@ public class GL2Canvas extends AbstractGLCanvas {
 
          float depthPercentage = ((float)depth / (float)maxDepth);
 
-         float r = SceneBuilder.Solarized.blue.getRed()  * OneOver255;
-         float g = SceneBuilder.Solarized.blue.getGreen() * OneOver255;
-         float b = SceneBuilder.Solarized.blue.getBlue() * OneOver255;
+         float r = SceneBuilder.Colors.Solarized.blue.getRed()  * OneOver255;
+         float g = SceneBuilder.Colors.Solarized.blue.getGreen() * OneOver255;
+         float b = SceneBuilder.Colors.Solarized.blue.getBlue() * OneOver255;
          float a = (1.0f - depthPercentage) * 0.5f;
 
          // draw current node

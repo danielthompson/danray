@@ -48,31 +48,38 @@ public class SceneBuilder {
       return nextID++;
    }
 
-   public static class Firenze {
-      public static Color Green = new Color(70, 137, 102);
-      public static Color Beige = new Color(255, 240, 165);
-      public static Color Yellow = new Color(255, 176, 59);
-      public static Color Orange = new Color(182, 73, 38);
-      public static Color Red = new Color(142, 40, 0);
-   }
+   public static class Colors {
+      public static class Firenze {
+         public static Color Green = new Color(70, 137, 102);
+         public static Color Beige = new Color(255, 240, 165);
+         public static Color Yellow = new Color(255, 176, 59);
+         public static Color Orange = new Color(182, 73, 38);
+         public static Color Red = new Color(142, 40, 0);
+      }
 
-   public static class Solarized {
-      public static Color Base03 = new Color(0, 43, 54);
-      public static Color Base02 = new Color(7, 54, 66);
-      public static Color Base01 = new Color(88, 110, 117);
-      public static Color Base00 = new Color(101, 123, 131);
-      public static Color Base0 = new Color(131, 148, 150);
-      public static Color Base1 = new Color(147, 161, 161);
-      public static Color Base2 = new Color(238, 232, 213);
-      public static Color Base3 = new Color(253, 246, 227);
-      public static Color yellow = new Color(181, 137, 0);
-      public static Color orange = new Color(203, 75, 22);
-      public static Color red = new Color(220, 50, 47);
-      public static Color magenta = new Color(211, 54, 130);
-      public static Color violet = new Color(108, 113, 196);
-      public static Color blue = new Color(38, 139, 210);
-      public static Color cyan = new Color(42, 161, 152);
-      public static Color green = new Color(133, 153, 0);
+      public static class Solarized {
+         public static Color Base03 = new Color(0, 43, 54);
+         public static Color Base02 = new Color(7, 54, 66);
+         public static Color Base01 = new Color(88, 110, 117);
+         public static Color Base00 = new Color(101, 123, 131);
+         public static Color Base0 = new Color(131, 148, 150);
+         public static Color Base1 = new Color(147, 161, 161);
+         public static Color Base2 = new Color(238, 232, 213);
+         public static Color Base3 = new Color(253, 246, 227);
+         public static Color yellow = new Color(181, 137, 0);
+         public static Color orange = new Color(203, 75, 22);
+         public static Color red = new Color(220, 50, 47);
+         public static Color magenta = new Color(211, 54, 130);
+         public static Color violet = new Color(108, 113, 196);
+         public static Color blue = new Color(38, 139, 210);
+         public static Color cyan = new Color(42, 161, 152);
+         public static Color green = new Color(133, 153, 0);
+      }
+
+      public static class Chessboard {
+         public static Color Dark = new Color(181, 136, 99);
+         public static Color Light = new Color(240, 216, 181);
+      }
    }
 
    public static class Skyboxes {
@@ -392,16 +399,16 @@ public class SceneBuilder {
 
       // right ball
       material = new Material();
-      material.BxDFs.add(LambertianBRDF);
+      material.BxDFs.add(SpecularBRDF);
       material.Weights.add(1f);
       material.IndexOfRefraction = 1.52f;
 
       texture = new CheckerboardTexture();
       texture.UScale = 16;
       texture.VScale = 16;
-      texture.Even = new ReflectanceSpectrum(Firenze.Green);
+      texture.Even = new ReflectanceSpectrum(Colors.Firenze.Green);
       texture.Odd = new ReflectanceSpectrum(Color.WHITE);
-      material.Texture = texture;
+      material.Texture =  new ConstantTexture(new ReflectanceSpectrum(Color.WHITE));// texture;
 
       inputTransforms = new Transform[] {
             Transform.Translate(35.0f, -25.0f, 0f),
@@ -425,13 +432,17 @@ public class SceneBuilder {
       material.Texture = constantTexture;
 
       inputTransforms = new Transform[] {
+            Transform.RotateY(30),
             Transform.Translate(-35.0f, -25.0f, 0f),
             Transform.Scale(25f)
       };
 
       compositeTransforms = Transform.composite(inputTransforms);
 
-      scene.addShape(new Sphere(compositeTransforms, material));
+      float theta = -Constants.PIOver2;
+      float phi = Constants.PI;
+
+      scene.addShape(new PartialSphere(compositeTransforms, material, theta, phi));
 
       // bottom box
 
@@ -444,8 +455,8 @@ public class SceneBuilder {
       texture = new CheckerboardTexture();
       texture.UScale = 16;
       texture.VScale = 16;
-      texture.Odd = new ReflectanceSpectrum(Color.DARK_GRAY);
-      texture.Even = new ReflectanceSpectrum(Color.GRAY);
+      texture.Odd = new ReflectanceSpectrum(Colors.Chessboard.Dark);
+      texture.Even = new ReflectanceSpectrum(Colors.Chessboard.Light);
       material.Texture = texture;
 
       inputTransforms = new Transform[]{
@@ -491,7 +502,7 @@ public class SceneBuilder {
       //scene.Skybox = new HalfGradientSkybox(Solarized.Base02, Color.WHITE);
       List<Color> colors = new ArrayList<>();
 
-      colors.add(Firenze.Beige);
+      colors.add(Colors.Firenze.Beige);
       colors.add(new Color(190, 211, 226));
       //colors.add(new Color(81, 144, 213));
       //colors.add(new Color(17, 49, 110));
@@ -1796,7 +1807,7 @@ public class SceneBuilder {
 
       material = new Material();
       //material.BRDF = LambertianBRDF;
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Green);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Colors.Firenze.Green);
       material.IndexOfRefraction = 1.2f;
 
       inputTransforms = new Transform[2];
@@ -1815,7 +1826,7 @@ public class SceneBuilder {
 
       material = new Material();
       //material.BRDF = SpecularBRDF;
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Beige);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Colors.Firenze.Beige);
 
       inputTransforms = new Transform[2];
       inputTransforms[0] = Transform.Scale(1000f, 0.1f, 1000f);
@@ -1830,7 +1841,7 @@ public class SceneBuilder {
 
       material = new Material();
       //material.BRDF = SpecularBRDF;
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Green);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Colors.Firenze.Green);
       material.IndexOfRefraction = 1.2f;
 
       inputTransforms = new Transform[2];
@@ -1844,7 +1855,7 @@ public class SceneBuilder {
       // right green sphere
 
       material = new Material();
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Green);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Colors.Firenze.Green);
       //material.BRDF = SpecularBRDF;
       material.IndexOfRefraction = 1.2f;
 
@@ -1859,7 +1870,7 @@ public class SceneBuilder {
       // middle
 
       material = new Material();
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(Firenze.Green);
+      material.ReflectanceSpectrum = new ReflectanceSpectrum(Colors.Firenze.Green);
       //material.BRDF = SpecularBRDF;
       material.IndexOfRefraction = 1.2f;
 
