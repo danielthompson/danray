@@ -1,5 +1,8 @@
 package net.danielthompson.danray.imports.pbrt;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Constants {
    public static final String Accelerator = "Accelerator";
    public static final String AreaLightSource = "AreaLightSource";
@@ -22,4 +25,74 @@ public class Constants {
    public static final String Translate = "Translate";
    public static final String WorldBegin = "WorldBegin"; // done
    public static final String WorldEnd = "WorldEnd";
+
+   public static final List<String> AllDirectives = Arrays.asList(
+         Constants.Accelerator,
+         Constants.AreaLightSource,
+         Constants.AttributeBegin,
+         Constants.AttributeEnd,
+         Constants.Camera,
+         Constants.Film,
+         Constants.Integrator,
+         Constants.LightSource,
+         Constants.LookAt,
+         Constants.MakeNamedMaterial,
+         Constants.Material,
+         Constants.NamedMaterial,
+         Constants.PixelFilter,
+         Constants.Sampler,
+         Constants.Shape,
+         Constants.Texture,
+         Constants.TransformBegin,
+         Constants.TransformEnd,
+         Constants.Translate,
+         Constants.WorldBegin,
+         Constants.WorldEnd
+   );
+
+   public static final List<String> SceneWideDirectives = Arrays.asList(
+         Constants.Accelerator,
+         //Constants.AreaLightSource,
+         //Constants.AttributeBegin,
+         //Constants.AttributeEnd,
+         Constants.Camera,
+         Constants.Film,
+         Constants.Integrator,
+         Constants.LookAt,
+         Constants.MakeNamedMaterial,
+         //Constants.NamedMaterial,
+         Constants.PixelFilter,
+         Constants.Sampler,
+         //Constants.Shape,
+         Constants.Texture,
+         Constants.TransformBegin,
+         Constants.TransformEnd,
+         Constants.Translate
+         //Constants.WorldBegin,
+         //Constants.WorldEnd
+   );
+
+   public static final List<String> WorldDirectives = Arrays.asList(
+         //Constants.Accelerator,
+         Constants.AreaLightSource,
+         Constants.AttributeBegin,
+         Constants.AttributeEnd,
+         //Constants.Camera,
+         //Constants.Film,
+         //Constants.Integrator,
+         Constants.LightSource,
+         Constants.LookAt,
+         Constants.MakeNamedMaterial,
+         Constants.Material,
+         Constants.NamedMaterial,
+         //Constants.PixelFilter,
+         //Constants.Sampler,
+         Constants.Shape,
+         Constants.Texture,
+         Constants.TransformBegin,
+         Constants.TransformEnd,
+         Constants.Translate
+         //Constants.WorldBegin,
+         //Constants.WorldEnd
+   );
 }
