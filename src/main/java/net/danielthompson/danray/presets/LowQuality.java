@@ -1,5 +1,7 @@
 package net.danielthompson.danray.presets;
 
+import net.danielthompson.danray.shapes.PartialSphere;
+
 /**
  * Created by daniel on 11/22/14.
  */
@@ -12,6 +14,7 @@ public class LowQuality implements RenderQualityPreset {
 
    private final boolean _useDepthOfField = false;
    private final float _convergenceTerminationThreshold = .8f;
+
 
    @Override
    public int getX() {

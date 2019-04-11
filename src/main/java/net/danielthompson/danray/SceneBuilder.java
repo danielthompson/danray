@@ -431,8 +431,8 @@ public class SceneBuilder {
 
       compositeTransforms = Transform.composite(inputTransforms);
 
-      float theta = Constants.PI * 2.0f;
-      float phi = Constants.PI * 0.25f;
+      float theta = Constants.PIOver2;
+      float phi = Constants.PIOver2;
 
       scene.addShape(new PartialSphere(compositeTransforms, material, theta, phi));
 

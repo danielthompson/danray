@@ -21,7 +21,7 @@ public class HitTests {
 
    @Test
    public void testOrthogonalHitX1() {
-      PartialSphere sphere = new PartialSphere(null, null, Constants.PITimes2, Constants.PI);
+      PartialSphere sphere = new PartialSphere(null, null, Constants.PI, Constants.PI);
 
       Point Origin = new Point(2, 0, 0);
       Vector Direction = new Vector(1, 0, 0);
@@ -34,7 +34,7 @@ public class HitTests {
 
    @Test
    public void testOrthogonalHitX2(){
-      PartialSphere sphere = new PartialSphere(null, null, Constants.PITimes2, Constants.PI);
+      PartialSphere sphere = new PartialSphere(null, null, Constants.PI, Constants.PI);
 
       Point Origin = new Point(-2, 0, 0);
       Vector Direction = new Vector(1, 0, 0);
@@ -46,148 +46,105 @@ public class HitTests {
    }
 
    @Test
-   public void testOrthogonalHitX2TValues() {
-      Sphere sphere = new Sphere();
+   public void testPartialHit1() {
+      PartialSphere sphere = new PartialSphere(null, null, Constants.PIOver2, Constants.PI);
 
-      Point Origin = new Point(-2, 0, 0);
-      Vector Direction = new Vector(1, 0, 0);
+      Point Origin = new Point(.1f, 2, .1f);
+      Vector Direction = new Vector(0, -1, 0);
       Ray ray = new Ray(Origin, Direction);
 
       boolean hits = sphere.hits(ray);
-
-      Intersection intersection = sphere.getHitInfo(ray);
-
-      Assert.assertTrue(hits, "Vector should hit sphere.");
+      Assert.assertTrue(hits, "Vector should hit partial sphere.");
    }
 
    @Test
-   public void testOrthogonalNoHitX1() throws Exception {
-      Sphere sphere = new Sphere();
+   public void testPartialHit2(){
+      PartialSphere sphere = new PartialSphere(null, null, Constants.PIOver2, Constants.PI);
 
-      Point Origin = new Point(2, 0, 0);
-      Vector Direction = new Vector(1, 0, 0);
-      Ray ray = new Ray(Origin, Direction);
-
-      boolean hits = sphere.hits(ray);
-
-      Assert.assertFalse(hits, "Vector shouldn't hit sphere.");
-   }
-
-   @Test
-   public void testOrthogonalNoHitX2() throws Exception {
-      Sphere sphere = new Sphere();
-
-      Point Origin = new Point(-2, 0, 0);
-      Vector Direction = new Vector(-1, 0, 0);
-      Ray ray = new Ray(Origin, Direction);
-
-      boolean hits = sphere.hits(ray);
-
-      Assert.assertFalse(hits, "Vector shouldn't hit sphere.");   }
-
-   @Test
-   public void testHit2() throws Exception {
-      Sphere sphere = new Sphere();
-
-      Point Origin = new Point(10, 0, 0);
-      Vector Direction = new Vector(1, 0, 0);
-      Ray ray = new Ray(Origin, Direction);
-
-      boolean hits = sphere.hits(ray);
-      boolean inside = sphere.Inside(Origin);
-
-      Assert.assertFalse(inside, "Point " + Origin + " is outside sphere.");
-      Assert.assertFalse(hits, "Vector shouldn't hit sphere.");
-   }
-
-   @Test
-   public void testHit3() throws Exception {
-      Sphere sphere = new Sphere();
-
-      Point Origin = new Point(0, 10, 0);
-      Vector Direction = new Vector(-1, 0, 0);
-      Ray ray = new Ray(Origin, Direction);
-
-      boolean hits = sphere.hits(ray);
-
-      Assert.assertFalse(hits, "Vector shouldn't hit sphere.");
-   }
-
-   @Test
-   public void testHit4() throws Exception {
-      Sphere sphere = new Sphere();
-
-      Point Origin = new Point(0, 10, 0);
+      Point Origin = new Point(-.1f, 2, .1f);
       Vector Direction = new Vector(0, -1, 0);
       Ray ray = new Ray(Origin, Direction);
 
       boolean hits = sphere.hits(ray);
 
-      Assert.assertTrue(hits, "Vector should hit sphere.");
+      Assert.assertFalse(hits, "Vector should not hit partial sphere.");
    }
 
    @Test
-   public void testHit5() throws Exception {
-      Sphere sphere = new Sphere();
+   public void testPartialHit3(){
+      PartialSphere sphere = new PartialSphere(null, null, Constants.PIOver2, Constants.PI);
 
-      Point Origin = new Point(0, 10, 0);
-      Vector Direction = new Vector(0, 10, 0);
+      Point Origin = new Point(-.1f, 2, -.1f);
+      Vector Direction = new Vector(0, -1, 0);
       Ray ray = new Ray(Origin, Direction);
 
       boolean hits = sphere.hits(ray);
 
-      Assert.assertFalse(hits, "Vector shouldn't hit sphere.");
+      Assert.assertTrue(hits, "Vector should hit partial sphere.");
    }
 
    @Test
-   public void testHit6() throws Exception {
-      Sphere sphere = new Sphere();
+   public void testPartialHit4(){
+      PartialSphere sphere = new PartialSphere(null, null, Constants.PIOver2, Constants.PI);
 
-      Point Origin = new Point(10, 10, 0);
-      Vector Direction = new Vector(-1, -1, 0);
+      Point Origin = new Point(.1f, 2, -.1f);
+      Vector Direction = new Vector(0, -1, 0);
       Ray ray = new Ray(Origin, Direction);
 
       boolean hits = sphere.hits(ray);
 
-      Assert.assertTrue(hits, "Vector should hit sphere.");
+      Assert.assertTrue(hits, "Vector should hit partial sphere.");
    }
 
    @Test
-   public void testHit8() throws Exception {
-      Sphere sphere = new Sphere();
+   public void testPartialHit5() {
+      PartialSphere sphere = new PartialSphere(null, null, 0, Constants.PI);
 
-      Point Origin = new Point(-10, -10, 0);
-      Vector Direction = new Vector(1, 1, 0);
+      Point Origin = new Point(.1f, 2, .1f);
+      Vector Direction = new Vector(0, -1, 0);
+      Ray ray = new Ray(Origin, Direction);
+
+      boolean hits = sphere.hits(ray);
+      Assert.assertFalse(hits, "Vector should not hit partial sphere.");
+   }
+
+   @Test
+   public void testPartialHit6(){
+      PartialSphere sphere = new PartialSphere(null, null, 0, Constants.PI);
+
+      Point Origin = new Point(-.1f, 2, .1f);
+      Vector Direction = new Vector(0, -1, 0);
       Ray ray = new Ray(Origin, Direction);
 
       boolean hits = sphere.hits(ray);
 
-      Assert.assertTrue(hits, "Vector should hit sphere.");
+      Assert.assertFalse(hits, "Vector should not hit partial sphere.");
    }
 
    @Test
-   public void testHit9() throws Exception {
-      Sphere sphere = new Sphere();
+   public void testPartialHit7(){
+      PartialSphere sphere = new PartialSphere(null, null, 0, Constants.PI);
 
-      Point Origin = new Point(-10, -10, 2);
-      Vector Direction = new Vector(1, 1, 0);
+      Point Origin = new Point(-.1f, 2, -.1f);
+      Vector Direction = new Vector(0, -1, 0);
       Ray ray = new Ray(Origin, Direction);
 
       boolean hits = sphere.hits(ray);
 
-      Assert.assertFalse(hits, "Vector shouldn't hit sphere.");
+      Assert.assertTrue(hits, "Vector should hit partial sphere.");
    }
 
    @Test
-   public void testHit10() throws Exception {
-      Sphere sphere = new Sphere();
+   public void testPartialHit8(){
+      PartialSphere sphere = new PartialSphere(null, null, 0, Constants.PI);
 
-      Point Origin = new Point(0, -10, 0);
-      Vector Direction = new Vector(0, 1, 0);
+      Point Origin = new Point(.1f, 2, -.1f);
+      Vector Direction = new Vector(0, -1, 0);
       Ray ray = new Ray(Origin, Direction);
 
       boolean hits = sphere.hits(ray);
 
-      Assert.assertTrue(hits, "Vector should hit sphere.");
+      Assert.assertTrue(hits, "Vector should hit partial sphere.");
    }
+
 }

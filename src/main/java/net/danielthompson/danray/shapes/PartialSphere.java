@@ -17,7 +17,7 @@ public class PartialSphere extends AbstractShape {
    public float Radius;
 
    /**
-    * Angle around the y axis that the partial sphere is filled. 0 = not filled at all, 2π = totally filled.
+    * Angle around the y axis that the partial sphere is filled. -π = not filled at all, π = totally filled.
     */
    public float Theta;
 
@@ -35,8 +35,8 @@ public class PartialSphere extends AbstractShape {
       }
       RecalculateWorldBoundingBox();
 
-      if (theta < 0 || theta > Constants.PITimes2)
-         throw new IllegalArgumentException("Theta must be between 0 and 2π");
+      if (Math.abs(theta) > Constants.PI)
+         throw new IllegalArgumentException("Theta must be between -π and π");
       Theta = theta;
       if (phi < 0 || phi > Constants.PI)
          throw new IllegalArgumentException("Phi must be between 0 and π");
@@ -90,31 +90,31 @@ public class PartialSphere extends AbstractShape {
       Point pt0 = objectSpaceRay.GetPointAtT(t0);
       Point pt1 = objectSpaceRay.GetPointAtT(t1);
 
-      float theta0 = (float)Math.acos(pt0.Y);
-      float phi0 = (float)Math.atan2(pt0.Z, pt0.X);
+      float theta0 = (float)Math.atan2(pt0.Z, pt0.X);
+      float phi0 = (float)Math.acos(pt0.Y);
 
-      float theta1 = (float)Math.acos(pt1.Y);
-      float phi1 = (float)Math.atan2(pt1.Z, pt1.X);
+      float theta1 = (float)Math.atan2(pt1.Z, pt1.X);
+      float phi1 = (float)Math.acos(pt1.Y);
 
       float hits = Constants.NOHIT;
 
       if (t1 < Constants.Epsilon) {
-         hits = (t0 >= Constants.Epsilon && theta0 < Theta && phi0 < Phi) ? t0 : Constants.NOHIT;
+         hits = (t0 >= Constants.Epsilon && theta0 <= Theta && phi0 <= Phi) ? t0 : Constants.NOHIT;
       }
       else if (Constants.WithinEpsilon(t1, 0)) {
-         hits = (t0 < Constants.Epsilon && theta1 < Theta && phi1 < Phi) ? t1 : t0;
+         hits = (t0 < Constants.Epsilon && theta1 <= Theta && phi1 <= Phi) ? t1 : t0;
       }
       else {
-         if (t0 < Constants.Epsilon && theta1 < Theta && phi1 < Phi) {
+         if (t0 < Constants.Epsilon && theta1 <= Theta && phi1 <= Phi) {
             hits = t1;
          }
-         else if (Constants.WithinEpsilon(t0, 0) && theta0 < Theta && phi0 < Phi) {
+         else if (Constants.WithinEpsilon(t0, 0) && theta0 <= Theta && phi0 <= Phi) {
             hits = t0;
          }
          else {
-            if (t0 < t1 && theta0 < Theta && phi0 < Phi)
+            if (t0 < t1 && theta0 <= Theta && phi0 <= Phi)
                hits = t0;
-            else if (t1 < t0 && theta1 < Theta && phi1 < Phi)
+            else if (t1 < t0 && theta1 <= Theta && phi1 <= Phi)
                hits = t1;
          }
       }
