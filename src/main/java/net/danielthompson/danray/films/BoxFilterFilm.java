@@ -24,7 +24,7 @@ public class BoxFilterFilm extends AbstractFilm {
 
       Weights[xFloor][yFloor] += samples.length;
 
-      float oneOverSamples = Weights[xFloor][yFloor];
+      float oneOverSamples = 1.0f / Weights[xFloor][yFloor];
 
       if (Samples[xFloor][yFloor] == null)
          Samples[xFloor][yFloor] = new Spectrum();
@@ -39,9 +39,9 @@ public class BoxFilterFilm extends AbstractFilm {
       float g = Samples[xFloor][yFloor].G * oneOverSamples;
       float b = Samples[xFloor][yFloor].B * oneOverSamples;
 
-      int clampedR = (int)clamp(0.0f, r, 255.0f);
-      int clampedG = (int)clamp(0.0f, g, 255.0f);
-      int clampedB = (int)clamp(0.0f, b, 255.0f);
+      float clampedR = (float)clamp(0.0f, r, 1.0f);
+      float clampedG = (float)clamp(0.0f, g, 1.0f);
+      float clampedB = (float)clamp(0.0f, b, 1.0f);
 
       Color newSampleColor = new Color(clampedR, clampedG, clampedB);
 
