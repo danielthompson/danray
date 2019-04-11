@@ -147,4 +147,17 @@ public class HitTests {
       Assert.assertTrue(hits, "Vector should hit partial sphere.");
    }
 
+   @Test
+   public void testPartialHit9(){
+      PartialSphere sphere = new PartialSphere(null, null, 0, Constants.PI);
+
+      Point Origin = new Point(0, 0, 2f);
+      Vector Direction = new Vector(0, 0, -1);
+      Ray ray = new Ray(Origin, Direction);
+
+      boolean hits = sphere.hits(ray);
+
+      Assert.assertTrue(hits, "Vector should hit partial sphere.");
+   }
+
 }
