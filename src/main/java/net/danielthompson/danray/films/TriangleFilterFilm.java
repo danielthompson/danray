@@ -15,9 +15,28 @@ public class TriangleFilterFilm extends AbstractFilm {
 
    public void AddSamples(float x, float y, Sample[] samples) {
       int xFloor = (int)x;
+      int xFloorMinus1 = (xFloor == 0) ? 0 : xFloor - 1;
       int yFloor = (int)y;
+      int yFloorMinus1 = (yFloor == 0) ? 0 : yFloor - 1;
 
       for (Sample sample : samples) {
+
+         float xDist = (x - xFloor + 0.5f) % 1.0f;
+         float yDist = (y - yFloor + 0.5f) % 1.0f;
+
+         float topLeftDistance = xDist * xDist + yDist * yDist;
+         float topRightDistance = (1.0f - xDist) * (1.0f - xDist) + yDist * yDist;
+         float bottomLeftDistance = xDist * xDist + (1.0f - yDist) * (1.0f - yDist);
+         float bottomRightDistance = (1.0f - xDist) * (1.0f - xDist) + (1.0f - yDist) * (1.0f - yDist);
+
+         float sum = 2;
+         float oneOverSum = 1.0f / sum;
+
+         float topLeftPercentage = topLeftDistance * oneOverSum;
+         float topRightPercentage = topRightDistance * oneOverSum;
+         float bottomLeftPercentage = bottomLeftDistance * oneOverSum;
+         float bottomRightPercentage = bottomRightDistance * oneOverSum;
+
          // add center
          AddSampleToPixel(xFloor, yFloor, sample, 1.0f);
       }
