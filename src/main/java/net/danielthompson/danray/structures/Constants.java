@@ -17,15 +17,17 @@ public class Constants {
    public static final float NOHIT = -1.0f;
 
    public static final float PI = (float) Math.PI;
-   public static final float OneOverPi = (float) (1.0f / Math.PI);
-   public static final float OneOver2Pi = (float) (1.0f/ (2 * Math.PI));
-   public static final float OneOver4Pi = (float) (1.0f / (4 * Math.PI));
+   public static final float OneOverPi = (float) (1.0 / Math.PI);
+   public static final float OneOver2Pi = (float) (1.0 / (2 * Math.PI));
+   public static final float OneOver4Pi = (float) (1.0 / (4 * Math.PI));
 
-   public static final float PIOver2 = PI / 2.0f;
-   public static final float PIOver3 = PI / 3.0f;
-   public static final float PIOver4 = PI / 4.0f;
-   public static final float PIOver6 = PI / 6.0f;
-   public static final float PIOver12 = PI / 12.0f;
+   public static final float PITimes2 = (float)(Math.PI * 2.0);
+
+   public static final float PIOver2 = (float) (Math.PI / 2.0);
+   public static final float PIOver3 = (float) (Math.PI / 3.0);
+   public static final float PIOver4 = (float) (Math.PI / 4.0);
+   public static final float PIOver6 = (float) (Math.PI / 6.0);
+   public static final float PIOver12 = (float) (Math.PI / 12.0);
 
    public static final float IncidenceFactor = 100.0f / PIOver2;
 
