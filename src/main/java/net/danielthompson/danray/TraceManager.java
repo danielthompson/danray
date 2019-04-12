@@ -2,6 +2,7 @@ package net.danielthompson.danray;
 
 import net.danielthompson.danray.acceleration.KDScene;
 import net.danielthompson.danray.films.BoxFilterFilm;
+import net.danielthompson.danray.films.TriangleFilterFilm;
 import net.danielthompson.danray.integrators.*;
 import net.danielthompson.danray.presets.RenderQualityPreset;
 import net.danielthompson.danray.presets.TracerOptions;

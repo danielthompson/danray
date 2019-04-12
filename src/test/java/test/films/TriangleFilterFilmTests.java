@@ -51,11 +51,18 @@ public class TriangleFilterFilmTests {
    @Test
    public void testTriangleFilm2() {
       _film.AddSamples(2.0f, 2.0f, _samples);
+      _film.AddSamples(2.0f, 2.0f, _samples);
 
-      Color colorLeft = new Color(_film.Image.getRGB(1, 1));
-      Color colorRight = new Color(_film.Image.getRGB(2, 1));
+      Color colorTopLeft = new Color(_film.Image.getRGB(1, 2));
+      Color colorTopRight = new Color(_film.Image.getRGB(2, 2));
+      Color colorBottomLeft = new Color(_film.Image.getRGB(1, 1));
+      Color colorBottomRight = new Color(_film.Image.getRGB(2, 1));
 
-      Assert.assertEquals(colorLeft, new Color(128, 128, 128));
-      Assert.assertEquals(colorRight, new Color(128, 128, 128));
+      Color expectedColor = new Color(255, 255, 255);
+
+      Assert.assertEquals(colorTopLeft, expectedColor);
+      Assert.assertEquals(colorTopRight, expectedColor);
+      Assert.assertEquals(colorBottomLeft, expectedColor);
+      Assert.assertEquals(colorBottomRight, expectedColor);
    }
 }

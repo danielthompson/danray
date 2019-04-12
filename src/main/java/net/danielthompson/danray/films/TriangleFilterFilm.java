@@ -37,8 +37,14 @@ public class TriangleFilterFilm extends AbstractFilm {
          float bottomLeftPercentage = bottomLeftDistance * oneOverSum;
          float bottomRightPercentage = bottomRightDistance * oneOverSum;
 
-         // add center
-         AddSampleToPixel(xFloor, yFloor, sample, 1.0f);
+         // top left
+         AddSampleToPixel(xFloorMinus1, yFloorMinus1, sample, topLeftPercentage);
+         // top right
+         AddSampleToPixel(xFloor, yFloorMinus1, sample, topRightPercentage);
+         // bottom left
+         AddSampleToPixel(xFloorMinus1, yFloor, sample, bottomLeftPercentage);
+         // bottom right
+         AddSampleToPixel(xFloor, yFloor, sample, bottomRightPercentage);
       }
 
    }

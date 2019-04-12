@@ -29,21 +29,21 @@ public abstract class AbstractFilm {
 
    protected void AddSampleToPixel(int x, int y, Sample sample, float weight) {
 
-      float existingImageWeight = Weights[x][y];
+      if (Samples[x][y] == null)
+         Samples[x][y] = new Spectrum();
 
       Weights[x][y] += weight;
+      Samples[x][y].add(SpectralPowerDistribution.scale(sample.SpectralPowerDistribution, weight));
 
-      float sumWeight = existingImageWeight + weight;
+      float r = Samples[x][y].R / Weights[x][y];
+      float g = Samples[x][y].G / Weights[x][y];
+      float b = Samples[x][y].B / Weights[x][y];
 
-      existingImageWeight /= sumWeight;
-      weight /= sumWeight;
+      float clampedR = clamp(0.0f, r, 1.0f);
+      float clampedG = clamp(0.0f, g, 1.0f);
+      float clampedB = clamp(0.0f, b, 1.0f);
 
-      SpectralPowerDistribution existingSPD = new SpectralPowerDistribution(new Color(Image.getRGB(x, y)));
-
-      SpectralPowerDistribution finalColor = SpectralPowerDistribution.Lerp(existingSPD, existingImageWeight, sample.SpectralPowerDistribution, weight);
-
-      Color c = new Color(finalColor.R, finalColor.G, finalColor.B);
-
+      Color c = new Color(clampedR, clampedG, clampedB);
       Image.setRGB(x, y, c.getRGB());
    }
 
