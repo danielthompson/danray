@@ -1,6 +1,7 @@
 package net.danielthompson.danray.films;
 
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
+import net.danielthompson.danray.shading.Spectrum;
 import net.danielthompson.danray.structures.Sample;
 import net.danielthompson.danray.utility.GeometryCalculations;
 
@@ -14,6 +15,7 @@ public abstract class AbstractFilm {
    public final float FilmSpeed = 200.0f;
    public final BufferedImage Image;
    public final float[][] Weights;
+   public final Spectrum[][] Samples;
    public int Width;
    public int Height;
 
@@ -22,6 +24,7 @@ public abstract class AbstractFilm {
       Width = image.getWidth();
       Height = image.getHeight();
       Weights = new float[image.getWidth()][image.getHeight()];
+      Samples = new Spectrum[image.getWidth()][image.getHeight()];
    }
 
    protected void AddSampleToPixel(int x, int y, Sample sample, float weight) {
