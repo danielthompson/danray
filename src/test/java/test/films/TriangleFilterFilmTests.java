@@ -28,7 +28,7 @@ public class TriangleFilterFilmTests {
 
    @Test
    public void testTriangleFilm1() {
-      BufferedImage image = new BufferedImage(2, 2, TYPE_INT_RGB);
+      BufferedImage image = new BufferedImage(3, 3, TYPE_INT_RGB);
       AbstractFilm film = new TriangleFilterFilm(image);
 
       Sample sample = new Sample();

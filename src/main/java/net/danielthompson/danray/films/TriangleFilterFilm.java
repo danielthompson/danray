@@ -17,23 +17,10 @@ public class TriangleFilterFilm extends AbstractFilm {
       int xFloor = (int)x;
       int yFloor = (int)y;
 
-      if (x > 0 && y > 0 && x < Width - 1 && y < Height - 1) {
-         for (int i = 0; i < samples.length; i++) {
-            // add left
-            AddSampleToPixel(xFloor - 1, yFloor, samples[i], 0.15f);
-
-            // add top
-            AddSampleToPixel(xFloor, yFloor - 1, samples[i], 0.15f);
-
-            // add right
-            AddSampleToPixel(xFloor + 1, yFloor, samples[i], 0.15f);
-
-            // add bottom
-            AddSampleToPixel(xFloor, yFloor + 1, samples[i], 0.15f);
-
-            // add center
-            AddSampleToPixel(xFloor, yFloor, samples[i], 1.0f);
-         }
+      for (Sample sample : samples) {
+         // add center
+         AddSampleToPixel(xFloor, yFloor, sample, 1.0f);
       }
+
    }
 }
