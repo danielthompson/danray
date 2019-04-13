@@ -15,6 +15,10 @@
 
 ![Trace](renders/trace1.png)
 
+### The holodeck
+
+![Trace](renders/holodeck.png)
+
 ### Normals
 
 ![Trace](renders/trace3.png)
