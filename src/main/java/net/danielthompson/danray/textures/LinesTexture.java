@@ -1,6 +1,7 @@
 package net.danielthompson.danray.textures;
 
 import net.danielthompson.danray.shading.ReflectanceSpectrum;
+import net.danielthompson.danray.states.Intersection;
 
 public class LinesTexture extends AbstractTexture {
    public int UScale = 1;
@@ -10,9 +11,9 @@ public class LinesTexture extends AbstractTexture {
    public ReflectanceSpectrum Background;
 
    @Override
-   public ReflectanceSpectrum Evaluate(float u, float v) {
-      float u1 = UScale * u % 1.0f;
-      float v1 = VScale * v % 1.0f;
+   public ReflectanceSpectrum Evaluate(Intersection intersection) {
+      float u1 = UScale * intersection.u % 1.0f;
+      float v1 = VScale * intersection.v % 1.0f;
 
       return (u1 < Thickness || v1 < Thickness) ? Line : Background;
    }

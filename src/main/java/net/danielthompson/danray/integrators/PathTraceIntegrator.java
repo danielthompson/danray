@@ -10,9 +10,6 @@ import net.danielthompson.danray.shading.bxdf.BxDF;
 import net.danielthompson.danray.shapes.AbstractShape;
 import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
-import net.danielthompson.danray.textures.CheckerboardTexture;
-
-import java.io.Console;
 
 /**
  * Created by daniel on 5/5/15.
@@ -126,7 +123,7 @@ public class PathTraceIntegrator extends AbstractIntegrator {
             // compute the interaction of the incoming SPD with the object's SRC
             if (objectMaterial.Texture != null) {
                // intersection must compute u and v!
-               reflectanceSpectrum = objectMaterial.Texture.Evaluate(intersection.u, intersection.v);
+               reflectanceSpectrum = objectMaterial.Texture.Evaluate(intersection);
             }
             SpectralPowerDistribution filteredSPD = nextSPD.reflectOff(reflectanceSpectrum);
             filteredSPD.scale(weight);

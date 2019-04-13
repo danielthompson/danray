@@ -1,6 +1,7 @@
 package net.danielthompson.danray.textures;
 
 import net.danielthompson.danray.shading.ReflectanceSpectrum;
+import net.danielthompson.danray.states.Intersection;
 
 public class ConstantTexture extends AbstractTexture {
 
@@ -11,7 +12,7 @@ public class ConstantTexture extends AbstractTexture {
    }
 
    @Override
-   public ReflectanceSpectrum Evaluate(float u, float v) {
+   public ReflectanceSpectrum Evaluate(Intersection intersection) {
       return ReflectanceSpectrum;
    }
 }

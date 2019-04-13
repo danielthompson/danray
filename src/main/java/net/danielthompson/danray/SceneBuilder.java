@@ -22,6 +22,7 @@ import net.danielthompson.danray.shapes.*;
 import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Vector;
+import net.danielthompson.danray.textures.Checkerboard3DTexture;
 import net.danielthompson.danray.textures.CheckerboardTexture;
 import net.danielthompson.danray.textures.ConstantTexture;
 
@@ -370,7 +371,7 @@ public class SceneBuilder {
       AbstractScene scene = new NaiveScene(camera);
       Material material;
 
-      // center textured box
+      // center textured partial sphere
       material = new Material();
 //      material.reflect = new GlossyBRDF(0.85f);
 
@@ -379,13 +380,14 @@ public class SceneBuilder {
 
       //material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.WHITE);
 
-      CheckerboardTexture texture = new CheckerboardTexture();
-      texture.UScale = 4;
-      texture.VScale = 4;
-      texture.Even = new ReflectanceSpectrum(Colors.Firenze.Beige);
-      texture.Odd = new ReflectanceSpectrum(Colors.Firenze.Red);
+      Checkerboard3DTexture texture3d = new Checkerboard3DTexture();
+      texture3d.XScale = 16;
+      texture3d.YScale = 16;
+      texture3d.ZScale = 16;
+      texture3d.Even = new ReflectanceSpectrum(Colors.Firenze.Beige);
+      texture3d.Odd = new ReflectanceSpectrum(Colors.Firenze.Red);
 
-      material.Texture = texture;
+      material.Texture = texture3d;
 
       inputTransforms = new Transform[]{
             Transform.Translate(new Vector(0, -30f, 50f)),
@@ -409,7 +411,7 @@ public class SceneBuilder {
       material.Weights.add(1f);
       material.IndexOfRefraction = 1.52f;
 
-      texture = new CheckerboardTexture();
+      CheckerboardTexture texture = new CheckerboardTexture();
       texture.UScale = 16;
       texture.VScale = 16;
       texture.Even = new ReflectanceSpectrum(Colors.Firenze.Green);
