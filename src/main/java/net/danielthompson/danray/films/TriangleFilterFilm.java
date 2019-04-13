@@ -19,6 +19,10 @@ public class TriangleFilterFilm extends AbstractFilm {
       int yFloor = (int)y;
       int yFloorMinus1 = (yFloor == 0) ? 0 : yFloor - 1;
 
+      if (xFloor == 156 && yFloor == 278) {
+         int i = 0;
+      }
+
       for (Sample sample : samples) {
 
          float xDist = (x - xFloor + 0.5f) % 1.0f;
@@ -46,6 +50,5 @@ public class TriangleFilterFilm extends AbstractFilm {
          // bottom right
          AddSampleToPixel(xFloor, yFloor, sample, bottomRightPercentage);
       }
-
    }
 }

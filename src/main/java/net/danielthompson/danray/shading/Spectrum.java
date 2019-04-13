@@ -54,4 +54,18 @@ public class Spectrum {
 
       return s;
    }
+
+   public float magnitude() {
+      return R + G + B;
+   }
+   
+   public void clamp(float v0, float v1) {
+      R = R < v0 ? v0 : (R > v1 ? v1 : R);
+      G = G < v0 ? v0 : (G > v1 ? v1 : G);
+      B = B < v0 ? v0 : (B > v1 ? v1 : B);
+   }
+
+   public void clamp() {
+      clamp(0.0f, 1.0f);
+   }
 }

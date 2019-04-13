@@ -29,6 +29,7 @@ public class BoxFilterFilm extends AbstractFilm {
          Samples[xFloor][yFloor] = new Spectrum();
 
       for (Sample sample : samples) {
+         sample.SpectralPowerDistribution.clamp();
          Samples[xFloor][yFloor].add(sample.SpectralPowerDistribution);
       }
 

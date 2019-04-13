@@ -32,19 +32,48 @@ public abstract class AbstractFilm {
       if (Samples[x][y] == null)
          Samples[x][y] = new Spectrum();
 
+      SpectralPowerDistribution weighted = SpectralPowerDistribution.scale(sample.SpectralPowerDistribution, weight);
+
+      weighted.R = clamp(0.0f, weighted.R, 1.0f);
+      weighted.G = clamp(0.0f, weighted.G, 1.0f);
+      weighted.B = clamp(0.0f, weighted.B, 1.0f);
+
+      Samples[x][y].add(weighted);
+
       Weights[x][y] += weight;
-      Samples[x][y].add(SpectralPowerDistribution.scale(sample.SpectralPowerDistribution, weight));
 
-      float r = Samples[x][y].R / Weights[x][y];
-      float g = Samples[x][y].G / Weights[x][y];
-      float b = Samples[x][y].B / Weights[x][y];
+      float multiplier = 1.0f / Weights[x][y];
 
-      float clampedR = clamp(0.0f, r, 1.0f);
-      float clampedG = clamp(0.0f, g, 1.0f);
-      float clampedB = clamp(0.0f, b, 1.0f);
+      float finalR = Samples[x][y].R * multiplier;
+      float finalG = Samples[x][y].G * multiplier;
+      float finalB = Samples[x][y].B * multiplier;
 
-      Color c = new Color(clampedR, clampedG, clampedB);
-      Image.setRGB(x, y, c.getRGB());
+      finalR = clamp(0.0f, finalR, 1.0f);
+      finalG = clamp(0.0f, finalG, 1.0f);
+      finalB = clamp(0.0f, finalB, 1.0f);
+
+      float r = finalR;
+      float g = finalG;
+      float b = finalB;
+
+      if (r > 1.0f || g > 1.0f || b > 1.0f) {
+         int i = 0;
+      }
+
+
+      //float clampedR = clamp(0.0f, r, 1.0f);
+      //float clampedG = clamp(0.0f, g, 1.0f);
+      //float clampedB = clamp(0.0f, b, 1.0f);
+
+//      Color c = new Color(clampedR, clampedG, clampedB);
+
+      try {
+         Color c = new Color(r, g, b);
+         Image.setRGB(x, y, c.getRGB());
+      }
+      catch (IllegalArgumentException e) {
+         int i = 0;
+      }
    }
 
    protected float clamp(float var0, float var1, float var2) {

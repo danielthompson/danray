@@ -11,12 +11,12 @@ public class LambertianBRDF extends BRDF {
 
    @Override
    public float f(float thetaIncoming, float thetaOutgoing) {
-      return Constants.OneOverPi;
+      return 1;
    }
 
    @Override
    public float f(Vector incoming, Normal normal, Vector outgoing) {
-         return Constants.OneOverPi;
+         return 1;
    }
 
    @Override
