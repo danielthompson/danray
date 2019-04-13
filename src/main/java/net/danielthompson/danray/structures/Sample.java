@@ -20,9 +20,7 @@ public class Sample {
       float sum = 0;
 
       if (SpectralPowerDistribution != null) {
-         sum += SpectralPowerDistribution.R;
-         sum += SpectralPowerDistribution.G;
-         sum += SpectralPowerDistribution.B;
+         sum = SpectralPowerDistribution.magnitude();
       }
 
       return "Total: " + sum;

@@ -2,6 +2,7 @@ package net.danielthompson.danray;
 
 import net.danielthompson.danray.acceleration.KDScene;
 import net.danielthompson.danray.films.BoxFilterFilm;
+import net.danielthompson.danray.films.TriangleFilterFilm;
 import net.danielthompson.danray.integrators.*;
 import net.danielthompson.danray.presets.RenderQualityPreset;
 import net.danielthompson.danray.presets.TracerOptions;
@@ -119,8 +120,8 @@ public class TraceManager {
 //      _integrator = new WhittedIntegrator(_scene, renderQualityPreset.getMaxDepth());
 //      _integrator = new DepthIntegrator(_scene, 1);
 //      _integrator = new NormalIntegrator(_scene, 1);
-      _sampler = new RandomSampler(renderQualityPreset.getSamplesPerPixel());
-//      _sampler = new GridSampler(renderQualityPreset.getSamplesPerPixel());
+//      _sampler = new RandomSampler(renderQualityPreset.getSamplesPerPixel());
+      _sampler = new GridSampler(renderQualityPreset.getSamplesPerPixel());
 //      _sampler = new RandomSampler(renderQualityPreset.getSamplesPerPixel());
 //      _sampler = new CenterSampler(renderQualityPreset.getSamplesPerPixel());
       _timer = new Timer();
@@ -360,6 +361,7 @@ public class TraceManager {
       _heatImage = new BufferedImage(_qualityPreset.getX(), _qualityPreset.getY(), BufferedImage.TYPE_INT_RGB);
 
       _film = new BoxFilterFilm(_traceImage);
+//      _film = new TriangleFilterFilm(_traceImage);
 
       _tracePixelXYZ = new float[_qualityPreset.getX()][_qualityPreset.getY()][3];
 
@@ -422,7 +424,7 @@ public class TraceManager {
       }
       */
 
-      //_tracerOptions.numThreads = 4;
+//      _tracerOptions.numThreads = 1;
 //
       if (_tracerOptions.numThreads <= 1) {
          runner.run();

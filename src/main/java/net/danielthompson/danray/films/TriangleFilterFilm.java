@@ -15,25 +15,40 @@ public class TriangleFilterFilm extends AbstractFilm {
 
    public void AddSamples(float x, float y, Sample[] samples) {
       int xFloor = (int)x;
+      int xFloorMinus1 = (xFloor == 0) ? 0 : xFloor - 1;
       int yFloor = (int)y;
+      int yFloorMinus1 = (yFloor == 0) ? 0 : yFloor - 1;
 
-      if (x > 0 && y > 0 && x < Width - 1 && y < Height - 1) {
-         for (int i = 0; i < samples.length; i++) {
-            // add left
-            AddSampleToPixel(xFloor - 1, yFloor, samples[i], 0.15f);
+      if (xFloor == 156 && yFloor == 278) {
+         int i = 0;
+      }
 
-            // add top
-            AddSampleToPixel(xFloor, yFloor - 1, samples[i], 0.15f);
+      for (Sample sample : samples) {
 
-            // add right
-            AddSampleToPixel(xFloor + 1, yFloor, samples[i], 0.15f);
+         float xDist = (x - xFloor + 0.5f) % 1.0f;
+         float yDist = (y - yFloor + 0.5f) % 1.0f;
 
-            // add bottom
-            AddSampleToPixel(xFloor, yFloor + 1, samples[i], 0.15f);
+         float topLeftDistance = xDist * xDist + yDist * yDist;
+         float topRightDistance = (1.0f - xDist) * (1.0f - xDist) + yDist * yDist;
+         float bottomLeftDistance = xDist * xDist + (1.0f - yDist) * (1.0f - yDist);
+         float bottomRightDistance = (1.0f - xDist) * (1.0f - xDist) + (1.0f - yDist) * (1.0f - yDist);
 
-            // add center
-            AddSampleToPixel(xFloor, yFloor, samples[i], 1.0f);
-         }
+         float sum = 2;
+         float oneOverSum = 1.0f / sum;
+
+         float topLeftPercentage = topLeftDistance * oneOverSum;
+         float topRightPercentage = topRightDistance * oneOverSum;
+         float bottomLeftPercentage = bottomLeftDistance * oneOverSum;
+         float bottomRightPercentage = bottomRightDistance * oneOverSum;
+
+         // top left
+         AddSampleToPixel(xFloorMinus1, yFloorMinus1, sample, topLeftPercentage);
+         // top right
+         AddSampleToPixel(xFloor, yFloorMinus1, sample, topRightPercentage);
+         // bottom left
+         AddSampleToPixel(xFloorMinus1, yFloor, sample, bottomLeftPercentage);
+         // bottom right
+         AddSampleToPixel(xFloor, yFloor, sample, bottomRightPercentage);
       }
    }
 }

@@ -29,22 +29,51 @@ public abstract class AbstractFilm {
 
    protected void AddSampleToPixel(int x, int y, Sample sample, float weight) {
 
-      float existingImageWeight = Weights[x][y];
+      if (Samples[x][y] == null)
+         Samples[x][y] = new Spectrum();
+
+      SpectralPowerDistribution weighted = SpectralPowerDistribution.scale(sample.SpectralPowerDistribution, weight);
+
+      weighted.R = clamp(0.0f, weighted.R, 1.0f);
+      weighted.G = clamp(0.0f, weighted.G, 1.0f);
+      weighted.B = clamp(0.0f, weighted.B, 1.0f);
+
+      Samples[x][y].add(weighted);
 
       Weights[x][y] += weight;
 
-      float sumWeight = existingImageWeight + weight;
+      float multiplier = 1.0f / Weights[x][y];
 
-      existingImageWeight /= sumWeight;
-      weight /= sumWeight;
+      float finalR = Samples[x][y].R * multiplier;
+      float finalG = Samples[x][y].G * multiplier;
+      float finalB = Samples[x][y].B * multiplier;
 
-      SpectralPowerDistribution existingSPD = new SpectralPowerDistribution(new Color(Image.getRGB(x, y)));
+      finalR = clamp(0.0f, finalR, 1.0f);
+      finalG = clamp(0.0f, finalG, 1.0f);
+      finalB = clamp(0.0f, finalB, 1.0f);
 
-      SpectralPowerDistribution finalColor = SpectralPowerDistribution.Lerp(existingSPD, existingImageWeight, sample.SpectralPowerDistribution, weight);
+      float r = finalR;
+      float g = finalG;
+      float b = finalB;
 
-      Color c = new Color(finalColor.R, finalColor.G, finalColor.B);
+      if (r > 1.0f || g > 1.0f || b > 1.0f) {
+         int i = 0;
+      }
 
-      Image.setRGB(x, y, c.getRGB());
+
+      //float clampedR = clamp(0.0f, r, 1.0f);
+      //float clampedG = clamp(0.0f, g, 1.0f);
+      //float clampedB = clamp(0.0f, b, 1.0f);
+
+//      Color c = new Color(clampedR, clampedG, clampedB);
+
+      try {
+         Color c = new Color(r, g, b);
+         Image.setRGB(x, y, c.getRGB());
+      }
+      catch (IllegalArgumentException e) {
+         int i = 0;
+      }
    }
 
    protected float clamp(float var0, float var1, float var2) {

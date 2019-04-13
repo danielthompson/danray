@@ -18,7 +18,6 @@ public class BoxFilterFilm extends AbstractFilm {
 
    @Override
    public void AddSamples(float x, float y, Sample[] samples) {
-
       int xFloor = (int)x;
       int yFloor = (int)y;
 
@@ -30,18 +29,17 @@ public class BoxFilterFilm extends AbstractFilm {
          Samples[xFloor][yFloor] = new Spectrum();
 
       for (Sample sample : samples) {
-         Samples[xFloor][yFloor].R += (sample.SpectralPowerDistribution.R);
-         Samples[xFloor][yFloor].G += (sample.SpectralPowerDistribution.G);
-         Samples[xFloor][yFloor].B += (sample.SpectralPowerDistribution.B);
+         sample.SpectralPowerDistribution.clamp();
+         Samples[xFloor][yFloor].add(sample.SpectralPowerDistribution);
       }
 
       float r = Samples[xFloor][yFloor].R * oneOverSamples;
       float g = Samples[xFloor][yFloor].G * oneOverSamples;
       float b = Samples[xFloor][yFloor].B * oneOverSamples;
 
-      float clampedR = (float)clamp(0.0f, r, 1.0f);
-      float clampedG = (float)clamp(0.0f, g, 1.0f);
-      float clampedB = (float)clamp(0.0f, b, 1.0f);
+      float clampedR = clamp(0.0f, r, 1.0f);
+      float clampedG = clamp(0.0f, g, 1.0f);
+      float clampedB = clamp(0.0f, b, 1.0f);
 
       Color newSampleColor = new Color(clampedR, clampedG, clampedB);
 
