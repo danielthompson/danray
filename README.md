@@ -7,13 +7,13 @@
 
 ## Renders
 
-### Spheres, Boxes, Transforms
-
-![Trace](renders/trace1.png)
-
 ### Diffuse interreflection, procedural textures
 
 ![Trace](renders/trace2.png)
+
+### Partial spheres
+
+![Trace](renders/trace1.png)
 
 ### Normals
 
