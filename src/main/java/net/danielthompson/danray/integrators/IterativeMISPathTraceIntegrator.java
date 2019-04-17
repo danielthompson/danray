@@ -5,7 +5,6 @@ import net.danielthompson.danray.scenes.AbstractScene;
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.shading.ReflectanceSpectrum;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
-import net.danielthompson.danray.shading.bxdf.BRDF;
 import net.danielthompson.danray.shapes.AbstractShape;
 import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
@@ -85,7 +84,7 @@ public class IterativeMISPathTraceIntegrator extends AbstractIntegrator {
                         ) {
                      float oneOverDistanceFromLightSourceSquared = 1 / lightLocation.SquaredDistanceBetween(closestStateToRay.Location);
 
-                     Intersection state = closestShape.getHitInfo(lightToNearestShape);
+                     Intersection state = closestShape.GetHitInfo(lightToNearestShape);
                      if (state.Hits) {
                         float angleOfIncidencePercentage = GeometryCalculations.GetCosineWeightedIncidencePercentage(lightToNearestShape.Direction, closestStateToRay.Normal);
 

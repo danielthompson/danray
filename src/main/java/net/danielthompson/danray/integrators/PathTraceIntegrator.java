@@ -143,20 +143,20 @@ public class PathTraceIntegrator extends AbstractIntegrator {
 //               outgoing.Scale(-1);
 //
 //            Ray bounceRay = new Ray(intersection.Location, outgoing);
-//            boolean hits = closestShape.hits(bounceRay);
-//            Intersection nextIntersection = closestShape.getHitInfo(bounceRay);
+//            boolean Hits = closestShape.Hits(bounceRay);
+//            Intersection nextIntersection = closestShape.GetHitInfo(bounceRay);
 //            Intersection previousIntersection = nextIntersection;
 //
 //            // TODO fix t comparisons
-//            while (hits && (nextIntersection.t < 0 || nextIntersection.t > 1)) {
+//            while (Hits && (nextIntersection.t < 0 || nextIntersection.t > 1)) {
 //               // bounce it again, sam
 //               transmittance *= objectMaterial.BSSRDF.Transmittance;
 //               outgoing = objectMaterial.BSSRDF.GetVector();
 //               Point newOrigin = objectMaterial.BSSRDF.GetNextPoint(previousIntersection.Location, outgoing);
 //               bounceRay = new Ray(newOrigin, outgoing);
-//               hits = closestShape.hits(bounceRay);
+//               Hits = closestShape.Hits(bounceRay);
 //               previousIntersection = nextIntersection;
-//               nextIntersection = closestShape.getHitInfo(bounceRay);
+//               nextIntersection = closestShape.GetHitInfo(bounceRay);
 //            }
 //            // exiting
 //

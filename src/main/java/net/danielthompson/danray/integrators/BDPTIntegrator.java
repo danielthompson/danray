@@ -347,7 +347,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //
 //         Ray lightRay = intersectionPoint.CreateVectorFrom(lightBouncePoint);
 //         lightRay.OffsetOriginForward(.01);
-//         // check to see if the ray hits anything
+//         // check to see if the ray Hits anything
 //
 //         Vector incomingDirection = lightRay.Direction;
 //         Normal surfaceNormal = closestStateToRay.Normal;
@@ -426,8 +426,8 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //               }
 //
 //               if (noOccluder || targetIntersection) {
-//                  Intersection state = closestStateToRay.Shape.getHitInfo(lightRayFromCurrentRadiatableToClosestDrawable);
-//                  if (state.hits) {
+//                  Intersection state = closestStateToRay.Shape.GetHitInfo(lightRayFromCurrentRadiatableToClosestDrawable);
+//                  if (state.Hits) {
 //                     // figure out how much light is shining by sampling the light
 //
 //                     float pdfPercentage = brdfPDF * (4 * Constants.PI) / lightPDF;

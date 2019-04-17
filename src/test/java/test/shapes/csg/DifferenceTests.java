@@ -18,11 +18,13 @@ public class DifferenceTests {
 
    @BeforeMethod
    public void setUp() throws Exception {
-      shape = new CSGShape();
+      shape = new CSGShape(null);
       shape.Operation = CSGOperation.Difference;
 
       Transform[] inputTransforms = new Transform[]{
             Transform.Translate(new Vector(0, 0, 1)),
+            Transform.Scale(2),
+
       };
       Transform[] compositeTransforms = Transform.composite(inputTransforms);
 
@@ -30,6 +32,8 @@ public class DifferenceTests {
 
       inputTransforms = new Transform[]{
             Transform.Translate(new Vector(1, 0, 0)),
+            Transform.Scale(2),
+
       };
       compositeTransforms = Transform.composite(inputTransforms);
 
@@ -43,15 +47,33 @@ public class DifferenceTests {
 
    @Test
    public void shouldNotHit1() {
-
       Point origin = new Point(1, 0, -1);
       Vector direction = new Vector(1, 0, 1);
-
       Ray ray = new Ray(origin, direction);
 
-      boolean hits = shape.hits(ray);
+      boolean hits = shape.Hits(ray);
 
       Assert.assertFalse(hits);
+   }
 
+   @Test
+   public void shouldNotHit2() {
+      Point origin = new Point(1, 0, -0.5f);
+      Vector direction = new Vector(1, 0, 1);
+      Ray ray = new Ray(origin, direction);
+
+      boolean hits = shape.Hits(ray);
+
+      Assert.assertFalse(hits);
+   }
+
+   @Test
+   public void shouldHit1() {
+      Point origin = new Point(0, 0, -2);
+      Vector direction = new Vector(2, 0, 5);
+      Ray ray = new Ray(origin, direction);
+
+      boolean hits = shape.Hits(ray);
+      Assert.assertTrue(hits);
    }
 }

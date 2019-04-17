@@ -11,6 +11,6 @@ import java.util.Comparator;
 public class DrawableXComparator implements Comparator<AbstractShape> {
    @Override
    public int compare(AbstractShape point1, AbstractShape point2) {
-      return (point1.getMedian(KDAxis.X) < point2.getMedian(KDAxis.X) ? -1 : (point1.getMedian(KDAxis.X) == point2.getMedian(KDAxis.X) ? 0 : 1));
+      return (point1.GetMedian(KDAxis.X) < point2.GetMedian(KDAxis.X) ? -1 : (point1.GetMedian(KDAxis.X) == point2.GetMedian(KDAxis.X) ? 0 : 1));
    }
 }

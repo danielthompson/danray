@@ -7,13 +7,10 @@ import net.danielthompson.danray.presets.TracerOptions;
 import net.danielthompson.danray.scenes.skyboxes.AbstractSkybox;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.shapes.AbstractShape;
-import net.danielthompson.danray.shapes.Box;
 import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
-import net.danielthompson.danray.structures.Point;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,7 +59,7 @@ public abstract class AbstractScene {
 
       for (int i = 0; i < shapes.size(); i++) {
          AbstractShape shape = shapes.get(i);
-         boolean hits = shape.hits(ray);
+         boolean hits = shape.Hits(ray);
          test = (hits && ray.MinT >= Constants.Epsilon && ray.MinT < closestT);
          nearestShapeIndex = test ? i : nearestShapeIndex;
          closestT = test ? ray.MinT : closestT;
@@ -71,10 +68,10 @@ public abstract class AbstractScene {
       Intersection closestStateToRay = null;
 
       if (nearestShapeIndex >= 0) {
-         closestStateToRay = shapes.get(nearestShapeIndex).getHitInfo(ray);
+         closestStateToRay = shapes.get(nearestShapeIndex).GetHitInfo(ray);
          if (Float.isNaN(closestStateToRay.Location.X)) {
             // wtf?
-            closestStateToRay = shapes.get(nearestShapeIndex).getHitInfo(ray);
+            closestStateToRay = shapes.get(nearestShapeIndex).GetHitInfo(ray);
          }
       }
 

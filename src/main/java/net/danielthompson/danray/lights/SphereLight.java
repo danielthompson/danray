@@ -6,6 +6,8 @@ import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.utility.GeometryCalculations;
 
+import java.util.List;
+
 /**
  * Created by daniel on 3/8/14.
  */
@@ -29,16 +31,21 @@ public class SphereLight extends AbstractLight {
    }
 
    @Override
-   public boolean hits(Ray ray) {
-      return Sphere.hits(ray);
+   public boolean Hits(Ray ray) {
+      return Sphere.Hits(ray);
    }
 
    @Override
-   public Intersection getHitInfo(Ray ray) {
-      Intersection state = Sphere.getHitInfo(ray);
+   public Intersection GetHitInfo(Ray ray) {
+      Intersection state = Sphere.GetHitInfo(ray);
       if (state != null && state.Shape == Sphere)
          state.Shape = this;
       return state;
+   }
+
+   @Override
+   public List<Intersection> GetAllHitPoints(Ray ray) {
+      return null;
    }
 
 

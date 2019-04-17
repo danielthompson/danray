@@ -2,9 +2,12 @@ package net.danielthompson.danray.lights;
 
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.shapes.AbstractShape;
+import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Vector;
+
+import java.util.List;
 
 /**
  * Created by daniel on 6/25/16.
@@ -48,5 +51,10 @@ public class ShapeLight extends AbstractLight {
    public void RecalculateWorldBoundingBox() {
       Shape.RecalculateWorldBoundingBox();
       WorldBoundingBox = Shape.WorldBoundingBox;
+   }
+
+   @Override
+   public List<Intersection> GetAllHitPoints(Ray ray) {
+      return null;
    }
 }

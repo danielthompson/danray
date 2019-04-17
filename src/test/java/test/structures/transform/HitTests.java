@@ -74,7 +74,7 @@ public class HitTests {
 
       Ray ray = new Ray(origin, direction);
 
-      boolean hits = box.hits(ray);
+      boolean hits = box.Hits(ray);
 
       Assert.assertTrue(hits);
    }
@@ -96,7 +96,7 @@ public class HitTests {
 
       Ray ray = new Ray(origin, direction);
 
-      boolean hits = box.hits(ray);
+      boolean hits = box.Hits(ray);
 
       Assert.assertTrue(hits);
    }
