@@ -71,25 +71,116 @@ public class CSGShape extends AbstractShape {
          switch (Operation) {
             case Union: {
                if (nextIntersection.Hits)
+               {
+                  ray.MinT = nextIntersection.t;
                   return true;
+               }
                continue;
             }
             case Difference: {
                // if hp is on left and we're outside right, return it
                if (nextIntersection == leftIntersection && !RightShape.Inside(nextIntersection.Location))
+               {
+                  ray.MinT = nextIntersection.t;
                   return true;
+               }
                if (nextIntersection == rightIntersection && LeftShape.Inside(nextIntersection.Location))
+               {
+                  ray.MinT = nextIntersection.t;
                   return true;
+               }
+
                // if hp is on right and we're inside left, fliip normal and return it
                continue;
             }
             case Intersection: {
                // if hp is on left and we're inside right, return it
                if (nextIntersection == leftIntersection && RightShape.Inside(nextIntersection.Location))
+               {
+                  ray.MinT = nextIntersection.t;
                   return true;
+               }
                // if hp is on right and we're inside left, return it
                if (nextIntersection == rightIntersection && LeftShape.Inside(nextIntersection.Location))
+               {
+                  ray.MinT = nextIntersection.t;
                   return true;
+               }
+               continue;
+            }
+         }
+      }
+   }
+
+   @Override
+   public Intersection GetHitInfo(Ray ray) {
+      // get all hitpoints - in order
+      List<Intersection> leftHitPoints = LeftShape.GetAllHitPoints(ray);
+      List<Intersection> rightHitPoints = RightShape.GetAllHitPoints(ray);
+
+      int leftIndex = 0;
+      int rightIndex = 0;
+
+      while (true) {
+
+         Intersection nextIntersection = null;
+         Intersection leftIntersection = null;
+         Intersection rightIntersection = null;
+
+         if (leftHitPoints.size() > 0 && leftIndex < leftHitPoints.size()) {
+            leftIntersection = leftHitPoints.get(leftIndex);
+         }
+         if (rightHitPoints.size() > 0 && rightIndex < rightHitPoints.size()) {
+            rightIntersection = rightHitPoints.get(rightIndex);
+         }
+
+         if (leftIntersection != null && rightIntersection != null) {
+            if (leftIntersection.t < rightIntersection.t) {
+               nextIntersection = leftIntersection;
+               leftIndex++;
+            }
+            else {
+               nextIntersection = rightIntersection;
+               rightIndex++;
+            }
+         }
+         else if (leftIntersection != null) {
+            nextIntersection = leftIntersection;
+            leftIndex++;
+         }
+         else if (rightIntersection != null) {
+            nextIntersection = rightIntersection;
+            rightIndex++;
+         }
+
+         if (nextIntersection == null)
+            return null;
+
+         // foreach hitpoint
+         switch (Operation) {
+            case Union: {
+               if (nextIntersection.Hits)
+                  return nextIntersection;
+               continue;
+            }
+            case Difference: {
+               // if hp is on left and we're outside right, return it
+               if (nextIntersection == leftIntersection && !RightShape.Inside(nextIntersection.Location))
+                  return nextIntersection;
+               // if hp is on right and we're inside left, fliip normal and return it
+               if (nextIntersection == rightIntersection && LeftShape.Inside(nextIntersection.Location)) {
+                  nextIntersection.Normal.Scale(-1);
+                  return nextIntersection;
+               }
+               continue;
+            }
+            case Intersection: {
+               // if hp is on left and we're inside right, return it
+               if (nextIntersection == leftIntersection && RightShape.Inside(nextIntersection.Location))
+                  return nextIntersection;
+               // if hp is on right and we're inside left, return it
+               if (nextIntersection == rightIntersection && LeftShape.Inside(nextIntersection.Location))
+                  return nextIntersection;
                continue;
             }
          }

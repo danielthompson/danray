@@ -19,6 +19,8 @@ import net.danielthompson.danray.shading.bxdf.reflect.SpecularBRDF;
 import net.danielthompson.danray.shading.bxdf.transmit.LambertianBTDF;
 import net.danielthompson.danray.shading.bxdf.transmit.SpecularBTDF;
 import net.danielthompson.danray.shapes.*;
+import net.danielthompson.danray.shapes.csg.CSGOperation;
+import net.danielthompson.danray.shapes.csg.CSGShape;
 import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Vector;
@@ -354,7 +356,7 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
-      settings.FieldOfView = 20f;
+      settings.FieldOfView = 50f;
 
       Transform[] inputTransforms = new Transform[]{
             Transform.Translate(0, 100, 260),
@@ -396,11 +398,28 @@ public class SceneBuilder {
             //Transform.Translate(new Vector(-0.5f, -0.5f, -0.5f))
       };
       compositeTransforms = Transform.composite(inputTransforms);
+      Box leftShape = new Box(compositeTransforms, material);
 
-      float theta = Constants.PIOver2;
-      float phi = Constants.PIOver2;
+      inputTransforms = new Transform[]{
+            Transform.Translate(new Vector(0, -25f, 55f)),
+            Transform.RotateZ(180f),
+            Transform.RotateY(10f),
+            Transform.Scale(20f),
 
-      scene.addShape(new PartialSphere(compositeTransforms, material, theta, phi));
+            //Transform.Translate(new Vector(-0.5f, -0.5f, -0.5f))
+      };
+      compositeTransforms = Transform.composite(inputTransforms);
+      Box rightShape = new Box(compositeTransforms, material);
+
+      //scene.addShape(rightShape);
+      //scene.addShape(leftShape);
+
+      CSGShape csgshape = new CSGShape(material);
+      csgshape.LeftShape = leftShape;
+      csgshape.RightShape = rightShape;
+      csgshape.Operation = CSGOperation.Difference;
+
+      scene.addShape(csgshape);
       //scene.addShape(new Sphere(compositeTransforms, material));
 
       // right ball
@@ -426,8 +445,8 @@ public class SceneBuilder {
 
       compositeTransforms = Transform.composite(inputTransforms);
 
-      theta = 0;
-      phi = Constants.PIOver2;
+      float theta = 0;
+      float phi = Constants.PIOver2;
 
       scene.addShape(new PartialSphere(compositeTransforms, material, theta, phi));
 
