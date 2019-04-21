@@ -390,12 +390,12 @@ public class SceneBuilder {
       material.Texture = new ConstantTexture(new ReflectanceSpectrum(Colors.Firenze.Green));
 
       inputTransforms = new Transform[]{
-            Transform.Translate(new Vector(0, -52f, 50f)),
+            Transform.Translate(new Vector(0, -36f, 50f)),
             //Transform.RotateZ(180f),
             Transform.RotateY(30f),
-            Transform.Scale(20f),
-
-            //Transform.Translate(new Vector(-0.5f, -0.5f, -0.5f))
+            Transform.Scale(15f),
+            Transform.Scale(2),
+            Transform.Translate(new Vector(-0.5f, -0.5f, -0.5f))
       };
       compositeTransforms = Transform.composite(inputTransforms);
       Box leftShape = new Box(compositeTransforms, material);
@@ -406,11 +406,11 @@ public class SceneBuilder {
       material.Texture = new ConstantTexture(new ReflectanceSpectrum(Colors.Firenze.Yellow));
 
       inputTransforms = new Transform[]{
-            Transform.Translate(new Vector(0, -52f, 40f)),
+            Transform.Translate(new Vector(0, -36f, 50f)),
             //Transform.RotateZ(180f),
-            Transform.RotateY(20f),
-            Transform.Scale(15f),
-            Transform.Translate(1, 1, 1)
+            Transform.RotateY(30f),
+            Transform.Scale(20f),
+            //Transform.Translate(1, 1, 1)
 
 
             //Transform.Translate(new Vector(-0.5f, -0.5f, -0.5f))
@@ -425,6 +425,20 @@ public class SceneBuilder {
       csgshape.LeftShape = leftShape;
       csgshape.RightShape = rightShape;
       csgshape.Operation = CSGOperation.Intersection;
+
+      inputTransforms = new Transform[]{
+            Transform.Translate(new Vector(0, -32f, 50f)),
+            //Transform.RotateZ(180f),
+            Transform.RotateY(20f),
+            Transform.Scale(25f),
+            //Transform.Translate(1, 1, 1)
+
+
+            //Transform.Translate(new Vector(-0.5f, -0.5f, -0.5f))
+      };
+      compositeTransforms = Transform.composite(inputTransforms);
+
+
 
       scene.addShape(csgshape);
       //scene.addShape(new Sphere(compositeTransforms, material));
