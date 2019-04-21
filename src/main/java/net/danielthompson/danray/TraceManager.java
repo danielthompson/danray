@@ -126,6 +126,8 @@ public class TraceManager {
 //      _sampler = new CenterSampler(renderQualityPreset.getSamplesPerPixel());
       _timer = new Timer();
 
+      //tracerOptions.showTracerWindow = false;
+
       long numPixels = renderQualityPreset.getX() * renderQualityPreset.getY();
       _numPixelsDivisor = 1.0f / numPixels;
       _ioHelper = new IOHelper();
@@ -573,6 +575,7 @@ public class TraceManager {
 
    public void Finish() {
       Logger.Flush();
+      //System.exit(0);
    }
 
    public void moveOriginAlongAxis(int x, int y, int z) {

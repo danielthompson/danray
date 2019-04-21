@@ -167,9 +167,9 @@ public class CSGShape extends AbstractShape {
                // if hp is on left and we're outside right, return it
                if (nextIntersection == leftIntersection && !RightShape.Inside(nextIntersection.Location))
                   return nextIntersection;
-               // if hp is on right and we're inside left, fliip normal and return it
+               // if hp is on right and we're inside left, flip normal and return it
                if (nextIntersection == rightIntersection && LeftShape.Inside(nextIntersection.Location)) {
-                  nextIntersection.Normal.Scale(-1);
+                  //nextIntersection.Normal.Scale(-1);
                   return nextIntersection;
                }
                continue;

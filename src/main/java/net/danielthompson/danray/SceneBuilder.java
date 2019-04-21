@@ -356,7 +356,7 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
-      settings.FieldOfView = 50f;
+      settings.FieldOfView = 25f;
 
       Transform[] inputTransforms = new Transform[]{
             Transform.Translate(0, 100, 260),
@@ -387,12 +387,12 @@ public class SceneBuilder {
       texture.Even = new ReflectanceSpectrum(Colors.Firenze.Beige);
       texture.Odd = new ReflectanceSpectrum(Colors.Firenze.Red);
 
-      material.Texture = texture;
+      material.Texture = new ConstantTexture(new ReflectanceSpectrum(Colors.Firenze.Green));
 
       inputTransforms = new Transform[]{
-            Transform.Translate(new Vector(0, -30f, 50f)),
-            Transform.RotateZ(180f),
-            Transform.RotateY(10f),
+            Transform.Translate(new Vector(0, -52f, 50f)),
+            //Transform.RotateZ(180f),
+            Transform.RotateY(30f),
             Transform.Scale(20f),
 
             //Transform.Translate(new Vector(-0.5f, -0.5f, -0.5f))
@@ -400,16 +400,23 @@ public class SceneBuilder {
       compositeTransforms = Transform.composite(inputTransforms);
       Box leftShape = new Box(compositeTransforms, material);
 
+      material = new Material();
+      material.BxDFs.add(LambertianBRDF);
+      material.Weights.add(1.0f);
+      material.Texture = new ConstantTexture(new ReflectanceSpectrum(Colors.Firenze.Yellow));
+
       inputTransforms = new Transform[]{
-            Transform.Translate(new Vector(0, -25f, 55f)),
-            Transform.RotateZ(180f),
-            Transform.RotateY(10f),
-            Transform.Scale(20f),
+            Transform.Translate(new Vector(0, -52f, 40f)),
+            //Transform.RotateZ(180f),
+            Transform.RotateY(20f),
+            Transform.Scale(15f),
+            Transform.Translate(1, 1, 1)
+
 
             //Transform.Translate(new Vector(-0.5f, -0.5f, -0.5f))
       };
       compositeTransforms = Transform.composite(inputTransforms);
-      Box rightShape = new Box(compositeTransforms, material);
+      Sphere rightShape = new Sphere(compositeTransforms, material);
 
       //scene.addShape(rightShape);
       //scene.addShape(leftShape);
@@ -417,7 +424,7 @@ public class SceneBuilder {
       CSGShape csgshape = new CSGShape(material);
       csgshape.LeftShape = leftShape;
       csgshape.RightShape = rightShape;
-      csgshape.Operation = CSGOperation.Difference;
+      csgshape.Operation = CSGOperation.Intersection;
 
       scene.addShape(csgshape);
       //scene.addShape(new Sphere(compositeTransforms, material));

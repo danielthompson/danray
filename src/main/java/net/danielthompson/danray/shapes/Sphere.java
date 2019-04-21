@@ -2,6 +2,7 @@ package net.danielthompson.danray.shapes;
 
 import net.danielthompson.danray.acceleration.KDAxis;
 import net.danielthompson.danray.shading.Material;
+import net.danielthompson.danray.shapes.csg.CSGShape;
 import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
 
@@ -14,7 +15,7 @@ import java.util.List;
  * Date: 6/27/13
  * Time: 1:49 PM
  */
-public class Sphere extends AbstractShape {
+public class Sphere extends CSGShape {
 
    public Point Origin = new Point(0, 0, 0);
    public float Radius;
@@ -147,6 +148,9 @@ public class Sphere extends AbstractShape {
       intersection.OriginInside = Inside(objectSpaceRay.Origin) || OnSurface(objectSpaceRay.Origin);
       intersection.Entering = objectSpaceNormal.Dot(objectSpaceRay.Direction) < 0;
 
+//      if (intersection.Normal.Dot(objectSpaceRay.Direction) > 0)
+//         intersection.Normal.Scale(-1);
+
       intersection.u = 0.5f + (float)Math.atan2(-objectSpaceNormal.Z, -objectSpaceNormal.X) * Constants.OneOver2Pi;
       intersection.v = 0.5f - (float)Math.asin(-objectSpaceNormal.Y) * Constants.OneOverPi;
 
@@ -158,12 +162,7 @@ public class Sphere extends AbstractShape {
    }
 
    @Override
-   public List<Intersection> GetAllHitPoints(Ray ray) {
-      return null;
-   }
-
-   @Override
-   public List<Intersection> getAllHitInfos(Ray worldSpaceRay) {
+   public List<Intersection> GetAllHitPoints(Ray worldSpaceRay) {
 
       List<Intersection> intersections = new ArrayList<>();
       Ray objectSpaceRay = worldSpaceRay;
@@ -198,6 +197,7 @@ public class Sphere extends AbstractShape {
          }
 
          Intersection intersection = GetHitInfo(worldSpaceRay);
+
          intersections.add(intersection);
       }
 
@@ -221,8 +221,15 @@ public class Sphere extends AbstractShape {
       return Origin.getAxis(axis);
    }
 
-   public boolean Inside(Point point) {
-      float dist = point.SquaredDistanceBetween(Origin);
+   @Override
+   public boolean Inside(Point worldSpacePoint) {
+      Point objectSpacePoint = worldSpacePoint;
+
+      if (WorldToObject != null) {
+         objectSpacePoint = WorldToObject.Apply(worldSpacePoint);
+      }
+
+      float dist = objectSpacePoint.SquaredDistanceBetween(Origin);
       float r2 = Radius * Radius;
 
       boolean value = dist < r2;

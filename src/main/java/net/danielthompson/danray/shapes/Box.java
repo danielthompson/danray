@@ -57,12 +57,12 @@ public class Box extends CSGShape {
       }
 
       return (
-            point1.X >= objectSpacePoint.X
-         && point1.Y >= objectSpacePoint.Y
-         && point1.Z >= objectSpacePoint.Z
-         && point2.X <= objectSpacePoint.X
-         && point2.Y <= objectSpacePoint.Y
-         && point2.Z <= objectSpacePoint.Z
+            point1.X <= objectSpacePoint.X
+         && point1.Y <= objectSpacePoint.Y
+         && point1.Z <= objectSpacePoint.Z
+         && point2.X >= objectSpacePoint.X
+         && point2.Y >= objectSpacePoint.Y
+         && point2.Z >= objectSpacePoint.Z
       );
    }
 

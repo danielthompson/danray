@@ -90,9 +90,35 @@ public class DifferenceTests {
 
       Assert.assertNotNull(intersection);
       Assert.assertTrue(intersection.Hits);
+   }
+
+   @Test
+   public void shouldHit2Normal() {
+      Point origin = new Point(0, 0, -2);
+      Vector direction = new Vector(2, 0, 5);
+      Ray ray = new Ray(origin, direction);
+
+      boolean hits = shape.Hits(ray);
+
+      Intersection intersection = shape.GetHitInfo(ray);
+
+      Normal expectedNormal = new Normal(0, 0, -1);
 
       Assert.assertNotNull(intersection.Normal);
       Assert.assertEquals(intersection.Normal, expectedNormal);
+   }
+
+   @Test
+   public void shouldHit2Location() {
+      Point origin = new Point(0, 0, -2);
+      Vector direction = new Vector(2, 0, 5);
+      Ray ray = new Ray(origin, direction);
+
+      boolean hits = shape.Hits(ray);
+
+      Intersection intersection = shape.GetHitInfo(ray);
+
+      Point expectedHitPoint = new Point(1.6f, 0, 2);
 
       Assert.assertNotNull(intersection.Location);
       Assert.assertEquals(intersection.Location, expectedHitPoint);
