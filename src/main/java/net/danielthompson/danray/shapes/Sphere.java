@@ -33,10 +33,8 @@ public class Sphere extends CSGShape {
    }
 
    public Sphere(Transform objectToWorld, Transform worldToObject, Material material) {
-      super(material);
+      super(objectToWorld, worldToObject, material);
       Radius = 1;
-      ObjectToWorld = objectToWorld;
-      WorldToObject = worldToObject;
       RecalculateWorldBoundingBox();
    }
 

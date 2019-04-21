@@ -29,8 +29,18 @@ public abstract class AbstractShape {
    BoundingEdge[] yBoundingEdges;
    BoundingEdge[] zBoundingEdges;
 
-   public AbstractShape(Material material) {
+   protected AbstractShape(Material material) {
+      this(null, null, material);
+   }
+
+   protected AbstractShape(Transform[] transforms, Material material) {
+      this(transforms[0], transforms[1], material);
+   }
+
+   protected AbstractShape(Transform objectToWorld, Transform worldToObject, Material material) {
       this.Material = material;
+      this.ObjectToWorld = objectToWorld;
+      this.WorldToObject = worldToObject;
    }
 
    public abstract void RecalculateWorldBoundingBox();

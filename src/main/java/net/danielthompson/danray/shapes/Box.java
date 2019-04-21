@@ -171,7 +171,7 @@ public class Box extends CSGShape {
 
                boolean isNan = Float.isNaN(objectSpaceRay.Direction.X);
 
-               throw new NullPointerException();
+               intersection.Normal = new Normal(Constants.PositiveZ);
                //}
             }
          }
