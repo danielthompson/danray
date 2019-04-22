@@ -8,6 +8,7 @@ import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Transform;
 import org.apache.commons.lang.NotImplementedException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CSGShape extends AbstractShape {
@@ -24,12 +25,12 @@ public class CSGShape extends AbstractShape {
       super(material);
    }
 
-   public CSGShape(Transform[] transforms, Material material) {
-      super(transforms, material);
+   public CSGShape(Transform[] transforms) {
+      super(transforms, null);
    }
 
-   public CSGShape(Transform objectToWorld, Transform worldToObject, Material material) {
-      super(objectToWorld, worldToObject, material);
+   public CSGShape(Transform objectToWorld, Transform worldToObject) {
+      super(objectToWorld, worldToObject, null);
    }
 
    public boolean Hits(Ray worldSpaceRay) {
@@ -226,7 +227,24 @@ public class CSGShape extends AbstractShape {
    }
 
    @Override
-   public List<Intersection> GetAllHitPoints(Ray ray) {
-      return null;
+   public List<Intersection> GetAllHitPoints(Ray worldSpaceRay) {
+      Ray objectSpaceRay = worldSpaceRay;
+
+      if (WorldToObject != null) {
+         objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
+      }
+
+      // get all hitpoints - in order
+      List<Intersection> leftHitPoints = LeftShape.GetAllHitPoints(objectSpaceRay);
+      List<Intersection> rightHitPoints = RightShape.GetAllHitPoints(objectSpaceRay);
+
+      List<Intersection> hitPoints = new ArrayList<>();
+
+      int leftIndex = -1;
+      int rightIndex = -1;
+
+      while (true) {
+         return null;
+      }
    }
 }

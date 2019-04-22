@@ -8,7 +8,7 @@ import net.danielthompson.danray.shapes.PartialSphere;
 public class LowQuality implements RenderQualityPreset {
    private final int _x = 1920, _y = 1080;
    private final int _maxDepth = 5;
-   private final int _samplesPerPixel = 64;
+   private final int _samplesPerPixel = 1;
    private final int _superSamplesPerPixel = 1;
    private final int _airIndexOfRefraction = 1;
 

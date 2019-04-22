@@ -373,11 +373,7 @@ public class SceneBuilder {
       Material material;
 
       // center textured box
-      material = new Material();
-//      material.reflect = new GlossyBRDF(0.85f);
 
-      material.BxDFs.add(LambertianBRDF);
-      material.Weights.add(1.0f);
 
       //material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.WHITE);
 
@@ -387,7 +383,12 @@ public class SceneBuilder {
       texture.Even = new ReflectanceSpectrum(Colors.Firenze.Beige);
       texture.Odd = new ReflectanceSpectrum(Colors.Firenze.Red);
 
-      material.Texture = new ConstantTexture(new ReflectanceSpectrum(Colors.Firenze.Yellow));
+      // front CSG object
+
+      material = new Material();
+      material.BxDFs.add(LambertianBRDF);
+      material.Weights.add(1.0f);
+      material.Texture = new ConstantTexture(new ReflectanceSpectrum(Colors.Firenze.Beige));
 
       inputTransforms = new Transform[]{
             Transform.Scale(2),
@@ -397,7 +398,7 @@ public class SceneBuilder {
       Box leftShape = new Box(compositeTransforms, material);
 
       material = new Material();
-      material.BxDFs.add(LambertianBRDF);
+      material.BxDFs.add(SpecularBRDF);
       material.Weights.add(1.0f);
       material.Texture = new ConstantTexture(new ReflectanceSpectrum(Colors.Firenze.Beige));
 
@@ -407,74 +408,58 @@ public class SceneBuilder {
       compositeTransforms = Transform.composite(inputTransforms);
       Sphere rightShape = new Sphere(compositeTransforms, material);
 
-      //scene.addShape(rightShape);
-      //scene.addShape(leftShape);
-
       inputTransforms = new Transform[]{
-            Transform.Translate(new Vector(0, -41f, 50f)),
+            Transform.Translate(new Vector(0, -40f, 50f)),
             Transform.RotateY(30f),
             Transform.Scale(10f),
       };
       compositeTransforms = Transform.composite(inputTransforms);
 
-      CSGShape csgshape = new CSGShape(compositeTransforms, material);
+      CSGShape csgshape = new CSGShape(compositeTransforms);
       csgshape.LeftShape = leftShape;
       csgshape.RightShape = rightShape;
       csgshape.Operation = CSGOperation.Intersection;
       scene.addShape(csgshape);
-      //scene.addShape(new Sphere(compositeTransforms, material));
 
-      // right ball
-      material = new Material();
-      material.BxDFs.add(new GlossyBRDF(0.5f));
-      material.Weights.add(1f);
-      material.IndexOfRefraction = 1.52f;
+      // left CSG object
 
-      texture = new CheckerboardTexture();
-      texture.UScale = 16;
-      texture.VScale = 16;
-      texture.Even = new ReflectanceSpectrum(Colors.Firenze.Green);
-      texture.Odd = new ReflectanceSpectrum(Color.WHITE);
-      material.Texture =  new ConstantTexture(new ReflectanceSpectrum(Colors.Firenze.Green));// texture;
-
-      inputTransforms = new Transform[] {
-            Transform.Translate(35.0f, -25.0f, -25f),
-            Transform.Scale(25f),
-            Transform.RotateX(-135f),
-            Transform.RotateY(-30f),
-
-      };
-
-      compositeTransforms = Transform.composite(inputTransforms);
-
-      float theta = 0;
-      float phi = Constants.PIOver2;
-
-      scene.addShape(new PartialSphere(compositeTransforms, material, theta, phi));
-
-      // left ball
       material = new Material();
       material.BxDFs.add(LambertianBRDF);
       material.Weights.add(1.0f);
-//      material.BxDFs.add(LambertianBRDF);
-//      material.Weights.add(1f);
-      material.IndexOfRefraction = 1.52f;
-      ConstantTexture constantTexture = new ConstantTexture(new ReflectanceSpectrum(Colors.Firenze.Orange));
+      material.Texture = new ConstantTexture(new ReflectanceSpectrum(Colors.Firenze.Green));
 
-      material.Texture = constantTexture;
-
-      inputTransforms = new Transform[] {
-            Transform.RotateY(30),
-            Transform.Translate(-35.0f, -25.0f, 0f),
-            Transform.Scale(25f)
+      inputTransforms = new Transform[]{
+            Transform.Scale(2),
+            Transform.Translate(new Vector(-0.5f, -0.5f, -0.5f))
       };
+      compositeTransforms = Transform.composite(inputTransforms);
+      leftShape = new Box(compositeTransforms, material);
 
+      material = new Material();
+      material.BxDFs.add(LambertianBRDF);
+      material.Weights.add(1.0f);
+      material.Texture = new ConstantTexture(new ReflectanceSpectrum(Colors.Firenze.Yellow));
+
+      inputTransforms = new Transform[]{
+            Transform.Translate(1, 1, 1),
+            Transform.Scale(1.5f), // TODO wtf?
+
+      };
+      compositeTransforms = Transform.composite(inputTransforms);
+      rightShape = new Sphere(compositeTransforms, material);
+
+      inputTransforms = new Transform[]{
+            Transform.Translate(-50.0f, -32.0f, -25f),
+            Transform.RotateY(20f),
+            Transform.Scale(20f),
+      };
       compositeTransforms = Transform.composite(inputTransforms);
 
-      theta = -Constants.PIOver2;
-      phi = Constants.PI;
-
-      scene.addShape(new PartialSphere(compositeTransforms, material, theta, phi));
+      csgshape = new CSGShape(compositeTransforms);
+      csgshape.LeftShape = leftShape;
+      csgshape.RightShape = rightShape;
+      csgshape.Operation = CSGOperation.Difference;
+      scene.addShape(csgshape);
 
       // bottom box
 
