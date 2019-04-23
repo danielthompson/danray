@@ -6,7 +6,7 @@ import net.danielthompson.danray.shapes.PartialSphere;
  * Created by daniel on 11/22/14.
  */
 public class LowQuality implements RenderQualityPreset {
-   private final int _x = 1920, _y = 1080;
+   private final int _x = 640, _y = 480;
    private final int _maxDepth = 5;
    private final int _samplesPerPixel = 1;
    private final int _superSamplesPerPixel = 1;
@@ -14,7 +14,6 @@ public class LowQuality implements RenderQualityPreset {
 
    private final boolean _useDepthOfField = false;
    private final float _convergenceTerminationThreshold = .8f;
-
 
    @Override
    public int getX() {

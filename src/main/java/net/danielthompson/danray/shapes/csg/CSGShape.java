@@ -193,17 +193,24 @@ public class CSGShape extends AbstractShape {
          // foreach hitpoint
          switch (Operation) {
             case Union: {
-               if (nextIntersection.Hits)
+               if (nextIntersection.Hits) {
+                  ToWorldSpace(nextIntersection, worldSpaceRay);
                   return nextIntersection;
+               }
                continue;
             }
             case Difference: {
                // if hp is on left and we're outside right, return it
                if (nextIntersection == leftIntersection && !RightShape.Inside(nextIntersection.Location))
+               {
+                  ToWorldSpace(nextIntersection, worldSpaceRay);
                   return nextIntersection;
+               }
+
                // if hp is on right and we're inside left, flip normal and return it
-               if (nextIntersection == rightIntersection && LeftShape.Inside(nextIntersection.Location)) {
-                  //nextIntersection.Normal.Scale(-1);
+               if (nextIntersection == rightIntersection && LeftShape.Inside(nextIntersection.Location))
+               {
+                  ToWorldSpace(nextIntersection, worldSpaceRay);
                   return nextIntersection;
                }
                continue;
@@ -211,10 +218,16 @@ public class CSGShape extends AbstractShape {
             case Intersection: {
                // if hp is on left and we're inside right, return it
                if (nextIntersection == leftIntersection && RightShape.Inside(nextIntersection.Location))
+               {
+                  ToWorldSpace(nextIntersection, worldSpaceRay);
                   return nextIntersection;
+               }
                // if hp is on right and we're inside left, return it
                if (nextIntersection == rightIntersection && LeftShape.Inside(nextIntersection.Location))
+               {
+                  ToWorldSpace(nextIntersection, worldSpaceRay);
                   return nextIntersection;
+               }
                continue;
             }
          }
@@ -227,10 +240,16 @@ public class CSGShape extends AbstractShape {
    }
 
    @Override
-   public List<Intersection> GetAllHitPoints(Ray ray) {
+   public List<Intersection> GetAllHitPoints(Ray worldSpaceRay) {
+      Ray objectSpaceRay = worldSpaceRay;
+
+      if (WorldToObject != null) {
+         objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
+      }
+
       // get all hitpoints - in order
-      List<Intersection> leftHitPoints = LeftShape.GetAllHitPoints(ray);
-      List<Intersection> rightHitPoints = RightShape.GetAllHitPoints(ray);
+      List<Intersection> leftHitPoints = LeftShape.GetAllHitPoints(objectSpaceRay);
+      List<Intersection> rightHitPoints = RightShape.GetAllHitPoints(objectSpaceRay);
 
       List<Intersection> intersections = new ArrayList<>();
 
@@ -271,6 +290,8 @@ public class CSGShape extends AbstractShape {
 
          if (nextIntersection == null)
             break;
+
+         ToWorldSpace(nextIntersection, worldSpaceRay);
 
          intersections.add(nextIntersection);
       }

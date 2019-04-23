@@ -386,7 +386,8 @@ public class SceneBuilder {
       // front CSG object
 
       material = new Material();
-      material.BxDFs.add(LambertianBRDF);
+      material.BxDFs.add(SpecularBRDF);
+      material.IndexOfRefraction = 1.0f;
       material.Weights.add(1.0f);
       material.Texture = new ConstantTexture(new ReflectanceSpectrum(Colors.Firenze.Beige));
 
@@ -400,6 +401,7 @@ public class SceneBuilder {
       material = new Material();
       material.BxDFs.add(SpecularBRDF);
       material.Weights.add(1.0f);
+      material.IndexOfRefraction = 1.0f;
       material.Texture = new ConstantTexture(new ReflectanceSpectrum(Colors.Firenze.Beige));
 
       inputTransforms = new Transform[]{
