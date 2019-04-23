@@ -7,6 +7,7 @@ import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Ray;
 import org.apache.commons.lang.NotImplementedException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CSGShape extends AbstractShape {
@@ -194,6 +195,53 @@ public class CSGShape extends AbstractShape {
 
    @Override
    public List<Intersection> GetAllHitPoints(Ray ray) {
-      return null;
+      // get all hitpoints - in order
+      List<Intersection> leftHitPoints = LeftShape.GetAllHitPoints(ray);
+      List<Intersection> rightHitPoints = RightShape.GetAllHitPoints(ray);
+
+      List<Intersection> intersections = new ArrayList<>();
+
+      int leftIndex = 0;
+      int rightIndex = 0;
+
+      while (true) {
+
+         Intersection nextIntersection = null;
+         Intersection leftIntersection = null;
+         Intersection rightIntersection = null;
+
+         if (leftHitPoints.size() > 0 && leftIndex < leftHitPoints.size()) {
+            leftIntersection = leftHitPoints.get(leftIndex);
+         }
+         if (rightHitPoints.size() > 0 && rightIndex < rightHitPoints.size()) {
+            rightIntersection = rightHitPoints.get(rightIndex);
+         }
+
+         if (leftIntersection != null && rightIntersection != null) {
+            if (leftIntersection.t < rightIntersection.t) {
+               nextIntersection = leftIntersection;
+               leftIndex++;
+            }
+            else {
+               nextIntersection = rightIntersection;
+               rightIndex++;
+            }
+         }
+         else if (leftIntersection != null) {
+            nextIntersection = leftIntersection;
+            leftIndex++;
+         }
+         else if (rightIntersection != null) {
+            nextIntersection = rightIntersection;
+            rightIndex++;
+         }
+
+         if (nextIntersection == null)
+            break;
+
+         intersections.add(nextIntersection);
+      }
+
+      return intersections;
    }
 }
