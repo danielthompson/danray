@@ -11,18 +11,30 @@ public class Vector {
    public float Z;
 
    public Vector(float x, float y, float z) {
+      assert !Float.isNaN(x);
+      assert !Float.isNaN(y);
+      assert !Float.isNaN(z);
+
       X = x;
       Y = y;
       Z = z;
    }
 
    public Vector(float[] xyz) {
+      assert !Float.isNaN(xyz[0]);
+      assert !Float.isNaN(xyz[1]);
+      assert !Float.isNaN(xyz[2]);
+
       X = xyz[0];
       Y = xyz[1];
       Z = xyz[2];
    }
 
    public Vector(Normal n) {
+      assert !Float.isNaN(n.X);
+      assert !Float.isNaN(n.Y);
+      assert !Float.isNaN(n.Z);
+
       X = n.X;
       Y = n.Y;
       Z = n.Z;
