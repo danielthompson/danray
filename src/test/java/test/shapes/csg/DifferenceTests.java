@@ -1,5 +1,6 @@
 package test.shapes.csg;
 
+import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.shapes.Box;
 import net.danielthompson.danray.shapes.csg.CSGOperation;
 import net.danielthompson.danray.shapes.csg.CSGShape;
@@ -9,6 +10,7 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import test.AssertHelper;
 
 public class DifferenceTests {
 
@@ -16,7 +18,7 @@ public class DifferenceTests {
 
    @BeforeMethod
    public void setUp() throws Exception {
-      shape = new CSGShape(null);
+      shape = new CSGShape((Material)null);
       shape.Operation = CSGOperation.Difference;
 
       Transform[] inputTransforms = new Transform[]{
@@ -105,7 +107,7 @@ public class DifferenceTests {
       Normal expectedNormal = new Normal(0, 0, -1);
 
       Assert.assertNotNull(intersection.Normal);
-      Assert.assertEquals(intersection.Normal, expectedNormal);
+      AssertHelper.assertEquals(intersection.Normal, expectedNormal);
    }
 
    @Test
@@ -121,7 +123,9 @@ public class DifferenceTests {
       Point expectedHitPoint = new Point(1.6f, 0, 2);
 
       Assert.assertNotNull(intersection.Location);
-      Assert.assertEquals(intersection.Location, expectedHitPoint);
+      AssertHelper.assertEquals(intersection.Location, expectedHitPoint);
+
+
 
    }
 }

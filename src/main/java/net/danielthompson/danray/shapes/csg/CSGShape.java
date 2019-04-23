@@ -5,6 +5,7 @@ import net.danielthompson.danray.shapes.AbstractShape;
 import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Ray;
+import net.danielthompson.danray.structures.Transform;
 import org.apache.commons.lang.NotImplementedException;
 
 import java.util.ArrayList;
@@ -24,11 +25,25 @@ public class CSGShape extends AbstractShape {
       super(material);
    }
 
-   public boolean Hits(Ray ray) {
+   public CSGShape(Transform[] transforms) {
+      super(transforms, null);
+   }
+
+   public CSGShape(Transform objectToWorld, Transform worldToObject) {
+      super(objectToWorld, worldToObject, null);
+   }
+
+   public boolean Hits(Ray worldSpaceRay) {
+
+      Ray objectSpaceRay = worldSpaceRay;
+
+      if (WorldToObject != null) {
+         objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
+      }
 
       // get all hitpoints - in order
-      List<Intersection> leftHitPoints = LeftShape.GetAllHitPoints(ray);
-      List<Intersection> rightHitPoints = RightShape.GetAllHitPoints(ray);
+      List<Intersection> leftHitPoints = LeftShape.GetAllHitPoints(objectSpaceRay);
+      List<Intersection> rightHitPoints = RightShape.GetAllHitPoints(objectSpaceRay);
 
       int leftIndex = 0;
       int rightIndex = 0;
@@ -73,7 +88,7 @@ public class CSGShape extends AbstractShape {
             case Union: {
                if (nextIntersection.Hits)
                {
-                  ray.MinT = nextIntersection.t;
+                  worldSpaceRay.MinT = GetWorldSpaceT(worldSpaceRay, objectSpaceRay, nextIntersection.t);
                   return true;
                }
                continue;
@@ -82,12 +97,12 @@ public class CSGShape extends AbstractShape {
                // if hp is on left and we're outside right, return it
                if (nextIntersection == leftIntersection && !RightShape.Inside(nextIntersection.Location))
                {
-                  ray.MinT = nextIntersection.t;
+                  worldSpaceRay.MinT = GetWorldSpaceT(worldSpaceRay, objectSpaceRay, nextIntersection.t);
                   return true;
                }
                if (nextIntersection == rightIntersection && LeftShape.Inside(nextIntersection.Location))
                {
-                  ray.MinT = nextIntersection.t;
+                  worldSpaceRay.MinT = GetWorldSpaceT(worldSpaceRay, objectSpaceRay, nextIntersection.t);
                   return true;
                }
 
@@ -98,13 +113,13 @@ public class CSGShape extends AbstractShape {
                // if hp is on left and we're inside right, return it
                if (nextIntersection == leftIntersection && RightShape.Inside(nextIntersection.Location))
                {
-                  ray.MinT = nextIntersection.t;
+                  worldSpaceRay.MinT = GetWorldSpaceT(worldSpaceRay, objectSpaceRay, nextIntersection.t);
                   return true;
                }
                // if hp is on right and we're inside left, return it
                if (nextIntersection == rightIntersection && LeftShape.Inside(nextIntersection.Location))
                {
-                  ray.MinT = nextIntersection.t;
+                  worldSpaceRay.MinT = GetWorldSpaceT(worldSpaceRay, objectSpaceRay, nextIntersection.t);
                   return true;
                }
                continue;
@@ -113,11 +128,29 @@ public class CSGShape extends AbstractShape {
       }
    }
 
+   private float GetWorldSpaceT(Ray worldSpaceRay, Ray objectSpaceRay, float objectSpaceT) {
+      float value = objectSpaceT;
+
+      if (ObjectToWorld != null && ObjectToWorld.HasScale()) {
+         Point objectSpaceIntersectionPoint = objectSpaceRay.GetPointAtT(objectSpaceT);
+         Point worldSpaceIntersectionPoint = ObjectToWorld.Apply(objectSpaceIntersectionPoint);
+         value = worldSpaceRay.GetTAtPoint(worldSpaceIntersectionPoint);
+      }
+
+      return value;
+   }
+
    @Override
-   public Intersection GetHitInfo(Ray ray) {
+   public Intersection GetHitInfo(Ray worldSpaceRay) {
+      Ray objectSpaceRay = worldSpaceRay;
+
+      if (WorldToObject != null) {
+         objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
+      }
+
       // get all hitpoints - in order
-      List<Intersection> leftHitPoints = LeftShape.GetAllHitPoints(ray);
-      List<Intersection> rightHitPoints = RightShape.GetAllHitPoints(ray);
+      List<Intersection> leftHitPoints = LeftShape.GetAllHitPoints(objectSpaceRay);
+      List<Intersection> rightHitPoints = RightShape.GetAllHitPoints(objectSpaceRay);
 
       int leftIndex = 0;
       int rightIndex = 0;

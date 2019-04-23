@@ -65,17 +65,17 @@ public abstract class AbstractScene {
          closestT = test ? ray.MinT : closestT;
       }
 
-      Intersection closestStateToRay = null;
+      Intersection closestIntersection = null;
 
       if (nearestShapeIndex >= 0) {
-         closestStateToRay = shapes.get(nearestShapeIndex).GetHitInfo(ray);
-         if (Float.isNaN(closestStateToRay.Location.X)) {
+         closestIntersection = shapes.get(nearestShapeIndex).GetHitInfo(ray);
+         if (closestIntersection != null && Float.isNaN(closestIntersection.Location.X)) {
             // wtf?
-            closestStateToRay = shapes.get(nearestShapeIndex).GetHitInfo(ray);
+            closestIntersection = shapes.get(nearestShapeIndex).GetHitInfo(ray);
          }
       }
 
-      return closestStateToRay;
+      return closestIntersection;
    }
 
    public String compile(TracerOptions _tracerOptions) {

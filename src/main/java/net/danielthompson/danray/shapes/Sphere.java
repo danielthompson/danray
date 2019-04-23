@@ -33,10 +33,9 @@ public class Sphere extends CSGShape {
    }
 
    public Sphere(Transform objectToWorld, Transform worldToObject, Material material) {
-      super(material);
+      super(objectToWorld, worldToObject);
+      this.Material = material;
       Radius = 1;
-      ObjectToWorld = objectToWorld;
-      WorldToObject = worldToObject;
       RecalculateWorldBoundingBox();
    }
 
@@ -188,10 +187,13 @@ public class Sphere extends CSGShape {
       float t0 = (-b + root) * oneOverTwoA;
       float t1 = (-b - root) * oneOverTwoA;
 
-      if (t0 > Constants.Epsilon) {
+      float lowT = t0 < t1 ? t0 : t1;
+      float highT = t0 > t1 ? t0 : t1;
+
+      if (lowT > Constants.Epsilon) {
          // t0 Hits in front of the origin
          if (ObjectToWorld != null && ObjectToWorld.HasScale()) {
-            Point objectSpaceIntersectionPoint = objectSpaceRay.GetPointAtT(t0);
+            Point objectSpaceIntersectionPoint = objectSpaceRay.GetPointAtT(lowT);
             Point worldSpaceIntersectionPoint = ObjectToWorld.Apply(objectSpaceIntersectionPoint);
             worldSpaceRay.MinT = worldSpaceRay.GetTAtPoint(worldSpaceIntersectionPoint);
          }
@@ -201,10 +203,10 @@ public class Sphere extends CSGShape {
          intersections.add(intersection);
       }
 
-      if (t1 > Constants.Epsilon) {
+      if (highT > Constants.Epsilon) {
          // t1 Hits in front of the origin
          if (ObjectToWorld != null && ObjectToWorld.HasScale()) {
-            Point objectSpaceIntersectionPoint = objectSpaceRay.GetPointAtT(t1);
+            Point objectSpaceIntersectionPoint = objectSpaceRay.GetPointAtT(highT);
             Point worldSpaceIntersectionPoint = ObjectToWorld.Apply(objectSpaceIntersectionPoint);
             worldSpaceRay.MinT = worldSpaceRay.GetTAtPoint(worldSpaceIntersectionPoint);
          }
