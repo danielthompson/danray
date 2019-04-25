@@ -157,7 +157,7 @@ public class Point implements Cloneable {
    }
 
    public String toString() {
-      return "X " + X + ", Y " + Y + ", Z " + Z;
+      return "(" + X + ", " + Y + ", " + Z + ")";
    }
 
    public boolean equals(Object obj) {

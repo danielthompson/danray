@@ -211,6 +211,7 @@ public class CSGShape extends AbstractShape {
                if (nextIntersection == rightIntersection && LeftShape.Inside(nextIntersection.Location))
                {
                   ToWorldSpace(nextIntersection, worldSpaceRay);
+                  //nextIntersection.Normal.Scale(-1);
                   return nextIntersection;
                }
                continue;

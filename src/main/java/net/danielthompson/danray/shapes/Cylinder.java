@@ -50,28 +50,37 @@ public class Cylinder extends AbstractShape {
 
       float tTop = (Height - objectSpaceRay.Origin.Y) / (objectSpaceRay.Direction.Y);
 
-      Point topHitPoint = objectSpaceRay.GetPointAtT(tTop);
-
+      Point topHitPoint = null;
       boolean topHits = false;
-      Normal topNormal = new Normal(0, 1, 0);
+      Normal topNormal = null;
 
-      if ((tTop > 0) && Math.sqrt(topHitPoint.X * topHitPoint.X + topHitPoint.Z * topHitPoint.Z) <= Radius) {
-         topHits = true;
-         state.Hits = true;
+      if (objectSpaceRay.Direction.Y != 0) {
+         topHitPoint = objectSpaceRay.GetPointAtT(tTop);
+
+         topNormal = new Normal(0, 1, 0);
+
+         if ((tTop > 0) && Math.sqrt(topHitPoint.X * topHitPoint.X + topHitPoint.Z * topHitPoint.Z) <= Radius) {
+            topHits = true;
+            state.Hits = true;
+         }
       }
 
       // check for intersection with lower disk
 
       float tBottom = (-objectSpaceRay.Origin.Y) / (objectSpaceRay.Direction.Y);
 
-      Point bottomHitPoint = objectSpaceRay.GetPointAtT(tBottom);
-
+      Point bottomHitPoint = null;
       boolean bottomHits = false;
-      Normal bottomNormal = new Normal(0, -1, 0);
+      Normal bottomNormal = null;
 
-      if ((tBottom > 0) && Math.sqrt(bottomHitPoint.X * bottomHitPoint.X + bottomHitPoint.Z * bottomHitPoint.Z) <= Radius) {
-         bottomHits = true;
-         state.Hits = true;
+      if (objectSpaceRay.Direction.Y != 0) {
+         bottomHitPoint = objectSpaceRay.GetPointAtT(tBottom);
+         bottomNormal = new Normal(0, -1, 0);
+
+         if ((tBottom > 0) && Math.sqrt(bottomHitPoint.X * bottomHitPoint.X + bottomHitPoint.Z * bottomHitPoint.Z) <= Radius) {
+            bottomHits = true;
+            state.Hits = true;
+         }
       }
 
       // check for intersection with cylinder

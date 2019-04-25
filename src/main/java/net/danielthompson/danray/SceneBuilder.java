@@ -1,29 +1,35 @@
 package net.danielthompson.danray;
 
 import net.danielthompson.danray.acceleration.KDScene;
-import net.danielthompson.danray.cameras.*;
+import net.danielthompson.danray.cameras.Camera;
+import net.danielthompson.danray.cameras.CameraSettings;
+import net.danielthompson.danray.cameras.PerspectiveCamera;
 import net.danielthompson.danray.cameras.apertures.CircleAperture;
 import net.danielthompson.danray.cameras.apertures.SquareAperture;
 import net.danielthompson.danray.lights.AbstractLight;
 import net.danielthompson.danray.lights.PointLight;
 import net.danielthompson.danray.lights.SphereLight;
-import net.danielthompson.danray.scenes.NaiveScene;
 import net.danielthompson.danray.scenes.AbstractScene;
-import net.danielthompson.danray.scenes.skyboxes.*;
-import net.danielthompson.danray.shading.*;
+import net.danielthompson.danray.scenes.NaiveScene;
+import net.danielthompson.danray.scenes.skyboxes.ColorSkybox;
+import net.danielthompson.danray.scenes.skyboxes.CubeMappedSkybox;
+import net.danielthompson.danray.shading.Material;
+import net.danielthompson.danray.shading.ReflectanceSpectrum;
+import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.shading.bxdf.BRDF;
 import net.danielthompson.danray.shading.bxdf.BTDF;
-import net.danielthompson.danray.shading.bxdf.reflect.GlossyBRDF;
 import net.danielthompson.danray.shading.bxdf.reflect.LambertianBRDF;
 import net.danielthompson.danray.shading.bxdf.reflect.SpecularBRDF;
 import net.danielthompson.danray.shading.bxdf.transmit.LambertianBTDF;
 import net.danielthompson.danray.shading.bxdf.transmit.SpecularBTDF;
-import net.danielthompson.danray.shapes.*;
+import net.danielthompson.danray.shapes.Box;
+import net.danielthompson.danray.shapes.Cylinder;
+import net.danielthompson.danray.shapes.ImplicitPlane;
+import net.danielthompson.danray.shapes.Sphere;
 import net.danielthompson.danray.shapes.csg.CSGOperation;
 import net.danielthompson.danray.shapes.csg.CSGShape;
-import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.structures.Point;
-import net.danielthompson.danray.structures.Vector;
+import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.textures.CheckerboardTexture;
 import net.danielthompson.danray.textures.ConstantTexture;
 
@@ -32,7 +38,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.awt.Color.red;
@@ -81,6 +87,81 @@ public class SceneBuilder {
       public static class Chessboard {
          public static Color Dark = new Color(181, 136, 99);
          public static Color Light = new Color(240, 216, 181);
+      }
+
+
+      public static class YlGnBu {
+         public static Color Color0 = new Color(255, 255, 217);
+         public static Color Color1 = new Color(239, 249, 189);
+         public static Color Color2 = new Color(213, 239, 179);
+         public static Color Color3 = new Color(170, 222, 183);
+         public static Color Color4 = new Color(117, 201, 189);
+         public static Color Color5 = new Color(71, 181, 194);
+         public static Color Color6 = new Color(41, 153, 191);
+         public static Color Color7 = new Color(32, 117, 178);
+         public static Color Color8 = new Color(35, 80, 161);
+         public static Color Color9 = new Color(29, 51, 135);
+      }
+
+      public static class Spectral {
+         public static Color Color0 = new Color(158, 1, 66);
+         public static Color Color1 = new Color(209, 59, 75);
+         public static Color Color2 = new Color(240, 111, 74);
+         public static Color Color3 = new Color(252, 170, 98);
+         public static Color Color4 = new Color(254, 220, 139);
+         public static Color Color5 = new Color(251, 248, 176);
+         public static Color Color6 = new Color(226, 243, 161);
+         public static Color Color7 = new Color(173, 222, 162);
+         public static Color Color8 = new Color(109, 191, 168);
+         public static Color Color9 = new Color(67, 140, 180);
+      }
+
+      public static class Rainbow {
+         public static Color Color0 = new Color(110, 64, 170);
+         public static Color Color1 = new Color(190, 60, 175);
+         public static Color Color2 = new Color(254, 75, 132);
+         public static Color Color3 = new Color(255, 118, 72);
+         public static Color Color4 = new Color(228, 181, 46);
+         public static Color Color5 = new Color(177, 238, 87);
+         public static Color Color6 = new Color(87, 246, 101);
+         public static Color Color7 = new Color(31, 225, 159);
+         public static Color Color8 = new Color(33, 175, 214);
+         public static Color Color9 = new Color(73, 115, 221);
+      }
+   }
+
+
+   public static class Sinebow {
+      public static Color Color0 = new Color(255, 64, 64);
+      public static Color Color1 = new Color(231, 141, 11);
+      public static Color Color2 = new Color(167, 213, 3);
+      public static Color Color3 = new Color(89, 252, 42);
+      public static Color Color4 = new Color(25, 244, 114);
+      public static Color Color5 = new Color(0, 192, 191);
+      public static Color Color6 = new Color(24, 115, 244);
+      public static Color Color7 = new Color(87, 43, 252);
+      public static Color Color8 = new Color(166, 3, 214);
+      public static Color Color9 = new Color(230, 10, 142);
+
+      public static String Sinebow = "images/colors/sinebow.png";
+      public static String YlGnBu = "images/colors/YlGnBu.png";
+      public static String Rainbow = "images/colors/rainbow.png";
+      public static String Spectral = "images/colors/Spectral.png";
+
+      public static BufferedImage Load(String path) {
+         try {
+            ClassLoader loader = SceneBuilder.class.getClassLoader();
+            URL url = loader.getResource(path);
+            //         URL url = loader.getResource("images/cubemap/simple.png");
+            return ImageIO.read(url);
+         } catch (IOException e) {
+            System.out.println("Couldn't load sinebow: " + e.getMessage());
+            System.out.println("Working Directory = " +
+                  System.getProperty("user.dir"));
+            System.exit(-1);
+         }
+
+         return null;
       }
    }
 
@@ -389,7 +470,7 @@ public class SceneBuilder {
       material.BxDFs.add(SpecularBRDF);
       material.IndexOfRefraction = 1.0f;
       material.Weights.add(1.0f);
-      material.Texture = new ConstantTexture(new ReflectanceSpectrum(Colors.Firenze.Beige));
+      material.Texture = new ConstantTexture(new ReflectanceSpectrum(Colors.Rainbow.Color1));
 
       inputTransforms = new Transform[]{
             Transform.Scale(2),
@@ -402,7 +483,7 @@ public class SceneBuilder {
       material.BxDFs.add(SpecularBRDF);
       material.Weights.add(1.0f);
       material.IndexOfRefraction = 1.0f;
-      material.Texture = new ConstantTexture(new ReflectanceSpectrum(Colors.Firenze.Beige));
+      material.Texture = new ConstantTexture(new ReflectanceSpectrum(Colors.Rainbow.Color2));
 
       inputTransforms = new Transform[]{
             Transform.Scale(1.35f), // TODO wtf?
@@ -428,7 +509,7 @@ public class SceneBuilder {
       material = new Material();
       material.BxDFs.add(LambertianBRDF);
       material.Weights.add(1.0f);
-      material.Texture = new ConstantTexture(new ReflectanceSpectrum(Colors.Firenze.Green));
+      material.Texture = new ConstantTexture(new ReflectanceSpectrum(Colors.Rainbow.Color3));
 
       inputTransforms = new Transform[]{
             Transform.Scale(2),
@@ -440,11 +521,11 @@ public class SceneBuilder {
       material = new Material();
       material.BxDFs.add(LambertianBRDF);
       material.Weights.add(1.0f);
-      material.Texture = new ConstantTexture(new ReflectanceSpectrum(Colors.Firenze.Yellow));
+      material.Texture = new ConstantTexture(new ReflectanceSpectrum(Colors.Rainbow.Color4));
 
       inputTransforms = new Transform[]{
-            Transform.Translate(1, 1, 1),
-            Transform.Scale(1.5f), // TODO wtf?
+            //Transform.Translate(1, 1, 1),
+            Transform.Scale(1.45f), // TODO wtf?
 
       };
       compositeTransforms = Transform.composite(inputTransforms);
@@ -452,14 +533,56 @@ public class SceneBuilder {
 
       inputTransforms = new Transform[]{
             Transform.Translate(-50.0f, -32.0f, -25f),
-            Transform.RotateY(20f),
+            Transform.RotateY(-45f),
             Transform.Scale(20f),
+
       };
       compositeTransforms = Transform.composite(inputTransforms);
 
       csgshape = new CSGShape(compositeTransforms);
       csgshape.LeftShape = leftShape;
       csgshape.RightShape = rightShape;
+      csgshape.Operation = CSGOperation.Difference;
+      scene.addShape(csgshape);
+
+      // right CSG object
+
+      material = new Material();
+      material.BxDFs.add(LambertianBRDF);
+      material.Weights.add(1.0f);
+      material.Texture = new ConstantTexture(new ReflectanceSpectrum(Colors.Rainbow.Color5));
+
+      inputTransforms = new Transform[]{
+            //Transform.Scale(2),
+            //Transform.Translate(new Vector(-0.5f, -0.5f, -0.5f))
+      };
+      compositeTransforms = Transform.composite(inputTransforms);
+      Sphere leftShape2 = new Sphere(compositeTransforms, material);
+
+      material = new Material();
+      material.BxDFs.add(LambertianBRDF);
+      material.Weights.add(1.0f);
+      material.Texture = new ConstantTexture(new ReflectanceSpectrum(Colors.Rainbow.Color6));
+
+      inputTransforms = new Transform[]{
+            //Transform.Translate(0, 1, 1),
+            //Transform.Scale(2f), // TODO wtf?
+
+      };
+      compositeTransforms = Transform.composite(inputTransforms);
+      Box rightShape2 = new Box(compositeTransforms, material);
+
+      inputTransforms = new Transform[]{
+
+            Transform.Translate(50.0f, -32.0f, -25f),
+            Transform.RotateY(-45f),
+            Transform.Scale(20f),
+      };
+      compositeTransforms = Transform.composite(inputTransforms);
+
+      csgshape = new CSGShape(compositeTransforms);
+      csgshape.LeftShape = leftShape2;
+      csgshape.RightShape = rightShape2;
       csgshape.Operation = CSGOperation.Difference;
       scene.addShape(csgshape);
 

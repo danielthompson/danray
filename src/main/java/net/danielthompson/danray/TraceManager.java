@@ -426,8 +426,8 @@ public class TraceManager {
       }
       */
 
-//      _tracerOptions.numThreads = 1;
-//
+      //_tracerOptions.numThreads = 1;
+
       if (_tracerOptions.numThreads <= 1) {
          runner.run();
       }

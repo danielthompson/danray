@@ -192,6 +192,9 @@ public class Sphere extends CSGShape {
 
       if (lowT > Constants.Epsilon) {
          // t0 Hits in front of the origin
+
+         worldSpaceRay.MinT = lowT;
+
          if (ObjectToWorld != null && ObjectToWorld.HasScale()) {
             Point objectSpaceIntersectionPoint = objectSpaceRay.GetPointAtT(lowT);
             Point worldSpaceIntersectionPoint = ObjectToWorld.Apply(objectSpaceIntersectionPoint);
@@ -200,11 +203,15 @@ public class Sphere extends CSGShape {
 
          Intersection intersection = GetHitInfo(worldSpaceRay);
 
+         intersection.t = worldSpaceRay.MinT;
+
          intersections.add(intersection);
       }
 
       if (highT > Constants.Epsilon) {
          // t1 Hits in front of the origin
+         worldSpaceRay.MinT = highT;
+
          if (ObjectToWorld != null && ObjectToWorld.HasScale()) {
             Point objectSpaceIntersectionPoint = objectSpaceRay.GetPointAtT(highT);
             Point worldSpaceIntersectionPoint = ObjectToWorld.Apply(objectSpaceIntersectionPoint);
@@ -212,6 +219,7 @@ public class Sphere extends CSGShape {
          }
 
          Intersection intersection = GetHitInfo(worldSpaceRay);
+         intersection.t = worldSpaceRay.MinT;
          intersections.add(intersection);
       }
 

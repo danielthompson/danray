@@ -31,7 +31,7 @@ public class PathTraceIntegrator extends AbstractIntegrator {
       _y = y;
 
       if (false) {
-         if (_x == 361 && _y == 331) {
+         if (_x == 514 && _y == 119) {
             return GetSample(ray, depth, 1.0f);
          }
          Sample sample = new Sample();
@@ -105,9 +105,9 @@ public class PathTraceIntegrator extends AbstractIntegrator {
             if (!bxdf.Delta) {
                scalePercentage = bxdf.f(incomingDirection, intersectionNormal, outgoingDirection);
             }
-            if (leavingMaterial && outgoingDirection.Dot(intersectionNormal) < 0) {
-               outgoingDirection.Scale(-1);
-            }
+//            if (leavingMaterial && outgoingDirection.Dot(intersectionNormal) < 0) {
+//               //outgoingDirection.Scale(-1);
+//            }
 
             Ray bounceRay = new Ray(intersection.Location, outgoingDirection);
             if (leavingMaterial) {
