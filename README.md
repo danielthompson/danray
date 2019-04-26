@@ -15,6 +15,10 @@
 
 ![Trace](renders/trace1.png)
 
+### Constructive solid geometry
+
+![Trace](renders/csg.png)
+
 ### The holodeck
 
 ![Trace](renders/holodeck.png)
