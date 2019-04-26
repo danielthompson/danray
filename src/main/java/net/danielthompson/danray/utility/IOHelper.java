@@ -18,9 +18,18 @@ public class IOHelper {
 
    public void CreateOutputDirectory() {
       Date date = Calendar.getInstance().getTime();
-      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
 
-      _outputDirectory = "traces" + File.separator + sdf.format(date);
+      SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
+      SimpleDateFormat monthFormat = new SimpleDateFormat("MM");
+      SimpleDateFormat dayFormat = new SimpleDateFormat("dd");
+      SimpleDateFormat timeFormat = new SimpleDateFormat("HH-mm-ss");
+
+      _outputDirectory = "traces"
+            + File.separator + yearFormat.format(date)
+            + File.separator + monthFormat.format(date)
+            + File.separator + dayFormat.format(date)
+            + File.separator + timeFormat.format(date)
+      ;
 
       new File(_outputDirectory).mkdirs();
       _logFile = new File(_outputDirectory + File.separator + "log.txt");

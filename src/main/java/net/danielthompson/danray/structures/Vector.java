@@ -2,10 +2,15 @@ package net.danielthompson.danray.structures;
 
 import net.danielthompson.danray.acceleration.KDAxis;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 /**
  * Represents a direction in space.
  */
 public class Vector {
+
+   public static AtomicLong instances = new AtomicLong();
+
    public float X;
    public float Y;
    public float Z;
@@ -14,18 +19,21 @@ public class Vector {
       X = x;
       Y = y;
       Z = z;
+      instances.incrementAndGet();
    }
 
    public Vector(float[] xyz) {
       X = xyz[0];
       Y = xyz[1];
       Z = xyz[2];
+      instances.incrementAndGet();
    }
 
    public Vector(Normal n) {
       X = n.X;
       Y = n.Y;
       Z = n.Z;
+      instances.incrementAndGet();
    }
 
    public float getAxis(KDAxis axis) {
