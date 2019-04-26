@@ -574,6 +574,8 @@ public class TraceManager {
 
 
    public void Finish() {
+      Logger.Log(Logger.Level.Info, "Vectors: " + Vector.instances.get());
+
       Logger.Flush();
       //System.exit(0);
    }
