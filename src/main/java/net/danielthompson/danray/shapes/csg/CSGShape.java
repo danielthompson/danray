@@ -17,8 +17,24 @@ public class CSGShape extends AbstractShape {
    public CSGShape LeftShape;
    public CSGShape RightShape;
 
-   public boolean Inside(Point p) {
-      throw new NotImplementedException();
+   public boolean Inside(Point worldSpacePoint) {
+      Point localSpacePoint = worldSpacePoint;
+      if (WorldToObject != null) {
+         localSpacePoint = WorldToObject.Apply(worldSpacePoint);
+      }
+
+      boolean leftInside = LeftShape.Inside(localSpacePoint);
+
+      switch (Operation) {
+         case Union:
+            return leftInside || RightShape.Inside(localSpacePoint);
+         case Difference:
+            return leftInside && !RightShape.Inside(localSpacePoint);
+         case Intersection:
+            return leftInside && RightShape.Inside(localSpacePoint);
+      }
+
+      return false;
    }
 
    public CSGShape(Material material) {

@@ -467,7 +467,7 @@ public class SceneBuilder {
       // front CSG object
 
       material = new Material();
-      material.BxDFs.add(SpecularBRDF);
+      material.BxDFs.add(LambertianBRDF);
       material.IndexOfRefraction = 1.0f;
       material.Weights.add(1.0f);
       material.Texture = new ConstantTexture(new ReflectanceSpectrum(Colors.Rainbow.Color1));
@@ -480,7 +480,7 @@ public class SceneBuilder {
       Box leftShape = new Box(compositeTransforms, material);
 
       material = new Material();
-      material.BxDFs.add(SpecularBRDF);
+      material.BxDFs.add(LambertianBRDF);
       material.Weights.add(1.0f);
       material.IndexOfRefraction = 1.0f;
       material.Texture = new ConstantTexture(new ReflectanceSpectrum(Colors.Rainbow.Color2));
@@ -492,9 +492,10 @@ public class SceneBuilder {
       Sphere rightShape = new Sphere(compositeTransforms, material);
 
       inputTransforms = new Transform[]{
-            Transform.Translate(new Vector(0, -40f, 50f)),
-            Transform.RotateY(30f),
-            Transform.Scale(10f),
+//            Transform.Translate(new Vector(0, -40f, 50f)),
+//            Transform.RotateY(30f),
+//            Transform.Scale(10f),
+            Transform.identity
       };
       compositeTransforms = Transform.composite(inputTransforms);
 
@@ -502,7 +503,34 @@ public class SceneBuilder {
       csgshape.LeftShape = leftShape;
       csgshape.RightShape = rightShape;
       csgshape.Operation = CSGOperation.Intersection;
-      scene.addShape(csgshape);
+      //scene.addShape(csgshape);
+
+      material = new Material();
+      material.BxDFs.add(LambertianBRDF);
+      material.Weights.add(1.0f);
+      material.IndexOfRefraction = 1.0f;
+      material.Texture = new ConstantTexture(new ReflectanceSpectrum(Colors.Rainbow.Color7));
+
+      inputTransforms = new Transform[]{
+            Transform.Scale(6, 0.75f, 0.75f)
+//            Transform.identity
+      };
+      compositeTransforms = Transform.composite(inputTransforms);
+      Sphere rightShape3 = new Sphere(compositeTransforms, material);
+
+      inputTransforms = new Transform[]{
+            Transform.Translate(new Vector(0, -31.99f, 50f)),
+            Transform.RotateY(-75f),
+            Transform.Scale(20f),
+      };
+      compositeTransforms = Transform.composite(inputTransforms);
+
+      CSGShape csgshape2 = new CSGShape(compositeTransforms);
+      csgshape2.LeftShape = csgshape;
+      csgshape2.RightShape = rightShape3;
+      csgshape2.Operation = CSGOperation.Union;
+
+      scene.addShape(csgshape2);
 
       // left CSG object
 
@@ -543,7 +571,7 @@ public class SceneBuilder {
       csgshape.LeftShape = leftShape;
       csgshape.RightShape = rightShape;
       csgshape.Operation = CSGOperation.Difference;
-      scene.addShape(csgshape);
+      //scene.addShape(csgshape);
 
       // right CSG object
 
@@ -584,7 +612,7 @@ public class SceneBuilder {
       csgshape.LeftShape = leftShape2;
       csgshape.RightShape = rightShape2;
       csgshape.Operation = CSGOperation.Difference;
-      scene.addShape(csgshape);
+      //scene.addShape(csgshape);
 
       // bottom box
 
