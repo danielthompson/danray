@@ -47,6 +47,7 @@ public class AssertHelper {
    }
 
    private static void assertEquals(float actual, float expected, float delta) {
+
       Assert.assertEquals(actual, expected, delta);
    }
 }
