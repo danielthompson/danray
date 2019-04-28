@@ -492,10 +492,10 @@ public class SceneBuilder {
       Sphere rightShape = new Sphere(compositeTransforms, material);
 
       inputTransforms = new Transform[]{
-//            Transform.Translate(new Vector(0, -40f, 50f)),
-//            Transform.RotateY(30f),
-//            Transform.Scale(10f),
-            Transform.identity
+            Transform.Translate(new Vector(0, -31.99f, 50f)),
+            Transform.RotateY(-75f),
+            Transform.Scale(20f),
+            //Transform.identity
       };
       compositeTransforms = Transform.composite(inputTransforms);
 
@@ -503,7 +503,7 @@ public class SceneBuilder {
       csgshape.LeftShape = leftShape;
       csgshape.RightShape = rightShape;
       csgshape.Operation = CSGOperation.Intersection;
-      //scene.addShape(csgshape);
+      scene.addShape(csgshape);
 
       material = new Material();
       material.BxDFs.add(LambertianBRDF);
@@ -528,9 +528,9 @@ public class SceneBuilder {
       CSGShape csgshape2 = new CSGShape(compositeTransforms);
       csgshape2.LeftShape = csgshape;
       csgshape2.RightShape = rightShape3;
-      csgshape2.Operation = CSGOperation.Union;
+      csgshape2.Operation = CSGOperation.Difference;
 
-      scene.addShape(csgshape2);
+      //scene.addShape(csgshape2);
 
       // left CSG object
 

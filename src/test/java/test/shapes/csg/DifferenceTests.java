@@ -250,4 +250,30 @@ public class DifferenceTests {
       boolean hits = shape.Hits(ray);
       Assert.assertFalse(hits);
    }
+
+   @Test
+   public void location7() {
+      Point o = new Point(1.5f, 0, 1.5f);
+      Vector d = new Vector(-1, 0, 0);
+      Ray ray = new Ray(o, d);
+
+      boolean hits = shape.Hits(ray);
+      Intersection intersection = shape.GetHitInfo(ray);
+
+      Point expectedPoint = new Point(1f, 0, 1.5f);
+      AssertHelper.assertEquals(intersection.Location, expectedPoint);
+   }
+
+   @Test
+   public void normal7() {
+      Point o = new Point(1.5f, 0, 1.5f);
+      Vector d = new Vector(-1, 0, 0);
+      Ray ray = new Ray(o, d);
+
+      boolean hits = shape.Hits(ray);
+      Intersection intersection = shape.GetHitInfo(ray);
+
+      Normal expectedNormal = new Normal(1, 0, 0);
+      Assert.assertEquals(intersection.Normal, expectedNormal);
+   }
 }
