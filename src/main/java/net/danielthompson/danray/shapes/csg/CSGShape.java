@@ -51,11 +51,20 @@ public class CSGShape extends AbstractShape {
 
    public boolean Hits(Ray worldSpaceRay) {
 
+//      float worldT = worldSpaceRay.MinT;
+//      if (!WorldBoundingBox.Hits(worldSpaceRay)) {
+//         worldSpaceRay.MinT = worldT;
+//         return false;
+//      }
+//      worldSpaceRay.MinT = worldT;
+
       Ray objectSpaceRay = worldSpaceRay;
 
       if (WorldToObject != null) {
          objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
       }
+
+
 
       // get all hitpoints - in order
       List<Intersection> leftHitPoints = LeftShape.GetAllHitPoints(objectSpaceRay);
@@ -116,7 +125,7 @@ public class CSGShape extends AbstractShape {
                   worldSpaceRay.MinT = GetWorldSpaceT(worldSpaceRay, objectSpaceRay, nextIntersection.t);
                   return true;
                }
-               if (nextIntersection == rightIntersection && LeftShape.Inside(nextIntersection.Location))
+               if (nextIntersection == rightIntersection && LeftShape.Inside(nextIntersection.Location) && !RightShape.Inside(nextIntersection.Location))
                {
                   worldSpaceRay.MinT = GetWorldSpaceT(worldSpaceRay, objectSpaceRay, nextIntersection.t);
                   return true;
@@ -224,7 +233,7 @@ public class CSGShape extends AbstractShape {
                }
 
                // if hp is on right and we're inside left, flip normal and return it
-               if (nextIntersection == rightIntersection && LeftShape.Inside(nextIntersection.Location))
+               if (nextIntersection == rightIntersection && LeftShape.Inside(nextIntersection.Location) && !RightShape.Inside(nextIntersection.Location))
                {
                   ToWorldSpace(nextIntersection, worldSpaceRay);
                   //nextIntersection.Normal.Scale(-1);
@@ -326,7 +335,7 @@ public class CSGShape extends AbstractShape {
                }
 
                // if hp is on right and we're inside left, flip normal and return it
-               if (nextIntersection == rightIntersection && LeftShape.Inside(nextIntersection.Location))
+               if (nextIntersection == rightIntersection && LeftShape.Inside(nextIntersection.Location) && !RightShape.Inside(nextIntersection.Location))
                {
                   ToWorldSpace(nextIntersection, worldSpaceRay);
                   //nextIntersection.Normal.Scale(-1);

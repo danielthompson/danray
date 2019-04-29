@@ -1,6 +1,5 @@
 package test.shapes.csg;
 
-import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.shapes.Box;
 import net.danielthompson.danray.shapes.csg.CSGOperation;
 import net.danielthompson.danray.shapes.csg.CSGShape;
@@ -10,9 +9,8 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import test.AssertHelper;
 
-public class RecursionTests {
+public class RecursionTests2 {
 
    private CSGShape shape;
 
@@ -21,52 +19,77 @@ public class RecursionTests {
       Transform[] inputTransforms;
       Transform[] compositeTransforms;
 
-      inputTransforms = new Transform[]{
-            Transform.Translate(new Vector(0, 0, 1)),
-            Transform.Scale(4),
-            Transform.Translate(0, -0.5f, 0)
-      };
-      compositeTransforms = Transform.composite(inputTransforms);
+      CSGShape intersectionShape;
+      CSGShape unionShape;
 
-      Box box1 = new Box(compositeTransforms, null);
+      // left - intersection
 
-      inputTransforms = new Transform[]{
-            Transform.Translate(new Vector(1, 0, 0)),
-            Transform.Scale(4),
-            Transform.Translate(0, -0.5f, 0)
-      };
-      compositeTransforms = Transform.composite(inputTransforms);
+      {
+         inputTransforms = new Transform[]{
+               Transform.Translate(new Vector(0, 0, 1)),
+               Transform.Scale(4),
+               Transform.Translate(0, -0.5f, 0)
+         };
+         compositeTransforms = Transform.composite(inputTransforms);
 
-      Box box2 = new Box(compositeTransforms, null);
+         Box left = new Box(compositeTransforms, null);
 
-      inputTransforms = new Transform[]{
-            Transform.identity
-      };
-      compositeTransforms = Transform.composite(inputTransforms);
+         inputTransforms = new Transform[]{
+               Transform.Translate(new Vector(1, 0, 0)),
+               Transform.Scale(4),
+               Transform.Translate(0, -0.5f, 0)
+         };
+         compositeTransforms = Transform.composite(inputTransforms);
 
-      CSGShape intersectionShape = new CSGShape(compositeTransforms);
-      intersectionShape.Operation = CSGOperation.Intersection;
-      intersectionShape.LeftShape = box1;
-      intersectionShape.RightShape = box2;
+         Box right = new Box(compositeTransforms, null);
 
-      inputTransforms = new Transform[]{
-            Transform.Translate(new Vector(-1, 0, 2)),
-            Transform.Scale(7, 1, 1),
-            Transform.Translate(0, -0.5f, 0)
-      };
-      compositeTransforms = Transform.composite(inputTransforms);
+         inputTransforms = new Transform[]{
+               Transform.identity
+         };
+         compositeTransforms = Transform.composite(inputTransforms);
 
-      Box box3 = new Box(compositeTransforms, null);
+         intersectionShape = new CSGShape(compositeTransforms);
+         intersectionShape.Operation = CSGOperation.Intersection;
+         intersectionShape.LeftShape = left;
+         intersectionShape.RightShape = right;
+      }
 
-      inputTransforms = new Transform[]{
-            Transform.identity
-      };
-      compositeTransforms = Transform.composite(inputTransforms);
+      // right - union
+
+      {
+         inputTransforms = new Transform[]{
+               Transform.Translate(new Vector(-1, 0, 2)),
+               Transform.Scale(7, 1, 1),
+               Transform.Translate(0, -0.5f, 0)
+         };
+         compositeTransforms = Transform.composite(inputTransforms);
+
+         Box left = new Box(compositeTransforms, null);
+
+         inputTransforms = new Transform[]{
+               Transform.Translate(new Vector(2, 0, -1)),
+               Transform.Scale(1, 1, 7),
+               Transform.Translate(0, -0.5f, 0)
+         };
+         compositeTransforms = Transform.composite(inputTransforms);
+
+         Box right = new Box(compositeTransforms, null);
+
+         inputTransforms = new Transform[]{
+               Transform.identity
+         };
+         compositeTransforms = Transform.composite(inputTransforms);
+
+         unionShape = new CSGShape(compositeTransforms);
+         unionShape.Operation = CSGOperation.Union;
+         unionShape.LeftShape = left;
+         unionShape.RightShape = right;
+      }
 
       shape = new CSGShape(compositeTransforms);
       shape.Operation = CSGOperation.Difference;
       shape.LeftShape = intersectionShape;
-      shape.RightShape = box3;
+      shape.RightShape = unionShape;
    }
 
    @AfterMethod
@@ -199,6 +222,44 @@ public class RecursionTests {
    public void normal8() {
       Point o = new Point(3.5f, 0, 6.5f);
       Vector d = new Vector(0, 0, -1);
+      Ray ray = new Ray(o, d);
+
+      boolean hits = shape.Hits(ray);
+      Intersection intersection = shape.GetHitInfo(ray);
+
+      Normal expectedNormal = new Normal(0, 0, 1);
+      Assert.assertEquals(intersection.Normal, expectedNormal);
+   }
+
+   @Test
+   public void location9() {
+      Point o = new Point(2.5f, 0, 6.5f);
+      Vector d = new Vector(0, 0, -1);
+      Ray ray = new Ray(o, d);
+
+      boolean hits = shape.Hits(ray);
+      Assert.assertFalse(hits);
+   }
+
+   @Test
+   public void location10() {
+      Point o = new Point(8.5f, 0, 7f);
+      Vector d = new Vector(-1f, 0, -1f);
+      Ray ray = new Ray(o, d);
+
+      boolean hits = shape.Hits(ray);
+      Assert.assertTrue(hits);
+
+      Intersection intersection = shape.GetHitInfo(ray);
+
+      Point expectedPoint = new Point(3.5f, 0, 2f);
+      Assert.assertEquals(intersection.Location, expectedPoint);
+   }
+
+   @Test
+   public void normal10() {
+      Point o = new Point(8.5f, 0, 7f);
+      Vector d = new Vector(-1f, 0, -1f);
       Ray ray = new Ray(o, d);
 
       boolean hits = shape.Hits(ray);
