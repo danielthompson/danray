@@ -308,9 +308,48 @@ public class CSGShape extends AbstractShape {
          if (nextIntersection == null)
             break;
 
-         ToWorldSpace(nextIntersection, worldSpaceRay);
+         // foreach hitpoint
+         switch (Operation) {
+            case Union: {
+               if (nextIntersection.Hits) {
+                  ToWorldSpace(nextIntersection, worldSpaceRay);
+                  intersections.add(nextIntersection);
+               }
+               continue;
+            }
+            case Difference: {
+               // if hp is on left and we're outside right, return it
+               if (nextIntersection == leftIntersection && !RightShape.Inside(nextIntersection.Location))
+               {
+                  ToWorldSpace(nextIntersection, worldSpaceRay);
+                  intersections.add(nextIntersection);
+               }
 
-         intersections.add(nextIntersection);
+               // if hp is on right and we're inside left, flip normal and return it
+               if (nextIntersection == rightIntersection && LeftShape.Inside(nextIntersection.Location))
+               {
+                  ToWorldSpace(nextIntersection, worldSpaceRay);
+                  //nextIntersection.Normal.Scale(-1);
+                  intersections.add(nextIntersection);
+               }
+               continue;
+            }
+            case Intersection: {
+               // if hp is on left and we're inside right, return it
+               if (nextIntersection == leftIntersection && RightShape.Inside(nextIntersection.Location))
+               {
+                  ToWorldSpace(nextIntersection, worldSpaceRay);
+                  intersections.add(nextIntersection);
+               }
+               // if hp is on right and we're inside left, return it
+               if (nextIntersection == rightIntersection && LeftShape.Inside(nextIntersection.Location))
+               {
+                  ToWorldSpace(nextIntersection, worldSpaceRay);
+                  intersections.add(nextIntersection);
+               }
+               continue;
+            }
+         }
       }
 
       return intersections;

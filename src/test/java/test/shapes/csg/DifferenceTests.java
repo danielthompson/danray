@@ -16,7 +16,6 @@ public class DifferenceTests {
 
    private CSGShape shape;
 
-
    @BeforeMethod
    public void setUp() throws Exception {
       shape = new CSGShape((Material)null);
