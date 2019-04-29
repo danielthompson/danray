@@ -191,7 +191,7 @@ public class RecursionTests {
 
       Intersection intersection = shape.GetHitInfo(ray);
 
-      Point expectedPoint = new Point(3.5f, 0, 4f);
+      Point expectedPoint = new Point(1.0f, 0, 3.5f);
       Assert.assertEquals(intersection.Location, expectedPoint);
    }
 
