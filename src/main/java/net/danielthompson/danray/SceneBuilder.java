@@ -453,10 +453,6 @@ public class SceneBuilder {
       AbstractScene scene = new NaiveScene(camera);
       Material material;
 
-      // center textured box
-
-
-      //material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.WHITE);
 
       CheckerboardTexture texture = new CheckerboardTexture();
       texture.UScale = 4;
@@ -514,20 +510,22 @@ public class SceneBuilder {
       {
 
          inputTransforms = new Transform[]{
-//            Transform.Scale(6, 0.75f, 0.75f),
                Transform.Scale(6f, 0.75f, 0.75f),
-//            Transform.identity
          };
          compositeTransforms = Transform.composite(inputTransforms);
          Sphere rightShape3 = new Sphere(compositeTransforms, material);
 
          inputTransforms = new Transform[]{
-//            Transform.Scale(6, 0.75f, 0.75f),
                Transform.Scale(0.75f, 6f, 0.75f),
-//            Transform.identity
          };
          compositeTransforms = Transform.composite(inputTransforms);
          Sphere rightShape4 = new Sphere(compositeTransforms, material);
+
+         inputTransforms = new Transform[]{
+               Transform.Scale(0.75f, 0.75f, 6f),
+         };
+         compositeTransforms = Transform.composite(inputTransforms);
+         Sphere rightShape5 = new Sphere(compositeTransforms, material);
 
          inputTransforms = new Transform[]{
                Transform.identity
@@ -539,6 +537,11 @@ public class SceneBuilder {
          csgshape3.RightShape = rightShape4;
          csgshape3.Operation = CSGOperation.Union;
 
+         CSGShape csgShape4 = new CSGShape(compositeTransforms);
+         csgShape4.LeftShape = csgshape3;
+         csgShape4.RightShape = rightShape5;
+         csgShape4.Operation = CSGOperation.Union;
+
          inputTransforms = new Transform[]{
                Transform.Translate(new Vector(0, -21.99f, 50f)),
                Transform.RotateY(-75f),
@@ -548,7 +551,7 @@ public class SceneBuilder {
 
          CSGShape csgshape2 = new CSGShape(compositeTransforms);
          csgshape2.LeftShape = csgshape;
-         csgshape2.RightShape = csgshape3;
+         csgshape2.RightShape = csgShape4;
          csgshape2.Operation = CSGOperation.Difference;
 
          scene.addShape(csgshape2);

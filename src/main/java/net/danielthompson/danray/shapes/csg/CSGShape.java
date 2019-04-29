@@ -3,6 +3,7 @@ package net.danielthompson.danray.shapes.csg;
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.shapes.AbstractShape;
 import net.danielthompson.danray.states.Intersection;
+import net.danielthompson.danray.structures.BoundingBox;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Transform;
