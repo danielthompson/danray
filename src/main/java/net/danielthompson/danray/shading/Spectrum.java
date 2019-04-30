@@ -17,6 +17,11 @@ public class Spectrum {
 
    }
 
+   @Override
+   public String toString() {
+      return "(" + R + ", " + G + ", " + B + ")";
+   }
+
    public Spectrum(float r, float g, float b) {
       R = r;
       G = g;
@@ -68,4 +73,5 @@ public class Spectrum {
    public void clamp() {
       clamp(0.0f, 1.0f);
    }
+
 }

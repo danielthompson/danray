@@ -12,6 +12,8 @@ import org.apache.commons.lang.NotImplementedException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.danielthompson.danray.shapes.csg.CSGOperation.Union;
+
 public class CSGShape extends AbstractShape {
 
    public CSGOperation Operation;
@@ -25,14 +27,15 @@ public class CSGShape extends AbstractShape {
       }
 
       boolean leftInside = LeftShape.Inside(localSpacePoint);
+      boolean rightInside = RightShape.Inside(localSpacePoint);
 
       switch (Operation) {
          case Union:
-            return leftInside || RightShape.Inside(localSpacePoint);
+            return leftInside || rightInside;
          case Difference:
-            return leftInside && !RightShape.Inside(localSpacePoint);
+            return leftInside && !rightInside;
          case Intersection:
-            return leftInside && RightShape.Inside(localSpacePoint);
+            return leftInside && rightInside;
       }
 
       return false;
@@ -221,6 +224,7 @@ public class CSGShape extends AbstractShape {
             case Union: {
                if (nextIntersection.Hits) {
                   ToWorldSpace(nextIntersection, worldSpaceRay);
+
                   return nextIntersection;
                }
                continue;
@@ -263,6 +267,20 @@ public class CSGShape extends AbstractShape {
 
    @Override
    public void RecalculateWorldBoundingBox() {
+      BoundingBox left = LeftShape.WorldBoundingBox;
+      BoundingBox right = RightShape.WorldBoundingBox;
+
+      switch (Operation) {
+         case Union: {
+
+         }
+         case Intersection: {
+
+         }
+         case Difference:
+
+      }
+
 
    }
 

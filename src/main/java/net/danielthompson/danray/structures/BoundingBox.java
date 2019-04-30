@@ -324,7 +324,7 @@ public class BoundingBox {
       box1.point2.Z = Math.max(box1.point2.Z, box2.point2.Z);
    }
 
-   public static BoundingBox GetBoundingBox(BoundingBox box1, BoundingBox box2) {
+   public static BoundingBox Union(BoundingBox box1, BoundingBox box2) {
       float p1x = Math.min(box1.point1.X, box2.point1.X);
       float p1y = Math.min(box1.point1.Y, box2.point1.Y);
       float p1z = Math.min(box1.point1.Z, box2.point1.Z);
@@ -337,6 +337,14 @@ public class BoundingBox {
 
       BoundingBox box = new BoundingBox(p1, p2);
       return box;
+   }
+
+   public static BoundingBox Difference(BoundingBox b1, BoundingBox b2) {
+      return new BoundingBox(b1);
+   }
+
+   public static BoundingBox Intersection(BoundingBox b1, BoundingBox b2) {
+      return Union(b1, b2);
    }
 
    /**
@@ -367,5 +375,4 @@ public class BoundingBox {
 
       return new BoundingBox(p1, p2);
    }
-
 }
