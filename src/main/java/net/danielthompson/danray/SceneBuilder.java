@@ -685,7 +685,7 @@ public class SceneBuilder {
 
       material = new Material();
 
-      material.BxDFs.add(SpecularBRDF);
+      material.BxDFs.add(LambertianBRDF);
       material.Weights.add(1.0f);
 
       //material.BRDF = SpecularBRDF;

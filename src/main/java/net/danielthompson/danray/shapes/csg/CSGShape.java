@@ -123,19 +123,22 @@ public class CSGShape extends AbstractShape {
                continue;
             }
             case Difference: {
-               // if hp is on left and we're outside right, return it
-               if (nextIntersection == leftIntersection && !RightShape.Inside(nextIntersection.Location))
-               {
-                  worldSpaceRay.MinT = GetWorldSpaceT(worldSpaceRay, objectSpaceRay, nextIntersection.t);
-                  return true;
-               }
-               if (nextIntersection == rightIntersection && LeftShape.Inside(nextIntersection.Location) && !RightShape.Inside(nextIntersection.Location))
-               {
-                  worldSpaceRay.MinT = GetWorldSpaceT(worldSpaceRay, objectSpaceRay, nextIntersection.t);
-                  return true;
-               }
 
+               boolean leftInside = LeftShape.Inside(nextIntersection.Location);
+               boolean rightInside = RightShape.Inside(nextIntersection.Location);
+
+               // if hp is on left and we're outside right, return it
+               if (nextIntersection == leftIntersection && !rightInside)
+               {
+                  worldSpaceRay.MinT = GetWorldSpaceT(worldSpaceRay, objectSpaceRay, nextIntersection.t);
+                  return true;
+               }
                // if hp is on right and we're inside left, fliip normal and return it
+               if (nextIntersection == rightIntersection && leftInside && !rightInside)
+               {
+                  worldSpaceRay.MinT = GetWorldSpaceT(worldSpaceRay, objectSpaceRay, nextIntersection.t);
+                  return true;
+               }
                continue;
             }
             case Intersection: {
