@@ -242,7 +242,7 @@ public class Sphere extends CSGShape {
       float dist = objectSpacePoint.SquaredDistanceBetween(Origin);
       float r2 = Radius * Radius;
 
-      boolean value = dist < r2 - Constants.Epsilon;
+      boolean value = dist < r2 - Constants.DoubleEpsilon * 2f;
       //value = !value && Constants.WithinEpsilon(r2, dist);
 
 //
