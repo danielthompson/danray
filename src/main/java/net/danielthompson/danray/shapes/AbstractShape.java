@@ -6,6 +6,8 @@ import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
 
+import java.util.List;
+
 
 /**
  * Created by daniel on 2/16/15.
@@ -21,59 +23,49 @@ public abstract class AbstractShape {
 
    public Material Material;
 
-   public boolean IsConvex;
-
    public boolean InCurrentKDNode;
 
    BoundingEdge[] xBoundingEdges;
    BoundingEdge[] yBoundingEdges;
    BoundingEdge[] zBoundingEdges;
 
-   public AbstractShape(Material material) {
+   protected AbstractShape(Material material) {
+      this(null, null, material);
+   }
+
+   protected AbstractShape(Transform[] transforms, Material material) {
+      this(transforms[0], transforms[1], material);
+   }
+
+   protected AbstractShape(Transform objectToWorld, Transform worldToObject, Material material) {
       this.Material = material;
+      this.ObjectToWorld = objectToWorld;
+      this.WorldToObject = worldToObject;
    }
 
    public abstract void RecalculateWorldBoundingBox();
 
-   public void SetInCurrentKDNode(boolean value) {
-      InCurrentKDNode = value;
-   }
-
-   public float getMedian(KDAxis axis) {
-      return 0;
-   }
-
-   /**
-    * Assumes that hits(Ray worldSpaceRay) has already been called and that it does actually hit.
-     * @param ray
-    * @return
-    */
-   public Intersection getHitInfo(Ray ray) {
-      return null;
-   }
-
-   public boolean hits(Ray worldSpaceRay) {
+   public boolean Hits(Ray worldSpaceRay) {
       throw new java.lang.UnsupportedOperationException();
    }
 
-   public Point calculateIntersectionPoint(Ray worldSpaceRay) {
-      Ray objectSpaceRay = worldSpaceRay;
-
-      if (WorldToObject != null) {
-         objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
-      }
-
-      Point objectSpaceIntersectionPoint = objectSpaceRay.GetPointAtT(objectSpaceRay.MinT);
-
-      Point worldSpaceIntersectionPoint = objectSpaceIntersectionPoint;
-      if (ObjectToWorld != null) {
-         worldSpaceIntersectionPoint = ObjectToWorld.Apply(objectSpaceIntersectionPoint);
-      }
-
-      return worldSpaceIntersectionPoint;
+   /**
+    * Assumes that Hits(Ray worldSpaceRay) has already been called and that it does actually hit.
+    *
+    * @param ray
+    * @return
+    */
+   public Intersection GetHitInfo(Ray ray) {
+      return null;
    }
 
-   protected void calculateTangents(Intersection intersection) {
+   public abstract List<Intersection> GetAllHitPoints(Ray ray);
+
+   public List<Intersection> getAllHitInfos(Ray ray) {
+      return null;
+   }
+
+   protected void CalculateTangents(Intersection intersection) {
       // TODO fix such that TangentU and TangentV are actually in du & dv directions (once texture mapping is implemented)
 
       Vector v1 = Constants.PositiveX.Cross(intersection.Normal);
@@ -97,6 +89,14 @@ public abstract class AbstractShape {
             intersection.t = worldSpaceRay.GetTAtPoint(intersection.Location);
          }
       }
+   }
+
+   public void SetInCurrentKDNode(boolean value) {
+      InCurrentKDNode = value;
+   }
+
+   public float GetMedian(KDAxis axis) {
+      return 0;
    }
 
    public BoundingEdge[] GetBoundingEdges(KDAxis axis) {

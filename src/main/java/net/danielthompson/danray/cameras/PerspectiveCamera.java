@@ -8,10 +8,15 @@ import net.danielthompson.danray.structures.*;
 public class PerspectiveCamera extends Camera {
 
    private float OneOverWidth;
-
    private float OneOverHeight;
+
+   private float TwoOverWidth;
+   private float TwoOverHeight;
+
    private float aspectRatio;
    private float tanFOVOver2;
+
+   private float aspectTimesTanFovOver2;
 
    public PerspectiveCamera(CameraSettings settings, Transform cameraToWorld) {
       super(settings, cameraToWorld);
@@ -19,28 +24,24 @@ public class PerspectiveCamera extends Camera {
       OneOverWidth = 1.0f / (float)Settings.X;
       OneOverHeight = 1.0f / (float)Settings.Y;
 
+      TwoOverWidth = 2.0f / (float)Settings.X;
+      TwoOverHeight = 2.0f / (float)Settings.Y;
+
       aspectRatio = (float) Settings.X * OneOverHeight;
       tanFOVOver2 = (float)Math.tan(Math.toRadians(Settings.FieldOfView) * .5f);
+
+      aspectTimesTanFovOver2 = aspectRatio * tanFOVOver2;
    }
 
    public Ray getRay(float x, float y) {
 
-      float pixelNDCx = (x + 0.5f) * OneOverWidth;
-      float pixelNDCy = (y + 0.5f) * OneOverHeight;
+      float pixelCameraX = ((x + 0.5f) * TwoOverWidth - 1.0f) * aspectTimesTanFovOver2;
+      float pixelCameraY = (1.0f - (y + 0.5f) * TwoOverHeight) * tanFOVOver2;
 
-      float pixelCameraX = (2 * pixelNDCx - 1) * aspectRatio * tanFOVOver2;
-      float pixelCameraY = (1 - 2 * pixelNDCy) * tanFOVOver2;
-
-      Point imagePlanePixelInCameraSpace = new Point(pixelCameraX, pixelCameraY, -1);
-
-      Vector direction = new Vector (imagePlanePixelInCameraSpace.X, imagePlanePixelInCameraSpace.Y, imagePlanePixelInCameraSpace.Z);
-
-      Ray cameraSpaceRay = new Ray(DefaultOrigin, direction);
+      Ray cameraSpaceRay = new Ray(DefaultOrigin, pixelCameraX, pixelCameraY, -1.0f);
 
       Ray worldSpaceRay = cameraToWorld.Apply(cameraSpaceRay);
 
       return worldSpaceRay;
    }
-
-
 }

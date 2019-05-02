@@ -7,13 +7,10 @@ import net.danielthompson.danray.presets.TracerOptions;
 import net.danielthompson.danray.scenes.skyboxes.AbstractSkybox;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.shapes.AbstractShape;
-import net.danielthompson.danray.shapes.Box;
 import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
-import net.danielthompson.danray.structures.Point;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,23 +59,29 @@ public abstract class AbstractScene {
 
       for (int i = 0; i < shapes.size(); i++) {
          AbstractShape shape = shapes.get(i);
-         boolean hits = shape.hits(ray);
+         boolean hits = shape.Hits(ray);
          test = (hits && ray.MinT >= Constants.Epsilon && ray.MinT < closestT);
          nearestShapeIndex = test ? i : nearestShapeIndex;
          closestT = test ? ray.MinT : closestT;
       }
 
-      Intersection closestStateToRay = null;
+      Intersection closestIntersection = null;
 
       if (nearestShapeIndex >= 0) {
-         closestStateToRay = shapes.get(nearestShapeIndex).getHitInfo(ray);
-         if (Float.isNaN(closestStateToRay.Location.X)) {
+         closestIntersection = shapes.get(nearestShapeIndex).GetHitInfo(ray);
+         // flip the normal if the ray is approaching from the other side
+         if (closestIntersection.Normal.Dot(ray.Direction) > 0)
+            closestIntersection.Normal.Scale(-1);
+         if (closestIntersection != null && Float.isNaN(closestIntersection.Location.X)) {
             // wtf?
-            closestStateToRay = shapes.get(nearestShapeIndex).getHitInfo(ray);
+            closestIntersection = shapes.get(nearestShapeIndex).GetHitInfo(ray);
          }
       }
 
-      return closestStateToRay;
+
+
+
+      return closestIntersection;
    }
 
    public String compile(TracerOptions _tracerOptions) {

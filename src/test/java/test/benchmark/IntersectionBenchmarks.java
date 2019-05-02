@@ -78,7 +78,7 @@ public class IntersectionBenchmarks {
 //
 //      for (int i = 0; i < d3; i++) {
 //         for (int j = 0; j < d3; j++) {
-//            spheres[i].getHitInfo(rays[j]);
+//            spheres[i].GetHitInfo(rays[j]);
 //         }
 //      }
 //

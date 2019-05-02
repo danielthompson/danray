@@ -5,6 +5,8 @@ import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
 
+import java.util.List;
+
 /**
  * DanRay
  * User: dthompson
@@ -63,7 +65,7 @@ public class PartialSphere extends AbstractShape {
    }
 
    @Override
-   public boolean hits(Ray worldSpaceRay) {
+   public boolean Hits(Ray worldSpaceRay) {
       Ray objectSpaceRay = worldSpaceRay;
 
       if (WorldToObject != null) {
@@ -167,7 +169,7 @@ public class PartialSphere extends AbstractShape {
    }
 
    @Override
-   public Intersection getHitInfo(Ray worldSpaceRay) {
+   public Intersection GetHitInfo(Ray worldSpaceRay) {
 
       Ray objectSpaceRay = worldSpaceRay;
 
@@ -200,7 +202,7 @@ public class PartialSphere extends AbstractShape {
       intersection.u = 0.5f + (float)Math.atan2(-objectSpaceNormal.Z, -objectSpaceNormal.X) * Constants.OneOver2Pi;
       intersection.v = 0.5f - (float)Math.asin(-objectSpaceNormal.Y) * Constants.OneOverPi;
 
-      calculateTangents(intersection);
+      CalculateTangents(intersection);
 
       ToWorldSpace(intersection, worldSpaceRay);
 
@@ -208,7 +210,12 @@ public class PartialSphere extends AbstractShape {
    }
 
    @Override
-   public float getMedian(KDAxis axis) {
+   public List<Intersection> GetAllHitPoints(Ray ray) {
+      return null;
+   }
+
+   @Override
+   public float GetMedian(KDAxis axis) {
       return Origin.getAxis(axis);
    }
 

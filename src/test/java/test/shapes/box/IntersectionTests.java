@@ -30,9 +30,9 @@ public class IntersectionTests {
 
       Ray ray = new Ray(origin, direction);
 
-      boolean hits = box.hits(ray);
+      boolean hits = box.Hits(ray);
 
-      Intersection state = box.getHitInfo(ray);
+      Intersection state = box.GetHitInfo(ray);
 
       Point expectedIntersectionPoint = new Point(1, 1, 2);
       Normal expectedNormalDirection = new Normal(0, 0, 1);
@@ -57,7 +57,7 @@ public class IntersectionTests {
 
       Ray ray = new Ray(origin, direction);
 
-      Intersection state = box.getHitInfo(ray);
+      Intersection state = box.GetHitInfo(ray);
 
       Point expectedIntersectionPoint = new Point(1, 1, 2);
       Normal expectedNormalDirection = new Normal(0, 0, 1);
@@ -83,14 +83,14 @@ public class IntersectionTests {
 
       Ray ray = new Ray(origin, direction);
 
-      Intersection state = box.getHitInfo(ray);
+      Intersection state = box.GetHitInfo(ray);
 
       Point expectedIntersectionPoint = new Point(2, 1, 2);
       Normal expectedNormalDirection = new Normal(0, 0, 1);
 
       Assert.assertNotNull(state, "Intersection shouldn't be null");
       Assert.assertTrue(state.Hits, "Should hit");
-      Assert.assertNotNull(state.Location, "Location shouldn't be null if hits...");
+      Assert.assertNotNull(state.Location, "Location shouldn't be null if Hits...");
       AssertHelper.assertEquals(state.Location, expectedIntersectionPoint);
       AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
@@ -111,7 +111,7 @@ public class IntersectionTests {
 
       Ray ray = new Ray(origin, direction);
 
-      Intersection state = box.getHitInfo(ray);
+      Intersection state = box.GetHitInfo(ray);
 
       Point expectedIntersectionPoint = new Point(2, 1, 2);
       Normal expectedNormalDirection = new Normal(0, 0, 1);

@@ -2,8 +2,12 @@ package net.danielthompson.danray.shapes;
 
 import net.danielthompson.danray.acceleration.KDAxis;
 import net.danielthompson.danray.shading.Material;
+import net.danielthompson.danray.shapes.csg.CSGShape;
 import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * DanRay
@@ -11,7 +15,7 @@ import net.danielthompson.danray.structures.*;
  * Date: 6/27/13
  * Time: 1:49 PM
  */
-public class Sphere extends AbstractShape {
+public class Sphere extends CSGShape {
 
    public Point Origin = new Point(0, 0, 0);
    public float Radius;
@@ -29,10 +33,9 @@ public class Sphere extends AbstractShape {
    }
 
    public Sphere(Transform objectToWorld, Transform worldToObject, Material material) {
-      super(material);
+      super(objectToWorld, worldToObject);
+      this.Material = material;
       Radius = 1;
-      ObjectToWorld = objectToWorld;
-      WorldToObject = worldToObject;
       RecalculateWorldBoundingBox();
    }
 
@@ -56,7 +59,7 @@ public class Sphere extends AbstractShape {
    }
 
    @Override
-   public boolean hits(Ray worldSpaceRay) {
+   public boolean Hits(Ray worldSpaceRay) {
       Ray objectSpaceRay = worldSpaceRay;
 
       if (WorldToObject != null) {
@@ -117,9 +120,8 @@ public class Sphere extends AbstractShape {
       return true;
    }
 
-
    @Override
-   public Intersection getHitInfo(Ray worldSpaceRay) {
+   public Intersection GetHitInfo(Ray worldSpaceRay) {
 
       Ray objectSpaceRay = worldSpaceRay;
 
@@ -134,8 +136,6 @@ public class Sphere extends AbstractShape {
          objectSpaceIntersectionPoint = WorldToObject.Apply(worldSpaceIntersectionPoint);
       }
 
-
-
       Vector direction = Point.Minus(objectSpaceIntersectionPoint, Origin);
       Normal objectSpaceNormal = new Normal(direction);
 
@@ -147,23 +147,13 @@ public class Sphere extends AbstractShape {
       intersection.OriginInside = Inside(objectSpaceRay.Origin) || OnSurface(objectSpaceRay.Origin);
       intersection.Entering = objectSpaceNormal.Dot(objectSpaceRay.Direction) < 0;
 
+//      if (intersection.Normal.Dot(objectSpaceRay.Direction) > 0)
+//         intersection.Normal.Scale(-1);
+
       intersection.u = 0.5f + (float)Math.atan2(-objectSpaceNormal.Z, -objectSpaceNormal.X) * Constants.OneOver2Pi;
       intersection.v = 0.5f - (float)Math.asin(-objectSpaceNormal.Y) * Constants.OneOverPi;
 
-//      if (intersection.Location.X == 0 || intersection.Location.X == 1) {
-//         intersection.u = intersection.Location.Y;
-//         intersection.v = intersection.Location.Z;
-//      }
-//      else if (intersection.Location.Y == 0 || intersection.Location.Y == 1) {
-//         intersection.u = intersection.Location.Z;
-//         intersection.v = intersection.Location.X;
-//      }
-//      else if (intersection.Location.Z == 0 || intersection.Location.Z == 1) {
-//         intersection.u = intersection.Location.X;
-//         intersection.v = intersection.Location.Y;
-//      }
-
-      calculateTangents(intersection);
+      CalculateTangents(intersection);
 
       ToWorldSpace(intersection, worldSpaceRay);
 
@@ -171,15 +161,92 @@ public class Sphere extends AbstractShape {
    }
 
    @Override
-   public float getMedian(KDAxis axis) {
+   public List<Intersection> GetAllHitPoints(Ray worldSpaceRay) {
+
+      List<Intersection> intersections = new ArrayList<>();
+      Ray objectSpaceRay = worldSpaceRay;
+
+      if (WorldToObject != null) {
+         objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
+      }
+
+      Vector v = Point.Minus(objectSpaceRay.Origin, Origin);
+
+      float a = objectSpaceRay.Direction.Dot(objectSpaceRay.Direction);
+      float b = 2 * (objectSpaceRay.Direction.Dot(v));
+      float c = v.Dot(v) - (Radius * Radius);
+
+      float discriminant = (b * b) - (4 * a * c);
+
+      if (discriminant < 0) {
+         return intersections;
+      }
+
+      float root = (float) Math.sqrt(discriminant);
+      float oneOverTwoA = .5f / a;
+      float t0 = (-b + root) * oneOverTwoA;
+      float t1 = (-b - root) * oneOverTwoA;
+
+      float lowT = t0 < t1 ? t0 : t1;
+      float highT = t0 > t1 ? t0 : t1;
+
+      if (lowT > Constants.Epsilon) {
+         // t0 Hits in front of the origin
+
+         worldSpaceRay.MinT = lowT;
+
+         if (ObjectToWorld != null && ObjectToWorld.HasScale()) {
+            Point objectSpaceIntersectionPoint = objectSpaceRay.GetPointAtT(lowT);
+            Point worldSpaceIntersectionPoint = ObjectToWorld.Apply(objectSpaceIntersectionPoint);
+            worldSpaceRay.MinT = worldSpaceRay.GetTAtPoint(worldSpaceIntersectionPoint);
+         }
+
+         Intersection intersection = GetHitInfo(worldSpaceRay);
+
+         intersection.t = worldSpaceRay.MinT;
+
+         intersections.add(intersection);
+      }
+
+      if (highT > Constants.Epsilon) {
+         // t1 Hits in front of the origin
+         worldSpaceRay.MinT = highT;
+
+         if (ObjectToWorld != null && ObjectToWorld.HasScale()) {
+            Point objectSpaceIntersectionPoint = objectSpaceRay.GetPointAtT(highT);
+            Point worldSpaceIntersectionPoint = ObjectToWorld.Apply(objectSpaceIntersectionPoint);
+            worldSpaceRay.MinT = worldSpaceRay.GetTAtPoint(worldSpaceIntersectionPoint);
+         }
+
+         Intersection intersection = GetHitInfo(worldSpaceRay);
+         intersection.t = worldSpaceRay.MinT;
+         intersections.add(intersection);
+      }
+
+      return intersections;
+   }
+
+   @Override
+   public float GetMedian(KDAxis axis) {
       return Origin.getAxis(axis);
    }
 
-   public boolean Inside(Point point) {
-      float dist = point.SquaredDistanceBetween(Origin);
+   @Override
+   public boolean Inside(Point worldSpacePoint) {
+      Point objectSpacePoint = worldSpacePoint;
+
+      if (WorldToObject != null) {
+         objectSpacePoint = WorldToObject.Apply(worldSpacePoint);
+      }
+
+      float dist = objectSpacePoint.SquaredDistanceBetween(Origin);
       float r2 = Radius * Radius;
 
-      boolean value = dist < r2;
+      boolean value = dist < r2 - Constants.DoubleEpsilon * 2f;
+      //value = !value && Constants.WithinEpsilon(r2, dist);
+
+//
+//      return value;
 
       return value;
    }

@@ -50,7 +50,7 @@ public class KDScene extends AbstractScene {
    private Intersection GetClosestDrawableToRay(List<AbstractShape> shapes, Ray ray) {
       Intersection closestStateToRay = null;
       for (AbstractShape shape : shapes) {
-         Intersection state = shape.getHitInfo(ray);
+         Intersection state = shape.GetHitInfo(ray);
 
          if (state.Hits) {
             if (closestStateToRay == null) {
@@ -130,14 +130,14 @@ public class KDScene extends AbstractScene {
          //Intersection leftState = BoundingBox.GetHitInfoNew(leftNode.BoundingBox.point1, leftNode.BoundingBox.point2, ray);
          //Intersection rightState = BoundingBox.GetHitInfoNew(rightNode.BoundingBox.point1, rightNode.BoundingBox.point2, ray);
 
-         //Intersection leftState = leftNode.getHitInfo(ray);
-         //Intersection rightState = rightNode.getHitInfo(ray);
+         //Intersection leftState = leftNode.GetHitInfo(ray);
+         //Intersection rightState = rightNode.GetHitInfo(ray);
 
          /*
 
-         boolean hitsLeft = leftState.hits;
+         boolean hitsLeft = leftState.Hits;
          statistics.BoundingIntersections++;
-         boolean hitsRight = rightState.hits;
+         boolean hitsRight = rightState.Hits;
          statistics.BoundingIntersections++;
 
          statistics.BoundsHitLeft = hitsLeft ? statistics.BoundsHitLeft : statistics.BoundsHitLeft + 1;

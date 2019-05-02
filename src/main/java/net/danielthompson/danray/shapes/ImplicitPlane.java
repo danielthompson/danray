@@ -4,6 +4,8 @@ import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
 
+import java.util.List;
+
 
 /**
  * DanRay
@@ -32,7 +34,7 @@ public class ImplicitPlane extends AbstractShape {
    }
 
    @Override
-   public Intersection getHitInfo(Ray ray) {
+   public Intersection GetHitInfo(Ray ray) {
       float numerator = (Point.Minus(Origin, ray.Origin)).Dot(Normal);
       float denominator = ray.Direction.Dot(Normal);
 
@@ -59,7 +61,10 @@ public class ImplicitPlane extends AbstractShape {
       return state;
    }
 
-
+   @Override
+   public List<Intersection> GetAllHitPoints(Ray ray) {
+      return null;
+   }
 
 
 }

@@ -31,7 +31,8 @@ public class PathTraceIntegrator extends AbstractIntegrator {
       _y = y;
 
       if (false) {
-         if (_x == 200 && _y == 200) {
+//         if ((_x > 318 && _x < 322) && (_y > 30 && _y < 34)) {
+         if (_x == 319 && _y == 32) {
             return GetSample(ray, depth, 1.0f);
          }
          Sample sample = new Sample();
@@ -105,9 +106,9 @@ public class PathTraceIntegrator extends AbstractIntegrator {
             if (!bxdf.Delta) {
                scalePercentage = bxdf.f(incomingDirection, intersectionNormal, outgoingDirection);
             }
-            if (leavingMaterial && outgoingDirection.Dot(intersectionNormal) < 0) {
-               outgoingDirection.Scale(-1);
-            }
+//            if (leavingMaterial && outgoingDirection.Dot(intersectionNormal) < 0) {
+//               //outgoingDirection.Scale(-1);
+//            }
 
             Ray bounceRay = new Ray(intersection.Location, outgoingDirection);
             if (leavingMaterial) {
@@ -143,20 +144,20 @@ public class PathTraceIntegrator extends AbstractIntegrator {
 //               outgoing.Scale(-1);
 //
 //            Ray bounceRay = new Ray(intersection.Location, outgoing);
-//            boolean hits = closestShape.hits(bounceRay);
-//            Intersection nextIntersection = closestShape.getHitInfo(bounceRay);
+//            boolean Hits = closestShape.Hits(bounceRay);
+//            Intersection nextIntersection = closestShape.GetHitInfo(bounceRay);
 //            Intersection previousIntersection = nextIntersection;
 //
 //            // TODO fix t comparisons
-//            while (hits && (nextIntersection.t < 0 || nextIntersection.t > 1)) {
+//            while (Hits && (nextIntersection.t < 0 || nextIntersection.t > 1)) {
 //               // bounce it again, sam
 //               transmittance *= objectMaterial.BSSRDF.Transmittance;
 //               outgoing = objectMaterial.BSSRDF.GetVector();
 //               Point newOrigin = objectMaterial.BSSRDF.GetNextPoint(previousIntersection.Location, outgoing);
 //               bounceRay = new Ray(newOrigin, outgoing);
-//               hits = closestShape.hits(bounceRay);
+//               Hits = closestShape.Hits(bounceRay);
 //               previousIntersection = nextIntersection;
-//               nextIntersection = closestShape.getHitInfo(bounceRay);
+//               nextIntersection = closestShape.GetHitInfo(bounceRay);
 //            }
 //            // exiting
 //

@@ -14,25 +14,36 @@ public class Point implements Cloneable {
    public float Z;
 
    public Point(float X, float Y, float Z) {
+      assert !Float.isNaN(X);
+      assert !Float.isNaN(Y);
+      assert !Float.isNaN(Z);
+
       this.X = X;
       this.Y = Y;
       this.Z = Z;
    }
 
    public Point(float[] xyz) {
+      assert !Float.isNaN(xyz[0]);
+      assert !Float.isNaN(xyz[1]);
+      assert !Float.isNaN(xyz[2]);
+
       this.X = xyz[0];
       this.Y = xyz[1];
       this.Z = xyz[2];
    }
 
    public Point(Point p) {
+      assert !Float.isNaN(p.X);
+      assert !Float.isNaN(p.Y);
+      assert !Float.isNaN(p.Z);
+
       this.X = p.X;
       this.Y = p.Y;
       this.Z = p.Z;
    }
 
    public Point clone() {
-      
       return new Point(X, Y, Z);
    }
 
@@ -46,8 +57,6 @@ public class Point implements Cloneable {
             return Z;
       }
    }
-
-
 
    public void setAxis(KDAxis axis, float value) {
       switch (axis) {
@@ -127,8 +136,6 @@ public class Point implements Cloneable {
       return new Point(point.X + vector.X, point.Y + vector.Y, point.Z + vector.Z);
    }
 
-
-
    public void Normalize() {
       float lengthMultiplier = 1.0f / Length();
       Scale(lengthMultiplier);
@@ -150,7 +157,7 @@ public class Point implements Cloneable {
    }
 
    public String toString() {
-      return "X " + X + ", Y " + Y + ", Z " + Z;
+      return "(" + X + ", " + Y + ", " + Z + ")";
    }
 
    public boolean equals(Object obj) {

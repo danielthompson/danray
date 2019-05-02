@@ -42,9 +42,9 @@
 //
 //      Ray incomingRay = new Ray(rayOrigin, rayDirection);
 //
-//      Intersection state = triangle.getHitInfo(incomingRay);
+//      Intersection state = triangle.GetHitInfo(incomingRay);
 //
-//      Assert.assertTrue(state.hits);
+//      Assert.assertTrue(state.Hits);
 //
 //      Point expectedIntersection = new Point(1, 1, 0);
 //
@@ -65,9 +65,9 @@
 //
 //      Ray incomingRay = new Ray(rayOrigin, rayDirection);
 //
-//      Intersection state = triangle.getHitInfo(incomingRay);
+//      Intersection state = triangle.GetHitInfo(incomingRay);
 //
-//      Assert.assertTrue(state.hits);
+//      Assert.assertTrue(state.Hits);
 //
 //      Point expectedIntersection = new Point(0, 0, 0);
 //
@@ -88,9 +88,9 @@
 //
 //      Ray incomingRay = new Ray(rayOrigin, rayDirection);
 //
-//      Intersection state = triangle.getHitInfo(incomingRay);
+//      Intersection state = triangle.GetHitInfo(incomingRay);
 //
-//      Assert.assertTrue(state.hits);
+//      Assert.assertTrue(state.Hits);
 //
 //      Point expectedIntersection = new Point(1, 1, 0);
 //
@@ -111,8 +111,8 @@
 //
 //      Ray incomingRay = new Ray(rayOrigin, rayDirection);
 //
-//      Intersection state = triangle.getHitInfo(incomingRay);
+//      Intersection state = triangle.GetHitInfo(incomingRay);
 //
-//      Assert.assertFalse(state.hits);
+//      Assert.assertFalse(state.Hits);
 //   }
 //}

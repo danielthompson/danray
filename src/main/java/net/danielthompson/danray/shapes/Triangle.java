@@ -7,6 +7,8 @@ import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Ray;
 
+import java.util.List;
+
 /**
  * DanRay
  * User: dthompson
@@ -63,12 +65,17 @@ public class Triangle extends AbstractShape {
    }
 
    @Override
-   public Intersection getHitInfo(Ray ray) {
+   public Intersection GetHitInfo(Ray ray) {
       return GetHitInfo(this, ray, _vertex0, _vertex1, _vertex2);
    }
 
    @Override
-   public boolean hits(Ray worldSpaceRay) {
+   public List<Intersection> GetAllHitPoints(Ray ray) {
+      return null;
+   }
+
+   @Override
+   public boolean Hits(Ray worldSpaceRay) {
       throw new java.lang.UnsupportedOperationException();
    }
 
@@ -88,13 +95,13 @@ public class Triangle extends AbstractShape {
       float v = Q.Dot(ray.Direction) * multiplier;
 
       if (t > 0 && u >= 0 && v >= 0 && u + v <= 1.0) {
-         state.hits = true;
+         state.Hits = true;
          state.Location = ray.ScaleFromOrigin(t);
          state.Drawable = drawable;
          state.T = t;
       }
       else {
-         state.hits = false;
+         state.Hits = false;
       }*/
       return state;
    }
@@ -110,7 +117,7 @@ public class Triangle extends AbstractShape {
    }
 
    @Override
-   public float getMedian(KDAxis axis) {
+   public float GetMedian(KDAxis axis) {
       return (_vertex0.getAxis(axis) + _vertex1.getAxis(axis) + _vertex2.getAxis(axis)) / 3.0f;
    }
 

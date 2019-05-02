@@ -126,6 +126,8 @@ public class TraceManager {
 //      _sampler = new CenterSampler(renderQualityPreset.getSamplesPerPixel());
       _timer = new Timer();
 
+      //tracerOptions.showTracerWindow = false;
+
       long numPixels = renderQualityPreset.getX() * renderQualityPreset.getY();
       _numPixelsDivisor = 1.0f / numPixels;
       _ioHelper = new IOHelper();
@@ -142,7 +144,7 @@ public class TraceManager {
       int cores = Runtime.getRuntime().availableProcessors();
       Logger.Log(Logger.Level.Info, "Detected " + cores + " cores.");
 
-//      _tracerOptions.numThreads = 1;
+      //_tracerOptions.numThreads = 1;
 
       if (_tracerOptions.numThreads == 0) {
          Logger.Log(Logger.Level.Info, "No thread count specified at startup, defaulting to available cores.");
@@ -425,7 +427,7 @@ public class TraceManager {
       */
 
 //      _tracerOptions.numThreads = 1;
-//
+
       if (_tracerOptions.numThreads <= 1) {
          runner.run();
       }
@@ -572,7 +574,10 @@ public class TraceManager {
 
 
    public void Finish() {
+      Logger.Log(Logger.Level.Info, "Vectors: " + Vector.instances.get());
+
       Logger.Flush();
+      //System.exit(0);
    }
 
    public void moveOriginAlongAxis(int x, int y, int z) {

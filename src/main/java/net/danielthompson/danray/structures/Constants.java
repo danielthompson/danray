@@ -45,16 +45,11 @@ public class Constants {
    public final static Vector PositiveZ = new Vector(0, 0, 1);
 
    public static boolean WithinEpsilon(float number, float target) {
-      return WithinEpsilon(number, target, Epsilon);
+      return (number > target) ? (DoubleEpsilon + target >= number) : (DoubleEpsilon + number >= target);
    }
 
    public static boolean WithinEpsilon(float number, float target, float epsilon) {
-
-      if (number > target) {
-         return (2*epsilon + target >= number);
-      }
-      else
-         return (2*epsilon + number >= target);
+      return (number > target) ? (2 * epsilon + target >= number) : (2 * epsilon + number >= target);
    }
 
    public static boolean WithinEpsilon(Point p1, Point p2) {

@@ -1,0 +1,32 @@
+All diagrams are depicted in the xz plane with y = 0, and all intersections and other operations are similarly treated.
+
+          -z
+          │
+          │
+          │
+-x ─────┏━┓──── +x
+        ┃  ┃
+        ┗━┛
+          │
+          +z
+
+shape = new CSGShape((Material)null);
+      shape.Operation = CSGOperation.Difference;
+
+      Transform[] inputTransforms = new Transform[]{
+            Transform.Translate(new Vector(0, 0, 1)),
+            Transform.Scale(2),
+
+      };
+      Transform[] compositeTransforms = Transform.composite(inputTransforms);
+
+      shape.LeftShape = new Box(compositeTransforms, null);
+
+      inputTransforms = new Transform[]{
+            Transform.Translate(new Vector(1, 0, 0)),
+            Transform.Scale(2),
+
+      };
+      compositeTransforms = Transform.composite(inputTransforms);
+
+      shape.RightShape = new Box(compositeTransforms, null);

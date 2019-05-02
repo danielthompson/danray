@@ -43,13 +43,13 @@ public class Intersection {
    public boolean Entering;
 
    /**
-    * If true, the ray hits the shape.
+    * If true, the ray Hits the shape.
     * If false, the ray doesn't hit the shape.
     */
    public boolean Hits;
 
    /**
-    * The shape that the ray hits. Null if the ray doesn't hit any shape.
+    * The shape that the ray Hits. Null if the ray doesn't hit any shape.
     */
    public AbstractShape Shape;
    public List<Point> Face;

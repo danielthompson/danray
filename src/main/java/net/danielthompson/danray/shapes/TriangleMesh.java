@@ -98,7 +98,7 @@ public class TriangleMesh extends AbstractShape {
    }
 
    @Override
-   public Intersection getHitInfo(Ray ray) {
+   public Intersection GetHitInfo(Ray ray) {
 
       Intersection closestStateToRay = new Intersection();
       closestStateToRay.Hits = false;
@@ -117,7 +117,12 @@ public class TriangleMesh extends AbstractShape {
    }
 
    @Override
-   public boolean hits(Ray worldSpaceRay) {
+   public List<Intersection> GetAllHitPoints(Ray ray) {
+      return null;
+   }
+
+   @Override
+   public boolean Hits(Ray worldSpaceRay) {
       throw new java.lang.UnsupportedOperationException();
    }
 
@@ -169,7 +174,7 @@ public class TriangleMesh extends AbstractShape {
 
 
    @Override
-   public float getMedian(KDAxis axis) {
+   public float GetMedian(KDAxis axis) {
       return _boundingBox.getMedian(axis);
    }
 }

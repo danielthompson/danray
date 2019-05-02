@@ -26,6 +26,15 @@ public abstract class BxDF {
       );
    }
 
+   public void LocalToWorldInPlace(Intersection intersection, Vector v) {
+      float x = intersection.TangentU.X * v.X + intersection.Normal.X * v.Y + intersection.TangentV.X * v.Z;
+      float y = intersection.TangentU.Y * v.X + intersection.Normal.Y * v.Y + intersection.TangentV.Y * v.Z;
+      float z = intersection.TangentU.Z * v.X + intersection.Normal.Z * v.Y + intersection.TangentV.Z * v.Z;
+      v.X = x;
+      v.Y = y;
+      v.Z = z;
+   }
+
    public Vector LocalToWorld(Intersection intersection, Vector v) {
       return new Vector(
             intersection.TangentU.X * v.X + intersection.Normal.X * v.Y + intersection.TangentV.X * v.Z,
@@ -76,14 +85,12 @@ public abstract class BxDF {
    }
 
    public Vector getVectorInPDF(Intersection intersection, Vector incoming, float leavingIndexOfRefraction, float enteringIndexOfRefraction) {
-      Vector localSpaceOutgoing = MonteCarloCalculations.CosineSampleHemisphere();
+      // local space
+      Vector outgoing = MonteCarloCalculations.CosineSampleHemisphere();
 
-//      if (intersection.x == 119 && (intersection.y == 315 || intersection.y == 311)) {
-//         Logger.Log(localSpaceOutgoing.X + " " + localSpaceOutgoing.Z + " " + localSpaceOutgoing.Y);
-//      }
-
-      Vector worldSpaceOutgoing = LocalToWorld(intersection, localSpaceOutgoing);
-      return worldSpaceOutgoing;
+      // world space
+      LocalToWorldInPlace(intersection, outgoing);
+      return outgoing;
    }
 
    public Vector getVectorInPDF(Intersection intersection, Vector incoming) {

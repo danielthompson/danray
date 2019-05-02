@@ -4,6 +4,8 @@ import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
 
+import java.util.List;
+
 /**
  * Created by daniel on 3/2/15.
  */
@@ -35,7 +37,7 @@ public class Cylinder extends AbstractShape {
    }
 
    @Override
-   public Intersection getHitInfo(Ray worldSpaceRay) {
+   public Intersection GetHitInfo(Ray worldSpaceRay) {
       Ray objectSpaceRay = worldSpaceRay;
 
       if (WorldToObject != null) {
@@ -48,28 +50,37 @@ public class Cylinder extends AbstractShape {
 
       float tTop = (Height - objectSpaceRay.Origin.Y) / (objectSpaceRay.Direction.Y);
 
-      Point topHitPoint = objectSpaceRay.GetPointAtT(tTop);
-
+      Point topHitPoint = null;
       boolean topHits = false;
-      Normal topNormal = new Normal(0, 1, 0);
+      Normal topNormal = null;
 
-      if ((tTop > 0) && Math.sqrt(topHitPoint.X * topHitPoint.X + topHitPoint.Z * topHitPoint.Z) <= Radius) {
-         topHits = true;
-         state.Hits = true;
+      if (objectSpaceRay.Direction.Y != 0) {
+         topHitPoint = objectSpaceRay.GetPointAtT(tTop);
+
+         topNormal = new Normal(0, 1, 0);
+
+         if ((tTop > 0) && Math.sqrt(topHitPoint.X * topHitPoint.X + topHitPoint.Z * topHitPoint.Z) <= Radius) {
+            topHits = true;
+            state.Hits = true;
+         }
       }
 
       // check for intersection with lower disk
 
       float tBottom = (-objectSpaceRay.Origin.Y) / (objectSpaceRay.Direction.Y);
 
-      Point bottomHitPoint = objectSpaceRay.GetPointAtT(tBottom);
-
+      Point bottomHitPoint = null;
       boolean bottomHits = false;
-      Normal bottomNormal = new Normal(0, -1, 0);
+      Normal bottomNormal = null;
 
-      if ((tBottom > 0) && Math.sqrt(bottomHitPoint.X * bottomHitPoint.X + bottomHitPoint.Z * bottomHitPoint.Z) <= Radius) {
-         bottomHits = true;
-         state.Hits = true;
+      if (objectSpaceRay.Direction.Y != 0) {
+         bottomHitPoint = objectSpaceRay.GetPointAtT(tBottom);
+         bottomNormal = new Normal(0, -1, 0);
+
+         if ((tBottom > 0) && Math.sqrt(bottomHitPoint.X * bottomHitPoint.X + bottomHitPoint.Z * bottomHitPoint.Z) <= Radius) {
+            bottomHits = true;
+            state.Hits = true;
+         }
       }
 
       // check for intersection with cylinder
@@ -137,7 +148,7 @@ public class Cylinder extends AbstractShape {
 
       // case 0 - misses
       if (state.Hits) {
-         // case 1 - hits only bounded cylinder
+         // case 1 - Hits only bounded cylinder
 
          if (!topHits && !bottomHits && (t0Hits || t1Hits)) {
             if (t0Hits && t0 <= t1) {
@@ -151,7 +162,7 @@ public class Cylinder extends AbstractShape {
                state.Location = objectSpaceRay.ScaleFromOrigin(t1);
             }
          }
-         // case 2 - hits only discs
+         // case 2 - Hits only discs
          else if (topHits && bottomHits && !t0Hits && !t1Hits) {
             if (tTop < tBottom) {
                state.t = tTop;
@@ -165,7 +176,7 @@ public class Cylinder extends AbstractShape {
             }
          }
 
-         // case 3 - hits top disc and hits bounded cylinder once
+         // case 3 - Hits top disc and Hits bounded cylinder once
          else if (topHits && !bottomHits) {
             if (t0Hits && !t1Hits) {
                if (t0 <= tTop) {
@@ -192,7 +203,7 @@ public class Cylinder extends AbstractShape {
          }
 
 
-         // case 4 - hits bottom disc and hits bounded cylinder once
+         // case 4 - Hits bottom disc and Hits bounded cylinder once
 
          else if (!topHits && bottomHits) {
             if (t0Hits && !t1Hits) {
@@ -236,5 +247,10 @@ public class Cylinder extends AbstractShape {
       }
       return state;
 
+   }
+
+   @Override
+   public List<Intersection> GetAllHitPoints(Ray ray) {
+      return null;
    }
 }

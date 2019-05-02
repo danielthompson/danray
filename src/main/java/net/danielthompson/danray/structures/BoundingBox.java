@@ -2,6 +2,10 @@ package net.danielthompson.danray.structures;
 
 import net.danielthompson.danray.acceleration.KDAxis;
 import net.danielthompson.danray.states.Intersection;
+import org.lwjgl.system.CallbackI;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * User: daniel
@@ -9,7 +13,14 @@ import net.danielthompson.danray.states.Intersection;
  * Time: 15:44
  */
 public class BoundingBox {
+   /**
+    * "Lower" point. Always in world-space.
+    */
    public Point point1;
+
+   /**
+    * "Upper" point. Always in world space.
+    */
    public Point point2;
 
    public BoundingBox (Point point1, Point point2) {
@@ -33,7 +44,6 @@ public class BoundingBox {
    public float GetVolume() {
       return Math.abs((point2.X - point1.X) * (point2.Y - point1.Y) * (point2.Z - point1.Z));
    }
-
 
    public float getSurfaceArea() {
       float xLength = Math.abs(point2.X - point1.X);
@@ -214,6 +224,71 @@ public class BoundingBox {
       return intersection;
    }
 
+   public static List<Intersection> GetBothHitInfo(Point p1, Point p2, Ray ray) {
+      float maxBoundFarT = Float.MAX_VALUE;
+      float minBoundNearT = 0;
+
+      List<Intersection> intersections = new ArrayList<>();
+
+      // X
+      float tNear = (p1.X - ray.Origin.X) * ray.DirectionInverse.X;
+      float tFar = (p2.X - ray.Origin.X) * ray.DirectionInverse.X;
+
+      float swap = tNear;
+      tNear = tNear > tFar ? tFar : tNear;
+      tFar = swap > tFar ? swap : tFar;
+
+      minBoundNearT = (tNear > minBoundNearT) ? tNear : minBoundNearT;
+      maxBoundFarT = (tFar < maxBoundFarT) ? tFar : maxBoundFarT;
+      if (minBoundNearT > maxBoundFarT) {
+         return intersections;
+      }
+
+      // Y
+      tNear = (p1.Y - ray.Origin.Y) * ray.DirectionInverse.Y;
+      tFar = (p2.Y - ray.Origin.Y) * ray.DirectionInverse.Y;
+
+      swap = tNear;
+      tNear = tNear > tFar ? tFar : tNear;
+      tFar = swap > tFar ? swap : tFar;
+
+      minBoundNearT = (tNear > minBoundNearT) ? tNear : minBoundNearT;
+      maxBoundFarT = (tFar < maxBoundFarT) ? tFar : maxBoundFarT;
+
+      if (minBoundNearT > maxBoundFarT) {
+         return intersections;
+      }
+
+      // Z
+      tNear = (p1.Z - ray.Origin.Z) * ray.DirectionInverse.Z;
+      tFar = (p2.Z - ray.Origin.Z) * ray.DirectionInverse.Z;
+
+      swap = tNear;
+      tNear = tNear > tFar ? tFar : tNear;
+      tFar = swap > tFar ? swap : tFar;
+
+      minBoundNearT = (tNear > minBoundNearT) ? tNear : minBoundNearT;
+      maxBoundFarT = (tFar < maxBoundFarT) ? tFar : maxBoundFarT;
+
+      if (minBoundNearT > maxBoundFarT) {
+         return intersections;
+      }
+
+      if (minBoundNearT > 0) {
+         Intersection intersection = new Intersection();
+         intersection.t = minBoundNearT;
+         intersection.Hits = true;
+         intersections.add(intersection);
+      }
+
+      Intersection intersection = new Intersection();
+      intersection.t = maxBoundFarT;
+      intersection.Hits = true;
+      intersections.add(intersection);
+
+      return intersections;
+   }
+
    public boolean Hits(Ray ray) {
       return (ray.Origin.X >= point1.X && ray.Origin.X <= point2.X
             && ray.Origin.Y >= point1.Y && ray.Origin.Y <= point2.Y
@@ -249,7 +324,7 @@ public class BoundingBox {
       box1.point2.Z = Math.max(box1.point2.Z, box2.point2.Z);
    }
 
-   public static BoundingBox GetBoundingBox(BoundingBox box1, BoundingBox box2) {
+   public static BoundingBox Union(BoundingBox box1, BoundingBox box2) {
       float p1x = Math.min(box1.point1.X, box2.point1.X);
       float p1y = Math.min(box1.point1.Y, box2.point1.Y);
       float p1z = Math.min(box1.point1.Z, box2.point1.Z);
@@ -262,6 +337,14 @@ public class BoundingBox {
 
       BoundingBox box = new BoundingBox(p1, p2);
       return box;
+   }
+
+   public static BoundingBox Difference(BoundingBox b1, BoundingBox b2) {
+      return new BoundingBox(b1);
+   }
+
+   public static BoundingBox Intersection(BoundingBox b1, BoundingBox b2) {
+      return Union(b1, b2);
    }
 
    /**
@@ -292,5 +375,4 @@ public class BoundingBox {
 
       return new BoundingBox(p1, p2);
    }
-
 }

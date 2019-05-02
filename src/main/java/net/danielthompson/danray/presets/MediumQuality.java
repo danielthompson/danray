@@ -5,7 +5,7 @@ package net.danielthompson.danray.presets;
  */
 public class MediumQuality implements RenderQualityPreset {
    private final int _x = 1280 , _y = 720;
-   private final int _maxDepth = 8;
+   private final int _maxDepth = 5;
    private final int _samplesPerPixel = 256;
    private final int _superSamplesPerPixel = 0;
    private final int _airIndexOfRefraction = 1;

@@ -1,10 +1,13 @@
 package net.danielthompson.danray.lights;
 
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
+import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.BoundingBox;
 import net.danielthompson.danray.structures.Point;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Vector;
+
+import java.util.List;
 
 /**
  * DanRay
@@ -51,5 +54,10 @@ public class PointLight extends AbstractLight {
    @Override
    public void RecalculateWorldBoundingBox() {
       WorldBoundingBox = new BoundingBox(Location, Location);
+   }
+
+   @Override
+   public List<Intersection> GetAllHitPoints(Ray ray) {
+      return null;
    }
 }

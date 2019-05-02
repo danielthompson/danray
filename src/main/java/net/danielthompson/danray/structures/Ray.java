@@ -8,16 +8,16 @@ package net.danielthompson.danray.structures;
  */
 public class Ray {
 
-   public Vector Direction;
-   public Point Origin;
-   public Vector DirectionInverse;
+   public Vector Direction; // 8 bytes
+   public Point Origin; // 8 bytes
+   public Vector DirectionInverse; // 8 bytes
    public boolean FlipNormals = false;
 
    /**
     * The t-value for the closest intersection found so far.
     * Should be set only by Shape hit() routines.
     */
-   public float MinT = Float.MAX_VALUE;
+   public float MinT = Float.MAX_VALUE; // 4 bytes
 
    /**
     * The maximum t value that an intersection should return true for.
@@ -27,7 +27,7 @@ public class Ray {
    public float MaxT = Float.MAX_VALUE;
 
    /**
-    * Creates a new Vector object.
+    * Creates a new Ray object.
     * @param origin The origin of the vector.
     * @param direction The absolute direction of the vector (i.e. not relative to the origin). Will be normalized.
     */
@@ -38,6 +38,16 @@ public class Ray {
 
       float oneOverLength = (float) (1.0f / Math.sqrt(direction.X * direction.X + direction.Y * direction.Y + direction.Z * direction.Z));
       Direction = new Vector(direction.X * oneOverLength, direction.Y * oneOverLength, direction.Z * oneOverLength);
+      DirectionInverse = new Vector(1.0f / Direction.X, 1.0f / Direction.Y, 1.0f / Direction.Z);
+   }
+
+   public Ray(Point origin, float dx, float dy, float dz) {
+      MinT = Float.MAX_VALUE;;
+
+      Origin = origin;
+
+      float oneOverLength = (float) (1.0 / Math.sqrt(dx * dx + dy * dy + dz * dz));
+      Direction = new Vector(dx * oneOverLength, dy * oneOverLength, dz * oneOverLength);
       DirectionInverse = new Vector(1.0f / Direction.X, 1.0f / Direction.Y, 1.0f / Direction.Z);
    }
 
