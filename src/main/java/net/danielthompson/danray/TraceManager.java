@@ -9,6 +9,7 @@ import net.danielthompson.danray.presets.TracerOptions;
 import net.danielthompson.danray.runners.BottomUpTileRunner;
 import net.danielthompson.danray.runners.PixelRunner;
 import net.danielthompson.danray.films.AbstractFilm;
+import net.danielthompson.danray.runners.TopDownTileRunner;
 import net.danielthompson.danray.samplers.AbstractSampler;
 import net.danielthompson.danray.samplers.CenterSampler;
 import net.danielthompson.danray.samplers.GridSampler;

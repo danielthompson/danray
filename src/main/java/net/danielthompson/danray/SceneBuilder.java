@@ -472,8 +472,12 @@ public class SceneBuilder {
 
       material = new Material();
       material.IndexOfRefraction = 1.25f;
-      material.BxDFs.add(new LambertianBRDF());
-      material.Weights.add(1.0f);
+      material.BxDFs.add(new SpecularBTDF());
+      material.Weights.add(0.5f);
+      material.BxDFs.add(new SpecularBRDF());
+      material.Weights.add(0.5f);
+//      material.BxDFs.add(new LambertianBRDF());
+//      material.Weights.add(0.10f);
 //      material.BxDFs.add(new SpecularBTDF());
 //      material.Weights.add(0.5f);
 ////
