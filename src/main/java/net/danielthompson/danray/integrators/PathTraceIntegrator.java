@@ -30,9 +30,9 @@ public class PathTraceIntegrator extends AbstractIntegrator {
       _x = x;
       _y = y;
 
-      if (false) {
+      if (true) {
 //         if ((_x > 318 && _x < 322) && (_y > 30 && _y < 34)) {
-         if (_x == 319 && _y == 32) {
+         if (_x == 320 && _y == 186) {
             return GetSample(ray, depth, 1.0f);
          }
          Sample sample = new Sample();
