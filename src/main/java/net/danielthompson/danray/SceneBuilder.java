@@ -133,6 +133,7 @@ public class SceneBuilder {
    }
 
 
+
    public static class Sinebow {
       public static Color Color0 = new Color(255, 64, 64);
       public static Color Color1 = new Color(231, 141, 11);
@@ -430,6 +431,55 @@ public class SceneBuilder {
       Cylinder cylinder = new Cylinder(1, 1, worldToObject, objectToWorld, material);
 
       //scene.addShape(cylinder);
+
+      return scene;
+   }
+
+   public static AbstractScene NumericalStabilityTest(int x, int y) {
+      CameraSettings settings = new CameraSettings();
+      settings.X = x;
+      settings.Y = y;
+      settings.FieldOfView = 90f;
+
+      float bigNum = 100000000f;
+
+      Transform bigTranslate = Transform.Translate(bigNum, bigNum, bigNum);
+
+      Transform[] inputTransforms = new Transform[]{
+            bigTranslate,
+            Transform.Translate(0, 180, 250),
+            Transform.RotateX(-45)
+      };
+      Transform[] compositeTransforms = Transform.composite(inputTransforms);
+      Camera camera = new PerspectiveCamera(settings, compositeTransforms[0]);
+
+      AbstractScene scene = new NaiveScene(camera);
+
+      Material material = new Material();
+//      material.reflect = new GlossyBRDF(0.85f);
+
+      material.BxDFs.add(SpecularBRDF);
+      material.Weights.add(1.0f);
+
+      CheckerboardTexture texture = new CheckerboardTexture();
+      texture.UScale = 32;
+      texture.VScale = 32;
+      texture.Odd = new ReflectanceSpectrum(new Color(0.8f, 0.8f, 0.75f));
+      texture.Even = new ReflectanceSpectrum(new Color(0.9f, 0.9f, 0.85f));
+      material.Texture = texture;
+
+      inputTransforms = new Transform[]{
+            bigTranslate,
+            Transform.Translate(new Vector(0, -52f, 0f)),
+            Transform.RotateZ(10f),
+            Transform.RotateY(45f),
+            Transform.Scale(1000f, 1f, 1000f),
+            Transform.Translate(new Vector(-0.5f, -0.5f, -0.5f))
+      };
+      compositeTransforms = Transform.composite(inputTransforms);
+
+      scene.addShape(new Box(compositeTransforms, material));
+      scene.Skybox = new ColorSkybox(Color.WHITE);
 
       return scene;
    }

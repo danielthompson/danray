@@ -1,5 +1,6 @@
 package net.danielthompson.danray.structures;
 
+import net.danielthompson.danray.utility.FloatUtils;
 import org.apache.commons.math3.util.FastMath;
 
 /**
@@ -325,6 +326,37 @@ public class Transform {
       float newZ = x * _matrix.matrix[2][0] + y * _matrix.matrix[2][1] + z * _matrix.matrix[2][2] + _matrix.matrix[2][3];
 
       float w = x * _matrix.matrix[3][0] + y * _matrix.matrix[3][1] + z * _matrix.matrix[3][2] + _matrix.matrix[3][3];
+
+      if (w == 1)
+         return new Point(newX, newY, newZ);
+      else {
+         float divisor = 1.f / w;
+         return new Point(newX * divisor, newY * divisor, newZ * divisor);
+      }
+   }
+
+   public Point Apply(Point p, Vector error) {
+
+      float x = p.X;
+      float y = p.Y;
+      float z = p.Z;
+
+      float newX = x * _matrix.matrix[0][0] + y * _matrix.matrix[0][1] + z * _matrix.matrix[0][2] + _matrix.matrix[0][3];
+      float newY = x * _matrix.matrix[1][0] + y * _matrix.matrix[1][1] + z * _matrix.matrix[1][2] + _matrix.matrix[1][3];
+      float newZ = x * _matrix.matrix[2][0] + y * _matrix.matrix[2][1] + z * _matrix.matrix[2][2] + _matrix.matrix[2][3];
+
+      float w = x * _matrix.matrix[3][0] + y * _matrix.matrix[3][1] + z * _matrix.matrix[3][2] + _matrix.matrix[3][3];
+
+      float xAbsSum = (Math.abs(_matrix.matrix[0][0] * x) + Math.abs(_matrix.matrix[0][1] * y) +
+            Math.abs(_matrix.matrix[0][2] * z) + Math.abs(_matrix.matrix[0][3]));
+      float yAbsSum = (Math.abs(_matrix.matrix[1][0] * x) + Math.abs(_matrix.matrix[1][1] * y) +
+            Math.abs(_matrix.matrix[1][2] * z) + Math.abs(_matrix.matrix[1][3]));
+      float zAbsSum = (Math.abs(_matrix.matrix[2][0] * x) + Math.abs(_matrix.matrix[2][1] * y) +
+            Math.abs(_matrix.matrix[2][2] * z) + Math.abs(_matrix.matrix[2][3]));
+
+      error.X = xAbsSum * FloatUtils.gamma(3);
+      error.Y = yAbsSum * FloatUtils.gamma(3);;
+      error.Z = zAbsSum * FloatUtils.gamma(3);;
 
       if (w == 1)
          return new Point(newX, newY, newZ);

@@ -201,6 +201,8 @@ public class Box extends CSGShape {
 
       FillIntersectionData(intersection, objectSpaceRay, worldSpaceRay);
 
+
+
       return intersection;
    }
 

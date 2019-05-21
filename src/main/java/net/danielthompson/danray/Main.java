@@ -14,8 +14,8 @@ import java.io.IOException;
  */
 public class Main {
 
-//   private static final RenderQualityPreset _preset = new LowQuality();
-   private static final RenderQualityPreset _preset = new MediumQuality();
+   private static final RenderQualityPreset _preset = new LowQuality();
+//   private static final RenderQualityPreset _preset = new MediumQuality();
 //   private static final RenderQualityPreset _preset = new HighQuality();
    public static final boolean UseSpectralRendering = true;
    static final boolean UseDepthOfField = false;
@@ -35,7 +35,8 @@ public class Main {
 
       AbstractScene scene;
 
-      scene = SceneBuilder.Default(_preset.getX(), _preset.getY());
+      //scene = SceneBuilder.Default(_preset.getX(), _preset.getY());
+      scene = SceneBuilder.NumericalStabilityTest(_preset.getX(), _preset.getY());
 //      scene = SceneBuilder.GlossyStrips(_preset.getX(), _preset.getY());
 //      scene = SceneBuilder.ManyRandomSpheres(_preset.getX(), _preset.getY());
       //scene = SceneBuilder.ManyRegularSpheres(_preset.getX(), _preset.getY());

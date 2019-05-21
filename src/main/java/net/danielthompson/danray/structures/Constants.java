@@ -7,6 +7,9 @@ package net.danielthompson.danray.structures;
  * Time: 5:09 PM
  */
 public class Constants {
+
+   public static final float MachineEpsilon = Math.ulp(1.0f) * 0.5f;
+
    public static final float Epsilon = .00001f;
    public static final float HalfEpsilon = Epsilon * .5f;
    public static final float DoubleEpsilon = Epsilon * 2f;
