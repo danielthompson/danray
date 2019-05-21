@@ -2,6 +2,7 @@ package net.danielthompson.danray.structures;
 
 import net.danielthompson.danray.acceleration.KDAxis;
 import net.danielthompson.danray.states.Intersection;
+import net.danielthompson.danray.utility.FloatUtils;
 import org.lwjgl.system.CallbackI;
 
 import java.util.ArrayList;
@@ -173,6 +174,8 @@ public class BoundingBox {
       tNear = tNear > tFar ? tFar : tNear;
       tFar = swap > tFar ? swap : tFar;
 
+      tFar *= 1 + 2 * FloatUtils.gamma(3);
+
       minBoundNearT = (tNear > minBoundNearT) ? tNear : minBoundNearT;
       maxBoundFarT = (tFar < maxBoundFarT) ? tFar : maxBoundFarT;
       if (minBoundNearT > maxBoundFarT) {
@@ -190,6 +193,8 @@ public class BoundingBox {
       swap = tNear;
       tNear = tNear > tFar ? tFar : tNear;
       tFar = swap > tFar ? swap : tFar;
+
+      tFar *= 1 + 2 * FloatUtils.gamma(3);
 
       minBoundNearT = (tNear > minBoundNearT) ? tNear : minBoundNearT;
       maxBoundFarT = (tFar < maxBoundFarT) ? tFar : maxBoundFarT;
@@ -209,6 +214,8 @@ public class BoundingBox {
       swap = tNear;
       tNear = tNear > tFar ? tFar : tNear;
       tFar = swap > tFar ? swap : tFar;
+
+      tFar *= 1 + 2 * FloatUtils.gamma(3);
 
       minBoundNearT = (tNear > minBoundNearT) ? tNear : minBoundNearT;
       maxBoundFarT = (tFar < maxBoundFarT) ? tFar : maxBoundFarT;

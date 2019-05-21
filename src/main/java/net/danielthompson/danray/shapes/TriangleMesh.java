@@ -22,8 +22,6 @@ public class TriangleMesh extends AbstractShape {
    private List<List<Point>> _faces;
    private Point _origin;
 
-   private Tuple _rotation;
-
    public int ID;
 
    @Override
@@ -34,18 +32,13 @@ public class TriangleMesh extends AbstractShape {
    private BoundingBox _boundingBox;
 
    public TriangleMesh(List<Point> vertices, List<List<Point>> faces) {
-      this(vertices, faces, null, null);
+      this(vertices, faces, null);
    }
 
    public TriangleMesh(List<Point> vertices, List<List<Point>> faces, Point origin) {
-      this (vertices, faces, origin, null);
-   }
-
-   public TriangleMesh(List<Point> vertices, List<List<Point>> faces, Point origin, Tuple rotation) {
       super(null);
       _vertices = vertices;
       _faces = faces;
-      SetRotation(rotation);
       SetOrigin(origin);
    }
 
@@ -60,26 +53,6 @@ public class TriangleMesh extends AbstractShape {
             _vertices.set(i, vertex);
          }
       }
-   }
-
-   public void SetRotation(Tuple rotation) {
-      Point originalOrigin = _origin;
-
-      if (originalOrigin != null && !originalOrigin.equals(new Point(0, 0, 0)))
-         SetOrigin(Point.Scale(originalOrigin, -1));
-
-      _rotation = rotation;
-
-      if (_rotation != null) {
-         for (Point point : _vertices) {
-            point.Rotate(new Ray(new Point(0, 0, 0), new Vector(1, 0, 0)), rotation.X);
-            point.Rotate(new Ray(new Point(0, 0, 0), new Vector(0, 1, 0)), rotation.Y);
-            point.Rotate(new Ray(new Point(0, 0, 0), new Vector(0, 0, 1)), rotation.Z);
-         }
-      }
-
-      SetOrigin(originalOrigin);
-      recalcBoundingBox();
    }
 
    public void SetMaterial(Material material) {

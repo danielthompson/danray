@@ -32,7 +32,7 @@ public class PathTraceIntegrator extends AbstractIntegrator {
 
       if (false) {
 //         if ((_x > 318 && _x < 322) && (_y > 30 && _y < 34)) {
-         if (_x == 319 && _y == 32) {
+         if (_x == 320 && _y == 186) {
             return GetSample(ray, depth, 1.0f);
          }
          Sample sample = new Sample();
@@ -112,10 +112,10 @@ public class PathTraceIntegrator extends AbstractIntegrator {
 
             Ray bounceRay = new Ray(intersection.Location, outgoingDirection);
             if (leavingMaterial) {
-               bounceRay.OffsetOriginOutwards(intersectionNormal);
+               //bounceRay.OffsetOriginOutwards(intersectionNormal);
             }
             else {
-               bounceRay.OffsetOriginInwards(intersectionNormal);
+               //bounceRay.OffsetOriginInwards(intersectionNormal);
             }
 
             Sample nextSample = GetSample(bounceRay, depth + 1, indexOfRefraction);

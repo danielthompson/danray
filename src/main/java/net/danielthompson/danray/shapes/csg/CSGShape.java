@@ -124,7 +124,6 @@ public class CSGShape extends AbstractShape {
             }
             case Difference: {
 
-               boolean leftInside = LeftShape.Inside(nextIntersection.Location);
                boolean rightInside = RightShape.Inside(nextIntersection.Location);
 
                // if hp is on left and we're outside right, return it
@@ -133,8 +132,11 @@ public class CSGShape extends AbstractShape {
                   worldSpaceRay.MinT = GetWorldSpaceT(worldSpaceRay, objectSpaceRay, nextIntersection.t);
                   return true;
                }
+
+               boolean leftInside = LeftShape.Inside(nextIntersection.Location);
+
                // if hp is on right and we're inside left, fliip normal and return it
-               if (nextIntersection == rightIntersection && leftInside && !rightInside)
+               if (nextIntersection == rightIntersection && leftInside /*&& !rightInside*/)
                {
                   worldSpaceRay.MinT = GetWorldSpaceT(worldSpaceRay, objectSpaceRay, nextIntersection.t);
                   return true;
@@ -142,14 +144,20 @@ public class CSGShape extends AbstractShape {
                continue;
             }
             case Intersection: {
+
+               boolean rightInside = RightShape.Inside(nextIntersection.Location);
+
                // if hp is on left and we're inside right, return it
-               if (nextIntersection == leftIntersection && RightShape.Inside(nextIntersection.Location))
+               if (nextIntersection == leftIntersection && rightInside)
                {
                   worldSpaceRay.MinT = GetWorldSpaceT(worldSpaceRay, objectSpaceRay, nextIntersection.t);
                   return true;
                }
+
+               boolean leftInside = LeftShape.Inside(nextIntersection.Location);
+
                // if hp is on right and we're inside left, return it
-               if (nextIntersection == rightIntersection && LeftShape.Inside(nextIntersection.Location))
+               if (nextIntersection == rightIntersection && leftInside)
                {
                   worldSpaceRay.MinT = GetWorldSpaceT(worldSpaceRay, objectSpaceRay, nextIntersection.t);
                   return true;
@@ -233,15 +241,20 @@ public class CSGShape extends AbstractShape {
                continue;
             }
             case Difference: {
+
+               boolean rightInside = RightShape.Inside(nextIntersection.Location);
+
                // if hp is on left and we're outside right, return it
-               if (nextIntersection == leftIntersection && !RightShape.Inside(nextIntersection.Location))
+               if (nextIntersection == leftIntersection && !rightInside)
                {
                   ToWorldSpace(nextIntersection, worldSpaceRay);
                   return nextIntersection;
                }
 
+               boolean leftInside = LeftShape.Inside(nextIntersection.Location);
+
                // if hp is on right and we're inside left, flip normal and return it
-               if (nextIntersection == rightIntersection && LeftShape.Inside(nextIntersection.Location) && !RightShape.Inside(nextIntersection.Location))
+               if (nextIntersection == rightIntersection && leftInside /*&& !rightInside*/)
                {
                   ToWorldSpace(nextIntersection, worldSpaceRay);
                   //nextIntersection.Normal.Scale(-1);
@@ -250,14 +263,20 @@ public class CSGShape extends AbstractShape {
                continue;
             }
             case Intersection: {
+
+               boolean rightInside = RightShape.Inside(nextIntersection.Location);
+
                // if hp is on left and we're inside right, return it
-               if (nextIntersection == leftIntersection && RightShape.Inside(nextIntersection.Location))
+               if (nextIntersection == leftIntersection && rightInside)
                {
                   ToWorldSpace(nextIntersection, worldSpaceRay);
                   return nextIntersection;
                }
+
+               boolean leftInside = LeftShape.Inside(nextIntersection.Location);
+
                // if hp is on right and we're inside left, return it
-               if (nextIntersection == rightIntersection && LeftShape.Inside(nextIntersection.Location))
+               if (nextIntersection == rightIntersection && leftInside)
                {
                   ToWorldSpace(nextIntersection, worldSpaceRay);
                   return nextIntersection;
@@ -349,15 +368,20 @@ public class CSGShape extends AbstractShape {
                continue;
             }
             case Difference: {
+
+               boolean rightInside = RightShape.Inside(nextIntersection.Location);
+
                // if hp is on left and we're outside right, return it
-               if (nextIntersection == leftIntersection && !RightShape.Inside(nextIntersection.Location))
+               if (nextIntersection == leftIntersection && !rightInside)
                {
                   ToWorldSpace(nextIntersection, worldSpaceRay);
                   intersections.add(nextIntersection);
                }
 
+               boolean leftInside = LeftShape.Inside(nextIntersection.Location);
+
                // if hp is on right and we're inside left, flip normal and return it
-               if (nextIntersection == rightIntersection && LeftShape.Inside(nextIntersection.Location) && !RightShape.Inside(nextIntersection.Location))
+               if (nextIntersection == rightIntersection && leftInside /*&& !rightInside*/)
                {
                   ToWorldSpace(nextIntersection, worldSpaceRay);
                   //nextIntersection.Normal.Scale(-1);
@@ -366,14 +390,20 @@ public class CSGShape extends AbstractShape {
                continue;
             }
             case Intersection: {
+
+               boolean rightInside = RightShape.Inside(nextIntersection.Location);
+
                // if hp is on left and we're inside right, return it
-               if (nextIntersection == leftIntersection && RightShape.Inside(nextIntersection.Location))
+               if (nextIntersection == leftIntersection && rightInside)
                {
                   ToWorldSpace(nextIntersection, worldSpaceRay);
                   intersections.add(nextIntersection);
                }
+
+               boolean leftInside = LeftShape.Inside(nextIntersection.Location);
+
                // if hp is on right and we're inside left, return it
-               if (nextIntersection == rightIntersection && LeftShape.Inside(nextIntersection.Location))
+               if (nextIntersection == rightIntersection && leftInside)
                {
                   ToWorldSpace(nextIntersection, worldSpaceRay);
                   intersections.add(nextIntersection);

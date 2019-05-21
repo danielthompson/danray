@@ -4,6 +4,7 @@ import net.danielthompson.danray.acceleration.KDScene;
 import net.danielthompson.danray.films.BoxFilterFilm;
 import net.danielthompson.danray.films.TriangleFilterFilm;
 import net.danielthompson.danray.integrators.*;
+import net.danielthompson.danray.presets.LowQuality;
 import net.danielthompson.danray.presets.RenderQualityPreset;
 import net.danielthompson.danray.presets.TracerOptions;
 import net.danielthompson.danray.runners.BottomUpTileRunner;
@@ -115,18 +116,20 @@ public class TraceManager {
       _samplesInverse = 1.0f / (renderQualityPreset.getSuperSamplesPerPixel() * renderQualityPreset.getSamplesPerPixel());
       _scene = scene;
       _integrator = new PathTraceIntegrator(_scene, renderQualityPreset.getMaxDepth());
+
+      if (renderQualityPreset instanceof LowQuality && renderQualityPreset.getSamplesPerPixel() == 1)
+         _sampler = new CenterSampler(renderQualityPreset.getSamplesPerPixel());
+      else {
+//      _sampler = new RandomSampler(renderQualityPreset.getSamplesPerPixel());
+         _sampler = new GridSampler(renderQualityPreset.getSamplesPerPixel());
+      }
 //      _integrator = new IterativePathTraceIntegrator(_scene, renderQualityPreset.getMaxDepth());
 //      _integrator = new IterativeMISPathTraceIntegrator(_scene, renderQualityPreset.getMaxDepth());
 //      _integrator = new WhittedIntegrator(_scene, renderQualityPreset.getMaxDepth());
 //      _integrator = new DepthIntegrator(_scene, 1);
 //      _integrator = new NormalIntegrator(_scene, 1);
-//      _sampler = new RandomSampler(renderQualityPreset.getSamplesPerPixel());
-      _sampler = new GridSampler(renderQualityPreset.getSamplesPerPixel());
-//      _sampler = new RandomSampler(renderQualityPreset.getSamplesPerPixel());
-//      _sampler = new CenterSampler(renderQualityPreset.getSamplesPerPixel());
-      _timer = new Timer();
 
-      //tracerOptions.showTracerWindow = false;
+      _timer = new Timer();
 
       long numPixels = renderQualityPreset.getX() * renderQualityPreset.getY();
       _numPixelsDivisor = 1.0f / numPixels;

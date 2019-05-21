@@ -133,6 +133,7 @@ public class SceneBuilder {
    }
 
 
+
    public static class Sinebow {
       public static Color Color0 = new Color(255, 64, 64);
       public static Color Color1 = new Color(231, 141, 11);
@@ -434,6 +435,55 @@ public class SceneBuilder {
       return scene;
    }
 
+   public static AbstractScene NumericalStabilityTest(int x, int y) {
+      CameraSettings settings = new CameraSettings();
+      settings.X = x;
+      settings.Y = y;
+      settings.FieldOfView = 90f;
+
+      float bigNum = 100000000f;
+
+      Transform bigTranslate = Transform.Translate(bigNum, bigNum, bigNum);
+
+      Transform[] inputTransforms = new Transform[]{
+            bigTranslate,
+            Transform.Translate(0, 180, 250),
+            Transform.RotateX(-45)
+      };
+      Transform[] compositeTransforms = Transform.composite(inputTransforms);
+      Camera camera = new PerspectiveCamera(settings, compositeTransforms[0]);
+
+      AbstractScene scene = new NaiveScene(camera);
+
+      Material material = new Material();
+//      material.reflect = new GlossyBRDF(0.85f);
+
+      material.BxDFs.add(SpecularBRDF);
+      material.Weights.add(1.0f);
+
+      CheckerboardTexture texture = new CheckerboardTexture();
+      texture.UScale = 32;
+      texture.VScale = 32;
+      texture.Odd = new ReflectanceSpectrum(new Color(0.8f, 0.8f, 0.75f));
+      texture.Even = new ReflectanceSpectrum(new Color(0.9f, 0.9f, 0.85f));
+      material.Texture = texture;
+
+      inputTransforms = new Transform[]{
+            bigTranslate,
+            Transform.Translate(new Vector(0, -52f, 0f)),
+            Transform.RotateZ(10f),
+            Transform.RotateY(45f),
+            Transform.Scale(1000f, 1f, 1000f),
+            Transform.Translate(new Vector(-0.5f, -0.5f, -0.5f))
+      };
+      compositeTransforms = Transform.composite(inputTransforms);
+
+      scene.addShape(new Box(compositeTransforms, material));
+      scene.Skybox = new ColorSkybox(Color.WHITE);
+
+      return scene;
+   }
+
    public static AbstractScene Default(int x, int y) {
 
       CameraSettings settings = new CameraSettings();
@@ -472,13 +522,13 @@ public class SceneBuilder {
 
       material = new Material();
       material.IndexOfRefraction = 1.25f;
-      material.BxDFs.add(new LambertianBRDF());
+      material.BxDFs.add(new SpecularBTDF());
       material.Weights.add(1.0f);
 //      material.BxDFs.add(new SpecularBTDF());
 //      material.Weights.add(0.5f);
 ////
 //      material.Texture = new ConstantTexture(new ReflectanceSpectrum(Colors.Rainbow.Color1));
-      material.Texture = new ConstantTexture(new ReflectanceSpectrum(Colors.Rainbow.Color8));
+      material.Texture = new ConstantTexture(new ReflectanceSpectrum(Color.WHITE));
 
       inputTransforms = new Transform[]{
             Transform.Scale(2),
@@ -645,6 +695,21 @@ public class SceneBuilder {
       csgshape.RightShape = rightShape;
       csgshape.Operation = CSGOperation.Difference;
       //scene.addShape(csgshape);
+
+      material = new Material();
+      material.BxDFs.add(SpecularBTDF);
+      material.IndexOfRefraction = 1.5f;
+      material.Weights.add(1.0f);
+      material.Texture = new ConstantTexture(new ReflectanceSpectrum(Colors.Rainbow.Color5));
+
+      inputTransforms = new Transform[]{
+            Transform.Translate(0.0f, -32.0f, 25f),
+            Transform.RotateY(-45f),
+            Transform.Scale(20f),
+      };
+      compositeTransforms = Transform.composite(inputTransforms);
+      Sphere sphere3 = new Sphere(compositeTransforms, material);
+      //scene.addShape(sphere3);
 
       // right CSG object
 

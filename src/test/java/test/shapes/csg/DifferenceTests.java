@@ -162,7 +162,7 @@ public class DifferenceTests {
       Intersection intersection = shape.GetHitInfo(ray);
 
       Point expectedPoint = new Point(0.5f, 0, 3);
-      AssertHelper.assertEquals(intersection.Location, expectedPoint);
+      Assert.assertEquals(intersection.Location, expectedPoint);
    }
 
    @Test
@@ -175,7 +175,7 @@ public class DifferenceTests {
       Intersection intersection = shape.GetHitInfo(ray);
 
       Point expectedPoint = new Point(0.5f, 0, 1);
-      AssertHelper.assertEquals(intersection.Location, expectedPoint);
+      Assert.assertEquals(intersection.Location, expectedPoint);
    }
 
    @Test
@@ -188,7 +188,7 @@ public class DifferenceTests {
       Intersection intersection = shape.GetHitInfo(ray);
 
       Point expectedPoint = new Point(1f, 0, 1.5f);
-      AssertHelper.assertEquals(intersection.Location, expectedPoint);
+      Assert.assertEquals(intersection.Location, expectedPoint);
    }
 
    @Test
@@ -214,7 +214,7 @@ public class DifferenceTests {
       Intersection intersection = shape.GetHitInfo(ray);
 
       Point expectedPoint = new Point(1f, 0, 1.5f);
-      AssertHelper.assertEquals(intersection.Location, expectedPoint);
+      Assert.assertEquals(intersection.Location, expectedPoint);
    }
 
    @Test
@@ -260,7 +260,7 @@ public class DifferenceTests {
       Intersection intersection = shape.GetHitInfo(ray);
 
       Point expectedPoint = new Point(1f, 0, 1.5f);
-      AssertHelper.assertEquals(intersection.Location, expectedPoint);
+      Assert.assertEquals(intersection.Location, expectedPoint);
    }
 
    @Test
