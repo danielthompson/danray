@@ -2,10 +2,14 @@ package net.danielthompson.danray.structures;
 
 import net.danielthompson.danray.acceleration.KDAxis;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 /**
  * Represents a zero-dimensional point in space.
  */
 public class Point3 implements Cloneable {
+
+   public static AtomicLong instances = new AtomicLong();
 
    public float x;
    public float y;
@@ -19,6 +23,7 @@ public class Point3 implements Cloneable {
       this.x = x;
       this.y = y;
       this.z = z;
+      instances.incrementAndGet();
    }
 
    public Point3(float[] xyz) {
@@ -29,6 +34,7 @@ public class Point3 implements Cloneable {
       this.x = xyz[0];
       this.y = xyz[1];
       this.z = xyz[2];
+      instances.incrementAndGet();
    }
 
    public Point3(Point3 p) {
@@ -39,10 +45,7 @@ public class Point3 implements Cloneable {
       this.x = p.x;
       this.y = p.y;
       this.z = p.z;
-   }
-
-   public Point3 clone() {
-      return new Point3(x, y, z);
+      instances.incrementAndGet();
    }
 
    public float getAxis(KDAxis axis) {

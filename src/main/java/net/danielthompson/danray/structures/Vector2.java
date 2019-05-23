@@ -1,7 +1,5 @@
 package net.danielthompson.danray.structures;
 
-import net.danielthompson.danray.acceleration.KDAxis;
-
 import java.util.concurrent.atomic.AtomicLong;
 
 /**

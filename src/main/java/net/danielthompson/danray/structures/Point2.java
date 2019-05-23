@@ -1,9 +1,13 @@
 package net.danielthompson.danray.structures;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 /**
  * Represents a zero-dimensional point in space.
  */
 public class Point2 implements Cloneable {
+
+   public static AtomicLong instances = new AtomicLong();
 
    public float x;
    public float y;
@@ -14,6 +18,7 @@ public class Point2 implements Cloneable {
 
       this.x = x;
       this.y = y;
+      instances.incrementAndGet();
    }
 
    public Point2(float[] xy) {
@@ -22,6 +27,7 @@ public class Point2 implements Cloneable {
 
       this.x = xy[0];
       this.y = xy[1];
+      instances.incrementAndGet();
    }
 
    public Point2(Point2 p) {
@@ -30,10 +36,7 @@ public class Point2 implements Cloneable {
 
       this.x = p.x;
       this.y = p.y;
-   }
-
-   public Point2 clone() {
-      return new Point2(x, y);
+      instances.incrementAndGet();
    }
 
    public String toString() {

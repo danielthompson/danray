@@ -15,9 +15,8 @@ import net.danielthompson.danray.samplers.GridSampler;
 import net.danielthompson.danray.shading.fullspectrum.FullSpectralBlender;
 import net.danielthompson.danray.shading.fullspectrum.FullSpectralPowerDistribution;
 import net.danielthompson.danray.states.Intersection;
-import net.danielthompson.danray.structures.Ray;
+import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.scenes.AbstractScene;
-import net.danielthompson.danray.structures.Vector3;
 import net.danielthompson.danray.ui.*;
 import net.danielthompson.danray.ui.gl.common.KDJFrame;
 import net.danielthompson.danray.ui.gl.common.GLFrame;
@@ -574,7 +573,11 @@ public class TraceManager {
 
 
    public void Finish() {
-      Logger.Log(Logger.Level.Info, "Vectors: " + Vector3.instances.get());
+      Logger.Log(Logger.Level.Info, "Vector3s: " + Vector3.instances.get());
+      Logger.Log(Logger.Level.Info, "Vector2s: " + Vector2.instances.get());
+
+      Logger.Log(Logger.Level.Info, "Point3s: " + Point3.instances.get());
+      Logger.Log(Logger.Level.Info, "Point2s: " + Point2.instances.get());
 
       Logger.Flush();
       //System.exit(0);

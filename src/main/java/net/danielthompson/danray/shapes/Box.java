@@ -41,7 +41,7 @@ public class Box extends CSGShape {
 
    @Override
    public void RecalculateWorldBoundingBox() {
-      WorldBoundingBox = new BoundingBox(point1.clone(), point2.clone());
+      WorldBoundingBox = new BoundingBox(point1, point2);
 
       if (ObjectToWorld != null) {
          WorldBoundingBox = ObjectToWorld.Apply(WorldBoundingBox);

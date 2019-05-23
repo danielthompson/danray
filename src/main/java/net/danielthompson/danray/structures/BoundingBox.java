@@ -24,13 +24,13 @@ public class BoundingBox {
    public Point3 point2;
 
    public BoundingBox (Point3 point1, Point3 point2) {
-      this.point1 = point1.clone();
-      this.point2 = point2.clone();
+      this.point1 = new Point3(point1);
+      this.point2 = new Point3(point2);
    }
 
    public BoundingBox(BoundingBox box) {
-      this.point1 = box.point1.clone();
-      this.point2 = box.point2.clone();
+      this.point1 = new Point3(box.point1);
+      this.point2 = new Point3(box.point2);
    }
 
    public float getUpperBoundInAxis(KDAxis axis) {
