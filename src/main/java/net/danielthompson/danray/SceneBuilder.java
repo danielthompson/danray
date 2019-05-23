@@ -18,8 +18,6 @@ import net.danielthompson.danray.shading.ReflectanceSpectrum;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.shading.bxdf.BRDF;
 import net.danielthompson.danray.shading.bxdf.BTDF;
-import net.danielthompson.danray.shading.bxdf.BxDF;
-import net.danielthompson.danray.shading.bxdf.reflect.GlossyBRDF;
 import net.danielthompson.danray.shading.bxdf.reflect.LambertianBRDF;
 import net.danielthompson.danray.shading.bxdf.reflect.SpecularBRDF;
 import net.danielthompson.danray.shading.bxdf.transmit.LambertianBTDF;
@@ -202,7 +200,6 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
-      settings.FocalLength = 1200;
       settings.Rotation = 0;
       settings.ZoomFactor = 1.5f;
       settings.FocusDistance = 500;
@@ -1052,7 +1049,6 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
-      settings.FocalLength = 1200;
       settings.Rotation = 0;
       settings.ZoomFactor = 1;
       settings.FocusDistance = 500;
@@ -1208,7 +1204,6 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
-      settings.FocalLength = 150;
       settings.Rotation = 0;
       settings.ZoomFactor = 1.0f;
       settings.FocusDistance = 75;
@@ -1403,7 +1398,6 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
-      settings.FocalLength = 100000000;
       settings.Rotation = 0;
       settings.ZoomFactor = 1 / 2.0f;
       settings.FocusDistance = 500;
@@ -1475,7 +1469,6 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
-      settings.FocalLength = 1200;
       settings.Rotation = 0;
       settings.ZoomFactor = 1 / 1.5f;
       settings.FocusDistance = 250;
@@ -1739,7 +1732,6 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
-      settings.FocalLength = 1200;
       settings.Rotation = 0;
       settings.ZoomFactor = 1 / 2.0f;
       settings.FocusDistance = 500;
@@ -1962,7 +1954,6 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
-      settings.FocalLength = 1200;
       settings.Rotation = 100;
       settings.FocusDistance = 1487;
       settings.Orientation = orientation;
@@ -2204,7 +2195,6 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.X = x;
       settings.Y = y;
-      settings.FocalLength = 1200;
       settings.Rotation = 0;
       settings.ZoomFactor = 1.5f;
       settings.FocusDistance = 500;
