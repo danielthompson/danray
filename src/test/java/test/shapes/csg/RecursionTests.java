@@ -107,7 +107,7 @@ public class RecursionTests {
       Intersection intersection = shape.GetHitInfo(ray);
 
       Normal expectedNormal = new Normal(1, 0, 0);
-      Assert.assertEquals(intersection.Normal, expectedNormal);
+      Assert.assertEquals(intersection.normal, expectedNormal);
    }
 
    @Test
@@ -175,7 +175,7 @@ public class RecursionTests {
       Intersection intersection = shape.GetHitInfo(ray);
 
       Normal expectedNormal = new Normal(0, 0, 1);
-      Assert.assertEquals(intersection.Normal, expectedNormal);
+      Assert.assertEquals(intersection.normal, expectedNormal);
    }
 
    @Test
@@ -203,6 +203,6 @@ public class RecursionTests {
       Intersection intersection = shape.GetHitInfo(ray);
 
       Normal expectedNormal = new Normal(0, 0, 1);
-      Assert.assertEquals(intersection.Normal, expectedNormal);
+      Assert.assertEquals(intersection.normal, expectedNormal);
    }
 }

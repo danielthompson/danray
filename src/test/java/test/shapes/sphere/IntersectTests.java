@@ -61,7 +61,7 @@ public class IntersectTests {
       Point3 actualIntersection = actualIntersectionState.location;
       Point3 expectedIntersection = new Point3(10, 0, 0);
 
-      Assert.assertTrue(actualIntersectionState.Hits, "ray from inside sphere should hit sphere");
+      Assert.assertTrue(actualIntersectionState.hits, "ray from inside sphere should hit sphere");
       Assert.assertEquals(ray.MinT, 10.0f, 10.f * Constants.UnitTestDelta);
       AssertHelper.assertEquals(actualIntersection, expectedIntersection);
 

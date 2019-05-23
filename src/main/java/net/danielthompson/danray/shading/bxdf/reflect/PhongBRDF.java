@@ -1,6 +1,6 @@
 //package net.danielthompson.danray.shading.bxdf;
 //
-//import net.danielthompson.danray.structures.Normal;
+//import net.danielthompson.danray.structures.normal;
 //import net.danielthompson.danray.structures.Vector;
 //
 //public class PhongBRDF extends reflect {
@@ -14,12 +14,12 @@
 //   }
 //
 //   @Override
-//   public Vector getVectorInPDF(Normal normal, Vector incoming) {
+//   public Vector getVectorInPDF(normal normal, Vector incoming) {
 //      return null;
 //   }
 //
 //   @Override
-//   public float f(Vector incoming, Normal normal, Vector outgoing) {
+//   public float f(Vector incoming, normal normal, Vector outgoing) {
 //      return 0;
 //   }
 //}

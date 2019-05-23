@@ -36,10 +36,10 @@ public class NormalTests {
 
       Intersection state = new Intersection();
       state.location = new Point3(1, 0, 0);
-      state.Normal = new Normal(1, 0, 0);
-      state.Hits = true;
+      state.normal = new Normal(1, 0, 0);
+      state.hits = true;
 
-      Normal normal = state.Normal;
+      Normal normal = state.normal;
       Normal expectedNormal = new Normal(1, 0, 0);
 
       Assert.assertEquals(normal.x, expectedNormal.x);
@@ -55,10 +55,10 @@ public class NormalTests {
 
       Intersection state = new Intersection();
       state.location = new Point3(0, 1, 0);
-      state.Normal = new Normal(0, 1, 0);
-      state.Hits = true;
+      state.normal = new Normal(0, 1, 0);
+      state.hits = true;
 
-      Normal normal = state.Normal;
+      Normal normal = state.normal;
 
       Normal expectedNormal = new Normal(0, 1, 0);
 
@@ -75,10 +75,10 @@ public class NormalTests {
 
       Intersection state = new Intersection();
       state.location = new Point3(sphere.Origin.x - sphere.Radius / (Constants.Root2), sphere.Origin.y - sphere.Radius / (Constants.Root2), 0);
-      state.Normal = new Normal(- sphere.Radius / (Constants.Root2), - sphere.Radius / (Constants.Root2), 0);
-      state.Hits = true;
+      state.normal = new Normal(- sphere.Radius / (Constants.Root2), - sphere.Radius / (Constants.Root2), 0);
+      state.hits = true;
 
-      Normal normal = state.Normal;
+      Normal normal = state.normal;
       Normal expectedNormal = new Normal(-1, -1, 0);
       expectedNormal.Normalize();
 
@@ -96,10 +96,10 @@ public class NormalTests {
 
       Intersection state = new Intersection();
       state.location = new Point3(1, 0, 0);
-      state.Normal = new Normal(1, 0, 0);
-      state.Hits = true;
+      state.normal = new Normal(1, 0, 0);
+      state.hits = true;
 
-      Normal normal = state.Normal;
+      Normal normal = state.normal;
       Normal expectedNormal = new Normal(1, 0, 0);
 
       Assert.assertEquals(expectedNormal.x, normal.x);

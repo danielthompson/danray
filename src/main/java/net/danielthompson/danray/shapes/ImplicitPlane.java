@@ -43,18 +43,18 @@ public class ImplicitPlane extends AbstractShape {
       // if they are orthogonal, then they don't hit.
       if (Constants.WithinEpsilon(denominator, 0.0f)) {
          // no intersection
-         state.Hits = false;
+         state.hits = false;
       }
 
       // need to check for both normal directions!
       else {
          float T = numerator / denominator;
          if (T > 0.0) {
-            state.Hits = true;
+            state.hits = true;
             state.t = T;
             state.location = ray.GetPointAtT(state.t);
-            state.Normal = Normal;
-            state.Shape = this;
+            state.normal = Normal;
+            state.shape = this;
          }
       }
 

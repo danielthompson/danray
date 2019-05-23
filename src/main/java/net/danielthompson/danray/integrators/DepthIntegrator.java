@@ -22,7 +22,7 @@ public class DepthIntegrator extends AbstractIntegrator {
 
       float value = 0;
 
-      if (intersection != null && intersection.Hits) {
+      if (intersection != null && intersection.hits) {
 
          value = 100.0f / intersection.t;
 

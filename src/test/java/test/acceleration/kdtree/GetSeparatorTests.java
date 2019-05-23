@@ -2,7 +2,7 @@
 //
 //import net.danielthompson.danray.acceleration.KDAxis;
 //import net.danielthompson.danray.acceleration.KDTree;
-//import net.danielthompson.danray.shapes.Shape;
+//import net.danielthompson.danray.shapes.shape;
 //import net.danielthompson.danray.shapes.Sphere;
 //import net.danielthompson.danray.structures.BoundingBox;
 //import net.danielthompson.danray.structures.Point;
@@ -31,7 +31,7 @@
 //   @Test
 //   public void testGetSeparatorWithTwoCloseSpheres() throws Exception {
 //
-//      List<Shape> list = new ArrayList<Shape>();
+//      List<shape> list = new ArrayList<shape>();
 //
 //      Sphere sphere = new Sphere();
 //      sphere.Origin = new Point(1, 1, 0);
@@ -56,7 +56,7 @@
 //   @Test
 //   public void testGetSeparatorWithTwoFarSpheres() throws Exception {
 //
-//      List<Shape> list = new ArrayList<Shape>();
+//      List<shape> list = new ArrayList<shape>();
 //
 //      Sphere sphere = new Sphere();
 //      sphere.Origin = new Point(1, 1, 0);

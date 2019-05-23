@@ -34,14 +34,14 @@ public class IterativeMISPathTraceIntegrator extends AbstractIntegrator {
       for (bounces = 0; bounces < maxDepth; bounces++) {
 
          Intersection closestStateToRay = scene.getNearestShape(ray, x, y);
-         if (closestStateToRay == null || !closestStateToRay.Hits) {
+         if (closestStateToRay == null || !closestStateToRay.hits) {
 
             spds[bounces].add(scene.Skybox.getSkyBoxSPD(ray.Direction));
             break;
          }
 
-         if (closestStateToRay.Shape instanceof AbstractLight) {
-            spds[bounces].add(((AbstractLight) closestStateToRay.Shape).SpectralPowerDistribution);
+         if (closestStateToRay.shape instanceof AbstractLight) {
+            spds[bounces].add(((AbstractLight) closestStateToRay.shape).SpectralPowerDistribution);
             break;
          }
 
@@ -53,11 +53,11 @@ public class IterativeMISPathTraceIntegrator extends AbstractIntegrator {
 
          }
 
-         AbstractShape closestShape = closestStateToRay.Shape;
+         AbstractShape closestShape = closestStateToRay.shape;
          Material objectMaterial = closestShape.Material;
          // TODO fix
          //BRDF brdf = objectMaterial.BRDF;
-         Normal intersectionNormal = closestStateToRay.Normal;
+         Normal intersectionNormal = closestStateToRay.normal;
          Vector3 incomingDirection = ray.Direction;
 
          // TODO fix
@@ -70,7 +70,7 @@ public class IterativeMISPathTraceIntegrator extends AbstractIntegrator {
 
                Ray lightToNearestShape = intersectionPoint.createVectorFrom(lightLocation);
 
-               float dot = closestStateToRay.Normal.Dot(lightToNearestShape.Direction);
+               float dot = closestStateToRay.normal.Dot(lightToNearestShape.Direction);
 
                if (dot < 0) {
 
@@ -78,15 +78,15 @@ public class IterativeMISPathTraceIntegrator extends AbstractIntegrator {
 
                   if (
                         potentialOccluder == null
-                              || !potentialOccluder.Hits
-                              || potentialOccluder.Shape.equals(closestShape)
-                              || potentialOccluder.Shape.equals(light)
+                              || !potentialOccluder.hits
+                              || potentialOccluder.shape.equals(closestShape)
+                              || potentialOccluder.shape.equals(light)
                         ) {
                      float oneOverDistanceFromLightSourceSquared = 1 / lightLocation.squaredDistanceBetween(closestStateToRay.location);
 
                      Intersection state = closestShape.GetHitInfo(lightToNearestShape);
-                     if (state.Hits) {
-                        float angleOfIncidencePercentage = GeometryCalculations.GetCosineWeightedIncidencePercentage(lightToNearestShape.Direction, closestStateToRay.Normal);
+                     if (state.hits) {
+                        float angleOfIncidencePercentage = GeometryCalculations.GetCosineWeightedIncidencePercentage(lightToNearestShape.Direction, closestStateToRay.normal);
 
                         // TODO fix
                         float scalePercentage = 1.0f; //objectMaterial.BRDF.f(incomingDirection, intersectionNormal, lightToNearestShape.Direction) * angleOfIncidencePercentage;

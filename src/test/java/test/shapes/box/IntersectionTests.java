@@ -39,7 +39,7 @@ public class IntersectionTests {
 
       Assert.assertTrue(hits, "Should hit");
       Assert.assertEquals(state.location, expectedIntersectionPoint);
-      AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
+      AssertHelper.assertEquals(state.normal, expectedNormalDirection);
    }
 
    @Test
@@ -62,9 +62,9 @@ public class IntersectionTests {
       Point3 expectedIntersectionPoint = new Point3(1, 1, 2);
       Normal expectedNormalDirection = new Normal(0, 0, 1);
 
-      Assert.assertTrue(state.Hits, "Should hit");
+      Assert.assertTrue(state.hits, "Should hit");
       AssertHelper.assertEquals(state.location, expectedIntersectionPoint);
-      AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
+      AssertHelper.assertEquals(state.normal, expectedNormalDirection);
    }
 
    @Test
@@ -89,10 +89,10 @@ public class IntersectionTests {
       Normal expectedNormalDirection = new Normal(0, 0, 1);
 
       Assert.assertNotNull(state, "Intersection shouldn't be null");
-      Assert.assertTrue(state.Hits, "Should hit");
-      Assert.assertNotNull(state.location, "location shouldn't be null if Hits...");
+      Assert.assertTrue(state.hits, "Should hit");
+      Assert.assertNotNull(state.location, "location shouldn't be null if hits...");
       AssertHelper.assertEquals(state.location, expectedIntersectionPoint);
-      AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
+      AssertHelper.assertEquals(state.normal, expectedNormalDirection);
    }
 
    @Test
@@ -116,9 +116,9 @@ public class IntersectionTests {
       Point3 expectedIntersectionPoint = new Point3(2, 1, 2);
       Normal expectedNormalDirection = new Normal(0, 0, 1);
 
-      Assert.assertTrue(state.Hits, "Should hit");
+      Assert.assertTrue(state.hits, "Should hit");
       AssertHelper.assertEquals(state.location, expectedIntersectionPoint);
-      AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
+      AssertHelper.assertEquals(state.normal, expectedNormalDirection);
    }
 
 

@@ -30,7 +30,7 @@ public class MirrorBRDFTests {
 //   public void testGetVectorInPDF() throws Exception {
 //      reflect brdf = new SpecularBRDF();
 //
-//      Normal n = new Normal(0, 1, 0);
+//      normal n = new normal(0, 1, 0);
 //      Vector v = new Vector(1, -1, 0);
 //      v.normalize();
 //

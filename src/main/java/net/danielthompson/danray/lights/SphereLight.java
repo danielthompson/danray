@@ -38,8 +38,8 @@ public class SphereLight extends AbstractLight {
    @Override
    public Intersection GetHitInfo(Ray ray) {
       Intersection state = Sphere.GetHitInfo(ray);
-      if (state != null && state.Shape == Sphere)
-         state.Shape = this;
+      if (state != null && state.shape == Sphere)
+         state.shape = this;
       return state;
    }
 

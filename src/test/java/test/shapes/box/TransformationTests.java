@@ -39,7 +39,7 @@ public class TransformationTests {
 
       Assert.assertTrue(hits);
 
-      AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
+      AssertHelper.assertEquals(state.normal, expectedNormalDirection);
    }
 
    @Test
@@ -66,7 +66,7 @@ public class TransformationTests {
 
       Assert.assertTrue(hits, "Should hit");
       AssertHelper.assertEquals(state.location, expectedIntersectionPoint);
-      AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
+      AssertHelper.assertEquals(state.normal, expectedNormalDirection);
    }
 
    @Test
@@ -93,9 +93,9 @@ public class TransformationTests {
 
       Assert.assertNotNull(state, "Intersection shouldn't be null");
       Assert.assertTrue(hits, "Should hit");
-      Assert.assertNotNull(state.location, "location shouldn't be null if Hits...");
+      Assert.assertNotNull(state.location, "location shouldn't be null if hits...");
       AssertHelper.assertEquals(state.location, expectedIntersectionPoint);
-      AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
+      AssertHelper.assertEquals(state.normal, expectedNormalDirection);
    }
 
    @Test
@@ -122,7 +122,7 @@ public class TransformationTests {
 
       Assert.assertTrue(hits, "Should hit");
       AssertHelper.assertEquals(state.location, expectedIntersectionPoint);
-      AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
+      AssertHelper.assertEquals(state.normal, expectedNormalDirection);
    }
 
 }

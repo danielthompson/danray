@@ -64,8 +64,8 @@ public class TraverseMediumTreeTests {
 
       Assert.assertNotNull(state, "intersection state should not be null");
       // TODO fix failing test
-      //Assert.assertTrue(state.Hits, "state should hit");
-      //Assert.assertNotNull(state.Shape);
+      //Assert.assertTrue(state.hits, "state should hit");
+      //Assert.assertNotNull(state.shape);
       System.out.println(scene.drawableIntersections);
 
    }

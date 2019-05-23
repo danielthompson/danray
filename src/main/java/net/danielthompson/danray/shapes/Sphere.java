@@ -140,15 +140,15 @@ public class Sphere extends CSGShape {
       Normal objectSpaceNormal = new Normal(direction);
 
       Intersection intersection = new Intersection();
-      intersection.Hits = true;
-      intersection.Shape = this;
+      intersection.hits = true;
+      intersection.shape = this;
       intersection.location = objectSpaceIntersectionPoint;
-      intersection.Normal = objectSpaceNormal;
-      intersection.OriginInside = Inside(objectSpaceRay.Origin) || OnSurface(objectSpaceRay.Origin);
-      intersection.Entering = objectSpaceNormal.Dot(objectSpaceRay.Direction) < 0;
+      intersection.normal = objectSpaceNormal;
+      intersection.originInside = Inside(objectSpaceRay.Origin) || OnSurface(objectSpaceRay.Origin);
+      intersection.entering = objectSpaceNormal.Dot(objectSpaceRay.Direction) < 0;
 
-//      if (intersection.Normal.dot(objectSpaceRay.Direction) > 0)
-//         intersection.Normal.scale(-1);
+//      if (intersection.normal.dot(objectSpaceRay.Direction) > 0)
+//         intersection.normal.scale(-1);
 
       intersection.u = 0.5f + (float)Math.atan2(-objectSpaceNormal.z, -objectSpaceNormal.x) * Constants.OneOver2Pi;
       intersection.v = 0.5f - (float)Math.asin(-objectSpaceNormal.y) * Constants.OneOverPi;
@@ -191,7 +191,7 @@ public class Sphere extends CSGShape {
       float highT = t0 > t1 ? t0 : t1;
 
       if (lowT > Constants.Epsilon) {
-         // t0 Hits in front of the origin
+         // t0 hits in front of the origin
 
          worldSpaceRay.MinT = lowT;
 
@@ -209,7 +209,7 @@ public class Sphere extends CSGShape {
       }
 
       if (highT > Constants.Epsilon) {
-         // t1 Hits in front of the origin
+         // t1 hits in front of the origin
          worldSpaceRay.MinT = highT;
 
          if (ObjectToWorld != null && ObjectToWorld.HasScale()) {

@@ -15,14 +15,14 @@ public class Ray {
 
    /**
     * The t-value for the closest intersection found so far.
-    * Should be set only by Shape hit() routines.
+    * Should be set only by shape hit() routines.
     */
    public float MinT = Float.MAX_VALUE; // 4 bytes
 
    /**
     * The maximum t value that an intersection should return true for.
     * Should be set only by the acceleration structure during traversal.
-    * Shape hit() routines should compare against this, but should not change it.
+    * shape hit() routines should compare against this, but should not change it.
     */
    public float MaxT = Float.MAX_VALUE;
 

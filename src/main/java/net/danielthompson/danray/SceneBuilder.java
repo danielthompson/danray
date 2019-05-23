@@ -1270,7 +1270,7 @@ public class SceneBuilder {
       // white vertical z plane
 
 //      Point planeOrigin = new Point(0, 0, 0);
-//      Normal planeNormal = new Normal(0, 0, 1);
+//      normal planeNormal = new normal(0, 0, 1);
       BRDF brdf = new LambertianBRDF();
       Material material = new Material();
 //      material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));

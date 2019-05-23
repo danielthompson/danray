@@ -36,7 +36,7 @@ public class IntersectionTests {
 
       // assert
       Assert.assertNotNull(state, "intersection state shouldn't be null");
-      Assert.assertTrue(state.Hits, "state should hit");
+      Assert.assertTrue(state.hits, "state should hit");
       Assert.assertEquals(state.t, 0.0f, Constants.UnitTestDelta);
       //Assert.assertEquals(state.TMax, 5.0f, Constants.UnitTestDelta * 5.0f);
 

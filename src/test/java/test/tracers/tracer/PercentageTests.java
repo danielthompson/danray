@@ -34,8 +34,8 @@ public class PercentageTests {
 
       Intersection state = new Intersection();
       state.location = new Point3(1, 0, 0);
-      state.Normal = new Normal(1, 0, 0);
-      state.Hits = true;
+      state.normal = new Normal(1, 0, 0);
+      state.hits = true;
 
       Point3 vectorOrigin = new Point3(10, 0, 0);
       Vector3 vectorDirection = new Vector3(-1, 0, 0);
@@ -55,8 +55,8 @@ public class PercentageTests {
 
       Intersection state = new Intersection();
       state.location = new Point3(1, 0, 0);
-      state.Normal = new Normal(1, 0, 0);
-      state.Hits = true;
+      state.normal = new Normal(1, 0, 0);
+      state.hits = true;
 
       Point3 vectorOrigin = new Point3(2, 1, 0);
       Vector3 vectorDirection = new Vector3(-1, -1, 0);
@@ -76,8 +76,8 @@ public class PercentageTests {
 
       Intersection state = new Intersection();
       state.location = new Point3(1, 0, 0);
-      state.Normal = new Normal(1, 0, 0);
-      state.Hits = true;
+      state.normal = new Normal(1, 0, 0);
+      state.hits = true;
 
       Point3 vectorOrigin = new Point3(1, 1, 0);
       Vector3 vectorDirection = new Vector3(0, -1, 0);

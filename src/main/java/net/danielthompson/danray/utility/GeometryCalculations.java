@@ -41,7 +41,7 @@ public class GeometryCalculations {
    private static float angleOfIncidencePercentageFactor = 10.f / 9.f;
 
    public static float GetAngleOfIncidence(Ray incomingRay, Intersection state) {
-      Normal normal = state.Normal;
+      Normal normal = state.normal;
       Vector3 incomingDirection = incomingRay.Direction;
 
       float angleRadians = (float) FastMath.acos(normal.Dot(incomingDirection));
@@ -89,7 +89,7 @@ public class GeometryCalculations {
       normal.Normalize();
 
       float n1 = oldIndexOfRefraction;
-      float n2 = state.Shape.Material.IndexOfRefraction;
+      float n2 = state.shape.Material.IndexOfRefraction;
       float nRatio = n1 / n2;
 
       float cosTheta1 = -normal.Dot(incomingRay.Direction);

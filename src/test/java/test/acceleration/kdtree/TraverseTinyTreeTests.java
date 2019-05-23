@@ -98,9 +98,9 @@ public class TraverseTinyTreeTests {
 
       Assert.assertNotNull(state, "intersection state should not be null");
       // TODO fix failing test
-      //Assert.assertTrue(state.Hits, "state should hit");
-      //Assert.assertNotNull(state.Shape);
-      //Assert.assertEquals(state.Shape, sphere3);
+      //Assert.assertTrue(state.hits, "state should hit");
+      //Assert.assertNotNull(state.shape);
+      //Assert.assertEquals(state.shape, sphere3);
       System.out.println(scene.drawableIntersections);
    }
 

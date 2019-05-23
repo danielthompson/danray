@@ -53,7 +53,7 @@ public class CSGShape extends AbstractShape {
    public boolean Hits(Ray worldSpaceRay) {
 
 //      float worldT = worldSpaceRay.MinT;
-//      if (!WorldBoundingBox.Hits(worldSpaceRay)) {
+//      if (!WorldBoundingBox.hits(worldSpaceRay)) {
 //         worldSpaceRay.MinT = worldT;
 //         return false;
 //      }
@@ -112,7 +112,7 @@ public class CSGShape extends AbstractShape {
          // foreach hitpoint
          switch (Operation) {
             case Union: {
-               if (nextIntersection.Hits)
+               if (nextIntersection.hits)
                {
                   worldSpaceRay.MinT = GetWorldSpaceT(worldSpaceRay, objectSpaceRay, nextIntersection.t);
                   return true;
@@ -230,7 +230,7 @@ public class CSGShape extends AbstractShape {
          // foreach hitpoint
          switch (Operation) {
             case Union: {
-               if (nextIntersection.Hits) {
+               if (nextIntersection.hits) {
                   ToWorldSpace(nextIntersection, worldSpaceRay);
 
                   return nextIntersection;
@@ -254,7 +254,7 @@ public class CSGShape extends AbstractShape {
                if (nextIntersection == rightIntersection && leftInside /*&& !rightInside*/)
                {
                   ToWorldSpace(nextIntersection, worldSpaceRay);
-                  //nextIntersection.Normal.scale(-1);
+                  //nextIntersection.normal.scale(-1);
                   return nextIntersection;
                }
                continue;
@@ -358,7 +358,7 @@ public class CSGShape extends AbstractShape {
          // foreach hitpoint
          switch (Operation) {
             case Union: {
-               if (nextIntersection.Hits) {
+               if (nextIntersection.hits) {
                   ToWorldSpace(nextIntersection, worldSpaceRay);
                   intersections.add(nextIntersection);
                }
@@ -381,7 +381,7 @@ public class CSGShape extends AbstractShape {
                if (nextIntersection == rightIntersection && leftInside /*&& !rightInside*/)
                {
                   ToWorldSpace(nextIntersection, worldSpaceRay);
-                  //nextIntersection.Normal.scale(-1);
+                  //nextIntersection.normal.scale(-1);
                   intersections.add(nextIntersection);
                }
                continue;

@@ -48,8 +48,8 @@ public class PathTraceIntegrator extends AbstractIntegrator {
       Sample sample = new Sample();
       Intersection intersection = scene.getNearestShape(ray, _x, _y);
 
-      if (intersection == null || !intersection.Hits) {
-         Logger.Log(Logger.Level.Debug, depth, "Hits: " + false);
+      if (intersection == null || !intersection.hits) {
+         Logger.Log(Logger.Level.Debug, depth, "hits: " + false);
 
          if (intersection != null) {
             sample.KDHeatCount = intersection.KDHeatCount;
@@ -58,28 +58,28 @@ public class PathTraceIntegrator extends AbstractIntegrator {
          return sample;
       }
 
-      Logger.Log(Logger.Level.Debug, depth, "Hits: " + intersection.Hits);
+      Logger.Log(Logger.Level.Debug, depth, "hits: " + intersection.hits);
       Logger.Log(Logger.Level.Debug, depth, intersection.location);
-      Logger.Log(Logger.Level.Debug, depth, intersection.Normal);
+      Logger.Log(Logger.Level.Debug, depth, intersection.normal);
 
       intersection.x = _x;
       intersection.y = _y;
 
-      if (intersection.Shape instanceof AbstractLight) {
-         sample.SpectralPowerDistribution = ((AbstractLight) intersection.Shape).SpectralPowerDistribution;
+      if (intersection.shape instanceof AbstractLight) {
+         sample.SpectralPowerDistribution = ((AbstractLight) intersection.shape).SpectralPowerDistribution;
          return sample;
       }
 
       sample.SpectralPowerDistribution = new SpectralPowerDistribution();
 
       // base case
-      if (depth >= maxDepth || intersection.Shape == null) {
+      if (depth >= maxDepth || intersection.shape == null) {
          return sample;
       }
       else {
-         AbstractShape closestShape = intersection.Shape;
+         AbstractShape closestShape = intersection.shape;
          Material objectMaterial = closestShape.Material;
-         Normal intersectionNormal = intersection.Normal;
+         Normal intersectionNormal = intersection.normal;
          Vector3 incomingDirection = ray.Direction;
 
          for (int i = 0; i < objectMaterial.BxDFs.size(); i++) {
@@ -141,25 +141,25 @@ public class PathTraceIntegrator extends AbstractIntegrator {
 //               outgoing.scale(-1);
 //
 //            Ray bounceRay = new Ray(intersection.location, outgoing);
-//            boolean Hits = closestShape.Hits(bounceRay);
+//            boolean hits = closestShape.hits(bounceRay);
 //            Intersection nextIntersection = closestShape.GetHitInfo(bounceRay);
 //            Intersection previousIntersection = nextIntersection;
 //
 //            // TODO fix t comparisons
-//            while (Hits && (nextIntersection.t < 0 || nextIntersection.t > 1)) {
+//            while (hits && (nextIntersection.t < 0 || nextIntersection.t > 1)) {
 //               // bounce it again, sam
 //               transmittance *= objectMaterial.BSSRDF.Transmittance;
 //               outgoing = objectMaterial.BSSRDF.GetVector();
 //               Point newOrigin = objectMaterial.BSSRDF.GetNextPoint(previousIntersection.location, outgoing);
 //               bounceRay = new Ray(newOrigin, outgoing);
-//               Hits = closestShape.Hits(bounceRay);
+//               hits = closestShape.hits(bounceRay);
 //               previousIntersection = nextIntersection;
 //               nextIntersection = closestShape.GetHitInfo(bounceRay);
 //            }
 //            // exiting
 //
 //            bounceRay = new Ray(previousIntersection.location, bounceRay.Direction);
-//            bounceRay.OffsetOriginOutwards(previousIntersection.Normal);
+//            bounceRay.OffsetOriginOutwards(previousIntersection.normal);
 //
 //            Sample bssrdfSample = GetSample(bounceRay, depth + 1, indexOfRefraction);
 //            SpectralPowerDistribution incomingSPD = bssrdfSample.SpectralPowerDistribution;

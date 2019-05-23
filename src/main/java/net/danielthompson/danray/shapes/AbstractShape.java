@@ -50,7 +50,7 @@ public abstract class AbstractShape {
    }
 
    /**
-    * Assumes that Hits(Ray worldSpaceRay) has already been called and that it does actually hit.
+    * Assumes that hits(Ray worldSpaceRay) has already been called and that it does actually hit.
     *
     * @param ray
     * @return
@@ -66,26 +66,26 @@ public abstract class AbstractShape {
    }
 
    protected void CalculateTangents(Intersection intersection) {
-      // TODO fix such that TangentU and TangentV are actually in du & dv directions (once texture mapping is implemented)
+      // TODO fix such that tangentU and tangentV are actually in du & dv directions (once texture mapping is implemented)
 
-      Vector3 v1 = Constants.PositiveX.cross(intersection.Normal);
-      Vector3 v2 = Constants.PositiveY.cross(intersection.Normal);
+      Vector3 v1 = Constants.PositiveX.cross(intersection.normal);
+      Vector3 v2 = Constants.PositiveY.cross(intersection.normal);
 
-      intersection.TangentU = (v1.lengthSquared() > v2.lengthSquared()) ? v1 : v2;
-      intersection.TangentV = intersection.TangentU.cross(intersection.Normal);
-      intersection.TangentU = intersection.TangentV.cross(intersection.Normal);
+      intersection.tangentU = (v1.lengthSquared() > v2.lengthSquared()) ? v1 : v2;
+      intersection.tangentV = intersection.tangentU.cross(intersection.normal);
+      intersection.tangentU = intersection.tangentV.cross(intersection.normal);
    }
 
    protected void ToWorldSpace(Intersection intersection, Ray worldSpaceRay) {
       if (ObjectToWorld != null) {
          intersection.location = ObjectToWorld.Apply(intersection.location);
-         intersection.Normal = ObjectToWorld.Apply(intersection.Normal);
-         intersection.TangentU = ObjectToWorld.Apply(intersection.TangentU);
-         intersection.TangentV = ObjectToWorld.Apply(intersection.TangentV);
+         intersection.normal = ObjectToWorld.Apply(intersection.normal);
+         intersection.tangentU = ObjectToWorld.Apply(intersection.tangentU);
+         intersection.tangentV = ObjectToWorld.Apply(intersection.tangentV);
          if (ObjectToWorld.HasScale()) {
-            intersection.Normal.Normalize();
-            intersection.TangentU.normalize();
-            intersection.TangentV.normalize();
+            intersection.normal.Normalize();
+            intersection.tangentU.normalize();
+            intersection.tangentV.normalize();
             intersection.t = worldSpaceRay.GetTAtPoint(intersection.location);
          }
       }

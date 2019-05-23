@@ -70,8 +70,8 @@ public abstract class AbstractScene {
       if (nearestShapeIndex >= 0) {
          closestIntersection = shapes.get(nearestShapeIndex).GetHitInfo(ray);
          // flip the normal if the ray is approaching from the other side
-         if (closestIntersection.Normal.Dot(ray.Direction) > 0)
-            closestIntersection.Normal.Scale(-1);
+         if (closestIntersection.normal.Dot(ray.Direction) > 0)
+            closestIntersection.normal.Scale(-1);
          if (closestIntersection != null && Float.isNaN(closestIntersection.location.x)) {
             // wtf?
             closestIntersection = shapes.get(nearestShapeIndex).GetHitInfo(ray);

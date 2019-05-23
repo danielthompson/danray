@@ -39,7 +39,7 @@ public class GetHitInfoTests {
 
       Intersection state = box.GetHitInfo(ray);
 
-      Assert.assertTrue(state.Hits, "Should hit");
+      Assert.assertTrue(state.hits, "Should hit");
    }
 
    @Test
@@ -57,7 +57,7 @@ public class GetHitInfoTests {
 
       Intersection state = box.GetHitInfo(ray);
 
-      Assert.assertTrue(state.Hits, "Should hit");
+      Assert.assertTrue(state.hits, "Should hit");
    }
 
    @Test
@@ -76,7 +76,7 @@ public class GetHitInfoTests {
       Intersection state = box.GetHitInfo(ray);
 
       Assert.assertNotNull(state, "Intersection shouldn't be null");
-      Assert.assertTrue(state.Hits, "Should hit");
+      Assert.assertTrue(state.hits, "Should hit");
    }
 
    @Test
@@ -96,7 +96,7 @@ public class GetHitInfoTests {
 
 
       Assert.assertNotNull(state, "Intersection shouldn't be null");
-      Assert.assertTrue(state.Hits, "Should hit");
+      Assert.assertTrue(state.hits, "Should hit");
    }
 
    @Test
@@ -117,7 +117,7 @@ public class GetHitInfoTests {
 
             Intersection state = box.GetHitInfo(ray);
 
-            Assert.assertTrue(state.Hits, "Should hit");
+            Assert.assertTrue(state.hits, "Should hit");
          }
       }
    }
@@ -139,8 +139,8 @@ public class GetHitInfoTests {
 
       //Vector expectedNormalDirection = new Vector(-1, 0, 0);
 
-      Assert.assertTrue(state.Hits, "Should hit");
-      //Assert.assertEquals(state.Normal, expectedNormalDirection, "normal direction fails");
+      Assert.assertTrue(state.hits, "Should hit");
+      //Assert.assertEquals(state.normal, expectedNormalDirection, "normal direction fails");
    }
 
    @Test
@@ -159,9 +159,9 @@ public class GetHitInfoTests {
       Intersection state = box.GetHitInfo(ray);
 
 
-      Assert.assertFalse(state.Hits, "Shouldn't hit");
+      Assert.assertFalse(state.hits, "Shouldn't hit");
       Assert.assertNull(state.location, "Shouldn't be an intersection point if the ray doesn't hit");
-      Assert.assertNull(state.Normal, "Shouldn't be a normal for no hit");
+      Assert.assertNull(state.normal, "Shouldn't be a normal for no hit");
    }
 
    @Test
@@ -179,9 +179,9 @@ public class GetHitInfoTests {
 
       Intersection state = box.GetHitInfo(ray);
 
-      Assert.assertFalse(state.Hits, "Shouldn't hit");
+      Assert.assertFalse(state.hits, "Shouldn't hit");
       Assert.assertNull(state.location, "Shouldn't be an intersection point if the ray doesn't hit");
-      Assert.assertNull(state.Normal, "Shouldn't be a normal for no hit");
+      Assert.assertNull(state.normal, "Shouldn't be a normal for no hit");
    }
 
    @Test
@@ -199,9 +199,9 @@ public class GetHitInfoTests {
 
       Intersection state = box.GetHitInfo(ray);
 
-      Assert.assertFalse(state.Hits, "Shouldn't hit");
+      Assert.assertFalse(state.hits, "Shouldn't hit");
       Assert.assertNull(state.location, "Shouldn't be an intersection point if the ray doesn't hit");
-      Assert.assertNull(state.Normal, "Shouldn't be a normal for no hit");
+      Assert.assertNull(state.normal, "Shouldn't be a normal for no hit");
    }
 
    @Test
@@ -219,9 +219,9 @@ public class GetHitInfoTests {
 
       Intersection state = box.GetHitInfo(ray);
 
-      Assert.assertFalse(state.Hits, "Shouldn't hit");
+      Assert.assertFalse(state.hits, "Shouldn't hit");
       Assert.assertNull(state.location, "Shouldn't be an intersection point if the ray doesn't hit");
-      Assert.assertNull(state.Normal, "Shouldn't be a normal for no hit");
+      Assert.assertNull(state.normal, "Shouldn't be a normal for no hit");
    }
 
    @Test
@@ -239,9 +239,9 @@ public class GetHitInfoTests {
 
       Intersection state = box.GetHitInfo(ray);
 
-      Assert.assertFalse(state.Hits, "Shouldn't hit");
+      Assert.assertFalse(state.hits, "Shouldn't hit");
       Assert.assertNull(state.location, "Shouldn't be an intersection point if the ray doesn't hit");
-      Assert.assertNull(state.Normal, "Shouldn't be a normal for no hit");
+      Assert.assertNull(state.normal, "Shouldn't be a normal for no hit");
    }
 
    @Test
@@ -259,9 +259,9 @@ public class GetHitInfoTests {
 
       Intersection state = box.GetHitInfo(ray);
 
-      Assert.assertFalse(state.Hits, "Shouldn't hit");
+      Assert.assertFalse(state.hits, "Shouldn't hit");
       Assert.assertNull(state.location, "Shouldn't be an intersection point if the ray doesn't hit");
-      Assert.assertNull(state.Normal, "Shouldn't be a normal for no hit");
+      Assert.assertNull(state.normal, "Shouldn't be a normal for no hit");
    }
 
    @Test
@@ -284,9 +284,9 @@ public class GetHitInfoTests {
 
                   Intersection state = box.GetHitInfo(ray);
 
-                  Assert.assertFalse(state.Hits, "Shouldn't hit");
+                  Assert.assertFalse(state.hits, "Shouldn't hit");
                   Assert.assertNull(state.location, "Shouldn't be an intersection point if the ray doesn't hit");
-                  Assert.assertNull(state.Normal, "Shouldn't be a normal for no hit");
+                  Assert.assertNull(state.normal, "Shouldn't be a normal for no hit");
                }
             }
          }
@@ -308,9 +308,9 @@ public class GetHitInfoTests {
 
       Intersection state = box.GetHitInfo(ray);
 
-      Assert.assertFalse(state.Hits, "Shouldn't hit");
+      Assert.assertFalse(state.hits, "Shouldn't hit");
       Assert.assertNull(state.location, "Shouldn't be an intersection point if the ray doesn't hit");
-      Assert.assertNull(state.Normal, "Shouldn't be a normal for no hit");
+      Assert.assertNull(state.normal, "Shouldn't be a normal for no hit");
    }
 
    @Test
@@ -328,8 +328,8 @@ public class GetHitInfoTests {
 
       Intersection state = box.GetHitInfo(ray);
 
-      Assert.assertFalse(state.Hits, "Shouldn't hit");
+      Assert.assertFalse(state.hits, "Shouldn't hit");
       Assert.assertNull(state.location, "Shouldn't be an intersection point if the ray doesn't hit");
-      Assert.assertNull(state.Normal, "Shouldn't be a normal for no hit");
+      Assert.assertNull(state.normal, "Shouldn't be a normal for no hit");
    }
 }

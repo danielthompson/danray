@@ -18,7 +18,7 @@ public class RadiansBetweenTests {
 //   @Test
 //   public void testAngleBetween() {
 //      Vector v1 = new Vector(0, 1, 0);
-//      Vector n1 = new Normal(1, 0, 0);
+//      Vector n1 = new normal(1, 0, 0);
 //
 //      float expectedAngle = 90;
 //

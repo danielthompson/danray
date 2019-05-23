@@ -39,7 +39,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
       Intersection closestStateToRay = scene.getNearestShape(ray, x, y);
 
-      if (closestStateToRay == null || !closestStateToRay.Hits) {
+      if (closestStateToRay == null || !closestStateToRay.hits) {
 
          if (closestStateToRay != null)
             sample.KDHeatCount = closestStateToRay.KDHeatCount;
@@ -49,12 +49,12 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
       sample.KDHeatCount = closestStateToRay.KDHeatCount;
 
-      if (closestStateToRay.Shape instanceof AbstractLight) {
-         sample.SpectralPowerDistribution = ((AbstractLight)closestStateToRay.Shape).SpectralPowerDistribution;
+      if (closestStateToRay.shape instanceof AbstractLight) {
+         sample.SpectralPowerDistribution = ((AbstractLight)closestStateToRay.shape).SpectralPowerDistribution;
          return sample;
       }
 
-      AbstractShape closestShape = closestStateToRay.Shape;
+      AbstractShape closestShape = closestStateToRay.shape;
 
       Material objectMaterial = closestShape.Material;
 
@@ -78,7 +78,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
             Ray lightToNearestShape = intersectionPoint.createVectorFrom(lightLocation);
 
-            float dot = closestStateToRay.Normal.Dot(lightToNearestShape.Direction);
+            float dot = closestStateToRay.normal.Dot(lightToNearestShape.Direction);
 
             if (dot < 0) {
 
@@ -86,15 +86,15 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
                if (
                      potentialOccluder == null
-                           || !potentialOccluder.Hits
-                           || potentialOccluder.Shape.equals(closestShape)
-                           || potentialOccluder.Shape.equals(light)
+                           || !potentialOccluder.hits
+                           || potentialOccluder.shape.equals(closestShape)
+                           || potentialOccluder.shape.equals(light)
                      ) {
                   float oneOverDistanceFromLightSourceSquared = 1 / lightLocation.squaredDistanceBetween(closestStateToRay.location);
 
                   Intersection state = closestShape.GetHitInfo(lightToNearestShape);
-                  if (state.Hits) {
-                     float angleOfIncidencePercentage = GeometryCalculations.GetCosineWeightedIncidencePercentage(lightToNearestShape.Direction, closestStateToRay.Normal);
+                  if (state.hits) {
+                     float angleOfIncidencePercentage = GeometryCalculations.GetCosineWeightedIncidencePercentage(lightToNearestShape.Direction, closestStateToRay.normal);
                      SpectralPowerDistribution scaledIncomingSPD = SpectralPowerDistribution.scale(light.SpectralPowerDistribution, angleOfIncidencePercentage);
                      scaledIncomingSPD.scale(oneOverDistanceFromLightSourceSquared);
                      directSPD.add(scaledIncomingSPD);
@@ -135,12 +135,12 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
 //            if (x == 555 && y == 644) { // inside
 //               int j = 0;
-//               Vector outgoingDirection = objectMaterial.reflect.getVectorInPDF(closestStateToRay.Normal, ray.Direction);
+//               Vector outgoingDirection = objectMaterial.reflect.getVectorInPDF(closestStateToRay.normal, ray.Direction);
 //            }
 
 
             // TODO fix
-            Vector3 outgoingDirection = new Vector3(1, 0, 0); //objectMaterial.BRDF.getVectorInPDF(closestStateToRay.Normal, ray.Direction, 1, 1);
+            Vector3 outgoingDirection = new Vector3(1, 0, 0); //objectMaterial.BRDF.getVectorInPDF(closestStateToRay.normal, ray.Direction, 1, 1);
 
             Point3 offsetIntersection = Point3.plus(closestStateToRay.location, Vector3.scale(outgoingDirection, Constants.Epsilon * 1000));
 //            Point offsetIntersection = closestStateToRay.location;
@@ -161,8 +161,8 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
                Vector3 reversedIncoming = Vector3.scale(ray.Direction, -1);
 
-               float angleIncoming = GeometryCalculations.radiansBetween(reversedIncoming, closestStateToRay.Normal);
-               float angleOutgoing = GeometryCalculations.radiansBetween(outgoingDirection, closestStateToRay.Normal);
+               float angleIncoming = GeometryCalculations.radiansBetween(reversedIncoming, closestStateToRay.normal);
+               float angleOutgoing = GeometryCalculations.radiansBetween(outgoingDirection, closestStateToRay.normal);
 
                // TODO fix
                reflectedWeight = 1.0f; //objectMaterial.BRDF.f(angleIncoming, angleOutgoing);
@@ -179,7 +179,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
          Sample refractedSample = null;
          /*
          else if (objectMaterial.getReflectivity() > 0) {
-            Ray reflectedRay = GeometryCalculations.GetReflectedRay(closestStateToRay.location, closestStateToRay.Normal, ray);
+            Ray reflectedRay = GeometryCalculations.GetReflectedRay(closestStateToRay.location, closestStateToRay.normal, ray);
 
             reflectedColor = GetSample(reflectedRay, depth, oldIndexOfRefraction);
 
@@ -193,7 +193,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
          if (objectMaterial.getTransparency() > 0) {
 
-            Ray refractedRay = GeometryCalculations.GetRefractedRay(closestStateToRay, closestStateToRay.Normal, ray, oldIndexOfRefraction);
+            Ray refractedRay = GeometryCalculations.GetRefractedRay(closestStateToRay, closestStateToRay.normal, ray, oldIndexOfRefraction);
             refractedSample = GetSample(refractedRay, depth, closestStateToRay.Drawable.GetMaterial().getIndexOfRefraction());
          }
 */

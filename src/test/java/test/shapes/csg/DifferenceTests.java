@@ -91,7 +91,7 @@ public class DifferenceTests {
 
 
       Assert.assertNotNull(intersection);
-      Assert.assertTrue(intersection.Hits);
+      Assert.assertTrue(intersection.hits);
    }
 
    @Test
@@ -106,8 +106,8 @@ public class DifferenceTests {
 
       Normal expectedNormal = new Normal(0, 0, -1);
 
-      Assert.assertNotNull(intersection.Normal);
-      AssertHelper.assertEquals(intersection.Normal, expectedNormal);
+      Assert.assertNotNull(intersection.normal);
+      AssertHelper.assertEquals(intersection.normal, expectedNormal);
    }
 
    @Test
@@ -136,7 +136,7 @@ public class DifferenceTests {
       Intersection intersection = shape.GetHitInfo(ray);
 
       Normal expectedNormal = new Normal(0, 0, 1);
-      Assert.assertEquals(intersection.Normal, expectedNormal);
+      Assert.assertEquals(intersection.normal, expectedNormal);
    }
 
    @Test
@@ -149,7 +149,7 @@ public class DifferenceTests {
       Intersection intersection = shape.GetHitInfo(ray);
 
       Normal expectedNormal = new Normal(0, 0, -1);
-      Assert.assertEquals(intersection.Normal, expectedNormal);
+      Assert.assertEquals(intersection.normal, expectedNormal);
    }
 
    @Test
@@ -201,7 +201,7 @@ public class DifferenceTests {
       Intersection intersection = shape.GetHitInfo(ray);
 
       Normal expectedNormal = new Normal(1, 0, 0);
-      Assert.assertEquals(intersection.Normal, expectedNormal);
+      Assert.assertEquals(intersection.normal, expectedNormal);
    }
 
    @Test
@@ -227,7 +227,7 @@ public class DifferenceTests {
       Intersection intersection = shape.GetHitInfo(ray);
 
       Normal expectedNormal = new Normal(1, 0, 0);
-      Assert.assertEquals(intersection.Normal, expectedNormal);
+      Assert.assertEquals(intersection.normal, expectedNormal);
    }
 
    @Test
@@ -273,6 +273,6 @@ public class DifferenceTests {
       Intersection intersection = shape.GetHitInfo(ray);
 
       Normal expectedNormal = new Normal(1, 0, 0);
-      Assert.assertEquals(intersection.Normal, expectedNormal);
+      Assert.assertEquals(intersection.normal, expectedNormal);
    }
 }

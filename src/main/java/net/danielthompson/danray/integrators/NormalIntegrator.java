@@ -20,10 +20,10 @@ public class NormalIntegrator extends AbstractIntegrator {
       sample.y = y;
       sample.SpectralPowerDistribution = new SpectralPowerDistribution();
 
-      if (intersection != null && intersection.Hits) {
-         sample.SpectralPowerDistribution.R = intersection.Normal.x;
-         sample.SpectralPowerDistribution.G = intersection.Normal.y;
-         sample.SpectralPowerDistribution.B = intersection.Normal.z;
+      if (intersection != null && intersection.hits) {
+         sample.SpectralPowerDistribution.R = intersection.normal.x;
+         sample.SpectralPowerDistribution.G = intersection.normal.y;
+         sample.SpectralPowerDistribution.B = intersection.normal.z;
       }
 
       return sample;

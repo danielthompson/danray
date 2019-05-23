@@ -74,13 +74,13 @@ public class TriangleMesh extends AbstractShape {
    public Intersection GetHitInfo(Ray ray) {
 
       Intersection closestStateToRay = new Intersection();
-      closestStateToRay.Hits = false;
+      closestStateToRay.hits = false;
       closestStateToRay.t = Float.MAX_VALUE;
 
       for (List<Point3> face : _faces) {
          Intersection state = Triangle.GetHitInfo(this, ray, face.get(0), face.get(1), face.get(2));
 
-         if (state.Hits && state.t < closestStateToRay.t) {
+         if (state.hits && state.t < closestStateToRay.t) {
             closestStateToRay = state;
             //state.Face = face;
          }

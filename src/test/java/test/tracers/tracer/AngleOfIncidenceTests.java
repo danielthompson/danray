@@ -41,8 +41,8 @@ public class AngleOfIncidenceTests {
 
       Intersection state = new Intersection();
       state.location = new Point3(1, 0, 0);
-      state.Normal = new Normal(1, 0, 0);
-      state.Hits = true;
+      state.normal = new Normal(1, 0, 0);
+      state.hits = true;
 
       float actualAngleOfIncidence = GeometryCalculations.GetAngleOfIncidence(incomingRay, state);
       float expectedAngleOfIncidence = 45;
@@ -71,8 +71,8 @@ public class AngleOfIncidenceTests {
 
       Intersection state = new Intersection();
       state.location = new Point3(1, 0, 0);
-      state.Normal = new Normal(1, 0, 0);
-      state.Hits = true;
+      state.normal = new Normal(1, 0, 0);
+      state.hits = true;
 
       float actualAngleOfIncidence = GeometryCalculations.GetAngleOfIncidence(incomingRay, state);
       float expectedAngleOfIncidence = 45;
@@ -100,8 +100,8 @@ public class AngleOfIncidenceTests {
 
       Intersection state = new Intersection();
       state.location = new Point3(1, 0, 0);
-      state.Normal = new Normal(1, 0, 0);
-      state.Hits = true;
+      state.normal = new Normal(1, 0, 0);
+      state.hits = true;
 
       float actualAngleOfIncidence = GeometryCalculations.GetAngleOfIncidence(incomingRay, state);
       float expectedAngleOfIncidence = 30;
@@ -129,8 +129,8 @@ public class AngleOfIncidenceTests {
 
       Intersection state = new Intersection();
       state.location = new Point3(1, 0, 0);
-      state.Normal = new Normal(1, 0, 0);
-      state.Hits = true;
+      state.normal = new Normal(1, 0, 0);
+      state.hits = true;
 
       WhittedIntegrator tracer = new WhittedIntegrator(null, 0);
 
@@ -162,8 +162,8 @@ public class AngleOfIncidenceTests {
 
       Intersection state = new Intersection();
       state.location = new Point3(1, 0, 0);
-      state.Normal = new Normal(1, 0, 0);
-      state.Hits = true;
+      state.normal = new Normal(1, 0, 0);
+      state.hits = true;
 
       float actualAngleOfIncidence = GeometryCalculations.GetAngleOfIncidence(incomingRay, state);
       float expectedAngleOfIncidence = 60;
@@ -191,8 +191,8 @@ public class AngleOfIncidenceTests {
 
       Intersection state = new Intersection();
       state.location = new Point3(0, 1, 0);
-      state.Normal = new Normal(0, 1, 0);
-      state.Hits = true;
+      state.normal = new Normal(0, 1, 0);
+      state.hits = true;
 
       WhittedIntegrator tracer = new WhittedIntegrator(null, 0);
 
@@ -222,8 +222,8 @@ public class AngleOfIncidenceTests {
 
       Intersection state = new Intersection();
       state.location = new Point3(0, -1, 0);
-      state.Normal = new Normal(0, -1, 0);
-      state.Hits = true;
+      state.normal = new Normal(0, -1, 0);
+      state.hits = true;
 
       float actualAngleOfIncidence = GeometryCalculations.GetAngleOfIncidence(incomingRay, state);
       float expectedAngleOfIncidence = 135;

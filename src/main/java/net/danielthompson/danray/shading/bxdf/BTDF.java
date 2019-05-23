@@ -10,7 +10,7 @@ public abstract class BTDF extends BxDF {
 
    @Override
    public Vector3 getVectorInPDF(Intersection intersection, Vector3 incoming, float leavingIndexOfRefraction, float enteringIndexOfRefraction) {
-      return getVectorInPDF(intersection.Normal, incoming, leavingIndexOfRefraction, enteringIndexOfRefraction);
+      return getVectorInPDF(intersection.normal, incoming, leavingIndexOfRefraction, enteringIndexOfRefraction);
    }
 
 }

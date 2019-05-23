@@ -52,7 +52,7 @@ public class KDScene extends AbstractScene {
       for (AbstractShape shape : shapes) {
          Intersection state = shape.GetHitInfo(ray);
 
-         if (state.Hits) {
+         if (state.hits) {
             if (closestStateToRay == null) {
                closestStateToRay = state;
             }
@@ -79,20 +79,20 @@ public class KDScene extends AbstractScene {
          Intersection leftState = leftNode.getHitInfo(ray);
          Intersection rightState = rightNode.getHitInfo(ray);
 
-         boolean hitsLeft = leftState.Hits;
-         boolean hitsRight = rightState.Hits;
+         boolean hitsLeft = leftState.hits;
+         boolean hitsRight = rightState.hits;
 
          Intersection bestStateSoFar = null;
 
          if (hitsLeft) {
             Intersection bestCandidateState = TraverseTree(leftNode, ray);
-            if (bestCandidateState != null && bestCandidateState.Hits)
+            if (bestCandidateState != null && bestCandidateState.hits)
                bestStateSoFar = bestCandidateState;
          }
 
          if (hitsRight) {
             Intersection bestCandidateState = TraverseTree(rightNode, ray);
-            if (bestCandidateState != null && bestCandidateState.Hits && (bestStateSoFar == null || bestCandidateState.t < bestStateSoFar.t)) {
+            if (bestCandidateState != null && bestCandidateState.hits && (bestStateSoFar == null || bestCandidateState.t < bestStateSoFar.t)) {
                bestStateSoFar = bestCandidateState;
             }
          }
@@ -135,9 +135,9 @@ public class KDScene extends AbstractScene {
 
          /*
 
-         boolean hitsLeft = leftState.Hits;
+         boolean hitsLeft = leftState.hits;
          statistics.BoundingIntersections++;
-         boolean hitsRight = rightState.Hits;
+         boolean hitsRight = rightState.hits;
          statistics.BoundingIntersections++;
 
          statistics.BoundsHitLeft = hitsLeft ? statistics.BoundsHitLeft : statistics.BoundsHitLeft + 1;
@@ -168,13 +168,13 @@ public class KDScene extends AbstractScene {
          KDNode farNode = leftState.t >= rightState.t ? leftNode : rightNode;
 
          Intersection bestCandidateState = new Intersection();
-         bestCandidateState.Hits = false;
+         bestCandidateState.hits = false;
          bestCandidateState.KDHeatCount = count;
 
-         if (nearState.Hits) {
+         if (nearState.hits) {
             Intersection bestNearState = TraverseTreeBetter(nearNode, ray, count);
             if (bestNearState != null) {
-               if (bestNearState.Hits)
+               if (bestNearState.hits)
                   bestCandidateState = bestNearState;
                /*} else {
                   bestCandidateState.KDHeatCount = bestCandidateState.KDHeatCount;
@@ -182,10 +182,10 @@ public class KDScene extends AbstractScene {
             }
          }
 
-         if (farState.Hits && !bestCandidateState.Hits) {
+         if (farState.hits && !bestCandidateState.hits) {
             Intersection bestFarState = TraverseTreeBetter(farNode, ray, count);
             if (bestFarState != null) {
-               if (bestFarState.Hits) //{
+               if (bestFarState.hits) //{
                   bestCandidateState = (bestCandidateState.t >= 0 && bestCandidateState.t <= bestFarState.t)
                         ? bestCandidateState : bestFarState;
                /*} else {
@@ -203,7 +203,7 @@ public class KDScene extends AbstractScene {
 
       Intersection rootState = rootNode.getHitInfo(ray);
 
-      if (rootState == null || !rootState.Hits)
+      if (rootState == null || !rootState.hits)
          return rootState;
 
       else {

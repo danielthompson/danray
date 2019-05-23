@@ -95,13 +95,13 @@ public class Triangle extends AbstractShape {
       float v = Q.dot(ray.Direction) * multiplier;
 
       if (t > 0 && u >= 0 && v >= 0 && u + v <= 1.0) {
-         state.Hits = true;
+         state.hits = true;
          state.location = ray.ScaleFromOrigin(t);
          state.Drawable = drawable;
          state.T = t;
       }
       else {
-         state.Hits = false;
+         state.hits = false;
       }*/
       return state;
    }

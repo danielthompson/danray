@@ -97,9 +97,9 @@ public class TraverseSmallTreeTests {
       Intersection state = scene.getNearestShape(ray, 0, 0);
 
       Assert.assertNotNull(state, "intersection state should not be null");
-      Assert.assertTrue(state.Hits, "state should hit");
-      Assert.assertNotNull(state.Shape);
-      Assert.assertEquals(state.Shape, sphere3);
+      Assert.assertTrue(state.hits, "state should hit");
+      Assert.assertNotNull(state.shape);
+      Assert.assertEquals(state.shape, sphere3);
       System.out.println(scene.drawableIntersections);
    }
 
@@ -113,9 +113,9 @@ public class TraverseSmallTreeTests {
       Intersection state = scene.getNearestShape(ray, 0, 0);
 
       Assert.assertNotNull(state, "intersection state should not be null");
-      Assert.assertTrue(state.Hits, "state should hit");
-      Assert.assertNotNull(state.Shape);
-      Assert.assertEquals(state.Shape, sphere3);
+      Assert.assertTrue(state.hits, "state should hit");
+      Assert.assertNotNull(state.shape);
+      Assert.assertEquals(state.shape, sphere3);
       System.out.println(scene.drawableIntersections);
    }
 
@@ -129,9 +129,9 @@ public class TraverseSmallTreeTests {
       Intersection state = scene.getNearestShape(ray, 0, 0);
 
       Assert.assertNotNull(state, "intersection state should not be null");
-      Assert.assertTrue(state.Hits, "state should hit");
-      Assert.assertNotNull(state.Shape);
-      Assert.assertEquals(state.Shape, sphere4);
+      Assert.assertTrue(state.hits, "state should hit");
+      Assert.assertNotNull(state.shape);
+      Assert.assertEquals(state.shape, sphere4);
       System.out.println(scene.drawableIntersections);
    }
 
@@ -145,9 +145,9 @@ public class TraverseSmallTreeTests {
       Intersection state = scene.getNearestShape(ray, 0, 0);
 
       Assert.assertNotNull(state, "intersection state should not be null");
-      Assert.assertTrue(state.Hits, "state should hit");
-      Assert.assertNotNull(state.Shape);
-      Assert.assertEquals(state.Shape, sphere3);
+      Assert.assertTrue(state.hits, "state should hit");
+      Assert.assertNotNull(state.shape);
+      Assert.assertEquals(state.shape, sphere3);
       System.out.println(scene.drawableIntersections);
    }
 
@@ -161,9 +161,9 @@ public class TraverseSmallTreeTests {
       Intersection state = scene.getNearestShape(ray, 0, 0);
 
       Assert.assertNotNull(state, "intersection state should not be null");
-      Assert.assertTrue(state.Hits, "state should hit");
-      Assert.assertNotNull(state.Shape);
-      Assert.assertEquals(state.Shape, sphere4);
+      Assert.assertTrue(state.hits, "state should hit");
+      Assert.assertNotNull(state.shape);
+      Assert.assertEquals(state.shape, sphere4);
       System.out.println(scene.drawableIntersections);
    }
 }

@@ -119,7 +119,7 @@
 //   @Test
 //   public void testNormalExport() throws Exception {
 //
-//      final Normal object = new Normal(500.23f, 200, -219.13857f);
+//      final normal object = new normal(500.23f, 200, -219.13857f);
 //
 //      File file = new File(_dir, "normal.xml");
 //
@@ -502,7 +502,7 @@
 ////      material.Color = Color.green;
 ////      material.FullSpectralReflectanceCurve = FullSpectralReflectanceCurveLibrary.LemonSkin;
 ////
-////      final ImplicitPlane object = new ImplicitPlane(new Point(-1, 2, -3.5), new Normal(5, .1, -7), material);
+////      final ImplicitPlane object = new ImplicitPlane(new Point(-1, 2, -3.5), new normal(5, .1, -7), material);
 ////
 ////      File file = new File(_dir, "implicitplane.xml");
 ////

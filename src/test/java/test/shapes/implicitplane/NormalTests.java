@@ -45,7 +45,7 @@ public class NormalTests {
 
       Point3 expectedHitPoint = new Point3(2, 0, 2);
 
-      Assert.assertTrue(state.Hits);
+      Assert.assertTrue(state.hits);
       Assert.assertEquals(state.location, expectedHitPoint);
    }
 }

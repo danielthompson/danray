@@ -32,7 +32,7 @@ public class Intersection {
     * If true, the ray's origin is inside or on the shape boundary.
     * If false, the ray's origin is outside the shape boundary.
     */
-   public boolean OriginInside;
+   public boolean originInside;
 
    /**
     * If true, the ray's direction is in the opposite hemisphere as the normal at the intersection point,
@@ -40,39 +40,34 @@ public class Intersection {
     * If false, the ray's direction is in the same hemisphere as the normal at the intersection point,
     * or equivalently, the direction is towards the shape exterior.
     */
-   public boolean Entering;
+   public boolean entering;
 
    /**
-    * If true, the ray Hits the shape.
+    * If true, the ray hits the shape.
     * If false, the ray doesn't hit the shape.
     */
-   public boolean Hits;
+   public boolean hits;
 
    /**
-    * The shape that the ray Hits. Null if the ray doesn't hit any shape.
+    * The shape that the ray hits. Null if the ray doesn't hit any shape.
     */
-   public AbstractShape Shape;
+   public AbstractShape shape;
    //public List<Point3> Face;
 
    /**
     * The world-space normal vector at the intersection point.
     */
-   public Normal Normal;
+   public Normal normal;
 
    /**
     * The world-space vector that is tangent to the normal in the u-texture direction.
     */
-   public Vector3 TangentU;
+   public Vector3 tangentU;
 
    /**
     * The world-space vector that is tangent to the normal in the v-texture direction.
     */
-   public Vector3 TangentV;
-
-   /**
-    * The index of refraction of the material that the ray encounters at the intersection point.
-    */
-   //public float IndexOfRefraction;
+   public Vector3 tangentV;
 
    /**
     * The x coordinate of the image pixel that the ray contributes to.

@@ -140,7 +140,7 @@ public class BoundingBox {
       float minBoundNearT = 0;
 
       Intersection state = new Intersection();
-      state.Hits = true;
+      state.hits = true;
 
       // x
       float tNear = (p1.x - ray.Origin.x) * ray.DirectionInverse.x;
@@ -155,7 +155,7 @@ public class BoundingBox {
       minBoundNearT = (tNear > minBoundNearT) ? tNear : minBoundNearT;
       maxBoundFarT = (tFar < maxBoundFarT) ? tFar : maxBoundFarT;
       if (minBoundNearT > maxBoundFarT) {
-         state.Hits = false;
+         state.hits = false;
          return state;
       }
       state.t = minBoundNearT;
@@ -172,7 +172,7 @@ public class BoundingBox {
       minBoundNearT = (tNear > minBoundNearT) ? tNear : minBoundNearT;
       maxBoundFarT = (tFar < maxBoundFarT) ? tFar : maxBoundFarT;
       if (minBoundNearT > maxBoundFarT) {
-         state.Hits = false;
+         state.hits = false;
          return state;
       }
 
@@ -191,7 +191,7 @@ public class BoundingBox {
       minBoundNearT = (tNear > minBoundNearT) ? tNear : minBoundNearT;
       maxBoundFarT = (tFar < maxBoundFarT) ? tFar : maxBoundFarT;
       if (minBoundNearT > maxBoundFarT) {
-         state.Hits = false;
+         state.hits = false;
          return state;
       }
 
@@ -207,7 +207,7 @@ public class BoundingBox {
       float minBoundNearT = 0;
 
       Intersection intersection = new Intersection();
-      intersection.Hits = true;
+      intersection.hits = true;
 
       // x
       float tNear = (p1.x - ray.Origin.x) * ray.DirectionInverse.x;
@@ -222,7 +222,7 @@ public class BoundingBox {
       minBoundNearT = (tNear > minBoundNearT) ? tNear : minBoundNearT;
       maxBoundFarT = (tFar < maxBoundFarT) ? tFar : maxBoundFarT;
       if (minBoundNearT > maxBoundFarT) {
-         intersection.Hits = false;
+         intersection.hits = false;
          return intersection;
       }
 
@@ -243,7 +243,7 @@ public class BoundingBox {
       maxBoundFarT = (tFar < maxBoundFarT) ? tFar : maxBoundFarT;
 
       if (minBoundNearT > maxBoundFarT) {
-         intersection.Hits = false;
+         intersection.hits = false;
          return intersection;
       }
 
@@ -264,7 +264,7 @@ public class BoundingBox {
       maxBoundFarT = (tFar < maxBoundFarT) ? tFar : maxBoundFarT;
 
       if (minBoundNearT > maxBoundFarT) {
-         intersection.Hits = false;
+         intersection.hits = false;
          return intersection;
       }
 
@@ -327,13 +327,13 @@ public class BoundingBox {
       if (minBoundNearT > 0) {
          Intersection intersection = new Intersection();
          intersection.t = minBoundNearT;
-         intersection.Hits = true;
+         intersection.hits = true;
          intersections.add(intersection);
       }
 
       Intersection intersection = new Intersection();
       intersection.t = maxBoundFarT;
-      intersection.Hits = true;
+      intersection.hits = true;
       intersections.add(intersection);
 
       return intersections;
@@ -342,7 +342,7 @@ public class BoundingBox {
    public boolean Hits(Ray ray) {
       return (ray.Origin.x >= point1.x && ray.Origin.x <= point2.x
             && ray.Origin.y >= point1.y && ray.Origin.y <= point2.y
-            && ray.Origin.z >= point1.z && ray.Origin.z <= point2.z) || BoundingBox.GetHitInfoOld(point1, point2, ray).Hits;
+            && ray.Origin.z >= point1.z && ray.Origin.z <= point2.z) || BoundingBox.GetHitInfoOld(point1, point2, ray).hits;
    }
 
    public void Translate(Vector3 vector) {

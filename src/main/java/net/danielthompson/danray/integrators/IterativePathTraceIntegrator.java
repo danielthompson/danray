@@ -33,22 +33,22 @@ public class IterativePathTraceIntegrator extends AbstractIntegrator {
       for (bounces = 0; bounces < maxDepth; bounces++) {
 
          Intersection intersection = scene.getNearestShape(ray, x, y);
-         if (intersection == null || !intersection.Hits) {
+         if (intersection == null || !intersection.hits) {
 
             spds[bounces].add(scene.Skybox.getSkyBoxSPD(ray.Direction));
             break;
          }
 
-         if (intersection.Shape instanceof AbstractLight) {
-            spds[bounces].add(((AbstractLight) intersection.Shape).SpectralPowerDistribution);
+         if (intersection.shape instanceof AbstractLight) {
+            spds[bounces].add(((AbstractLight) intersection.shape).SpectralPowerDistribution);
             break;
          }
 
-         AbstractShape closestShape = intersection.Shape;
+         AbstractShape closestShape = intersection.shape;
 
          if (bounces + 1 < maxDepth ) {
             Material objectMaterial = closestShape.Material;
-            Normal intersectionNormal = intersection.Normal;
+            Normal intersectionNormal = intersection.normal;
             Vector3 incomingDirection = ray.Direction;
 
             // TODO fix

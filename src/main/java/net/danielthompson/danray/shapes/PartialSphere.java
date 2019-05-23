@@ -192,12 +192,12 @@ public class PartialSphere extends AbstractShape {
       }
 
       Intersection intersection = new Intersection();
-      intersection.Hits = true;
-      intersection.Shape = this;
+      intersection.hits = true;
+      intersection.shape = this;
       intersection.location = objectSpaceIntersectionPoint;
-      intersection.Normal = objectSpaceNormal;
-      intersection.OriginInside = Inside(objectSpaceRay.Origin) || OnSurface(objectSpaceRay.Origin);
-      intersection.Entering = objectSpaceNormal.Dot(objectSpaceRay.Direction) < 0;
+      intersection.normal = objectSpaceNormal;
+      intersection.originInside = Inside(objectSpaceRay.Origin) || OnSurface(objectSpaceRay.Origin);
+      intersection.entering = objectSpaceNormal.Dot(objectSpaceRay.Direction) < 0;
 
       intersection.u = 0.5f + (float)Math.atan2(-objectSpaceNormal.z, -objectSpaceNormal.x) * Constants.OneOver2Pi;
       intersection.v = 0.5f - (float)Math.asin(-objectSpaceNormal.y) * Constants.OneOverPi;

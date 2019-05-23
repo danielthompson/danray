@@ -12,24 +12,24 @@ public abstract class BxDF {
 
    public Vector3 WorldToLocal(Intersection intersection, Vector3 v) {
       return new Vector3(
-            v.dot(intersection.TangentU),
-            v.dot(intersection.Normal),
-            v.dot(intersection.TangentV)
+            v.dot(intersection.tangentU),
+            v.dot(intersection.normal),
+            v.dot(intersection.tangentV)
       );
    }
 
    public Normal WorldToLocal(Intersection intersection, Normal n) {
       return new Normal(
-            n.Dot(intersection.TangentU),
-            n.Dot(intersection.Normal),
-            n.Dot(intersection.TangentV)
+            n.Dot(intersection.tangentU),
+            n.Dot(intersection.normal),
+            n.Dot(intersection.tangentV)
       );
    }
 
    public void LocalToWorldInPlace(Intersection intersection, Vector3 v) {
-      float x = intersection.TangentU.x * v.x + intersection.Normal.x * v.y + intersection.TangentV.x * v.z;
-      float y = intersection.TangentU.y * v.x + intersection.Normal.y * v.y + intersection.TangentV.y * v.z;
-      float z = intersection.TangentU.z * v.x + intersection.Normal.z * v.y + intersection.TangentV.z * v.z;
+      float x = intersection.tangentU.x * v.x + intersection.normal.x * v.y + intersection.tangentV.x * v.z;
+      float y = intersection.tangentU.y * v.x + intersection.normal.y * v.y + intersection.tangentV.y * v.z;
+      float z = intersection.tangentU.z * v.x + intersection.normal.z * v.y + intersection.tangentV.z * v.z;
       v.x = x;
       v.y = y;
       v.z = z;
@@ -37,17 +37,17 @@ public abstract class BxDF {
 
    public Vector3 LocalToWorld(Intersection intersection, Vector3 v) {
       return new Vector3(
-            intersection.TangentU.x * v.x + intersection.Normal.x * v.y + intersection.TangentV.x * v.z,
-            intersection.TangentU.y * v.x + intersection.Normal.y * v.y + intersection.TangentV.y * v.z,
-            intersection.TangentU.z * v.x + intersection.Normal.z * v.y + intersection.TangentV.z * v.z
+            intersection.tangentU.x * v.x + intersection.normal.x * v.y + intersection.tangentV.x * v.z,
+            intersection.tangentU.y * v.x + intersection.normal.y * v.y + intersection.tangentV.y * v.z,
+            intersection.tangentU.z * v.x + intersection.normal.z * v.y + intersection.tangentV.z * v.z
       );
    }
 
    public Normal LocalToWorld(Intersection intersection, Normal n) {
       return new Normal(
-            intersection.TangentU.x * n.x + intersection.Normal.x * n.y + intersection.TangentV.x * n.z,
-            intersection.TangentU.y * n.x + intersection.Normal.y * n.y + intersection.TangentV.y * n.z,
-            intersection.TangentU.z * n.x + intersection.Normal.z * n.y + intersection.TangentV.z * n.z
+            intersection.tangentU.x * n.x + intersection.normal.x * n.y + intersection.tangentV.x * n.z,
+            intersection.tangentU.y * n.x + intersection.normal.y * n.y + intersection.tangentV.y * n.z,
+            intersection.tangentU.z * n.x + intersection.normal.z * n.y + intersection.tangentV.z * n.z
       );
    }
 

@@ -33,9 +33,9 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //         return new FullSpectralPowerDistribution();
 //      }
 //
-//      if (closestStateToRay.Shape instanceof SpectralRadiatable) {
+//      if (closestStateToRay.shape instanceof SpectralRadiatable) {
 //         // if we hit a light, return the light
-//         return ((SpectralRadiatable) closestStateToRay.Shape).getSpectralPowerDistribution();
+//         return ((SpectralRadiatable) closestStateToRay.shape).getSpectralPowerDistribution();
 //      }
 //
 //      /// GET DIRECT LIGHTING CONTRIBUTION ///
@@ -79,7 +79,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //
 //      //lightSPD.add(directSPD);
 //
-//      Material objectMaterial = closestStateToRay.Shape.GetMaterial();
+//      Material objectMaterial = closestStateToRay.shape.GetMaterial();
 //
 //      FullSpectralReflectanceCurve curve = objectMaterial.FullSpectralReflectanceCurve;
 //      FullSpectralPowerDistribution reflectedSPD = lightSPD.reflectOff(curve);
@@ -347,10 +347,10 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //
 //         Ray lightRay = intersectionPoint.createVectorFrom(lightBouncePoint);
 //         lightRay.OffsetOriginForward(.01);
-//         // check to see if the ray Hits anything
+//         // check to see if the ray hits anything
 //
 //         Vector incomingDirection = lightRay.Direction;
-//         Normal surfaceNormal = closestStateToRay.Normal;
+//         normal surfaceNormal = closestStateToRay.normal;
 //
 //         // This is fishy...
 //         Vector outgoingDirection = Vector.scale(initialRay.Direction, -1);
@@ -361,13 +361,13 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //
 //         float incomingRadiantIntensityFactorForLambert = MonteCarloCalculations.CosineHemispherePDF(cosTheta, 0);
 //
-//         float brdf = closestStateToRay.Shape.GetMaterial().reflect.f(incomingDirection, surfaceNormal, outgoingDirection);
+//         float brdf = closestStateToRay.shape.GetMaterial().reflect.f(incomingDirection, surfaceNormal, outgoingDirection);
 //
 //         // if any light is getting reflected back in our initial direction, check to see if there are any occluders
 //         if (brdf > 0) {
 //            Intersection potentialOccluder = scene.getNearestShape(lightRay);
 //
-//            if (potentialOccluder == null || potentialOccluder.Shape.equals(closestStateToRay.Shape)) {
+//            if (potentialOccluder == null || potentialOccluder.shape.equals(closestStateToRay.shape)) {
 //               FullSpectralPowerDistribution scaledSPD = FullSpectralPowerDistribution.scale(path.incomingSPD, 1);
 //               scaledSPD.scale(incomingRadiantIntensityFactorForLambert);
 //               lightSPD.add(scaledSPD);
@@ -410,15 +410,15 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //               Intersection potentialOccluder = scene.getNearestShape(lightRayFromCurrentRadiatableToClosestDrawable);
 //
 //               boolean noOccluder = (potentialOccluder == null);
-//               boolean shadowRayHitLight = !noOccluder && potentialOccluder.Shape.equals(radiatable);
+//               boolean shadowRayHitLight = !noOccluder && potentialOccluder.shape.equals(radiatable);
 //
 //               if (shadowRayHitLight) {
 //                  potentialOccluder = scene.getNearestShapeBeyond(lightRayFromCurrentRadiatableToClosestDrawable, potentialOccluder.TMin);
 //               }
 //
 //               noOccluder = (potentialOccluder == null);
-//               boolean targetIntersection = !noOccluder && (potentialOccluder.Shape.equals(closestStateToRay.Shape) && Constants.WithinEpsilon(potentialOccluder.location, closestStateToRay.location));
-//               shadowRayHitLight = !noOccluder && potentialOccluder.Shape.equals(radiatable);
+//               boolean targetIntersection = !noOccluder && (potentialOccluder.shape.equals(closestStateToRay.shape) && Constants.WithinEpsilon(potentialOccluder.location, closestStateToRay.location));
+//               shadowRayHitLight = !noOccluder && potentialOccluder.shape.equals(radiatable);
 //
 //               if (shadowRayHitLight) {
 //                  // shit.. now what?
@@ -426,8 +426,8 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //               }
 //
 //               if (noOccluder || targetIntersection) {
-//                  Intersection state = closestStateToRay.Shape.GetHitInfo(lightRayFromCurrentRadiatableToClosestDrawable);
-//                  if (state.Hits) {
+//                  Intersection state = closestStateToRay.shape.GetHitInfo(lightRayFromCurrentRadiatableToClosestDrawable);
+//                  if (state.hits) {
 //                     // figure out how much light is shining by sampling the light
 //
 //                     float pdfPercentage = brdfPDF * (4 * Constants.PI) / lightPDF;
@@ -537,7 +537,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //      public Point surfacePoint;
 //      public reflect surfaceBRDF;
 //      public Intersection state;
-//      public Normal surfaceNormal;
+//      public normal surfaceNormal;
 //      public float calculatedPDF;
 //
 //      /**
@@ -572,9 +572,9 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //         return null;
 //      }
 //
-//      else if (closestStateToRay.Shape instanceof SpectralRadiatable) {
+//      else if (closestStateToRay.shape instanceof SpectralRadiatable) {
 //         // if we hit a light
-//         if (firstLight.equals(closestStateToRay.Shape)) {
+//         if (firstLight.equals(closestStateToRay.shape)) {
 //            // we hit ourselves. shit.
 //            //System.out.println("Initial light ray hit same light source.");
 //            ray.Direction.scale(-1);
@@ -586,9 +586,9 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //               return null;
 //            }
 //
-//            else if (closestStateToRay.Shape instanceof SpectralRadiatable) {
+//            else if (closestStateToRay.shape instanceof SpectralRadiatable) {
 //               // if we hit a light
-//               if (firstLight.equals(closestStateToRay.Shape)) {
+//               if (firstLight.equals(closestStateToRay.shape)) {
 //                  //System.out.println("Initial light ray hit same light source, even after reversing.");
 //                  return null;
 //               }
@@ -607,10 +607,10 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //      }
 //
 //      // we hit an actual object
-//      Shape closestShape = closestStateToRay.Shape;
+//      shape closestShape = closestStateToRay.shape;
 //      Material objectMaterial = closestShape.GetMaterial();
 //
-//      Normal intersectionNormal = closestStateToRay.Normal;
+//      normal intersectionNormal = closestStateToRay.normal;
 //      Vector incomingDirection = ray.Direction;
 //
 //
@@ -649,7 +649,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //      // does the ray hit anything?
 //      Intersection closestStateToRay = scene.getNearestShape(ray);
 //
-//      if (closestStateToRay == null || closestStateToRay.Shape instanceof SpectralRadiatable) {
+//      if (closestStateToRay == null || closestStateToRay.shape instanceof SpectralRadiatable) {
 //         // if not, we're done
 //         return null;
 //      }
@@ -662,10 +662,10 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //      */
 //      else {
 //         // we hit an actual object
-//         Shape closestShape = closestStateToRay.Shape;
+//         shape closestShape = closestStateToRay.shape;
 //         Material objectMaterial = closestShape.GetMaterial();
 //
-//         Normal intersectionNormal = closestStateToRay.Normal;
+//         normal intersectionNormal = closestStateToRay.normal;
 //         Vector incomingDirection = ray.Direction;
 //
 //         reflect brdf = objectMaterial.reflect;
@@ -770,17 +770,17 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //         return null;
 //      }
 //
-//      else if (closestStateToRay.Shape instanceof SpectralRadiatable) {
+//      else if (closestStateToRay.shape instanceof SpectralRadiatable) {
 //         // if we hit a light
 //         //System.out.println("Subsequent light ray hit light source. Returning null.");
 //         return null;
 //      }
 //      else {
 //         // we hit an actual object
-//         Shape closestShape = closestStateToRay.Shape;
+//         shape closestShape = closestStateToRay.shape;
 //         Material objectMaterial = closestShape.GetMaterial();
 //
-//         Normal intersectionNormal = closestStateToRay.Normal;
+//         normal intersectionNormal = closestStateToRay.normal;
 //         Vector incomingDirection = ray.Direction;
 //
 //         reflect brdf = objectMaterial.reflect;
