@@ -5,7 +5,6 @@ import net.danielthompson.danray.scenes.AbstractScene;
 
 import java.io.IOException;
 
-
 /**
  * DanRay
  * User: dthompson
@@ -18,47 +17,18 @@ public class Main {
 //   private static final RenderQualityPreset _preset = new MediumQuality();
 //   private static final RenderQualityPreset _preset = new HighQuality();
 
-   public static final boolean UseSpectralRendering = true;
-   static final boolean UseDepthOfField = false;
-
    public static boolean Finished = false;
 
-   static TraceManager traceManager;
+   private static TraceManager traceManager;
 
    static public void main(String[] args) {
-
-//      try {
-//         System.in.read();
-//      }
-//      catch (IOException e) {
-//
-//      }
 
       AbstractScene scene;
 
       //scene = SceneBuilder.Default(_preset.getX(), _preset.getY());
       scene = SceneBuilder.NumericalStabilityTest(_preset.getX(), _preset.getY());
-//      scene = SceneBuilder.GlossyStrips(_preset.getX(), _preset.getY());
-//      scene = SceneBuilder.ManyRandomSpheres(_preset.getX(), _preset.getY());
-      //scene = SceneBuilder.ManyRegularSpheres(_preset.getX(), _preset.getY());
-      //scene = SceneBuilder.CornellBox(_preset.getX(), _preset.getY());
-      //scene = SceneBuilder.SpheresInAnXPattern(_preset.getX(), _preset.getY());
-//      scene = SceneBuilder.AreaLightSourceTest(_preset.getX(), _preset.getY());
-      //scene = SceneBuilder.PlaneAndBox(_preset.getX(), _preset.getY());
-      //scene = SceneBuilder.DepthOfFieldTest(_preset.getX(), _preset.getY());
-      //scene = SceneBuilder.ReflectiveTriangleMeshWithLight(_preset.getX(), _preset.getY());
-      //scene = SceneBuilder.FourReflectiveSphereWithLights(_preset.getX(), _preset.getY());
-      //scene = SceneBuilder.FourReflectiveSphereWithLightsPointable(_preset.getX(), _preset.getY());
-      //scene = SceneBuilder.DiffuseAndSpecularSpheres(_preset.getX(), _preset.getY());
-      //scene = SceneBuilder.TwoSpheresWithLights(_preset.getX(), _preset.getY());
-      //scene = SceneBuilder.TwoTransparentReflectiveSpheresWithLights(_preset.getX(), _preset.getY());
-      //scene = SceneBuilder.SpectralLemon(_preset.getX(), _preset.getY());
-      //scene = SceneBuilder.TwoSpectralSpheres(_preset.getX(), _preset.getY());
 
       TracerOptions options = parseArgs(args);
-
-      options.spectral = UseSpectralRendering;
-
       //options.numThreads = 1;
 
       traceManager = new TraceManager(scene, _preset, options);
