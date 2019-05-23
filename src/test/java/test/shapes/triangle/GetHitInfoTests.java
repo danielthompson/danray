@@ -48,7 +48,7 @@
 //
 //      Point expectedIntersection = new Point(1, 1, 0);
 //
-//      Assert.assertEquals(state.Location, expectedIntersection);
+//      Assert.assertEquals(state.location, expectedIntersection);
 //   }
 //
 //   @Test
@@ -71,7 +71,7 @@
 //
 //      Point expectedIntersection = new Point(0, 0, 0);
 //
-//      Assert.assertEquals(state.Location, expectedIntersection);
+//      Assert.assertEquals(state.location, expectedIntersection);
 //   }
 //
 //   @Test
@@ -94,7 +94,7 @@
 //
 //      Point expectedIntersection = new Point(1, 1, 0);
 //
-//      Assert.assertEquals(state.Location, expectedIntersection);
+//      Assert.assertEquals(state.location, expectedIntersection);
 //   }
 //
 //   @Test

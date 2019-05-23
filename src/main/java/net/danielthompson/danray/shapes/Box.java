@@ -100,62 +100,62 @@ public class Box extends CSGShape {
    private void FillIntersectionData(Intersection intersection, Ray objectSpaceRay, Ray worldSpaceRay) {
       if (intersection.Hits) {
          intersection.Shape = this;
-         intersection.Location = objectSpaceRay.GetPointAtT(intersection.t);
+         intersection.location = objectSpaceRay.GetPointAtT(intersection.t);
 
-         if (Constants.WithinEpsilon(intersection.Location.x, 0) || Constants.WithinEpsilon(intersection.Location.x, 1)) {
-            intersection.u = intersection.Location.y;
-            intersection.v = intersection.Location.z;
+         if (Constants.WithinEpsilon(intersection.location.x, 0) || Constants.WithinEpsilon(intersection.location.x, 1)) {
+            intersection.u = intersection.location.y;
+            intersection.v = intersection.location.z;
          }
-         else if (Constants.WithinEpsilon(intersection.Location.y, 0) || Constants.WithinEpsilon(intersection.Location.y, 1)) {
-            intersection.u = intersection.Location.z;
-            intersection.v = intersection.Location.x;
+         else if (Constants.WithinEpsilon(intersection.location.y, 0) || Constants.WithinEpsilon(intersection.location.y, 1)) {
+            intersection.u = intersection.location.z;
+            intersection.v = intersection.location.x;
          }
-         else if (Constants.WithinEpsilon(intersection.Location.z, 0) || Constants.WithinEpsilon(intersection.Location.z, 1)) {
-            intersection.u = intersection.Location.x;
-            intersection.v = intersection.Location.y;
+         else if (Constants.WithinEpsilon(intersection.location.z, 0) || Constants.WithinEpsilon(intersection.location.z, 1)) {
+            intersection.u = intersection.location.x;
+            intersection.v = intersection.location.y;
          }
 
-         intersection.Normal = Constants.WithinEpsilon(point1.x, intersection.Location.x) ? new Normal(Constants.NegativeX) : intersection.Normal;
-         intersection.Normal = Constants.WithinEpsilon(point1.y, intersection.Location.y) ? new Normal(Constants.NegativeY) : intersection.Normal;
-         intersection.Normal = Constants.WithinEpsilon(point1.z, intersection.Location.z) ? new Normal(Constants.NegativeZ) : intersection.Normal;
-         intersection.Normal = Constants.WithinEpsilon(point2.x, intersection.Location.x) ? new Normal(Constants.PositiveX) : intersection.Normal;
-         intersection.Normal = Constants.WithinEpsilon(point2.y, intersection.Location.y) ? new Normal(Constants.PositiveY) : intersection.Normal;
-         intersection.Normal = Constants.WithinEpsilon(point2.z, intersection.Location.z) ? new Normal(Constants.PositiveZ) : intersection.Normal;
+         intersection.Normal = Constants.WithinEpsilon(point1.x, intersection.location.x) ? new Normal(Constants.NegativeX) : intersection.Normal;
+         intersection.Normal = Constants.WithinEpsilon(point1.y, intersection.location.y) ? new Normal(Constants.NegativeY) : intersection.Normal;
+         intersection.Normal = Constants.WithinEpsilon(point1.z, intersection.location.z) ? new Normal(Constants.NegativeZ) : intersection.Normal;
+         intersection.Normal = Constants.WithinEpsilon(point2.x, intersection.location.x) ? new Normal(Constants.PositiveX) : intersection.Normal;
+         intersection.Normal = Constants.WithinEpsilon(point2.y, intersection.location.y) ? new Normal(Constants.PositiveY) : intersection.Normal;
+         intersection.Normal = Constants.WithinEpsilon(point2.z, intersection.location.z) ? new Normal(Constants.PositiveZ) : intersection.Normal;
 
          if (intersection.Normal == null) {
-//            intersection.Location = objectSpaceRay.GetPointAtT(intersection.TMax);
+//            intersection.location = objectSpaceRay.GetPointAtT(intersection.TMax);
 //
-//            intersection.Normal = Constants.WithinEpsilon(point1.x, intersection.Location.x) ? new Normal(Constants.NegativeX) : intersection.Normal;
-//            intersection.Normal = Constants.WithinEpsilon(point1.y, intersection.Location.y) ? new Normal(Constants.NegativeY) : intersection.Normal;
-//            intersection.Normal = Constants.WithinEpsilon(point1.z, intersection.Location.z) ? new Normal(Constants.NegativeZ) : intersection.Normal;
-//            intersection.Normal = Constants.WithinEpsilon(point2.x, intersection.Location.x) ? new Normal(Constants.PositiveX) : intersection.Normal;
-//            intersection.Normal = Constants.WithinEpsilon(point2.y, intersection.Location.y) ? new Normal(Constants.PositiveY) : intersection.Normal;
-//            intersection.Normal = Constants.WithinEpsilon(point2.z, intersection.Location.z) ? new Normal(Constants.PositiveZ) : intersection.Normal;
+//            intersection.Normal = Constants.WithinEpsilon(point1.x, intersection.location.x) ? new Normal(Constants.NegativeX) : intersection.Normal;
+//            intersection.Normal = Constants.WithinEpsilon(point1.y, intersection.location.y) ? new Normal(Constants.NegativeY) : intersection.Normal;
+//            intersection.Normal = Constants.WithinEpsilon(point1.z, intersection.location.z) ? new Normal(Constants.NegativeZ) : intersection.Normal;
+//            intersection.Normal = Constants.WithinEpsilon(point2.x, intersection.location.x) ? new Normal(Constants.PositiveX) : intersection.Normal;
+//            intersection.Normal = Constants.WithinEpsilon(point2.y, intersection.location.y) ? new Normal(Constants.PositiveY) : intersection.Normal;
+//            intersection.Normal = Constants.WithinEpsilon(point2.z, intersection.location.z) ? new Normal(Constants.PositiveZ) : intersection.Normal;
 //
 //            if (intersection.Normal == null) {
             float smallest = Float.MAX_VALUE;
 
-            float p1xDiff = point1.x - intersection.Location.x;
+            float p1xDiff = point1.x - intersection.location.x;
             smallest = p1xDiff <= smallest ? p1xDiff : smallest;
             intersection.Normal = p1xDiff <= smallest ? new Normal(Constants.NegativeX) : intersection.Normal;
 
-            float p1yDiff = point1.y - intersection.Location.y;
+            float p1yDiff = point1.y - intersection.location.y;
             smallest = p1yDiff <= smallest ? p1yDiff : smallest;
             intersection.Normal = p1yDiff <= smallest ? new Normal(Constants.NegativeY) : intersection.Normal;
 
-            float p1zDiff = point1.z - intersection.Location.z;
+            float p1zDiff = point1.z - intersection.location.z;
             smallest = p1zDiff <= smallest ? p1zDiff : smallest;
             intersection.Normal = p1zDiff <= smallest ? new Normal(Constants.NegativeZ) : intersection.Normal;
 
-            float p2xDiff = point2.x - intersection.Location.x;
+            float p2xDiff = point2.x - intersection.location.x;
             smallest = p2xDiff <= smallest ? p2xDiff : smallest;
             intersection.Normal = p2xDiff <= smallest ? new Normal(Constants.PositiveX) : intersection.Normal;
 
-            float p2yDiff = point2.y - intersection.Location.y;
+            float p2yDiff = point2.y - intersection.location.y;
             smallest = p2yDiff <= smallest ? p2yDiff : smallest;
             intersection.Normal = p2yDiff <= smallest ? new Normal(Constants.PositiveY) : intersection.Normal;
 
-            float p2zDiff = point2.z - intersection.Location.z;
+            float p2zDiff = point2.z - intersection.location.z;
             smallest = p2zDiff <= smallest ? p2zDiff : smallest;
             intersection.Normal = p2zDiff <= smallest ? new Normal(Constants.PositiveZ) : intersection.Normal;
 
@@ -167,7 +167,7 @@ public class Box extends CSGShape {
                }
                System.out.println("point1: " + point1);
                System.out.println("point2: " + point2);
-               System.out.println("hitpoint: " + intersection.Location);
+               System.out.println("hitpoint: " + intersection.location);
 
                boolean isNan = Float.isNaN(objectSpaceRay.Direction.x);
 

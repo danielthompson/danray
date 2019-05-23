@@ -64,7 +64,7 @@ public class IterativeMISPathTraceIntegrator extends AbstractIntegrator {
          //if (!brdf.Delta) {
          if (true) {
             for (AbstractLight light : scene.Lights) {
-               Point3 intersectionPoint = closestStateToRay.Location;
+               Point3 intersectionPoint = closestStateToRay.location;
 
                Point3 lightLocation = light.getRandomPointOnSurface();
 
@@ -82,7 +82,7 @@ public class IterativeMISPathTraceIntegrator extends AbstractIntegrator {
                               || potentialOccluder.Shape.equals(closestShape)
                               || potentialOccluder.Shape.equals(light)
                         ) {
-                     float oneOverDistanceFromLightSourceSquared = 1 / lightLocation.squaredDistanceBetween(closestStateToRay.Location);
+                     float oneOverDistanceFromLightSourceSquared = 1 / lightLocation.squaredDistanceBetween(closestStateToRay.location);
 
                      Intersection state = closestShape.GetHitInfo(lightToNearestShape);
                      if (state.Hits) {
@@ -108,7 +108,7 @@ public class IterativeMISPathTraceIntegrator extends AbstractIntegrator {
             fs[bounces] = scalePercentage;
             refls[bounces] = objectMaterial.ReflectanceSpectrum;
 
-            ray = new Ray(closestStateToRay.Location, outgoingDirection);
+            ray = new Ray(closestStateToRay.location, outgoingDirection);
             ray.OffsetOriginForward(Constants.HalfEpsilon);
             spds[bounces + 1] = new SpectralPowerDistribution();
 

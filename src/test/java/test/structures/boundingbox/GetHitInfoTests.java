@@ -160,7 +160,7 @@ public class GetHitInfoTests {
 
 
       Assert.assertFalse(state.Hits, "Shouldn't hit");
-      Assert.assertNull(state.Location, "Shouldn't be an intersection point if the ray doesn't hit");
+      Assert.assertNull(state.location, "Shouldn't be an intersection point if the ray doesn't hit");
       Assert.assertNull(state.Normal, "Shouldn't be a normal for no hit");
    }
 
@@ -180,7 +180,7 @@ public class GetHitInfoTests {
       Intersection state = box.GetHitInfo(ray);
 
       Assert.assertFalse(state.Hits, "Shouldn't hit");
-      Assert.assertNull(state.Location, "Shouldn't be an intersection point if the ray doesn't hit");
+      Assert.assertNull(state.location, "Shouldn't be an intersection point if the ray doesn't hit");
       Assert.assertNull(state.Normal, "Shouldn't be a normal for no hit");
    }
 
@@ -200,7 +200,7 @@ public class GetHitInfoTests {
       Intersection state = box.GetHitInfo(ray);
 
       Assert.assertFalse(state.Hits, "Shouldn't hit");
-      Assert.assertNull(state.Location, "Shouldn't be an intersection point if the ray doesn't hit");
+      Assert.assertNull(state.location, "Shouldn't be an intersection point if the ray doesn't hit");
       Assert.assertNull(state.Normal, "Shouldn't be a normal for no hit");
    }
 
@@ -220,7 +220,7 @@ public class GetHitInfoTests {
       Intersection state = box.GetHitInfo(ray);
 
       Assert.assertFalse(state.Hits, "Shouldn't hit");
-      Assert.assertNull(state.Location, "Shouldn't be an intersection point if the ray doesn't hit");
+      Assert.assertNull(state.location, "Shouldn't be an intersection point if the ray doesn't hit");
       Assert.assertNull(state.Normal, "Shouldn't be a normal for no hit");
    }
 
@@ -240,7 +240,7 @@ public class GetHitInfoTests {
       Intersection state = box.GetHitInfo(ray);
 
       Assert.assertFalse(state.Hits, "Shouldn't hit");
-      Assert.assertNull(state.Location, "Shouldn't be an intersection point if the ray doesn't hit");
+      Assert.assertNull(state.location, "Shouldn't be an intersection point if the ray doesn't hit");
       Assert.assertNull(state.Normal, "Shouldn't be a normal for no hit");
    }
 
@@ -260,7 +260,7 @@ public class GetHitInfoTests {
       Intersection state = box.GetHitInfo(ray);
 
       Assert.assertFalse(state.Hits, "Shouldn't hit");
-      Assert.assertNull(state.Location, "Shouldn't be an intersection point if the ray doesn't hit");
+      Assert.assertNull(state.location, "Shouldn't be an intersection point if the ray doesn't hit");
       Assert.assertNull(state.Normal, "Shouldn't be a normal for no hit");
    }
 
@@ -285,7 +285,7 @@ public class GetHitInfoTests {
                   Intersection state = box.GetHitInfo(ray);
 
                   Assert.assertFalse(state.Hits, "Shouldn't hit");
-                  Assert.assertNull(state.Location, "Shouldn't be an intersection point if the ray doesn't hit");
+                  Assert.assertNull(state.location, "Shouldn't be an intersection point if the ray doesn't hit");
                   Assert.assertNull(state.Normal, "Shouldn't be a normal for no hit");
                }
             }
@@ -309,7 +309,7 @@ public class GetHitInfoTests {
       Intersection state = box.GetHitInfo(ray);
 
       Assert.assertFalse(state.Hits, "Shouldn't hit");
-      Assert.assertNull(state.Location, "Shouldn't be an intersection point if the ray doesn't hit");
+      Assert.assertNull(state.location, "Shouldn't be an intersection point if the ray doesn't hit");
       Assert.assertNull(state.Normal, "Shouldn't be a normal for no hit");
    }
 
@@ -329,7 +329,7 @@ public class GetHitInfoTests {
       Intersection state = box.GetHitInfo(ray);
 
       Assert.assertFalse(state.Hits, "Shouldn't hit");
-      Assert.assertNull(state.Location, "Shouldn't be an intersection point if the ray doesn't hit");
+      Assert.assertNull(state.location, "Shouldn't be an intersection point if the ray doesn't hit");
       Assert.assertNull(state.Normal, "Shouldn't be a normal for no hit");
    }
 }

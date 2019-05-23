@@ -78,7 +78,7 @@ public abstract class AbstractShape {
 
    protected void ToWorldSpace(Intersection intersection, Ray worldSpaceRay) {
       if (ObjectToWorld != null) {
-         intersection.Location = ObjectToWorld.Apply(intersection.Location);
+         intersection.location = ObjectToWorld.Apply(intersection.location);
          intersection.Normal = ObjectToWorld.Apply(intersection.Normal);
          intersection.TangentU = ObjectToWorld.Apply(intersection.TangentU);
          intersection.TangentV = ObjectToWorld.Apply(intersection.TangentV);
@@ -86,7 +86,7 @@ public abstract class AbstractShape {
             intersection.Normal.Normalize();
             intersection.TangentU.normalize();
             intersection.TangentV.normalize();
-            intersection.t = worldSpaceRay.GetTAtPoint(intersection.Location);
+            intersection.t = worldSpaceRay.GetTAtPoint(intersection.location);
          }
       }
    }

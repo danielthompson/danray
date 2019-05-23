@@ -93,7 +93,7 @@ public class Cylinder extends AbstractShape {
 
       if (discriminant < 0) {
          state.Hits = false;
-         state.Location = null;
+         state.location = null;
          return state;
       }
 
@@ -154,12 +154,12 @@ public class Cylinder extends AbstractShape {
             if (t0Hits && t0 <= t1) {
                state.t = t0;
                state.Normal = t0Normal;
-               state.Location = objectSpaceRay.ScaleFromOrigin(t0);
+               state.location = objectSpaceRay.ScaleFromOrigin(t0);
             }
             else if (t1Hits && t1 <= t0) {
                state.t = t1;
                state.Normal = t1Normal;
-               state.Location = objectSpaceRay.ScaleFromOrigin(t1);
+               state.location = objectSpaceRay.ScaleFromOrigin(t1);
             }
          }
          // case 2 - Hits only discs
@@ -167,12 +167,12 @@ public class Cylinder extends AbstractShape {
             if (tTop < tBottom) {
                state.t = tTop;
                state.Normal = topNormal;
-               state.Location = objectSpaceRay.ScaleFromOrigin(tTop);
+               state.location = objectSpaceRay.ScaleFromOrigin(tTop);
             }
             else {
                state.t = tBottom;
                state.Normal = bottomNormal;
-               state.Location = objectSpaceRay.ScaleFromOrigin(tBottom);
+               state.location = objectSpaceRay.ScaleFromOrigin(tBottom);
             }
          }
 
@@ -182,22 +182,22 @@ public class Cylinder extends AbstractShape {
                if (t0 <= tTop) {
                   state.t = t0;
                   state.Normal = t0Normal;
-                  state.Location = objectSpaceRay.ScaleFromOrigin(t0);
+                  state.location = objectSpaceRay.ScaleFromOrigin(t0);
                } else {
                   state.t = tTop;
                   state.Normal = topNormal;
-                  state.Location = objectSpaceRay.ScaleFromOrigin(tTop);
+                  state.location = objectSpaceRay.ScaleFromOrigin(tTop);
                }
             }
             else {
                if (t1 <= tTop) {
                   state.t = t1;
                   state.Normal = t1Normal;
-                  state.Location = objectSpaceRay.ScaleFromOrigin(t1);
+                  state.location = objectSpaceRay.ScaleFromOrigin(t1);
                } else {
                   state.t = tTop;
                   state.Normal = topNormal;
-                  state.Location = objectSpaceRay.ScaleFromOrigin(tTop);
+                  state.location = objectSpaceRay.ScaleFromOrigin(tTop);
                }
             }
          }
@@ -210,22 +210,22 @@ public class Cylinder extends AbstractShape {
                if (t0 <= tBottom) {
                   state.t = t0;
                   state.Normal = t0Normal;
-                  state.Location = objectSpaceRay.ScaleFromOrigin(t0);
+                  state.location = objectSpaceRay.ScaleFromOrigin(t0);
                } else {
                   state.t = tBottom;
                   state.Normal = bottomNormal;
-                  state.Location = objectSpaceRay.ScaleFromOrigin(tBottom);
+                  state.location = objectSpaceRay.ScaleFromOrigin(tBottom);
                }
             }
             else {
                if (t1 <= tBottom) {
                   state.t = t1;
                   state.Normal = t1Normal;
-                  state.Location = objectSpaceRay.ScaleFromOrigin(t1);
+                  state.location = objectSpaceRay.ScaleFromOrigin(t1);
                } else {
                   state.t = tBottom;
                   state.Normal = topNormal;
-                  state.Location = objectSpaceRay.ScaleFromOrigin(tBottom);
+                  state.location = objectSpaceRay.ScaleFromOrigin(tBottom);
                }
             }
          }
@@ -235,10 +235,10 @@ public class Cylinder extends AbstractShape {
 
          // other stuff
          if (ObjectToWorld != null) {
-            state.Location = ObjectToWorld.Apply(state.Location);
+            state.location = ObjectToWorld.Apply(state.location);
             state.Normal = ObjectToWorld.Apply(state.Normal);
             if (ObjectToWorld.HasScale()) {
-               state.t = worldSpaceRay.GetTAtPoint(state.Location);
+               state.t = worldSpaceRay.GetTAtPoint(state.location);
             }
          }
 

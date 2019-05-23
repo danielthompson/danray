@@ -343,7 +343,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //            continue;
 //         }
 //         Point lightBouncePoint = path.surfacePoint;
-//         Point intersectionPoint = closestStateToRay.Location;
+//         Point intersectionPoint = closestStateToRay.location;
 //
 //         Ray lightRay = intersectionPoint.createVectorFrom(lightBouncePoint);
 //         lightRay.OffsetOriginForward(.01);
@@ -417,7 +417,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //               }
 //
 //               noOccluder = (potentialOccluder == null);
-//               boolean targetIntersection = !noOccluder && (potentialOccluder.Shape.equals(closestStateToRay.Shape) && Constants.WithinEpsilon(potentialOccluder.Location, closestStateToRay.Location));
+//               boolean targetIntersection = !noOccluder && (potentialOccluder.Shape.equals(closestStateToRay.Shape) && Constants.WithinEpsilon(potentialOccluder.location, closestStateToRay.location));
 //               shadowRayHitLight = !noOccluder && potentialOccluder.Shape.equals(radiatable);
 //
 //               if (shadowRayHitLight) {
@@ -615,7 +615,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //
 //
 //
-//      float pdf = firstLight.getPDF(closestStateToRay.Location, incomingDirection);
+//      float pdf = firstLight.getPDF(closestStateToRay.location, incomingDirection);
 //      float pdfPercentage = (4 * Constants.PI) / pdf;
 //
 //      FullSpectralPowerDistribution incomingSPD = firstLight.getSpectralPowerDistribution();
@@ -636,7 +636,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //      l.surfaceBRDF = objectMaterial.reflect;
 //      l.curve = curve;
 //      l.surfaceNormal = intersectionNormal;
-//      l.surfacePoint = closestStateToRay.Location;
+//      l.surfacePoint = closestStateToRay.location;
 //      l.outgoingDirection = outgoingDirection;
 //      l.outgoingSPD = reflectedSPD;
 //
@@ -691,7 +691,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //         l.curve = curve;
 //         l.surfaceBRDF = objectMaterial.reflect;
 //         l.surfaceNormal = intersectionNormal;
-//         l.surfacePoint = closestStateToRay.Location;
+//         l.surfacePoint = closestStateToRay.location;
 //         l.outgoingDirection = outgoingDirection;
 //
 //         return l;
@@ -790,7 +790,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //         l.surfaceBRDF = objectMaterial.reflect;
 //         l.curve = objectMaterial.FullSpectralReflectanceCurve;
 //         l.surfaceNormal = intersectionNormal;
-//         l.surfacePoint = closestStateToRay.Location;
+//         l.surfacePoint = closestStateToRay.location;
 //         l.state = closestStateToRay;
 //         l.outgoingDirection = ray.Direction;
 //

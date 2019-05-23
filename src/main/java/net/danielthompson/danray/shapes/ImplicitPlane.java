@@ -52,7 +52,7 @@ public class ImplicitPlane extends AbstractShape {
          if (T > 0.0) {
             state.Hits = true;
             state.t = T;
-            state.Location = ray.GetPointAtT(state.t);
+            state.location = ray.GetPointAtT(state.t);
             state.Normal = Normal;
             state.Shape = this;
          }

@@ -39,7 +39,7 @@ public class IntersectTests {
 
       boolean hits = sphere.Hits(ray);
 
-      Point3 actualIntersection = sphere.GetHitInfo(ray).Location;
+      Point3 actualIntersection = sphere.GetHitInfo(ray).location;
       Point3 expectedIntersection = new Point3(-1, 0, 0);
 
       AssertHelper.assertEquals(actualIntersection, expectedIntersection);
@@ -58,7 +58,7 @@ public class IntersectTests {
 
       Intersection actualIntersectionState = sphere.GetHitInfo(ray);
 
-      Point3 actualIntersection = actualIntersectionState.Location;
+      Point3 actualIntersection = actualIntersectionState.location;
       Point3 expectedIntersection = new Point3(10, 0, 0);
 
       Assert.assertTrue(actualIntersectionState.Hits, "ray from inside sphere should hit sphere");

@@ -40,7 +40,7 @@ public class AngleOfIncidenceTests {
       Ray incomingRay = new Ray(rayOrigin, rayDirection);
 
       Intersection state = new Intersection();
-      state.Location = new Point3(1, 0, 0);
+      state.location = new Point3(1, 0, 0);
       state.Normal = new Normal(1, 0, 0);
       state.Hits = true;
 
@@ -70,7 +70,7 @@ public class AngleOfIncidenceTests {
       Ray incomingRay = new Ray(rayOrigin, rayDirection);
 
       Intersection state = new Intersection();
-      state.Location = new Point3(1, 0, 0);
+      state.location = new Point3(1, 0, 0);
       state.Normal = new Normal(1, 0, 0);
       state.Hits = true;
 
@@ -99,7 +99,7 @@ public class AngleOfIncidenceTests {
       Ray incomingRay = new Ray(rayOrigin, rayDirection);
 
       Intersection state = new Intersection();
-      state.Location = new Point3(1, 0, 0);
+      state.location = new Point3(1, 0, 0);
       state.Normal = new Normal(1, 0, 0);
       state.Hits = true;
 
@@ -128,7 +128,7 @@ public class AngleOfIncidenceTests {
       Ray incomingRay = new Ray(rayOrigin, rayDirection);
 
       Intersection state = new Intersection();
-      state.Location = new Point3(1, 0, 0);
+      state.location = new Point3(1, 0, 0);
       state.Normal = new Normal(1, 0, 0);
       state.Hits = true;
 
@@ -161,7 +161,7 @@ public class AngleOfIncidenceTests {
       Ray incomingRay = new Ray(rayOrigin, rayDirection);
 
       Intersection state = new Intersection();
-      state.Location = new Point3(1, 0, 0);
+      state.location = new Point3(1, 0, 0);
       state.Normal = new Normal(1, 0, 0);
       state.Hits = true;
 
@@ -190,7 +190,7 @@ public class AngleOfIncidenceTests {
       Ray incomingRay = new Ray(rayOrigin, rayDirection);
 
       Intersection state = new Intersection();
-      state.Location = new Point3(0, 1, 0);
+      state.location = new Point3(0, 1, 0);
       state.Normal = new Normal(0, 1, 0);
       state.Hits = true;
 
@@ -221,7 +221,7 @@ public class AngleOfIncidenceTests {
       Ray incomingRay = new Ray(rayOrigin, rayDirection);
 
       Intersection state = new Intersection();
-      state.Location = new Point3(0, -1, 0);
+      state.location = new Point3(0, -1, 0);
       state.Normal = new Normal(0, -1, 0);
       state.Hits = true;
 

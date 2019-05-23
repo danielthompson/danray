@@ -339,9 +339,9 @@ public class TraceManager {
 
       if (state != null) {
 
-         float xx = state.Location.x;
-         float yy = state.Location.y;
-         float zz = state.Location.z;
+         float xx = state.location.x;
+         float yy = state.location.y;
+         float zz = state.location.z;
 
          if (_infoJFrame != null)
             _infoJFrame.setSceneLocation(xx, yy, zz);

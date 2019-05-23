@@ -104,7 +104,7 @@ public class GeometryCalculations {
          refractedDirection = Vector3.plus(incomingRay.Scale(nRatio), new Vector3(Normal.Scale(normal, nRatio * cosTheta1 + cosTheta2)));
       }
 
-      Point3 offsetIntersection = Point3.plus(state.Location, Vector3.scale(refractedDirection, .0000001f));
+      Point3 offsetIntersection = Point3.plus(state.location, Vector3.scale(refractedDirection, .0000001f));
 
       return new Ray(offsetIntersection, refractedDirection);
    }

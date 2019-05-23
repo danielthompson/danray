@@ -54,7 +54,7 @@ public class IntersectionTests {
 
       Assert.assertTrue(state.Hits, "Should hit");
 
-      AssertHelper.assertEquals(state.Location, expectedIntersectionPoint);
+      AssertHelper.assertEquals(state.location, expectedIntersectionPoint);
       AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 
@@ -79,7 +79,7 @@ public class IntersectionTests {
 
       Assert.assertTrue(state.Hits, "Should hit");
 
-      AssertHelper.assertEquals(state.Location, expectedIntersectionPoint);
+      AssertHelper.assertEquals(state.location, expectedIntersectionPoint);
       AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 
@@ -104,7 +104,7 @@ public class IntersectionTests {
 
       Assert.assertTrue(state.Hits, "Should hit");
 
-      AssertHelper.assertEquals(state.Location, expectedIntersectionPoint);
+      AssertHelper.assertEquals(state.location, expectedIntersectionPoint);
       AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 
@@ -129,7 +129,7 @@ public class IntersectionTests {
 
       Assert.assertTrue(state.Hits, "Should hit");
 
-      AssertHelper.assertEquals(state.Location, expectedIntersectionPoint);
+      AssertHelper.assertEquals(state.location, expectedIntersectionPoint);
       AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 
@@ -173,7 +173,7 @@ public class IntersectionTests {
 
       Assert.assertTrue(state.Hits, "Should hit");
 
-      AssertHelper.assertEquals(state.Location, expectedIntersectionPoint);
+      AssertHelper.assertEquals(state.location, expectedIntersectionPoint);
       AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 
@@ -198,7 +198,7 @@ public class IntersectionTests {
 
       Assert.assertTrue(state.Hits, "Should hit");
 
-      AssertHelper.assertEquals(state.Location, expectedIntersectionPoint);
+      AssertHelper.assertEquals(state.location, expectedIntersectionPoint);
       AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 
@@ -223,7 +223,7 @@ public class IntersectionTests {
 
       Assert.assertTrue(state.Hits, "Should hit");
 
-      AssertHelper.assertEquals(state.Location, expectedIntersectionPoint);
+      AssertHelper.assertEquals(state.location, expectedIntersectionPoint);
       AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 
@@ -248,7 +248,7 @@ public class IntersectionTests {
 
       Assert.assertTrue(state.Hits, "Should hit");
 
-      AssertHelper.assertEquals(state.Location, expectedIntersectionPoint);
+      AssertHelper.assertEquals(state.location, expectedIntersectionPoint);
       AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 
@@ -274,7 +274,7 @@ public class IntersectionTests {
 
       Assert.assertTrue(state.Hits, "Should hit");
 
-      AssertHelper.assertEquals(state.Location, expectedIntersectionPoint);
+      AssertHelper.assertEquals(state.location, expectedIntersectionPoint);
       AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 

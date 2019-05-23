@@ -38,7 +38,7 @@ public class TransformedIntersectionTests {
       Normal expectedNormalDirection = new Normal(0, 0, 1);
 
       Assert.assertTrue(hits, "Should hit");
-      AssertHelper.assertEquals(state.Location, expectedIntersectionPoint);
+      AssertHelper.assertEquals(state.location, expectedIntersectionPoint);
       AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 
@@ -65,7 +65,7 @@ public class TransformedIntersectionTests {
       Normal expectedNormalDirection = new Normal(0, 0, 1);
 
       Assert.assertTrue(hits, "Should hit");
-      AssertHelper.assertEquals(state.Location, expectedIntersectionPoint);
+      AssertHelper.assertEquals(state.location, expectedIntersectionPoint);
       AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 
@@ -93,8 +93,8 @@ public class TransformedIntersectionTests {
 
       Assert.assertNotNull(state, "Intersection shouldn't be null");
       Assert.assertTrue(hits, "Should hit");
-      Assert.assertNotNull(state.Location, "Location shouldn't be null if Hits...");
-      AssertHelper.assertEquals(state.Location, expectedIntersectionPoint);
+      Assert.assertNotNull(state.location, "location shouldn't be null if Hits...");
+      AssertHelper.assertEquals(state.location, expectedIntersectionPoint);
       AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 
@@ -121,7 +121,7 @@ public class TransformedIntersectionTests {
       Normal expectedNormalDirection = new Normal(0, 0, 1);
 
       Assert.assertTrue(hits, "Should hit");
-      AssertHelper.assertEquals(state.Location, expectedIntersectionPoint);
+      AssertHelper.assertEquals(state.location, expectedIntersectionPoint);
       AssertHelper.assertEquals(state.Normal, expectedNormalDirection);
    }
 

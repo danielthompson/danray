@@ -39,11 +39,6 @@ public class LowQuality implements RenderQualityPreset {
    }
 
    @Override
-   public int getAirIndexOfRefraction() {
-      return _airIndexOfRefraction;
-   }
-
-   @Override
    public boolean getUseDepthOfField() {
       return _useDepthOfField;
    }

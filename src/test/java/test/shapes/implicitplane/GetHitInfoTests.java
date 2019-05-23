@@ -43,7 +43,7 @@ public class GetHitInfoTests {
       Point3 expectedHitPoint = new Point3(2, 0, 2);
 
       Assert.assertTrue(state.Hits);
-      Assert.assertEquals(state.Location, expectedHitPoint);
+      Assert.assertEquals(state.location, expectedHitPoint);
    }
 
    @Test
@@ -64,7 +64,7 @@ public class GetHitInfoTests {
       Point3 expectedHitPoint = new Point3(500, 500, 0);
 
       Assert.assertTrue(state.Hits);
-      Assert.assertEquals(state.Location, expectedHitPoint);
+      Assert.assertEquals(state.location, expectedHitPoint);
    }
 
    @Test
@@ -85,7 +85,7 @@ public class GetHitInfoTests {
       Point3 expectedHitPoint = new Point3(500, 500, -499);
 
       Assert.assertTrue(state.Hits);
-      Assert.assertEquals(state.Location, expectedHitPoint);
+      Assert.assertEquals(state.location, expectedHitPoint);
    }
 
    @Test

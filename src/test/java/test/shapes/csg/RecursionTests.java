@@ -94,7 +94,7 @@ public class RecursionTests {
       Intersection intersection = shape.GetHitInfo(ray);
 
       Point3 expectedPoint = new Point3(4f, 0, 1.5f);
-      Assert.assertEquals(intersection.Location, expectedPoint);
+      Assert.assertEquals(intersection.location, expectedPoint);
    }
 
    @Test
@@ -162,7 +162,7 @@ public class RecursionTests {
       Intersection intersection = shape.GetHitInfo(ray);
 
       Point3 expectedPoint = new Point3(3.5f, 0, 4f);
-      Assert.assertEquals(intersection.Location, expectedPoint);
+      Assert.assertEquals(intersection.location, expectedPoint);
    }
 
    @Test
@@ -190,7 +190,7 @@ public class RecursionTests {
       Intersection intersection = shape.GetHitInfo(ray);
 
       Point3 expectedPoint = new Point3(1.0f, 0, 3.5f);
-      Assert.assertEquals(intersection.Location, expectedPoint);
+      Assert.assertEquals(intersection.location, expectedPoint);
    }
 
    @Test

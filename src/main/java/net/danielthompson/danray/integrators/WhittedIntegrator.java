@@ -72,7 +72,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
       else {
 
          for (AbstractLight light : scene.Lights) {
-            Point3 intersectionPoint = closestStateToRay.Location;
+            Point3 intersectionPoint = closestStateToRay.location;
 
             Point3 lightLocation = light.getRandomPointOnSurface();
 
@@ -90,7 +90,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
                            || potentialOccluder.Shape.equals(closestShape)
                            || potentialOccluder.Shape.equals(light)
                      ) {
-                  float oneOverDistanceFromLightSourceSquared = 1 / lightLocation.squaredDistanceBetween(closestStateToRay.Location);
+                  float oneOverDistanceFromLightSourceSquared = 1 / lightLocation.squaredDistanceBetween(closestStateToRay.location);
 
                   Intersection state = closestShape.GetHitInfo(lightToNearestShape);
                   if (state.Hits) {
@@ -142,8 +142,8 @@ public class WhittedIntegrator extends AbstractIntegrator {
             // TODO fix
             Vector3 outgoingDirection = new Vector3(1, 0, 0); //objectMaterial.BRDF.getVectorInPDF(closestStateToRay.Normal, ray.Direction, 1, 1);
 
-            Point3 offsetIntersection = Point3.plus(closestStateToRay.Location, Vector3.scale(outgoingDirection, Constants.Epsilon * 1000));
-//            Point offsetIntersection = closestStateToRay.Location;
+            Point3 offsetIntersection = Point3.plus(closestStateToRay.location, Vector3.scale(outgoingDirection, Constants.Epsilon * 1000));
+//            Point offsetIntersection = closestStateToRay.location;
 
 
 
@@ -179,7 +179,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
          Sample refractedSample = null;
          /*
          else if (objectMaterial.getReflectivity() > 0) {
-            Ray reflectedRay = GeometryCalculations.GetReflectedRay(closestStateToRay.Location, closestStateToRay.Normal, ray);
+            Ray reflectedRay = GeometryCalculations.GetReflectedRay(closestStateToRay.location, closestStateToRay.Normal, ray);
 
             reflectedColor = GetSample(reflectedRay, depth, oldIndexOfRefraction);
 

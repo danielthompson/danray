@@ -55,7 +55,7 @@ public class CubeMappedSkybox extends AbstractSkybox {
 
       Intersection state = Skybox.GetHitInfo(r);
 
-      Point3 p = state.Location;
+      Point3 p = state.location;
 
       float u = 0.0f;
       float v = 0.0f;

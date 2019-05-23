@@ -18,7 +18,7 @@ public class Intersection {
    /**
     * World-space location where the intersection occurs.
     */
-   public Point3 Location;
+   public Point3 location;
 
    /**
     * World-space t-value where the ray first intersects the boundary of the shape.

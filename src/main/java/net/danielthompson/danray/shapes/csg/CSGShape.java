@@ -121,7 +121,7 @@ public class CSGShape extends AbstractShape {
             }
             case Difference: {
 
-               boolean rightInside = RightShape.Inside(nextIntersection.Location);
+               boolean rightInside = RightShape.Inside(nextIntersection.location);
 
                // if hp is on left and we're outside right, return it
                if (nextIntersection == leftIntersection && !rightInside)
@@ -130,7 +130,7 @@ public class CSGShape extends AbstractShape {
                   return true;
                }
 
-               boolean leftInside = LeftShape.Inside(nextIntersection.Location);
+               boolean leftInside = LeftShape.Inside(nextIntersection.location);
 
                // if hp is on right and we're inside left, fliip normal and return it
                if (nextIntersection == rightIntersection && leftInside /*&& !rightInside*/)
@@ -142,7 +142,7 @@ public class CSGShape extends AbstractShape {
             }
             case Intersection: {
 
-               boolean rightInside = RightShape.Inside(nextIntersection.Location);
+               boolean rightInside = RightShape.Inside(nextIntersection.location);
 
                // if hp is on left and we're inside right, return it
                if (nextIntersection == leftIntersection && rightInside)
@@ -151,7 +151,7 @@ public class CSGShape extends AbstractShape {
                   return true;
                }
 
-               boolean leftInside = LeftShape.Inside(nextIntersection.Location);
+               boolean leftInside = LeftShape.Inside(nextIntersection.location);
 
                // if hp is on right and we're inside left, return it
                if (nextIntersection == rightIntersection && leftInside)
@@ -239,7 +239,7 @@ public class CSGShape extends AbstractShape {
             }
             case Difference: {
 
-               boolean rightInside = RightShape.Inside(nextIntersection.Location);
+               boolean rightInside = RightShape.Inside(nextIntersection.location);
 
                // if hp is on left and we're outside right, return it
                if (nextIntersection == leftIntersection && !rightInside)
@@ -248,7 +248,7 @@ public class CSGShape extends AbstractShape {
                   return nextIntersection;
                }
 
-               boolean leftInside = LeftShape.Inside(nextIntersection.Location);
+               boolean leftInside = LeftShape.Inside(nextIntersection.location);
 
                // if hp is on right and we're inside left, flip normal and return it
                if (nextIntersection == rightIntersection && leftInside /*&& !rightInside*/)
@@ -261,7 +261,7 @@ public class CSGShape extends AbstractShape {
             }
             case Intersection: {
 
-               boolean rightInside = RightShape.Inside(nextIntersection.Location);
+               boolean rightInside = RightShape.Inside(nextIntersection.location);
 
                // if hp is on left and we're inside right, return it
                if (nextIntersection == leftIntersection && rightInside)
@@ -270,7 +270,7 @@ public class CSGShape extends AbstractShape {
                   return nextIntersection;
                }
 
-               boolean leftInside = LeftShape.Inside(nextIntersection.Location);
+               boolean leftInside = LeftShape.Inside(nextIntersection.location);
 
                // if hp is on right and we're inside left, return it
                if (nextIntersection == rightIntersection && leftInside)
@@ -366,7 +366,7 @@ public class CSGShape extends AbstractShape {
             }
             case Difference: {
 
-               boolean rightInside = RightShape.Inside(nextIntersection.Location);
+               boolean rightInside = RightShape.Inside(nextIntersection.location);
 
                // if hp is on left and we're outside right, return it
                if (nextIntersection == leftIntersection && !rightInside)
@@ -375,7 +375,7 @@ public class CSGShape extends AbstractShape {
                   intersections.add(nextIntersection);
                }
 
-               boolean leftInside = LeftShape.Inside(nextIntersection.Location);
+               boolean leftInside = LeftShape.Inside(nextIntersection.location);
 
                // if hp is on right and we're inside left, flip normal and return it
                if (nextIntersection == rightIntersection && leftInside /*&& !rightInside*/)
@@ -388,7 +388,7 @@ public class CSGShape extends AbstractShape {
             }
             case Intersection: {
 
-               boolean rightInside = RightShape.Inside(nextIntersection.Location);
+               boolean rightInside = RightShape.Inside(nextIntersection.location);
 
                // if hp is on left and we're inside right, return it
                if (nextIntersection == leftIntersection && rightInside)
@@ -397,7 +397,7 @@ public class CSGShape extends AbstractShape {
                   intersections.add(nextIntersection);
                }
 
-               boolean leftInside = LeftShape.Inside(nextIntersection.Location);
+               boolean leftInside = LeftShape.Inside(nextIntersection.location);
 
                // if hp is on right and we're inside left, return it
                if (nextIntersection == rightIntersection && leftInside)

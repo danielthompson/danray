@@ -59,7 +59,7 @@ public class PathTraceIntegrator extends AbstractIntegrator {
       }
 
       Logger.Log(Logger.Level.Debug, depth, "Hits: " + intersection.Hits);
-      Logger.Log(Logger.Level.Debug, depth, intersection.Location);
+      Logger.Log(Logger.Level.Debug, depth, intersection.location);
       Logger.Log(Logger.Level.Debug, depth, intersection.Normal);
 
       intersection.x = _x;
@@ -107,7 +107,7 @@ public class PathTraceIntegrator extends AbstractIntegrator {
 //               //outgoingDirection.scale(-1);
 //            }
 
-            Ray bounceRay = new Ray(intersection.Location, outgoingDirection);
+            Ray bounceRay = new Ray(intersection.location, outgoingDirection);
             if (leavingMaterial) {
                //bounceRay.OffsetOriginOutwards(intersectionNormal);
             }
@@ -140,7 +140,7 @@ public class PathTraceIntegrator extends AbstractIntegrator {
 //            if (outgoing.dot(intersectionNormal) > 0)
 //               outgoing.scale(-1);
 //
-//            Ray bounceRay = new Ray(intersection.Location, outgoing);
+//            Ray bounceRay = new Ray(intersection.location, outgoing);
 //            boolean Hits = closestShape.Hits(bounceRay);
 //            Intersection nextIntersection = closestShape.GetHitInfo(bounceRay);
 //            Intersection previousIntersection = nextIntersection;
@@ -150,7 +150,7 @@ public class PathTraceIntegrator extends AbstractIntegrator {
 //               // bounce it again, sam
 //               transmittance *= objectMaterial.BSSRDF.Transmittance;
 //               outgoing = objectMaterial.BSSRDF.GetVector();
-//               Point newOrigin = objectMaterial.BSSRDF.GetNextPoint(previousIntersection.Location, outgoing);
+//               Point newOrigin = objectMaterial.BSSRDF.GetNextPoint(previousIntersection.location, outgoing);
 //               bounceRay = new Ray(newOrigin, outgoing);
 //               Hits = closestShape.Hits(bounceRay);
 //               previousIntersection = nextIntersection;
@@ -158,7 +158,7 @@ public class PathTraceIntegrator extends AbstractIntegrator {
 //            }
 //            // exiting
 //
-//            bounceRay = new Ray(previousIntersection.Location, bounceRay.Direction);
+//            bounceRay = new Ray(previousIntersection.location, bounceRay.Direction);
 //            bounceRay.OffsetOriginOutwards(previousIntersection.Normal);
 //
 //            Sample bssrdfSample = GetSample(bounceRay, depth + 1, indexOfRefraction);

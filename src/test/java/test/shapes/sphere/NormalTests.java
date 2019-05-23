@@ -35,7 +35,7 @@ public class NormalTests {
       sphere.Radius = 1;
 
       Intersection state = new Intersection();
-      state.Location = new Point3(1, 0, 0);
+      state.location = new Point3(1, 0, 0);
       state.Normal = new Normal(1, 0, 0);
       state.Hits = true;
 
@@ -54,7 +54,7 @@ public class NormalTests {
       sphere.Radius = 1;
 
       Intersection state = new Intersection();
-      state.Location = new Point3(0, 1, 0);
+      state.location = new Point3(0, 1, 0);
       state.Normal = new Normal(0, 1, 0);
       state.Hits = true;
 
@@ -74,7 +74,7 @@ public class NormalTests {
       sphere.Radius = 1;
 
       Intersection state = new Intersection();
-      state.Location = new Point3(sphere.Origin.x - sphere.Radius / (Constants.Root2), sphere.Origin.y - sphere.Radius / (Constants.Root2), 0);
+      state.location = new Point3(sphere.Origin.x - sphere.Radius / (Constants.Root2), sphere.Origin.y - sphere.Radius / (Constants.Root2), 0);
       state.Normal = new Normal(- sphere.Radius / (Constants.Root2), - sphere.Radius / (Constants.Root2), 0);
       state.Hits = true;
 
@@ -95,7 +95,7 @@ public class NormalTests {
       sphere.Radius = 1;
 
       Intersection state = new Intersection();
-      state.Location = new Point3(1, 0, 0);
+      state.location = new Point3(1, 0, 0);
       state.Normal = new Normal(1, 0, 0);
       state.Hits = true;
 
