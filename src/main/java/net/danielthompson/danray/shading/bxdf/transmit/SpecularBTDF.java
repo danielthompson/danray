@@ -18,7 +18,7 @@ public class SpecularBTDF extends BTDF {
 
       float r = leavingIndexOfRefraction / enteringIndexOfRefraction;
 
-      Normal tempNormal = new Normal(normal.X, normal.Y, normal.Z);
+      Normal tempNormal = new Normal(normal.x, normal.y, normal.z);
       float c = Normal.Scale(tempNormal, -1).Dot(incoming);
 
       if (c < 0) {
@@ -35,7 +35,7 @@ public class SpecularBTDF extends BTDF {
       float term5 = term1 - (float)Math.sqrt(term4);
       Normal addend2 = Normal.Scale(tempNormal, term5);
 
-      Vector3 refracted = new Vector3(addend1.x + addend2.X, addend1.y + addend2.Y, addend1.z + addend2.Z);
+      Vector3 refracted = new Vector3(addend1.x + addend2.x, addend1.y + addend2.y, addend1.z + addend2.z);
       return refracted;
    }
 

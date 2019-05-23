@@ -26,11 +26,19 @@ public class BoundingBox {
    public BoundingBox (Point3 point1, Point3 point2) {
       this.point1 = new Point3(point1);
       this.point2 = new Point3(point2);
+
+      assert point1.x <= point2.x;
+      assert point1.y <= point2.y;
+      assert point1.z <= point2.z;
    }
 
    public BoundingBox(BoundingBox box) {
       this.point1 = new Point3(box.point1);
       this.point2 = new Point3(box.point2);
+
+      assert point1.x <= point2.x;
+      assert point1.y <= point2.y;
+      assert point1.z <= point2.z;
    }
 
    public float getUpperBoundInAxis(KDAxis axis) {

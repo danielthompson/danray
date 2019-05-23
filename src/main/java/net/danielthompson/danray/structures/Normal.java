@@ -4,32 +4,39 @@ package net.danielthompson.danray.structures;
  * Represents a vector that is perpendicular to a surface at some point. å
  */
 public class Normal {
-   public float X;
-   public float Y;
-   public float Z;
+   public float x;
+   public float y;
+   public float z;
    
    public Normal(float x, float y, float z) {
-      X = x;
-      Y = y;
-      Z = z;
+      assert !Float.isNaN(x);
+      assert !Float.isNaN(y);
+      assert !Float.isNaN(z);
+
+      this.x = x;
+      this.y = y;
+      this.z = z;
    }
 
-   public Normal(Vector3 v) {
-      X = v.x;
-      Y = v.y;
-      Z = v.z;
+   public Normal(Vector3 n) {
+      assert !Float.isNaN(n.x);
+      assert !Float.isNaN(n.y);
+      assert !Float.isNaN(n.z);
+
+      x = n.x;
+      y = n.y;
+      z = n.z;
    }
 
    public Normal Cross(Vector3 vector) {
       return new Normal(
-            Y * vector.z - Z * vector.y,
-            Z * vector.x - X * vector.z,
-            X * vector.y - Y * vector.x);
+            y * vector.z - z * vector.y,
+            z * vector.x - x * vector.z,
+            x * vector.y - y * vector.x);
    }
 
-
    public float Length() {
-      return (float) Math.sqrt(X * X + Y * Y + Z * Z);
+      return (float) Math.sqrt(x * x + y * y + z * z);
    }
 
    public void Normalize() {
@@ -37,34 +44,32 @@ public class Normal {
       Scale(lengthMultiplier);
    }
 
-   public static Normal Normalize(Normal vector) {
-      Normal v = new Normal(vector.X, vector.Y, vector.Z);
-      v.Normalize();
-      return v;
+   public static Normal Normalize(Normal normal) {
+      Normal n = new Normal(normal.x, normal.y, normal.z);
+      n.Normalize();
+      return n;
    }
 
    public static Normal Scale(Normal vector, float t) {
-      return new Normal (vector.X * t, vector.Y * t, vector.Z * t);
-
+      return new Normal(vector.x * t, vector.y * t, vector.z * t);
    }
 
    public void Scale(float t) {
-      X *= t;
-      Y *= t;
-      Z *= t;
+      x *= t;
+      y *= t;
+      z *= t;
    }
 
    public float Dot(Vector3 vector) {
-      return (X * vector.x + Y * vector.y + Z * vector.z);
+      return (x * vector.x + y * vector.y + z * vector.z);
    }
 
    public float Dot(Normal normal) {
-      return (X * normal.X + Y * normal.Y + Z * normal.Z);
+      return (x * normal.x + y * normal.y + z * normal.z);
    }
 
-
    public String toString() {
-      return "x " + X + ", y " + Y + ", z " + Z;
+      return "(" + x + ", " + y + ", " + z + ")";
    }
 
    public boolean equals(Object obj) {
@@ -77,7 +82,6 @@ public class Normal {
 
       Normal rhs = (Normal) obj;
 
-      return (X == rhs.X && Y == rhs.Y && Z == rhs.Z);
+      return (x == rhs.x && y == rhs.y && z == rhs.z);
    }
-
 }

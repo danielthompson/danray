@@ -116,14 +116,14 @@ public class Ray {
    }
 
    public void OffsetOriginOutwards(Normal intersectionNormal) {
-      Origin.x += (intersectionNormal.X + Constants.Epsilon);
-      Origin.y += (intersectionNormal.Y + Constants.Epsilon);
-      Origin.z += (intersectionNormal.Z + Constants.Epsilon);
+      Origin.x += (intersectionNormal.x + Constants.Epsilon);
+      Origin.y += (intersectionNormal.y + Constants.Epsilon);
+      Origin.z += (intersectionNormal.z + Constants.Epsilon);
    }
 
    public void OffsetOriginInwards(Normal intersectionNormal) {
-      Origin.x -= (intersectionNormal.X + Constants.DoubleEpsilon);
-      Origin.y -= (intersectionNormal.Y + Constants.DoubleEpsilon);
-      Origin.z -= (intersectionNormal.Z + Constants.DoubleEpsilon);
+      Origin.x -= (intersectionNormal.x + Constants.DoubleEpsilon);
+      Origin.y -= (intersectionNormal.y + Constants.DoubleEpsilon);
+      Origin.z -= (intersectionNormal.z + Constants.DoubleEpsilon);
    }
 }

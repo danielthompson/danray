@@ -11,9 +11,9 @@ public class NormalExporter {
    public static Element Process(Normal object, Document document, Element parent) {
 
       Element rootElement = document.createElement("Normal");
-      rootElement.setAttribute("x", String.valueOf(object.X));
-      rootElement.setAttribute("y", String.valueOf(object.Y));
-      rootElement.setAttribute("z", String.valueOf(object.Z));
+      rootElement.setAttribute("x", String.valueOf(object.x));
+      rootElement.setAttribute("y", String.valueOf(object.y));
+      rootElement.setAttribute("z", String.valueOf(object.z));
       parent.appendChild(rootElement);
 
       return rootElement;

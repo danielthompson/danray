@@ -385,20 +385,20 @@ public class Transform {
    }
 
    public void ApplyInPlace(Normal n) {
-      float newX = n.X * _matrix.matrix[0][0] + n.Y * _matrix.matrix[0][1] + n.Z * _matrix.matrix[0][2];
-      float newY = n.X * _matrix.matrix[1][0] + n.Y * _matrix.matrix[1][1] + n.Z * _matrix.matrix[1][2];
-      float newZ = n.X * _matrix.matrix[2][0] + n.Y * _matrix.matrix[2][1] + n.Z * _matrix.matrix[2][2];
+      float newX = n.x * _matrix.matrix[0][0] + n.y * _matrix.matrix[0][1] + n.z * _matrix.matrix[0][2];
+      float newY = n.x * _matrix.matrix[1][0] + n.y * _matrix.matrix[1][1] + n.z * _matrix.matrix[1][2];
+      float newZ = n.x * _matrix.matrix[2][0] + n.y * _matrix.matrix[2][1] + n.z * _matrix.matrix[2][2];
 
-      n.X = newX;
-      n.Y = newY;
-      n.Z = newZ;
+      n.x = newX;
+      n.y = newY;
+      n.z = newZ;
    }
 
    public Normal Apply(Normal n) {
 
-      float newX = n.X * _inverse.matrix[0][0] + n.Y * _inverse.matrix[1][0] + n.Z * _inverse.matrix[2][0];
-      float newY = n.X * _inverse.matrix[0][1] + n.Y * _inverse.matrix[1][1] + n.Z * _inverse.matrix[2][1];
-      float newZ = n.X * _inverse.matrix[0][2] + n.Y * _inverse.matrix[1][2] + n.Z * _inverse.matrix[2][2];
+      float newX = n.x * _inverse.matrix[0][0] + n.y * _inverse.matrix[1][0] + n.z * _inverse.matrix[2][0];
+      float newY = n.x * _inverse.matrix[0][1] + n.y * _inverse.matrix[1][1] + n.z * _inverse.matrix[2][1];
+      float newZ = n.x * _inverse.matrix[0][2] + n.y * _inverse.matrix[1][2] + n.z * _inverse.matrix[2][2];
 
       return new Normal(newX, newY, newZ);
    }

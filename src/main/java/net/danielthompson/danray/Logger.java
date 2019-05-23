@@ -126,7 +126,7 @@ public class Logger {
    public static void Log(Level level, int depth, Normal n) {
       if (level._value <= LogLevel._value) {
          String spacer = " ".repeat(depth);
-         Log(level, spacer + "Normal: (" + n.X + ", " + n.Y + ", " + n.Z + ")");
+         Log(level, spacer + "Normal: (" + n.x + ", " + n.y + ", " + n.z + ")");
       }
    }
 

@@ -38,13 +38,13 @@ public class Vector3 {
    }
 
    public Vector3(Normal n) {
-      assert !Float.isNaN(n.X);
-      assert !Float.isNaN(n.Y);
-      assert !Float.isNaN(n.Z);
+      assert !Float.isNaN(n.x);
+      assert !Float.isNaN(n.y);
+      assert !Float.isNaN(n.z);
 
-      x = n.X;
-      y = n.Y;
-      z = n.Z;
+      x = n.x;
+      y = n.y;
+      z = n.z;
       instances.incrementAndGet();
    }
 
@@ -68,9 +68,9 @@ public class Vector3 {
 
    public Vector3 cross(Normal normal) {
       return new Vector3(
-            y * normal.Z - z * normal.Y,
-            z * normal.X - x * normal.Z,
-            x * normal.Y - y * normal.X);
+            y * normal.z - z * normal.y,
+            z * normal.x - x * normal.z,
+            x * normal.y - y * normal.x);
    }
 
    public float dot(Vector3 vector) {
@@ -78,7 +78,7 @@ public class Vector3 {
    }
 
    public float dot(Normal normal) {
-      return (x * normal.X + y * normal.Y + z * normal.Z);
+      return (x * normal.x + y * normal.y + z * normal.z);
    }
 
 

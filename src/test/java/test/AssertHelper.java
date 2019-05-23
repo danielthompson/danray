@@ -30,9 +30,9 @@ public class AssertHelper {
    }
 
    public static void assertEquals(Normal actual, Normal expected) {
-      AssertHelper.assertEquals(actual.X, expected.X);
-      AssertHelper.assertEquals(actual.Y, expected.Y);
-      AssertHelper.assertEquals(actual.Z, expected.Z);
+      AssertHelper.assertEquals(actual.x, expected.x);
+      AssertHelper.assertEquals(actual.y, expected.y);
+      AssertHelper.assertEquals(actual.z, expected.z);
    }
 
    public static void assertEquals(float actual, float expected) {

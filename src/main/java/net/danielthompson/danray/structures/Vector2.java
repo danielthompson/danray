@@ -31,11 +31,11 @@ public class Vector2 {
    }
 
    public Vector2(Normal n) {
-      assert !Float.isNaN(n.X);
-      assert !Float.isNaN(n.Y);
+      assert !Float.isNaN(n.x);
+      assert !Float.isNaN(n.y);
 
-      x = n.X;
-      y = n.Y;
+      x = n.x;
+      y = n.y;
       instances.incrementAndGet();
    }
 

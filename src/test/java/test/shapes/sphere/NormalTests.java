@@ -42,9 +42,9 @@ public class NormalTests {
       Normal normal = state.Normal;
       Normal expectedNormal = new Normal(1, 0, 0);
 
-      Assert.assertEquals(normal.X, expectedNormal.X);
-      Assert.assertEquals(normal.Y, expectedNormal.Y);
-      Assert.assertEquals(normal.Z, expectedNormal.Z);
+      Assert.assertEquals(normal.x, expectedNormal.x);
+      Assert.assertEquals(normal.y, expectedNormal.y);
+      Assert.assertEquals(normal.z, expectedNormal.z);
    }
 
    @Test
@@ -62,9 +62,9 @@ public class NormalTests {
 
       Normal expectedNormal = new Normal(0, 1, 0);
 
-      Assert.assertEquals(normal.X, expectedNormal.X);
-      Assert.assertEquals(normal.Y, expectedNormal.Y);
-      Assert.assertEquals(normal.Z, expectedNormal.Z);
+      Assert.assertEquals(normal.x, expectedNormal.x);
+      Assert.assertEquals(normal.y, expectedNormal.y);
+      Assert.assertEquals(normal.z, expectedNormal.z);
    }
 
    @Test
@@ -83,9 +83,9 @@ public class NormalTests {
       expectedNormal.Normalize();
 
 
-      Assert.assertEquals(normal.X, expectedNormal.X, delta);
-      Assert.assertEquals(normal.Y, expectedNormal.Y, delta);
-      Assert.assertEquals(normal.Z, expectedNormal.Z, delta);
+      Assert.assertEquals(normal.x, expectedNormal.x, delta);
+      Assert.assertEquals(normal.y, expectedNormal.y, delta);
+      Assert.assertEquals(normal.z, expectedNormal.z, delta);
    }
 
    @Test
@@ -102,8 +102,8 @@ public class NormalTests {
       Normal normal = state.Normal;
       Normal expectedNormal = new Normal(1, 0, 0);
 
-      Assert.assertEquals(expectedNormal.X, normal.X);
-      Assert.assertEquals(expectedNormal.Y, normal.Y);
-      Assert.assertEquals(expectedNormal.Z, normal.Z);
+      Assert.assertEquals(expectedNormal.x, normal.x);
+      Assert.assertEquals(expectedNormal.y, normal.y);
+      Assert.assertEquals(expectedNormal.z, normal.z);
    }
 }

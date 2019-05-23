@@ -27,9 +27,9 @@ public abstract class BxDF {
    }
 
    public void LocalToWorldInPlace(Intersection intersection, Vector3 v) {
-      float x = intersection.TangentU.x * v.x + intersection.Normal.X * v.y + intersection.TangentV.x * v.z;
-      float y = intersection.TangentU.y * v.x + intersection.Normal.Y * v.y + intersection.TangentV.y * v.z;
-      float z = intersection.TangentU.z * v.x + intersection.Normal.Z * v.y + intersection.TangentV.z * v.z;
+      float x = intersection.TangentU.x * v.x + intersection.Normal.x * v.y + intersection.TangentV.x * v.z;
+      float y = intersection.TangentU.y * v.x + intersection.Normal.y * v.y + intersection.TangentV.y * v.z;
+      float z = intersection.TangentU.z * v.x + intersection.Normal.z * v.y + intersection.TangentV.z * v.z;
       v.x = x;
       v.y = y;
       v.z = z;
@@ -37,17 +37,17 @@ public abstract class BxDF {
 
    public Vector3 LocalToWorld(Intersection intersection, Vector3 v) {
       return new Vector3(
-            intersection.TangentU.x * v.x + intersection.Normal.X * v.y + intersection.TangentV.x * v.z,
-            intersection.TangentU.y * v.x + intersection.Normal.Y * v.y + intersection.TangentV.y * v.z,
-            intersection.TangentU.z * v.x + intersection.Normal.Z * v.y + intersection.TangentV.z * v.z
+            intersection.TangentU.x * v.x + intersection.Normal.x * v.y + intersection.TangentV.x * v.z,
+            intersection.TangentU.y * v.x + intersection.Normal.y * v.y + intersection.TangentV.y * v.z,
+            intersection.TangentU.z * v.x + intersection.Normal.z * v.y + intersection.TangentV.z * v.z
       );
    }
 
    public Normal LocalToWorld(Intersection intersection, Normal n) {
       return new Normal(
-            intersection.TangentU.x * n.X + intersection.Normal.X * n.Y + intersection.TangentV.x * n.Z,
-            intersection.TangentU.y * n.X + intersection.Normal.Y * n.Y + intersection.TangentV.y * n.Z,
-            intersection.TangentU.z * n.X + intersection.Normal.Z * n.Y + intersection.TangentV.z * n.Z
+            intersection.TangentU.x * n.x + intersection.Normal.x * n.y + intersection.TangentV.x * n.z,
+            intersection.TangentU.y * n.x + intersection.Normal.y * n.y + intersection.TangentV.y * n.z,
+            intersection.TangentU.z * n.x + intersection.Normal.z * n.y + intersection.TangentV.z * n.z
       );
    }
 
