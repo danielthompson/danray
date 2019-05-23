@@ -11,8 +11,8 @@ public class VectorExporter {
    public static Element Process(Vector object, Document document, Element parent) {
 
       Element rootElement = document.createElement("Vector");
-      rootElement.setAttribute("X", String.valueOf(object.X));
-      rootElement.setAttribute("Y", String.valueOf(object.Y));
+      rootElement.setAttribute("x", String.valueOf(object.X));
+      rootElement.setAttribute("y", String.valueOf(object.Y));
       rootElement.setAttribute("Z", String.valueOf(object.Z));
       parent.appendChild(rootElement);
 

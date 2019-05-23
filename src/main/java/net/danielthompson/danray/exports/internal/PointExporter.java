@@ -11,8 +11,8 @@ public class PointExporter {
    public static Element Process(Point object, Document document, Element parent) {
 
       Element rootElement = document.createElement("Point");
-      rootElement.setAttribute("X", String.valueOf(object.X));
-      rootElement.setAttribute("Y", String.valueOf(object.Y));
+      rootElement.setAttribute("x", String.valueOf(object.X));
+      rootElement.setAttribute("y", String.valueOf(object.Y));
       rootElement.setAttribute("Z", String.valueOf(object.Z));
       parent.appendChild(rootElement);
 

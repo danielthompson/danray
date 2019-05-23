@@ -11,8 +11,8 @@ public class CameraSettingsExporter {
    public static Element Process(CameraSettings object, Document document, Element parent) {
 
       Element rootElement = document.createElement("CameraSettings");
-      rootElement.setAttribute("X", String.valueOf(object.X));
-      rootElement.setAttribute("Y", String.valueOf(object.Y));
+      rootElement.setAttribute("x", String.valueOf(object.x));
+      rootElement.setAttribute("y", String.valueOf(object.y));
       rootElement.setAttribute("FocusDistance", String.valueOf(object.FocusDistance));
 
 //      Element orientation = document.createElement("Orientation");

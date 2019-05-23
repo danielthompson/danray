@@ -125,11 +125,11 @@ public class Box extends CSGShape {
          if (intersection.Normal == null) {
 //            intersection.Location = objectSpaceRay.GetPointAtT(intersection.TMax);
 //
-//            intersection.Normal = Constants.WithinEpsilon(point1.X, intersection.Location.X) ? new Normal(Constants.NegativeX) : intersection.Normal;
-//            intersection.Normal = Constants.WithinEpsilon(point1.Y, intersection.Location.Y) ? new Normal(Constants.NegativeY) : intersection.Normal;
+//            intersection.Normal = Constants.WithinEpsilon(point1.x, intersection.Location.x) ? new Normal(Constants.NegativeX) : intersection.Normal;
+//            intersection.Normal = Constants.WithinEpsilon(point1.y, intersection.Location.y) ? new Normal(Constants.NegativeY) : intersection.Normal;
 //            intersection.Normal = Constants.WithinEpsilon(point1.Z, intersection.Location.Z) ? new Normal(Constants.NegativeZ) : intersection.Normal;
-//            intersection.Normal = Constants.WithinEpsilon(point2.X, intersection.Location.X) ? new Normal(Constants.PositiveX) : intersection.Normal;
-//            intersection.Normal = Constants.WithinEpsilon(point2.Y, intersection.Location.Y) ? new Normal(Constants.PositiveY) : intersection.Normal;
+//            intersection.Normal = Constants.WithinEpsilon(point2.x, intersection.Location.x) ? new Normal(Constants.PositiveX) : intersection.Normal;
+//            intersection.Normal = Constants.WithinEpsilon(point2.y, intersection.Location.y) ? new Normal(Constants.PositiveY) : intersection.Normal;
 //            intersection.Normal = Constants.WithinEpsilon(point2.Z, intersection.Location.Z) ? new Normal(Constants.PositiveZ) : intersection.Normal;
 //
 //            if (intersection.Normal == null) {

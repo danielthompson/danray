@@ -131,21 +131,21 @@ public class InfoJFrame extends javax.swing.JFrame {
 
      screenLabel.setText("Screen");
 
-     screenXLabel.setText("X");
+     screenXLabel.setText("x");
 
      screenXActualLabel.setText("jLabel3");
 
-     screenYLabel.setText("Y");
+     screenYLabel.setText("y");
 
      screenYActualLabel.setText("jLabel5");
 
      sceneLabel.setText("Scene");
 
-     sceneXLabel.setText("X");
+     sceneXLabel.setText("x");
 
      sceneXActualLabel.setText("jLabel3");
 
-     sceneYLabel.setText("Y");
+     sceneYLabel.setText("y");
 
      sceneYActualLabel.setText("jLabel5");
 
@@ -212,11 +212,11 @@ public class InfoJFrame extends javax.swing.JFrame {
 
      originLabel.setText("Origin");
 
-     originXLabel.setText("X");
+     originXLabel.setText("x");
 
      originXActualLabel.setText("jLabel3");
 
-     originYLabel.setText("Y");
+     originYLabel.setText("y");
 
      originYActualLabel.setText("jLabel5");
 
@@ -226,11 +226,11 @@ public class InfoJFrame extends javax.swing.JFrame {
 
      directionLabel.setText("Direction");
 
-     directionXLabel.setText("X");
+     directionXLabel.setText("x");
 
      directionXActualLabel.setText("jLabel3");
 
-     directionYLabel.setText("Y");
+     directionYLabel.setText("y");
 
      directionYActualLabel.setText("jLabel5");
 
@@ -303,7 +303,7 @@ public class InfoJFrame extends javax.swing.JFrame {
 
      originAlongAxesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Along axes"));
 
-     originYPlusButton.setText("+ Y");
+     originYPlusButton.setText("+ y");
      originYPlusButton.addActionListener(new java.awt.event.ActionListener() {
          public void actionPerformed(java.awt.event.ActionEvent evt) {
              originYPlusButtonActionPerformed(evt);
@@ -318,14 +318,14 @@ public class InfoJFrame extends javax.swing.JFrame {
          }
      });
 
-     originXMinusButton.setText("- X");
+     originXMinusButton.setText("- x");
      originXMinusButton.addActionListener(new java.awt.event.ActionListener() {
          public void actionPerformed(java.awt.event.ActionEvent evt) {
              originXMinusButtonActionPerformed(evt);
          }
      });
 
-     originXPlusButton.setText("+ X");
+     originXPlusButton.setText("+ x");
      originXPlusButton.addActionListener(new java.awt.event.ActionListener() {
          public void actionPerformed(java.awt.event.ActionEvent evt) {
              originXPlusButtonActionPerformed(evt);
@@ -339,7 +339,7 @@ public class InfoJFrame extends javax.swing.JFrame {
          }
      });
 
-     originYMinusButton.setText("- Y");
+     originYMinusButton.setText("- y");
      originYMinusButton.addActionListener(new java.awt.event.ActionListener() {
          public void actionPerformed(java.awt.event.ActionEvent evt) {
              originYMinusButtonActionPerformed(evt);
@@ -494,7 +494,7 @@ public class InfoJFrame extends javax.swing.JFrame {
 
      jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Along axes"));
 
-     directionYPlusButton.setText("+ Y");
+     directionYPlusButton.setText("+ y");
      directionYPlusButton.addActionListener(new java.awt.event.ActionListener() {
          public void actionPerformed(java.awt.event.ActionEvent evt) {
              directionYPlusButtonActionPerformed(evt);
@@ -509,14 +509,14 @@ public class InfoJFrame extends javax.swing.JFrame {
          }
      });
 
-     directionXMinusButton.setText("- X");
+     directionXMinusButton.setText("- x");
      directionXMinusButton.addActionListener(new java.awt.event.ActionListener() {
          public void actionPerformed(java.awt.event.ActionEvent evt) {
              directionXMinusButtonActionPerformed(evt);
          }
      });
 
-     directionXPlusButton.setText("+ X");
+     directionXPlusButton.setText("+ x");
      directionXPlusButton.addActionListener(new java.awt.event.ActionListener() {
          public void actionPerformed(java.awt.event.ActionEvent evt) {
              directionXPlusButtonActionPerformed(evt);
@@ -530,7 +530,7 @@ public class InfoJFrame extends javax.swing.JFrame {
          }
      });
 
-     directionYMinusButton.setText("- Y");
+     directionYMinusButton.setText("- y");
      directionYMinusButton.addActionListener(new java.awt.event.ActionListener() {
          public void actionPerformed(java.awt.event.ActionEvent evt) {
              directionYMinusButtonActionPerformed(evt);

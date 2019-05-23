@@ -110,7 +110,7 @@ public class KDCompactScene extends AbstractScene {
       Intersection state = new Intersection();
       state.Hits = true;
 
-      // X
+      // x
       float tNear = (node.p0x - ray.Origin.X) * ray.DirectionInverse.X;
       float tFar = (node.p1x - ray.Origin.X) * ray.DirectionInverse.X;
 
@@ -129,7 +129,7 @@ public class KDCompactScene extends AbstractScene {
       // fix
       state.t = maxBoundFarT;
 
-      // Y
+      // y
       tNear = (node.p0y - ray.Origin.Y) * ray.DirectionInverse.Y;
       tFar = (node.p1y - ray.Origin.Y) * ray.DirectionInverse.Y;
 

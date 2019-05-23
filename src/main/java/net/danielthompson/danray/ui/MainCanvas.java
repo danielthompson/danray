@@ -54,7 +54,7 @@ public class MainCanvas extends Canvas implements MouseListener, MouseMotionList
 
       if (_manager != null)
          _manager.setMouseClickXY(x, y);
-      System.out.println("Click at X: " + x + " Y: " + y);
+      System.out.println("Click at x: " + x + " y: " + y);
 
 
    }
@@ -90,7 +90,7 @@ public class MainCanvas extends Canvas implements MouseListener, MouseMotionList
 
       if (_manager != null)
          _manager.setMouseXY(x, y);
-      System.out.println("Hover at X: " + x + " Y: " + y);
+      System.out.println("Hover at x: " + x + " y: " + y);
    }
 
    @Override

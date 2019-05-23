@@ -99,7 +99,7 @@ public class BoundingBox {
       Intersection state = new Intersection();
       state.Hits = true;
 
-      // X
+      // x
       float tNear = (p1.X - ray.Origin.X) * ray.DirectionInverse.X;
       float tFar = (p2.X - ray.Origin.X) * ray.DirectionInverse.X;
 
@@ -166,7 +166,7 @@ public class BoundingBox {
       Intersection intersection = new Intersection();
       intersection.Hits = true;
 
-      // X
+      // x
       float tNear = (p1.X - ray.Origin.X) * ray.DirectionInverse.X;
       float tFar = (p2.X - ray.Origin.X) * ray.DirectionInverse.X;
 
@@ -186,7 +186,7 @@ public class BoundingBox {
       intersection.t = minBoundNearT;
       //intersection.TMax = maxBoundFarT;
 
-      // Y
+      // y
       tNear = (p1.Y - ray.Origin.Y) * ray.DirectionInverse.Y;
       tFar = (p2.Y - ray.Origin.Y) * ray.DirectionInverse.Y;
 
@@ -237,7 +237,7 @@ public class BoundingBox {
 
       List<Intersection> intersections = new ArrayList<>();
 
-      // X
+      // x
       float tNear = (p1.X - ray.Origin.X) * ray.DirectionInverse.X;
       float tFar = (p2.X - ray.Origin.X) * ray.DirectionInverse.X;
 
@@ -251,7 +251,7 @@ public class BoundingBox {
          return intersections;
       }
 
-      // Y
+      // y
       tNear = (p1.Y - ray.Origin.Y) * ray.DirectionInverse.Y;
       tFar = (p2.Y - ray.Origin.Y) * ray.DirectionInverse.Y;
 

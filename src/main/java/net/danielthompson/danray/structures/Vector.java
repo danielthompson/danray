@@ -168,7 +168,7 @@ public class Vector {
    }
 
    public String toString() {
-      return "X " + X + ", Y " + Y + ", Z " + Z;
+      return "x " + X + ", y " + Y + ", Z " + Z;
    }
 
    public boolean equals(Object obj) {

@@ -47,7 +47,7 @@
 //
 //      BoundingBox box = BoundingBox.GetBoundingBox(sphere.GetWorldBoundingBox(), sphere2.GetWorldBoundingBox());
 //
-//      float actualResult = KDTree.getSeparator(list, KDAxis.X, box);
+//      float actualResult = KDTree.getSeparator(list, KDAxis.x, box);
 //
 //      Assert.assertEquals(actualResult, 1.0);
 //
@@ -74,7 +74,7 @@
 //
 //      BoundingBox box = BoundingBox.GetBoundingBox(sphere.GetWorldBoundingBox(), sphere2.GetWorldBoundingBox());
 //
-//      float actualResult = KDTree.getSeparator(list, KDAxis.X, box);
+//      float actualResult = KDTree.getSeparator(list, KDAxis.x, box);
 //
 //      Assert.assertEquals(actualResult, 2.0);
 //

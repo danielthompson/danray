@@ -21,13 +21,13 @@ public class PerspectiveCamera extends Camera {
    public PerspectiveCamera(CameraSettings settings, Transform cameraToWorld) {
       super(settings, cameraToWorld);
 
-      OneOverWidth = 1.0f / (float)Settings.X;
-      OneOverHeight = 1.0f / (float)Settings.Y;
+      OneOverWidth = 1.0f / (float)Settings.x;
+      OneOverHeight = 1.0f / (float)Settings.y;
 
-      TwoOverWidth = 2.0f / (float)Settings.X;
-      TwoOverHeight = 2.0f / (float)Settings.Y;
+      TwoOverWidth = 2.0f / (float)Settings.x;
+      TwoOverHeight = 2.0f / (float)Settings.y;
 
-      aspectRatio = (float) Settings.X * OneOverHeight;
+      aspectRatio = (float) Settings.x * OneOverHeight;
       tanFOVOver2 = (float)Math.tan(Math.toRadians(Settings.FieldOfView) * .5f);
 
       aspectTimesTanFovOver2 = aspectRatio * tanFOVOver2;

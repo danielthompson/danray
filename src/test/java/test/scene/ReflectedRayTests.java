@@ -40,12 +40,12 @@ public class ReflectedRayTests {
 
       Vector actual =  scene.GetReflectedRay(normal, incomingRay);
 
-      AssertHelper.assertEquals(actual.Origin.X, expected.Origin.X, delta, "Actual: " + actual + " Expected: " + expected);
-      AssertHelper.assertEquals(actual.Origin.Y, expected.Origin.Y, delta, "Actual: " + actual + " Expected: " + expected);
+      AssertHelper.assertEquals(actual.Origin.x, expected.Origin.x, delta, "Actual: " + actual + " Expected: " + expected);
+      AssertHelper.assertEquals(actual.Origin.y, expected.Origin.y, delta, "Actual: " + actual + " Expected: " + expected);
       AssertHelper.assertEquals(actual.Origin.Z, expected.Origin.Z, delta, "Actual: " + actual + " Expected: " + expected);
 
-      AssertHelper.assertEquals(actual.Direction.X, expected.Direction.X, delta, "Actual: " + actual + " Expected: " + expected);
-      AssertHelper.assertEquals(actual.Direction.Y, expected.Direction.Y, delta, "Actual: " + actual + " Expected: " + expected);
+      AssertHelper.assertEquals(actual.Direction.x, expected.Direction.x, delta, "Actual: " + actual + " Expected: " + expected);
+      AssertHelper.assertEquals(actual.Direction.y, expected.Direction.y, delta, "Actual: " + actual + " Expected: " + expected);
       AssertHelper.assertEquals(actual.Direction.Z, expected.Direction.Z, delta, "Actual: " + actual + " Expected: " + expected);
    }
 
@@ -70,12 +70,12 @@ public class ReflectedRayTests {
 
       Vector actual =  scene.GetReflectedRay(normal, incomingRay);
 
-      AssertHelper.assertEquals(actual.Origin.X, expected.Origin.X, delta, "Actual: " + actual + " Expected: " + expected);
-      AssertHelper.assertEquals(actual.Origin.Y, expected.Origin.Y, delta, "Actual: " + actual + " Expected: " + expected);
+      AssertHelper.assertEquals(actual.Origin.x, expected.Origin.x, delta, "Actual: " + actual + " Expected: " + expected);
+      AssertHelper.assertEquals(actual.Origin.y, expected.Origin.y, delta, "Actual: " + actual + " Expected: " + expected);
       AssertHelper.assertEquals(actual.Origin.Z, expected.Origin.Z, delta, "Actual: " + actual + " Expected: " + expected);
 
-      AssertHelper.assertEquals(actual.Direction.X, expected.Direction.X, delta, "Actual: " + actual + " Expected: " + expected);
-      AssertHelper.assertEquals(actual.Direction.Y, expected.Direction.Y, delta, "Actual: " + actual + " Expected: " + expected);
+      AssertHelper.assertEquals(actual.Direction.x, expected.Direction.x, delta, "Actual: " + actual + " Expected: " + expected);
+      AssertHelper.assertEquals(actual.Direction.y, expected.Direction.y, delta, "Actual: " + actual + " Expected: " + expected);
       AssertHelper.assertEquals(actual.Direction.Z, expected.Direction.Z, delta, "Actual: " + actual + " Expected: " + expected);
    }
 
@@ -100,12 +100,12 @@ public class ReflectedRayTests {
 
       Vector actual =  scene.GetReflectedRay(normal, incomingRay);
 
-      AssertHelper.assertEquals(actual.Origin.X, expected.Origin.X, delta, "Actual: " + actual + " Expected: " + expected);
-      AssertHelper.assertEquals(actual.Origin.Y, expected.Origin.Y, delta, "Actual: " + actual + " Expected: " + expected);
+      AssertHelper.assertEquals(actual.Origin.x, expected.Origin.x, delta, "Actual: " + actual + " Expected: " + expected);
+      AssertHelper.assertEquals(actual.Origin.y, expected.Origin.y, delta, "Actual: " + actual + " Expected: " + expected);
       AssertHelper.assertEquals(actual.Origin.Z, expected.Origin.Z, delta, "Actual: " + actual + " Expected: " + expected);
 
-      AssertHelper.assertEquals(actual.Direction.X, expected.Direction.X, delta, "Actual: " + actual + " Expected: " + expected);
-      AssertHelper.assertEquals(actual.Direction.Y, expected.Direction.Y, delta, "Actual: " + actual + " Expected: " + expected);
+      AssertHelper.assertEquals(actual.Direction.x, expected.Direction.x, delta, "Actual: " + actual + " Expected: " + expected);
+      AssertHelper.assertEquals(actual.Direction.y, expected.Direction.y, delta, "Actual: " + actual + " Expected: " + expected);
       AssertHelper.assertEquals(actual.Direction.Z, expected.Direction.Z, delta, "Actual: " + actual + " Expected: " + expected);
    }*/
 }

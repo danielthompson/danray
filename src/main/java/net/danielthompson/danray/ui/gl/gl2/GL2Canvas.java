@@ -170,7 +170,7 @@ public class GL2Canvas extends AbstractGLCanvas {
                gl.glColor3f(0.2f, 1.0f, 1.0f);*/
 
                GLU.gluSphere(quadric, 1, 100, 100);
-               //gl.glTranslatef(-origin.X, -origin.Y, -origin.Z);
+               //gl.glTranslatef(-origin.x, -origin.y, -origin.Z);
             } else if (shape instanceof Box) {
                //drawBox(gl, (Box) shape);
             }
@@ -228,7 +228,7 @@ public class GL2Canvas extends AbstractGLCanvas {
                if (shape instanceof Sphere || shape instanceof SphereLight) {
 
                   GLU.gluSphere(quadric, 1, 8, 8);
-                  //gl.glTranslatef(-origin.X, -origin.Y, -origin.Z);
+                  //gl.glTranslatef(-origin.x, -origin.y, -origin.Z);
                }
                else if (shape instanceof Box) {
                   //drawBox(gl, (Box)shape);
@@ -432,7 +432,7 @@ public class GL2Canvas extends AbstractGLCanvas {
       gl.glLoadIdentity();
 
       float fov = Scene.Camera.Settings.FieldOfView;
-      float aspect = (float) Scene.Camera.Settings.X / (float) Scene.Camera.Settings.Y;
+      float aspect = (float) Scene.Camera.Settings.x / (float) Scene.Camera.Settings.y;
       float zNear = 1;
       float zFar = 10000;
 

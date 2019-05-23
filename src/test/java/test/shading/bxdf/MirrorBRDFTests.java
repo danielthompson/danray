@@ -39,8 +39,8 @@ public class MirrorBRDFTests {
 //
 //      Vector actual = brdf.getVectorInPDF(n, v);
 //
-//      AssertHelper.assertEquals(actual.X, expected.X);
-//      AssertHelper.assertEquals(actual.Y, expected.Y);
+//      AssertHelper.assertEquals(actual.x, expected.x);
+//      AssertHelper.assertEquals(actual.y, expected.y);
 //      AssertHelper.assertEquals(actual.Z, expected.Z);
 //   }
 

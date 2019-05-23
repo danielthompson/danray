@@ -10,12 +10,12 @@ public class CameraSettings {
    /**
     * Width of the image in pixels. Required.
     */
-   public int X;
+   public int x;
 
    /**
     * Height of the image in pixels. Required.
     */
-   public int Y;
+   public int y;
 
    /**
     * Extent of the observable world, measured in degrees. Must be 0 &lt;= fov &gt;= 360. Required.

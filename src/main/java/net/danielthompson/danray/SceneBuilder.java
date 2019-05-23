@@ -198,8 +198,8 @@ public class SceneBuilder {
    public static AbstractScene SpectralLemon(int x, int y) {
 
       CameraSettings settings = new CameraSettings();
-      settings.X = x;
-      settings.Y = y;
+      settings.x = x;
+      settings.y = y;
       settings.FocusDistance = 500;
       settings.Aperture = new CircleAperture(20);
 
@@ -431,8 +431,8 @@ public class SceneBuilder {
 
    public static AbstractScene NumericalStabilityTest(int x, int y) {
       CameraSettings settings = new CameraSettings();
-      settings.X = x;
-      settings.Y = y;
+      settings.x = x;
+      settings.y = y;
       settings.FieldOfView = 90f;
 
       float bigNum = 100000000f;
@@ -481,8 +481,8 @@ public class SceneBuilder {
    public static AbstractScene Default(int x, int y) {
 
       CameraSettings settings = new CameraSettings();
-      settings.X = x;
-      settings.Y = y;
+      settings.x = x;
+      settings.y = y;
       settings.FieldOfView = 25f;
 
       float bigNum = 1f;
@@ -829,8 +829,8 @@ public class SceneBuilder {
    public static AbstractScene GlossyStrips(int x, int y) {
 
       CameraSettings settings = new CameraSettings();
-      settings.X = x;
-      settings.Y = y;
+      settings.x = x;
+      settings.y = y;
       settings.FieldOfView = 20.114292f;
 
       Transform[] inputTransforms = new Transform[2];
@@ -1044,8 +1044,8 @@ public class SceneBuilder {
    public static AbstractScene DepthOfFieldTest(int x, int y) {
 
       CameraSettings settings = new CameraSettings();
-      settings.X = x;
-      settings.Y = y;
+      settings.x = x;
+      settings.y = y;
       settings.FocusDistance = 500;
       settings.Aperture = new CircleAperture(20);
 
@@ -1093,8 +1093,8 @@ public class SceneBuilder {
 
    public static AbstractScene ManyRegularSpheres(int x, int y) {
       CameraSettings settings = new CameraSettings();
-      settings.X = x;
-      settings.Y = y;
+      settings.x = x;
+      settings.y = y;
       settings.FieldOfView = 20;
 
       Transform[] inputTransforms = new Transform[1];
@@ -1196,8 +1196,8 @@ public class SceneBuilder {
 
    public static AbstractScene CornellBox(int x, int y) {
       CameraSettings settings = new CameraSettings();
-      settings.X = x;
-      settings.Y = y;
+      settings.x = x;
+      settings.y = y;
       settings.FocusDistance = 75;
       settings.Aperture = new CircleAperture(10);
 
@@ -1249,8 +1249,8 @@ public class SceneBuilder {
 
    public static AbstractScene ManyRandomSpheres(int x, int y) {
       CameraSettings settings = new CameraSettings();
-      settings.X = x;
-      settings.Y = y;
+      settings.x = x;
+      settings.y = y;
       settings.FieldOfView = 50f;
 
       settings.Aperture = new SquareAperture(2);
@@ -1387,8 +1387,8 @@ public class SceneBuilder {
 
    public static AbstractScene SpheresInAnXPattern(int x, int y) {
       CameraSettings settings = new CameraSettings();
-      settings.X = x;
-      settings.Y = y;
+      settings.x = x;
+      settings.y = y;
       settings.FocusDistance = 500;
       settings.Aperture = new SquareAperture(5);
 
@@ -1455,8 +1455,8 @@ public class SceneBuilder {
    public static AbstractScene FourReflectiveSphereWithLights(int x, int y) {
 
       CameraSettings settings = new CameraSettings();
-      settings.X = x;
-      settings.Y = y;
+      settings.x = x;
+      settings.y = y;
       settings.FocusDistance = 250;
       settings.Aperture = new SquareAperture(5);
 
@@ -1715,8 +1715,8 @@ public class SceneBuilder {
    public static AbstractScene FourReflectiveSphereWithLightsPointable(int x, int y) {
 
       CameraSettings settings = new CameraSettings();
-      settings.X = x;
-      settings.Y = y;
+      settings.x = x;
+      settings.y = y;
       settings.FocusDistance = 500;
       settings.Aperture = new CircleAperture(50);
 
@@ -1933,8 +1933,8 @@ public class SceneBuilder {
       Ray orientation = new Ray(origin, direction);
 
       CameraSettings settings = new CameraSettings();
-      settings.X = x;
-      settings.Y = y;
+      settings.x = x;
+      settings.y = y;
       settings.FocusDistance = 1487;
       settings.Aperture = new CircleAperture(50);
 
@@ -2064,8 +2064,8 @@ public class SceneBuilder {
    public static AbstractScene AreaLightSourceTest(int x, int y) {
 
       CameraSettings settings = new CameraSettings();
-      settings.X = x;
-      settings.Y = y;
+      settings.x = x;
+      settings.y = y;
       settings.FieldOfView = 25f;
 
 //      settings.Aperture = new CircleAperture(50);
@@ -2171,8 +2171,8 @@ public class SceneBuilder {
 
    public static AbstractScene TwoTransparentReflectiveSpheresWithLights(int x, int y) {
       CameraSettings settings = new CameraSettings();
-      settings.X = x;
-      settings.Y = y;
+      settings.x = x;
+      settings.y = y;
       settings.FocusDistance = 500;
       settings.Aperture = new CircleAperture(20);
 

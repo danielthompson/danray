@@ -378,8 +378,8 @@
 //   public void testCameraSettingsExport() throws Exception {
 //
 //      final CameraSettings object = new CameraSettings();
-//      object.X = 123;
-//      object.Y = 456;
+//      object.x = 123;
+//      object.y = 456;
 //      object.FocalLength = 1200;
 //      object.Rotation = 0;
 //      object.ZoomFactor = 1 / 1.5f;
@@ -551,8 +551,8 @@
 //   public void testAbstractCameraExport() throws Exception {
 //
 //      CameraSettings settings = new CameraSettings();
-//      settings.X = 640;
-//      settings.Y = 480;
+//      settings.x = 640;
+//      settings.y = 480;
 //      settings.FocalLength = 1200;
 //      settings.Rotation = 0;
 //      settings.ZoomFactor = 1 / 1.5f;

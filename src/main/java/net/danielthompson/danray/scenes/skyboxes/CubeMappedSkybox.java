@@ -78,7 +78,7 @@ public class CubeMappedSkybox extends AbstractSkybox {
       texture = Constants.WithinEpsilon(p.Z, 0) ? SkyBoxNegZ : texture;
       u = Constants.WithinEpsilon(p.Z, 0) ? width * p.X: u;
       v = Constants.WithinEpsilon(p.Z, 0) ? height - (height * p.Y) : v;
-//      y = Constants.WithinEpsilon(p.Z, 0) ? .33f * height * (2 - p.Y) : y;
+//      y = Constants.WithinEpsilon(p.Z, 0) ? .33f * height * (2 - p.y) : y;
 
       // right wall
 
