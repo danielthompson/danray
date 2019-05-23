@@ -133,9 +133,9 @@ public class Logger {
    public static void Log(Level level, int depth, Ray r) {
       if (level._value <= LogLevel._value) {
          String spacer = " ".repeat(depth);
-         Log(level, spacer + "Ray(Point({" + f(r.Origin.x) + ", " + f(r.Origin.y) + ", " + f(r.Origin.z) + "}), Vector(Point({" + f(r.Direction.X) + ", " + f(r.Direction.Y) + ", " + f(r.Direction.Z) + "})))");
+         Log(level, spacer + "Ray(Point({" + f(r.Origin.x) + ", " + f(r.Origin.y) + ", " + f(r.Origin.z) + "}), Vector(Point({" + f(r.Direction.x) + ", " + f(r.Direction.y) + ", " + f(r.Direction.z) + "})))");
          Log(level, spacer + "Origin: (" + r.Origin.x + ", " + r.Origin.y + ", " + r.Origin.z + ")");
-         Log(level, spacer + "Direction: (" + r.Direction.X + ", " + r.Direction.Y + ", " + r.Direction.Z + ")");
+         Log(level, spacer + "Direction: (" + r.Direction.x + ", " + r.Direction.y + ", " + r.Direction.z + ")");
       }
    }
 

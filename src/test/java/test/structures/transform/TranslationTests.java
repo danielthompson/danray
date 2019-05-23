@@ -2,7 +2,7 @@ package test.structures.transform;
 
 import junit.framework.Assert;
 import net.danielthompson.danray.structures.Transform;
-import net.danielthompson.danray.structures.Vector;
+import net.danielthompson.danray.structures.Vector3;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -49,7 +49,7 @@ public class TranslationTests {
 
    @Test
    public void TestTranslationNotNull() {
-      Transform translation = Transform.Translate(new Vector(-5, -5, -5));
+      Transform translation = Transform.Translate(new Vector3(-5, -5, -5));
 
       Assert.assertNotNull(translation);
 

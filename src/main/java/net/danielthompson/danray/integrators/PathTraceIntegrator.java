@@ -10,9 +10,6 @@ import net.danielthompson.danray.shading.bxdf.BxDF;
 import net.danielthompson.danray.shapes.AbstractShape;
 import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
-import net.danielthompson.danray.textures.CheckerboardTexture;
-
-import java.io.Console;
 
 /**
  * Created by daniel on 5/5/15.
@@ -83,7 +80,7 @@ public class PathTraceIntegrator extends AbstractIntegrator {
          AbstractShape closestShape = intersection.Shape;
          Material objectMaterial = closestShape.Material;
          Normal intersectionNormal = intersection.Normal;
-         Vector incomingDirection = ray.Direction;
+         Vector3 incomingDirection = ray.Direction;
 
          for (int i = 0; i < objectMaterial.BxDFs.size(); i++) {
             BxDF bxdf = objectMaterial.BxDFs.get(i);
@@ -100,7 +97,7 @@ public class PathTraceIntegrator extends AbstractIntegrator {
                }
             }
 
-            Vector outgoingDirection = bxdf.getVectorInPDF(intersection, incomingDirection, indexOfRefraction, enteringIndexOfRefraction);
+            Vector3 outgoingDirection = bxdf.getVectorInPDF(intersection, incomingDirection, indexOfRefraction, enteringIndexOfRefraction);
             float scalePercentage = 1.0f;
 
             if (!bxdf.Delta) {

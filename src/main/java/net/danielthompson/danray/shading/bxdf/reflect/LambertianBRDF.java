@@ -15,20 +15,20 @@ public class LambertianBRDF extends BRDF {
    }
 
    @Override
-   public float f(Vector incoming, Normal normal, Vector outgoing) {
+   public float f(Vector3 incoming, Normal normal, Vector3 outgoing) {
          return 1;
    }
 
    @Override
-   public Vector getVectorInPDF(Normal normal, Vector incoming, float leavingIndexOfRefraction, float enteringIndexOfRefraction) {
+   public Vector3 getVectorInPDF(Normal normal, Vector3 incoming, float leavingIndexOfRefraction, float enteringIndexOfRefraction) {
 //      if (normal.dot(incoming) > 0)
 //         normal.scale(-1);
 
       float[] xyz = GeometryCalculations.randomPointOnSphere();
-      Vector outgoing = new Vector(xyz[0], xyz[1], xyz[2]);
+      Vector3 outgoing = new Vector3(xyz[0], xyz[1], xyz[2]);
 
-      if (outgoing.Dot(normal) < 0)
-         outgoing.Scale(-1);
+      if (outgoing.dot(normal) < 0)
+         outgoing.scale(-1);
 
       return outgoing;
    }

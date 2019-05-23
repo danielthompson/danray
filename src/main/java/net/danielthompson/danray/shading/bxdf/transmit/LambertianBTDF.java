@@ -3,7 +3,7 @@ package net.danielthompson.danray.shading.bxdf.transmit;
 import net.danielthompson.danray.shading.bxdf.BTDF;
 import net.danielthompson.danray.structures.Constants;
 import net.danielthompson.danray.structures.Normal;
-import net.danielthompson.danray.structures.Vector;
+import net.danielthompson.danray.structures.Vector3;
 import net.danielthompson.danray.utility.GeometryCalculations;
 
 /**
@@ -17,17 +17,17 @@ public class LambertianBTDF extends BTDF {
    }
 
    @Override
-   public float f(Vector incoming, Normal normal, Vector outgoing) {
+   public float f(Vector3 incoming, Normal normal, Vector3 outgoing) {
          return Constants.OneOverPi;
    }
 
    @Override
-   public Vector getVectorInPDF(Normal normal, Vector incoming, float leavingIndexOfRefraction, float enteringIndexOfRefraction) {
+   public Vector3 getVectorInPDF(Normal normal, Vector3 incoming, float leavingIndexOfRefraction, float enteringIndexOfRefraction) {
       float[] xyz = GeometryCalculations.randomPointOnSphere();
-      Vector outgoing = new Vector(xyz[0], xyz[1], xyz[2]);
+      Vector3 outgoing = new Vector3(xyz[0], xyz[1], xyz[2]);
 
-      if (outgoing.Dot(normal) > 0)
-         outgoing.Scale(-1);
+      if (outgoing.dot(normal) > 0)
+         outgoing.scale(-1);
 
       return outgoing;
    }

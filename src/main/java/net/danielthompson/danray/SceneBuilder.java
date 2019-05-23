@@ -204,7 +204,7 @@ public class SceneBuilder {
       settings.aperture = new CircleAperture(20);
 
       Point3 origin = new Point3(0, 0, 4000);
-      Vector direction = new Vector(0, 0, -1);
+      Vector3 direction = new Vector3(0, 0, -1);
 
       Camera camera = new PerspectiveCamera(settings, null);
 
@@ -249,7 +249,7 @@ public class SceneBuilder {
       boxMaterial.ReflectanceSpectrum = new ReflectanceSpectrum(Color.yellow);
 
       ArrayList<Transform> list = new ArrayList<>();
-      list.add(Transform.Translate(new Vector(-1500, 0, 0)));
+      list.add(Transform.Translate(new Vector3(-1500, 0, 0)));
       list.add(Transform.Scale(1.0f, 1000.0f, 10000.0f));
 
       Transform[] transforms = Transform.composite(list);
@@ -270,7 +270,7 @@ public class SceneBuilder {
       boxMaterial.ReflectanceSpectrum = new ReflectanceSpectrum(Color.yellow);
 
       list = new ArrayList<>();
-      list.add(Transform.Translate(new Vector(1500, 0, 0)));
+      list.add(Transform.Translate(new Vector3(1500, 0, 0)));
       list.add(Transform.Scale(1.0f, 1000.0f, 10000.0f));
 
       transforms = Transform.composite(list);
@@ -290,7 +290,7 @@ public class SceneBuilder {
       boxMaterial.ReflectanceSpectrum = new ReflectanceSpectrum(Color.green);
 
       list = new ArrayList<>();
-      list.add(Transform.Translate(new Vector(0, 0, -1000)));
+      list.add(Transform.Translate(new Vector3(0, 0, -1000)));
       list.add(Transform.Scale(1500.0f, 1000.0f, 1));
 
       transforms = Transform.composite(list);
@@ -312,7 +312,7 @@ public class SceneBuilder {
       boxMaterial.ReflectanceSpectrum = new ReflectanceSpectrum(Color.green);
 
       list = new ArrayList<>();
-      list.add(Transform.Translate(new Vector(0, 0, 10000)));
+      list.add(Transform.Translate(new Vector3(0, 0, 10000)));
       list.add(Transform.Scale(1500.0f, 1000.0f, 1));
 
       transforms = Transform.composite(list);
@@ -333,7 +333,7 @@ public class SceneBuilder {
       boxMaterial.ReflectanceSpectrum = new ReflectanceSpectrum(Color.green);
 
       list = new ArrayList<>();
-      list.add(Transform.Translate(new Vector(0, -1000, 0)));
+      list.add(Transform.Translate(new Vector3(0, -1000, 0)));
       list.add(Transform.Scale(1500.0f, 1, 10000));
 
       transforms = Transform.composite(list);
@@ -355,7 +355,7 @@ public class SceneBuilder {
       boxMaterial.ReflectanceSpectrum = new ReflectanceSpectrum(Color.green);
 
       list = new ArrayList<>();
-      list.add(Transform.Translate(new Vector(0, 1000, 0)));
+      list.add(Transform.Translate(new Vector3(0, 1000, 0)));
       list.add(Transform.Scale(1500.0f, 1, 10000));
 
       transforms = Transform.composite(list);
@@ -377,7 +377,7 @@ public class SceneBuilder {
       for (int i = 0; i < 10; i++) {
          //for (int j = 0; j < 10; j++) {
          list = new ArrayList<>();
-         list.add(Transform.Translate(new Vector(i * 120 - 800, i * 120 - 800, i * i * 20)));
+         list.add(Transform.Translate(new Vector3(i * 120 - 800, i * 120 - 800, i * i * 20)));
          list.add(Transform.Scale(50, 50, 50));
          transforms = Transform.composite(list);
 
@@ -411,7 +411,7 @@ public class SceneBuilder {
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.green);
 
       list = new ArrayList<>();
-      list.add(Transform.Translate(new Vector(-400, 50, 1000)));
+      list.add(Transform.Translate(new Vector3(-400, 50, 1000)));
       list.add(Transform.RotateY(90));
       list.add(Transform.RotateZ(90));
 
@@ -464,11 +464,11 @@ public class SceneBuilder {
 
       inputTransforms = new Transform[]{
             bigTranslate,
-            Transform.Translate(new Vector(0, -52f, 0f)),
+            Transform.Translate(new Vector3(0, -52f, 0f)),
             Transform.RotateZ(10f),
             Transform.RotateY(45f),
             Transform.Scale(1000f, 1f, 1000f),
-            Transform.Translate(new Vector(-0.5f, -0.5f, -0.5f))
+            Transform.Translate(new Vector3(-0.5f, -0.5f, -0.5f))
       };
       compositeTransforms = Transform.composite(inputTransforms);
 
@@ -530,7 +530,7 @@ public class SceneBuilder {
 
       inputTransforms = new Transform[]{
             Transform.Scale(2),
-            Transform.Translate(new Vector(-0.5f, -0.5f, -0.5f))
+            Transform.Translate(new Vector3(-0.5f, -0.5f, -0.5f))
       };
       compositeTransforms = Transform.composite(inputTransforms);
       Box leftShape = new Box(compositeTransforms, material);
@@ -618,7 +618,7 @@ public class SceneBuilder {
 
          inputTransforms = new Transform[]{
                bigTranslate,
-               Transform.Translate(new Vector(0, -16.99f, 50f)),
+               Transform.Translate(new Vector3(0, -16.99f, 50f)),
                Transform.RotateY(-60f),
                Transform.Scale(35f),
          };
@@ -633,7 +633,7 @@ public class SceneBuilder {
 
          inputTransforms = new Transform[]{
                bigTranslate,
-               Transform.Translate(new Vector(-50, -31.99f, 50f)),
+               Transform.Translate(new Vector3(-50, -31.99f, 50f)),
                Transform.RotateY(-30f),
 
                Transform.Scale(20f),
@@ -656,7 +656,7 @@ public class SceneBuilder {
 
       inputTransforms = new Transform[]{
             Transform.Scale(2),
-            Transform.Translate(new Vector(-0.5f, -0.5f, -0.5f)),
+            Transform.Translate(new Vector3(-0.5f, -0.5f, -0.5f)),
 //            Transform.Translate(-50.0f, -32.0f, -25f),
 //            Transform.RotateY(-45f),
 //            Transform.scale(20f),
@@ -767,10 +767,10 @@ public class SceneBuilder {
 
       inputTransforms = new Transform[]{
             bigTranslate,
-            Transform.Translate(new Vector(0, -52f, 0f)),
+            Transform.Translate(new Vector3(0, -52f, 0f)),
             Transform.RotateY(45f),
             Transform.Scale(1000f, 1f, 1000f),
-            Transform.Translate(new Vector(-0.5f, -0.5f, -0.5f))
+            Transform.Translate(new Vector3(-0.5f, -0.5f, -0.5f))
       };
       compositeTransforms = Transform.composite(inputTransforms);
 
@@ -789,7 +789,7 @@ public class SceneBuilder {
       SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(Color.white, 50.0f);
 
       inputTransforms = new Transform[]{
-            Transform.Translate(new Vector(-50, 100, -75)),
+            Transform.Translate(new Vector3(-50, 100, -75)),
             Transform.Scale(25)
       };
 
@@ -834,7 +834,7 @@ public class SceneBuilder {
       settings.fov = 20.114292f;
 
       Transform[] inputTransforms = new Transform[2];
-      inputTransforms[0] = Transform.Translate(new Vector(28.2792f, 3.5f, 0));
+      inputTransforms[0] = Transform.Translate(new Vector3(28.2792f, 3.5f, 0));
       inputTransforms[1] = Transform.RotateY(90);
 
       Transform[] compositeTransforms = Transform.composite(inputTransforms);
@@ -853,12 +853,12 @@ public class SceneBuilder {
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.white);
 
       inputTransforms = new Transform[5];
-      inputTransforms[0] = Transform.Translate(new Vector(0f, 0f, 0));
+      inputTransforms[0] = Transform.Translate(new Vector3(0f, 0f, 0));
       inputTransforms[1] = Transform.RotateZ(-10f);
       inputTransforms[2] = Transform.Scale(24f, 0.1f, 16f);
 //      inputTransforms[3] = Transform.scale(2);
       inputTransforms[3] = Transform.identity;
-      inputTransforms[4] = Transform.Translate(new Vector(-.5f, -.5f, -.5f));
+      inputTransforms[4] = Transform.Translate(new Vector3(-.5f, -.5f, -.5f));
 //      inputTransforms[4] = Transform.identity;
 
       compositeTransforms = Transform.composite(inputTransforms);
@@ -873,13 +873,13 @@ public class SceneBuilder {
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.gray);
 
       inputTransforms = new Transform[5];
-      inputTransforms[0] = Transform.Translate(new Vector(.264069f, 4.09801f, 0));
+      inputTransforms[0] = Transform.Translate(new Vector3(.264069f, 4.09801f, 0));
       inputTransforms[1] = Transform.RotateZ(-39.8801f);
 //      inputTransforms[1] = Transform.RotateZ(-65f);
       inputTransforms[2] = Transform.Scale(2.1f, 0.3f, 8f);
 //      inputTransforms[3] = Transform.scale(2);
       inputTransforms[3] = Transform.identity;
-      inputTransforms[4] = Transform.Translate(new Vector(-.5f, -.5f, -.5f));
+      inputTransforms[4] = Transform.Translate(new Vector3(-.5f, -.5f, -.5f));
 //      inputTransforms[4] = Transform.identity;
 
       compositeTransforms = Transform.composite(inputTransforms);
@@ -894,12 +894,12 @@ public class SceneBuilder {
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.gray);
 
       inputTransforms = new Transform[5];
-      inputTransforms[0] = Transform.Translate(new Vector(3.06163f, 2.71702f, 0));
+      inputTransforms[0] = Transform.Translate(new Vector3(3.06163f, 2.71702f, 0));
       inputTransforms[1] = Transform.RotateZ(-24f);
       inputTransforms[2] = Transform.Scale(2.1f, 0.3f, 8f);
 //      inputTransforms[3] = Transform.scale(2);
       inputTransforms[3] = Transform.identity;
-      inputTransforms[4] = Transform.Translate(new Vector(-.5f, -.5f, -.5f));
+      inputTransforms[4] = Transform.Translate(new Vector3(-.5f, -.5f, -.5f));
 //      inputTransforms[4] = Transform.identity;
 
       compositeTransforms = Transform.composite(inputTransforms);
@@ -914,12 +914,12 @@ public class SceneBuilder {
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.gray);
 
       inputTransforms = new Transform[5];
-      inputTransforms[0] = Transform.Translate(new Vector(7.09981f, 1.81891f, 0f));
+      inputTransforms[0] = Transform.Translate(new Vector3(7.09981f, 1.81891f, 0f));
       inputTransforms[1] = Transform.RotateZ(-14f);
       inputTransforms[2] = Transform.Scale(2.1f, 0.3f, 8f);
 //      inputTransforms[3] = Transform.scale(2);
       inputTransforms[3] = Transform.identity;
-      inputTransforms[4] = Transform.Translate(new Vector(-.5f, -.5f, -.5f));
+      inputTransforms[4] = Transform.Translate(new Vector3(-.5f, -.5f, -.5f));
 //      inputTransforms[4] = Transform.identity;
 
       compositeTransforms = Transform.composite(inputTransforms);
@@ -935,14 +935,14 @@ public class SceneBuilder {
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.gray);
 
       inputTransforms = new Transform[5];
-      inputTransforms[0] = Transform.Translate(new Vector(10.6769f, 1.23376f, 0f));
+      inputTransforms[0] = Transform.Translate(new Vector3(10.6769f, 1.23376f, 0f));
 //      inputTransforms[1] = Transform.RotateZ(-50);
       inputTransforms[1] = Transform.RotateZ(-9.25f);
 //      inputTransforms[1] = Transform.identity;
       inputTransforms[2] = Transform.Scale(2.1f, 0.3f, 8f);
 //      inputTransforms[3] = Transform.scale(2);
       inputTransforms[3] = Transform.identity;
-      inputTransforms[4] = Transform.Translate(new Vector(-.5f, -.5f, -.5f));
+      inputTransforms[4] = Transform.Translate(new Vector3(-.5f, -.5f, -.5f));
 //      inputTransforms[4] = Transform.identity;
 
       compositeTransforms = Transform.composite(inputTransforms);
@@ -955,7 +955,7 @@ public class SceneBuilder {
       SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(Color.white, 10f);
 
       inputTransforms = new Transform[2];
-      inputTransforms[0] = Transform.Translate(new Vector(0, 6.5f, 2.7f));
+      inputTransforms[0] = Transform.Translate(new Vector3(0, 6.5f, 2.7f));
       inputTransforms[1] = Transform.Scale(0.05f);
 
       compositeTransforms = Transform.composite(inputTransforms);
@@ -972,7 +972,7 @@ public class SceneBuilder {
       lightSPD = new SpectralPowerDistribution(Color.white, 10f);
 
       inputTransforms = new Transform[2];
-      inputTransforms[0] = Transform.Translate(new Vector(0, 6.5f, 0));
+      inputTransforms[0] = Transform.Translate(new Vector3(0, 6.5f, 0));
       inputTransforms[1] = Transform.Scale(0.5f);
 
       compositeTransforms = Transform.composite(inputTransforms);
@@ -989,7 +989,7 @@ public class SceneBuilder {
       lightSPD = new SpectralPowerDistribution(Color.white, 10f);
 
       inputTransforms = new Transform[1];
-      inputTransforms[0] = Transform.Translate(new Vector(0, 6.5f, -2.8f));
+      inputTransforms[0] = Transform.Translate(new Vector3(0, 6.5f, -2.8f));
 
       compositeTransforms = Transform.composite(inputTransforms);
 
@@ -1050,7 +1050,7 @@ public class SceneBuilder {
       settings.aperture = new CircleAperture(20);
 
       Point3 origin = new Point3(100, 75, 700);
-      Vector direction = new Vector(0, -.35f, -1);
+      Vector3 direction = new Vector3(0, -.35f, -1);
 
       Camera camera = new PerspectiveCamera(settings, null);
 
@@ -1098,7 +1098,7 @@ public class SceneBuilder {
       settings.fov = 20;
 
       Transform[] inputTransforms = new Transform[1];
-      inputTransforms[0] = Transform.Translate(new Vector(0, 0, 1200));
+      inputTransforms[0] = Transform.Translate(new Vector3(0, 0, 1200));
       Transform[] compositeTransforms = Transform.composite(inputTransforms);
 
 //      Vector direction = new Vector(0, 1, -1);
@@ -1121,9 +1121,9 @@ public class SceneBuilder {
       float frontZ = -150;
 
       inputTransforms = new Transform[3];
-      inputTransforms[0] = Transform.Translate(new Vector(0, 0, frontZ));
+      inputTransforms[0] = Transform.Translate(new Vector3(0, 0, frontZ));
       inputTransforms[1] = Transform.Scale(600, 600, 1f);
-      inputTransforms[2] = Transform.Translate(new Vector(-0.5f, -0.5f, -0.5f));
+      inputTransforms[2] = Transform.Translate(new Vector3(-0.5f, -0.5f, -0.5f));
 
       //inputTransforms[1] = Transform.Translate(new Vector(-200f, -300f, -150));
 
@@ -1176,7 +1176,7 @@ public class SceneBuilder {
             float originZ = frontZ + radius;
 
             inputTransforms = new Transform[2];
-            inputTransforms[0] = Transform.Translate(new Vector(originX - 150, originY - 150, originZ));
+            inputTransforms[0] = Transform.Translate(new Vector3(originX - 150, originY - 150, originZ));
             inputTransforms[1] = Transform.Scale(radius);
 
             compositeTransforms = Transform.composite(inputTransforms);
@@ -1202,7 +1202,7 @@ public class SceneBuilder {
       settings.aperture = new CircleAperture(10);
 
       Point3 origin = new Point3(0, 0, 250);
-      Vector direction = new Vector(0, 0, -1);
+      Vector3 direction = new Vector3(0, 0, -1);
 
       Camera camera = new PerspectiveCamera(settings, null);
 
@@ -1222,7 +1222,7 @@ public class SceneBuilder {
       Point3 p1 = new Point3(1000, 1000, 1000);
 
       Transform[] inputTransforms = new Transform[2];
-      inputTransforms[0] = Transform.Translate(new Vector(-0.5f, -0.5f, -0.5f));
+      inputTransforms[0] = Transform.Translate(new Vector3(-0.5f, -0.5f, -0.5f));
       inputTransforms[1] = Transform.Scale(2000f);
 
       Transform[] compositeTransforms = Transform.composite(inputTransforms);
@@ -1256,7 +1256,7 @@ public class SceneBuilder {
       settings.aperture = new SquareAperture(2);
 
       Transform[] inputTransforms = new Transform[1];
-      inputTransforms[0] = Transform.Translate(new Vector(300, 300, 1000));
+      inputTransforms[0] = Transform.Translate(new Vector3(300, 300, 1000));
 
       Transform[] compositeTransforms = Transform.composite(inputTransforms);
 
@@ -1393,7 +1393,7 @@ public class SceneBuilder {
       settings.aperture = new SquareAperture(5);
 
       Point3 origin = new Point3(100, 200, 600);
-      Vector direction = new Vector(-.1f, -.3f, -1);
+      Vector3 direction = new Vector3(-.1f, -.3f, -1);
 
       Camera camera = new PerspectiveCamera(settings, null);
 
@@ -1461,7 +1461,7 @@ public class SceneBuilder {
       settings.aperture = new SquareAperture(5);
 
       Point3 origin = new Point3(100, 800, 1500);
-      Vector direction = new Vector(0, -1, -1);
+      Vector3 direction = new Vector3(0, -1, -1);
 
 
       Camera camera = new PerspectiveCamera(settings, null);
@@ -1516,7 +1516,7 @@ public class SceneBuilder {
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(30, 120, 120));
 
       ArrayList<Transform> list = new ArrayList<>();
-      list.add(Transform.Translate(new Vector(-200, 100, 1000)));
+      list.add(Transform.Translate(new Vector3(-200, 100, 1000)));
       //list.add(Transform.RotateZ(45));
       //list.add(Transform.RotateY(90));
       //list.add(Transform.RotateX(60));
@@ -1542,7 +1542,7 @@ public class SceneBuilder {
 
          //
 
-         list.add(Transform.Translate(new Vector((float) (Math.sin(i) * i * 120 - 400), -(0 - 20 * i), 700)));
+         list.add(Transform.Translate(new Vector3((float) (Math.sin(i) * i * 120 - 400), -(0 - 20 * i), 700)));
          //list.add(Transform.RotateZ(45));
          list.add(Transform.RotateY(i * 5));
          //list.add(Transform.RotateX(60));
@@ -1572,7 +1572,7 @@ public class SceneBuilder {
       //material.setSpecular(.3);
 
       list = new ArrayList<>();
-      list.add(Transform.Translate(new Vector(500, 200, 900)));
+      list.add(Transform.Translate(new Vector3(500, 200, 900)));
       list.add(Transform.RotateZ(45));
       list.add(Transform.RotateY(45));
       list.add(Transform.RotateX(60));
@@ -1593,7 +1593,7 @@ public class SceneBuilder {
       //material.setSpecular(.3);
 
       list = new ArrayList<>();
-      list.add(Transform.Translate(new Vector(400, 50, 400)));
+      list.add(Transform.Translate(new Vector3(400, 50, 400)));
       list.add(Transform.RotateY(70));
       list.add(Transform.RotateZ(90));
 
@@ -1721,7 +1721,7 @@ public class SceneBuilder {
       settings.aperture = new CircleAperture(50);
 
       Point3 origin = new Point3(300, 300, 2500);
-      Vector direction = new Vector(0, 0, -1);
+      Vector3 direction = new Vector3(0, 0, -1);
 
       Camera camera = new PerspectiveCamera(settings, null);
 
@@ -1929,7 +1929,7 @@ public class SceneBuilder {
    public static KDScene DiffuseAndSpecularSpheres(int x, int y) {
 
       Point3 origin = new Point3(300, 300, 2500);
-      Vector direction = new Vector(0, 0, -1);
+      Vector3 direction = new Vector3(0, 0, -1);
       Ray orientation = new Ray(origin, direction);
 
       CameraSettings settings = new CameraSettings();
@@ -2071,7 +2071,7 @@ public class SceneBuilder {
 //      settings.aperture = new CircleAperture(50);
 
       Transform[] inputTransforms = new Transform[1];
-      inputTransforms[0] = Transform.Translate(new Vector(0, 500, 2500));
+      inputTransforms[0] = Transform.Translate(new Vector3(0, 500, 2500));
 
       Transform[] compositeTransforms = Transform.composite(inputTransforms);
 
@@ -2093,7 +2093,7 @@ public class SceneBuilder {
       material.IndexOfRefraction = 1.2f;
 
       inputTransforms = new Transform[2];
-      inputTransforms[0] = Transform.Translate(new Vector(0, 2000, 0));
+      inputTransforms[0] = Transform.Translate(new Vector3(0, 2000, 0));
       inputTransforms[1] = Transform.Scale(500);
       compositeTransforms = Transform.composite(inputTransforms);
 
@@ -2112,7 +2112,7 @@ public class SceneBuilder {
 
       inputTransforms = new Transform[2];
       inputTransforms[0] = Transform.Scale(1000f, 0.1f, 1000f);
-      inputTransforms[1] = Transform.Translate(new Vector(-.5f, -1f, -.5f));
+      inputTransforms[1] = Transform.Translate(new Vector3(-.5f, -1f, -.5f));
 
       compositeTransforms = Transform.composite(inputTransforms);
 
@@ -2127,7 +2127,7 @@ public class SceneBuilder {
       material.IndexOfRefraction = 1.2f;
 
       inputTransforms = new Transform[2];
-      inputTransforms[0] = Transform.Translate(new Vector(-500, 300, 0.0f));
+      inputTransforms[0] = Transform.Translate(new Vector3(-500, 300, 0.0f));
       inputTransforms[1] = Transform.Scale(150f);
       compositeTransforms = Transform.composite(inputTransforms);
 
@@ -2142,7 +2142,7 @@ public class SceneBuilder {
       material.IndexOfRefraction = 1.2f;
 
       inputTransforms = new Transform[2];
-      inputTransforms[0] = Transform.Translate(new Vector(500, 500, 0.0f));
+      inputTransforms[0] = Transform.Translate(new Vector3(500, 500, 0.0f));
       inputTransforms[1] = Transform.Scale(150f);
       compositeTransforms = Transform.composite(inputTransforms);
 
@@ -2157,7 +2157,7 @@ public class SceneBuilder {
       material.IndexOfRefraction = 1.2f;
 
       inputTransforms = new Transform[2];
-      inputTransforms[0] = Transform.Translate(new Vector(0, 150, 0.0f));
+      inputTransforms[0] = Transform.Translate(new Vector3(0, 150, 0.0f));
       inputTransforms[1] = Transform.Scale(150f);
       compositeTransforms = Transform.composite(inputTransforms);
 
@@ -2177,7 +2177,7 @@ public class SceneBuilder {
       settings.aperture = new CircleAperture(20);
 
       Point3 origin = new Point3(0, 0, 4000);
-      Vector direction = new Vector(0, 0, -1);
+      Vector3 direction = new Vector3(0, 0, -1);
 
       Camera camera = new PerspectiveCamera(settings, null);
 

@@ -50,8 +50,8 @@ public class GLMouseListener implements MouseListener, MouseMotionListener {
          float xDiff = _sensitivity * (float)(x - _prevX);
          float yDiff = _sensitivity * (float)(y - _prevY);
 
-         _cameraState.ActiveDirectionMovement.X += yDiff;
-         _cameraState.ActiveDirectionMovement.Y += xDiff;
+         _cameraState.ActiveDirectionMovement.x += yDiff;
+         _cameraState.ActiveDirectionMovement.y += xDiff;
 
       }
 

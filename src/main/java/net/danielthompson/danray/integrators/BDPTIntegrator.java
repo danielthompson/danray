@@ -116,7 +116,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //
 //            // determine if anything is blocking the two points
 //            Vector connectingDirection = Vector.minus(eyePath.surfacePoint, lightPath.surfacePoint);
-//            connectingDirection.Normalize();
+//            connectingDirection.normalize();
 //            Point connectingOrigin = eyePath.surfacePoint;
 //            Ray connectingRay = new Ray(connectingOrigin, connectingDirection);
 //            float maxT = connectingRay.GetTAtPoint(eyePath.surfacePoint);
@@ -214,7 +214,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //            if (lightDensityTowardsPoint > 0) {
 //               // check to see if the eye vertex's reflect will reflect anything from the light back to the previous eye vertex
 //               Vector outgoingDirection = Vector.scale(eyeVertex.incomingDirection, -1);
-//               outgoingDirection.Normalize();
+//               outgoingDirection.normalize();
 //               float brdfPDF = eyeVertex.surfaceBRDF.f(directionFromLightToPoint, eyeVertex.surfaceNormal, outgoingDirection);
 ////               outgoing = RelativeSpectralPowerDistributionLibrary.Blue.getSPD();
 ////               outgoing.scale(brdfPDF * 10);
@@ -272,7 +272,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 ////
 ////            // determine if anything is blocking the two points
 ////            Vector connectingDirection = Vector.minus(eyeVertex.surfacePoint, lightPath.surfacePoint);
-////            connectingDirection.Normalize();
+////            connectingDirection.normalize();
 ////            Point connectingOrigin = lightPath.surfacePoint;
 ////            Ray connectingRay = new Ray(connectingOrigin, connectingDirection);
 ////            float maxT = connectingRay.GetTAtPoint(eyeVertex.surfacePoint);

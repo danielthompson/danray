@@ -8,9 +8,9 @@ package net.danielthompson.danray.structures;
  */
 public class Ray {
 
-   public Vector Direction; // 8 bytes
+   public Vector3 Direction; // 8 bytes
    public Point3 Origin; // 8 bytes
-   public Vector DirectionInverse; // 8 bytes
+   public Vector3 DirectionInverse; // 8 bytes
    public boolean FlipNormals = false;
 
    /**
@@ -31,14 +31,14 @@ public class Ray {
     * @param origin The origin of the vector.
     * @param direction The absolute direction of the vector (i.e. not relative to the origin). Will be normalized.
     */
-   public Ray(Point3 origin, Vector direction) {
+   public Ray(Point3 origin, Vector3 direction) {
       MinT = Float.MAX_VALUE;;
 
       Origin = origin;
 
-      float oneOverLength = (float) (1.0f / Math.sqrt(direction.X * direction.X + direction.Y * direction.Y + direction.Z * direction.Z));
-      Direction = new Vector(direction.X * oneOverLength, direction.Y * oneOverLength, direction.Z * oneOverLength);
-      DirectionInverse = new Vector(1.0f / Direction.X, 1.0f / Direction.Y, 1.0f / Direction.Z);
+      float oneOverLength = (float) (1.0f / Math.sqrt(direction.x * direction.x + direction.y * direction.y + direction.z * direction.z));
+      Direction = new Vector3(direction.x * oneOverLength, direction.y * oneOverLength, direction.z * oneOverLength);
+      DirectionInverse = new Vector3(1.0f / Direction.x, 1.0f / Direction.y, 1.0f / Direction.z);
    }
 
    public Ray(Point3 origin, float dx, float dy, float dz) {
@@ -47,32 +47,32 @@ public class Ray {
       Origin = origin;
 
       float oneOverLength = (float) (1.0 / Math.sqrt(dx * dx + dy * dy + dz * dz));
-      Direction = new Vector(dx * oneOverLength, dy * oneOverLength, dz * oneOverLength);
-      DirectionInverse = new Vector(1.0f / Direction.X, 1.0f / Direction.Y, 1.0f / Direction.Z);
+      Direction = new Vector3(dx * oneOverLength, dy * oneOverLength, dz * oneOverLength);
+      DirectionInverse = new Vector3(1.0f / Direction.x, 1.0f / Direction.y, 1.0f / Direction.z);
    }
 
    public void OffsetOriginForward(float offset) {
-      Vector offsetV = Vector.Scale(Direction, offset);
+      Vector3 offsetV = Vector3.scale(Direction, offset);
       Point3 newOrigin = Point3.plus(Origin, offsetV);
 
       Origin.plus(offsetV);
    }
 
    public Point3 ScaleFromOrigin(float t) {
-      float x = Origin.x + t * Direction.X;
-      float y = Origin.y + t * Direction.Y;
-      float z = Origin.z + t * Direction.Z;
+      float x = Origin.x + t * Direction.x;
+      float y = Origin.y + t * Direction.y;
+      float z = Origin.z + t * Direction.z;
 
       return new Point3(x, y, z);
    }
 
-   public Vector Scale(float t) {
-      return Vector.Scale(Direction, t);
+   public Vector3 Scale(float t) {
+      return Vector3.scale(Direction, t);
    }
 
    public Point3 GetPointAtT(float t) {
 
-      return Point3.plus(Origin, Vector.Scale(Direction, t));
+      return Point3.plus(Origin, Vector3.scale(Direction, t));
    }
 
    public float GetTAtPoint(Point3 p) {
@@ -80,18 +80,18 @@ public class Ray {
       float tY = -Float.MAX_VALUE;
       float tZ = -Float.MAX_VALUE;
 
-      if (Direction.X != 0) {
-         tX = (p.x - Origin.x) / Direction.X;
+      if (Direction.x != 0) {
+         tX = (p.x - Origin.x) / Direction.x;
          return tX;
       }
 
-      if (Direction.Y != 0) {
-         tY = (p.y - Origin.y) / Direction.Y;
+      if (Direction.y != 0) {
+         tY = (p.y - Origin.y) / Direction.y;
          return tY;
       }
 
-      if (Direction.Z != 0) {
-         tZ = (p.z - Origin.z) / Direction.Z;
+      if (Direction.z != 0) {
+         tZ = (p.z - Origin.z) / Direction.z;
          return tZ;
       }
 

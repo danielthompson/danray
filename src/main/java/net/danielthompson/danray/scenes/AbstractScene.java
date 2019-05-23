@@ -41,7 +41,7 @@ public abstract class AbstractScene {
       Lights.add(light);
    }
 
-   public SpectralPowerDistribution getEnvironmentColor(Vector v) {
+   public SpectralPowerDistribution getEnvironmentColor(Vector3 v) {
       if (Skybox == null) {
          return new SpectralPowerDistribution(Color.BLACK);
       }

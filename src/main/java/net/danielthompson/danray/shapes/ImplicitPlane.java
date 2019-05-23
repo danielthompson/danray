@@ -35,8 +35,8 @@ public class ImplicitPlane extends AbstractShape {
 
    @Override
    public Intersection GetHitInfo(Ray ray) {
-      float numerator = (Point3.minus(Origin, ray.Origin)).Dot(Normal);
-      float denominator = ray.Direction.Dot(Normal);
+      float numerator = (Point3.minus(Origin, ray.Origin)).dot(Normal);
+      float denominator = ray.Direction.dot(Normal);
 
       Intersection state = new Intersection();
 

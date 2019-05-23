@@ -34,7 +34,7 @@ public class GetHitInfoTests {
       ImplicitPlane plane = new ImplicitPlane(planeOrigin, normal, null);
 
       Point3 vectorOrigin = new Point3(2, 2, 2);
-      Vector vectorDirection = new Vector(0, -1, 0);
+      Vector3 vectorDirection = new Vector3(0, -1, 0);
 
       Ray ray = new Ray(vectorOrigin, vectorDirection);
 
@@ -55,7 +55,7 @@ public class GetHitInfoTests {
       ImplicitPlane plane = new ImplicitPlane(planeOrigin, normal, null);
 
       Point3 vectorOrigin = new Point3(500, 500, 500);
-      Vector vectorDirection = new Vector(0, 0, -1);
+      Vector3 vectorDirection = new Vector3(0, 0, -1);
 
       Ray ray = new Ray(vectorOrigin, vectorDirection);
 
@@ -76,7 +76,7 @@ public class GetHitInfoTests {
       ImplicitPlane plane = new ImplicitPlane(planeOrigin, normal, null);
 
       Point3 vectorOrigin = new Point3(500, 500, 500);
-      Vector vectorDirection = new Vector(0, 0, -1);
+      Vector3 vectorDirection = new Vector3(0, 0, -1);
 
       Ray ray = new Ray(vectorOrigin, vectorDirection);
 
@@ -97,7 +97,7 @@ public class GetHitInfoTests {
       ImplicitPlane plane = new ImplicitPlane(planeOrigin, normal, null);
 
       Point3 vectorOrigin = new Point3(700, 500, 1600);
-      Vector vectorDirection = new Vector(0, 0, -1);
+      Vector3 vectorDirection = new Vector3(0, 0, -1);
 
       Ray ray = new Ray(vectorOrigin, vectorDirection);
 
@@ -117,7 +117,7 @@ public class GetHitInfoTests {
       ImplicitPlane plane = new ImplicitPlane(planeOrigin, normal, null);
 
       Point3 vectorOrigin = new Point3(700, 500, 1600);
-      Vector vectorDirection = new Vector(0, -1, -1);
+      Vector3 vectorDirection = new Vector3(0, -1, -1);
 
       Ray ray = new Ray(vectorOrigin, vectorDirection);
 
@@ -136,7 +136,7 @@ public class GetHitInfoTests {
       ImplicitPlane plane = new ImplicitPlane(planeOrigin, normal, null);
 
       Point3 vectorOrigin = new Point3(1, 10, 0);
-      Vector vectorDirection = new Vector(0, -1, 0);
+      Vector3 vectorDirection = new Vector3(0, -1, 0);
 
       Ray ray = new Ray(vectorOrigin, vectorDirection);
 

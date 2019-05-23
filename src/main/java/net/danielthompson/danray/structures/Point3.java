@@ -75,7 +75,7 @@ public class Point3 implements Cloneable {
       float yDirection = y - originPoint.y;
       float zDirection = z - originPoint.z;
 
-      Vector direction = new Vector(xDirection, yDirection, zDirection);
+      Vector3 direction = new Vector3(xDirection, yDirection, zDirection);
       return new Ray(originPoint, direction);
    }
 
@@ -96,16 +96,16 @@ public class Point3 implements Cloneable {
       z -= point.z;
    }
 
-   public static Vector minus(Point3 point1, Point3 point2) {
-      return new Vector(point1.x - point2.x, point1.y - point2.y, point1.z - point2.z);
+   public static Vector3 minus(Point3 point1, Point3 point2) {
+      return new Vector3(point1.x - point2.x, point1.y - point2.y, point1.z - point2.z);
    }
 
-   public static Point3 minus(Point3 point, Vector vector) {
-      return new Point3(point.x - vector.X, point.y - vector.Y, point.z - vector.Z);
+   public static Point3 minus(Point3 point, Vector3 vector) {
+      return new Point3(point.x - vector.x, point.y - vector.y, point.z - vector.z);
    }
 
    public static Point3 lerp(Point3 point1, Point3 point2, float percentage) {
-      return Point3.plus(point1, Vector.Scale(Point3.minus(point2, point1), percentage));
+      return Point3.plus(point1, Vector3.scale(Point3.minus(point2, point1), percentage));
    }
 
    public float squaredDistanceBetween(Point3 point) {
@@ -120,18 +120,18 @@ public class Point3 implements Cloneable {
       z += point.z;
    }
 
-   public void plus(Vector vector) {
-      x += vector.X;
-      y += vector.Y;
-      z += vector.Z;
+   public void plus(Vector3 vector) {
+      x += vector.x;
+      y += vector.y;
+      z += vector.z;
    }
 
    public static Point3 plus(Point3 point1, Point3 point2) {
       return new Point3(point1.x + point2.x, point1.y + point2.y, point1.z + point2.z);
    }
 
-   public static Point3 plus(Point3 point, Vector vector) {
-      return new Point3(point.x + vector.X, point.y + vector.Y, point.z + vector.Z);
+   public static Point3 plus(Point3 point, Vector3 vector) {
+      return new Point3(point.x + vector.x, point.y + vector.y, point.z + vector.z);
    }
 
    public void scale(float t) {

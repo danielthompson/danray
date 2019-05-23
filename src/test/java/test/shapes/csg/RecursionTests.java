@@ -20,7 +20,7 @@ public class RecursionTests {
       Transform[] compositeTransforms;
 
       inputTransforms = new Transform[]{
-            Transform.Translate(new Vector(0, 0, 1)),
+            Transform.Translate(new Vector3(0, 0, 1)),
             Transform.Scale(4),
             Transform.Translate(0, -0.5f, 0)
       };
@@ -29,7 +29,7 @@ public class RecursionTests {
       Box box1 = new Box(compositeTransforms, null);
 
       inputTransforms = new Transform[]{
-            Transform.Translate(new Vector(1, 0, 0)),
+            Transform.Translate(new Vector3(1, 0, 0)),
             Transform.Scale(4),
             Transform.Translate(0, -0.5f, 0)
       };
@@ -48,7 +48,7 @@ public class RecursionTests {
       intersectionShape.RightShape = box2;
 
       inputTransforms = new Transform[]{
-            Transform.Translate(new Vector(-1, 0, 2)),
+            Transform.Translate(new Vector3(-1, 0, 2)),
             Transform.Scale(7, 1, 1),
             Transform.Translate(0, -0.5f, 0)
       };
@@ -75,7 +75,7 @@ public class RecursionTests {
    @Test
    public void location1() {
       Point3 o = new Point3(7.5f, 0, 0.5f);
-      Vector d = new Vector(-1, 0, 0);
+      Vector3 d = new Vector3(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
       boolean hits = shape.Hits(ray);
@@ -85,7 +85,7 @@ public class RecursionTests {
    @Test
    public void location2() {
       Point3 o = new Point3(7.5f, 0, 1.5f);
-      Vector d = new Vector(-1, 0, 0);
+      Vector3 d = new Vector3(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
       boolean hits = shape.Hits(ray);
@@ -100,7 +100,7 @@ public class RecursionTests {
    @Test
    public void normal2() {
       Point3 o = new Point3(7.5f, 0, 1.5f);
-      Vector d = new Vector(-1, 0, 0);
+      Vector3 d = new Vector3(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
       boolean hits = shape.Hits(ray);
@@ -113,7 +113,7 @@ public class RecursionTests {
    @Test
    public void location3() {
       Point3 o = new Point3(7.5f, 0, 2.5f);
-      Vector d = new Vector(-1, 0, 0);
+      Vector3 d = new Vector3(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
       boolean hits = shape.Hits(ray);
@@ -123,7 +123,7 @@ public class RecursionTests {
    @Test
    public void location4() {
       Point3 o = new Point3(7.5f, 0, 4.5f);
-      Vector d = new Vector(-1, 0, 0);
+      Vector3 d = new Vector3(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
       boolean hits = shape.Hits(ray);
@@ -133,7 +133,7 @@ public class RecursionTests {
    @Test
    public void location5() {
       Point3 o = new Point3(5.5f, 0, 6.5f);
-      Vector d = new Vector(0, 0, -1);
+      Vector3 d = new Vector3(0, 0, -1);
       Ray ray = new Ray(o, d);
 
       boolean hits = shape.Hits(ray);
@@ -143,7 +143,7 @@ public class RecursionTests {
    @Test
    public void location6() {
       Point3 o = new Point3(4.5f, 0, 6.5f);
-      Vector d = new Vector(0, 0, -1);
+      Vector3 d = new Vector3(0, 0, -1);
       Ray ray = new Ray(o, d);
 
       boolean hits = shape.Hits(ray);
@@ -153,7 +153,7 @@ public class RecursionTests {
    @Test
    public void location7() {
       Point3 o = new Point3(3.5f, 0, 6.5f);
-      Vector d = new Vector(0, 0, -1);
+      Vector3 d = new Vector3(0, 0, -1);
       Ray ray = new Ray(o, d);
 
       boolean hits = shape.Hits(ray);
@@ -168,7 +168,7 @@ public class RecursionTests {
    @Test
    public void normal7() {
       Point3 o = new Point3(3.5f, 0, 6.5f);
-      Vector d = new Vector(0, 0, -1);
+      Vector3 d = new Vector3(0, 0, -1);
       Ray ray = new Ray(o, d);
 
       boolean hits = shape.Hits(ray);
@@ -181,7 +181,7 @@ public class RecursionTests {
    @Test
    public void location8() {
       Point3 o = new Point3(-3.5f, 0, 3.5f);
-      Vector d = new Vector(1, 0, 0);
+      Vector3 d = new Vector3(1, 0, 0);
       Ray ray = new Ray(o, d);
 
       boolean hits = shape.Hits(ray);
@@ -196,7 +196,7 @@ public class RecursionTests {
    @Test
    public void normal8() {
       Point3 o = new Point3(3.5f, 0, 6.5f);
-      Vector d = new Vector(0, 0, -1);
+      Vector3 d = new Vector3(0, 0, -1);
       Ray ray = new Ray(o, d);
 
       boolean hits = shape.Hits(ray);

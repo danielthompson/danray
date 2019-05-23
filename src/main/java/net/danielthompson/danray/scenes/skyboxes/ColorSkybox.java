@@ -1,7 +1,7 @@
 package net.danielthompson.danray.scenes.skyboxes;
 
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
-import net.danielthompson.danray.structures.Vector;
+import net.danielthompson.danray.structures.Vector3;
 
 import java.awt.*;
 
@@ -18,7 +18,7 @@ public class ColorSkybox extends AbstractSkybox {
    }
 
    @Override
-   public SpectralPowerDistribution getSkyBoxSPD(Vector direction) {
+   public SpectralPowerDistribution getSkyBoxSPD(Vector3 direction) {
       return _spd;
    }
 }

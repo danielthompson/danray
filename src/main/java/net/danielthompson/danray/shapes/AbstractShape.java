@@ -68,12 +68,12 @@ public abstract class AbstractShape {
    protected void CalculateTangents(Intersection intersection) {
       // TODO fix such that TangentU and TangentV are actually in du & dv directions (once texture mapping is implemented)
 
-      Vector v1 = Constants.PositiveX.Cross(intersection.Normal);
-      Vector v2 = Constants.PositiveY.Cross(intersection.Normal);
+      Vector3 v1 = Constants.PositiveX.cross(intersection.Normal);
+      Vector3 v2 = Constants.PositiveY.cross(intersection.Normal);
 
-      intersection.TangentU = (v1.LengthSquared() > v2.LengthSquared()) ? v1 : v2;
-      intersection.TangentV = intersection.TangentU.Cross(intersection.Normal);
-      intersection.TangentU = intersection.TangentV.Cross(intersection.Normal);
+      intersection.TangentU = (v1.lengthSquared() > v2.lengthSquared()) ? v1 : v2;
+      intersection.TangentV = intersection.TangentU.cross(intersection.Normal);
+      intersection.TangentU = intersection.TangentV.cross(intersection.Normal);
    }
 
    protected void ToWorldSpace(Intersection intersection, Ray worldSpaceRay) {
@@ -84,8 +84,8 @@ public abstract class AbstractShape {
          intersection.TangentV = ObjectToWorld.Apply(intersection.TangentV);
          if (ObjectToWorld.HasScale()) {
             intersection.Normal.Normalize();
-            intersection.TangentU.Normalize();
-            intersection.TangentV.Normalize();
+            intersection.TangentU.normalize();
+            intersection.TangentV.normalize();
             intersection.t = worldSpaceRay.GetTAtPoint(intersection.Location);
          }
       }

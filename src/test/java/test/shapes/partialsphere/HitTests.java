@@ -4,7 +4,7 @@ import net.danielthompson.danray.shapes.PartialSphere;
 import net.danielthompson.danray.structures.Constants;
 import net.danielthompson.danray.structures.Point3;
 import net.danielthompson.danray.structures.Ray;
-import net.danielthompson.danray.structures.Vector;
+import net.danielthompson.danray.structures.Vector3;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -22,7 +22,7 @@ public class HitTests {
       PartialSphere sphere = new PartialSphere(null, null, Constants.PI, Constants.PI);
 
       Point3 Origin = new Point3(2, 0, 0);
-      Vector Direction = new Vector(1, 0, 0);
+      Vector3 Direction = new Vector3(1, 0, 0);
       Ray ray = new Ray(Origin, Direction);
 
       boolean hits = sphere.Hits(ray);
@@ -35,7 +35,7 @@ public class HitTests {
       PartialSphere sphere = new PartialSphere(null, null, Constants.PI, Constants.PI);
 
       Point3 Origin = new Point3(-2, 0, 0);
-      Vector Direction = new Vector(1, 0, 0);
+      Vector3 Direction = new Vector3(1, 0, 0);
       Ray ray = new Ray(Origin, Direction);
 
       boolean hits = sphere.Hits(ray);
@@ -48,7 +48,7 @@ public class HitTests {
       PartialSphere sphere = new PartialSphere(null, null, Constants.PIOver2, Constants.PI);
 
       Point3 Origin = new Point3(.1f, 2, .1f);
-      Vector Direction = new Vector(0, -1, 0);
+      Vector3 Direction = new Vector3(0, -1, 0);
       Ray ray = new Ray(Origin, Direction);
 
       boolean hits = sphere.Hits(ray);
@@ -60,7 +60,7 @@ public class HitTests {
       PartialSphere sphere = new PartialSphere(null, null, Constants.PIOver2, Constants.PI);
 
       Point3 Origin = new Point3(-.1f, 2, .1f);
-      Vector Direction = new Vector(0, -1, 0);
+      Vector3 Direction = new Vector3(0, -1, 0);
       Ray ray = new Ray(Origin, Direction);
 
       boolean hits = sphere.Hits(ray);
@@ -73,7 +73,7 @@ public class HitTests {
       PartialSphere sphere = new PartialSphere(null, null, Constants.PIOver2, Constants.PI);
 
       Point3 Origin = new Point3(-.1f, 2, -.1f);
-      Vector Direction = new Vector(0, -1, 0);
+      Vector3 Direction = new Vector3(0, -1, 0);
       Ray ray = new Ray(Origin, Direction);
 
       boolean hits = sphere.Hits(ray);
@@ -86,7 +86,7 @@ public class HitTests {
       PartialSphere sphere = new PartialSphere(null, null, Constants.PIOver2, Constants.PI);
 
       Point3 Origin = new Point3(.1f, 2, -.1f);
-      Vector Direction = new Vector(0, -1, 0);
+      Vector3 Direction = new Vector3(0, -1, 0);
       Ray ray = new Ray(Origin, Direction);
 
       boolean hits = sphere.Hits(ray);
@@ -99,7 +99,7 @@ public class HitTests {
       PartialSphere sphere = new PartialSphere(null, null, 0, Constants.PI);
 
       Point3 Origin = new Point3(.1f, 2, .1f);
-      Vector Direction = new Vector(0, -1, 0);
+      Vector3 Direction = new Vector3(0, -1, 0);
       Ray ray = new Ray(Origin, Direction);
 
       boolean hits = sphere.Hits(ray);
@@ -111,7 +111,7 @@ public class HitTests {
       PartialSphere sphere = new PartialSphere(null, null, 0, Constants.PI);
 
       Point3 Origin = new Point3(-.1f, 2, .1f);
-      Vector Direction = new Vector(0, -1, 0);
+      Vector3 Direction = new Vector3(0, -1, 0);
       Ray ray = new Ray(Origin, Direction);
 
       boolean hits = sphere.Hits(ray);
@@ -124,7 +124,7 @@ public class HitTests {
       PartialSphere sphere = new PartialSphere(null, null, 0, Constants.PI);
 
       Point3 Origin = new Point3(-.1f, 2, -.1f);
-      Vector Direction = new Vector(0, -1, 0);
+      Vector3 Direction = new Vector3(0, -1, 0);
       Ray ray = new Ray(Origin, Direction);
 
       boolean hits = sphere.Hits(ray);
@@ -137,7 +137,7 @@ public class HitTests {
       PartialSphere sphere = new PartialSphere(null, null, 0, Constants.PI);
 
       Point3 Origin = new Point3(.1f, 2, -.1f);
-      Vector Direction = new Vector(0, -1, 0);
+      Vector3 Direction = new Vector3(0, -1, 0);
       Ray ray = new Ray(Origin, Direction);
 
       boolean hits = sphere.Hits(ray);
@@ -150,7 +150,7 @@ public class HitTests {
       PartialSphere sphere = new PartialSphere(null, null, 0, Constants.PI);
 
       Point3 Origin = new Point3(0, 0, 2f);
-      Vector Direction = new Vector(0, 0, -1);
+      Vector3 Direction = new Vector3(0, 0, -1);
       Ray ray = new Ray(Origin, Direction);
 
       boolean hits = sphere.Hits(ray);

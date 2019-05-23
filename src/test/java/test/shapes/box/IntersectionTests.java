@@ -26,7 +26,7 @@ public class IntersectionTests {
       Box box = new Box(compositeTransform, material);
 
       Point3 origin = new Point3(1, 1, 10);
-      Vector direction = new Vector(0, 0, -1);
+      Vector3 direction = new Vector3(0, 0, -1);
 
       Ray ray = new Ray(origin, direction);
 
@@ -53,7 +53,7 @@ public class IntersectionTests {
 
       Box box = new Box(compositeTransform, material);
       Point3 origin = new Point3(0, 1, 3);
-      Vector direction = new Vector(1, 0, -1);
+      Vector3 direction = new Vector3(1, 0, -1);
 
       Ray ray = new Ray(origin, direction);
 
@@ -79,7 +79,7 @@ public class IntersectionTests {
       Box box = new Box(compositeTransform, material);
 
       Point3 origin = new Point3(4, 1, 4);
-      Vector direction = new Vector(-1, 0, -1);
+      Vector3 direction = new Vector3(-1, 0, -1);
 
       Ray ray = new Ray(origin, direction);
 
@@ -107,7 +107,7 @@ public class IntersectionTests {
       Box box = new Box(compositeTransform, material);
 
       Point3 origin = new Point3(5, 1, 2);
-      Vector direction = new Vector(-1, 0, 0);
+      Vector3 direction = new Vector3(-1, 0, 0);
 
       Ray ray = new Ray(origin, direction);
 

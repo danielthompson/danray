@@ -6,7 +6,7 @@ import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.Point3;
 import net.danielthompson.danray.acceleration.KDScene;
 import net.danielthompson.danray.structures.Ray;
-import net.danielthompson.danray.structures.Vector;
+import net.danielthompson.danray.structures.Vector3;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -56,7 +56,7 @@ public class TraverseMediumTreeTests {
       scene.compile(null);
 
       Point3 origin = new Point3(-10, 10, 10);
-      Vector direction = new Vector(1, 0, 0);
+      Vector3 direction = new Vector3(1, 0, 0);
 
       Ray ray = new Ray(origin, direction);
 

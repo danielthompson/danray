@@ -20,13 +20,13 @@ public class TransformationTests {
 
       Transform[] inputTransforms = new Transform[2];
       inputTransforms[0] = Transform.RotateX(45);
-      inputTransforms[1] = Transform.Translate(new Vector(-.5f, -.5f, -.5f));
+      inputTransforms[1] = Transform.Translate(new Vector3(-.5f, -.5f, -.5f));
       Transform compositeTransform[] = Transform.composite(inputTransforms);
 
       Box box = new Box(compositeTransform, material);
 
       Point3 origin = new Point3(0.25f, 0.25f, 10f);
-      Vector direction = new Vector(0f, 0f, -1f);
+      Vector3 direction = new Vector3(0f, 0f, -1f);
 
       Ray ray = new Ray(origin, direction);
 
@@ -54,7 +54,7 @@ public class TransformationTests {
       Box box = new Box(compositeTransform, material);
 
       Point3 origin = new Point3(0, 1, 3);
-      Vector direction = new Vector(1, 0, -1);
+      Vector3 direction = new Vector3(1, 0, -1);
 
       Ray ray = new Ray(origin, direction);
 
@@ -81,7 +81,7 @@ public class TransformationTests {
       Box box = new Box(compositeTransform, material);
 
       Point3 origin = new Point3(4, 1, 4);
-      Vector direction = new Vector(-1, 0, -1);
+      Vector3 direction = new Vector3(-1, 0, -1);
 
       Ray ray = new Ray(origin, direction);
 
@@ -110,7 +110,7 @@ public class TransformationTests {
       Box box = new Box(compositeTransform, material);
 
       Point3 origin = new Point3(5, 1, 2);
-      Vector direction = new Vector(-1, 0, 0);
+      Vector3 direction = new Vector3(-1, 0, 0);
 
       Ray ray = new Ray(origin, direction);
 

@@ -140,9 +140,9 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
 
             // TODO fix
-            Vector outgoingDirection = new Vector(1, 0, 0); //objectMaterial.BRDF.getVectorInPDF(closestStateToRay.Normal, ray.Direction, 1, 1);
+            Vector3 outgoingDirection = new Vector3(1, 0, 0); //objectMaterial.BRDF.getVectorInPDF(closestStateToRay.Normal, ray.Direction, 1, 1);
 
-            Point3 offsetIntersection = Point3.plus(closestStateToRay.Location, Vector.Scale(outgoingDirection, Constants.Epsilon * 1000));
+            Point3 offsetIntersection = Point3.plus(closestStateToRay.Location, Vector3.scale(outgoingDirection, Constants.Epsilon * 1000));
 //            Point offsetIntersection = closestStateToRay.Location;
 
 
@@ -159,7 +159,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
             else {
 
-               Vector reversedIncoming = Vector.Scale(ray.Direction, -1);
+               Vector3 reversedIncoming = Vector3.scale(ray.Direction, -1);
 
                float angleIncoming = GeometryCalculations.radiansBetween(reversedIncoming, closestStateToRay.Normal);
                float angleOutgoing = GeometryCalculations.radiansBetween(outgoingDirection, closestStateToRay.Normal);

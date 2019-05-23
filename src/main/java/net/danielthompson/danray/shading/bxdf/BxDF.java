@@ -2,7 +2,7 @@ package net.danielthompson.danray.shading.bxdf;
 
 import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.Normal;
-import net.danielthompson.danray.structures.Vector;
+import net.danielthompson.danray.structures.Vector3;
 import net.danielthompson.danray.utility.MonteCarloCalculations;
 
 /**
@@ -10,11 +10,11 @@ import net.danielthompson.danray.utility.MonteCarloCalculations;
  */
 public abstract class BxDF {
 
-   public Vector WorldToLocal(Intersection intersection, Vector v) {
-      return new Vector(
-            v.Dot(intersection.TangentU),
-            v.Dot(intersection.Normal),
-            v.Dot(intersection.TangentV)
+   public Vector3 WorldToLocal(Intersection intersection, Vector3 v) {
+      return new Vector3(
+            v.dot(intersection.TangentU),
+            v.dot(intersection.Normal),
+            v.dot(intersection.TangentV)
       );
    }
 
@@ -26,28 +26,28 @@ public abstract class BxDF {
       );
    }
 
-   public void LocalToWorldInPlace(Intersection intersection, Vector v) {
-      float x = intersection.TangentU.X * v.X + intersection.Normal.X * v.Y + intersection.TangentV.X * v.Z;
-      float y = intersection.TangentU.Y * v.X + intersection.Normal.Y * v.Y + intersection.TangentV.Y * v.Z;
-      float z = intersection.TangentU.Z * v.X + intersection.Normal.Z * v.Y + intersection.TangentV.Z * v.Z;
-      v.X = x;
-      v.Y = y;
-      v.Z = z;
+   public void LocalToWorldInPlace(Intersection intersection, Vector3 v) {
+      float x = intersection.TangentU.x * v.x + intersection.Normal.X * v.y + intersection.TangentV.x * v.z;
+      float y = intersection.TangentU.y * v.x + intersection.Normal.Y * v.y + intersection.TangentV.y * v.z;
+      float z = intersection.TangentU.z * v.x + intersection.Normal.Z * v.y + intersection.TangentV.z * v.z;
+      v.x = x;
+      v.y = y;
+      v.z = z;
    }
 
-   public Vector LocalToWorld(Intersection intersection, Vector v) {
-      return new Vector(
-            intersection.TangentU.X * v.X + intersection.Normal.X * v.Y + intersection.TangentV.X * v.Z,
-            intersection.TangentU.Y * v.X + intersection.Normal.Y * v.Y + intersection.TangentV.Y * v.Z,
-            intersection.TangentU.Z * v.X + intersection.Normal.Z * v.Y + intersection.TangentV.Z * v.Z
+   public Vector3 LocalToWorld(Intersection intersection, Vector3 v) {
+      return new Vector3(
+            intersection.TangentU.x * v.x + intersection.Normal.X * v.y + intersection.TangentV.x * v.z,
+            intersection.TangentU.y * v.x + intersection.Normal.Y * v.y + intersection.TangentV.y * v.z,
+            intersection.TangentU.z * v.x + intersection.Normal.Z * v.y + intersection.TangentV.z * v.z
       );
    }
 
    public Normal LocalToWorld(Intersection intersection, Normal n) {
       return new Normal(
-            intersection.TangentU.X * n.X + intersection.Normal.X * n.Y + intersection.TangentV.X * n.Z,
-            intersection.TangentU.Y * n.X + intersection.Normal.Y * n.Y + intersection.TangentV.Y * n.Z,
-            intersection.TangentU.Z * n.X + intersection.Normal.Z * n.Y + intersection.TangentV.Z * n.Z
+            intersection.TangentU.x * n.X + intersection.Normal.X * n.Y + intersection.TangentV.x * n.Z,
+            intersection.TangentU.y * n.X + intersection.Normal.Y * n.Y + intersection.TangentV.y * n.Z,
+            intersection.TangentU.z * n.X + intersection.Normal.Z * n.Y + intersection.TangentV.z * n.Z
       );
    }
 
@@ -78,22 +78,22 @@ public abstract class BxDF {
     * @param incoming The incoming vector.
     * @return A vector randomly sampled according to the BxDF's PDF.
     */
-   public abstract Vector getVectorInPDF(Normal normal, Vector incoming, float leavingIndexOfRefraction, float enteringIndexOfRefraction);
+   public abstract Vector3 getVectorInPDF(Normal normal, Vector3 incoming, float leavingIndexOfRefraction, float enteringIndexOfRefraction);
 
-   public Vector getVectorInPDF(Normal normal, Vector incoming) {
+   public Vector3 getVectorInPDF(Normal normal, Vector3 incoming) {
       return getVectorInPDF(normal, incoming, 1, 1);
    }
 
-   public Vector getVectorInPDF(Intersection intersection, Vector incoming, float leavingIndexOfRefraction, float enteringIndexOfRefraction) {
+   public Vector3 getVectorInPDF(Intersection intersection, Vector3 incoming, float leavingIndexOfRefraction, float enteringIndexOfRefraction) {
       // local space
-      Vector outgoing = MonteCarloCalculations.CosineSampleHemisphere();
+      Vector3 outgoing = MonteCarloCalculations.CosineSampleHemisphere();
 
       // world space
       LocalToWorldInPlace(intersection, outgoing);
       return outgoing;
    }
 
-   public Vector getVectorInPDF(Intersection intersection, Vector incoming) {
+   public Vector3 getVectorInPDF(Intersection intersection, Vector3 incoming) {
       return getVectorInPDF(intersection, incoming, 1, 1);
    }
 
@@ -107,6 +107,6 @@ public abstract class BxDF {
     * @param outgoing The direction of outgoing light.
     * @return The proportion of outgoing light that comes from the incoming direction.
     */
-   public abstract float f(Vector incoming, Normal normal, Vector outgoing);
+   public abstract float f(Vector3 incoming, Normal normal, Vector3 outgoing);
 
 }

@@ -38,7 +38,7 @@ public class PercentageTests {
       state.Hits = true;
 
       Point3 vectorOrigin = new Point3(10, 0, 0);
-      Vector vectorDirection = new Vector(-1, 0, 0);
+      Vector3 vectorDirection = new Vector3(-1, 0, 0);
       Ray cameraRay = new Ray(vectorOrigin, vectorDirection);
 
       float actual = GeometryCalculations.GetAngleOfIncidencePercentage(cameraRay, state);
@@ -59,7 +59,7 @@ public class PercentageTests {
       state.Hits = true;
 
       Point3 vectorOrigin = new Point3(2, 1, 0);
-      Vector vectorDirection = new Vector(-1, -1, 0);
+      Vector3 vectorDirection = new Vector3(-1, -1, 0);
       Ray cameraRay = new Ray(vectorOrigin, vectorDirection);
 
       float actual = GeometryCalculations.GetAngleOfIncidencePercentage(cameraRay, state);
@@ -80,7 +80,7 @@ public class PercentageTests {
       state.Hits = true;
 
       Point3 vectorOrigin = new Point3(1, 1, 0);
-      Vector vectorDirection = new Vector(0, -1, 0);
+      Vector3 vectorDirection = new Vector3(0, -1, 0);
       Ray cameraRay = new Ray(vectorOrigin, vectorDirection);
 
       float actual = GeometryCalculations.GetAngleOfIncidencePercentage(cameraRay, state);

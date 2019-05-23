@@ -5,7 +5,7 @@ import net.danielthompson.danray.shapes.Box;
 import net.danielthompson.danray.structures.Point3;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Transform;
-import net.danielthompson.danray.structures.Vector;
+import net.danielthompson.danray.structures.Vector3;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -31,21 +31,21 @@ public class HitTests {
    public Object[][] ScaleDataProvider() {
       return new Object[][] {
             {
-                  new Ray(new Point3(0, 0, 0), new Vector(1, 1, 1)),
+                  new Ray(new Point3(0, 0, 0), new Vector3(1, 1, 1)),
                   Transform.Scale(1, 1, 1),
-                  new Ray(new Point3(0, 0, 0), new Vector(1, 1, 1)) },
+                  new Ray(new Point3(0, 0, 0), new Vector3(1, 1, 1)) },
             {
-                  new Ray(new Point3(0, 0, 0), new Vector(1, 1, 1)),
+                  new Ray(new Point3(0, 0, 0), new Vector3(1, 1, 1)),
                   Transform.Scale(-1, -1, -1),
-                  new Ray(new Point3(0, 0, 0), new Vector(-1, -1, -1)) },
+                  new Ray(new Point3(0, 0, 0), new Vector3(-1, -1, -1)) },
             {
-                  new Ray(new Point3(2, 2, 2), new Vector(1, 1, 1)),
+                  new Ray(new Point3(2, 2, 2), new Vector3(1, 1, 1)),
                   Transform.Scale(1, 1, 1),
-                  new Ray(new Point3(2, 2, 2), new Vector(1, 1, 1)) },
+                  new Ray(new Point3(2, 2, 2), new Vector3(1, 1, 1)) },
             {
-                  new Ray(new Point3(2, 2, 2), new Vector(5, 5, 5)),
+                  new Ray(new Point3(2, 2, 2), new Vector3(5, 5, 5)),
                   Transform.Scale(-1, 5, 1),
-                  new Ray(new Point3(-2, 10, 2), new Vector(-5, 25, 5)) },
+                  new Ray(new Point3(-2, 10, 2), new Vector3(-5, 25, 5)) },
       };
    }
 
@@ -61,7 +61,7 @@ public class HitTests {
    @Test
    public void TestHitBox1() {
       Transform[] transforms = new Transform[2];
-      transforms[0] = Transform.Translate(new Vector(-1.0f, -1.0f, -1.0f));
+      transforms[0] = Transform.Translate(new Vector3(-1.0f, -1.0f, -1.0f));
       transforms[1] = Transform.Scale(2.0f, 1.0f, 1.0f);
       Transform compositeTransform[] = Transform.composite(transforms);
 
@@ -70,7 +70,7 @@ public class HitTests {
       box.RecalculateWorldBoundingBox();
 
       Point3 origin = new Point3(5, 5, 5);
-      Vector direction = new Vector(-1, -1, -1);
+      Vector3 direction = new Vector3(-1, -1, -1);
 
       Ray ray = new Ray(origin, direction);
 
@@ -83,7 +83,7 @@ public class HitTests {
    public void TestHitBox2() {
 
       Transform[] transforms = new Transform[2];
-      transforms[0] = Transform.Translate(new Vector(-1.0f, -1.0f, -1.0f));
+      transforms[0] = Transform.Translate(new Vector3(-1.0f, -1.0f, -1.0f));
       transforms[1] = Transform.Scale(4.0f, 2.0f, 2.0f);
       Transform compositeTransform[] = Transform.composite(transforms);
 
@@ -92,7 +92,7 @@ public class HitTests {
       box.RecalculateWorldBoundingBox();
 
       Point3 origin = new Point3(5, 5, 5);
-      Vector direction = new Vector(-1, -1, -1);
+      Vector3 direction = new Vector3(-1, -1, -1);
 
       Ray ray = new Ray(origin, direction);
 

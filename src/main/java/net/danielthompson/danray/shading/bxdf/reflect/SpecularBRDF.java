@@ -4,16 +4,15 @@ import net.danielthompson.danray.shading.bxdf.BRDF;
 import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.Constants;
 import net.danielthompson.danray.structures.Normal;
-import net.danielthompson.danray.structures.Vector;
+import net.danielthompson.danray.structures.Vector3;
 import net.danielthompson.danray.utility.GeometryCalculations;
-import net.danielthompson.danray.utility.MonteCarloCalculations;
 
 /**
  * Created by dthompson on 21 May 15.
  */
 public class SpecularBRDF extends BRDF {
 
-   private Vector ZeroVector = new Vector(0,0,0);
+   private Vector3 ZeroVector = new Vector3(0,0,0);
 
    public SpecularBRDF() {
       Delta = true;
@@ -27,9 +26,9 @@ public class SpecularBRDF extends BRDF {
    }
 
    @Override
-   public float f(Vector incoming, Normal normal, Vector outgoing) {
+   public float f(Vector3 incoming, Normal normal, Vector3 outgoing) {
 
-      Vector fixedIncoming = Vector.Scale(incoming, -1);
+      Vector3 fixedIncoming = Vector3.scale(incoming, -1);
       float thetaIncoming = GeometryCalculations.radiansBetween(fixedIncoming, normal);
       float thetaOutgoing = GeometryCalculations.radiansBetween(outgoing, normal);
 
@@ -38,21 +37,21 @@ public class SpecularBRDF extends BRDF {
    }
 
    @Override
-   public Vector getVectorInPDF(Intersection intersection, Vector incoming, float leavingIndexOfRefraction, float enteringIndexOfRefraction) {
+   public Vector3 getVectorInPDF(Intersection intersection, Vector3 incoming, float leavingIndexOfRefraction, float enteringIndexOfRefraction) {
       return getVectorInPDF(intersection.Normal, incoming, leavingIndexOfRefraction, enteringIndexOfRefraction);
    }
 
    @Override
-   public Vector getVectorInPDF(Normal normal, Vector incoming, float leavingIndexOfRefraction, float enteringIndexOfRefraction) {
+   public Vector3 getVectorInPDF(Normal normal, Vector3 incoming, float leavingIndexOfRefraction, float enteringIndexOfRefraction) {
       normal.Normalize();
-      float factor = incoming.Dot(normal) * 2;
-      Vector scaled = new Vector(Normal.Scale(normal, factor));
+      float factor = incoming.dot(normal) * 2;
+      Vector3 scaled = new Vector3(Normal.Scale(normal, factor));
 
       //Vector outgoing = Vector.minus(incoming, scaled);
 
-      Vector outgoing = Vector.Minus(scaled, incoming);
+      Vector3 outgoing = Vector3.minus(scaled, incoming);
 
-      outgoing = Vector.Minus(ZeroVector, outgoing);
+      outgoing = Vector3.minus(ZeroVector, outgoing);
 
       return outgoing;
    }

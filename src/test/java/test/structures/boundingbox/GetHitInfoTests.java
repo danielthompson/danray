@@ -33,7 +33,7 @@ public class GetHitInfoTests {
       BoundingBox box = new BoundingBox(p1, p2);
 
       Point3 origin = new Point3(1, 1, 10);
-      Vector direction = new Vector(0, 0, -1);
+      Vector3 direction = new Vector3(0, 0, -1);
 
       Ray ray = new Ray(origin, direction);
 
@@ -51,7 +51,7 @@ public class GetHitInfoTests {
       BoundingBox box = new BoundingBox(p1, p2);
 
       Point3 origin = new Point3(0, 1, 3);
-      Vector direction = new Vector(1, 0, -1);
+      Vector3 direction = new Vector3(1, 0, -1);
 
       Ray ray = new Ray(origin, direction);
 
@@ -69,7 +69,7 @@ public class GetHitInfoTests {
       BoundingBox box = new BoundingBox(p1, p2);
 
       Point3 origin = new Point3(4, 1, 4);
-      Vector direction = new Vector(-1, 0, -1);
+      Vector3 direction = new Vector3(-1, 0, -1);
 
       Ray ray = new Ray(origin, direction);
 
@@ -88,7 +88,7 @@ public class GetHitInfoTests {
       BoundingBox box = new BoundingBox(p1, p2);
 
       Point3 origin = new Point3(5, 1, 2);
-      Vector direction = new Vector(-1, 0, 0);
+      Vector3 direction = new Vector3(-1, 0, 0);
 
       Ray ray = new Ray(origin, direction);
 
@@ -111,7 +111,7 @@ public class GetHitInfoTests {
 
       for (float x = 0; x < 1; x += .025) {
          for (float y = 0; y < 1; y += .025) {
-            Vector direction = new Vector(x, y, -.5f);
+            Vector3 direction = new Vector3(x, y, -.5f);
 
             Ray ray = new Ray(origin, direction);
 
@@ -131,7 +131,7 @@ public class GetHitInfoTests {
       BoundingBox box = new BoundingBox(p1, p2);
 
       Point3 origin = new Point3(1, 1, 1);
-      Vector direction = new Vector(1, 0, 0);
+      Vector3 direction = new Vector3(1, 0, 0);
 
       Ray ray = new Ray(origin, direction);
 
@@ -152,7 +152,7 @@ public class GetHitInfoTests {
       BoundingBox box = new BoundingBox(p1, p2);
 
       Point3 origin = new Point3(-1, -1, 10);
-      Vector direction = new Vector(0, 0, -1);
+      Vector3 direction = new Vector3(0, 0, -1);
 
       Ray ray = new Ray(origin, direction);
 
@@ -173,7 +173,7 @@ public class GetHitInfoTests {
       BoundingBox box = new BoundingBox(p1, p2);
 
       Point3 origin = new Point3(-5, 1, 4);
-      Vector direction = new Vector(1, 0, -1);
+      Vector3 direction = new Vector3(1, 0, -1);
 
       Ray ray = new Ray(origin, direction);
 
@@ -194,7 +194,7 @@ public class GetHitInfoTests {
 
       // vector
       Point3 origin = new Point3(-1, 1, 3);
-      Vector direction = new Vector(-1, 0, 1);
+      Vector3 direction = new Vector3(-1, 0, 1);
       Ray ray = new Ray(origin, direction);
 
       Intersection state = box.GetHitInfo(ray);
@@ -214,7 +214,7 @@ public class GetHitInfoTests {
 
       // vector
       Point3 origin = new Point3(-1, 1, 3);
-      Vector direction = new Vector(-1, 1, 1);
+      Vector3 direction = new Vector3(-1, 1, 1);
       Ray ray = new Ray(origin, direction);
 
       Intersection state = box.GetHitInfo(ray);
@@ -234,7 +234,7 @@ public class GetHitInfoTests {
 
       // vector
       Point3 origin = new Point3(3, 1, 7);
-      Vector direction = new Vector(1, 0, -1);
+      Vector3 direction = new Vector3(1, 0, -1);
       Ray ray = new Ray(origin, direction);
 
       Intersection state = box.GetHitInfo(ray);
@@ -254,7 +254,7 @@ public class GetHitInfoTests {
 
       // vector
       Point3 origin = new Point3(7, 5, 5);
-      Vector direction = new Vector(0, -1, -1);
+      Vector3 direction = new Vector3(0, -1, -1);
       Ray ray = new Ray(origin, direction);
 
       Intersection state = box.GetHitInfo(ray);
@@ -279,7 +279,7 @@ public class GetHitInfoTests {
             for (float k = -1; k < 1; k += .025) {
                for (float l = -500; l < 500; l += 14.4736) {
                   Point3 origin = new Point3(7, i, l);
-                  Vector direction = new Vector(0, j, k);
+                  Vector3 direction = new Vector3(0, j, k);
                   Ray ray = new Ray(origin, direction);
 
                   Intersection state = box.GetHitInfo(ray);
@@ -303,7 +303,7 @@ public class GetHitInfoTests {
 
       // vector
       Point3 origin = new Point3(20, -6, 6);
-      Vector direction = new Vector(-1, 1, -1);
+      Vector3 direction = new Vector3(-1, 1, -1);
       Ray ray = new Ray(origin, direction);
 
       Intersection state = box.GetHitInfo(ray);
@@ -323,7 +323,7 @@ public class GetHitInfoTests {
 
       // vector
       Point3 origin = new Point3(40.5911474f, 540.5911474f, 794.088525f);
-      Vector direction = new Vector(.711770f, .021852f, -.702072f);
+      Vector3 direction = new Vector3(.711770f, .021852f, -.702072f);
       Ray ray = new Ray(origin, direction);
 
       Intersection state = box.GetHitInfo(ray);

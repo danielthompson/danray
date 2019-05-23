@@ -22,7 +22,7 @@ public class DifferenceTests {
       shape.Operation = CSGOperation.Difference;
 
       Transform[] inputTransforms = new Transform[]{
-            Transform.Translate(new Vector(0, 0, 1)),
+            Transform.Translate(new Vector3(0, 0, 1)),
             Transform.Scale(2),
             Transform.Translate(0, -0.5f, 0)
 
@@ -32,7 +32,7 @@ public class DifferenceTests {
       shape.LeftShape = new Box(compositeTransforms, null);
 
       inputTransforms = new Transform[]{
-            Transform.Translate(new Vector(1, 0, 0)),
+            Transform.Translate(new Vector3(1, 0, 0)),
             Transform.Scale(2),
             Transform.Translate(0, -0.5f, 0)
 
@@ -50,7 +50,7 @@ public class DifferenceTests {
    @Test
    public void shouldNotHit1() {
       Point3 origin = new Point3(1, 0, -1);
-      Vector direction = new Vector(1, 0, 1);
+      Vector3 direction = new Vector3(1, 0, 1);
       Ray ray = new Ray(origin, direction);
 
       boolean hits = shape.Hits(ray);
@@ -61,7 +61,7 @@ public class DifferenceTests {
    @Test
    public void shouldNotHit2() {
       Point3 origin = new Point3(1, 0, -0.5f);
-      Vector direction = new Vector(1, 0, 1);
+      Vector3 direction = new Vector3(1, 0, 1);
       Ray ray = new Ray(origin, direction);
 
       boolean hits = shape.Hits(ray);
@@ -72,7 +72,7 @@ public class DifferenceTests {
    @Test
    public void shouldHit1() {
       Point3 origin = new Point3(0, 0, -2);
-      Vector direction = new Vector(2, 0, 5);
+      Vector3 direction = new Vector3(2, 0, 5);
       Ray ray = new Ray(origin, direction);
 
       boolean hits = shape.Hits(ray);
@@ -82,7 +82,7 @@ public class DifferenceTests {
    @Test
    public void shouldHit2() {
       Point3 origin = new Point3(0, 0, -2);
-      Vector direction = new Vector(2, 0, 5);
+      Vector3 direction = new Vector3(2, 0, 5);
       Ray ray = new Ray(origin, direction);
 
       boolean hits = shape.Hits(ray);
@@ -97,7 +97,7 @@ public class DifferenceTests {
    @Test
    public void shouldHit2Normal() {
       Point3 origin = new Point3(0, 0, -2);
-      Vector direction = new Vector(2, 0, 5);
+      Vector3 direction = new Vector3(2, 0, 5);
       Ray ray = new Ray(origin, direction);
 
       boolean hits = shape.Hits(ray);
@@ -113,7 +113,7 @@ public class DifferenceTests {
    @Test
    public void shouldHit2Location() {
       Point3 origin = new Point3(0, 0, -2);
-      Vector direction = new Vector(2, 0, 5);
+      Vector3 direction = new Vector3(2, 0, 5);
       Ray ray = new Ray(origin, direction);
 
       boolean hits = shape.Hits(ray);
@@ -129,7 +129,7 @@ public class DifferenceTests {
    @Test
    public void normal1() {
       Point3 o = new Point3(.5f, 0, 5);
-      Vector d = new Vector(0, 0, -1);
+      Vector3 d = new Vector3(0, 0, -1);
       Ray ray = new Ray(o, d);
 
       boolean hits = shape.Hits(ray);
@@ -142,7 +142,7 @@ public class DifferenceTests {
    @Test
    public void normal2() {
       Point3 o = new Point3(.5f, 0, -5);
-      Vector d = new Vector(0, 0, 1);
+      Vector3 d = new Vector3(0, 0, 1);
       Ray ray = new Ray(o, d);
 
       boolean hits = shape.Hits(ray);
@@ -155,7 +155,7 @@ public class DifferenceTests {
    @Test
    public void location1() {
       Point3 o = new Point3(.5f, 0, 5);
-      Vector d = new Vector(0, 0, -1);
+      Vector3 d = new Vector3(0, 0, -1);
       Ray ray = new Ray(o, d);
 
       boolean hits = shape.Hits(ray);
@@ -168,7 +168,7 @@ public class DifferenceTests {
    @Test
    public void location2() {
       Point3 o = new Point3(.5f, 0, -5);
-      Vector d = new Vector(0, 0, 1);
+      Vector3 d = new Vector3(0, 0, 1);
       Ray ray = new Ray(o, d);
 
       boolean hits = shape.Hits(ray);
@@ -181,7 +181,7 @@ public class DifferenceTests {
    @Test
    public void location3() {
       Point3 o = new Point3(2.5f, 0, 1.5f);
-      Vector d = new Vector(-1, 0, 0);
+      Vector3 d = new Vector3(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
       boolean hits = shape.Hits(ray);
@@ -194,7 +194,7 @@ public class DifferenceTests {
    @Test
    public void normal3() {
       Point3 o = new Point3(2.5f, 0, 1.5f);
-      Vector d = new Vector(-1, 0, 0);
+      Vector3 d = new Vector3(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
       boolean hits = shape.Hits(ray);
@@ -207,7 +207,7 @@ public class DifferenceTests {
    @Test
    public void location4() {
       Point3 o = new Point3(3.5f, 0, 1.5f);
-      Vector d = new Vector(-1, 0, 0);
+      Vector3 d = new Vector3(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
       boolean hits = shape.Hits(ray);
@@ -220,7 +220,7 @@ public class DifferenceTests {
    @Test
    public void normal4() {
       Point3 o = new Point3(3.5f, 0, 1.5f);
-      Vector d = new Vector(-1, 0, 0);
+      Vector3 d = new Vector3(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
       boolean hits = shape.Hits(ray);
@@ -233,7 +233,7 @@ public class DifferenceTests {
    @Test
    public void location5() {
       Point3 o = new Point3(2.5f, 0, 0.5f);
-      Vector d = new Vector(-1, 0, 0);
+      Vector3 d = new Vector3(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
       boolean hits = shape.Hits(ray);
@@ -243,7 +243,7 @@ public class DifferenceTests {
    @Test
    public void location6() {
       Point3 o = new Point3(3.5f, 0, 0.5f);
-      Vector d = new Vector(-1, 0, 0);
+      Vector3 d = new Vector3(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
       boolean hits = shape.Hits(ray);
@@ -253,7 +253,7 @@ public class DifferenceTests {
    @Test
    public void location7() {
       Point3 o = new Point3(1.5f, 0, 1.5f);
-      Vector d = new Vector(-1, 0, 0);
+      Vector3 d = new Vector3(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
       boolean hits = shape.Hits(ray);
@@ -266,7 +266,7 @@ public class DifferenceTests {
    @Test
    public void normal7() {
       Point3 o = new Point3(1.5f, 0, 1.5f);
-      Vector d = new Vector(-1, 0, 0);
+      Vector3 d = new Vector3(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
       boolean hits = shape.Hits(ray);

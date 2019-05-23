@@ -5,7 +5,7 @@ import net.danielthompson.danray.structures.Constants;
 import net.danielthompson.danray.structures.Point3;
 import net.danielthompson.danray.shapes.Sphere;
 import net.danielthompson.danray.structures.Ray;
-import net.danielthompson.danray.structures.Vector;
+import net.danielthompson.danray.structures.Vector3;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -34,7 +34,7 @@ public class IntersectTests {
       Sphere sphere = new Sphere();
 
       Point3 Origin = new Point3(-10, 0, 0);
-      Vector Direction = new Vector(1, 0, 0);
+      Vector3 Direction = new Vector3(1, 0, 0);
       Ray ray = new Ray(Origin, Direction);
 
       boolean hits = sphere.Hits(ray);
@@ -51,7 +51,7 @@ public class IntersectTests {
       sphere.Radius = 10;
 
       Point3 Origin = new Point3(0, 0, 0);
-      Vector Direction = new Vector(1, 0, 0);
+      Vector3 Direction = new Vector3(1, 0, 0);
       Ray ray = new Ray(Origin, Direction);
 
       boolean hits = sphere.Hits(ray);

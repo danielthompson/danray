@@ -14,17 +14,17 @@ public class Normal {
       Z = z;
    }
 
-   public Normal(Vector v) {
-      X = v.X;
-      Y = v.Y;
-      Z = v.Z;
+   public Normal(Vector3 v) {
+      X = v.x;
+      Y = v.y;
+      Z = v.z;
    }
 
-   public Normal Cross(Vector vector) {
+   public Normal Cross(Vector3 vector) {
       return new Normal(
-            Y * vector.Z - Z * vector.Y,
-            Z * vector.X - X * vector.Z,
-            X * vector.Y - Y * vector.X);
+            Y * vector.z - Z * vector.y,
+            Z * vector.x - X * vector.z,
+            X * vector.y - Y * vector.x);
    }
 
 
@@ -54,8 +54,8 @@ public class Normal {
       Z *= t;
    }
 
-   public float Dot(Vector vector) {
-      return (X * vector.X + Y * vector.Y + Z * vector.Z);
+   public float Dot(Vector3 vector) {
+      return (X * vector.x + Y * vector.y + Z * vector.z);
    }
 
    public float Dot(Normal normal) {

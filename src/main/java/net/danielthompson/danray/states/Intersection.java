@@ -3,7 +3,7 @@ package net.danielthompson.danray.states;
 import net.danielthompson.danray.shapes.AbstractShape;
 import net.danielthompson.danray.structures.Point3;
 import net.danielthompson.danray.structures.Normal;
-import net.danielthompson.danray.structures.Vector;
+import net.danielthompson.danray.structures.Vector3;
 
 import java.util.List;
 
@@ -62,12 +62,12 @@ public class Intersection {
    /**
     * The world-space vector that is tangent to the normal in the u-texture direction.
     */
-   public Vector TangentU;
+   public Vector3 TangentU;
 
    /**
     * The world-space vector that is tangent to the normal in the v-texture direction.
     */
-   public Vector TangentV;
+   public Vector3 TangentV;
 
    /**
     * The index of refraction of the material that the ray encounters at the intersection point.

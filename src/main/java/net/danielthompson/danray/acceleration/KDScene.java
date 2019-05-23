@@ -211,7 +211,7 @@ public class KDScene extends AbstractScene {
          // TODO fix - rootState.maxT got deleted!
          float maxT = rootState.t;
 
-         Vector inverseDirection = new Vector(1.0f/ ray.Direction.X, 1.0f / ray.Direction.Y, 1.0f / ray.Direction.Z);
+         Vector3 inverseDirection = new Vector3(1.0f/ ray.Direction.x, 1.0f / ray.Direction.y, 1.0f / ray.Direction.z);
          KToDo[] todos = new KToDo[64];
          int todoPos = 0;
 

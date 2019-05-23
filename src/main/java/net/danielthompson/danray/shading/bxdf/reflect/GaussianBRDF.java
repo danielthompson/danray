@@ -2,7 +2,7 @@ package net.danielthompson.danray.shading.bxdf.reflect;
 
 import net.danielthompson.danray.shading.bxdf.BRDF;
 import net.danielthompson.danray.structures.Normal;
-import net.danielthompson.danray.structures.Vector;
+import net.danielthompson.danray.structures.Vector3;
 
 /**
  * Created by dthompson on 21 May 15.
@@ -23,12 +23,12 @@ public class GaussianBRDF extends BRDF {
    }
 
    @Override
-   public Vector getVectorInPDF(Normal normal, Vector incoming, float leavingIndexOfRefraction, float enteringIndexOfRefraction) {
+   public Vector3 getVectorInPDF(Normal normal, Vector3 incoming, float leavingIndexOfRefraction, float enteringIndexOfRefraction) {
       return null;
    }
 
    @Override
-   public float f(Vector incoming, Normal normal, Vector outgoing) {
+   public float f(Vector3 incoming, Normal normal, Vector3 outgoing) {
       return 0;
    }
 }

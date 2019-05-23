@@ -42,7 +42,7 @@ public class GeometryCalculations {
 
    public static float GetAngleOfIncidence(Ray incomingRay, Intersection state) {
       Normal normal = state.Normal;
-      Vector incomingDirection = incomingRay.Direction;
+      Vector3 incomingDirection = incomingRay.Direction;
 
       float angleRadians = (float) FastMath.acos(normal.Dot(incomingDirection));
 
@@ -51,22 +51,22 @@ public class GeometryCalculations {
       return 180 - angleDegress;
    }
 
-   public static float radiansBetween(Vector v, Normal n) {
-      Vector nv = Vector.Normalize(v);
+   public static float radiansBetween(Vector3 v, Normal n) {
+      Vector3 nv = Vector3.normalize(v);
       Normal nn = Normal.Normalize(n);
 
-      float angleRadians = (float) Math.acos(nv.Dot(nn));
+      float angleRadians = (float) Math.acos(nv.dot(nn));
 
       return Math.abs(angleRadians);
    }
 
-   public static float GetCosineWeightedIncidencePercentage(Vector incomingDirection, Normal normal) {
+   public static float GetCosineWeightedIncidencePercentage(Vector3 incomingDirection, Normal normal) {
       float dot = normal.Dot(incomingDirection);
       dot = (dot < 0) ? -dot : 0;
       return dot;
    }
 
-   public static float GetIncidencePercentage(Vector incomingDirection, Normal normal) {
+   public static float GetIncidencePercentage(Vector3 incomingDirection, Normal normal) {
       float angleRadians = (float) FastMath.acos(normal.Dot(incomingDirection));
       angleRadians -= Constants.PIOver2;
 
@@ -95,27 +95,27 @@ public class GeometryCalculations {
       float cosTheta1 = -normal.Dot(incomingRay.Direction);
       float cosTheta2 = (float) Math.sqrt(1 - nRatio * nRatio * (1 - (cosTheta1 * cosTheta1)));
 
-      Vector refractedDirection;
+      Vector3 refractedDirection;
 
       if (cosTheta1 > 0) {
-         refractedDirection = Vector.Plus(incomingRay.Scale(nRatio), new Vector(Normal.Scale(normal, nRatio * cosTheta1 - cosTheta2)));
+         refractedDirection = Vector3.plus(incomingRay.Scale(nRatio), new Vector3(Normal.Scale(normal, nRatio * cosTheta1 - cosTheta2)));
       }
       else {
-         refractedDirection = Vector.Plus(incomingRay.Scale(nRatio), new Vector(Normal.Scale(normal, nRatio * cosTheta1 + cosTheta2)));
+         refractedDirection = Vector3.plus(incomingRay.Scale(nRatio), new Vector3(Normal.Scale(normal, nRatio * cosTheta1 + cosTheta2)));
       }
 
-      Point3 offsetIntersection = Point3.plus(state.Location, Vector.Scale(refractedDirection, .0000001f));
+      Point3 offsetIntersection = Point3.plus(state.Location, Vector3.scale(refractedDirection, .0000001f));
 
       return new Ray(offsetIntersection, refractedDirection);
    }
 
    public static Ray GetReflectedRay(Point3 intersectionPoint, Normal normal, Ray incomingRay) {
       normal.Normalize();
-      float factor = incomingRay.Direction.Dot(normal) * 2;
-      Vector scaled = new Vector(Normal.Scale(normal, factor));
-      Vector direction = Vector.Minus(new Vector(0, 0, 0), Vector.Minus(scaled, incomingRay.Direction));
+      float factor = incomingRay.Direction.dot(normal) * 2;
+      Vector3 scaled = new Vector3(Normal.Scale(normal, factor));
+      Vector3 direction = Vector3.minus(new Vector3(0, 0, 0), Vector3.minus(scaled, incomingRay.Direction));
 
-      Point3 offsetIntersection = Point3.plus(intersectionPoint, Vector.Scale(direction, Constants.Epsilon * 1000));
+      Point3 offsetIntersection = Point3.plus(intersectionPoint, Vector3.scale(direction, Constants.Epsilon * 1000));
 
       //Point direction = normal.ScaleFromOrigin(incomingRay.Direction.dot(normal.Direction) * 2).minus(incomingRay.Direction);
       Ray reflectedRay = new Ray(offsetIntersection, direction);

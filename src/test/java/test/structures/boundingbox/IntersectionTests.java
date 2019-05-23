@@ -28,7 +28,7 @@ public class IntersectionTests {
       // arrange
       BoundingBox box = new BoundingBox(new Point3(0, 0, 0), new Point3(10, 10, 10));
       Point3 origin = new Point3(5, 5, 5);
-      Vector direction = new Vector(1, 0, 0);
+      Vector3 direction = new Vector3(1, 0, 0);
       Ray ray = new Ray(origin, direction);
 
       // act

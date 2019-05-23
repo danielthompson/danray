@@ -30,7 +30,7 @@ public abstract class AbstractLight extends AbstractShape {
     * @param side The direction from the origin for which to provide a point.
     * @return A random point on the surface of the light, in world space.
     */
-   public abstract Point3 getRandomPointOnSideOf(Vector side);
+   public abstract Point3 getRandomPointOnSideOf(Vector3 side);
 
    /**
     * Returns a random point on the surface of the light, in world space, such that that the point is
@@ -49,5 +49,5 @@ public abstract class AbstractLight extends AbstractShape {
     * @param directionFromLightToPoint The vector from a previously determined point on the light to the given point.
     * @return The probability [0, 1] that the direction to the point will be sampled.
     */
-   public abstract float getPDF(Point3 point, Vector directionFromLightToPoint);
+   public abstract float getPDF(Point3 point, Vector3 directionFromLightToPoint);
 }

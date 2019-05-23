@@ -101,8 +101,8 @@ public class Transform {
     * @param delta
     * @return
     */
-   public static Transform Translate(Vector delta) {
-      return Translate(delta.X, delta.Y, delta.Z);
+   public static Transform Translate(Vector3 delta) {
+      return Translate(delta.x, delta.y, delta.z);
    }
 
    public static Transform Translate(float x, float y, float z) {
@@ -146,9 +146,9 @@ public class Transform {
    }
 
    public boolean HasScale() {
-      float lengthX = Apply(new Vector(1, 0, 0)).LengthSquared();
-      float lengthY = Apply(new Vector(0, 1, 0)).LengthSquared();
-      float lengthZ = Apply(new Vector(0, 0, 1)).LengthSquared();
+      float lengthX = Apply(new Vector3(1, 0, 0)).lengthSquared();
+      float lengthY = Apply(new Vector3(0, 1, 0)).lengthSquared();
+      float lengthZ = Apply(new Vector3(0, 0, 1)).lengthSquared();
 
       return (lengthX < .999 || lengthX > 1.001
          || lengthY < .999 || lengthY > 1.001
@@ -201,8 +201,8 @@ public class Transform {
       return new Transform(matrix, inverse);
    }
 
-   public static Transform Rotate(float angle, Vector axis) {
-      Vector a = Vector.Normalize(axis);
+   public static Transform Rotate(float angle, Vector3 axis) {
+      Vector3 a = Vector3.normalize(axis);
       float s = (float) FastMath.sin(FastMath.toRadians(angle));
       float c = (float) FastMath.cos(FastMath.toRadians(angle));
       
@@ -213,19 +213,19 @@ public class Transform {
       m[2] = new float[4];
       m[3] = new float[4];
 
-      m[0][0] = a.X * a.X + (1.f - a.X * a.X) * c;
-      m[0][1] = a.X * a.Y * (1.f - c) - a.Z * s;
-      m[0][2] = a.X * a.Z * (1.f - c) + a.Y * s;
+      m[0][0] = a.x * a.x + (1.f - a.x * a.x) * c;
+      m[0][1] = a.x * a.y * (1.f - c) - a.z * s;
+      m[0][2] = a.x * a.z * (1.f - c) + a.y * s;
       m[0][3] = 0;
 
-      m[1][0] = a.X * a.Y * (1.f - c) + a.Z * s;
-      m[1][1] = a.Y + a.Y + (1.f - a.Y * a.Y) * c;
-      m[1][2] = a.Y * a.Z * (1.f - c) - a.X * c;
+      m[1][0] = a.x * a.y * (1.f - c) + a.z * s;
+      m[1][1] = a.y + a.y + (1.f - a.y * a.y) * c;
+      m[1][2] = a.y * a.z * (1.f - c) - a.x * c;
       m[1][3] = 0;
 
-      m[2][0] = a.X * a.Z * (1.f - c) - a.Y * s;
-      m[2][1] = a.Y * a.Z * (1.f - c) + a.X * s;
-      m[2][2] = a.Z * a.Z + (1.f - a.Z * a.Z) * c;
+      m[2][0] = a.x * a.z * (1.f - c) - a.y * s;
+      m[2][1] = a.y * a.z * (1.f - c) + a.x * s;
+      m[2][2] = a.z * a.z + (1.f - a.z * a.z) * c;
       m[2][3] = 0;
 
       m[3][0] = 0;
@@ -240,7 +240,7 @@ public class Transform {
 
    }
    
-   public static Transform LookAt(Point3 position, Point3 toLookAt, Vector up) {
+   public static Transform LookAt(Point3 position, Point3 toLookAt, Vector3 up) {
       float[][] m = new float[4][4];
 
       m[0] = new float[4];
@@ -253,35 +253,35 @@ public class Transform {
       m[2][3] = position.z;
       m[3][3] = 1;
 
-      Vector dir = Vector.Minus(position, toLookAt);
-      dir.Normalize();
+      Vector3 dir = Vector3.minus(position, toLookAt);
+      dir.normalize();
 
-      up.Normalize();
-      Vector left = up.Cross(dir);
+      up.normalize();
+      Vector3 left = up.cross(dir);
 
-      if (left.Length() == 0) {
-         throw new IllegalArgumentException("up vector (" + up.X + ", " + up.Y + ", " + up.Z + ") and viewing direction " +
-               "(" + dir.X + ", " + dir.Y + ", " + dir.Z + ") passed to LookAt are pointing in the same direction.  Using " +
+      if (left.length() == 0) {
+         throw new IllegalArgumentException("up vector (" + up.x + ", " + up.y + ", " + up.z + ") and viewing direction " +
+               "(" + dir.x + ", " + dir.y + ", " + dir.z + ") passed to LookAt are pointing in the same direction.  Using " +
                "the identity transformation.");
       }
 
-      left.Normalize();
+      left.normalize();
 
-      Vector newUp = dir.Cross(left);
+      Vector3 newUp = dir.cross(left);
 
-      m[0][0] = left.X;
-      m[1][0] = left.Y;
-      m[2][0] = left.Z;
+      m[0][0] = left.x;
+      m[1][0] = left.y;
+      m[2][0] = left.z;
       m[3][0] = 0;
 
-      m[0][1] = newUp.X;
-      m[1][1] = newUp.Y;
-      m[2][1] = newUp.Z;
+      m[0][1] = newUp.x;
+      m[1][1] = newUp.y;
+      m[2][1] = newUp.z;
       m[3][1] = 0;
 
-      m[0][2] = dir.X;
-      m[1][2] = dir.Y;
-      m[2][2] = dir.Z;
+      m[0][2] = dir.x;
+      m[1][2] = dir.y;
+      m[2][2] = dir.z;
       m[3][2] = 0;
 
       Matrix4x4 matrix = new Matrix4x4(m);
@@ -335,7 +335,7 @@ public class Transform {
       }
    }
 
-   public Point3 Apply(Point3 p, Vector error) {
+   public Point3 Apply(Point3 p, Vector3 error) {
 
       float x = p.x;
       float y = p.y;
@@ -354,9 +354,9 @@ public class Transform {
       float zAbsSum = (Math.abs(_matrix.matrix[2][0] * x) + Math.abs(_matrix.matrix[2][1] * y) +
             Math.abs(_matrix.matrix[2][2] * z) + Math.abs(_matrix.matrix[2][3]));
 
-      error.X = xAbsSum * FloatUtils.gamma(3);
-      error.Y = yAbsSum * FloatUtils.gamma(3);;
-      error.Z = zAbsSum * FloatUtils.gamma(3);;
+      error.x = xAbsSum * FloatUtils.gamma(3);
+      error.y = yAbsSum * FloatUtils.gamma(3);;
+      error.z = zAbsSum * FloatUtils.gamma(3);;
 
       if (w == 1)
          return new Point3(newX, newY, newZ);
@@ -366,22 +366,22 @@ public class Transform {
       }
    }
 
-   public void ApplyInPlace(Vector v) {
-      float newX = v.X * _matrix.matrix[0][0] + v.Y * _matrix.matrix[0][1] + v.Z * _matrix.matrix[0][2];
-      float newY = v.X * _matrix.matrix[1][0] + v.Y * _matrix.matrix[1][1] + v.Z * _matrix.matrix[1][2];
-      float newZ = v.X * _matrix.matrix[2][0] + v.Y * _matrix.matrix[2][1] + v.Z * _matrix.matrix[2][2];
+   public void ApplyInPlace(Vector3 v) {
+      float newX = v.x * _matrix.matrix[0][0] + v.y * _matrix.matrix[0][1] + v.z * _matrix.matrix[0][2];
+      float newY = v.x * _matrix.matrix[1][0] + v.y * _matrix.matrix[1][1] + v.z * _matrix.matrix[1][2];
+      float newZ = v.x * _matrix.matrix[2][0] + v.y * _matrix.matrix[2][1] + v.z * _matrix.matrix[2][2];
 
-      v.X = newX;
-      v.Y = newY;
-      v.Z = newZ;
+      v.x = newX;
+      v.y = newY;
+      v.z = newZ;
    }
 
-   public Vector Apply(Vector v) {
-      float newX = v.X * _matrix.matrix[0][0] + v.Y * _matrix.matrix[0][1] + v.Z * _matrix.matrix[0][2];
-      float newY = v.X * _matrix.matrix[1][0] + v.Y * _matrix.matrix[1][1] + v.Z * _matrix.matrix[1][2];
-      float newZ = v.X * _matrix.matrix[2][0] + v.Y * _matrix.matrix[2][1] + v.Z * _matrix.matrix[2][2];
+   public Vector3 Apply(Vector3 v) {
+      float newX = v.x * _matrix.matrix[0][0] + v.y * _matrix.matrix[0][1] + v.z * _matrix.matrix[0][2];
+      float newY = v.x * _matrix.matrix[1][0] + v.y * _matrix.matrix[1][1] + v.z * _matrix.matrix[1][2];
+      float newZ = v.x * _matrix.matrix[2][0] + v.y * _matrix.matrix[2][1] + v.z * _matrix.matrix[2][2];
 
-      return new Vector(newX, newY, newZ);
+      return new Vector3(newX, newY, newZ);
    }
 
    public void ApplyInPlace(Normal n) {

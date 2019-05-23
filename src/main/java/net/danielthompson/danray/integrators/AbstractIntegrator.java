@@ -1,10 +1,8 @@
 package net.danielthompson.danray.integrators;
 
-import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.structures.Sample;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.scenes.AbstractScene;
-import net.danielthompson.danray.structures.Vector;
 
 /**
  * Created by daniel on 9/12/15.

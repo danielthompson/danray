@@ -111,8 +111,8 @@ public class KDCompactScene extends AbstractScene {
       state.Hits = true;
 
       // x
-      float tNear = (node.p0x - ray.Origin.x) * ray.DirectionInverse.X;
-      float tFar = (node.p1x - ray.Origin.x) * ray.DirectionInverse.X;
+      float tNear = (node.p0x - ray.Origin.x) * ray.DirectionInverse.x;
+      float tFar = (node.p1x - ray.Origin.x) * ray.DirectionInverse.x;
 
       float swap = tNear;
       tNear = tNear > tFar ? tFar : tNear;
@@ -130,8 +130,8 @@ public class KDCompactScene extends AbstractScene {
       state.t = maxBoundFarT;
 
       // y
-      tNear = (node.p0y - ray.Origin.y) * ray.DirectionInverse.Y;
-      tFar = (node.p1y - ray.Origin.y) * ray.DirectionInverse.Y;
+      tNear = (node.p0y - ray.Origin.y) * ray.DirectionInverse.y;
+      tFar = (node.p1y - ray.Origin.y) * ray.DirectionInverse.y;
 
       swap = tNear;
       tNear = tNear > tFar ? tFar : tNear;
@@ -150,8 +150,8 @@ public class KDCompactScene extends AbstractScene {
       state.t = minBoundNearT;
 
       // z
-      tNear = (node.p0z - ray.Origin.z) * ray.DirectionInverse.Z;
-      tFar = (node.p1z - ray.Origin.z) * ray.DirectionInverse.Z;
+      tNear = (node.p0z - ray.Origin.z) * ray.DirectionInverse.z;
+      tFar = (node.p1z - ray.Origin.z) * ray.DirectionInverse.z;
 
       swap = tNear;
       tNear = tNear > tFar ? tFar : tNear;

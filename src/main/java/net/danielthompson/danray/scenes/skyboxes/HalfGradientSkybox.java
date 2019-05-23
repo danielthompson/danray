@@ -3,7 +3,7 @@ package net.danielthompson.danray.scenes.skyboxes;
 import net.danielthompson.danray.shading.Blender;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.structures.Constants;
-import net.danielthompson.danray.structures.Vector;
+import net.danielthompson.danray.structures.Vector3;
 
 import java.awt.*;
 
@@ -23,13 +23,13 @@ public class HalfGradientSkybox extends AbstractSkybox {
    }
 
    @Override
-   public SpectralPowerDistribution getSkyBoxSPD(Vector direction) {
+   public SpectralPowerDistribution getSkyBoxSPD(Vector3 direction) {
       // uses mathematics convention:
       // r = radial distance (if we assume direction is normalized, which we do, this is 1)
       // θ (theta) = azimuthal angle - angle in x-z plane
       // φ (phi) = polar angle - angle in the θ-z plane
 
-      float phi = (float)Math.acos(direction.Y);
+      float phi = (float)Math.acos(direction.y);
 
       float factor = (1.0f - Constants.OneOverPi * phi);
 

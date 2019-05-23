@@ -8,7 +8,7 @@ import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.BoundingBox;
 import net.danielthompson.danray.structures.Point3;
 import net.danielthompson.danray.structures.Ray;
-import net.danielthompson.danray.structures.Vector;
+import net.danielthompson.danray.structures.Vector3;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -90,7 +90,7 @@ public class TraverseTinyTreeTests {
    public void testTraverse1() throws Exception {
 
       Point3 origin = new Point3(3, 3, 3);
-      Vector direction = new Vector(1, 0, 0);
+      Vector3 direction = new Vector3(1, 0, 0);
 
       Ray ray = new Ray(origin, direction);
 

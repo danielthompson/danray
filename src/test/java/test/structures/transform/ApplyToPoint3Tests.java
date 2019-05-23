@@ -3,7 +3,7 @@ package test.structures.transform;
 import junit.framework.Assert;
 import net.danielthompson.danray.structures.Point3;
 import net.danielthompson.danray.structures.Transform;
-import net.danielthompson.danray.structures.Vector;
+import net.danielthompson.danray.structures.Vector3;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -26,7 +26,7 @@ public class ApplyToPoint3Tests {
 
    @Test
    public void TestApplyTranslation() {
-      Transform t = Transform.Translate(new Vector(1, 1, 1));
+      Transform t = Transform.Translate(new Vector3(1, 1, 1));
 
       Point3 originalPoint = new Point3(0, 0, 0);
 

@@ -17,7 +17,7 @@ import net.danielthompson.danray.shading.fullspectrum.FullSpectralPowerDistribut
 import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.scenes.AbstractScene;
-import net.danielthompson.danray.structures.Vector;
+import net.danielthompson.danray.structures.Vector3;
 import net.danielthompson.danray.ui.*;
 import net.danielthompson.danray.ui.gl.common.KDJFrame;
 import net.danielthompson.danray.ui.gl.common.GLFrame;
@@ -309,7 +309,7 @@ public class TraceManager {
 
          }
          _infoJFrame.setCameraOrigin(_scene.Camera.getOrigin().x, _scene.Camera.getOrigin().y, _scene.Camera.getOrigin().z);
-         _infoJFrame.setCameraDirection(_scene.Camera.getDirection().X, _scene.Camera.getDirection().Y, _scene.Camera.getDirection().Z);
+         _infoJFrame.setCameraDirection(_scene.Camera.getDirection().x, _scene.Camera.getDirection().y, _scene.Camera.getDirection().z);
       }
 
       if (_tracerOptions.showSpectrumWindow) {
@@ -574,20 +574,20 @@ public class TraceManager {
 
 
    public void Finish() {
-      Logger.Log(Logger.Level.Info, "Vectors: " + Vector.instances.get());
+      Logger.Log(Logger.Level.Info, "Vectors: " + Vector3.instances.get());
 
       Logger.Flush();
       //System.exit(0);
    }
 
    public void moveOriginAlongAxis(int x, int y, int z) {
-      Vector delta = new Vector(x, y, z);
+      Vector3 delta = new Vector3(x, y, z);
       _scene.Camera.moveOriginAlongAxis(delta);
       Render();
    }
 
    public void moveOriginAlongOrientation(int x, int y, int z) {
-      Vector delta = new Vector(x, y, z);
+      Vector3 delta = new Vector3(x, y, z);
       _scene.Camera.moveOriginAlongOrientation(delta);
       Render();
    }

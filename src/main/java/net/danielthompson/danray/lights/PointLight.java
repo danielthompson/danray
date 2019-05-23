@@ -5,7 +5,7 @@ import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.BoundingBox;
 import net.danielthompson.danray.structures.Point3;
 import net.danielthompson.danray.structures.Ray;
-import net.danielthompson.danray.structures.Vector;
+import net.danielthompson.danray.structures.Vector3;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ public class PointLight extends AbstractLight {
    }
 
    @Override
-   public Point3 getRandomPointOnSideOf(Vector side) {
+   public Point3 getRandomPointOnSideOf(Vector3 side) {
       return Location;
    }
 
@@ -46,7 +46,7 @@ public class PointLight extends AbstractLight {
    }
 
    @Override
-   public float getPDF(Point3 point, Vector directionFromLightToPoint) {
+   public float getPDF(Point3 point, Vector3 directionFromLightToPoint) {
       return 0;
    }
 

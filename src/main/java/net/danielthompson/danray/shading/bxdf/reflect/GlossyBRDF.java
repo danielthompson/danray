@@ -2,7 +2,7 @@ package net.danielthompson.danray.shading.bxdf.reflect;
 
 import net.danielthompson.danray.shading.bxdf.BRDF;
 import net.danielthompson.danray.structures.Normal;
-import net.danielthompson.danray.structures.Vector;
+import net.danielthompson.danray.structures.Vector3;
 import net.danielthompson.danray.utility.GeometryCalculations;
 
 /**
@@ -43,7 +43,7 @@ public class GlossyBRDF extends BRDF {
    }
 
    @Override
-   public float f(Vector incoming, Normal normal, Vector outgoing) {
+   public float f(Vector3 incoming, Normal normal, Vector3 outgoing) {
 
       float lambertF = lambertianBRDF.f(incoming, normal, outgoing);
 //      float mirrorF = mirrorBRDF.f(incoming, normal, outgoing);
@@ -55,16 +55,16 @@ public class GlossyBRDF extends BRDF {
    }
 
    @Override
-   public Vector getVectorInPDF(Normal normal, Vector incoming, float leavingIndexOfRefraction, float enteringIndexOfRefraction) {
+   public Vector3 getVectorInPDF(Normal normal, Vector3 incoming, float leavingIndexOfRefraction, float enteringIndexOfRefraction) {
 
-      Vector mirrorVector = mirrorBRDF.getVectorInPDF(normal, incoming, 0, 0);
+      Vector3 mirrorVector = mirrorBRDF.getVectorInPDF(normal, incoming, 0, 0);
 
       Normal mirrorAsNormal = new Normal(mirrorVector);
 
-      Vector lerp;
+      Vector3 lerp;
 
-      Vector lambertVector = lambertianBRDF.getVectorInPDF(mirrorAsNormal, incoming, 0, 0);
-      lerp = Vector.Slerp(mirrorVector, Gloss, lambertVector, _diffuse);
+      Vector3 lambertVector = lambertianBRDF.getVectorInPDF(mirrorAsNormal, incoming, 0, 0);
+      lerp = Vector3.slerp(mirrorVector, Gloss, lambertVector, _diffuse);
 
       return lerp;
 

@@ -58,7 +58,7 @@ public class IterativeMISPathTraceIntegrator extends AbstractIntegrator {
          // TODO fix
          //BRDF brdf = objectMaterial.BRDF;
          Normal intersectionNormal = closestStateToRay.Normal;
-         Vector incomingDirection = ray.Direction;
+         Vector3 incomingDirection = ray.Direction;
 
          // TODO fix
          //if (!brdf.Delta) {
@@ -102,7 +102,7 @@ public class IterativeMISPathTraceIntegrator extends AbstractIntegrator {
          if (bounces + 1 < maxDepth ) {
             // TODO fix
 
-            Vector outgoingDirection = new Vector(1, 0, 0); //objectMaterial.BRDF.getVectorInPDF(intersectionNormal, incomingDirection, 1, 1);
+            Vector3 outgoingDirection = new Vector3(1, 0, 0); //objectMaterial.BRDF.getVectorInPDF(intersectionNormal, incomingDirection, 1, 1);
             float scalePercentage = 1.0f; //objectMaterial.BRDF.f(incomingDirection, intersectionNormal, outgoingDirection);
 
             fs[bounces] = scalePercentage;

@@ -169,7 +169,7 @@ public class Box extends CSGShape {
                System.out.println("point2: " + point2);
                System.out.println("hitpoint: " + intersection.Location);
 
-               boolean isNan = Float.isNaN(objectSpaceRay.Direction.X);
+               boolean isNan = Float.isNaN(objectSpaceRay.Direction.x);
 
                intersection.Normal = new Normal(Constants.PositiveZ);
                //}

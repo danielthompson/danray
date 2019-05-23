@@ -45,9 +45,9 @@ public class CubeMappedSkybox extends AbstractSkybox {
    }
 
    @Override
-   public SpectralPowerDistribution getSkyBoxSPD(Vector direction) {
+   public SpectralPowerDistribution getSkyBoxSPD(Vector3 direction) {
 
-      if (Float.isNaN(direction.X)) {
+      if (Float.isNaN(direction.x)) {
          return NaNColor;
       }
 

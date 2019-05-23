@@ -49,10 +49,10 @@ public class IterativePathTraceIntegrator extends AbstractIntegrator {
          if (bounces + 1 < maxDepth ) {
             Material objectMaterial = closestShape.Material;
             Normal intersectionNormal = intersection.Normal;
-            Vector incomingDirection = ray.Direction;
+            Vector3 incomingDirection = ray.Direction;
 
             // TODO fix
-            Vector outgoingDirection = new Vector(1, 0, 0); //objectMaterial.BRDF.getVectorInPDF(intersection, incomingDirection, 1, 1);
+            Vector3 outgoingDirection = new Vector3(1, 0, 0); //objectMaterial.BRDF.getVectorInPDF(intersection, incomingDirection, 1, 1);
             float scalePercentage = 1.0f; //objectMaterial.BRDF.f(incomingDirection, intersectionNormal, outgoingDirection);
 
             fs[bounces] = scalePercentage;

@@ -5,7 +5,7 @@ import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.Normal;
 import net.danielthompson.danray.structures.Point3;
 import net.danielthompson.danray.structures.Ray;
-import net.danielthompson.danray.structures.Vector;
+import net.danielthompson.danray.structures.Vector3;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -37,7 +37,7 @@ public class NormalTests {
       ImplicitPlane plane = new ImplicitPlane(planeOrigin, normal, null);
 
       Point3 vectorOrigin = new Point3(2, 2, 2);
-      Vector vectorDirection = new Vector(0, -1, 0);
+      Vector3 vectorDirection = new Vector3(0, -1, 0);
 
       Ray ray = new Ray(vectorOrigin, vectorDirection);
 

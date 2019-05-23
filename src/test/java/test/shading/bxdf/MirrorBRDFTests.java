@@ -32,10 +32,10 @@ public class MirrorBRDFTests {
 //
 //      Normal n = new Normal(0, 1, 0);
 //      Vector v = new Vector(1, -1, 0);
-//      v.Normalize();
+//      v.normalize();
 //
 //      Vector expected = new Vector(1, 1, 0);
-//      expected.Normalize();
+//      expected.normalize();
 //
 //      Vector actual = brdf.getVectorInPDF(n, v);
 //
@@ -51,39 +51,39 @@ public class MirrorBRDFTests {
       ArrayList<Object[]> list = new ArrayList<Object[]>();
 
       Normal n;
-      Vector v;
-      Vector expected;
+      Vector3 v;
+      Vector3 expected;
 
       // case 1
 
       n = new Normal(0, 1, 0);
-      v = new Vector(1, -1, 0);
-      v.Normalize();
+      v = new Vector3(1, -1, 0);
+      v.normalize();
 
-      expected = new Vector(1, 1, 0);
-      expected.Normalize();
+      expected = new Vector3(1, 1, 0);
+      expected.normalize();
 
       list.add(new Object[] {n, v, expected});
 
       // case 2
 
       n = new Normal(0, 1, 0);
-      v = new Vector(2, -1, 0);
-      v.Normalize();
+      v = new Vector3(2, -1, 0);
+      v.normalize();
 
-      expected = new Vector(2, 1, 0);
-      expected.Normalize();
+      expected = new Vector3(2, 1, 0);
+      expected.normalize();
 
       list.add(new Object[] {n, v, expected});
 
       // case 3
 
       n = new Normal(0, 1, 0);
-      v = new Vector(0, -1, 0);
-      v.Normalize();
+      v = new Vector3(0, -1, 0);
+      v.normalize();
 
-      expected = new Vector(0, 1, 0);
-      expected.Normalize();
+      expected = new Vector3(0, 1, 0);
+      expected.normalize();
 
       list.add(new Object[] {n, v, expected});
 
@@ -99,10 +99,10 @@ public class MirrorBRDFTests {
    }
 
    @Test(dataProvider = "MirrorBRDFProvider")
-   public void testGetVectorInPDF(Normal n, Vector v, Vector expected) {
+   public void testGetVectorInPDF(Normal n, Vector3 v, Vector3 expected) {
       BRDF brdf = new SpecularBRDF();
 
-      Vector actual = brdf.getVectorInPDF(n, v, 1, 1);
+      Vector3 actual = brdf.getVectorInPDF(n, v, 1, 1);
 
       Assert.assertNotNull(actual);
 

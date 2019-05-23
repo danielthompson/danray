@@ -99,8 +99,8 @@ public class BoundingBox {
       state.Hits = true;
 
       // x
-      float tNear = (p1.x - ray.Origin.x) * ray.DirectionInverse.X;
-      float tFar = (p2.x - ray.Origin.x) * ray.DirectionInverse.X;
+      float tNear = (p1.x - ray.Origin.x) * ray.DirectionInverse.x;
+      float tFar = (p2.x - ray.Origin.x) * ray.DirectionInverse.x;
 
       if (tNear > tFar) {
          float swap = tNear;
@@ -117,8 +117,8 @@ public class BoundingBox {
       state.t = minBoundNearT;
       //state.TMax = maxBoundFarT;
 
-      tNear = (p1.y - ray.Origin.y) * ray.DirectionInverse.Y;
-      tFar = (p2.y - ray.Origin.y) * ray.DirectionInverse.Y;
+      tNear = (p1.y - ray.Origin.y) * ray.DirectionInverse.y;
+      tFar = (p2.y - ray.Origin.y) * ray.DirectionInverse.y;
       if (tNear > tFar) {
          float swap = tNear;
          tNear = tFar;
@@ -136,8 +136,8 @@ public class BoundingBox {
       //state.TMax = maxBoundFarT;
 
       //rayInverse = ray.DirectionInverse.z;
-      tNear = (p1.z - ray.Origin.z) * ray.DirectionInverse.Z;
-      tFar = (p2.z - ray.Origin.z) * ray.DirectionInverse.Z;
+      tNear = (p1.z - ray.Origin.z) * ray.DirectionInverse.z;
+      tFar = (p2.z - ray.Origin.z) * ray.DirectionInverse.z;
       if (tNear > tFar) {
          float swap = tNear;
          tNear = tFar;
@@ -166,8 +166,8 @@ public class BoundingBox {
       intersection.Hits = true;
 
       // x
-      float tNear = (p1.x - ray.Origin.x) * ray.DirectionInverse.X;
-      float tFar = (p2.x - ray.Origin.x) * ray.DirectionInverse.X;
+      float tNear = (p1.x - ray.Origin.x) * ray.DirectionInverse.x;
+      float tFar = (p2.x - ray.Origin.x) * ray.DirectionInverse.x;
 
       float swap = tNear;
       tNear = tNear > tFar ? tFar : tNear;
@@ -186,8 +186,8 @@ public class BoundingBox {
       //intersection.TMax = maxBoundFarT;
 
       // y
-      tNear = (p1.y - ray.Origin.y) * ray.DirectionInverse.Y;
-      tFar = (p2.y - ray.Origin.y) * ray.DirectionInverse.Y;
+      tNear = (p1.y - ray.Origin.y) * ray.DirectionInverse.y;
+      tFar = (p2.y - ray.Origin.y) * ray.DirectionInverse.y;
 
       swap = tNear;
       tNear = tNear > tFar ? tFar : tNear;
@@ -207,8 +207,8 @@ public class BoundingBox {
       //intersection.TMax = maxBoundFarT;
 
       // z
-      tNear = (p1.z - ray.Origin.z) * ray.DirectionInverse.Z;
-      tFar = (p2.z - ray.Origin.z) * ray.DirectionInverse.Z;
+      tNear = (p1.z - ray.Origin.z) * ray.DirectionInverse.z;
+      tFar = (p2.z - ray.Origin.z) * ray.DirectionInverse.z;
 
       swap = tNear;
       tNear = tNear > tFar ? tFar : tNear;
@@ -237,8 +237,8 @@ public class BoundingBox {
       List<Intersection> intersections = new ArrayList<>();
 
       // x
-      float tNear = (p1.x - ray.Origin.x) * ray.DirectionInverse.X;
-      float tFar = (p2.x - ray.Origin.x) * ray.DirectionInverse.X;
+      float tNear = (p1.x - ray.Origin.x) * ray.DirectionInverse.x;
+      float tFar = (p2.x - ray.Origin.x) * ray.DirectionInverse.x;
 
       float swap = tNear;
       tNear = tNear > tFar ? tFar : tNear;
@@ -251,8 +251,8 @@ public class BoundingBox {
       }
 
       // y
-      tNear = (p1.y - ray.Origin.y) * ray.DirectionInverse.Y;
-      tFar = (p2.y - ray.Origin.y) * ray.DirectionInverse.Y;
+      tNear = (p1.y - ray.Origin.y) * ray.DirectionInverse.y;
+      tFar = (p2.y - ray.Origin.y) * ray.DirectionInverse.y;
 
       swap = tNear;
       tNear = tNear > tFar ? tFar : tNear;
@@ -266,8 +266,8 @@ public class BoundingBox {
       }
 
       // z
-      tNear = (p1.z - ray.Origin.z) * ray.DirectionInverse.Z;
-      tFar = (p2.z - ray.Origin.z) * ray.DirectionInverse.Z;
+      tNear = (p1.z - ray.Origin.z) * ray.DirectionInverse.z;
+      tFar = (p2.z - ray.Origin.z) * ray.DirectionInverse.z;
 
       swap = tNear;
       tNear = tNear > tFar ? tFar : tNear;
@@ -301,7 +301,7 @@ public class BoundingBox {
             && ray.Origin.z >= point1.z && ray.Origin.z <= point2.z) || BoundingBox.GetHitInfoOld(point1, point2, ray).Hits;
    }
 
-   public void Translate(Vector vector) {
+   public void Translate(Vector3 vector) {
       point1.plus(vector);
       point2.plus(vector);
    }

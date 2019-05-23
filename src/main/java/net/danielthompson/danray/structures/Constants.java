@@ -40,12 +40,12 @@ public class Constants {
    public static final float Root2 = (float) Math.sqrt(2);
    public static final float Root3 = (float) Math.sqrt(3);
 
-   public final static Vector NegativeX = new Vector(-1, 0, 0);
-   public final static Vector NegativeY = new Vector(0, -1, 0);
-   public final static Vector NegativeZ = new Vector(0, 0, -1);
-   public final static Vector PositiveX = new Vector(1, 0, 0);
-   public final static Vector PositiveY = new Vector(0, 1, 0);
-   public final static Vector PositiveZ = new Vector(0, 0, 1);
+   public final static Vector3 NegativeX = new Vector3(-1, 0, 0);
+   public final static Vector3 NegativeY = new Vector3(0, -1, 0);
+   public final static Vector3 NegativeZ = new Vector3(0, 0, -1);
+   public final static Vector3 PositiveX = new Vector3(1, 0, 0);
+   public final static Vector3 PositiveY = new Vector3(0, 1, 0);
+   public final static Vector3 PositiveZ = new Vector3(0, 0, 1);
 
    public static boolean WithinEpsilon(float number, float target) {
       return (number > target) ? (DoubleEpsilon + target >= number) : (DoubleEpsilon + number >= target);

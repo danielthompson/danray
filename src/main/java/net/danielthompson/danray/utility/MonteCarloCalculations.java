@@ -1,9 +1,8 @@
 package net.danielthompson.danray.utility;
 
 import net.danielthompson.danray.structures.Constants;
-import net.danielthompson.danray.structures.Vector;
+import net.danielthompson.danray.structures.Vector3;
 
-import java.security.SecureRandom;
 import java.util.SplittableRandom;
 
 /**
@@ -29,7 +28,7 @@ public class MonteCarloCalculations {
       return new float[] {x, y};
    }
 
-   public static Vector CosineSampleHemisphere() {
+   public static Vector3 CosineSampleHemisphere() {
       float x;
       float y;
       float z;
@@ -51,7 +50,7 @@ public class MonteCarloCalculations {
       assert !Float.isNaN(y);
       assert !Float.isNaN(z);
 
-      return new Vector(x, y, z);
+      return new Vector3(x, y, z);
    }
 
    public static float CosineHemispherePDF(float cosTheta, float phi) {

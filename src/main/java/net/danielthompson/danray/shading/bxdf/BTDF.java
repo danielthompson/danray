@@ -1,7 +1,7 @@
 package net.danielthompson.danray.shading.bxdf;
 
 import net.danielthompson.danray.states.Intersection;
-import net.danielthompson.danray.structures.Vector;
+import net.danielthompson.danray.structures.Vector3;
 
 public abstract class BTDF extends BxDF {
    protected BTDF() {
@@ -9,7 +9,7 @@ public abstract class BTDF extends BxDF {
    }
 
    @Override
-   public Vector getVectorInPDF(Intersection intersection, Vector incoming, float leavingIndexOfRefraction, float enteringIndexOfRefraction) {
+   public Vector3 getVectorInPDF(Intersection intersection, Vector3 incoming, float leavingIndexOfRefraction, float enteringIndexOfRefraction) {
       return getVectorInPDF(intersection.Normal, incoming, leavingIndexOfRefraction, enteringIndexOfRefraction);
    }
 

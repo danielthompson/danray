@@ -360,44 +360,44 @@ public class GL3Canvas extends AbstractGLCanvas {
 
          // decay movement rates
 
-         CameraState.ActiveOriginMovement.X *= originDecay;
+         CameraState.ActiveOriginMovement.x *= originDecay;
 
-         CameraState.ActiveOriginMovement.Z *= originDecay;
+         CameraState.ActiveOriginMovement.z *= originDecay;
 
          // calculate next camera movement position
 
          if (CameraState.MoveForward) {
-            CameraState.ActiveOriginMovement.Z--;
-            if (CameraState.ActiveOriginMovement.Z < -10) {
-               CameraState.ActiveOriginMovement.Z = -10;
+            CameraState.ActiveOriginMovement.z--;
+            if (CameraState.ActiveOriginMovement.z < -10) {
+               CameraState.ActiveOriginMovement.z = -10;
             }
 
          }
          if (CameraState.MoveBackward) {
-            CameraState.ActiveOriginMovement.Z++;
-            if (CameraState.ActiveOriginMovement.Z > 10) {
-               CameraState.ActiveOriginMovement.Z = 10;
+            CameraState.ActiveOriginMovement.z++;
+            if (CameraState.ActiveOriginMovement.z > 10) {
+               CameraState.ActiveOriginMovement.z = 10;
             }
          }
 
          if (CameraState.MoveLeft) {
-            CameraState.ActiveOriginMovement.X--;
-            if (CameraState.ActiveOriginMovement.X < -10) {
-               CameraState.ActiveOriginMovement.X = -10;
+            CameraState.ActiveOriginMovement.x--;
+            if (CameraState.ActiveOriginMovement.x < -10) {
+               CameraState.ActiveOriginMovement.x = -10;
             }
          }
          if (CameraState.MoveRight) {
-            CameraState.ActiveOriginMovement.X++;
-            if (CameraState.ActiveOriginMovement.X > 10) {
-               CameraState.ActiveOriginMovement.X = 10;
+            CameraState.ActiveOriginMovement.x++;
+            if (CameraState.ActiveOriginMovement.x > 10) {
+               CameraState.ActiveOriginMovement.x = 10;
             }
          }
 
          float directionDecay = 0.8f;
 
-         CameraState.ActiveDirectionMovement.X *= directionDecay;
-         CameraState.ActiveDirectionMovement.Y *= directionDecay;
-         CameraState.ActiveDirectionMovement.Z *= directionDecay;
+         CameraState.ActiveDirectionMovement.x *= directionDecay;
+         CameraState.ActiveDirectionMovement.y *= directionDecay;
+         CameraState.ActiveDirectionMovement.z *= directionDecay;
 
          double[] colMajor = Scene.Camera.cameraToWorld._inverse.getColMajor();
 

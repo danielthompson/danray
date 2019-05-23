@@ -66,11 +66,11 @@ public class Sphere extends CSGShape {
          objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
       }
 
-      Vector v = Point3.minus(objectSpaceRay.Origin, Origin);
+      Vector3 v = Point3.minus(objectSpaceRay.Origin, Origin);
 
-      float a = objectSpaceRay.Direction.Dot(objectSpaceRay.Direction);
-      float b = 2 * (objectSpaceRay.Direction.Dot(v));
-      float c = v.Dot(v) - (Radius * Radius);
+      float a = objectSpaceRay.Direction.dot(objectSpaceRay.Direction);
+      float b = 2 * (objectSpaceRay.Direction.dot(v));
+      float c = v.dot(v) - (Radius * Radius);
 
       float discriminant = (b * b) - (4 * a * c);
 
@@ -136,7 +136,7 @@ public class Sphere extends CSGShape {
          objectSpaceIntersectionPoint = WorldToObject.Apply(worldSpaceIntersectionPoint);
       }
 
-      Vector direction = Point3.minus(objectSpaceIntersectionPoint, Origin);
+      Vector3 direction = Point3.minus(objectSpaceIntersectionPoint, Origin);
       Normal objectSpaceNormal = new Normal(direction);
 
       Intersection intersection = new Intersection();
@@ -170,11 +170,11 @@ public class Sphere extends CSGShape {
          objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
       }
 
-      Vector v = Point3.minus(objectSpaceRay.Origin, Origin);
+      Vector3 v = Point3.minus(objectSpaceRay.Origin, Origin);
 
-      float a = objectSpaceRay.Direction.Dot(objectSpaceRay.Direction);
-      float b = 2 * (objectSpaceRay.Direction.Dot(v));
-      float c = v.Dot(v) - (Radius * Radius);
+      float a = objectSpaceRay.Direction.dot(objectSpaceRay.Direction);
+      float b = 2 * (objectSpaceRay.Direction.dot(v));
+      float c = v.dot(v) - (Radius * Radius);
 
       float discriminant = (b * b) - (4 * a * c);
 

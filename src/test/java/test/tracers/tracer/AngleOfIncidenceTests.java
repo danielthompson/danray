@@ -35,7 +35,7 @@ public class AngleOfIncidenceTests {
       sphere.Radius = 1;
 
       Point3 rayOrigin = new Point3(2, 1, 0);
-      Vector rayDirection = new Vector(-1, -1, 0);
+      Vector3 rayDirection = new Vector3(-1, -1, 0);
 
       Ray incomingRay = new Ray(rayOrigin, rayDirection);
 
@@ -65,7 +65,7 @@ public class AngleOfIncidenceTests {
       sphere.Radius = 1;
 
       Point3 rayOrigin = new Point3(2, -1, 0);
-      Vector rayDirection = new Vector(-1, 1, 0);
+      Vector3 rayDirection = new Vector3(-1, 1, 0);
 
       Ray incomingRay = new Ray(rayOrigin, rayDirection);
 
@@ -94,7 +94,7 @@ public class AngleOfIncidenceTests {
       sphere.Radius = 1;
 
       Point3 rayOrigin = new Point3(1 + Constants.Root3, -1, 0);
-      Vector rayDirection = new Vector(-Constants.Root3, 1, 0);
+      Vector3 rayDirection = new Vector3(-Constants.Root3, 1, 0);
 
       Ray incomingRay = new Ray(rayOrigin, rayDirection);
 
@@ -123,7 +123,7 @@ public class AngleOfIncidenceTests {
       sphere.Radius = 1;
 
       Point3 rayOrigin = new Point3(4, 0, 0);
-      Vector rayDirection = new Vector(-1, 0, 0);
+      Vector3 rayDirection = new Vector3(-1, 0, 0);
 
       Ray incomingRay = new Ray(rayOrigin, rayDirection);
 
@@ -154,7 +154,7 @@ public class AngleOfIncidenceTests {
       sphere.Radius = 1;
 
       Point3 rayOrigin = new Point3(2, -Constants.Root3, 0);
-      Vector rayDirection = new Vector(-1, Constants.Root3, 0);
+      Vector3 rayDirection = new Vector3(-1, Constants.Root3, 0);
 
       WhittedIntegrator tracer = new WhittedIntegrator(null, 0);
 
@@ -185,7 +185,7 @@ public class AngleOfIncidenceTests {
       sphere.Radius = 1;
 
       Point3 rayOrigin = new Point3(2, 1, 0);
-      Vector rayDirection = new Vector(-1, 0, 0);
+      Vector3 rayDirection = new Vector3(-1, 0, 0);
 
       Ray incomingRay = new Ray(rayOrigin, rayDirection);
 
@@ -216,7 +216,7 @@ public class AngleOfIncidenceTests {
       sphere.Radius = 1;
 
       Point3 rayOrigin = new Point3(-.1f, -.9f, 0);
-      Vector rayDirection = new Vector(1, -1, 0);
+      Vector3 rayDirection = new Vector3(1, -1, 0);
 
       Ray incomingRay = new Ray(rayOrigin, rayDirection);
 

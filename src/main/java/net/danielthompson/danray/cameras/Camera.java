@@ -3,7 +3,7 @@ package net.danielthompson.danray.cameras;
 import net.danielthompson.danray.structures.Point3;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Transform;
-import net.danielthompson.danray.structures.Vector;
+import net.danielthompson.danray.structures.Vector3;
 
 /**
  * Created by daniel on 1/12/14.
@@ -12,7 +12,7 @@ public abstract class Camera {
 
    public CameraSettings Settings;
 
-   private static final Vector DefaultDirection = new Vector(0, 0, -1);
+   private static final Vector3 DefaultDirection = new Vector3(0, 0, -1);
    static final Point3 DefaultOrigin = new Point3(0, 0, 0);
 
    public Transform cameraToWorld;
@@ -22,7 +22,7 @@ public abstract class Camera {
       this.cameraToWorld = cameraToWorld;
    }
 
-   public Vector getDirection() {
+   public Vector3 getDirection() {
       return cameraToWorld.Apply(DefaultDirection);
    }
 
@@ -37,18 +37,18 @@ public abstract class Camera {
     * Moves the camera origin by the specified vector.
     * @param delta
     */
-   public void moveOriginAlongAxis(Vector delta) {
+   public void moveOriginAlongAxis(Vector3 delta) {
       Transform t = Transform.Translate(delta);
       cameraToWorld = t.Apply(cameraToWorld);
    }
 
-   public void moveOriginAlongOrientation(Vector delta) {
+   public void moveOriginAlongOrientation(Vector3 delta) {
       Transform t = Transform.Translate(delta);
       cameraToWorld = cameraToWorld.Apply(t);
    }
 
-   public void moveDirectionAlongOrientation(Vector delta) {
-      moveDirectionAlongOrientation(delta.X, delta.Y, delta.Z);
+   public void moveDirectionAlongOrientation(Vector3 delta) {
+      moveDirectionAlongOrientation(delta.x, delta.y, delta.z);
    }
 
    public void moveDirectionAlongOrientation(float x, float y, float z) {

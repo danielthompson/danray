@@ -48,13 +48,13 @@ public class Cylinder extends AbstractShape {
 
       // check for intersection with upper disk
 
-      float tTop = (Height - objectSpaceRay.Origin.y) / (objectSpaceRay.Direction.Y);
+      float tTop = (Height - objectSpaceRay.Origin.y) / (objectSpaceRay.Direction.y);
 
       Point3 topHitPoint = null;
       boolean topHits = false;
       Normal topNormal = null;
 
-      if (objectSpaceRay.Direction.Y != 0) {
+      if (objectSpaceRay.Direction.y != 0) {
          topHitPoint = objectSpaceRay.GetPointAtT(tTop);
 
          topNormal = new Normal(0, 1, 0);
@@ -67,13 +67,13 @@ public class Cylinder extends AbstractShape {
 
       // check for intersection with lower disk
 
-      float tBottom = (-objectSpaceRay.Origin.y) / (objectSpaceRay.Direction.Y);
+      float tBottom = (-objectSpaceRay.Origin.y) / (objectSpaceRay.Direction.y);
 
       Point3 bottomHitPoint = null;
       boolean bottomHits = false;
       Normal bottomNormal = null;
 
-      if (objectSpaceRay.Direction.Y != 0) {
+      if (objectSpaceRay.Direction.y != 0) {
          bottomHitPoint = objectSpaceRay.GetPointAtT(tBottom);
          bottomNormal = new Normal(0, -1, 0);
 
@@ -85,8 +85,8 @@ public class Cylinder extends AbstractShape {
 
       // check for intersection with cylinder
 
-      float a = objectSpaceRay.Direction.X * objectSpaceRay.Direction.X + objectSpaceRay.Direction.Z * objectSpaceRay.Direction.Z;
-      float b = 2 * (objectSpaceRay.Origin.x * objectSpaceRay.Direction.X + objectSpaceRay.Origin.z * objectSpaceRay.Direction.Z);
+      float a = objectSpaceRay.Direction.x * objectSpaceRay.Direction.x + objectSpaceRay.Direction.z * objectSpaceRay.Direction.z;
+      float b = 2 * (objectSpaceRay.Origin.x * objectSpaceRay.Direction.x + objectSpaceRay.Origin.z * objectSpaceRay.Direction.z);
       float c = objectSpaceRay.Origin.x * objectSpaceRay.Origin.x + objectSpaceRay.Origin.z * objectSpaceRay.Origin.z - (Radius * Radius);
 
       float discriminant = (b * b) - (4 * a * c);
@@ -109,12 +109,12 @@ public class Cylinder extends AbstractShape {
       Normal t0Normal = null;
 
       if (t0 > 0.0) {
-         float py = objectSpaceRay.Origin.y + t0 * objectSpaceRay.Direction.Y;
+         float py = objectSpaceRay.Origin.y + t0 * objectSpaceRay.Direction.y;
          if ((py <= Height) && (py >= 0)) {
             t0Hits = true;
             state.Hits = true;
-            float px = objectSpaceRay.Origin.x + t0 * objectSpaceRay.Direction.X;
-            float pz = objectSpaceRay.Origin.z + t0 * objectSpaceRay.Direction.Z;
+            float px = objectSpaceRay.Origin.x + t0 * objectSpaceRay.Direction.x;
+            float pz = objectSpaceRay.Origin.z + t0 * objectSpaceRay.Direction.z;
             t0Normal = new Normal(px, 0, pz);
          }
       }
@@ -123,12 +123,12 @@ public class Cylinder extends AbstractShape {
       Normal t1Normal = null;
 
       if (t1 > 0.0) {
-         float py = objectSpaceRay.Origin.y + t1 * objectSpaceRay.Direction.Y;
+         float py = objectSpaceRay.Origin.y + t1 * objectSpaceRay.Direction.y;
          if ((py <= Height) && (py >= 0)) {
             t1Hits = true;
             state.Hits = true;
-            float px = objectSpaceRay.Origin.x + t1 * objectSpaceRay.Direction.X;
-            float pz = objectSpaceRay.Origin.z + t1 * objectSpaceRay.Direction.Z;
+            float px = objectSpaceRay.Origin.x + t1 * objectSpaceRay.Direction.x;
+            float pz = objectSpaceRay.Origin.z + t1 * objectSpaceRay.Direction.z;
             t1Normal = new Normal(px, 0, pz);
          }
       }
