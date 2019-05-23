@@ -27,6 +27,24 @@ public class BoundingBox {
       this.point1 = new Point3(point1);
       this.point2 = new Point3(point2);
 
+      if (point2.x < point1.x) {
+         float temp = point2.x;
+         point2.x = point1.x;
+         point1.x = temp;
+      }
+
+      if (point2.y < point1.y) {
+         float temp = point2.y;
+         point2.y = point1.y;
+         point1.y = temp;
+      }
+
+      if (point2.z < point1.z) {
+         float temp = point2.z;
+         point2.z = point1.z;
+         point1.z = temp;
+      }
+
       assert point1.x <= point2.x;
       assert point1.y <= point2.y;
       assert point1.z <= point2.z;
@@ -35,6 +53,24 @@ public class BoundingBox {
    public BoundingBox(BoundingBox box) {
       this.point1 = new Point3(box.point1);
       this.point2 = new Point3(box.point2);
+
+      if (point2.x < point1.x) {
+         float temp = point2.x;
+         point2.x = point1.x;
+         point1.x = temp;
+      }
+
+      if (point2.y < point1.y) {
+         float temp = point2.y;
+         point2.y = point1.y;
+         point1.y = temp;
+      }
+
+      if (point2.z < point1.z) {
+         float temp = point2.z;
+         point2.z = point1.z;
+         point1.z = temp;
+      }
 
       assert point1.x <= point2.x;
       assert point1.y <= point2.y;
