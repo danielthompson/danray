@@ -13,12 +13,12 @@ public class CameraSettingsExporter {
       Element rootElement = document.createElement("CameraSettings");
       rootElement.setAttribute("x", String.valueOf(object.x));
       rootElement.setAttribute("y", String.valueOf(object.y));
-      rootElement.setAttribute("FocusDistance", String.valueOf(object.FocusDistance));
+      rootElement.setAttribute("focusDistance", String.valueOf(object.focusDistance));
 
 //      Element orientation = document.createElement("Orientation");
 //      orientation.appendChild(RayExporter.Process(object.Orientation, document, rootElement));
 //      rootElement.appendChild(orientation);
-//      rootElement.appendChild(ApertureExporter.Process(object.Aperture, document, rootElement));
+//      rootElement.appendChild(ApertureExporter.Process(object.aperture, document, rootElement));
 
       parent.appendChild(rootElement);
 

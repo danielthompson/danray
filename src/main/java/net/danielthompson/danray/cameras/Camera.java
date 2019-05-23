@@ -1,11 +1,9 @@
 package net.danielthompson.danray.cameras;
 
-import net.danielthompson.danray.Logger;
-import net.danielthompson.danray.TraceManager;
-import net.danielthompson.danray.structures.*;
-
-
-import java.text.NumberFormat;
+import net.danielthompson.danray.structures.Point;
+import net.danielthompson.danray.structures.Ray;
+import net.danielthompson.danray.structures.Transform;
+import net.danielthompson.danray.structures.Vector;
 
 /**
  * Created by daniel on 1/12/14.
@@ -100,5 +98,4 @@ public abstract class Camera {
    public Ray getRay(float x, float y) {
       throw new java.lang.UnsupportedOperationException();
    }
-
 }

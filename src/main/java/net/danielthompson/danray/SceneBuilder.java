@@ -200,8 +200,8 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.x = x;
       settings.y = y;
-      settings.FocusDistance = 500;
-      settings.Aperture = new CircleAperture(20);
+      settings.focusDistance = 500;
+      settings.aperture = new CircleAperture(20);
 
       Point origin = new Point(0, 0, 4000);
       Vector direction = new Vector(0, 0, -1);
@@ -1046,8 +1046,8 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.x = x;
       settings.y = y;
-      settings.FocusDistance = 500;
-      settings.Aperture = new CircleAperture(20);
+      settings.focusDistance = 500;
+      settings.aperture = new CircleAperture(20);
 
       Point origin = new Point(100, 75, 700);
       Vector direction = new Vector(0, -.35f, -1);
@@ -1198,8 +1198,8 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.x = x;
       settings.y = y;
-      settings.FocusDistance = 75;
-      settings.Aperture = new CircleAperture(10);
+      settings.focusDistance = 75;
+      settings.aperture = new CircleAperture(10);
 
       Point origin = new Point(0, 0, 250);
       Vector direction = new Vector(0, 0, -1);
@@ -1253,7 +1253,7 @@ public class SceneBuilder {
       settings.y = y;
       settings.fov = 50f;
 
-      settings.Aperture = new SquareAperture(2);
+      settings.aperture = new SquareAperture(2);
 
       Transform[] inputTransforms = new Transform[1];
       inputTransforms[0] = Transform.Translate(new Vector(300, 300, 1000));
@@ -1389,8 +1389,8 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.x = x;
       settings.y = y;
-      settings.FocusDistance = 500;
-      settings.Aperture = new SquareAperture(5);
+      settings.focusDistance = 500;
+      settings.aperture = new SquareAperture(5);
 
       Point origin = new Point(100, 200, 600);
       Vector direction = new Vector(-.1f, -.3f, -1);
@@ -1457,8 +1457,8 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.x = x;
       settings.y = y;
-      settings.FocusDistance = 250;
-      settings.Aperture = new SquareAperture(5);
+      settings.focusDistance = 250;
+      settings.aperture = new SquareAperture(5);
 
       Point origin = new Point(100, 800, 1500);
       Vector direction = new Vector(0, -1, -1);
@@ -1717,8 +1717,8 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.x = x;
       settings.y = y;
-      settings.FocusDistance = 500;
-      settings.Aperture = new CircleAperture(50);
+      settings.focusDistance = 500;
+      settings.aperture = new CircleAperture(50);
 
       Point origin = new Point(300, 300, 2500);
       Vector direction = new Vector(0, 0, -1);
@@ -1935,8 +1935,8 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.x = x;
       settings.y = y;
-      settings.FocusDistance = 1487;
-      settings.Aperture = new CircleAperture(50);
+      settings.focusDistance = 1487;
+      settings.aperture = new CircleAperture(50);
 
       float zoomFactor = 1.0f / 2.0f;
       float focusDistance = 1487.0f;
@@ -2068,7 +2068,7 @@ public class SceneBuilder {
       settings.y = y;
       settings.fov = 25f;
 
-//      settings.Aperture = new CircleAperture(50);
+//      settings.aperture = new CircleAperture(50);
 
       Transform[] inputTransforms = new Transform[1];
       inputTransforms[0] = Transform.Translate(new Vector(0, 500, 2500));
@@ -2173,8 +2173,8 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.x = x;
       settings.y = y;
-      settings.FocusDistance = 500;
-      settings.Aperture = new CircleAperture(20);
+      settings.focusDistance = 500;
+      settings.aperture = new CircleAperture(20);
 
       Point origin = new Point(0, 0, 4000);
       Vector direction = new Vector(0, 0, -1);

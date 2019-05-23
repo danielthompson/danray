@@ -53,7 +53,7 @@ public class SquareApertureTests {
       BufferedImage image = new BufferedImage(X, Y, BufferedImage.TYPE_INT_RGB);
       Canvas canvas = new MainCanvas(image);
 
-      Frame frame = new Frame("DanRay: Square Aperture");
+      Frame frame = new Frame("DanRay: Square aperture");
       frame.add("Center", canvas);
       frame.setSize(new Dimension(X, Y + 22));
       frame.setVisible(true);

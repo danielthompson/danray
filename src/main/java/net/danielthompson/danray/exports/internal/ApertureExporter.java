@@ -10,7 +10,7 @@ import org.w3c.dom.Element;
 public class ApertureExporter {
    public static Element Process(Aperture object, Document document, Element parent) {
 
-      Element rootElement = document.createElement("Aperture");
+      Element rootElement = document.createElement("aperture");
       rootElement.setAttribute("Type", String.valueOf(object.getClass().getSimpleName()));
       rootElement.setAttribute("Size", String.valueOf(object.Size));
       parent.appendChild(rootElement);

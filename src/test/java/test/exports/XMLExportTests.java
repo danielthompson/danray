@@ -4,7 +4,7 @@
 //import net.danielthompson.danray.cameras.Camera;
 //import net.danielthompson.danray.cameras.CameraSettings;
 //import net.danielthompson.danray.cameras.PerspectiveCamera;
-//import net.danielthompson.danray.cameras.apertures.Aperture;
+//import net.danielthompson.danray.cameras.apertures.aperture;
 //import net.danielthompson.danray.cameras.apertures.CircleAperture;
 //import net.danielthompson.danray.cameras.apertures.SquareAperture;
 //import net.danielthompson.danray.exports.internal.*;
@@ -356,7 +356,7 @@
 //   @Test
 //   public void testApertureExport() throws Exception {
 //
-//      final Aperture object = new CircleAperture(5);
+//      final aperture object = new CircleAperture(5);
 //
 //      File file = new File(_dir, "aperture.xml");
 //
@@ -383,8 +383,8 @@
 //      object.FocalLength = 1200;
 //      object.Rotation = 0;
 //      object.ZoomFactor = 1 / 1.5f;
-//      object.FocusDistance = 250;
-//      object.Aperture = new SquareAperture(5);
+//      object.focusDistance = 250;
+//      object.aperture = new SquareAperture(5);
 //
 //      Point origin = new Point(100, 800, 1500);
 //      Vector direction = new Vector(0, -1, -1);
@@ -556,8 +556,8 @@
 //      settings.FocalLength = 1200;
 //      settings.Rotation = 0;
 //      settings.ZoomFactor = 1 / 1.5f;
-//      settings.FocusDistance = 250;
-//      settings.Aperture = new SquareAperture(5);
+//      settings.focusDistance = 250;
+//      settings.aperture = new SquareAperture(5);
 //
 //      Point origin = new Point(100, 800, 1500);
 //      Vector direction = new Vector(0, -1, -1);

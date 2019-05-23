@@ -16,19 +16,19 @@ public class CameraSettings {
     * Height of the image in pixels. Required.
     */
    public int y;
-g
+
    /**
     * Extent of the observable world, measured in degrees. Must be 0 &lt;= fov &gt;= 360. Required.
     */
    public float fov;
 
    /**
-    * Aperture of the lens. Results in an image with DOF. Optional.
+    * aperture of the lens. Results in an image with DOF. Optional.
     */
-   public Aperture Aperture;
+   public Aperture aperture;
 
    /**
     * Distance in world coordinates to the focus point. &gt;0 required for DOF, otherwise optional.
     */
-   public float FocusDistance;
+   public float focusDistance;
 }
