@@ -1,5 +1,7 @@
 package net.danielthompson.danray.samplers;
 
+import net.danielthompson.danray.structures.Point2;
+
 /**
  * Created by daniel on 5/15/16.
  */
@@ -24,9 +26,9 @@ public class GridSampler extends AbstractSampler {
    }
 
    @Override
-   public float[][] GetSamples(int x, int y, int n) {
+   public Point2[] GetSamples(int x, int y, int n) {
 
-      float[][] pixels = new float[SamplesPerPixel][2];
+      Point2[] pixels = new Point2[SamplesPerPixel];
 
       int index;
 
@@ -37,8 +39,8 @@ public class GridSampler extends AbstractSampler {
          index = i * rootNumSamples;
 
          for (int j = 0; j < rootNumSamples; j++) {
-            pixels[index + j][0] = xOffset + differential * j;
-            pixels[index + j][1] = yOffset + differential * i;;
+            pixels[index + j].x = xOffset + differential * j;
+            pixels[index + j].y = yOffset + differential * i;;
          }
       }
 

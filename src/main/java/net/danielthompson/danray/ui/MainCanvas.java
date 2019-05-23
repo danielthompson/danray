@@ -2,6 +2,7 @@ package net.danielthompson.danray.ui;
 
 import net.danielthompson.danray.Main;
 import net.danielthompson.danray.TraceManager;
+import net.danielthompson.danray.structures.Point2;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -52,8 +53,11 @@ public class MainCanvas extends Canvas implements MouseListener, MouseMotionList
       int x = mouseEvent.getX();
       int y = mouseEvent.getY();
 
+      Point2 point = new Point2(x, y);
+
+
       if (_manager != null)
-         _manager.setMouseClickXY(x, y);
+         _manager.setMouseClickXY(point);
       System.out.println("Click at x: " + x + " y: " + y);
 
 

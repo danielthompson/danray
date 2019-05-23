@@ -1,5 +1,7 @@
 package net.danielthompson.danray.samplers;
 
+import net.danielthompson.danray.structures.Point2;
+
 /**
  * Created by daniel on 5/15/16.
  */
@@ -10,12 +12,14 @@ public class CenterSampler extends AbstractSampler {
    }
 
    @Override
-   public float[][] GetSamples(int x, int y, int n) {
-      float[][] pixels = new float[n][2];
+   public Point2[] GetSamples(int x, int y, int n) {
+      Point2[] pixels = new Point2[n];
+
+      float xf = x + 0.5f;
+      float yf = y + 0.5f;
 
       for (int i = 0; i < n; i++) {
-         pixels[i][0] = x + 0.5f;
-         pixels[i][1] = y + 0.5f;
+         pixels[i] = new Point2(xf, yf);
       }
 
       return pixels;

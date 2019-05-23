@@ -33,10 +33,11 @@ public class PerspectiveCamera extends Camera {
       aspectTimesTanFovOver2 = aspectRatio * tanFOVOver2;
    }
 
-   public Ray getRay(float x, float y) {
+   @Override
+   public Ray getRay(Point2 pixel) {
 
-      float pixelCameraX = ((x + 0.5f) * TwoOverWidth - 1.0f) * aspectTimesTanFovOver2;
-      float pixelCameraY = (1.0f - (y + 0.5f) * TwoOverHeight) * tanFOVOver2;
+      float pixelCameraX = ((pixel.x + 0.5f) * TwoOverWidth - 1.0f) * aspectTimesTanFovOver2;
+      float pixelCameraY = (1.0f - (pixel.y + 0.5f) * TwoOverHeight) * tanFOVOver2;
 
       Ray cameraSpaceRay = new Ray(DefaultOrigin, pixelCameraX, pixelCameraY, -1.0f);
 

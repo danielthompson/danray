@@ -1,6 +1,6 @@
 package net.danielthompson.danray.samplers;
 
-import java.util.Random;
+import net.danielthompson.danray.structures.Point2;
 
 /**
  * Created by daniel on 5/15/16.
@@ -13,5 +13,5 @@ public abstract class AbstractSampler {
       SamplesPerPixel = samplesPerPixel;
    }
 
-   public abstract float[][] GetSamples(int x, int y, int n);
+   public abstract Point2[] GetSamples(int x, int y, int n);
 }

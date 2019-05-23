@@ -332,10 +332,10 @@ public class TraceManager {
          _infoJFrame.setMouseLocation(x, y);
    }
 
-   public void setMouseClickXY(final int x, final int y) {
-      Ray[] cameraRays = _scene.Camera.getRays(x, y, 1);
+   public void setMouseClickXY(Point2 pixel) {
+      Ray[] cameraRays = _scene.Camera.getRays(pixel, 1);
 
-      Intersection state = _scene.getNearestShape(cameraRays[0], x, y);
+      Intersection state = _scene.getNearestShape(cameraRays[0], (int)pixel.x, (int)pixel.y);
 
       if (state != null) {
 

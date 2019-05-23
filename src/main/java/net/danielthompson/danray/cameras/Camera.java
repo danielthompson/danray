@@ -1,9 +1,6 @@
 package net.danielthompson.danray.cameras;
 
-import net.danielthompson.danray.structures.Point3;
-import net.danielthompson.danray.structures.Ray;
-import net.danielthompson.danray.structures.Transform;
-import net.danielthompson.danray.structures.Vector3;
+import net.danielthompson.danray.structures.*;
 
 /**
  * Created by daniel on 1/12/14.
@@ -52,7 +49,6 @@ public abstract class Camera {
    }
 
    public void moveDirectionAlongOrientation(float x, float y, float z) {
-
       Transform[] inputTransforms = new Transform[] {
             Transform.RotateX(x),
             Transform.RotateY(y),
@@ -73,29 +69,27 @@ public abstract class Camera {
       cameraToWorld = compositeTransforms[0].Apply(cameraToWorld);
    }
 
-   public Ray[] getRays(float x, float y, int samples)
+   public Ray[] getRays(Point2 pixel, int samples)
    {
       Ray[] rays = new Ray[samples];
 
       for (int i = 0; i < samples; i++) {
-         rays[i] = getRay(x, y);
+         rays[i] = getRay(pixel);
       }
 
       return rays;
    }
 
-   public Ray[] getRays(float[][] sampleLocations, int samples) {
+   public Ray[] getRays(Point2[] pixels, int samples) {
 
       Ray[] rays = new Ray[samples];
 
       for (int i = 0; i < samples; i++) {
-         rays[i] = getRay(sampleLocations[i][0], sampleLocations[i][1]);
+         rays[i] = getRay(pixels[i]);
       }
 
       return rays;
    }
 
-   public Ray getRay(float x, float y) {
-      throw new java.lang.UnsupportedOperationException();
-   }
+   public abstract Ray getRay(Point2 location);
 }
