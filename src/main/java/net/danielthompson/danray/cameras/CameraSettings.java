@@ -1,6 +1,5 @@
 package net.danielthompson.danray.cameras;
 
-import net.danielthompson.danray.animation.CameraOrientationMovement;
 import net.danielthompson.danray.cameras.apertures.Aperture;
 import net.danielthompson.danray.structures.Ray;
 
@@ -42,11 +41,6 @@ public class CameraSettings {
     * Camera's origin and direction in world space. Required.
     */
    public Ray Orientation;
-
-   /**
-    * Movement of the orientation in time. Optional.
-    */
-   public CameraOrientationMovement Movement;
 
    /**
     * Aperture of the lens. Results in an image with DOF. Optional.
