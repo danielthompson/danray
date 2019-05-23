@@ -18,7 +18,7 @@ public class CameraSettings {
    public int Y;
 
    /**
-    * Focal length of the simulated lens. Must be 0 &lt;= fov &gt;= 360. Required.
+    * Extent of the observable world, measured in degrees. Must be 0 &lt;= fov &gt;= 360. Required.
     */
    public float FieldOfView;
 
