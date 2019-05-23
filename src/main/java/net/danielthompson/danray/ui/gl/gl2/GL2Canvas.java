@@ -431,7 +431,7 @@ public class GL2Canvas extends AbstractGLCanvas {
       gl.glMatrixMode(GLMatrixFunc.GL_PROJECTION);
       gl.glLoadIdentity();
 
-      float fov = Scene.Camera.Settings.FieldOfView;
+      float fov = Scene.Camera.Settings.fov;
       float aspect = (float) Scene.Camera.Settings.x / (float) Scene.Camera.Settings.y;
       float zNear = 1;
       float zFar = 10000;

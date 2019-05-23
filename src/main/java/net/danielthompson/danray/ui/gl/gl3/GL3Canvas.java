@@ -436,7 +436,7 @@ public class GL3Canvas extends AbstractGLCanvas {
 
       float aspect = (float)width / (float)height;
 
-      float fieldOfViewRad = (float)Math.toRadians(Scene.Camera.Settings.FieldOfView);
+      float fieldOfViewRad = (float)Math.toRadians(Scene.Camera.Settings.fov);
 
       float[] perspective = new float[16];
       FloatUtil.makePerspective(

@@ -28,7 +28,7 @@ public class PerspectiveCamera extends Camera {
       TwoOverHeight = 2.0f / (float)Settings.y;
 
       aspectRatio = (float) Settings.x * OneOverHeight;
-      tanFOVOver2 = (float)Math.tan(Math.toRadians(Settings.FieldOfView) * .5f);
+      tanFOVOver2 = (float)Math.tan(Math.toRadians(Settings.fov) * .5f);
 
       aspectTimesTanFovOver2 = aspectRatio * tanFOVOver2;
    }

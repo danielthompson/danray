@@ -433,7 +433,7 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.x = x;
       settings.y = y;
-      settings.FieldOfView = 90f;
+      settings.fov = 90f;
 
       float bigNum = 100000000f;
 
@@ -483,7 +483,7 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.x = x;
       settings.y = y;
-      settings.FieldOfView = 25f;
+      settings.fov = 25f;
 
       float bigNum = 1f;
 
@@ -831,7 +831,7 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.x = x;
       settings.y = y;
-      settings.FieldOfView = 20.114292f;
+      settings.fov = 20.114292f;
 
       Transform[] inputTransforms = new Transform[2];
       inputTransforms[0] = Transform.Translate(new Vector(28.2792f, 3.5f, 0));
@@ -1095,7 +1095,7 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.x = x;
       settings.y = y;
-      settings.FieldOfView = 20;
+      settings.fov = 20;
 
       Transform[] inputTransforms = new Transform[1];
       inputTransforms[0] = Transform.Translate(new Vector(0, 0, 1200));
@@ -1251,7 +1251,7 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.x = x;
       settings.y = y;
-      settings.FieldOfView = 50f;
+      settings.fov = 50f;
 
       settings.Aperture = new SquareAperture(2);
 
@@ -2066,7 +2066,7 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.x = x;
       settings.y = y;
-      settings.FieldOfView = 25f;
+      settings.fov = 25f;
 
 //      settings.Aperture = new CircleAperture(50);
 
