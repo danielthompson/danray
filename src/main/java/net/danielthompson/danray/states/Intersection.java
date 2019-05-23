@@ -52,7 +52,7 @@ public class Intersection {
     * The shape that the ray Hits. Null if the ray doesn't hit any shape.
     */
    public AbstractShape Shape;
-   public List<Point3> Face;
+   //public List<Point3> Face;
 
    /**
     * The world-space normal vector at the intersection point.
@@ -72,7 +72,7 @@ public class Intersection {
    /**
     * The index of refraction of the material that the ray encounters at the intersection point.
     */
-   public float IndexOfRefraction;
+   //public float IndexOfRefraction;
 
    /**
     * The x coordinate of the image pixel that the ray contributes to.
@@ -95,8 +95,6 @@ public class Intersection {
    public float v;
 
    public int KDHeatCount;
-
-   public int InstanceID;
 
    public Intersection() {
       t = Float.MAX_VALUE;

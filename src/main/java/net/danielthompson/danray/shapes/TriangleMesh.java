@@ -82,7 +82,7 @@ public class TriangleMesh extends AbstractShape {
 
          if (state.Hits && state.t < closestStateToRay.t) {
             closestStateToRay = state;
-            state.Face = face;
+            //state.Face = face;
          }
       }
 
