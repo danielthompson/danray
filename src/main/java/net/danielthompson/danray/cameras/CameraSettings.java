@@ -23,16 +23,6 @@ public class CameraSettings {
    public float FieldOfView;
 
    /**
-    * Rotation about the view vector in degrees (positive = clockwise). Optional; defaults to 0.
-    */
-   public float Rotation;
-
-   /**
-    * How much to shrink or enlarge the viewport. Optional; defaults to 1; less than 1 = zoomed in; greater than 1 = zoomed out.
-    */
-   public float ZoomFactor;
-
-   /**
     * Camera's origin and direction in world space. Required.
     */
    public Ray Orientation;
