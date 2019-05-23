@@ -23,11 +23,6 @@ public class CameraSettings {
    public float FieldOfView;
 
    /**
-    * Camera's origin and direction in world space. Required.
-    */
-   public Ray Orientation;
-
-   /**
     * Aperture of the lens. Results in an image with DOF. Optional.
     */
    public Aperture Aperture;
@@ -36,7 +31,4 @@ public class CameraSettings {
     * Distance in world coordinates to the focus point. &gt;0 required for DOF, otherwise optional.
     */
    public float FocusDistance;
-
-
-
 }

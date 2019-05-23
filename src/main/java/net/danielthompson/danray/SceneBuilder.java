@@ -205,7 +205,6 @@ public class SceneBuilder {
 
       Point origin = new Point(0, 0, 4000);
       Vector direction = new Vector(0, 0, -1);
-      settings.Orientation = new Ray(origin, direction);
 
       Camera camera = new PerspectiveCamera(settings, null);
 
@@ -1052,7 +1051,6 @@ public class SceneBuilder {
 
       Point origin = new Point(100, 75, 700);
       Vector direction = new Vector(0, -.35f, -1);
-      settings.Orientation = new Ray(origin, direction);
 
       Camera camera = new PerspectiveCamera(settings, null);
 
@@ -1205,7 +1203,6 @@ public class SceneBuilder {
 
       Point origin = new Point(0, 0, 250);
       Vector direction = new Vector(0, 0, -1);
-      settings.Orientation = new Ray(origin, direction);
 
       Camera camera = new PerspectiveCamera(settings, null);
 
@@ -1397,7 +1394,6 @@ public class SceneBuilder {
 
       Point origin = new Point(100, 200, 600);
       Vector direction = new Vector(-.1f, -.3f, -1);
-      settings.Orientation = new Ray(origin, direction);
 
       Camera camera = new PerspectiveCamera(settings, null);
 
@@ -1467,7 +1463,6 @@ public class SceneBuilder {
       Point origin = new Point(100, 800, 1500);
       Vector direction = new Vector(0, -1, -1);
 
-      settings.Orientation = new Ray(origin, direction);
 
       Camera camera = new PerspectiveCamera(settings, null);
       //Vector orientation = new Vector(new Point(x/2, y/2, 1600), new Point(0, 0, -1));
@@ -1728,8 +1723,6 @@ public class SceneBuilder {
       Point origin = new Point(300, 300, 2500);
       Vector direction = new Vector(0, 0, -1);
 
-      settings.Orientation = new Ray(origin, direction);
-
       Camera camera = new PerspectiveCamera(settings, null);
 
       AbstractScene scene = new NaiveScene(camera);
@@ -1943,7 +1936,6 @@ public class SceneBuilder {
       settings.X = x;
       settings.Y = y;
       settings.FocusDistance = 1487;
-      settings.Orientation = orientation;
       settings.Aperture = new CircleAperture(50);
 
       float zoomFactor = 1.0f / 2.0f;
@@ -2186,7 +2178,6 @@ public class SceneBuilder {
 
       Point origin = new Point(0, 0, 4000);
       Vector direction = new Vector(0, 0, -1);
-      settings.Orientation = new Ray(origin, direction);
 
       Camera camera = new PerspectiveCamera(settings, null);
 
