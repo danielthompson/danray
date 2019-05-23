@@ -18,9 +18,9 @@ public class TriangleMesh extends AbstractShape {
 
    private Material _material;
 
-   private List<Point> _vertices;
-   private List<List<Point>> _faces;
-   private Point _origin;
+   private List<Point3> _vertices;
+   private List<List<Point3>> _faces;
+   private Point3 _origin;
 
    public int ID;
 
@@ -31,25 +31,25 @@ public class TriangleMesh extends AbstractShape {
 
    private BoundingBox _boundingBox;
 
-   public TriangleMesh(List<Point> vertices, List<List<Point>> faces) {
+   public TriangleMesh(List<Point3> vertices, List<List<Point3>> faces) {
       this(vertices, faces, null);
    }
 
-   public TriangleMesh(List<Point> vertices, List<List<Point>> faces, Point origin) {
+   public TriangleMesh(List<Point3> vertices, List<List<Point3>> faces, Point3 origin) {
       super(null);
       _vertices = vertices;
       _faces = faces;
       SetOrigin(origin);
    }
 
-   public void SetOrigin(Point origin) {
-      _boundingBox.Translate(Point.Minus(origin, _origin));
+   public void SetOrigin(Point3 origin) {
+      _boundingBox.Translate(Point3.minus(origin, _origin));
 
       _origin = origin;
-      if (origin != null && origin.X != 0.0 && origin.Y != 0.0 && origin.Z != 0.0) {
+      if (origin != null && origin.x != 0.0 && origin.y != 0.0 && origin.z != 0.0) {
          for (int i = 0; i < _vertices.size(); i++) {
-            Point vertex = _vertices.get(i);
-            vertex.Plus(origin);
+            Point3 vertex = _vertices.get(i);
+            vertex.plus(origin);
             _vertices.set(i, vertex);
          }
       }
@@ -77,7 +77,7 @@ public class TriangleMesh extends AbstractShape {
       closestStateToRay.Hits = false;
       closestStateToRay.t = Float.MAX_VALUE;
 
-      for (List<Point> face : _faces) {
+      for (List<Point3> face : _faces) {
          Intersection state = Triangle.GetHitInfo(this, ray, face.get(0), face.get(1), face.get(2));
 
          if (state.Hits && state.t < closestStateToRay.t) {
@@ -101,7 +101,7 @@ public class TriangleMesh extends AbstractShape {
 
    /*
    public Ray GetNormal(Intersection state) {
-      return new Ray(state.Face.get(0), state.Face.get(0).Cross(state.Face.get(1)));
+      return new Ray(state.Face.get(0), state.Face.get(0).cross(state.Face.get(1)));
    }
    */
 
@@ -116,10 +116,10 @@ public class TriangleMesh extends AbstractShape {
       float minZ = Float.MAX_VALUE;
       float maxZ = Float.MIN_VALUE;
 
-      for (Point vertex : _vertices) {
-         float x = vertex.X;
-         float y = vertex.Y;
-         float z = vertex.Z;
+      for (Point3 vertex : _vertices) {
+         float x = vertex.x;
+         float y = vertex.y;
+         float z = vertex.z;
 
          if (x < minX)
             minX = x;
@@ -137,7 +137,7 @@ public class TriangleMesh extends AbstractShape {
             maxZ = z;
       }
 
-      _boundingBox = new BoundingBox(new Point(minX, minY, minZ), new Point(maxX, maxY, maxZ));
+      _boundingBox = new BoundingBox(new Point3(minX, minY, minZ), new Point3(maxX, maxY, maxZ));
    }
 
    @Override

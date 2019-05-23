@@ -21,8 +21,8 @@ public class LambertianBRDF extends BRDF {
 
    @Override
    public Vector getVectorInPDF(Normal normal, Vector incoming, float leavingIndexOfRefraction, float enteringIndexOfRefraction) {
-//      if (normal.Dot(incoming) > 0)
-//         normal.Scale(-1);
+//      if (normal.dot(incoming) > 0)
+//         normal.scale(-1);
 
       float[] xyz = GeometryCalculations.randomPointOnSphere();
       Vector outgoing = new Vector(xyz[0], xyz[1], xyz[2]);

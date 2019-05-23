@@ -36,7 +36,7 @@
 //
 //      Point pointInSpace = new Point(2, 0, 0);
 //
-//      Vector direction = Vector.Minus(pointOnLight, pointInSpace);
+//      Vector direction = Vector.minus(pointOnLight, pointInSpace);
 //
 //      float expectedPDF = 1.0f;
 //      float actualPDF = light.getPDF(pointInSpace, direction);
@@ -62,10 +62,10 @@
 //
 //         // the angle between these must be <= 90
 //
-//         Vector directionFromOriginToSurfacePoint = Vector.Minus(ray.Origin, light.Origin);
+//         Vector directionFromOriginToSurfacePoint = Vector.minus(ray.Origin, light.Origin);
 //         Vector directionFromSurfacePoint = ray.Direction;
 //
-//         float cosTheta = directionFromOriginToSurfacePoint.Dot(directionFromSurfacePoint);
+//         float cosTheta = directionFromOriginToSurfacePoint.dot(directionFromSurfacePoint);
 //
 //         if (cosTheta > maxTheta)
 //            maxTheta = cosTheta;

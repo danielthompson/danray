@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class Sphere extends CSGShape {
 
-   public Point Origin = new Point(0, 0, 0);
+   public Point3 Origin = new Point3(0, 0, 0);
    public float Radius;
 
    public Sphere() {
@@ -41,15 +41,15 @@ public class Sphere extends CSGShape {
 
    public void RecalculateWorldBoundingBox() {
 
-      float p1x = Origin.X - Radius;
-      float p1y = Origin.Y - Radius;
-      float p1z = Origin.Z - Radius;
-      Point p1 = new Point(p1x, p1y, p1z);
+      float p1x = Origin.x - Radius;
+      float p1y = Origin.y - Radius;
+      float p1z = Origin.z - Radius;
+      Point3 p1 = new Point3(p1x, p1y, p1z);
 
-      float p2x = Origin.X + Radius;
-      float p2y = Origin.Y + Radius;
-      float p2z = Origin.Z + Radius;
-      Point p2 = new Point(p2x, p2y, p2z);
+      float p2x = Origin.x + Radius;
+      float p2y = Origin.y + Radius;
+      float p2z = Origin.z + Radius;
+      Point3 p2 = new Point3(p2x, p2y, p2z);
 
       WorldBoundingBox = new BoundingBox(p1, p2);
 
@@ -66,7 +66,7 @@ public class Sphere extends CSGShape {
          objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
       }
 
-      Vector v = Point.Minus(objectSpaceRay.Origin, Origin);
+      Vector v = Point3.minus(objectSpaceRay.Origin, Origin);
 
       float a = objectSpaceRay.Direction.Dot(objectSpaceRay.Direction);
       float b = 2 * (objectSpaceRay.Direction.Dot(v));
@@ -111,8 +111,8 @@ public class Sphere extends CSGShape {
 
       // convert T back to world space
       if (ObjectToWorld != null && ObjectToWorld.HasScale()) {
-         Point objectSpaceIntersectionPoint = objectSpaceRay.GetPointAtT(hits);
-         Point worldSpaceIntersectionPoint = ObjectToWorld.Apply(objectSpaceIntersectionPoint);
+         Point3 objectSpaceIntersectionPoint = objectSpaceRay.GetPointAtT(hits);
+         Point3 worldSpaceIntersectionPoint = ObjectToWorld.Apply(objectSpaceIntersectionPoint);
          hits = worldSpaceRay.GetTAtPoint(worldSpaceIntersectionPoint);
       }
 
@@ -129,14 +129,14 @@ public class Sphere extends CSGShape {
          objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
       }
 
-      Point worldSpaceIntersectionPoint = worldSpaceRay.GetPointAtT(worldSpaceRay.MinT);
-      Point objectSpaceIntersectionPoint = worldSpaceIntersectionPoint;
+      Point3 worldSpaceIntersectionPoint = worldSpaceRay.GetPointAtT(worldSpaceRay.MinT);
+      Point3 objectSpaceIntersectionPoint = worldSpaceIntersectionPoint;
 
       if (WorldToObject != null) {
          objectSpaceIntersectionPoint = WorldToObject.Apply(worldSpaceIntersectionPoint);
       }
 
-      Vector direction = Point.Minus(objectSpaceIntersectionPoint, Origin);
+      Vector direction = Point3.minus(objectSpaceIntersectionPoint, Origin);
       Normal objectSpaceNormal = new Normal(direction);
 
       Intersection intersection = new Intersection();
@@ -147,8 +147,8 @@ public class Sphere extends CSGShape {
       intersection.OriginInside = Inside(objectSpaceRay.Origin) || OnSurface(objectSpaceRay.Origin);
       intersection.Entering = objectSpaceNormal.Dot(objectSpaceRay.Direction) < 0;
 
-//      if (intersection.Normal.Dot(objectSpaceRay.Direction) > 0)
-//         intersection.Normal.Scale(-1);
+//      if (intersection.Normal.dot(objectSpaceRay.Direction) > 0)
+//         intersection.Normal.scale(-1);
 
       intersection.u = 0.5f + (float)Math.atan2(-objectSpaceNormal.Z, -objectSpaceNormal.X) * Constants.OneOver2Pi;
       intersection.v = 0.5f - (float)Math.asin(-objectSpaceNormal.Y) * Constants.OneOverPi;
@@ -170,7 +170,7 @@ public class Sphere extends CSGShape {
          objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
       }
 
-      Vector v = Point.Minus(objectSpaceRay.Origin, Origin);
+      Vector v = Point3.minus(objectSpaceRay.Origin, Origin);
 
       float a = objectSpaceRay.Direction.Dot(objectSpaceRay.Direction);
       float b = 2 * (objectSpaceRay.Direction.Dot(v));
@@ -196,8 +196,8 @@ public class Sphere extends CSGShape {
          worldSpaceRay.MinT = lowT;
 
          if (ObjectToWorld != null && ObjectToWorld.HasScale()) {
-            Point objectSpaceIntersectionPoint = objectSpaceRay.GetPointAtT(lowT);
-            Point worldSpaceIntersectionPoint = ObjectToWorld.Apply(objectSpaceIntersectionPoint);
+            Point3 objectSpaceIntersectionPoint = objectSpaceRay.GetPointAtT(lowT);
+            Point3 worldSpaceIntersectionPoint = ObjectToWorld.Apply(objectSpaceIntersectionPoint);
             worldSpaceRay.MinT = worldSpaceRay.GetTAtPoint(worldSpaceIntersectionPoint);
          }
 
@@ -213,8 +213,8 @@ public class Sphere extends CSGShape {
          worldSpaceRay.MinT = highT;
 
          if (ObjectToWorld != null && ObjectToWorld.HasScale()) {
-            Point objectSpaceIntersectionPoint = objectSpaceRay.GetPointAtT(highT);
-            Point worldSpaceIntersectionPoint = ObjectToWorld.Apply(objectSpaceIntersectionPoint);
+            Point3 objectSpaceIntersectionPoint = objectSpaceRay.GetPointAtT(highT);
+            Point3 worldSpaceIntersectionPoint = ObjectToWorld.Apply(objectSpaceIntersectionPoint);
             worldSpaceRay.MinT = worldSpaceRay.GetTAtPoint(worldSpaceIntersectionPoint);
          }
 
@@ -232,14 +232,14 @@ public class Sphere extends CSGShape {
    }
 
    @Override
-   public boolean Inside(Point worldSpacePoint) {
-      Point objectSpacePoint = worldSpacePoint;
+   public boolean Inside(Point3 worldSpacePoint) {
+      Point3 objectSpacePoint = worldSpacePoint;
 
       if (WorldToObject != null) {
          objectSpacePoint = WorldToObject.Apply(worldSpacePoint);
       }
 
-      float dist = objectSpacePoint.SquaredDistanceBetween(Origin);
+      float dist = objectSpacePoint.squaredDistanceBetween(Origin);
       float r2 = Radius * Radius;
 
       boolean value = dist < r2 - Constants.DoubleEpsilon * 2f;
@@ -251,8 +251,8 @@ public class Sphere extends CSGShape {
       return value;
    }
 
-   public boolean OnSurface(Point point) {
-      float difference = Radius * Radius - point.SquaredDistanceBetween(Origin);
+   public boolean OnSurface(Point3 point) {
+      float difference = Radius * Radius - point.squaredDistanceBetween(Origin);
       return Constants.WithinEpsilon(difference, 0);
    }
 

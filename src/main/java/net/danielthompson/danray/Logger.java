@@ -1,7 +1,7 @@
 package net.danielthompson.danray;
 
 import net.danielthompson.danray.structures.Normal;
-import net.danielthompson.danray.structures.Point;
+import net.danielthompson.danray.structures.Point3;
 import net.danielthompson.danray.structures.Ray;
 
 import java.io.File;
@@ -116,10 +116,10 @@ public class Logger {
       }
    }
 
-   public static void Log(Level level, int depth, Point p) {
+   public static void Log(Level level, int depth, Point3 p) {
       if (level._value <= LogLevel._value) {
          String spacer = " ".repeat(depth);
-         Log(level, spacer + "Point: (" + p.X + ", " + p.Y + ", " + p.Z + ")");
+         Log(level, spacer + "Point: (" + p.x + ", " + p.y + ", " + p.z + ")");
       }
    }
 
@@ -133,8 +133,8 @@ public class Logger {
    public static void Log(Level level, int depth, Ray r) {
       if (level._value <= LogLevel._value) {
          String spacer = " ".repeat(depth);
-         Log(level, spacer + "Ray(Point({" + f(r.Origin.X) + ", " + f(r.Origin.Y) + ", " + f(r.Origin.Z) + "}), Vector(Point({" + f(r.Direction.X) + ", " + f(r.Direction.Y) + ", " + f(r.Direction.Z) + "})))");
-         Log(level, spacer + "Origin: (" + r.Origin.X + ", " + r.Origin.Y + ", " + r.Origin.Z + ")");
+         Log(level, spacer + "Ray(Point({" + f(r.Origin.x) + ", " + f(r.Origin.y) + ", " + f(r.Origin.z) + "}), Vector(Point({" + f(r.Direction.X) + ", " + f(r.Direction.Y) + ", " + f(r.Direction.Z) + "})))");
+         Log(level, spacer + "Origin: (" + r.Origin.x + ", " + r.Origin.y + ", " + r.Origin.z + ")");
          Log(level, spacer + "Direction: (" + r.Direction.X + ", " + r.Direction.Y + ", " + r.Direction.Z + ")");
       }
    }

@@ -104,20 +104,20 @@ public class GeometryCalculations {
          refractedDirection = Vector.Plus(incomingRay.Scale(nRatio), new Vector(Normal.Scale(normal, nRatio * cosTheta1 + cosTheta2)));
       }
 
-      Point offsetIntersection = Point.Plus(state.Location, Vector.Scale(refractedDirection, .0000001f));
+      Point3 offsetIntersection = Point3.plus(state.Location, Vector.Scale(refractedDirection, .0000001f));
 
       return new Ray(offsetIntersection, refractedDirection);
    }
 
-   public static Ray GetReflectedRay(Point intersectionPoint, Normal normal, Ray incomingRay) {
+   public static Ray GetReflectedRay(Point3 intersectionPoint, Normal normal, Ray incomingRay) {
       normal.Normalize();
       float factor = incomingRay.Direction.Dot(normal) * 2;
       Vector scaled = new Vector(Normal.Scale(normal, factor));
       Vector direction = Vector.Minus(new Vector(0, 0, 0), Vector.Minus(scaled, incomingRay.Direction));
 
-      Point offsetIntersection = Point.Plus(intersectionPoint, Vector.Scale(direction, Constants.Epsilon * 1000));
+      Point3 offsetIntersection = Point3.plus(intersectionPoint, Vector.Scale(direction, Constants.Epsilon * 1000));
 
-      //Point direction = normal.ScaleFromOrigin(incomingRay.Direction.Dot(normal.Direction) * 2).Minus(incomingRay.Direction);
+      //Point direction = normal.ScaleFromOrigin(incomingRay.Direction.dot(normal.Direction) * 2).minus(incomingRay.Direction);
       Ray reflectedRay = new Ray(offsetIntersection, direction);
       return reflectedRay;
    }

@@ -95,11 +95,11 @@ public class GL2Canvas extends AbstractGLCanvas {
 
       int font = GLUT.BITMAP_HELVETICA_18;
       gl.glRasterPos2i(10, 90);
-      GLUT.glutBitmapString(font, String.format("%.2f", Scene.Camera.getOrigin().X));
+      GLUT.glutBitmapString(font, String.format("%.2f", Scene.Camera.getOrigin().x));
       gl.glRasterPos2i(10, 50);
-      GLUT.glutBitmapString(font, String.format("%.2f", Scene.Camera.getOrigin().Y));
+      GLUT.glutBitmapString(font, String.format("%.2f", Scene.Camera.getOrigin().y));
       gl.glRasterPos2i(10, 10);
-      GLUT.glutBitmapString(font, String.format("%.2f", Scene.Camera.getOrigin().Z));
+      GLUT.glutBitmapString(font, String.format("%.2f", Scene.Camera.getOrigin().z));
 
       gl.glEnable(GL_DEPTH_TEST);
       gl.glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
@@ -136,7 +136,7 @@ public class GL2Canvas extends AbstractGLCanvas {
       for (AbstractLight light : Scene.Lights) {
          if (light instanceof PointLight) {
             PointLight pointLight = (PointLight)light;
-            float[] lightpos = {pointLight.Location.X, pointLight.Location.Y, pointLight.Location.Z};
+            float[] lightpos = {pointLight.Location.x, pointLight.Location.y, pointLight.Location.z};
             gl.glLightfv(gl.GL_LIGHT0, gl.GL_POSITION, lightpos, 0);
 
          }
@@ -170,7 +170,7 @@ public class GL2Canvas extends AbstractGLCanvas {
                gl.glColor3f(0.2f, 1.0f, 1.0f);*/
 
                GLU.gluSphere(quadric, 1, 100, 100);
-               //gl.glTranslatef(-origin.x, -origin.y, -origin.Z);
+               //gl.glTranslatef(-origin.x, -origin.y, -origin.z);
             } else if (shape instanceof Box) {
                //drawBox(gl, (Box) shape);
             }
@@ -228,7 +228,7 @@ public class GL2Canvas extends AbstractGLCanvas {
                if (shape instanceof Sphere || shape instanceof SphereLight) {
 
                   GLU.gluSphere(quadric, 1, 8, 8);
-                  //gl.glTranslatef(-origin.x, -origin.y, -origin.Z);
+                  //gl.glTranslatef(-origin.x, -origin.y, -origin.z);
                }
                else if (shape instanceof Box) {
                   //drawBox(gl, (Box)shape);
@@ -305,12 +305,12 @@ public class GL2Canvas extends AbstractGLCanvas {
 
    private void drawBoundingBox(GL2 gl, BoundingBox box, float width) {
 
-      float p0x = box.point1.X;
-      float p0y = box.point1.Y;
-      float p0z = box.point1.Z;
-      float p1x = box.point2.X;
-      float p1y = box.point2.Y;
-      float p1z = box.point2.Z;
+      float p0x = box.point1.x;
+      float p0y = box.point1.y;
+      float p0z = box.point1.z;
+      float p1x = box.point2.x;
+      float p1y = box.point2.y;
+      float p1z = box.point2.z;
       drawBoxAsLines(gl, p0x, p0y, p0z, p1x, p1y, p1z, width);
    }
 

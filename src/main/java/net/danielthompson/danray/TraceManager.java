@@ -2,7 +2,6 @@ package net.danielthompson.danray;
 
 import net.danielthompson.danray.acceleration.KDScene;
 import net.danielthompson.danray.films.BoxFilterFilm;
-import net.danielthompson.danray.films.TriangleFilterFilm;
 import net.danielthompson.danray.integrators.*;
 import net.danielthompson.danray.presets.LowQuality;
 import net.danielthompson.danray.presets.RenderQualityPreset;
@@ -10,11 +9,9 @@ import net.danielthompson.danray.presets.TracerOptions;
 import net.danielthompson.danray.runners.BottomUpTileRunner;
 import net.danielthompson.danray.runners.PixelRunner;
 import net.danielthompson.danray.films.AbstractFilm;
-import net.danielthompson.danray.runners.TopDownTileRunner;
 import net.danielthompson.danray.samplers.AbstractSampler;
 import net.danielthompson.danray.samplers.CenterSampler;
 import net.danielthompson.danray.samplers.GridSampler;
-import net.danielthompson.danray.samplers.RandomSampler;
 import net.danielthompson.danray.shading.fullspectrum.FullSpectralBlender;
 import net.danielthompson.danray.shading.fullspectrum.FullSpectralPowerDistribution;
 import net.danielthompson.danray.states.Intersection;
@@ -24,7 +21,6 @@ import net.danielthompson.danray.structures.Vector;
 import net.danielthompson.danray.ui.*;
 import net.danielthompson.danray.ui.gl.common.KDJFrame;
 import net.danielthompson.danray.ui.gl.common.GLFrame;
-import net.danielthompson.danray.ui.lwjgl.GLRenderer;
 import net.danielthompson.danray.utility.IOHelper;
 
 import javax.swing.*;
@@ -312,7 +308,7 @@ public class TraceManager {
             _infoJFrame.setVisible(true);
 
          }
-         _infoJFrame.setCameraOrigin(_scene.Camera.getOrigin().X, _scene.Camera.getOrigin().Y, _scene.Camera.getOrigin().Z);
+         _infoJFrame.setCameraOrigin(_scene.Camera.getOrigin().x, _scene.Camera.getOrigin().y, _scene.Camera.getOrigin().z);
          _infoJFrame.setCameraDirection(_scene.Camera.getDirection().X, _scene.Camera.getDirection().Y, _scene.Camera.getDirection().Z);
       }
 
@@ -344,9 +340,9 @@ public class TraceManager {
 
       if (state != null) {
 
-         float xx = state.Location.X;
-         float yy = state.Location.Y;
-         float zz = state.Location.Z;
+         float xx = state.Location.x;
+         float yy = state.Location.y;
+         float zz = state.Location.z;
 
          if (_infoJFrame != null)
             _infoJFrame.setSceneLocation(xx, yy, zz);

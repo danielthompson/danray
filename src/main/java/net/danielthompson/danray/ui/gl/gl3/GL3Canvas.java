@@ -261,7 +261,7 @@ public class GL3Canvas extends AbstractGLCanvas {
 
             //ballVerts.add(x * zr0); //x
             //ballVerts.add(y * zr0); //y
-            //ballVerts.add(z0);      //Z
+            //ballVerts.add(z0);      //z
 
             ballVerts[index + 3] = x * zr1;
             ballVerts[index + 4] = y * zr1;
@@ -269,7 +269,7 @@ public class GL3Canvas extends AbstractGLCanvas {
 
 //            ballVerts.add(x * zr1); //x
 //            ballVerts.add(y * zr1); //y
-//            ballVerts.add(z1);      //Z
+//            ballVerts.add(z1);      //z
 
          }
       }
@@ -307,7 +307,7 @@ public class GL3Canvas extends AbstractGLCanvas {
 
             //ballVerts.add(x * zr0); //x
             //ballVerts.add(y * zr0); //y
-            //ballVerts.add(z0);      //Z
+            //ballVerts.add(z0);      //z
 
             ballVerts[index + 3] = 0.0f;
             ballVerts[index + 4] = 1.0f;
@@ -325,7 +325,7 @@ public class GL3Canvas extends AbstractGLCanvas {
 
 //            ballVerts.add(x * zr1); //x
 //            ballVerts.add(y * zr1); //y
-//            ballVerts.add(z1);      //Z
+//            ballVerts.add(z1);      //z
 
             ballVerts[index + 10] = 0.0f;
             ballVerts[index + 11] = 1.0f;

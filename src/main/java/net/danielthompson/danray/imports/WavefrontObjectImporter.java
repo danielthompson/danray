@@ -1,7 +1,7 @@
 package net.danielthompson.danray.imports;
 
 import net.danielthompson.danray.shapes.TriangleMesh;
-import net.danielthompson.danray.structures.Point;
+import net.danielthompson.danray.structures.Point3;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,13 +18,13 @@ public class WavefrontObjectImporter {
 
    private File _file;
 
-   private List<Point> _vertices;
-   private List<List<Point>> _faces;
+   private List<Point3> _vertices;
+   private List<List<Point3>> _faces;
 
    public WavefrontObjectImporter(File file) {
       _file = file;
-      _vertices = new ArrayList<Point>();
-      _faces = new ArrayList<List<Point>>();
+      _vertices = new ArrayList<Point3>();
+      _faces = new ArrayList<List<Point3>>();
 
    }
 
@@ -64,7 +64,7 @@ public class WavefrontObjectImporter {
       float vertex1 = Float.parseFloat(vertices[1]);
       float vertex2 = Float.parseFloat(vertices[2]);
 
-      _vertices.add(new Point(vertex0, vertex1, vertex2));
+      _vertices.add(new Point3(vertex0, vertex1, vertex2));
    }
 
    private void ParseFace(String line) {
@@ -74,7 +74,7 @@ public class WavefrontObjectImporter {
       int face1 = Integer.parseInt(faces[1]) - 1;
       int face2 = Integer.parseInt(faces[2]) - 1;
 
-      ArrayList<Point> face = new ArrayList<Point>();
+      ArrayList<Point3> face = new ArrayList<Point3>();
       face.add(_vertices.get(face0));
       face.add(_vertices.get(face1));
       face.add(_vertices.get(face2));

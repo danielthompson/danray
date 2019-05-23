@@ -9,7 +9,7 @@ package net.danielthompson.danray.structures;
 public class Ray {
 
    public Vector Direction; // 8 bytes
-   public Point Origin; // 8 bytes
+   public Point3 Origin; // 8 bytes
    public Vector DirectionInverse; // 8 bytes
    public boolean FlipNormals = false;
 
@@ -31,7 +31,7 @@ public class Ray {
     * @param origin The origin of the vector.
     * @param direction The absolute direction of the vector (i.e. not relative to the origin). Will be normalized.
     */
-   public Ray(Point origin, Vector direction) {
+   public Ray(Point3 origin, Vector direction) {
       MinT = Float.MAX_VALUE;;
 
       Origin = origin;
@@ -41,7 +41,7 @@ public class Ray {
       DirectionInverse = new Vector(1.0f / Direction.X, 1.0f / Direction.Y, 1.0f / Direction.Z);
    }
 
-   public Ray(Point origin, float dx, float dy, float dz) {
+   public Ray(Point3 origin, float dx, float dy, float dz) {
       MinT = Float.MAX_VALUE;;
 
       Origin = origin;
@@ -53,45 +53,45 @@ public class Ray {
 
    public void OffsetOriginForward(float offset) {
       Vector offsetV = Vector.Scale(Direction, offset);
-      Point newOrigin = Point.Plus(Origin, offsetV);
+      Point3 newOrigin = Point3.plus(Origin, offsetV);
 
-      Origin.Plus(offsetV);
+      Origin.plus(offsetV);
    }
 
-   public Point ScaleFromOrigin(float t) {
-      float x = Origin.X + t * Direction.X;
-      float y = Origin.Y + t * Direction.Y;
-      float z = Origin.Z + t * Direction.Z;
+   public Point3 ScaleFromOrigin(float t) {
+      float x = Origin.x + t * Direction.X;
+      float y = Origin.y + t * Direction.Y;
+      float z = Origin.z + t * Direction.Z;
 
-      return new Point(x, y, z);
+      return new Point3(x, y, z);
    }
 
    public Vector Scale(float t) {
       return Vector.Scale(Direction, t);
    }
 
-   public Point GetPointAtT(float t) {
+   public Point3 GetPointAtT(float t) {
 
-      return Point.Plus(Origin, Vector.Scale(Direction, t));
+      return Point3.plus(Origin, Vector.Scale(Direction, t));
    }
 
-   public float GetTAtPoint(Point p) {
+   public float GetTAtPoint(Point3 p) {
       float tX = -Float.MAX_VALUE;
       float tY = -Float.MAX_VALUE;
       float tZ = -Float.MAX_VALUE;
 
       if (Direction.X != 0) {
-         tX = (p.X - Origin.X) / Direction.X;
+         tX = (p.x - Origin.x) / Direction.X;
          return tX;
       }
 
       if (Direction.Y != 0) {
-         tY = (p.Y - Origin.Y) / Direction.Y;
+         tY = (p.y - Origin.y) / Direction.Y;
          return tY;
       }
 
       if (Direction.Z != 0) {
-         tZ = (p.Z - Origin.Z) / Direction.Z;
+         tZ = (p.z - Origin.z) / Direction.Z;
          return tZ;
       }
 
@@ -116,14 +116,14 @@ public class Ray {
    }
 
    public void OffsetOriginOutwards(Normal intersectionNormal) {
-      Origin.X += (intersectionNormal.X + Constants.Epsilon);
-      Origin.Y += (intersectionNormal.Y + Constants.Epsilon);
-      Origin.Z += (intersectionNormal.Z + Constants.Epsilon);
+      Origin.x += (intersectionNormal.X + Constants.Epsilon);
+      Origin.y += (intersectionNormal.Y + Constants.Epsilon);
+      Origin.z += (intersectionNormal.Z + Constants.Epsilon);
    }
 
    public void OffsetOriginInwards(Normal intersectionNormal) {
-      Origin.X -= (intersectionNormal.X + Constants.DoubleEpsilon);
-      Origin.Y -= (intersectionNormal.Y + Constants.DoubleEpsilon);
-      Origin.Z -= (intersectionNormal.Z + Constants.DoubleEpsilon);
+      Origin.x -= (intersectionNormal.X + Constants.DoubleEpsilon);
+      Origin.y -= (intersectionNormal.Y + Constants.DoubleEpsilon);
+      Origin.z -= (intersectionNormal.Z + Constants.DoubleEpsilon);
    }
 }

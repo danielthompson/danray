@@ -8,7 +8,7 @@ import net.danielthompson.danray.shapes.AbstractShape;
 import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
 
-import net.danielthompson.danray.structures.Point;
+import net.danielthompson.danray.structures.Point3;
 import net.danielthompson.danray.utility.GeometryCalculations;
 
 /**
@@ -72,11 +72,11 @@ public class WhittedIntegrator extends AbstractIntegrator {
       else {
 
          for (AbstractLight light : scene.Lights) {
-            Point intersectionPoint = closestStateToRay.Location;
+            Point3 intersectionPoint = closestStateToRay.Location;
 
-            Point lightLocation = light.getRandomPointOnSurface();
+            Point3 lightLocation = light.getRandomPointOnSurface();
 
-            Ray lightToNearestShape = intersectionPoint.CreateVectorFrom(lightLocation);
+            Ray lightToNearestShape = intersectionPoint.createVectorFrom(lightLocation);
 
             float dot = closestStateToRay.Normal.Dot(lightToNearestShape.Direction);
 
@@ -90,7 +90,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
                            || potentialOccluder.Shape.equals(closestShape)
                            || potentialOccluder.Shape.equals(light)
                      ) {
-                  float oneOverDistanceFromLightSourceSquared = 1 / lightLocation.SquaredDistanceBetween(closestStateToRay.Location);
+                  float oneOverDistanceFromLightSourceSquared = 1 / lightLocation.squaredDistanceBetween(closestStateToRay.Location);
 
                   Intersection state = closestShape.GetHitInfo(lightToNearestShape);
                   if (state.Hits) {
@@ -142,7 +142,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
             // TODO fix
             Vector outgoingDirection = new Vector(1, 0, 0); //objectMaterial.BRDF.getVectorInPDF(closestStateToRay.Normal, ray.Direction, 1, 1);
 
-            Point offsetIntersection = Point.Plus(closestStateToRay.Location, Vector.Scale(outgoingDirection, Constants.Epsilon * 1000));
+            Point3 offsetIntersection = Point3.plus(closestStateToRay.Location, Vector.Scale(outgoingDirection, Constants.Epsilon * 1000));
 //            Point offsetIntersection = closestStateToRay.Location;
 
 

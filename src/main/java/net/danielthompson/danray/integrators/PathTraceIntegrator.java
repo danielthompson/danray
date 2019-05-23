@@ -106,8 +106,8 @@ public class PathTraceIntegrator extends AbstractIntegrator {
             if (!bxdf.Delta) {
                scalePercentage = bxdf.f(incomingDirection, intersectionNormal, outgoingDirection);
             }
-//            if (leavingMaterial && outgoingDirection.Dot(intersectionNormal) < 0) {
-//               //outgoingDirection.Scale(-1);
+//            if (leavingMaterial && outgoingDirection.dot(intersectionNormal) < 0) {
+//               //outgoingDirection.scale(-1);
 //            }
 
             Ray bounceRay = new Ray(intersection.Location, outgoingDirection);
@@ -140,8 +140,8 @@ public class PathTraceIntegrator extends AbstractIntegrator {
 //            // initial vector needs to be within 90 degrees of the inverted normal
 //            Vector outgoing = objectMaterial.BSSRDF.GetVector();
 //
-//            if (outgoing.Dot(intersectionNormal) > 0)
-//               outgoing.Scale(-1);
+//            if (outgoing.dot(intersectionNormal) > 0)
+//               outgoing.scale(-1);
 //
 //            Ray bounceRay = new Ray(intersection.Location, outgoing);
 //            boolean Hits = closestShape.Hits(bounceRay);

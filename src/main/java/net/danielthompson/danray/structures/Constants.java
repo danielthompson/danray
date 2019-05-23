@@ -55,10 +55,10 @@ public class Constants {
       return (number > target) ? (2 * epsilon + target >= number) : (2 * epsilon + number >= target);
    }
 
-   public static boolean WithinEpsilon(Point p1, Point p2) {
-      return (WithinEpsilon(p1.X, p2.X, Epsilon)
-             && WithinEpsilon(p1.Y, p2.Y, Epsilon)
-             && WithinEpsilon(p1.Z, p2.Z, Epsilon));
+   public static boolean WithinEpsilon(Point3 p1, Point3 p2) {
+      return (WithinEpsilon(p1.x, p2.x, Epsilon)
+             && WithinEpsilon(p1.y, p2.y, Epsilon)
+             && WithinEpsilon(p1.z, p2.z, Epsilon));
    }
 
 

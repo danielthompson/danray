@@ -4,7 +4,7 @@ import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.shapes.Cylinder;
 import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
-import net.danielthompson.danray.structures.Point;
+import net.danielthompson.danray.structures.Point3;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import test.AssertHelper;
@@ -23,7 +23,7 @@ public class IntersectionTests {
 
       Cylinder cylinder = new Cylinder(1, 1, worldToObject, objectToWorld, material);
 
-      Point origin = new Point(5, 5, 5);
+      Point3 origin = new Point3(5, 5, 5);
       Vector direction = new Vector(0, 0, -1);
 
       Ray ray = new Ray(origin, direction);
@@ -42,14 +42,14 @@ public class IntersectionTests {
 
       Cylinder cylinder = new Cylinder(1, 1, worldToObject, objectToWorld, material);
 
-      Point origin = new Point(0, 5, 0);
+      Point3 origin = new Point3(0, 5, 0);
       Vector direction = new Vector(0, -1, 0);
 
       Ray ray = new Ray(origin, direction);
 
       Intersection state = cylinder.GetHitInfo(ray);
 
-      Point expectedIntersectionPoint = new Point(0, 1, 0);
+      Point3 expectedIntersectionPoint = new Point3(0, 1, 0);
       Normal expectedNormalDirection = new Normal(0, 1, 0);
 
       Assert.assertTrue(state.Hits, "Should hit");
@@ -67,14 +67,14 @@ public class IntersectionTests {
 
       Cylinder cylinder = new Cylinder(1, 1, worldToObject, objectToWorld, material);
 
-      Point origin = new Point(0, -5, 0);
+      Point3 origin = new Point3(0, -5, 0);
       Vector direction = new Vector(0, 1, 0);
 
       Ray ray = new Ray(origin, direction);
 
       Intersection state = cylinder.GetHitInfo(ray);
 
-      Point expectedIntersectionPoint = new Point(0, 0, 0);
+      Point3 expectedIntersectionPoint = new Point3(0, 0, 0);
       Normal expectedNormalDirection = new Normal(0, -1, 0);
 
       Assert.assertTrue(state.Hits, "Should hit");
@@ -92,14 +92,14 @@ public class IntersectionTests {
 
       Cylinder cylinder = new Cylinder(1, 1, worldToObject, objectToWorld, material);
 
-      Point origin = new Point(0, -5, 0);
+      Point3 origin = new Point3(0, -5, 0);
       Vector direction = new Vector(0, 1, 0);
 
       Ray ray = new Ray(origin, direction);
 
       Intersection state = cylinder.GetHitInfo(ray);
 
-      Point expectedIntersectionPoint = new Point(0, 0, 0);
+      Point3 expectedIntersectionPoint = new Point3(0, 0, 0);
       Normal expectedNormalDirection = new Normal(0, -1, 0);
 
       Assert.assertTrue(state.Hits, "Should hit");
@@ -117,14 +117,14 @@ public class IntersectionTests {
 
       Cylinder cylinder = new Cylinder(1, 1, worldToObject, objectToWorld, material);
 
-      Point origin = new Point(1, 5, 0);
+      Point3 origin = new Point3(1, 5, 0);
       Vector direction = new Vector(-.25f, -1, 0);
 
       Ray ray = new Ray(origin, direction);
 
       Intersection state = cylinder.GetHitInfo(ray);
 
-      Point expectedIntersectionPoint = new Point(0, 1, 0);
+      Point3 expectedIntersectionPoint = new Point3(0, 1, 0);
       Normal expectedNormalDirection = new Normal(0, 1, 0);
 
       Assert.assertTrue(state.Hits, "Should hit");
@@ -142,7 +142,7 @@ public class IntersectionTests {
 
       Cylinder cylinder = new Cylinder(1, 1, worldToObject, objectToWorld, material);
 
-      Point origin = new Point(5, 5, 5);
+      Point3 origin = new Point3(5, 5, 5);
       Vector direction = new Vector(0, 0, 1);
 
       Ray ray = new Ray(origin, direction);
@@ -161,14 +161,14 @@ public class IntersectionTests {
 
       Cylinder cylinder = new Cylinder(1, 1, worldToObject, objectToWorld, material);
 
-      Point origin = new Point(0, .5f, -10);
+      Point3 origin = new Point3(0, .5f, -10);
       Vector direction = new Vector(0, 0, 1);
 
       Ray ray = new Ray(origin, direction);
 
       Intersection state = cylinder.GetHitInfo(ray);
 
-      Point expectedIntersectionPoint = new Point(0, .5f, -1);
+      Point3 expectedIntersectionPoint = new Point3(0, .5f, -1);
       Normal expectedNormalDirection = new Normal(0, 0, -1);
 
       Assert.assertTrue(state.Hits, "Should hit");
@@ -186,14 +186,14 @@ public class IntersectionTests {
 
       Cylinder cylinder = new Cylinder(1, 1, worldToObject, objectToWorld, material);
 
-      Point origin = new Point(2, 0, 0);
+      Point3 origin = new Point3(2, 0, 0);
       Vector direction = new Vector(-2, 1, 0);
 
       Ray ray = new Ray(origin, direction);
 
       Intersection state = cylinder.GetHitInfo(ray);
 
-      Point expectedIntersectionPoint = new Point(1, .5f, 0);
+      Point3 expectedIntersectionPoint = new Point3(1, .5f, 0);
       Normal expectedNormalDirection = new Normal(1, 0, 0);
 
       Assert.assertTrue(state.Hits, "Should hit");
@@ -211,14 +211,14 @@ public class IntersectionTests {
 
       Cylinder cylinder = new Cylinder(1, 1, worldToObject, objectToWorld, material);
 
-      Point origin = new Point(2, 1, 0);
+      Point3 origin = new Point3(2, 1, 0);
       Vector direction = new Vector(-2, -1, 0);
 
       Ray ray = new Ray(origin, direction);
 
       Intersection state = cylinder.GetHitInfo(ray);
 
-      Point expectedIntersectionPoint = new Point(1, .5f, 0);
+      Point3 expectedIntersectionPoint = new Point3(1, .5f, 0);
       Normal expectedNormalDirection = new Normal(1, 0, 0);
 
       Assert.assertTrue(state.Hits, "Should hit");
@@ -236,14 +236,14 @@ public class IntersectionTests {
 
       Cylinder cylinder = new Cylinder(1, 1, worldToObject, objectToWorld, material);
 
-      Point origin = new Point(-2, 2, 0);
+      Point3 origin = new Point3(-2, 2, 0);
       Vector direction = new Vector(2, -1, 0);
 
       Ray ray = new Ray(origin, direction);
 
       Intersection state = cylinder.GetHitInfo(ray);
 
-      Point expectedIntersectionPoint = new Point(0, 1, 0);
+      Point3 expectedIntersectionPoint = new Point3(0, 1, 0);
       Normal expectedNormalDirection = new Normal(0, 1, 0);
 
       Assert.assertTrue(state.Hits, "Should hit");
@@ -262,14 +262,14 @@ public class IntersectionTests {
 
       Cylinder cylinder = new Cylinder(1, 1, worldToObject, objectToWorld, material);
 
-      Point origin = new Point(2, -1, 0);
+      Point3 origin = new Point3(2, -1, 0);
       Vector direction = new Vector(-2, 1, 0);
 
       Ray ray = new Ray(origin, direction);
 
       Intersection state = cylinder.GetHitInfo(ray);
 
-      Point expectedIntersectionPoint = new Point(0, 0, 0);
+      Point3 expectedIntersectionPoint = new Point3(0, 0, 0);
       Normal expectedNormalDirection = new Normal(0, -1, 0);
 
       Assert.assertTrue(state.Hits, "Should hit");

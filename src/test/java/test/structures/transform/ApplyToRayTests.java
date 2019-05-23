@@ -1,7 +1,7 @@
 package test.structures.transform;
 
 import junit.framework.Assert;
-import net.danielthompson.danray.structures.Point;
+import net.danielthompson.danray.structures.Point3;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Transform;
 import net.danielthompson.danray.structures.Vector;
@@ -30,21 +30,21 @@ public class ApplyToRayTests {
    public Object[][] ScaleDataProvider() {
       return new Object[][] {
             {
-                  new Ray(new Point(0, 0, 0), new Vector(1, 1, 1)),
+                  new Ray(new Point3(0, 0, 0), new Vector(1, 1, 1)),
                   Transform.Scale(1, 1, 1),
-                  new Ray(new Point(0, 0, 0), new Vector(1, 1, 1)) },
+                  new Ray(new Point3(0, 0, 0), new Vector(1, 1, 1)) },
             {
-                  new Ray(new Point(0, 0, 0), new Vector(1, 1, 1)),
+                  new Ray(new Point3(0, 0, 0), new Vector(1, 1, 1)),
                   Transform.Scale(-1, -1, -1),
-                  new Ray(new Point(0, 0, 0), new Vector(-1, -1, -1)) },
+                  new Ray(new Point3(0, 0, 0), new Vector(-1, -1, -1)) },
             {
-                  new Ray(new Point(2, 2, 2), new Vector(1, 1, 1)),
+                  new Ray(new Point3(2, 2, 2), new Vector(1, 1, 1)),
                   Transform.Scale(1, 1, 1),
-                  new Ray(new Point(2, 2, 2), new Vector(1, 1, 1)) },
+                  new Ray(new Point3(2, 2, 2), new Vector(1, 1, 1)) },
             {
-                  new Ray(new Point(2, 2, 2), new Vector(5, 5, 5)),
+                  new Ray(new Point3(2, 2, 2), new Vector(5, 5, 5)),
                   Transform.Scale(-1, 5, 1),
-                  new Ray(new Point(-2, 10, 2), new Vector(-5, 25, 5)) },
+                  new Ray(new Point3(-2, 10, 2), new Vector(-5, 25, 5)) },
       };
    }
 

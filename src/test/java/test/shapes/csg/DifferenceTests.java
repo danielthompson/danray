@@ -49,7 +49,7 @@ public class DifferenceTests {
 
    @Test
    public void shouldNotHit1() {
-      Point origin = new Point(1, 0, -1);
+      Point3 origin = new Point3(1, 0, -1);
       Vector direction = new Vector(1, 0, 1);
       Ray ray = new Ray(origin, direction);
 
@@ -60,7 +60,7 @@ public class DifferenceTests {
 
    @Test
    public void shouldNotHit2() {
-      Point origin = new Point(1, 0, -0.5f);
+      Point3 origin = new Point3(1, 0, -0.5f);
       Vector direction = new Vector(1, 0, 1);
       Ray ray = new Ray(origin, direction);
 
@@ -71,7 +71,7 @@ public class DifferenceTests {
 
    @Test
    public void shouldHit1() {
-      Point origin = new Point(0, 0, -2);
+      Point3 origin = new Point3(0, 0, -2);
       Vector direction = new Vector(2, 0, 5);
       Ray ray = new Ray(origin, direction);
 
@@ -81,7 +81,7 @@ public class DifferenceTests {
 
    @Test
    public void shouldHit2() {
-      Point origin = new Point(0, 0, -2);
+      Point3 origin = new Point3(0, 0, -2);
       Vector direction = new Vector(2, 0, 5);
       Ray ray = new Ray(origin, direction);
 
@@ -96,7 +96,7 @@ public class DifferenceTests {
 
    @Test
    public void shouldHit2Normal() {
-      Point origin = new Point(0, 0, -2);
+      Point3 origin = new Point3(0, 0, -2);
       Vector direction = new Vector(2, 0, 5);
       Ray ray = new Ray(origin, direction);
 
@@ -112,7 +112,7 @@ public class DifferenceTests {
 
    @Test
    public void shouldHit2Location() {
-      Point origin = new Point(0, 0, -2);
+      Point3 origin = new Point3(0, 0, -2);
       Vector direction = new Vector(2, 0, 5);
       Ray ray = new Ray(origin, direction);
 
@@ -120,7 +120,7 @@ public class DifferenceTests {
 
       Intersection intersection = shape.GetHitInfo(ray);
 
-      Point expectedHitPoint = new Point(1.6f, 0, 2);
+      Point3 expectedHitPoint = new Point3(1.6f, 0, 2);
 
       Assert.assertNotNull(intersection.Location);
       AssertHelper.assertEquals(intersection.Location, expectedHitPoint);
@@ -128,7 +128,7 @@ public class DifferenceTests {
 
    @Test
    public void normal1() {
-      Point o = new Point(.5f, 0, 5);
+      Point3 o = new Point3(.5f, 0, 5);
       Vector d = new Vector(0, 0, -1);
       Ray ray = new Ray(o, d);
 
@@ -141,7 +141,7 @@ public class DifferenceTests {
 
    @Test
    public void normal2() {
-      Point o = new Point(.5f, 0, -5);
+      Point3 o = new Point3(.5f, 0, -5);
       Vector d = new Vector(0, 0, 1);
       Ray ray = new Ray(o, d);
 
@@ -154,46 +154,46 @@ public class DifferenceTests {
 
    @Test
    public void location1() {
-      Point o = new Point(.5f, 0, 5);
+      Point3 o = new Point3(.5f, 0, 5);
       Vector d = new Vector(0, 0, -1);
       Ray ray = new Ray(o, d);
 
       boolean hits = shape.Hits(ray);
       Intersection intersection = shape.GetHitInfo(ray);
 
-      Point expectedPoint = new Point(0.5f, 0, 3);
+      Point3 expectedPoint = new Point3(0.5f, 0, 3);
       Assert.assertEquals(intersection.Location, expectedPoint);
    }
 
    @Test
    public void location2() {
-      Point o = new Point(.5f, 0, -5);
+      Point3 o = new Point3(.5f, 0, -5);
       Vector d = new Vector(0, 0, 1);
       Ray ray = new Ray(o, d);
 
       boolean hits = shape.Hits(ray);
       Intersection intersection = shape.GetHitInfo(ray);
 
-      Point expectedPoint = new Point(0.5f, 0, 1);
+      Point3 expectedPoint = new Point3(0.5f, 0, 1);
       Assert.assertEquals(intersection.Location, expectedPoint);
    }
 
    @Test
    public void location3() {
-      Point o = new Point(2.5f, 0, 1.5f);
+      Point3 o = new Point3(2.5f, 0, 1.5f);
       Vector d = new Vector(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
       boolean hits = shape.Hits(ray);
       Intersection intersection = shape.GetHitInfo(ray);
 
-      Point expectedPoint = new Point(1f, 0, 1.5f);
+      Point3 expectedPoint = new Point3(1f, 0, 1.5f);
       Assert.assertEquals(intersection.Location, expectedPoint);
    }
 
    @Test
    public void normal3() {
-      Point o = new Point(2.5f, 0, 1.5f);
+      Point3 o = new Point3(2.5f, 0, 1.5f);
       Vector d = new Vector(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
@@ -206,20 +206,20 @@ public class DifferenceTests {
 
    @Test
    public void location4() {
-      Point o = new Point(3.5f, 0, 1.5f);
+      Point3 o = new Point3(3.5f, 0, 1.5f);
       Vector d = new Vector(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
       boolean hits = shape.Hits(ray);
       Intersection intersection = shape.GetHitInfo(ray);
 
-      Point expectedPoint = new Point(1f, 0, 1.5f);
+      Point3 expectedPoint = new Point3(1f, 0, 1.5f);
       Assert.assertEquals(intersection.Location, expectedPoint);
    }
 
    @Test
    public void normal4() {
-      Point o = new Point(3.5f, 0, 1.5f);
+      Point3 o = new Point3(3.5f, 0, 1.5f);
       Vector d = new Vector(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
@@ -232,7 +232,7 @@ public class DifferenceTests {
 
    @Test
    public void location5() {
-      Point o = new Point(2.5f, 0, 0.5f);
+      Point3 o = new Point3(2.5f, 0, 0.5f);
       Vector d = new Vector(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
@@ -242,7 +242,7 @@ public class DifferenceTests {
 
    @Test
    public void location6() {
-      Point o = new Point(3.5f, 0, 0.5f);
+      Point3 o = new Point3(3.5f, 0, 0.5f);
       Vector d = new Vector(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
@@ -252,20 +252,20 @@ public class DifferenceTests {
 
    @Test
    public void location7() {
-      Point o = new Point(1.5f, 0, 1.5f);
+      Point3 o = new Point3(1.5f, 0, 1.5f);
       Vector d = new Vector(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
       boolean hits = shape.Hits(ray);
       Intersection intersection = shape.GetHitInfo(ray);
 
-      Point expectedPoint = new Point(1f, 0, 1.5f);
+      Point3 expectedPoint = new Point3(1f, 0, 1.5f);
       Assert.assertEquals(intersection.Location, expectedPoint);
    }
 
    @Test
    public void normal7() {
-      Point o = new Point(1.5f, 0, 1.5f);
+      Point3 o = new Point3(1.5f, 0, 1.5f);
       Vector d = new Vector(-1, 0, 0);
       Ray ray = new Ray(o, d);
 

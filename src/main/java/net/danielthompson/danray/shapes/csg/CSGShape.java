@@ -4,15 +4,12 @@ import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.shapes.AbstractShape;
 import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.BoundingBox;
-import net.danielthompson.danray.structures.Point;
+import net.danielthompson.danray.structures.Point3;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Transform;
-import org.apache.commons.lang.NotImplementedException;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static net.danielthompson.danray.shapes.csg.CSGOperation.Union;
 
 public class CSGShape extends AbstractShape {
 
@@ -20,8 +17,8 @@ public class CSGShape extends AbstractShape {
    public CSGShape LeftShape;
    public CSGShape RightShape;
 
-   public boolean Inside(Point worldSpacePoint) {
-      Point localSpacePoint = worldSpacePoint;
+   public boolean Inside(Point3 worldSpacePoint) {
+      Point3 localSpacePoint = worldSpacePoint;
       if (WorldToObject != null) {
          localSpacePoint = WorldToObject.Apply(worldSpacePoint);
       }
@@ -172,8 +169,8 @@ public class CSGShape extends AbstractShape {
       float value = objectSpaceT;
 
       if (ObjectToWorld != null && ObjectToWorld.HasScale()) {
-         Point objectSpaceIntersectionPoint = objectSpaceRay.GetPointAtT(objectSpaceT);
-         Point worldSpaceIntersectionPoint = ObjectToWorld.Apply(objectSpaceIntersectionPoint);
+         Point3 objectSpaceIntersectionPoint = objectSpaceRay.GetPointAtT(objectSpaceT);
+         Point3 worldSpaceIntersectionPoint = ObjectToWorld.Apply(objectSpaceIntersectionPoint);
          value = worldSpaceRay.GetTAtPoint(worldSpaceIntersectionPoint);
       }
 
@@ -257,7 +254,7 @@ public class CSGShape extends AbstractShape {
                if (nextIntersection == rightIntersection && leftInside /*&& !rightInside*/)
                {
                   ToWorldSpace(nextIntersection, worldSpaceRay);
-                  //nextIntersection.Normal.Scale(-1);
+                  //nextIntersection.Normal.scale(-1);
                   return nextIntersection;
                }
                continue;
@@ -384,7 +381,7 @@ public class CSGShape extends AbstractShape {
                if (nextIntersection == rightIntersection && leftInside /*&& !rightInside*/)
                {
                   ToWorldSpace(nextIntersection, worldSpaceRay);
-                  //nextIntersection.Normal.Scale(-1);
+                  //nextIntersection.Normal.scale(-1);
                   intersections.add(nextIntersection);
                }
                continue;

@@ -1,7 +1,7 @@
 package test.structures.transform;
 
 import junit.framework.Assert;
-import net.danielthompson.danray.structures.Point;
+import net.danielthompson.danray.structures.Point3;
 import net.danielthompson.danray.structures.Transform;
 import net.danielthompson.danray.structures.Vector;
 import org.testng.annotations.AfterMethod;
@@ -50,7 +50,7 @@ public class LookAtTests {
 
    @Test
    public void TestLookAtNotNull() {
-      Transform translation = Transform.LookAt(new Point(1, 1, 1), new Point(2, 2, 2), new Vector(0, 0, 1));
+      Transform translation = Transform.LookAt(new Point3(1, 1, 1), new Point3(2, 2, 2), new Vector(0, 0, 1));
 
       Assert.assertNotNull(translation);
 

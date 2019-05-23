@@ -56,12 +56,12 @@ public class KDCompactTree {
       KDCompactNode newNode = new KDCompactNode(node.Shapes, node.Axis);
 
       newNode.Split = node.Split;
-      newNode.p0x = (float) node.BoundingBox.point1.X;
-      newNode.p0y = (float) node.BoundingBox.point1.Y;
-      newNode.p0z = (float) node.BoundingBox.point1.Z;
-      newNode.p1x = (float) node.BoundingBox.point2.X;
-      newNode.p1y = (float) node.BoundingBox.point2.Y;
-      newNode.p1z = (float) node.BoundingBox.point2.Z;
+      newNode.p0x = (float) node.BoundingBox.point1.x;
+      newNode.p0y = (float) node.BoundingBox.point1.y;
+      newNode.p0z = (float) node.BoundingBox.point1.z;
+      newNode.p1x = (float) node.BoundingBox.point2.x;
+      newNode.p1y = (float) node.BoundingBox.point2.y;
+      newNode.p1z = (float) node.BoundingBox.point2.z;
 
       return newNode;
 

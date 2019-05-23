@@ -2,7 +2,7 @@ package test.acceleration.kdpointnode;
 
 import net.danielthompson.danray.acceleration.KDAxis;
 import net.danielthompson.danray.acceleration.KDPointNode;
-import net.danielthompson.danray.structures.Point;
+import net.danielthompson.danray.structures.Point3;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by daniel on 11/30/14.
  */
-public class KDPointNodeTests {
+public class KDPoint3NodeTests {
 
    @BeforeMethod
    public void setUp() throws Exception {
@@ -28,9 +28,9 @@ public class KDPointNodeTests {
 
    @Test
    public void testBuildNodeWithOnePoint() throws Exception {
-      List<Point> objects = new ArrayList<Point>();
+      List<Point3> objects = new ArrayList<Point3>();
 
-      objects.add(new Point(1, 1, 0));
+      objects.add(new Point3(1, 1, 0));
 
       KDAxis expectedAxis = KDAxis.X;
 
@@ -44,10 +44,10 @@ public class KDPointNodeTests {
 
    @Test
    public void testBuildNodeWithTwoPoints() throws Exception {
-      List<Point> objects = new ArrayList<Point>();
+      List<Point3> objects = new ArrayList<Point3>();
 
-      objects.add(new Point(1, 1, 0));
-      objects.add(new Point(2, 1, 0));
+      objects.add(new Point3(1, 1, 0));
+      objects.add(new Point3(2, 1, 0));
 
       KDAxis expectedAxis = KDAxis.X;
 
@@ -61,11 +61,11 @@ public class KDPointNodeTests {
 
    @Test
    public void testBuildNodeWithThreePoints() throws Exception {
-      List<Point> objects = new ArrayList<Point>();
+      List<Point3> objects = new ArrayList<Point3>();
 
-      objects.add(new Point(1, 1, 0));
-      objects.add(new Point(2, 1, 0));
-      objects.add(new Point(3, 1, 0));
+      objects.add(new Point3(1, 1, 0));
+      objects.add(new Point3(2, 1, 0));
+      objects.add(new Point3(3, 1, 0));
 
       KDAxis expectedAxis = KDAxis.X;
 
@@ -79,12 +79,12 @@ public class KDPointNodeTests {
 
    @Test
    public void testBuildNodeWithFourPoints() throws Exception {
-      List<Point> objects = new ArrayList<Point>();
+      List<Point3> objects = new ArrayList<Point3>();
 
-      objects.add(new Point(1, 1, 0));
-      objects.add(new Point(2, 1, 0));
-      objects.add(new Point(3, 1, 0));
-      objects.add(new Point(4, 1, 0));
+      objects.add(new Point3(1, 1, 0));
+      objects.add(new Point3(2, 1, 0));
+      objects.add(new Point3(3, 1, 0));
+      objects.add(new Point3(4, 1, 0));
 
       KDAxis expectedAxis = KDAxis.X;
 
@@ -98,10 +98,10 @@ public class KDPointNodeTests {
 
    @Test
    public void testBuildNodeWith20Points() throws Exception {
-      List<Point> objects = new ArrayList<Point>();
+      List<Point3> objects = new ArrayList<Point3>();
 
       for (int i = 0; i < 20; i++) {
-         objects.add(new Point((float)(Math.random() * 10), (float)(Math.random() * 10), 0));
+         objects.add(new Point3((float)(Math.random() * 10), (float)(Math.random() * 10), 0));
       }
 
       KDAxis expectedAxis = KDAxis.X;

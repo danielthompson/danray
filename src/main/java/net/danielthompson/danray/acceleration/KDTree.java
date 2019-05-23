@@ -1,12 +1,9 @@
 package net.danielthompson.danray.acceleration;
 
-import net.danielthompson.danray.acceleration.Comparators.DrawableXComparator;
-import net.danielthompson.danray.acceleration.Comparators.DrawableYComparator;
-import net.danielthompson.danray.acceleration.Comparators.DrawableZComparator;
 import net.danielthompson.danray.shapes.AbstractShape;
 
 import net.danielthompson.danray.structures.BoundingBox;
-import net.danielthompson.danray.structures.Point;
+import net.danielthompson.danray.structures.Point3;
 
 import java.util.*;
 
@@ -41,15 +38,15 @@ public class KDTree {
 
       KDNode rootNode = new KDNode(objects);
 
-      Point minPoint = null; //new Point(-Float.MAX_VALUE, -Float.MAX_VALUE, -Float.MAX_VALUE);
-      Point maxPoint = null; //new Point(Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE);
+      Point3 minPoint = null; //new Point(-Float.MAX_VALUE, -Float.MAX_VALUE, -Float.MAX_VALUE);
+      Point3 maxPoint = null; //new Point(Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE);
 
       xEdges = getSortedBoundingEdges(objects, KDAxis.X);
       yEdges = getSortedBoundingEdges(objects, KDAxis.Y);
       zEdges = getSortedBoundingEdges(objects, KDAxis.Z);
 
-      minPoint = new Point(xEdges[0].Value, yEdges[0].Value, zEdges[0].Value);
-      maxPoint = new Point(xEdges[xEdges.length - 1].Value, yEdges[yEdges.length - 1].Value, zEdges[zEdges.length - 1].Value);
+      minPoint = new Point3(xEdges[0].Value, yEdges[0].Value, zEdges[0].Value);
+      maxPoint = new Point3(xEdges[xEdges.length - 1].Value, yEdges[yEdges.length - 1].Value, zEdges[zEdges.length - 1].Value);
 
       BoundingBox initialBoundingBox = new BoundingBox(minPoint, maxPoint);
 
@@ -302,13 +299,13 @@ public class KDTree {
       float maxY = box.getUpperBoundInAxis(KDAxis.Y);
       float maxZ = box.getUpperBoundInAxis(KDAxis.Z);
 
-      Point lowerMinPoint = new Point(minX, minY, minZ);
-      Point lowerMaxPoint = new Point(maxX, maxY, maxZ);
+      Point3 lowerMinPoint = new Point3(minX, minY, minZ);
+      Point3 lowerMaxPoint = new Point3(maxX, maxY, maxZ);
       lowerMaxPoint.setAxis(axis, separator);
 
-      Point upperMinPoint = new Point(minX, minY, minZ);
+      Point3 upperMinPoint = new Point3(minX, minY, minZ);
       upperMinPoint.setAxis(axis, separator);
-      Point upperMaxPoint = new Point(maxX, maxY, maxZ);
+      Point3 upperMaxPoint = new Point3(maxX, maxY, maxZ);
 
       lower = new BoundingBox(lowerMinPoint, lowerMaxPoint);
       upper = new BoundingBox(upperMinPoint, upperMaxPoint);
@@ -386,34 +383,34 @@ public class KDTree {
       float zUpperBound = -Float.MAX_VALUE;
 
       for (AbstractShape shape : objects) {
-         if (shape.WorldBoundingBox.point1.X < xLowerBound)
-            xLowerBound = shape.WorldBoundingBox.point1.X;
-         if (shape.WorldBoundingBox.point1.Y < yLowerBound)
-            yLowerBound = shape.WorldBoundingBox.point1.Y;
-         if (shape.WorldBoundingBox.point1.Z < zLowerBound)
-            zLowerBound = shape.WorldBoundingBox.point1.Z;
+         if (shape.WorldBoundingBox.point1.x < xLowerBound)
+            xLowerBound = shape.WorldBoundingBox.point1.x;
+         if (shape.WorldBoundingBox.point1.y < yLowerBound)
+            yLowerBound = shape.WorldBoundingBox.point1.y;
+         if (shape.WorldBoundingBox.point1.z < zLowerBound)
+            zLowerBound = shape.WorldBoundingBox.point1.z;
 
-         if (shape.WorldBoundingBox.point2.X > xUpperBound)
-            xUpperBound = shape.WorldBoundingBox.point2.X;
-         if (shape.WorldBoundingBox.point2.Y > yUpperBound)
-            yUpperBound = shape.WorldBoundingBox.point2.Y;
-         if (shape.WorldBoundingBox.point2.Z > zUpperBound)
-            zUpperBound = shape.WorldBoundingBox.point2.Z;
+         if (shape.WorldBoundingBox.point2.x > xUpperBound)
+            xUpperBound = shape.WorldBoundingBox.point2.x;
+         if (shape.WorldBoundingBox.point2.y > yUpperBound)
+            yUpperBound = shape.WorldBoundingBox.point2.y;
+         if (shape.WorldBoundingBox.point2.z > zUpperBound)
+            zUpperBound = shape.WorldBoundingBox.point2.z;
       }
 
-      if (xLowerBound > box.point1.X)
-         box.point1.X = xLowerBound;
-      if (yLowerBound > box.point1.Y)
-         box.point1.Y = yLowerBound;
-      if (zLowerBound > box.point1.Z)
-         box.point1.Z = zLowerBound;
+      if (xLowerBound > box.point1.x)
+         box.point1.x = xLowerBound;
+      if (yLowerBound > box.point1.y)
+         box.point1.y = yLowerBound;
+      if (zLowerBound > box.point1.z)
+         box.point1.z = zLowerBound;
 
-      if (xUpperBound < box.point2.X)
-         box.point2.X = xUpperBound;
-      if (yUpperBound < box.point2.Y)
-         box.point2.Y = yUpperBound;
-      if (zUpperBound < box.point2.Z)
-         box.point2.Z = zUpperBound;
+      if (xUpperBound < box.point2.x)
+         box.point2.x = xUpperBound;
+      if (yUpperBound < box.point2.y)
+         box.point2.y = yUpperBound;
+      if (zUpperBound < box.point2.z)
+         box.point2.z = zUpperBound;
 
    }
 }

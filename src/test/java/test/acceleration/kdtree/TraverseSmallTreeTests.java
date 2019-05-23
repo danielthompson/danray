@@ -3,7 +3,7 @@ package test.acceleration.kdtree;
 import net.danielthompson.danray.shapes.AbstractShape;
 import net.danielthompson.danray.shapes.Sphere;
 import net.danielthompson.danray.states.Intersection;
-import net.danielthompson.danray.structures.Point;
+import net.danielthompson.danray.structures.Point3;
 import net.danielthompson.danray.acceleration.KDScene;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Transform;
@@ -89,7 +89,7 @@ public class TraverseSmallTreeTests {
    @Test
    public void testTraverse1() throws Exception {
 
-      Point origin = new Point(8, 12, 0);
+      Point3 origin = new Point3(8, 12, 0);
       Vector direction = new Vector(-1, -1, 0);
 
       Ray ray = new Ray(origin, direction);
@@ -105,7 +105,7 @@ public class TraverseSmallTreeTests {
 
    @Test
    public void testTraverse2() throws Exception {
-      Point origin = new Point(13, 15, 0);
+      Point3 origin = new Point3(13, 15, 0);
       Vector direction = new Vector(-7, -5, 0);
 
       Ray ray = new Ray(origin, direction);
@@ -121,7 +121,7 @@ public class TraverseSmallTreeTests {
 
    @Test
    public void testTraverse3() throws Exception {
-      Point origin = new Point(8, 5, 0);
+      Point3 origin = new Point3(8, 5, 0);
       Vector direction = new Vector(-1, 1, 0);
 
       Ray ray = new Ray(origin, direction);
@@ -137,7 +137,7 @@ public class TraverseSmallTreeTests {
 
    @Test
    public void testTraverse4() throws Exception {
-      Point origin = new Point(13, 7, 0);
+      Point3 origin = new Point3(13, 7, 0);
       Vector direction = new Vector(-7, 3, 0);
 
       Ray ray = new Ray(origin, direction);
@@ -153,7 +153,7 @@ public class TraverseSmallTreeTests {
 
    @Test
    public void testTraverse5() throws Exception {
-      Point origin = new Point(4, 1, 0);
+      Point3 origin = new Point3(4, 1, 0);
       Vector direction = new Vector(2, 7, 0);
 
       Ray ray = new Ray(origin, direction);

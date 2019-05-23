@@ -3,7 +3,6 @@ package net.danielthompson.danray.structures;
 import net.danielthompson.danray.acceleration.KDAxis;
 import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.utility.FloatUtils;
-import org.lwjgl.system.CallbackI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,14 +16,14 @@ public class BoundingBox {
    /**
     * "Lower" point. Always in world-space.
     */
-   public Point point1;
+   public Point3 point1;
 
    /**
     * "Upper" point. Always in world space.
     */
-   public Point point2;
+   public Point3 point2;
 
-   public BoundingBox (Point point1, Point point2) {
+   public BoundingBox (Point3 point1, Point3 point2) {
       this.point1 = point1.clone();
       this.point2 = point2.clone();
    }
@@ -43,13 +42,13 @@ public class BoundingBox {
    }
 
    public float GetVolume() {
-      return Math.abs((point2.X - point1.X) * (point2.Y - point1.Y) * (point2.Z - point1.Z));
+      return Math.abs((point2.x - point1.x) * (point2.y - point1.y) * (point2.z - point1.z));
    }
 
    public float getSurfaceArea() {
-      float xLength = Math.abs(point2.X - point1.X);
-      float yLength = Math.abs(point2.Y - point1.Y);
-      float zLength = Math.abs(point2.Z - point1.Z);
+      float xLength = Math.abs(point2.x - point1.x);
+      float yLength = Math.abs(point2.y - point1.y);
+      float zLength = Math.abs(point2.z - point1.z);
 
       float surfaceArea = 2 * (xLength * yLength + xLength * zLength + yLength * zLength);
 
@@ -58,9 +57,9 @@ public class BoundingBox {
    }
 
    public KDAxis getLargestExtent() {
-      float x = point2.X - point1.X;
-      float y = point2.Y - point1.Y;
-      float z = point2.Z - point1.Z;
+      float x = point2.x - point1.x;
+      float y = point2.y - point1.y;
+      float z = point2.z - point1.z;
 
       if (x >= y) {
          if (x >= z)
@@ -92,7 +91,7 @@ public class BoundingBox {
    }
 
    // orig
-   public static Intersection GetHitInfoOld(Point p1, Point p2, Ray ray) {
+   public static Intersection GetHitInfoOld(Point3 p1, Point3 p2, Ray ray) {
       float maxBoundFarT = Float.MAX_VALUE;
       float minBoundNearT = 0;
 
@@ -100,8 +99,8 @@ public class BoundingBox {
       state.Hits = true;
 
       // x
-      float tNear = (p1.X - ray.Origin.X) * ray.DirectionInverse.X;
-      float tFar = (p2.X - ray.Origin.X) * ray.DirectionInverse.X;
+      float tNear = (p1.x - ray.Origin.x) * ray.DirectionInverse.X;
+      float tFar = (p2.x - ray.Origin.x) * ray.DirectionInverse.X;
 
       if (tNear > tFar) {
          float swap = tNear;
@@ -118,8 +117,8 @@ public class BoundingBox {
       state.t = minBoundNearT;
       //state.TMax = maxBoundFarT;
 
-      tNear = (p1.Y - ray.Origin.Y) * ray.DirectionInverse.Y;
-      tFar = (p2.Y - ray.Origin.Y) * ray.DirectionInverse.Y;
+      tNear = (p1.y - ray.Origin.y) * ray.DirectionInverse.Y;
+      tFar = (p2.y - ray.Origin.y) * ray.DirectionInverse.Y;
       if (tNear > tFar) {
          float swap = tNear;
          tNear = tFar;
@@ -136,9 +135,9 @@ public class BoundingBox {
       state.t = minBoundNearT;
       //state.TMax = maxBoundFarT;
 
-      //rayInverse = ray.DirectionInverse.Z;
-      tNear = (p1.Z - ray.Origin.Z) * ray.DirectionInverse.Z;
-      tFar = (p2.Z - ray.Origin.Z) * ray.DirectionInverse.Z;
+      //rayInverse = ray.DirectionInverse.z;
+      tNear = (p1.z - ray.Origin.z) * ray.DirectionInverse.Z;
+      tFar = (p2.z - ray.Origin.z) * ray.DirectionInverse.Z;
       if (tNear > tFar) {
          float swap = tNear;
          tNear = tFar;
@@ -159,7 +158,7 @@ public class BoundingBox {
 
    }
 
-   public static Intersection GetHitInfoNew(Point p1, Point p2, Ray ray) {
+   public static Intersection GetHitInfoNew(Point3 p1, Point3 p2, Ray ray) {
       float maxBoundFarT = Float.MAX_VALUE;
       float minBoundNearT = 0;
 
@@ -167,8 +166,8 @@ public class BoundingBox {
       intersection.Hits = true;
 
       // x
-      float tNear = (p1.X - ray.Origin.X) * ray.DirectionInverse.X;
-      float tFar = (p2.X - ray.Origin.X) * ray.DirectionInverse.X;
+      float tNear = (p1.x - ray.Origin.x) * ray.DirectionInverse.X;
+      float tFar = (p2.x - ray.Origin.x) * ray.DirectionInverse.X;
 
       float swap = tNear;
       tNear = tNear > tFar ? tFar : tNear;
@@ -187,8 +186,8 @@ public class BoundingBox {
       //intersection.TMax = maxBoundFarT;
 
       // y
-      tNear = (p1.Y - ray.Origin.Y) * ray.DirectionInverse.Y;
-      tFar = (p2.Y - ray.Origin.Y) * ray.DirectionInverse.Y;
+      tNear = (p1.y - ray.Origin.y) * ray.DirectionInverse.Y;
+      tFar = (p2.y - ray.Origin.y) * ray.DirectionInverse.Y;
 
       swap = tNear;
       tNear = tNear > tFar ? tFar : tNear;
@@ -207,9 +206,9 @@ public class BoundingBox {
       intersection.t = minBoundNearT;
       //intersection.TMax = maxBoundFarT;
 
-      // Z
-      tNear = (p1.Z - ray.Origin.Z) * ray.DirectionInverse.Z;
-      tFar = (p2.Z - ray.Origin.Z) * ray.DirectionInverse.Z;
+      // z
+      tNear = (p1.z - ray.Origin.z) * ray.DirectionInverse.Z;
+      tFar = (p2.z - ray.Origin.z) * ray.DirectionInverse.Z;
 
       swap = tNear;
       tNear = tNear > tFar ? tFar : tNear;
@@ -231,15 +230,15 @@ public class BoundingBox {
       return intersection;
    }
 
-   public static List<Intersection> GetBothHitInfo(Point p1, Point p2, Ray ray) {
+   public static List<Intersection> GetBothHitInfo(Point3 p1, Point3 p2, Ray ray) {
       float maxBoundFarT = Float.MAX_VALUE;
       float minBoundNearT = 0;
 
       List<Intersection> intersections = new ArrayList<>();
 
       // x
-      float tNear = (p1.X - ray.Origin.X) * ray.DirectionInverse.X;
-      float tFar = (p2.X - ray.Origin.X) * ray.DirectionInverse.X;
+      float tNear = (p1.x - ray.Origin.x) * ray.DirectionInverse.X;
+      float tFar = (p2.x - ray.Origin.x) * ray.DirectionInverse.X;
 
       float swap = tNear;
       tNear = tNear > tFar ? tFar : tNear;
@@ -252,8 +251,8 @@ public class BoundingBox {
       }
 
       // y
-      tNear = (p1.Y - ray.Origin.Y) * ray.DirectionInverse.Y;
-      tFar = (p2.Y - ray.Origin.Y) * ray.DirectionInverse.Y;
+      tNear = (p1.y - ray.Origin.y) * ray.DirectionInverse.Y;
+      tFar = (p2.y - ray.Origin.y) * ray.DirectionInverse.Y;
 
       swap = tNear;
       tNear = tNear > tFar ? tFar : tNear;
@@ -266,9 +265,9 @@ public class BoundingBox {
          return intersections;
       }
 
-      // Z
-      tNear = (p1.Z - ray.Origin.Z) * ray.DirectionInverse.Z;
-      tFar = (p2.Z - ray.Origin.Z) * ray.DirectionInverse.Z;
+      // z
+      tNear = (p1.z - ray.Origin.z) * ray.DirectionInverse.Z;
+      tFar = (p2.z - ray.Origin.z) * ray.DirectionInverse.Z;
 
       swap = tNear;
       tNear = tNear > tFar ? tFar : tNear;
@@ -297,14 +296,14 @@ public class BoundingBox {
    }
 
    public boolean Hits(Ray ray) {
-      return (ray.Origin.X >= point1.X && ray.Origin.X <= point2.X
-            && ray.Origin.Y >= point1.Y && ray.Origin.Y <= point2.Y
-            && ray.Origin.Z >= point1.Z && ray.Origin.Z <= point2.Z) || BoundingBox.GetHitInfoOld(point1, point2, ray).Hits;
+      return (ray.Origin.x >= point1.x && ray.Origin.x <= point2.x
+            && ray.Origin.y >= point1.y && ray.Origin.y <= point2.y
+            && ray.Origin.z >= point1.z && ray.Origin.z <= point2.z) || BoundingBox.GetHitInfoOld(point1, point2, ray).Hits;
    }
 
    public void Translate(Vector vector) {
-      point1.Plus(vector);
-      point2.Plus(vector);
+      point1.plus(vector);
+      point2.plus(vector);
    }
 
    public boolean equals(Object obj) {
@@ -320,27 +319,27 @@ public class BoundingBox {
    }
 
    public static void ExpandBoundingBox(BoundingBox box1, BoundingBox box2) {
-      box1.point1.X = Math.min(box1.point1.X, box2.point1.X);
-      box1.point1.Y = Math.min(box1.point1.Y, box2.point1.Y);
-      box1.point1.Z = Math.min(box1.point1.Z, box2.point1.Z);
+      box1.point1.x = Math.min(box1.point1.x, box2.point1.x);
+      box1.point1.y = Math.min(box1.point1.y, box2.point1.y);
+      box1.point1.z = Math.min(box1.point1.z, box2.point1.z);
 
-      box1.point2.X = Math.max(box1.point2.X, box2.point2.X);
-      box1.point2.Y = Math.max(box1.point2.Y, box2.point2.Y);
+      box1.point2.x = Math.max(box1.point2.x, box2.point2.x);
+      box1.point2.y = Math.max(box1.point2.y, box2.point2.y);
 
 
-      box1.point2.Z = Math.max(box1.point2.Z, box2.point2.Z);
+      box1.point2.z = Math.max(box1.point2.z, box2.point2.z);
    }
 
    public static BoundingBox Union(BoundingBox box1, BoundingBox box2) {
-      float p1x = Math.min(box1.point1.X, box2.point1.X);
-      float p1y = Math.min(box1.point1.Y, box2.point1.Y);
-      float p1z = Math.min(box1.point1.Z, box2.point1.Z);
-      Point p1 = new Point(p1x, p1y, p1z);
+      float p1x = Math.min(box1.point1.x, box2.point1.x);
+      float p1y = Math.min(box1.point1.y, box2.point1.y);
+      float p1z = Math.min(box1.point1.z, box2.point1.z);
+      Point3 p1 = new Point3(p1x, p1y, p1z);
 
-      float p2x = Math.max(box1.point2.X, box2.point2.X);
-      float p2y = Math.max(box1.point2.Y, box2.point2.Y);
-      float p2z = Math.max(box1.point2.Z, box2.point2.Z);
-      Point p2 = new Point(p2x, p2y, p2z);
+      float p2x = Math.max(box1.point2.x, box2.point2.x);
+      float p2y = Math.max(box1.point2.y, box2.point2.y);
+      float p2z = Math.max(box1.point2.z, box2.point2.z);
+      Point3 p2 = new Point3(p2x, p2y, p2z);
 
       BoundingBox box = new BoundingBox(p1, p2);
       return box;
@@ -361,24 +360,24 @@ public class BoundingBox {
     * @return
     */
    public static boolean IsInsideOf(BoundingBox b1, BoundingBox b2) {
-      return (b1.point1.X > b2.point1.X
-            && b1.point1.Y > b2.point1.Y
-            && b1.point1.Z > b2.point1.Z
-            && b1.point2.X < b2.point2.X
-            && b1.point2.Y < b2.point2.Y
-            && b1.point2.Z < b2.point2.Z);
+      return (b1.point1.x > b2.point1.x
+            && b1.point1.y > b2.point1.y
+            && b1.point1.z > b2.point1.z
+            && b1.point2.x < b2.point2.x
+            && b1.point2.y < b2.point2.y
+            && b1.point2.z < b2.point2.z);
    }
 
-   public static BoundingBox GetBoundingBox(BoundingBox box, Point point) {
-      float p1x = Math.min(box.point1.X, point.X);
-      float p1y = Math.min(box.point1.Y, point.Y);
-      float p1z = Math.min(box.point1.Z, point.Z);
-      Point p1 = new Point(p1x, p1y, p1z);
+   public static BoundingBox GetBoundingBox(BoundingBox box, Point3 point) {
+      float p1x = Math.min(box.point1.x, point.x);
+      float p1y = Math.min(box.point1.y, point.y);
+      float p1z = Math.min(box.point1.z, point.z);
+      Point3 p1 = new Point3(p1x, p1y, p1z);
 
-      float p2x = Math.max(box.point2.X, point.X);
-      float p2y = Math.max(box.point2.Y, point.Y);
-      float p2z = Math.max(box.point2.Z, point.Z);
-      Point p2 = new Point(p2x, p2y, p2z);
+      float p2x = Math.max(box.point2.x, point.x);
+      float p2y = Math.max(box.point2.y, point.y);
+      float p2z = Math.max(box.point2.z, point.z);
+      Point3 p2 = new Point3(p2x, p2y, p2z);
 
       return new BoundingBox(p1, p2);
    }

@@ -4,7 +4,7 @@ import net.danielthompson.danray.acceleration.KDNode;
 import net.danielthompson.danray.acceleration.KDTree;
 import net.danielthompson.danray.shapes.AbstractShape;
 import net.danielthompson.danray.shapes.Sphere;
-import net.danielthompson.danray.structures.Point;
+import net.danielthompson.danray.structures.Point3;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -36,7 +36,7 @@ public class BuildTests {
 
       for (int i = 0; i < 1; i++) {
          sphere = new Sphere();
-         sphere.Origin = new Point((float)Math.random() * 100, (float)Math.random() * 100, (float)Math.random() * 100);
+         sphere.Origin = new Point3((float)Math.random() * 100, (float)Math.random() * 100, (float)Math.random() * 100);
          sphere.Radius = 1;
          sphere.RecalculateWorldBoundingBox();
          objects.add(sphere);
@@ -58,7 +58,7 @@ public class BuildTests {
 
       for (int i = 0; i < 2; i++) {
          sphere = new Sphere();
-         sphere.Origin = new Point((float)Math.random() * 100, (float)Math.random() * 100, (float)Math.random() * 100);
+         sphere.Origin = new Point3((float)Math.random() * 100, (float)Math.random() * 100, (float)Math.random() * 100);
          sphere.Radius = 1;
          sphere.RecalculateWorldBoundingBox();
          objects.add(sphere);
@@ -80,7 +80,7 @@ public class BuildTests {
 
       for (int i = 0; i < 3; i++) {
          sphere = new Sphere();
-         sphere.Origin = new Point((float)Math.random() * 100, (float)Math.random() * 100, (float)Math.random() * 100);
+         sphere.Origin = new Point3((float)Math.random() * 100, (float)Math.random() * 100, (float)Math.random() * 100);
          sphere.Radius = 1;
          sphere.RecalculateWorldBoundingBox();
          objects.add(sphere);
@@ -102,7 +102,7 @@ public class BuildTests {
 
       for (int i = 0; i < 5; i++) {
          sphere = new Sphere();
-         sphere.Origin = new Point((float)Math.random() * 100, (float)Math.random() * 100, (float)Math.random() * 100);
+         sphere.Origin = new Point3((float)Math.random() * 100, (float)Math.random() * 100, (float)Math.random() * 100);
          sphere.Radius = 1;
          sphere.RecalculateWorldBoundingBox();
          objects.add(sphere);
@@ -124,7 +124,7 @@ public class BuildTests {
 
       for (int i = 0; i < 50; i++) {
          sphere = new Sphere();
-         sphere.Origin = new Point((float)Math.random() * 100, (float)Math.random() * 100, (float)Math.random() * 100);
+         sphere.Origin = new Point3((float)Math.random() * 100, (float)Math.random() * 100, (float)Math.random() * 100);
          sphere.Radius = 1;
          sphere.RecalculateWorldBoundingBox();
          objects.add(sphere);
@@ -146,7 +146,7 @@ public class BuildTests {
 
       for (int i = 0; i < 500; i++) {
          sphere = new Sphere();
-         sphere.Origin = new Point((float)Math.random() * 100, (float)Math.random() * 100, (float)Math.random() * 100);
+         sphere.Origin = new Point3((float)Math.random() * 100, (float)Math.random() * 100, (float)Math.random() * 100);
          sphere.Radius = 1;
          sphere.RecalculateWorldBoundingBox();
          objects.add(sphere);
@@ -168,7 +168,7 @@ public class BuildTests {
 
       for (int i = 0; i < 5000; i++) {
          sphere = new Sphere();
-         sphere.Origin = new Point((float)Math.random() * 100, (float)Math.random() * 100, (float)Math.random() * 100);
+         sphere.Origin = new Point3((float)Math.random() * 100, (float)Math.random() * 100, (float)Math.random() * 100);
          sphere.Radius = 1;
          sphere.RecalculateWorldBoundingBox();
          objects.add(sphere);

@@ -29,15 +29,15 @@ public class PercentageTests {
    @Test
    public void testPercentage1() throws Exception {
       Sphere sphere = new Sphere();
-      sphere.Origin = new Point(0, 0, 0);
+      sphere.Origin = new Point3(0, 0, 0);
       sphere.Radius = 1;
 
       Intersection state = new Intersection();
-      state.Location = new Point(1, 0, 0);
+      state.Location = new Point3(1, 0, 0);
       state.Normal = new Normal(1, 0, 0);
       state.Hits = true;
 
-      Point vectorOrigin = new Point (10, 0, 0);
+      Point3 vectorOrigin = new Point3(10, 0, 0);
       Vector vectorDirection = new Vector(-1, 0, 0);
       Ray cameraRay = new Ray(vectorOrigin, vectorDirection);
 
@@ -50,15 +50,15 @@ public class PercentageTests {
    @Test
    public void testPercentage2() throws Exception {
       Sphere sphere = new Sphere();
-      sphere.Origin = new Point(0, 0, 0);
+      sphere.Origin = new Point3(0, 0, 0);
       sphere.Radius = 1;
 
       Intersection state = new Intersection();
-      state.Location = new Point(1, 0, 0);
+      state.Location = new Point3(1, 0, 0);
       state.Normal = new Normal(1, 0, 0);
       state.Hits = true;
 
-      Point vectorOrigin = new Point (2, 1, 0);
+      Point3 vectorOrigin = new Point3(2, 1, 0);
       Vector vectorDirection = new Vector(-1, -1, 0);
       Ray cameraRay = new Ray(vectorOrigin, vectorDirection);
 
@@ -71,15 +71,15 @@ public class PercentageTests {
    @Test
    public void testPercentage3() throws Exception {
       Sphere sphere = new Sphere();
-      sphere.Origin = new Point(0, 0, 0);
+      sphere.Origin = new Point3(0, 0, 0);
       sphere.Radius = 1;
 
       Intersection state = new Intersection();
-      state.Location = new Point(1, 0, 0);
+      state.Location = new Point3(1, 0, 0);
       state.Normal = new Normal(1, 0, 0);
       state.Hits = true;
 
-      Point vectorOrigin = new Point (1, 1, 0);
+      Point3 vectorOrigin = new Point3(1, 1, 0);
       Vector vectorDirection = new Vector(0, -1, 0);
       Ray cameraRay = new Ray(vectorOrigin, vectorDirection);
 

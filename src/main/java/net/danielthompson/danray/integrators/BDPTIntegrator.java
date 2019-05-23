@@ -115,7 +115,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //            LightVertex lightPath = lightPaths.get(j);
 //
 //            // determine if anything is blocking the two points
-//            Vector connectingDirection = Vector.Minus(eyePath.surfacePoint, lightPath.surfacePoint);
+//            Vector connectingDirection = Vector.minus(eyePath.surfacePoint, lightPath.surfacePoint);
 //            connectingDirection.Normalize();
 //            Point connectingOrigin = eyePath.surfacePoint;
 //            Ray connectingRay = new Ray(connectingOrigin, connectingDirection);
@@ -149,7 +149,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //               }
 //
 //               /*
-//               float connectingCosTheta = lightPath.surfaceNormal.Dot(connectingDirection);
+//               float connectingCosTheta = lightPath.surfaceNormal.dot(connectingDirection);
 //               float connectingRadiantIntensityFactorForLambert = MonteCarloCalculations.CosineHemispherePDF(connectingCosTheta, 0);
 //               //System.out.println("connecting RI: " + connectingRadiantIntensityFactorForLambert);
 //
@@ -157,7 +157,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //                  continue;
 //               }
 //
-//               float outgoingCosTheta = connectingDirection.Dot(eyePath.surfaceNormal);
+//               float outgoingCosTheta = connectingDirection.dot(eyePath.surfaceNormal);
 //               float outgoingRadiantIntensityFactorForLambert = MonteCarloCalculations.CosineHemispherePDF(outgoingCosTheta, 0);
 //
 //               //System.out.println("outgoing RI: " + outgoingRadiantIntensityFactorForLambert);
@@ -206,14 +206,14 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //
 //            LightVertex lightVertex = lightVertices.get(0);
 //            SpectralRadiatable light = lightVertex.radiatable;
-//            Vector directionFromLightToPoint = Vector.Minus(eyeVertex.surfacePoint, lightVertex.surfacePoint);
+//            Vector directionFromLightToPoint = Vector.minus(eyeVertex.surfacePoint, lightVertex.surfacePoint);
 //            float lightDensityTowardsPoint = light.getPDF(eyeVertex.surfacePoint, directionFromLightToPoint);
 ////            outgoing = RelativeSpectralPowerDistributionLibrary.Blue.getSPD();
 ////            outgoing.scale(lightDensityTowardsPoint * 1000);
 ////            return outgoing;
 //            if (lightDensityTowardsPoint > 0) {
 //               // check to see if the eye vertex's reflect will reflect anything from the light back to the previous eye vertex
-//               Vector outgoingDirection = Vector.Scale(eyeVertex.incomingDirection, -1);
+//               Vector outgoingDirection = Vector.scale(eyeVertex.incomingDirection, -1);
 //               outgoingDirection.Normalize();
 //               float brdfPDF = eyeVertex.surfaceBRDF.f(directionFromLightToPoint, eyeVertex.surfaceNormal, outgoingDirection);
 ////               outgoing = RelativeSpectralPowerDistributionLibrary.Blue.getSPD();
@@ -240,7 +240,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 ////
 ////                  return outgoing;
 //                  if (potentialOccluder == null) {
-//                     float cosOutgoing = eyeVertex.surfaceNormal.Dot(eyeVertex.incomingDirection);
+//                     float cosOutgoing = eyeVertex.surfaceNormal.dot(eyeVertex.incomingDirection);
 //                     float factor = cosOutgoing * brdfPDF * lightDensityTowardsPoint;
 //                     FullSpectralPowerDistribution directSPD = FullSpectralPowerDistribution.scale(light.getSpectralPowerDistribution(), factor);
 //                     //directSPD.reflectOff(eyeVertex.curve);
@@ -271,7 +271,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 ////            LightVertex lightPath = lightVertices.get(j);
 ////
 ////            // determine if anything is blocking the two points
-////            Vector connectingDirection = Vector.Minus(eyeVertex.surfacePoint, lightPath.surfacePoint);
+////            Vector connectingDirection = Vector.minus(eyeVertex.surfacePoint, lightPath.surfacePoint);
 ////            connectingDirection.Normalize();
 ////            Point connectingOrigin = lightPath.surfacePoint;
 ////            Ray connectingRay = new Ray(connectingOrigin, connectingDirection);
@@ -292,7 +292,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 ////                  continue;
 ////               }
 ////
-////               float connectingCosTheta = lightPath.surfaceNormal.Dot(connectingDirection);
+////               float connectingCosTheta = lightPath.surfaceNormal.dot(connectingDirection);
 ////               float connectingRadiantIntensityFactorForLambert = MonteCarloCalculations.CosineHemispherePDF(connectingCosTheta, 0);
 ////               //System.out.println("connecting RI: " + connectingRadiantIntensityFactorForLambert);
 ////
@@ -300,7 +300,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 ////                  continue;
 ////               }
 ////
-////               float outgoingCosTheta = connectingDirection.Dot(eyeVertex.surfaceNormal);
+////               float outgoingCosTheta = connectingDirection.dot(eyeVertex.surfaceNormal);
 ////               float outgoingRadiantIntensityFactorForLambert = MonteCarloCalculations.CosineHemispherePDF(outgoingCosTheta, 0);
 ////
 ////               //System.out.println("outgoing RI: " + outgoingRadiantIntensityFactorForLambert);
@@ -345,7 +345,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //         Point lightBouncePoint = path.surfacePoint;
 //         Point intersectionPoint = closestStateToRay.Location;
 //
-//         Ray lightRay = intersectionPoint.CreateVectorFrom(lightBouncePoint);
+//         Ray lightRay = intersectionPoint.createVectorFrom(lightBouncePoint);
 //         lightRay.OffsetOriginForward(.01);
 //         // check to see if the ray Hits anything
 //
@@ -353,11 +353,11 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //         Normal surfaceNormal = closestStateToRay.Normal;
 //
 //         // This is fishy...
-//         Vector outgoingDirection = Vector.Scale(initialRay.Direction, -1);
+//         Vector outgoingDirection = Vector.scale(initialRay.Direction, -1);
 //
 //
 //         // calculate angle between normal and outgoing
-//         float cosTheta = path.surfaceNormal.Dot(outgoingDirection);
+//         float cosTheta = path.surfaceNormal.dot(outgoingDirection);
 //
 //         float incomingRadiantIntensityFactorForLambert = MonteCarloCalculations.CosineHemispherePDF(cosTheta, 0);
 //
@@ -389,13 +389,13 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //
 //         Point radiatableLocation = radiatable.getRandomPointOnSideOf(surfacePoint);
 //
-//         Ray lightRayFromCurrentRadiatableToClosestDrawable = surfacePoint.CreateVectorFrom(radiatableLocation);
+//         Ray lightRayFromCurrentRadiatableToClosestDrawable = surfacePoint.createVectorFrom(radiatableLocation);
 //
 //         lightRayFromCurrentRadiatableToClosestDrawable.OffsetOriginForward(.0001);
 //
 //         // is it possible for the reflect to reflect light from this incoming direction to our pregenerated outgoing direction?
 //
-//         Vector pregeneratedOutgoing = Vector.Scale(vertex.outgoingDirection, -1);
+//         Vector pregeneratedOutgoing = Vector.scale(vertex.outgoingDirection, -1);
 //
 //         Vector possibleIncoming = lightRayFromCurrentRadiatableToClosestDrawable.Direction;
 //
@@ -577,7 +577,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //         if (firstLight.equals(closestStateToRay.Shape)) {
 //            // we hit ourselves. shit.
 //            //System.out.println("Initial light ray hit same light source.");
-//            ray.Direction.Scale(-1);
+//            ray.Direction.scale(-1);
 //            closestStateToRay = scene.getNearestShape(ray);
 //
 //            if (closestStateToRay == null) {
@@ -625,7 +625,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //      FullSpectralPowerDistribution reflectedSPD = incomingSPD.reflectOff(curve);
 //      Vector outgoingDirection = objectMaterial.reflect.getVectorInPDF(intersectionNormal, incomingDirection);
 //
-//      float cosTheta = intersectionNormal.Dot(outgoingDirection);
+//      float cosTheta = intersectionNormal.dot(outgoingDirection);
 //      float incomingRadiantIntensityFactorForLambert = MonteCarloCalculations.CosineHemispherePDF(cosTheta, 0);
 //      reflectedSPD = FullSpectralPowerDistribution.scale(reflectedSPD, incomingRadiantIntensityFactorForLambert);
 //
@@ -681,7 +681,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //         FullSpectralReflectanceCurve curve = objectMaterial.FullSpectralReflectanceCurve;
 //         FullSpectralPowerDistribution outgoingSPD = incomingSPD.reflectOff(curve);
 //
-//         float cosTheta = intersectionNormal.Dot(outgoingDirection);
+//         float cosTheta = intersectionNormal.dot(outgoingDirection);
 //         float incomingRadiantIntensityFactorForLambert = MonteCarloCalculations.CosineHemispherePDF(cosTheta, 0);
 //         calculatedPDF *= incomingRadiantIntensityFactorForLambert;
 //

@@ -149,7 +149,7 @@ public class InfoJFrame extends javax.swing.JFrame {
 
      sceneYActualLabel.setText("jLabel5");
 
-     sceneZLabel.setText("Z");
+     sceneZLabel.setText("z");
 
      sceneZActualLabel.setText("jLabel5");
 
@@ -220,7 +220,7 @@ public class InfoJFrame extends javax.swing.JFrame {
 
      originYActualLabel.setText("jLabel5");
 
-     originZLabel.setText("Z");
+     originZLabel.setText("z");
 
      originZActualLabel.setText("jLabel5");
 
@@ -234,7 +234,7 @@ public class InfoJFrame extends javax.swing.JFrame {
 
      directionYActualLabel.setText("jLabel5");
 
-     directionZLabel.setText("Z");
+     directionZLabel.setText("z");
 
      directionZActualLabel.setText("jLabel5");
 
@@ -310,7 +310,7 @@ public class InfoJFrame extends javax.swing.JFrame {
          }
      });
 
-     originZMinusButton.setText("- Z");
+     originZMinusButton.setText("- z");
      originZMinusButton.setToolTipText("");
      originZMinusButton.addActionListener(new java.awt.event.ActionListener() {
          public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -332,7 +332,7 @@ public class InfoJFrame extends javax.swing.JFrame {
          }
      });
 
-     originZPlusButton.setText("+ Z");
+     originZPlusButton.setText("+ z");
      originZPlusButton.addActionListener(new java.awt.event.ActionListener() {
          public void actionPerformed(java.awt.event.ActionEvent evt) {
              originZPlusButtonActionPerformed(evt);
@@ -501,7 +501,7 @@ public class InfoJFrame extends javax.swing.JFrame {
          }
      });
 
-     directionZMinusButton.setText("- Z");
+     directionZMinusButton.setText("- z");
      directionZMinusButton.setToolTipText("");
      directionZMinusButton.addActionListener(new java.awt.event.ActionListener() {
          public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -523,7 +523,7 @@ public class InfoJFrame extends javax.swing.JFrame {
          }
      });
 
-     directionZPlusButton.setText("+ Z");
+     directionZPlusButton.setText("+ z");
      directionZPlusButton.addActionListener(new java.awt.event.ActionListener() {
          public void actionPerformed(java.awt.event.ActionEvent evt) {
              directionZPlusButtonActionPerformed(evt);

@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class PartialSphere extends AbstractShape {
 
-   public Point Origin = new Point(0, 0, 0);
+   public Point3 Origin = new Point3(0, 0, 0);
    public float Radius;
 
    /**
@@ -47,15 +47,15 @@ public class PartialSphere extends AbstractShape {
 
    public void RecalculateWorldBoundingBox() {
 
-      float p1x = Origin.X - Radius;
-      float p1y = Origin.Y - Radius;
-      float p1z = Origin.Z - Radius;
-      Point p1 = new Point(p1x, p1y, p1z);
+      float p1x = Origin.x - Radius;
+      float p1y = Origin.y - Radius;
+      float p1z = Origin.z - Radius;
+      Point3 p1 = new Point3(p1x, p1y, p1z);
 
-      float p2x = Origin.X + Radius;
-      float p2y = Origin.Y + Radius;
-      float p2z = Origin.Z + Radius;
-      Point p2 = new Point(p2x, p2y, p2z);
+      float p2x = Origin.x + Radius;
+      float p2y = Origin.y + Radius;
+      float p2z = Origin.z + Radius;
+      Point3 p2 = new Point3(p2x, p2y, p2z);
 
       WorldBoundingBox = new BoundingBox(p1, p2);
 
@@ -72,7 +72,7 @@ public class PartialSphere extends AbstractShape {
          objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
       }
 
-      Vector v = Point.Minus(objectSpaceRay.Origin, Origin);
+      Vector v = Point3.minus(objectSpaceRay.Origin, Origin);
 
       float a = objectSpaceRay.Direction.Dot(objectSpaceRay.Direction);
       float b = 2 * (objectSpaceRay.Direction.Dot(v));
@@ -89,14 +89,14 @@ public class PartialSphere extends AbstractShape {
       float t0 = (-b + root) * oneOverTwoA;
       float t1 = (-b - root) * oneOverTwoA;
 
-      Point pt0 = objectSpaceRay.GetPointAtT(t0);
-      Point pt1 = objectSpaceRay.GetPointAtT(t1);
+      Point3 pt0 = objectSpaceRay.GetPointAtT(t0);
+      Point3 pt1 = objectSpaceRay.GetPointAtT(t1);
 
-      float theta0 = (float)Math.atan2(pt0.Z, pt0.X);
-      float phi0 = (float)Math.acos(pt0.Y);
+      float theta0 = (float)Math.atan2(pt0.z, pt0.x);
+      float phi0 = (float)Math.acos(pt0.y);
 
-      float theta1 = (float)Math.atan2(pt1.Z, pt1.X);
-      float phi1 = (float)Math.acos(pt1.Y);
+      float theta1 = (float)Math.atan2(pt1.z, pt1.x);
+      float phi1 = (float)Math.acos(pt1.y);
 
       float hits = Constants.NOHIT;
 
@@ -157,8 +157,8 @@ public class PartialSphere extends AbstractShape {
 
       // convert T back to world space
       if (ObjectToWorld != null && ObjectToWorld.HasScale()) {
-         Point objectSpaceIntersectionPoint = objectSpaceRay.GetPointAtT(hits);
-         Point worldSpaceIntersectionPoint = ObjectToWorld.Apply(objectSpaceIntersectionPoint);
+         Point3 objectSpaceIntersectionPoint = objectSpaceRay.GetPointAtT(hits);
+         Point3 worldSpaceIntersectionPoint = ObjectToWorld.Apply(objectSpaceIntersectionPoint);
          hits = worldSpaceRay.GetTAtPoint(worldSpaceIntersectionPoint);
       }
 
@@ -177,14 +177,14 @@ public class PartialSphere extends AbstractShape {
          objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
       }
 
-      Point worldSpaceIntersectionPoint = worldSpaceRay.GetPointAtT(worldSpaceRay.MinT);
-      Point objectSpaceIntersectionPoint = worldSpaceIntersectionPoint;
+      Point3 worldSpaceIntersectionPoint = worldSpaceRay.GetPointAtT(worldSpaceRay.MinT);
+      Point3 objectSpaceIntersectionPoint = worldSpaceIntersectionPoint;
 
       if (WorldToObject != null) {
          objectSpaceIntersectionPoint = WorldToObject.Apply(worldSpaceIntersectionPoint);
       }
 
-      Vector direction = Point.Minus(objectSpaceIntersectionPoint, Origin);
+      Vector direction = Point3.minus(objectSpaceIntersectionPoint, Origin);
       Normal objectSpaceNormal = new Normal(direction);
 
       if (worldSpaceRay.FlipNormals) {
@@ -219,8 +219,8 @@ public class PartialSphere extends AbstractShape {
       return Origin.getAxis(axis);
    }
 
-   public boolean Inside(Point point) {
-      float dist = point.SquaredDistanceBetween(Origin);
+   public boolean Inside(Point3 point) {
+      float dist = point.squaredDistanceBetween(Origin);
       float r2 = Radius * Radius;
 
       boolean value = dist < r2;
@@ -228,8 +228,8 @@ public class PartialSphere extends AbstractShape {
       return value;
    }
 
-   public boolean OnSurface(Point point) {
-      float difference = Radius * Radius - point.SquaredDistanceBetween(Origin);
+   public boolean OnSurface(Point3 point) {
+      float difference = Radius * Radius - point.squaredDistanceBetween(Origin);
       return Constants.WithinEpsilon(difference, 0);
    }
 

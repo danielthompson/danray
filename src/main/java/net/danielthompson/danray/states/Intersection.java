@@ -1,7 +1,7 @@
 package net.danielthompson.danray.states;
 
 import net.danielthompson.danray.shapes.AbstractShape;
-import net.danielthompson.danray.structures.Point;
+import net.danielthompson.danray.structures.Point3;
 import net.danielthompson.danray.structures.Normal;
 import net.danielthompson.danray.structures.Vector;
 
@@ -18,7 +18,7 @@ public class Intersection {
    /**
     * World-space location where the intersection occurs.
     */
-   public Point Location;
+   public Point3 Location;
 
    /**
     * World-space t-value where the ray first intersects the boundary of the shape.
@@ -52,7 +52,7 @@ public class Intersection {
     * The shape that the ray Hits. Null if the ray doesn't hit any shape.
     */
    public AbstractShape Shape;
-   public List<Point> Face;
+   public List<Point3> Face;
 
    /**
     * The world-space normal vector at the intersection point.

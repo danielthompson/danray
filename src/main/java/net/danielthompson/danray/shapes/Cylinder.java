@@ -30,7 +30,7 @@ public class Cylinder extends AbstractShape {
 
    @Override
    public void RecalculateWorldBoundingBox() {
-      WorldBoundingBox = new BoundingBox(new Point(-Radius, 0, -Radius), new Point(Radius, Height, Radius));
+      WorldBoundingBox = new BoundingBox(new Point3(-Radius, 0, -Radius), new Point3(Radius, Height, Radius));
       if (ObjectToWorld != null) {
          WorldBoundingBox = ObjectToWorld.Apply(WorldBoundingBox);
       }
@@ -48,9 +48,9 @@ public class Cylinder extends AbstractShape {
 
       // check for intersection with upper disk
 
-      float tTop = (Height - objectSpaceRay.Origin.Y) / (objectSpaceRay.Direction.Y);
+      float tTop = (Height - objectSpaceRay.Origin.y) / (objectSpaceRay.Direction.Y);
 
-      Point topHitPoint = null;
+      Point3 topHitPoint = null;
       boolean topHits = false;
       Normal topNormal = null;
 
@@ -59,7 +59,7 @@ public class Cylinder extends AbstractShape {
 
          topNormal = new Normal(0, 1, 0);
 
-         if ((tTop > 0) && Math.sqrt(topHitPoint.X * topHitPoint.X + topHitPoint.Z * topHitPoint.Z) <= Radius) {
+         if ((tTop > 0) && Math.sqrt(topHitPoint.x * topHitPoint.x + topHitPoint.z * topHitPoint.z) <= Radius) {
             topHits = true;
             state.Hits = true;
          }
@@ -67,9 +67,9 @@ public class Cylinder extends AbstractShape {
 
       // check for intersection with lower disk
 
-      float tBottom = (-objectSpaceRay.Origin.Y) / (objectSpaceRay.Direction.Y);
+      float tBottom = (-objectSpaceRay.Origin.y) / (objectSpaceRay.Direction.Y);
 
-      Point bottomHitPoint = null;
+      Point3 bottomHitPoint = null;
       boolean bottomHits = false;
       Normal bottomNormal = null;
 
@@ -77,7 +77,7 @@ public class Cylinder extends AbstractShape {
          bottomHitPoint = objectSpaceRay.GetPointAtT(tBottom);
          bottomNormal = new Normal(0, -1, 0);
 
-         if ((tBottom > 0) && Math.sqrt(bottomHitPoint.X * bottomHitPoint.X + bottomHitPoint.Z * bottomHitPoint.Z) <= Radius) {
+         if ((tBottom > 0) && Math.sqrt(bottomHitPoint.x * bottomHitPoint.x + bottomHitPoint.z * bottomHitPoint.z) <= Radius) {
             bottomHits = true;
             state.Hits = true;
          }
@@ -86,8 +86,8 @@ public class Cylinder extends AbstractShape {
       // check for intersection with cylinder
 
       float a = objectSpaceRay.Direction.X * objectSpaceRay.Direction.X + objectSpaceRay.Direction.Z * objectSpaceRay.Direction.Z;
-      float b = 2 * (objectSpaceRay.Origin.X * objectSpaceRay.Direction.X + objectSpaceRay.Origin.Z * objectSpaceRay.Direction.Z);
-      float c = objectSpaceRay.Origin.X * objectSpaceRay.Origin.X + objectSpaceRay.Origin.Z * objectSpaceRay.Origin.Z - (Radius * Radius);
+      float b = 2 * (objectSpaceRay.Origin.x * objectSpaceRay.Direction.X + objectSpaceRay.Origin.z * objectSpaceRay.Direction.Z);
+      float c = objectSpaceRay.Origin.x * objectSpaceRay.Origin.x + objectSpaceRay.Origin.z * objectSpaceRay.Origin.z - (Radius * Radius);
 
       float discriminant = (b * b) - (4 * a * c);
 
@@ -109,12 +109,12 @@ public class Cylinder extends AbstractShape {
       Normal t0Normal = null;
 
       if (t0 > 0.0) {
-         float py = objectSpaceRay.Origin.Y + t0 * objectSpaceRay.Direction.Y;
+         float py = objectSpaceRay.Origin.y + t0 * objectSpaceRay.Direction.Y;
          if ((py <= Height) && (py >= 0)) {
             t0Hits = true;
             state.Hits = true;
-            float px = objectSpaceRay.Origin.X + t0 * objectSpaceRay.Direction.X;
-            float pz = objectSpaceRay.Origin.Z + t0 * objectSpaceRay.Direction.Z;
+            float px = objectSpaceRay.Origin.x + t0 * objectSpaceRay.Direction.X;
+            float pz = objectSpaceRay.Origin.z + t0 * objectSpaceRay.Direction.Z;
             t0Normal = new Normal(px, 0, pz);
          }
       }
@@ -123,12 +123,12 @@ public class Cylinder extends AbstractShape {
       Normal t1Normal = null;
 
       if (t1 > 0.0) {
-         float py = objectSpaceRay.Origin.Y + t1 * objectSpaceRay.Direction.Y;
+         float py = objectSpaceRay.Origin.y + t1 * objectSpaceRay.Direction.Y;
          if ((py <= Height) && (py >= 0)) {
             t1Hits = true;
             state.Hits = true;
-            float px = objectSpaceRay.Origin.X + t1 * objectSpaceRay.Direction.X;
-            float pz = objectSpaceRay.Origin.Z + t1 * objectSpaceRay.Direction.Z;
+            float px = objectSpaceRay.Origin.x + t1 * objectSpaceRay.Direction.X;
+            float pz = objectSpaceRay.Origin.z + t1 * objectSpaceRay.Direction.Z;
             t1Normal = new Normal(px, 0, pz);
          }
       }

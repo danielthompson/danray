@@ -26,8 +26,8 @@ public class IntersectionTests {
    public void testRayIntersection1() throws Exception {
 
       // arrange
-      BoundingBox box = new BoundingBox(new Point(0, 0, 0), new Point(10, 10, 10));
-      Point origin = new Point(5, 5, 5);
+      BoundingBox box = new BoundingBox(new Point3(0, 0, 0), new Point3(10, 10, 10));
+      Point3 origin = new Point3(5, 5, 5);
       Vector direction = new Vector(1, 0, 0);
       Ray ray = new Ray(origin, direction);
 

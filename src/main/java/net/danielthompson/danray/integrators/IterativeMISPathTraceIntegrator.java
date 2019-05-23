@@ -64,11 +64,11 @@ public class IterativeMISPathTraceIntegrator extends AbstractIntegrator {
          //if (!brdf.Delta) {
          if (true) {
             for (AbstractLight light : scene.Lights) {
-               Point intersectionPoint = closestStateToRay.Location;
+               Point3 intersectionPoint = closestStateToRay.Location;
 
-               Point lightLocation = light.getRandomPointOnSurface();
+               Point3 lightLocation = light.getRandomPointOnSurface();
 
-               Ray lightToNearestShape = intersectionPoint.CreateVectorFrom(lightLocation);
+               Ray lightToNearestShape = intersectionPoint.createVectorFrom(lightLocation);
 
                float dot = closestStateToRay.Normal.Dot(lightToNearestShape.Direction);
 
@@ -82,7 +82,7 @@ public class IterativeMISPathTraceIntegrator extends AbstractIntegrator {
                               || potentialOccluder.Shape.equals(closestShape)
                               || potentialOccluder.Shape.equals(light)
                         ) {
-                     float oneOverDistanceFromLightSourceSquared = 1 / lightLocation.SquaredDistanceBetween(closestStateToRay.Location);
+                     float oneOverDistanceFromLightSourceSquared = 1 / lightLocation.squaredDistanceBetween(closestStateToRay.Location);
 
                      Intersection state = closestShape.GetHitInfo(lightToNearestShape);
                      if (state.Hits) {

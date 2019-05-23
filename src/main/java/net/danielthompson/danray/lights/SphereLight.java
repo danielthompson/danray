@@ -50,14 +50,14 @@ public class SphereLight extends AbstractLight {
 
 
    @Override
-   public Point getRandomPointOnSurface() {
+   public Point3 getRandomPointOnSurface() {
 
       float[] xyz = GeometryCalculations.randomPointOnSphere();
 
-      Point point = new Point(xyz);
+      Point3 point = new Point3(xyz);
 
-      point.Scale(Sphere.Radius);
-      point.Plus(Sphere.Origin);
+      point.scale(Sphere.Radius);
+      point.plus(Sphere.Origin);
 
       if (Sphere.ObjectToWorld != null) {
          point = Sphere.ObjectToWorld.Apply(point);
@@ -67,20 +67,20 @@ public class SphereLight extends AbstractLight {
    }
 
    @Override
-   public Point getRandomPointOnSideOf(Vector side) {
+   public Point3 getRandomPointOnSideOf(Vector side) {
 
       // this is all in world space
-      Point surfacePoint = getRandomPointOnSurface();
+      Point3 surfacePoint = getRandomPointOnSurface();
       Vector directionFromSurfacePointToOrigin = Vector.Minus(surfacePoint, Sphere.Origin);
       if (directionFromSurfacePointToOrigin.Dot(side) < 0) {
-         surfacePoint = new Point(-surfacePoint.X, -surfacePoint.Y, -surfacePoint.Z);
+         surfacePoint = new Point3(-surfacePoint.x, -surfacePoint.y, -surfacePoint.z);
       }
 
       return surfacePoint;
    }
 
    @Override
-   public Point getRandomPointOnSideOf(Point point) {
+   public Point3 getRandomPointOnSideOf(Point3 point) {
       if (Sphere.WorldToObject != null)
          point = Sphere.WorldToObject.Apply(point);
 
@@ -89,18 +89,18 @@ public class SphereLight extends AbstractLight {
       if (Sphere.ObjectToWorld != null)
          directionToPoint = Sphere.ObjectToWorld.Apply(directionToPoint);
 
-      Point result = getRandomPointOnSideOf(directionToPoint);
+      Point3 result = getRandomPointOnSideOf(directionToPoint);
       return result;
    }
 
 
    @Override
    public Ray getRandomRayInPDF() {
-      Point point = getRandomPointOnSurface();
+      Point3 point = getRandomPointOnSurface();
 
       //point = new Point(1, 0, 0);
 
-      Vector v = new Vector(point.X, point.Y, point.Z);
+      Vector v = new Vector(point.x, point.y, point.z);
 
       Vector direction = new Vector(GeometryCalculations.randomPointOnSphere());
 
@@ -117,14 +117,14 @@ public class SphereLight extends AbstractLight {
 
 
    @Override
-   public float getPDF(Point point, Vector directionFromLightToPoint) {
+   public float getPDF(Point3 point, Vector directionFromLightToPoint) {
 
-      Point origin = new Point(Sphere.Origin);
+      Point3 origin = new Point3(Sphere.Origin);
 
       if (Sphere.ObjectToWorld != null)
          origin = Sphere.ObjectToWorld.Apply(origin);
 
-      float sqrDist = (float) point.SquaredDistanceBetween(origin);
+      float sqrDist = (float) point.squaredDistanceBetween(origin);
 
       float sinThetaMax2 = (float) (Sphere.Radius * Sphere.Radius) / sqrDist;
       //float sinTheta = Math.sqrt(sinThetaMax2);

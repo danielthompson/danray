@@ -4,7 +4,7 @@ import net.danielthompson.danray.acceleration.BoundingEdge;
 import net.danielthompson.danray.acceleration.KDAxis;
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.states.Intersection;
-import net.danielthompson.danray.structures.Point;
+import net.danielthompson.danray.structures.Point3;
 import net.danielthompson.danray.structures.Ray;
 
 import java.util.List;
@@ -17,11 +17,11 @@ import java.util.List;
  */
 public class Triangle extends AbstractShape {
 
-   private Point _vertex0;
-   private Point _vertex1;
-   private Point _vertex2;
+   private Point3 _vertex0;
+   private Point3 _vertex1;
+   private Point3 _vertex2;
 
-   private Point _normalDirection;
+   private Point3 _normalDirection;
 
    public int ID;
 
@@ -32,7 +32,7 @@ public class Triangle extends AbstractShape {
 
    private Material _material;
 
-   public Triangle(Point vertex0, Point vertex1, Point vertex2, Material material) {
+   public Triangle(Point3 vertex0, Point3 vertex1, Point3 vertex2, Material material) {
       super(material);
       _vertex0 = vertex0;
       _vertex1 = vertex1;
@@ -40,10 +40,10 @@ public class Triangle extends AbstractShape {
 
       _material = material;
 
-      _normalDirection = _vertex1.Cross(_vertex0);
+      _normalDirection = _vertex1.cross(_vertex0);
    }
 
-   public Triangle(Point vertex0, Point vertex1, Point vertex2, Point normalDirection, Material material) {
+   public Triangle(Point3 vertex0, Point3 vertex1, Point3 vertex2, Point3 normalDirection, Material material) {
       super(material);
       _vertex0 = vertex0;
       _vertex1 = vertex1;
@@ -79,20 +79,20 @@ public class Triangle extends AbstractShape {
       throw new java.lang.UnsupportedOperationException();
    }
 
-   public static Intersection GetHitInfo(AbstractShape shape, Ray ray, Point vertex0, Point vertex1, Point vertex2) {
+   public static Intersection GetHitInfo(AbstractShape shape, Ray ray, Point3 vertex0, Point3 vertex1, Point3 vertex2) {
       Intersection state = new Intersection();
 /*
-      Point E1 = Point.Minus(vertex1, vertex0);
-      Point E2 = Point.Minus(vertex2, vertex0);
-      Point T = Point.Minus(ray.Origin, vertex0);
-      Point Q = T.Cross(E1);
-      Point P = ray.Direction.Cross(E2);
+      Point E1 = Point.minus(vertex1, vertex0);
+      Point E2 = Point.minus(vertex2, vertex0);
+      Point T = Point.minus(ray.Origin, vertex0);
+      Point Q = T.cross(E1);
+      Point P = ray.Direction.cross(E2);
 
-      float multiplier = 1.0 / P.Dot(E1);
+      float multiplier = 1.0 / P.dot(E1);
 
-      float t = Q.Dot(E2) * multiplier;
-      float u = P.Dot(T) * multiplier;
-      float v = Q.Dot(ray.Direction) * multiplier;
+      float t = Q.dot(E2) * multiplier;
+      float u = P.dot(T) * multiplier;
+      float v = Q.dot(ray.Direction) * multiplier;
 
       if (t > 0 && u >= 0 && v >= 0 && u + v <= 1.0) {
          state.Hits = true;

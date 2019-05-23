@@ -15,10 +15,10 @@ import java.util.List;
  */
 public class ImplicitPlane extends AbstractShape {
 
-   public Point Origin;
+   public Point3 Origin;
    public Normal Normal;
 
-   public ImplicitPlane(Point origin, Normal normal, Material material) {
+   public ImplicitPlane(Point3 origin, Normal normal, Material material) {
       super(material);
       this.Origin = origin;
       this.Normal = normal;
@@ -28,14 +28,14 @@ public class ImplicitPlane extends AbstractShape {
    @Override
    public void RecalculateWorldBoundingBox() {
       WorldBoundingBox = new BoundingBox(
-            new Point(-Float.MAX_VALUE, -Float.MAX_VALUE, -Float.MAX_VALUE),
-            new Point(Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE)
+            new Point3(-Float.MAX_VALUE, -Float.MAX_VALUE, -Float.MAX_VALUE),
+            new Point3(Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE)
       );
    }
 
    @Override
    public Intersection GetHitInfo(Ray ray) {
-      float numerator = (Point.Minus(Origin, ray.Origin)).Dot(Normal);
+      float numerator = (Point3.minus(Origin, ray.Origin)).Dot(Normal);
       float denominator = ray.Direction.Dot(Normal);
 
       Intersection state = new Intersection();

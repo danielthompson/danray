@@ -42,11 +42,11 @@ public class ReflectedRayTests {
 
       AssertHelper.assertEquals(actual.Origin.x, expected.Origin.x, delta, "Actual: " + actual + " Expected: " + expected);
       AssertHelper.assertEquals(actual.Origin.y, expected.Origin.y, delta, "Actual: " + actual + " Expected: " + expected);
-      AssertHelper.assertEquals(actual.Origin.Z, expected.Origin.Z, delta, "Actual: " + actual + " Expected: " + expected);
+      AssertHelper.assertEquals(actual.Origin.z, expected.Origin.z, delta, "Actual: " + actual + " Expected: " + expected);
 
       AssertHelper.assertEquals(actual.Direction.x, expected.Direction.x, delta, "Actual: " + actual + " Expected: " + expected);
       AssertHelper.assertEquals(actual.Direction.y, expected.Direction.y, delta, "Actual: " + actual + " Expected: " + expected);
-      AssertHelper.assertEquals(actual.Direction.Z, expected.Direction.Z, delta, "Actual: " + actual + " Expected: " + expected);
+      AssertHelper.assertEquals(actual.Direction.z, expected.Direction.z, delta, "Actual: " + actual + " Expected: " + expected);
    }
 
    @Test
@@ -72,11 +72,11 @@ public class ReflectedRayTests {
 
       AssertHelper.assertEquals(actual.Origin.x, expected.Origin.x, delta, "Actual: " + actual + " Expected: " + expected);
       AssertHelper.assertEquals(actual.Origin.y, expected.Origin.y, delta, "Actual: " + actual + " Expected: " + expected);
-      AssertHelper.assertEquals(actual.Origin.Z, expected.Origin.Z, delta, "Actual: " + actual + " Expected: " + expected);
+      AssertHelper.assertEquals(actual.Origin.z, expected.Origin.z, delta, "Actual: " + actual + " Expected: " + expected);
 
       AssertHelper.assertEquals(actual.Direction.x, expected.Direction.x, delta, "Actual: " + actual + " Expected: " + expected);
       AssertHelper.assertEquals(actual.Direction.y, expected.Direction.y, delta, "Actual: " + actual + " Expected: " + expected);
-      AssertHelper.assertEquals(actual.Direction.Z, expected.Direction.Z, delta, "Actual: " + actual + " Expected: " + expected);
+      AssertHelper.assertEquals(actual.Direction.z, expected.Direction.z, delta, "Actual: " + actual + " Expected: " + expected);
    }
 
    @Test
@@ -102,10 +102,10 @@ public class ReflectedRayTests {
 
       AssertHelper.assertEquals(actual.Origin.x, expected.Origin.x, delta, "Actual: " + actual + " Expected: " + expected);
       AssertHelper.assertEquals(actual.Origin.y, expected.Origin.y, delta, "Actual: " + actual + " Expected: " + expected);
-      AssertHelper.assertEquals(actual.Origin.Z, expected.Origin.Z, delta, "Actual: " + actual + " Expected: " + expected);
+      AssertHelper.assertEquals(actual.Origin.z, expected.Origin.z, delta, "Actual: " + actual + " Expected: " + expected);
 
       AssertHelper.assertEquals(actual.Direction.x, expected.Direction.x, delta, "Actual: " + actual + " Expected: " + expected);
       AssertHelper.assertEquals(actual.Direction.y, expected.Direction.y, delta, "Actual: " + actual + " Expected: " + expected);
-      AssertHelper.assertEquals(actual.Direction.Z, expected.Direction.Z, delta, "Actual: " + actual + " Expected: " + expected);
+      AssertHelper.assertEquals(actual.Direction.z, expected.Direction.z, delta, "Actual: " + actual + " Expected: " + expected);
    }*/
 }

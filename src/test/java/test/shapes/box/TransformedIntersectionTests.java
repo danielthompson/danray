@@ -25,7 +25,7 @@ public class TransformedIntersectionTests {
 
       Box box = new Box(compositeTransform, material);
 
-      Point origin = new Point(1.1f, 0, 10);
+      Point3 origin = new Point3(1.1f, 0, 10);
       Vector direction = new Vector(0, 0, -1);
 
       Ray ray = new Ray(origin, direction);
@@ -34,7 +34,7 @@ public class TransformedIntersectionTests {
 
       Intersection state = box.GetHitInfo(ray);
 
-      Point expectedIntersectionPoint = new Point(1.1f, 0, 1);
+      Point3 expectedIntersectionPoint = new Point3(1.1f, 0, 1);
       Normal expectedNormalDirection = new Normal(0, 0, 1);
 
       Assert.assertTrue(hits, "Should hit");
@@ -53,7 +53,7 @@ public class TransformedIntersectionTests {
 
       Box box = new Box(compositeTransform, material);
 
-      Point origin = new Point(0, 1, 3);
+      Point3 origin = new Point3(0, 1, 3);
       Vector direction = new Vector(1, 0, -1);
 
       Ray ray = new Ray(origin, direction);
@@ -61,7 +61,7 @@ public class TransformedIntersectionTests {
       boolean hits = box.Hits(ray);
       Intersection state = box.GetHitInfo(ray);
 
-      Point expectedIntersectionPoint = new Point(1, 1, 2);
+      Point3 expectedIntersectionPoint = new Point3(1, 1, 2);
       Normal expectedNormalDirection = new Normal(0, 0, 1);
 
       Assert.assertTrue(hits, "Should hit");
@@ -80,7 +80,7 @@ public class TransformedIntersectionTests {
 
       Box box = new Box(compositeTransform, material);
 
-      Point origin = new Point(4, 1, 4);
+      Point3 origin = new Point3(4, 1, 4);
       Vector direction = new Vector(-1, 0, -1);
 
       Ray ray = new Ray(origin, direction);
@@ -88,7 +88,7 @@ public class TransformedIntersectionTests {
       boolean hits = box.Hits(ray);
       Intersection state = box.GetHitInfo(ray);
 
-      Point expectedIntersectionPoint = new Point(2, 1, 2);
+      Point3 expectedIntersectionPoint = new Point3(2, 1, 2);
       Normal expectedNormalDirection = new Normal(0, 0, 1);
 
       Assert.assertNotNull(state, "Intersection shouldn't be null");
@@ -109,7 +109,7 @@ public class TransformedIntersectionTests {
 
       Box box = new Box(compositeTransform, material);
 
-      Point origin = new Point(5, 1, 2);
+      Point3 origin = new Point3(5, 1, 2);
       Vector direction = new Vector(-1, 0, 0);
 
       Ray ray = new Ray(origin, direction);
@@ -117,7 +117,7 @@ public class TransformedIntersectionTests {
       boolean hits = box.Hits(ray);
       Intersection state = box.GetHitInfo(ray);
 
-      Point expectedIntersectionPoint = new Point(2, 1, 2);
+      Point3 expectedIntersectionPoint = new Point3(2, 1, 2);
       Normal expectedNormalDirection = new Normal(0, 0, 1);
 
       Assert.assertTrue(hits, "Should hit");

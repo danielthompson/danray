@@ -101,11 +101,11 @@ public class KDScene extends AbstractScene {
       }
    }
 
-   public Point getPoint1(KDNode node) {
+   public Point3 getPoint1(KDNode node) {
       return node.BoundingBox.point1;
    }
 
-   public Point getPoint2(KDNode node) {
+   public Point3 getPoint2(KDNode node) {
       return node.BoundingBox.point2;
    }
 

@@ -4,7 +4,7 @@ import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.shapes.Box;
 import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
-import net.danielthompson.danray.structures.Point;
+import net.danielthompson.danray.structures.Point3;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -22,7 +22,7 @@ public class CubeMappedSkybox extends AbstractSkybox {
    public BufferedImage SkyBoxPosY;
    public BufferedImage SkyBoxPosZ;
 
-   public Point SkyBoxPoint = new Point(0.5f, 0.5f, 0.5f);
+   public Point3 SkyBoxPoint = new Point3(0.5f, 0.5f, 0.5f);
 
    public Box Skybox;
 
@@ -55,7 +55,7 @@ public class CubeMappedSkybox extends AbstractSkybox {
 
       Intersection state = Skybox.GetHitInfo(r);
 
-      Point p = state.Location;
+      Point3 p = state.Location;
 
       float u = 0.0f;
       float v = 0.0f;
@@ -69,40 +69,40 @@ public class CubeMappedSkybox extends AbstractSkybox {
 
       // left wall
 
-      texture = Constants.WithinEpsilon(p.X, 0) ? SkyBoxNegX : texture;
-      u = Constants.WithinEpsilon(p.X, 0) ? width - width * p.Z : u;
-      v = Constants.WithinEpsilon(p.X, 0) ? height - (height * p.Y) : v;
+      texture = Constants.WithinEpsilon(p.x, 0) ? SkyBoxNegX : texture;
+      u = Constants.WithinEpsilon(p.x, 0) ? width - width * p.z : u;
+      v = Constants.WithinEpsilon(p.x, 0) ? height - (height * p.y) : v;
 
       // back wall
 
-      texture = Constants.WithinEpsilon(p.Z, 0) ? SkyBoxNegZ : texture;
-      u = Constants.WithinEpsilon(p.Z, 0) ? width * p.X: u;
-      v = Constants.WithinEpsilon(p.Z, 0) ? height - (height * p.Y) : v;
-//      y = Constants.WithinEpsilon(p.Z, 0) ? .33f * height * (2 - p.y) : y;
+      texture = Constants.WithinEpsilon(p.z, 0) ? SkyBoxNegZ : texture;
+      u = Constants.WithinEpsilon(p.z, 0) ? width * p.x : u;
+      v = Constants.WithinEpsilon(p.z, 0) ? height - (height * p.y) : v;
+//      y = Constants.WithinEpsilon(p.z, 0) ? .33f * height * (2 - p.y) : y;
 
       // right wall
 
-      texture = Constants.WithinEpsilon(p.X, 1) ? SkyBoxPosX : texture;
-      u = Constants.WithinEpsilon(p.X, 1) ? width * p.Z: u;
-      v = Constants.WithinEpsilon(p.X, 1) ? height - (height * p.Y) : v;
+      texture = Constants.WithinEpsilon(p.x, 1) ? SkyBoxPosX : texture;
+      u = Constants.WithinEpsilon(p.x, 1) ? width * p.z : u;
+      v = Constants.WithinEpsilon(p.x, 1) ? height - (height * p.y) : v;
 
       // front wall
 
-      texture = Constants.WithinEpsilon(p.Z, 1) ? SkyBoxPosZ : texture;
-      u = Constants.WithinEpsilon(p.Z, 1) ? (width - width * p.X) : u;
-      v = Constants.WithinEpsilon(p.Z, 1) ? height - (height * p.Y) : v;
+      texture = Constants.WithinEpsilon(p.z, 1) ? SkyBoxPosZ : texture;
+      u = Constants.WithinEpsilon(p.z, 1) ? (width - width * p.x) : u;
+      v = Constants.WithinEpsilon(p.z, 1) ? height - (height * p.y) : v;
 
       // top wall
 
-      texture = Constants.WithinEpsilon(p.Y, 1) ? SkyBoxPosY : texture;
-      u = Constants.WithinEpsilon(p.Y, 1) ? width * p.X : u;
-      v = Constants.WithinEpsilon(p.Y, 1) ? height - height * p.Z : v;
+      texture = Constants.WithinEpsilon(p.y, 1) ? SkyBoxPosY : texture;
+      u = Constants.WithinEpsilon(p.y, 1) ? width * p.x : u;
+      v = Constants.WithinEpsilon(p.y, 1) ? height - height * p.z : v;
 
       // bottom wall
 
-      texture = Constants.WithinEpsilon(p.Y, 0) ? SkyBoxNegY : texture;
-      u = Constants.WithinEpsilon(p.Y, 0) ? width * p.X : u;
-      v = Constants.WithinEpsilon(p.Y, 0) ? height * p.Z : v;
+      texture = Constants.WithinEpsilon(p.y, 0) ? SkyBoxNegY : texture;
+      u = Constants.WithinEpsilon(p.y, 0) ? width * p.x : u;
+      v = Constants.WithinEpsilon(p.y, 0) ? height * p.z : v;
 
       u = (u == width) ? u - 1 : u;
       v = (v == height) ? v - 1 : v;

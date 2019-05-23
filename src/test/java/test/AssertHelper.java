@@ -17,10 +17,10 @@ public class AssertHelper {
       AssertHelper.assertEquals(actual.point2, expected.point2);
    }
 
-   public static void assertEquals(Point actual, Point expected) {
-      AssertHelper.assertEquals(actual.X, expected.X);
-      AssertHelper.assertEquals(actual.Y, expected.Y);
-      AssertHelper.assertEquals(actual.Z, expected.Z);
+   public static void assertEquals(Point3 actual, Point3 expected) {
+      AssertHelper.assertEquals(actual.x, expected.x);
+      AssertHelper.assertEquals(actual.y, expected.y);
+      AssertHelper.assertEquals(actual.z, expected.z);
    }
 
    public static void assertEquals(Vector actual, Vector expected) {

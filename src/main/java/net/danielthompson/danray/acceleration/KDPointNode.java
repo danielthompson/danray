@@ -3,7 +3,7 @@ package net.danielthompson.danray.acceleration;
 import net.danielthompson.danray.acceleration.Comparators.PointXComparator;
 import net.danielthompson.danray.acceleration.Comparators.PointYComparator;
 import net.danielthompson.danray.acceleration.Comparators.PointZComparator;
-import net.danielthompson.danray.structures.Point;
+import net.danielthompson.danray.structures.Point3;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,12 +17,12 @@ public class KDPointNode {
 
    private KDPointNode _leftChild;
    private KDPointNode _rightChild;
-   private List<Point> _objects;
+   private List<Point3> _objects;
    private float _separator;
    private KDAxis _axis;
 
 
-   public KDPointNode(List<Point> objects, KDAxis axis) {
+   public KDPointNode(List<Point3> objects, KDAxis axis) {
       _objects = objects;
       _axis = axis;
    }
@@ -55,11 +55,11 @@ public class KDPointNode {
       return _leftChild == null && _rightChild == null;
    }
 
-   public List<Point> getObjects() {
+   public List<Point3> getObjects() {
       return _objects;
    }
 
-   public static KDPointNode BuildKDTree(List<Point> objects) {
+   public static KDPointNode BuildKDTree(List<Point3> objects) {
 
       KDPointNode rootNode = new KDPointNode(objects, KDAxis.X);
 
@@ -79,10 +79,10 @@ public class KDPointNode {
          float separator = getSeparator(node.getObjects(), node.getAxis(), lowerBound, upperBound);
          node.setSeparator(separator);
 
-         List<Point> lessThanList = new ArrayList<Point>();
-         List<Point> greaterThanOrEqualToList = new ArrayList<Point>();
+         List<Point3> lessThanList = new ArrayList<Point3>();
+         List<Point3> greaterThanOrEqualToList = new ArrayList<Point3>();
 
-         for (Point point : node.getObjects()) {
+         for (Point3 point : node.getObjects()) {
             if (point.getAxis(node.getAxis()) >= separator) {
                greaterThanOrEqualToList.add(point);
             }
@@ -112,7 +112,7 @@ public class KDPointNode {
 
 
 
-   private static float getSeparator(List<Point> objects, KDAxis axis, float lowerBound, float upperBound) {
+   private static float getSeparator(List<Point3> objects, KDAxis axis, float lowerBound, float upperBound) {
       // find largest distance in the current axis from the node's objects to either bound
       // set the
 
@@ -124,7 +124,7 @@ public class KDPointNode {
          float min = Float.MAX_VALUE;
          float max = Float.MIN_VALUE;
 
-         for (Point point : objects) {
+         for (Point3 point : objects) {
             float pointAxisLocation = point.getAxis(axis);
 
             if (pointAxisLocation < min) {
@@ -149,15 +149,15 @@ public class KDPointNode {
 
    }
 
-   private static float getMedian(List<Point> objects, KDAxis axis) {
+   private static float getMedian(List<Point3> objects, KDAxis axis) {
 
       Collections.sort(objects, getComparator(axis));
 
       float median;
 
       if (objects.size() % 2 == 0) {
-         Point point1 = objects.get(objects.size() / 2 - 1);
-         Point point2 = objects.get(objects.size() / 2);
+         Point3 point1 = objects.get(objects.size() / 2 - 1);
+         Point3 point2 = objects.get(objects.size() / 2);
          median = (point1.getAxis(axis) + point2.getAxis(axis)) * .5f;
 
       }
@@ -169,7 +169,7 @@ public class KDPointNode {
 
    }
 
-   private static Comparator<Point> getComparator(KDAxis axis) {
+   private static Comparator<Point3> getComparator(KDAxis axis) {
       switch (axis) {
          case X:
             return new PointXComparator();

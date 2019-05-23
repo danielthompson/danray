@@ -107,12 +107,12 @@ public class Vector {
       return new Vector(vector1.X - vector2.X, vector1.Y - vector2.Y, vector1.Z - vector2.Z);
    }
 
-   public static Vector Minus(Point point, Vector vector) {
-      return new Vector(point.X - vector.X, point.Y - vector.Y, point.Z - vector.Z);
+   public static Vector Minus(Point3 point, Vector vector) {
+      return new Vector(point.x - vector.X, point.y - vector.Y, point.z - vector.Z);
    }
 
-   public static Vector Minus(Point point1, Point point2) {
-      return new Vector(point1.X - point2.X, point1.Y - point2.Y, point1.Z - point2.Z);
+   public static Vector Minus(Point3 point1, Point3 point2) {
+      return new Vector(point1.x - point2.x, point1.y - point2.y, point1.z - point2.z);
    }
 
    public float Length() {
@@ -168,7 +168,7 @@ public class Vector {
    }
 
    public String toString() {
-      return "x " + X + ", y " + Y + ", Z " + Z;
+      return "x " + X + ", y " + Y + ", z " + Z;
    }
 
    public boolean equals(Object obj) {

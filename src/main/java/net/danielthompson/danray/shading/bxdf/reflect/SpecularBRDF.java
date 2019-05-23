@@ -48,7 +48,7 @@ public class SpecularBRDF extends BRDF {
       float factor = incoming.Dot(normal) * 2;
       Vector scaled = new Vector(Normal.Scale(normal, factor));
 
-      //Vector outgoing = Vector.Minus(incoming, scaled);
+      //Vector outgoing = Vector.minus(incoming, scaled);
 
       Vector outgoing = Vector.Minus(scaled, incoming);
 

@@ -31,16 +31,16 @@ public class AngleOfIncidenceTests {
    @Test
    public void testAngleOfIncidence1() throws Exception {
       Sphere sphere = new Sphere();
-      sphere.Origin = new Point(0, 0, 0);
+      sphere.Origin = new Point3(0, 0, 0);
       sphere.Radius = 1;
 
-      Point rayOrigin = new Point(2, 1, 0);
+      Point3 rayOrigin = new Point3(2, 1, 0);
       Vector rayDirection = new Vector(-1, -1, 0);
 
       Ray incomingRay = new Ray(rayOrigin, rayDirection);
 
       Intersection state = new Intersection();
-      state.Location = new Point(1, 0, 0);
+      state.Location = new Point3(1, 0, 0);
       state.Normal = new Normal(1, 0, 0);
       state.Hits = true;
 
@@ -61,16 +61,16 @@ public class AngleOfIncidenceTests {
    @Test
    public void testAngleOfIncidence2() throws Exception {
       Sphere sphere = new Sphere();
-      sphere.Origin = new Point(0, 0, 0);
+      sphere.Origin = new Point3(0, 0, 0);
       sphere.Radius = 1;
 
-      Point rayOrigin = new Point(2, -1, 0);
+      Point3 rayOrigin = new Point3(2, -1, 0);
       Vector rayDirection = new Vector(-1, 1, 0);
 
       Ray incomingRay = new Ray(rayOrigin, rayDirection);
 
       Intersection state = new Intersection();
-      state.Location = new Point(1, 0, 0);
+      state.Location = new Point3(1, 0, 0);
       state.Normal = new Normal(1, 0, 0);
       state.Hits = true;
 
@@ -90,16 +90,16 @@ public class AngleOfIncidenceTests {
    @Test
    public void testAngleOfIncidence3() throws Exception {
       Sphere sphere = new Sphere();
-      sphere.Origin = new Point(0, 0, 0);
+      sphere.Origin = new Point3(0, 0, 0);
       sphere.Radius = 1;
 
-      Point rayOrigin = new Point(1 + Constants.Root3, -1, 0);
+      Point3 rayOrigin = new Point3(1 + Constants.Root3, -1, 0);
       Vector rayDirection = new Vector(-Constants.Root3, 1, 0);
 
       Ray incomingRay = new Ray(rayOrigin, rayDirection);
 
       Intersection state = new Intersection();
-      state.Location = new Point(1, 0, 0);
+      state.Location = new Point3(1, 0, 0);
       state.Normal = new Normal(1, 0, 0);
       state.Hits = true;
 
@@ -119,16 +119,16 @@ public class AngleOfIncidenceTests {
    @Test
    public void testAngleOfIncidence4() throws Exception {
       Sphere sphere = new Sphere();
-      sphere.Origin = new Point(0, 0, 0);
+      sphere.Origin = new Point3(0, 0, 0);
       sphere.Radius = 1;
 
-      Point rayOrigin = new Point(4, 0, 0);
+      Point3 rayOrigin = new Point3(4, 0, 0);
       Vector rayDirection = new Vector(-1, 0, 0);
 
       Ray incomingRay = new Ray(rayOrigin, rayDirection);
 
       Intersection state = new Intersection();
-      state.Location = new Point(1, 0, 0);
+      state.Location = new Point3(1, 0, 0);
       state.Normal = new Normal(1, 0, 0);
       state.Hits = true;
 
@@ -150,10 +150,10 @@ public class AngleOfIncidenceTests {
    @Test
    public void testAngleOfIncidence5() throws Exception {
       Sphere sphere = new Sphere();
-      sphere.Origin = new Point(0, 0, 0);
+      sphere.Origin = new Point3(0, 0, 0);
       sphere.Radius = 1;
 
-      Point rayOrigin = new Point(2, -Constants.Root3, 0);
+      Point3 rayOrigin = new Point3(2, -Constants.Root3, 0);
       Vector rayDirection = new Vector(-1, Constants.Root3, 0);
 
       WhittedIntegrator tracer = new WhittedIntegrator(null, 0);
@@ -161,7 +161,7 @@ public class AngleOfIncidenceTests {
       Ray incomingRay = new Ray(rayOrigin, rayDirection);
 
       Intersection state = new Intersection();
-      state.Location = new Point(1, 0, 0);
+      state.Location = new Point3(1, 0, 0);
       state.Normal = new Normal(1, 0, 0);
       state.Hits = true;
 
@@ -181,16 +181,16 @@ public class AngleOfIncidenceTests {
    @Test
    public void testAngleOfIncidenceGlancing1() throws Exception {
       Sphere sphere = new Sphere();
-      sphere.Origin = new Point(0, 0, 0);
+      sphere.Origin = new Point3(0, 0, 0);
       sphere.Radius = 1;
 
-      Point rayOrigin = new Point(2, 1, 0);
+      Point3 rayOrigin = new Point3(2, 1, 0);
       Vector rayDirection = new Vector(-1, 0, 0);
 
       Ray incomingRay = new Ray(rayOrigin, rayDirection);
 
       Intersection state = new Intersection();
-      state.Location = new Point(0, 1, 0);
+      state.Location = new Point3(0, 1, 0);
       state.Normal = new Normal(0, 1, 0);
       state.Hits = true;
 
@@ -212,16 +212,16 @@ public class AngleOfIncidenceTests {
    @Test
    public void testAngleOfIncidenceOpposite() throws Exception {
       Sphere sphere = new Sphere();
-      sphere.Origin = new Point(0, 0, 0);
+      sphere.Origin = new Point3(0, 0, 0);
       sphere.Radius = 1;
 
-      Point rayOrigin = new Point(-.1f, -.9f, 0);
+      Point3 rayOrigin = new Point3(-.1f, -.9f, 0);
       Vector rayDirection = new Vector(1, -1, 0);
 
       Ray incomingRay = new Ray(rayOrigin, rayDirection);
 
       Intersection state = new Intersection();
-      state.Location = new Point(0, -1, 0);
+      state.Location = new Point3(0, -1, 0);
       state.Normal = new Normal(0, -1, 0);
       state.Hits = true;
 

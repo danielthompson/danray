@@ -1,6 +1,6 @@
 package net.danielthompson.danray.cameras;
 
-import net.danielthompson.danray.structures.Point;
+import net.danielthompson.danray.structures.Point3;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Transform;
 import net.danielthompson.danray.structures.Vector;
@@ -13,7 +13,7 @@ public abstract class Camera {
    public CameraSettings Settings;
 
    private static final Vector DefaultDirection = new Vector(0, 0, -1);
-   static final Point DefaultOrigin = new Point(0, 0, 0);
+   static final Point3 DefaultOrigin = new Point3(0, 0, 0);
 
    public Transform cameraToWorld;
 
@@ -26,7 +26,7 @@ public abstract class Camera {
       return cameraToWorld.Apply(DefaultDirection);
    }
 
-   public Point getOrigin() {
+   public Point3 getOrigin() {
       return cameraToWorld.Apply(DefaultOrigin);
    }
 

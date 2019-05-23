@@ -31,11 +31,11 @@ public class NormalTests {
    @Test
    public void testGetNormal1() throws Exception{
       Sphere sphere = new Sphere();
-      sphere.Origin = new Point(0, 0, 0);
+      sphere.Origin = new Point3(0, 0, 0);
       sphere.Radius = 1;
 
       Intersection state = new Intersection();
-      state.Location = new Point(1, 0, 0);
+      state.Location = new Point3(1, 0, 0);
       state.Normal = new Normal(1, 0, 0);
       state.Hits = true;
 
@@ -50,11 +50,11 @@ public class NormalTests {
    @Test
    public void testGetNormal2() throws Exception{
       Sphere sphere = new Sphere();
-      sphere.Origin = new Point(0, 0, 0);
+      sphere.Origin = new Point3(0, 0, 0);
       sphere.Radius = 1;
 
       Intersection state = new Intersection();
-      state.Location = new Point(0, 1, 0);
+      state.Location = new Point3(0, 1, 0);
       state.Normal = new Normal(0, 1, 0);
       state.Hits = true;
 
@@ -70,11 +70,11 @@ public class NormalTests {
    @Test
    public void testGetNormal3() throws Exception{
       Sphere sphere = new Sphere();
-      sphere.Origin = new Point(4, 4, 0);
+      sphere.Origin = new Point3(4, 4, 0);
       sphere.Radius = 1;
 
       Intersection state = new Intersection();
-      state.Location = new Point(sphere.Origin.X - sphere.Radius / (Constants.Root2), sphere.Origin.Y - sphere.Radius / (Constants.Root2), 0);
+      state.Location = new Point3(sphere.Origin.x - sphere.Radius / (Constants.Root2), sphere.Origin.y - sphere.Radius / (Constants.Root2), 0);
       state.Normal = new Normal(- sphere.Radius / (Constants.Root2), - sphere.Radius / (Constants.Root2), 0);
       state.Hits = true;
 
@@ -91,11 +91,11 @@ public class NormalTests {
    @Test
    public void testGetNormal4() throws Exception {
       Sphere sphere = new Sphere();
-      sphere.Origin = new Point(0, 0, 0);
+      sphere.Origin = new Point3(0, 0, 0);
       sphere.Radius = 1;
 
       Intersection state = new Intersection();
-      state.Location = new Point(1, 0, 0);
+      state.Location = new Point3(1, 0, 0);
       state.Normal = new Normal(1, 0, 0);
       state.Hits = true;
 

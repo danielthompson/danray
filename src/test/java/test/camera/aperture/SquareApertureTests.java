@@ -3,9 +3,8 @@ package test.camera.aperture;
 import net.danielthompson.danray.cameras.apertures.Aperture;
 import net.danielthompson.danray.cameras.apertures.CircleAperture;
 import net.danielthompson.danray.cameras.apertures.SquareAperture;
-import net.danielthompson.danray.structures.Point;
+import net.danielthompson.danray.structures.Point3;
 import net.danielthompson.danray.ui.MainCanvas;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import javax.imageio.ImageIO;
@@ -61,10 +60,10 @@ public class SquareApertureTests {
       int max = 0;
 
       for (int i = 0; i < 100000; i++){
-         Point point = aperture.GetOriginPoint();
+         Point3 point = aperture.GetOriginPoint();
 
-         int x = (int)(point.X + 100);
-         int y = (int)(point.Y + 100);
+         int x = (int)(point.x + 100);
+         int y = (int)(point.y + 100);
 
          accumulationBuffer[x][y]++;
          if (accumulationBuffer[x][y] > max) {

@@ -28,7 +28,7 @@ import net.danielthompson.danray.shapes.ImplicitPlane;
 import net.danielthompson.danray.shapes.Sphere;
 import net.danielthompson.danray.shapes.csg.CSGOperation;
 import net.danielthompson.danray.shapes.csg.CSGShape;
-import net.danielthompson.danray.structures.Point;
+import net.danielthompson.danray.structures.Point3;
 import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.textures.CheckerboardTexture;
 import net.danielthompson.danray.textures.ConstantTexture;
@@ -203,7 +203,7 @@ public class SceneBuilder {
       settings.focusDistance = 500;
       settings.aperture = new CircleAperture(20);
 
-      Point origin = new Point(0, 0, 4000);
+      Point3 origin = new Point3(0, 0, 4000);
       Vector direction = new Vector(0, 0, -1);
 
       Camera camera = new PerspectiveCamera(settings, null);
@@ -218,7 +218,7 @@ public class SceneBuilder {
       material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.white);
 
       Sphere sphere = new Sphere();
-      sphere.Origin = new Point(2000, 15000, 15000);
+      sphere.Origin = new Point3(2000, 15000, 15000);
       sphere.Radius = 1000;
 
       AbstractLight light = new SphereLight(sphere, lightSPD);
@@ -234,7 +234,7 @@ public class SceneBuilder {
       material.ReflectanceSpectrum = new ReflectanceSpectrum(red);
 
       sphere = new Sphere();
-      sphere.Origin = new Point(-800, 0, 500);
+      sphere.Origin = new Point3(-800, 0, 500);
       sphere.Radius = 100;
 
       light = new SphereLight(sphere, lightSPD);
@@ -257,8 +257,8 @@ public class SceneBuilder {
       Transform objectToWorld = transforms[0];
       Transform worldToObject = transforms[1];
 
-      Point p0 = new Point(-1, -1, -1);
-      Point p1 = new Point(1, 1, 1);
+      Point3 p0 = new Point3(-1, -1, -1);
+      Point3 p1 = new Point3(1, 1, 1);
       Box box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
       box.ID = getNextID();
       //scene.Drawables.add(box);
@@ -278,8 +278,8 @@ public class SceneBuilder {
       objectToWorld = transforms[0];
       worldToObject = transforms[1];
 
-      p0 = new Point(-1, -1, -1);
-      p1 = new Point(1, 1, 1);
+      p0 = new Point3(-1, -1, -1);
+      p1 = new Point3(1, 1, 1);
       box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
       box.ID = getNextID();
       scene.Shapes.add(box);
@@ -298,8 +298,8 @@ public class SceneBuilder {
       objectToWorld = transforms[0];
       worldToObject = transforms[1];
 
-      p0 = new Point(-1, -1, -1);
-      p1 = new Point(1, 1, 1);
+      p0 = new Point3(-1, -1, -1);
+      p1 = new Point3(1, 1, 1);
 
       box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
       box.ID = getNextID();
@@ -320,8 +320,8 @@ public class SceneBuilder {
       objectToWorld = transforms[0];
       worldToObject = transforms[1];
 
-      p0 = new Point(-1, -1, -1);
-      p1 = new Point(1, 1, 1);
+      p0 = new Point3(-1, -1, -1);
+      p1 = new Point3(1, 1, 1);
 
       box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
       box.ID = getNextID();
@@ -341,8 +341,8 @@ public class SceneBuilder {
       objectToWorld = transforms[0];
       worldToObject = transforms[1];
 
-      p0 = new Point(-1, -1, -1);
-      p1 = new Point(1, 1, 1);
+      p0 = new Point3(-1, -1, -1);
+      p1 = new Point3(1, 1, 1);
 
       box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
       box.ID = getNextID();
@@ -363,8 +363,8 @@ public class SceneBuilder {
       objectToWorld = transforms[0];
       worldToObject = transforms[1];
 
-      p0 = new Point(-1, -1, -1);
-      p1 = new Point(1, 1, 1);
+      p0 = new Point3(-1, -1, -1);
+      p1 = new Point3(1, 1, 1);
       box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
       box.ID = getNextID();
       //scene.Drawables.add(box);
@@ -384,8 +384,8 @@ public class SceneBuilder {
          objectToWorld = transforms[0];
          worldToObject = transforms[1];
 
-         p0 = new Point(-1, -1, -1);
-         p1 = new Point(1, 1, 1);
+         p0 = new Point3(-1, -1, -1);
+         p1 = new Point3(1, 1, 1);
          box = new Box(p0, p1, boxMaterial, objectToWorld, worldToObject);
          box.ID = getNextID();
          //scene.Drawables.add(box);
@@ -399,8 +399,8 @@ public class SceneBuilder {
       boxMaterial = new Material();
       boxMaterial.ReflectanceSpectrum = new ReflectanceSpectrum(Color.cyan);
 
-      p0 = new Point(800, -1000, 0);
-      p1 = new Point(1300, -500, 500);
+      p0 = new Point3(800, -1000, 0);
+      p1 = new Point3(1300, -500, 500);
       box = new Box(p0, p1, boxMaterial);
       box.ID = getNextID();
       scene.Shapes.add(box);
@@ -551,7 +551,7 @@ public class SceneBuilder {
       inputTransforms = new Transform[]{
 //            Transform.Translate(new Vector(0, -31.99f, 50f)),
 //            Transform.RotateY(-75f),
-//            Transform.Scale(20f),
+//            Transform.scale(20f),
             Transform.identity
       };
       compositeTransforms = Transform.composite(inputTransforms);
@@ -659,7 +659,7 @@ public class SceneBuilder {
             Transform.Translate(new Vector(-0.5f, -0.5f, -0.5f)),
 //            Transform.Translate(-50.0f, -32.0f, -25f),
 //            Transform.RotateY(-45f),
-//            Transform.Scale(20f),
+//            Transform.scale(20f),
 
       };
       compositeTransforms = Transform.composite(inputTransforms);
@@ -717,7 +717,7 @@ public class SceneBuilder {
       material.Texture = new ConstantTexture(new ReflectanceSpectrum(Colors.Rainbow.Color5));
 
       inputTransforms = new Transform[]{
-            //Transform.Scale(2),
+            //Transform.scale(2),
             //Transform.Translate(new Vector(-0.5f, -0.5f, -0.5f))
       };
       compositeTransforms = Transform.composite(inputTransforms);
@@ -730,7 +730,7 @@ public class SceneBuilder {
 
       inputTransforms = new Transform[]{
             //Transform.Translate(0, 1, 1),
-            //Transform.Scale(2f), // TODO wtf?
+            //Transform.scale(2f), // TODO wtf?
 
       };
       compositeTransforms = Transform.composite(inputTransforms);
@@ -856,7 +856,7 @@ public class SceneBuilder {
       inputTransforms[0] = Transform.Translate(new Vector(0f, 0f, 0));
       inputTransforms[1] = Transform.RotateZ(-10f);
       inputTransforms[2] = Transform.Scale(24f, 0.1f, 16f);
-//      inputTransforms[3] = Transform.Scale(2);
+//      inputTransforms[3] = Transform.scale(2);
       inputTransforms[3] = Transform.identity;
       inputTransforms[4] = Transform.Translate(new Vector(-.5f, -.5f, -.5f));
 //      inputTransforms[4] = Transform.identity;
@@ -877,7 +877,7 @@ public class SceneBuilder {
       inputTransforms[1] = Transform.RotateZ(-39.8801f);
 //      inputTransforms[1] = Transform.RotateZ(-65f);
       inputTransforms[2] = Transform.Scale(2.1f, 0.3f, 8f);
-//      inputTransforms[3] = Transform.Scale(2);
+//      inputTransforms[3] = Transform.scale(2);
       inputTransforms[3] = Transform.identity;
       inputTransforms[4] = Transform.Translate(new Vector(-.5f, -.5f, -.5f));
 //      inputTransforms[4] = Transform.identity;
@@ -897,7 +897,7 @@ public class SceneBuilder {
       inputTransforms[0] = Transform.Translate(new Vector(3.06163f, 2.71702f, 0));
       inputTransforms[1] = Transform.RotateZ(-24f);
       inputTransforms[2] = Transform.Scale(2.1f, 0.3f, 8f);
-//      inputTransforms[3] = Transform.Scale(2);
+//      inputTransforms[3] = Transform.scale(2);
       inputTransforms[3] = Transform.identity;
       inputTransforms[4] = Transform.Translate(new Vector(-.5f, -.5f, -.5f));
 //      inputTransforms[4] = Transform.identity;
@@ -917,7 +917,7 @@ public class SceneBuilder {
       inputTransforms[0] = Transform.Translate(new Vector(7.09981f, 1.81891f, 0f));
       inputTransforms[1] = Transform.RotateZ(-14f);
       inputTransforms[2] = Transform.Scale(2.1f, 0.3f, 8f);
-//      inputTransforms[3] = Transform.Scale(2);
+//      inputTransforms[3] = Transform.scale(2);
       inputTransforms[3] = Transform.identity;
       inputTransforms[4] = Transform.Translate(new Vector(-.5f, -.5f, -.5f));
 //      inputTransforms[4] = Transform.identity;
@@ -940,7 +940,7 @@ public class SceneBuilder {
       inputTransforms[1] = Transform.RotateZ(-9.25f);
 //      inputTransforms[1] = Transform.identity;
       inputTransforms[2] = Transform.Scale(2.1f, 0.3f, 8f);
-//      inputTransforms[3] = Transform.Scale(2);
+//      inputTransforms[3] = Transform.scale(2);
       inputTransforms[3] = Transform.identity;
       inputTransforms[4] = Transform.Translate(new Vector(-.5f, -.5f, -.5f));
 //      inputTransforms[4] = Transform.identity;
@@ -1006,7 +1006,7 @@ public class SceneBuilder {
 //
 //      inputTransforms = new Transform[2];
 //      inputTransforms[0] = Transform.Translate(new Vector(300, -3300, -1500));
-//      inputTransforms[1] = Transform.Scale(100f, 100f, 100f);
+//      inputTransforms[1] = Transform.scale(100f, 100f, 100f);
 //
 //      compositeTransforms = Transform.composite(inputTransforms);
 //
@@ -1023,7 +1023,7 @@ public class SceneBuilder {
 //
 //      inputTransforms = new Transform[2];
 //      inputTransforms[0] = Transform.Translate(new Vector(300, -3300, -1500));
-//      inputTransforms[1] = Transform.Scale(100f, 100f, 100f);
+//      inputTransforms[1] = Transform.scale(100f, 100f, 100f);
 //
 //      compositeTransforms = Transform.composite(inputTransforms);
 //
@@ -1049,7 +1049,7 @@ public class SceneBuilder {
       settings.focusDistance = 500;
       settings.aperture = new CircleAperture(20);
 
-      Point origin = new Point(100, 75, 700);
+      Point3 origin = new Point3(100, 75, 700);
       Vector direction = new Vector(0, -.35f, -1);
 
       Camera camera = new PerspectiveCamera(settings, null);
@@ -1057,7 +1057,7 @@ public class SceneBuilder {
       AbstractScene scene = new NaiveScene(camera);
 
       // floor orange plane
-      Point planeOrigin = new Point(0, -250, 0);
+      Point3 planeOrigin = new Point3(0, -250, 0);
       Normal planeNormal = new Normal(0, 1, 0);
 
       Material material = new Material();
@@ -1074,7 +1074,7 @@ public class SceneBuilder {
 
          Sphere sphere = new Sphere(material);
          int coord = -850 + (175 * i);
-         sphere.Origin = new Point(coord, 0, coord);
+         sphere.Origin = new Point3(coord, 0, coord);
          sphere.Radius = 100;
          scene.addShape(sphere);
 
@@ -1083,10 +1083,10 @@ public class SceneBuilder {
 
       SpectralPowerDistribution spd = new SpectralPowerDistribution(1.0f, 1.0f, 1.0f);
 
-      scene.addLight(new PointLight(spd, new Point(-650, 600, 925)));
+      scene.addLight(new PointLight(spd, new Point3(-650, 600, 925)));
 
       for (int i = 0; i < 1; i++) {
-         scene.addLight(new PointLight(spd, new Point(0, 3000, -175 + (i * 300))));
+         scene.addLight(new PointLight(spd, new Point3(0, 3000, -175 + (i * 300))));
       }
       return scene;
    }
@@ -1201,7 +1201,7 @@ public class SceneBuilder {
       settings.focusDistance = 75;
       settings.aperture = new CircleAperture(10);
 
-      Point origin = new Point(0, 0, 250);
+      Point3 origin = new Point3(0, 0, 250);
       Vector direction = new Vector(0, 0, -1);
 
       Camera camera = new PerspectiveCamera(settings, null);
@@ -1218,8 +1218,8 @@ public class SceneBuilder {
 
       //material.BRDF = brdf;
 
-      Point p0 = new Point(-1000, -1000, -1000);
-      Point p1 = new Point(1000, 1000, 1000);
+      Point3 p0 = new Point3(-1000, -1000, -1000);
+      Point3 p1 = new Point3(1000, 1000, 1000);
 
       Transform[] inputTransforms = new Transform[2];
       inputTransforms[0] = Transform.Translate(new Vector(-0.5f, -0.5f, -0.5f));
@@ -1235,7 +1235,7 @@ public class SceneBuilder {
       SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(2000.0f, 2000.0f, 2000.0f);
 
       Sphere sphere = new Sphere();
-      sphere.Origin = new Point(0, 250, -250);
+      sphere.Origin = new Point3(0, 250, -250);
       sphere.Radius = 50;
 
 
@@ -1295,7 +1295,7 @@ public class SceneBuilder {
          //material.setIndexOfRefraction(1.1);
 
          Sphere sphere = new Sphere(material);
-         sphere.Origin = new Point(originX, originY, originZ);
+         sphere.Origin = new Point3(originX, originY, originZ);
          sphere.Radius = (float) (Math.random() * 50);
 
          scene.addShape(sphere);
@@ -1354,7 +1354,7 @@ public class SceneBuilder {
             float originY = (float) (sphereYInterval * j + Math.random() * 5 - 10);
             float originZ = /*sphereZInterval * k + */ (float) (Math.random() * 100 + 60);
 
-            sphere.Origin = new Point(originX, originY, originZ);
+            sphere.Origin = new Point3(originX, originY, originZ);
             sphere.Radius = (float) (Math.random() * 5 + 5);
 
             scene.addShape(sphere);
@@ -1363,7 +1363,7 @@ public class SceneBuilder {
       }
 
       Sphere sphere = new Sphere();
-      sphere.Origin = new Point(300, 300, 3000);
+      sphere.Origin = new Point3(300, 300, 3000);
       sphere.Radius = 70;
 
 
@@ -1392,7 +1392,7 @@ public class SceneBuilder {
       settings.focusDistance = 500;
       settings.aperture = new SquareAperture(5);
 
-      Point origin = new Point(100, 200, 600);
+      Point3 origin = new Point3(100, 200, 600);
       Vector direction = new Vector(-.1f, -.3f, -1);
 
       Camera camera = new PerspectiveCamera(settings, null);
@@ -1401,14 +1401,14 @@ public class SceneBuilder {
 
       // white vertical z plane
 
-      Point planeOrigin = new Point(0, 0, 0);
+      Point3 planeOrigin = new Point3(0, 0, 0);
       Normal planeNormal = new Normal(0, 0, 1);
 
       Material material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
 
-      Point b0 = new Point(-10000, -10000, -1);
-      Point b1 = new Point(10000, 10000, 0);
+      Point3 b0 = new Point3(-10000, -10000, -1);
+      Point3 b1 = new Point3(10000, 10000, 0);
 
       Box box = new Box(b0, b1, material);
       scene.addShape(box);
@@ -1433,7 +1433,7 @@ public class SceneBuilder {
             //material.setIndexOfRefraction(1.1);
 
             Sphere sphere = new Sphere(material);
-            sphere.Origin = new Point(originX, originY, originZ);
+            sphere.Origin = new Point3(originX, originY, originZ);
             sphere.Radius = 20;
             scene.addShape(sphere);
             offset += increment;
@@ -1445,9 +1445,9 @@ public class SceneBuilder {
 
       SpectralPowerDistribution spd = new SpectralPowerDistribution(1.0f, 1.0f, 1.0f);
 
-      scene.addLight(new PointLight(spd, new Point(300, 300, 900)));
-      scene.addLight(new PointLight(spd, new Point(300, 900, 300)));
-      scene.addLight(new PointLight(spd, new Point(900, 300, 300)));
+      scene.addLight(new PointLight(spd, new Point3(300, 300, 900)));
+      scene.addLight(new PointLight(spd, new Point3(300, 900, 300)));
+      scene.addLight(new PointLight(spd, new Point3(900, 300, 300)));
 
       return scene;
    }
@@ -1460,7 +1460,7 @@ public class SceneBuilder {
       settings.focusDistance = 250;
       settings.aperture = new SquareAperture(5);
 
-      Point origin = new Point(100, 800, 1500);
+      Point3 origin = new Point3(100, 800, 1500);
       Vector direction = new Vector(0, -1, -1);
 
 
@@ -1471,7 +1471,7 @@ public class SceneBuilder {
 
       scene.numFrames = 1;
 
-      Point p0, p1;
+      Point3 p0, p1;
       Box box;
 
       Material material;
@@ -1496,7 +1496,7 @@ public class SceneBuilder {
       material.IndexOfRefraction = 1.2f;
 
       sphere = new Sphere(material);
-      sphere.Origin = new Point(-200, 700, 500.0f);
+      sphere.Origin = new Point3(-200, 700, 500.0f);
       sphere.Radius = 150;
 
       //scene.addShape(sphere);
@@ -1506,13 +1506,13 @@ public class SceneBuilder {
       material.IndexOfRefraction = 1.0f;
 
       sphere = new Sphere(material);
-      sphere.Origin = new Point(500, 100, 600.0f);
+      sphere.Origin = new Point3(500, 100, 600.0f);
       sphere.Radius = 150;
 
       //scene.addShape(sphere);
 
-      p0 = new Point(-100, -100, -100);
-      p1 = new Point(100, 100, 100);
+      p0 = new Point3(-100, -100, -100);
+      p1 = new Point3(100, 100, 100);
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(30, 120, 120));
 
       ArrayList<Transform> list = new ArrayList<>();
@@ -1532,8 +1532,8 @@ public class SceneBuilder {
 
 
       for (int i = 0; i < 1; i++) {
-         p0 = new Point(-100, -100, -100);
-         p1 = new Point(100, 100, 100);
+         p0 = new Point3(-100, -100, -100);
+         p1 = new Point3(100, 100, 100);
 
          material = new Material();
          material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(0, i * 10, 220));
@@ -1562,7 +1562,7 @@ public class SceneBuilder {
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 176, 59));
 
       sphere = new Sphere(material);
-      sphere.Origin = new Point(-200, 100, 500);
+      sphere.Origin = new Point3(-200, 100, 500);
       sphere.Radius = 150;
 
       scene.addShape(sphere);
@@ -1584,7 +1584,7 @@ public class SceneBuilder {
       worldToObject = transforms[1];
 
       sphere = new Sphere(worldToObject, objectToWorld, material);
-      sphere.Origin = new Point(0, 0, 0);
+      sphere.Origin = new Point3(0, 0, 0);
 
       scene.addShape(sphere);
 
@@ -1612,7 +1612,7 @@ public class SceneBuilder {
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(142, 40, 0));
 
       sphere = new Sphere(material);
-      sphere.Origin = new Point(160, 300, 300.0f);
+      sphere.Origin = new Point3(160, 300, 300.0f);
       sphere.Radius = 25;
 
       //scene.addShape(sphere);
@@ -1620,8 +1620,8 @@ public class SceneBuilder {
       // bottom horizontal orange plane
 
 
-      p0 = new Point(-10000, -1, -10000);
-      p1 = new Point(10000, 0, 10000);
+      p0 = new Point3(-10000, -1, -10000);
+      p1 = new Point3(10000, 0, 10000);
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
@@ -1633,8 +1633,8 @@ public class SceneBuilder {
       // top horizontal orange plane
 
 
-      p0 = new Point(-10000, 1001, -10000);
-      p1 = new Point(10000, 1000, 10000);
+      p0 = new Point3(-10000, 1001, -10000);
+      p1 = new Point3(10000, 1000, 10000);
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 131, 0));
@@ -1645,10 +1645,10 @@ public class SceneBuilder {
 
       // forward white vertical z plane
 
-      p0 = new Point(-10000, -10000, -400);
-      p1 = new Point(10000, 10000, -401);
+      p0 = new Point3(-10000, -10000, -400);
+      p1 = new Point3(10000, 10000, -401);
 
-      Point planeOrigin = new Point(0, 0, -400);
+      Point3 planeOrigin = new Point3(0, 0, -400);
       Normal planeNormal = new Normal(0, 0, 1);
 
       material = new Material();
@@ -1659,8 +1659,8 @@ public class SceneBuilder {
 
       // back white vertical z plane
 
-      p0 = new Point(-10000, -10000, 5000);
-      p1 = new Point(10000, 10000, 5001);
+      p0 = new Point3(-10000, -10000, 5000);
+      p1 = new Point3(10000, 10000, 5001);
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 240, 185));
@@ -1670,8 +1670,8 @@ public class SceneBuilder {
 
       // left blue vertical x plane
 
-      p0 = new Point(-1000, -10000, -10000);
-      p1 = new Point(-1001, 11000, 10000);
+      p0 = new Point3(-1000, -10000, -10000);
+      p1 = new Point3(-1001, 11000, 10000);
 
       material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(0, 131, 255));
@@ -1681,8 +1681,8 @@ public class SceneBuilder {
 
       // right blue vertical x plane
 
-      p0 = new Point(1000, -10000, -10000);
-      p1 = new Point(1001, 11000, 10000);
+      p0 = new Point3(1000, -10000, -10000);
+      p1 = new Point3(1001, 11000, 10000);
 
 
       material = new Material();
@@ -1694,12 +1694,12 @@ public class SceneBuilder {
       SpectralPowerDistribution spd = new SpectralPowerDistribution(1.0f, 1.0f, 1.0f);
 
       sphere = new Sphere();
-      sphere.Origin = new Point(1000, 1000, 500);
+      sphere.Origin = new Point3(1000, 1000, 500);
       sphere.Radius = 50;
 
       SphereLight sphereLight = new SphereLight(sphere, spd);
 
-      PointLight pointLight = new PointLight(spd, new Point(1000, 1000, 500));
+      PointLight pointLight = new PointLight(spd, new Point3(1000, 1000, 500));
       scene.addLight(pointLight);
 
 
@@ -1720,7 +1720,7 @@ public class SceneBuilder {
       settings.focusDistance = 500;
       settings.aperture = new CircleAperture(50);
 
-      Point origin = new Point(300, 300, 2500);
+      Point3 origin = new Point3(300, 300, 2500);
       Vector direction = new Vector(0, 0, -1);
 
       Camera camera = new PerspectiveCamera(settings, null);
@@ -1734,7 +1734,7 @@ public class SceneBuilder {
       Material material = new Material();
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(64, 192, 255));
 
-      Point location = new Point(250, 360, 600);
+      Point3 location = new Point3(250, 360, 600);
 
 //      SphereLight sphereLight = new SphereLight(25, material);
 //
@@ -1794,7 +1794,7 @@ public class SceneBuilder {
 
       // horizontal orange plane
 
-      Point planeOrigin = new Point(0, 0, 0);
+      Point3 planeOrigin = new Point3(0, 0, 0);
       Normal planeNormal = new Normal(0, 1, 0);
 
       material = new Material();
@@ -1805,7 +1805,7 @@ public class SceneBuilder {
 
       // white vertical z plane
 
-      planeOrigin = new Point(0, 0, -1000);
+      planeOrigin = new Point3(0, 0, -1000);
       planeNormal = new Normal(0, 0, 1);
 
 
@@ -1817,7 +1817,7 @@ public class SceneBuilder {
 
       // white vertical x plane
 
-      planeOrigin = new Point(800, 0, 0);
+      planeOrigin = new Point3(800, 0, 0);
       planeNormal = new Normal(-1, 0, 0);
 
 
@@ -1829,7 +1829,7 @@ public class SceneBuilder {
 
       // blue vertical x plane
 
-      planeOrigin = new Point(-200, 0, 0);
+      planeOrigin = new Point3(-200, 0, 0);
       planeNormal = new Normal(1, 0, 0);
 
 
@@ -1847,7 +1847,7 @@ public class SceneBuilder {
       material.IndexOfRefraction = 1.2f;
 
       Sphere sphere = new Sphere(material);
-      sphere.Origin = new Point(-200, 350, -100.0f);
+      sphere.Origin = new Point3(-200, 350, -100.0f);
       sphere.Radius = 150;
 
       scene.addShape(sphere);
@@ -1859,7 +1859,7 @@ public class SceneBuilder {
       material.IndexOfRefraction = 1.2f;
 
       sphere = new Sphere(material);
-      sphere.Origin = new Point(500, 350, 500.0f);
+      sphere.Origin = new Point3(500, 350, 500.0f);
       sphere.Radius = 150;
 
       scene.addShape(sphere);
@@ -1871,7 +1871,7 @@ public class SceneBuilder {
       material.IndexOfRefraction = 1.3f;
 
       sphere = new Sphere(material);
-      sphere.Origin = new Point(500, 100, 600.0f);
+      sphere.Origin = new Point3(500, 100, 600.0f);
       sphere.Radius = 150;
 
       scene.addShape(sphere);
@@ -1882,7 +1882,7 @@ public class SceneBuilder {
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(182, 73, 38));
 
       sphere = new Sphere(material);
-      sphere.Origin = new Point(800, 350, 1000.0f);
+      sphere.Origin = new Point3(800, 350, 1000.0f);
       sphere.Radius = 150;
 
       scene.addShape(sphere);
@@ -1895,7 +1895,7 @@ public class SceneBuilder {
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(255, 176, 59));
 
       sphere = new Sphere(material);
-      sphere.Origin = new Point(-200, 100, 1000);
+      sphere.Origin = new Point3(-200, 100, 1000);
       sphere.Radius = 150;
 
       scene.addShape(sphere);
@@ -1906,7 +1906,7 @@ public class SceneBuilder {
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(142, 40, 0));
 
       sphere = new Sphere(material);
-      sphere.Origin = new Point(160, 300, 300.0f);
+      sphere.Origin = new Point3(160, 300, 300.0f);
       sphere.Radius = 25;
 
       scene.addShape(sphere);
@@ -1917,7 +1917,7 @@ public class SceneBuilder {
       material.ReflectanceSpectrum = new ReflectanceSpectrum(new Color(62, 96, 111));
 
       sphere = new Sphere(material);
-      sphere.Origin = new Point(250, 300, 300.0f);
+      sphere.Origin = new Point3(250, 300, 300.0f);
       sphere.Radius = 25;
 
       scene.addShape(sphere);
@@ -1928,7 +1928,7 @@ public class SceneBuilder {
 
    public static KDScene DiffuseAndSpecularSpheres(int x, int y) {
 
-      Point origin = new Point(300, 300, 2500);
+      Point3 origin = new Point3(300, 300, 2500);
       Vector direction = new Vector(0, 0, -1);
       Ray orientation = new Ray(origin, direction);
 
@@ -1988,7 +1988,7 @@ public class SceneBuilder {
 
       // horizontal orange plane
 
-      Point planeOrigin = new Point(0, 0, 0);
+      Point3 planeOrigin = new Point3(0, 0, 0);
       Normal planeNormal = new Normal(0, 1, 0);
 
       material = new Material();
@@ -1999,7 +1999,7 @@ public class SceneBuilder {
 
       // white vertical z plane
 
-      planeOrigin = new Point(0, 0, -400);
+      planeOrigin = new Point3(0, 0, -400);
       planeNormal = new Normal(0, 0, 1);
 
 
@@ -2011,7 +2011,7 @@ public class SceneBuilder {
 
       // white vertical x plane
 
-      planeOrigin = new Point(800, 0, 0);
+      planeOrigin = new Point3(800, 0, 0);
       planeNormal = new Normal(-1, 0, 0);
 
 
@@ -2023,7 +2023,7 @@ public class SceneBuilder {
 
       // blue vertical x plane
 
-      planeOrigin = new Point(-200, 0, 0);
+      planeOrigin = new Point3(-200, 0, 0);
       planeNormal = new Normal(1, 0, 0);
 
 
@@ -2041,7 +2041,7 @@ public class SceneBuilder {
       material.IndexOfRefraction = 1.2f;
 
       Sphere sphere = new Sphere(material);
-      sphere.Origin = new Point(100, 350, -100.0f);
+      sphere.Origin = new Point3(100, 350, -100.0f);
       sphere.Radius = 150;
 
       scene.addShape(sphere);
@@ -2053,7 +2053,7 @@ public class SceneBuilder {
       material.IndexOfRefraction = 1.2f;
 
       sphere = new Sphere(material);
-      sphere.Origin = new Point(500, 350, -100.0f);
+      sphere.Origin = new Point3(500, 350, -100.0f);
       sphere.Radius = 150;
 
       scene.addShape(sphere);
@@ -2176,7 +2176,7 @@ public class SceneBuilder {
       settings.focusDistance = 500;
       settings.aperture = new CircleAperture(20);
 
-      Point origin = new Point(0, 0, 4000);
+      Point3 origin = new Point3(0, 0, 4000);
       Vector direction = new Vector(0, 0, -1);
 
       Camera camera = new PerspectiveCamera(settings, null);
@@ -2189,12 +2189,12 @@ public class SceneBuilder {
       //material.setIndexOfRefraction(1.333);
 
       Sphere sphere = new Sphere(material);
-      sphere.Origin = new Point(2 * x / 5, y / 3, 500.0f);
+      sphere.Origin = new Point3(2 * x / 5, y / 3, 500.0f);
       sphere.Radius = y / 5;
 
       scene.addShape(sphere);
 
-      Point planeOrigin = new Point(0, 0, -400);
+      Point3 planeOrigin = new Point3(0, 0, -400);
       Normal planeNormal = new Normal(0, 0, 1);
 
       material = new Material();

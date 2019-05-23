@@ -240,7 +240,7 @@ public class Transform {
 
    }
    
-   public static Transform LookAt(Point position, Point toLookAt, Vector up) {
+   public static Transform LookAt(Point3 position, Point3 toLookAt, Vector up) {
       float[][] m = new float[4][4];
 
       m[0] = new float[4];
@@ -248,9 +248,9 @@ public class Transform {
       m[2] = new float[4];
       m[3] = new float[4];
 
-      m[0][3] = position.X;
-      m[1][3] = position.Y;
-      m[2][3] = position.Z;
+      m[0][3] = position.x;
+      m[1][3] = position.y;
+      m[2][3] = position.z;
       m[3][3] = 1;
 
       Vector dir = Vector.Minus(position, toLookAt);
@@ -290,11 +290,11 @@ public class Transform {
       return new Transform(inverse, matrix);
    }
 
-   public void ApplyInPlace(Point p) {
+   public void ApplyInPlace(Point3 p) {
 
-      float x = p.X;
-      float y = p.Y;
-      float z = p.Z;
+      float x = p.x;
+      float y = p.y;
+      float z = p.z;
 
       float newX = x * _matrix.matrix[0][0] + y * _matrix.matrix[0][1] + z * _matrix.matrix[0][2] + _matrix.matrix[0][3];
       float newY = x * _matrix.matrix[1][0] + y * _matrix.matrix[1][1] + z * _matrix.matrix[1][2] + _matrix.matrix[1][3];
@@ -303,23 +303,23 @@ public class Transform {
       float w = x * _matrix.matrix[3][0] + y * _matrix.matrix[3][1] + z * _matrix.matrix[3][2] + _matrix.matrix[3][3];
 
       if (w == 1) {
-         p.X = newX;
-         p.Y = newY;
-         p.Z = newZ;
+         p.x = newX;
+         p.y = newY;
+         p.z = newZ;
       }
       else {
          float divisor = 1.f / w;
-         p.X = newX * divisor;
-         p.Y = newY * divisor;
-         p.Z = newZ * divisor;
+         p.x = newX * divisor;
+         p.y = newY * divisor;
+         p.z = newZ * divisor;
       }
    }
 
-   public Point Apply(Point p) {
+   public Point3 Apply(Point3 p) {
 
-      float x = p.X;
-      float y = p.Y;
-      float z = p.Z;
+      float x = p.x;
+      float y = p.y;
+      float z = p.z;
 
       float newX = x * _matrix.matrix[0][0] + y * _matrix.matrix[0][1] + z * _matrix.matrix[0][2] + _matrix.matrix[0][3];
       float newY = x * _matrix.matrix[1][0] + y * _matrix.matrix[1][1] + z * _matrix.matrix[1][2] + _matrix.matrix[1][3];
@@ -328,18 +328,18 @@ public class Transform {
       float w = x * _matrix.matrix[3][0] + y * _matrix.matrix[3][1] + z * _matrix.matrix[3][2] + _matrix.matrix[3][3];
 
       if (w == 1)
-         return new Point(newX, newY, newZ);
+         return new Point3(newX, newY, newZ);
       else {
          float divisor = 1.f / w;
-         return new Point(newX * divisor, newY * divisor, newZ * divisor);
+         return new Point3(newX * divisor, newY * divisor, newZ * divisor);
       }
    }
 
-   public Point Apply(Point p, Vector error) {
+   public Point3 Apply(Point3 p, Vector error) {
 
-      float x = p.X;
-      float y = p.Y;
-      float z = p.Z;
+      float x = p.x;
+      float y = p.y;
+      float z = p.z;
 
       float newX = x * _matrix.matrix[0][0] + y * _matrix.matrix[0][1] + z * _matrix.matrix[0][2] + _matrix.matrix[0][3];
       float newY = x * _matrix.matrix[1][0] + y * _matrix.matrix[1][1] + z * _matrix.matrix[1][2] + _matrix.matrix[1][3];
@@ -359,10 +359,10 @@ public class Transform {
       error.Z = zAbsSum * FloatUtils.gamma(3);;
 
       if (w == 1)
-         return new Point(newX, newY, newZ);
+         return new Point3(newX, newY, newZ);
       else {
          float divisor = 1.f / w;
-         return new Point(newX * divisor, newY * divisor, newZ * divisor);
+         return new Point3(newX * divisor, newY * divisor, newZ * divisor);
       }
    }
 
@@ -432,27 +432,27 @@ public class Transform {
    }
 
    public BoundingBox Apply(BoundingBox b) {
-      Point p1 = new Point(b.point1.X, b.point1.Y, b.point1.Z);
+      Point3 p1 = new Point3(b.point1.x, b.point1.y, b.point1.z);
       ApplyInPlace(p1);
 
-      Point p2 = new Point(b.point1.X, b.point1.Y, b.point2.Z);
+      Point3 p2 = new Point3(b.point1.x, b.point1.y, b.point2.z);
       ApplyInPlace(p2);
 
       BoundingBox transformed = new BoundingBox(p1, p2);
 
-      Point p3 = Apply(new Point(b.point1.X, b.point2.Y, b.point1.Z));
+      Point3 p3 = Apply(new Point3(b.point1.x, b.point2.y, b.point1.z));
 
       transformed = BoundingBox.GetBoundingBox(transformed, p3);
 
-      Point p4 = Apply(new Point(b.point1.X, b.point2.Y, b.point2.Z));
+      Point3 p4 = Apply(new Point3(b.point1.x, b.point2.y, b.point2.z));
       transformed = BoundingBox.GetBoundingBox(transformed, p4);
-      Point p5 = Apply(new Point(b.point2.X, b.point1.Y, b.point1.Z));
+      Point3 p5 = Apply(new Point3(b.point2.x, b.point1.y, b.point1.z));
       transformed = BoundingBox.GetBoundingBox(transformed, p5);
-      Point p6 = Apply(new Point(b.point2.X, b.point1.Y, b.point2.Z));
+      Point3 p6 = Apply(new Point3(b.point2.x, b.point1.y, b.point2.z));
       transformed = BoundingBox.GetBoundingBox(transformed, p6);
-      Point p7 = Apply(new Point(b.point2.X, b.point2.Y, b.point1.Z));
+      Point3 p7 = Apply(new Point3(b.point2.x, b.point2.y, b.point1.z));
       transformed = BoundingBox.GetBoundingBox(transformed, p7);
-      Point p8 = Apply(new Point(b.point2.X, b.point2.Y, b.point2.Z));
+      Point3 p8 = Apply(new Point3(b.point2.x, b.point2.y, b.point2.z));
       transformed = BoundingBox.GetBoundingBox(transformed, p8);
 
       return transformed;

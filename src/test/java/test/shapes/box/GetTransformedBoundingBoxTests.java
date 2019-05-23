@@ -44,19 +44,19 @@
 //
 //      // scaling
 //
-//      t = Transform.Scale(1, 1, 1);
+//      t = Transform.scale(1, 1, 1);
 //      box = new Box(new Point(0, 0, 0), new Point(1, 1, 1), null, t, t.Invert());
 //      expected = new BoundingBox(new Point(0, 0, 0), new Point(1, 1, 1));
 //
 //      list.add(new Object[] {box, expected});
 //
-//      t = Transform.Scale(2, 1, 1);
+//      t = Transform.scale(2, 1, 1);
 //      box = new Box(new Point(0, 0, 0), new Point(1, 1, 1), null, t, t.Invert());
 //      expected = new BoundingBox(new Point(0, 0, 0), new Point(2, 1, 1));
 //
 //      list.add(new Object[] {box, expected});
 //
-//      t = Transform.Scale(2, 1.5, -1);
+//      t = Transform.scale(2, 1.5, -1);
 //      box = new Box(new Point(-1, -1, -1), new Point(1, 1, 1), null, t, t.Invert());
 //      expected = new BoundingBox(new Point(-2, -1.5, 1), new Point(2, 1.5, -1));
 //
@@ -142,10 +142,10 @@
 //
 //      Assert.assertEquals(ep1.x, ap1.x, Constants.Epsilon);
 //      Assert.assertEquals(ep1.y, ap1.y, Constants.Epsilon);
-//      Assert.assertEquals(ep1.Z, ap1.Z, Constants.Epsilon);
+//      Assert.assertEquals(ep1.z, ap1.z, Constants.Epsilon);
 //      Assert.assertEquals(ep2.x, ap2.x, Constants.Epsilon);
 //      Assert.assertEquals(ep2.y, ap2.y, Constants.Epsilon);
-//      Assert.assertEquals(ep2.Z, ap2.Z, Constants.Epsilon);
+//      Assert.assertEquals(ep2.z, ap2.z, Constants.Epsilon);
 //   }
 //
 //}

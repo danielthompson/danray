@@ -1,6 +1,6 @@
 package net.danielthompson.danray.shading.bxdf.subsurface;
 
-import net.danielthompson.danray.structures.Point;
+import net.danielthompson.danray.structures.Point3;
 import net.danielthompson.danray.structures.Vector;
 
 import static net.danielthompson.danray.utility.GeometryCalculations.splitRandom;
@@ -22,9 +22,9 @@ public class SubsurfaceScatteringFunction {
     * @param v
     * @return
     */
-   public Point GetNextPoint(Point p, Vector v) {
+   public Point3 GetNextPoint(Point3 p, Vector v) {
       float distance = (float)splitRandom.get().nextDouble(_minDistance, _maxDistance);
-      return Point.Plus(p, Vector.Scale(v, distance));
+      return Point3.plus(p, Vector.Scale(v, distance));
    }
 
    public Vector GetVector() {

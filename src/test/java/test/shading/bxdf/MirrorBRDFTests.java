@@ -41,7 +41,7 @@ public class MirrorBRDFTests {
 //
 //      AssertHelper.assertEquals(actual.x, expected.x);
 //      AssertHelper.assertEquals(actual.y, expected.y);
-//      AssertHelper.assertEquals(actual.Z, expected.Z);
+//      AssertHelper.assertEquals(actual.z, expected.z);
 //   }
 
 

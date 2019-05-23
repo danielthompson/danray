@@ -233,7 +233,7 @@ public class FullSpectralBlender {
 /*
       float var_X = x * FilmSpeedMultiplier; // triX from 0 to  95.047      (Observer = 2�, Illuminant = D65)
       float var_Y = y * FilmSpeedMultiplier; // triY from 0 to 100.000
-      float var_Z = Z * FilmSpeedMultiplier; // triZ from 0 to 108.883
+      float var_Z = z * FilmSpeedMultiplier; // triZ from 0 to 108.883
 
       float var_R = var_X *  3.2406f + var_Y * -1.5372f + var_Z * -0.4986f;
       float var_G = var_X * -0.9689f + var_Y *  1.8758f + var_Z *  0.0415f;

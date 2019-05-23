@@ -1,6 +1,6 @@
 package test.structures.point;
 
-import net.danielthompson.danray.structures.Point;
+import net.danielthompson.danray.structures.Point3;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -25,25 +25,25 @@ public class DotTests {
 
    @Test
    public void testDot1() throws Exception {
-      Point point1 = new Point(1, 2, 3);
-      Point point2 = new Point(4, 5, 6);
+      Point3 point1 = new Point3(1, 2, 3);
+      Point3 point2 = new Point3(4, 5, 6);
 
-      Assert.assertTrue(point1.Dot(point2) == 32);
+      Assert.assertTrue(point1.dot(point2) == 32);
    }
 
    @Test
    public void testDot2() throws Exception {
-      Point point1 = new Point(-1, 2, 3);
-      Point point2 = new Point(4, 5, 6);
+      Point3 point1 = new Point3(-1, 2, 3);
+      Point3 point2 = new Point3(4, 5, 6);
 
-      Assert.assertTrue(point1.Dot(point2) == 24);
+      Assert.assertTrue(point1.dot(point2) == 24);
    }
 
    @Test
    public void testDot3() throws Exception {
-      Point point1 = new Point(0, 0, 0);
-      Point point2 = new Point(0, 0, 0);
+      Point3 point1 = new Point3(0, 0, 0);
+      Point3 point2 = new Point3(0, 0, 0);
 
-      Assert.assertTrue(point1.Dot(point2) == 0);
+      Assert.assertTrue(point1.dot(point2) == 0);
    }
 }

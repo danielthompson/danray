@@ -3,7 +3,7 @@ package net.danielthompson.danray.lights;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.shapes.AbstractShape;
 import net.danielthompson.danray.states.Intersection;
-import net.danielthompson.danray.structures.Point;
+import net.danielthompson.danray.structures.Point3;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Vector;
 
@@ -23,17 +23,17 @@ public class ShapeLight extends AbstractLight {
    }
 
    @Override
-   public Point getRandomPointOnSurface() {
+   public Point3 getRandomPointOnSurface() {
       return null;
    }
 
    @Override
-   public Point getRandomPointOnSideOf(Vector side) {
+   public Point3 getRandomPointOnSideOf(Vector side) {
       return null;
    }
 
    @Override
-   public Point getRandomPointOnSideOf(Point point) {
+   public Point3 getRandomPointOnSideOf(Point3 point) {
       return null;
    }
 
@@ -43,7 +43,7 @@ public class ShapeLight extends AbstractLight {
    }
 
    @Override
-   public float getPDF(Point point, Vector directionFromLightToPoint) {
+   public float getPDF(Point3 point, Vector directionFromLightToPoint) {
       return 0;
    }
 

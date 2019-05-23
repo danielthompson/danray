@@ -64,7 +64,7 @@ public class Normal {
 
 
    public String toString() {
-      return "x " + X + ", y " + Y + ", Z " + Z;
+      return "x " + X + ", y " + Y + ", z " + Z;
    }
 
    public boolean equals(Object obj) {

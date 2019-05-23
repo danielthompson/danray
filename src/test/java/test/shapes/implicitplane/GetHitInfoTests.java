@@ -28,19 +28,19 @@ public class GetHitInfoTests {
    @Test
    public void testHitInfo1() throws Exception {
 
-      Point planeOrigin = new Point(0, 0, 0);
+      Point3 planeOrigin = new Point3(0, 0, 0);
       Normal normal = new Normal(0, 1, 0);
 
       ImplicitPlane plane = new ImplicitPlane(planeOrigin, normal, null);
 
-      Point vectorOrigin = new Point(2, 2, 2);
+      Point3 vectorOrigin = new Point3(2, 2, 2);
       Vector vectorDirection = new Vector(0, -1, 0);
 
       Ray ray = new Ray(vectorOrigin, vectorDirection);
 
       Intersection state = plane.GetHitInfo(ray);
 
-      Point expectedHitPoint = new Point(2, 0, 2);
+      Point3 expectedHitPoint = new Point3(2, 0, 2);
 
       Assert.assertTrue(state.Hits);
       Assert.assertEquals(state.Location, expectedHitPoint);
@@ -49,19 +49,19 @@ public class GetHitInfoTests {
    @Test
        public void testHitInfo2() throws Exception {
 
-      Point planeOrigin = new Point(0, 0, 0);
+      Point3 planeOrigin = new Point3(0, 0, 0);
       Normal normal = new Normal(0, 0, 1);
 
       ImplicitPlane plane = new ImplicitPlane(planeOrigin, normal, null);
 
-      Point vectorOrigin = new Point(500, 500, 500);
+      Point3 vectorOrigin = new Point3(500, 500, 500);
       Vector vectorDirection = new Vector(0, 0, -1);
 
       Ray ray = new Ray(vectorOrigin, vectorDirection);
 
       Intersection state = plane.GetHitInfo(ray);
 
-      Point expectedHitPoint = new Point(500, 500, 0);
+      Point3 expectedHitPoint = new Point3(500, 500, 0);
 
       Assert.assertTrue(state.Hits);
       Assert.assertEquals(state.Location, expectedHitPoint);
@@ -70,19 +70,19 @@ public class GetHitInfoTests {
    @Test
    public void testHitInfo3() throws Exception {
 
-      Point planeOrigin = new Point(1, 0, 0);
+      Point3 planeOrigin = new Point3(1, 0, 0);
       Normal normal = new Normal(1, 0, 1);
 
       ImplicitPlane plane = new ImplicitPlane(planeOrigin, normal, null);
 
-      Point vectorOrigin = new Point(500, 500, 500);
+      Point3 vectorOrigin = new Point3(500, 500, 500);
       Vector vectorDirection = new Vector(0, 0, -1);
 
       Ray ray = new Ray(vectorOrigin, vectorDirection);
 
       Intersection state = plane.GetHitInfo(ray);
 
-      Point expectedHitPoint = new Point(500, 500, -499);
+      Point3 expectedHitPoint = new Point3(500, 500, -499);
 
       Assert.assertTrue(state.Hits);
       Assert.assertEquals(state.Location, expectedHitPoint);
@@ -91,12 +91,12 @@ public class GetHitInfoTests {
    @Test
    public void testHitInfo4() throws Exception {
 
-      Point planeOrigin = new Point(0, 750, 0);
+      Point3 planeOrigin = new Point3(0, 750, 0);
       Normal normal = new Normal(0, -1, 0);
 
       ImplicitPlane plane = new ImplicitPlane(planeOrigin, normal, null);
 
-      Point vectorOrigin = new Point(700, 500, 1600);
+      Point3 vectorOrigin = new Point3(700, 500, 1600);
       Vector vectorDirection = new Vector(0, 0, -1);
 
       Ray ray = new Ray(vectorOrigin, vectorDirection);
@@ -111,12 +111,12 @@ public class GetHitInfoTests {
    @Test
    public void testHitInfo5() throws Exception {
 
-      Point planeOrigin = new Point(0, 750, 0);
+      Point3 planeOrigin = new Point3(0, 750, 0);
       Normal normal = new Normal(0, -1, 0);
 
       ImplicitPlane plane = new ImplicitPlane(planeOrigin, normal, null);
 
-      Point vectorOrigin = new Point(700, 500, 1600);
+      Point3 vectorOrigin = new Point3(700, 500, 1600);
       Vector vectorDirection = new Vector(0, -1, -1);
 
       Ray ray = new Ray(vectorOrigin, vectorDirection);
@@ -130,12 +130,12 @@ public class GetHitInfoTests {
 
    @Test
    public void testHitFromBehindCase2() throws Exception {
-      Point planeOrigin = new Point(5, 0, 0);
+      Point3 planeOrigin = new Point3(5, 0, 0);
       Normal normal = new Normal(-1, -1, 0);
 
       ImplicitPlane plane = new ImplicitPlane(planeOrigin, normal, null);
 
-      Point vectorOrigin = new Point(1, 10, 0);
+      Point3 vectorOrigin = new Point3(1, 10, 0);
       Vector vectorDirection = new Vector(0, -1, 0);
 
       Ray ray = new Ray(vectorOrigin, vectorDirection);

@@ -6,7 +6,7 @@ import net.danielthompson.danray.shapes.AbstractShape;
 import net.danielthompson.danray.shapes.Sphere;
 import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.BoundingBox;
-import net.danielthompson.danray.structures.Point;
+import net.danielthompson.danray.structures.Point3;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Vector;
 import org.testng.Assert;
@@ -36,25 +36,25 @@ public class TraverseTinyTreeTests {
       List<AbstractShape> objects = new ArrayList<>();
 
       sphere1 = new Sphere();
-      sphere1.Origin = new Point(1, 1, 1);
+      sphere1.Origin = new Point3(1, 1, 1);
       sphere1.Radius = 1;
       objects.add(sphere1);
 
       sphere2 = new Sphere();
-      sphere2.Origin = new Point(5, 5, 5);
+      sphere2.Origin = new Point3(5, 5, 5);
       sphere2.Radius = 1;
       objects.add(sphere2);
 
       sphere3 = new Sphere();
-      sphere3.Origin = new Point(7, 3, 3);
+      sphere3.Origin = new Point3(7, 3, 3);
       sphere3.Radius = 1;
       objects.add(sphere3);
 
       scene = new KDScene(null);
 
-      BoundingBox lessThanBB = new BoundingBox(new Point(0, 0, 0), new Point(6, 6, 6));
-      BoundingBox greaterThanBB = new BoundingBox(new Point(6, 2, 2), new Point(8, 4, 4));
-      BoundingBox rootBB = new BoundingBox(new Point(0, 0, 0), new Point(8, 6, 6));
+      BoundingBox lessThanBB = new BoundingBox(new Point3(0, 0, 0), new Point3(6, 6, 6));
+      BoundingBox greaterThanBB = new BoundingBox(new Point3(6, 2, 2), new Point3(8, 4, 4));
+      BoundingBox rootBB = new BoundingBox(new Point3(0, 0, 0), new Point3(8, 6, 6));
 
       List<AbstractShape> lessThanList = new ArrayList<>();
       lessThanList.add(sphere1);
@@ -89,7 +89,7 @@ public class TraverseTinyTreeTests {
    @Test
    public void testTraverse1() throws Exception {
 
-      Point origin = new Point(3, 3, 3);
+      Point3 origin = new Point3(3, 3, 3);
       Vector direction = new Vector(1, 0, 0);
 
       Ray ray = new Ray(origin, direction);

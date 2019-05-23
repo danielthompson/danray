@@ -3,7 +3,7 @@ package net.danielthompson.danray.lights;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.BoundingBox;
-import net.danielthompson.danray.structures.Point;
+import net.danielthompson.danray.structures.Point3;
 import net.danielthompson.danray.structures.Ray;
 import net.danielthompson.danray.structures.Vector;
 
@@ -17,26 +17,26 @@ import java.util.List;
  */
 public class PointLight extends AbstractLight {
 
-   public Point Location;
+   public Point3 Location;
 
-   public PointLight(SpectralPowerDistribution spd, Point location) {
+   public PointLight(SpectralPowerDistribution spd, Point3 location) {
       super(spd);
       Location = location;
       WorldBoundingBox = new BoundingBox(location, location);
    }
 
    @Override
-   public Point getRandomPointOnSurface() {
+   public Point3 getRandomPointOnSurface() {
       return Location;
    }
 
    @Override
-   public Point getRandomPointOnSideOf(Vector side) {
+   public Point3 getRandomPointOnSideOf(Vector side) {
       return Location;
    }
 
    @Override
-   public Point getRandomPointOnSideOf(Point point) {
+   public Point3 getRandomPointOnSideOf(Point3 point) {
       return Location;
    }
 
@@ -46,7 +46,7 @@ public class PointLight extends AbstractLight {
    }
 
    @Override
-   public float getPDF(Point point, Vector directionFromLightToPoint) {
+   public float getPDF(Point3 point, Vector directionFromLightToPoint) {
       return 0;
    }
 
