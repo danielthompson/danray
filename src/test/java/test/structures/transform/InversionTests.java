@@ -49,7 +49,7 @@ public class InversionTests {
 
    @Test
    public void TestInversionNotNull() {
-      Transform inversion = t.Invert();
+      Transform inversion = t.invert();
 
       Assert.assertNotNull(inversion);
    }

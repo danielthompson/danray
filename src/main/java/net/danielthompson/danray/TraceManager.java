@@ -26,6 +26,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Timer;
@@ -478,7 +479,7 @@ public class TraceManager {
       Date end = new Date();
       long milliseconds = end.getTime() - _renderStartTime.getTime();
 
-      DecimalFormat integerFormatter = new DecimalFormat("###,###,###,###");
+      //DecimalFormat integerFormatter = new DecimalFormat("###,###,###,###");
 
       String duration = getDurationString(_renderStartTime, end);
       if (s >= 0 || t >= 0) {
@@ -487,11 +488,27 @@ public class TraceManager {
       else {
          Logger.Log(Logger.Level.Info, "Finished rendering frame " + frame + " in " + duration);
       }
+
+      NumberFormat format = NumberFormat.getNumberInstance();
+      format.setGroupingUsed(true);
+
       int pixels = _qualityPreset.getX() * _qualityPreset.getY();
-      Logger.Log(Logger.Level.Info, integerFormatter.format(pixels) +  " pixels, " + integerFormatter.format(InitialRays) +  " initial rays");
+      Logger.Log(Logger.Level.Info, "Pixels: \t\t\t" + rightJustify(format.format(pixels)));
 
       long fillRate = (long)(pixels * 1000 / (float)milliseconds);
-      Logger.Log(Logger.Level.Info, integerFormatter.format(fillRate) + " pixels / sec fillrate");
+      Logger.Log(Logger.Level.Info, "Fillrate pp/s: \t" + rightJustify(format.format(fillRate)));
+      Logger.Log(Logger.Level.Info,  "Initial rays: \t" + rightJustify(format.format(InitialRays)));
+      Logger.Log(Logger.Level.Info, "Total Rays: \t\t" + rightJustify(format.format(Ray.instances.get())));
+      Logger.Log(Logger.Level.Info, "Vector3s: \t\t\t" + rightJustify(format.format(Vector3.instances.get())));
+      Logger.Log(Logger.Level.Info, "Vector2s: \t\t\t" + rightJustify(format.format(Vector2.instances.get())));
+      Logger.Log(Logger.Level.Info, "Point3s: \t\t\t" + rightJustify(format.format(Point3.instances.get())));
+      Logger.Log(Logger.Level.Info, "Point2s: \t\t\t" + rightJustify(format.format(Point2.instances.get())));
+   }
+
+   private static String rightJustify(String s) {
+      int numSpaces = 12 - s.length();
+      String spaces = (" ").repeat(numSpaces);
+      return spaces + s;
    }
 
    public String getDurationString(Date start, Date end) {
@@ -573,11 +590,6 @@ public class TraceManager {
 
 
    public void Finish() {
-      Logger.Log(Logger.Level.Info, "Vector3s: " + Vector3.instances.get());
-      Logger.Log(Logger.Level.Info, "Vector2s: " + Vector2.instances.get());
-
-      Logger.Log(Logger.Level.Info, "Point3s: " + Point3.instances.get());
-      Logger.Log(Logger.Level.Info, "Point2s: " + Point2.instances.get());
 
       Logger.Flush();
       //System.exit(0);

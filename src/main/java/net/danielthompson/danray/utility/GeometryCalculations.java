@@ -98,10 +98,10 @@ public class GeometryCalculations {
       Vector3 refractedDirection;
 
       if (cosTheta1 > 0) {
-         refractedDirection = Vector3.plus(incomingRay.Scale(nRatio), new Vector3(Normal.Scale(normal, nRatio * cosTheta1 - cosTheta2)));
+         refractedDirection = Vector3.plus(incomingRay.scale(nRatio), new Vector3(Normal.Scale(normal, nRatio * cosTheta1 - cosTheta2)));
       }
       else {
-         refractedDirection = Vector3.plus(incomingRay.Scale(nRatio), new Vector3(Normal.Scale(normal, nRatio * cosTheta1 + cosTheta2)));
+         refractedDirection = Vector3.plus(incomingRay.scale(nRatio), new Vector3(Normal.Scale(normal, nRatio * cosTheta1 + cosTheta2)));
       }
 
       Point3 offsetIntersection = Point3.plus(state.location, Vector3.scale(refractedDirection, .0000001f));
@@ -117,7 +117,7 @@ public class GeometryCalculations {
 
       Point3 offsetIntersection = Point3.plus(intersectionPoint, Vector3.scale(direction, Constants.Epsilon * 1000));
 
-      //Point direction = normal.ScaleFromOrigin(incomingRay.Direction.dot(normal.Direction) * 2).minus(incomingRay.Direction);
+      //Point direction = normal.scaleFromOrigin(incomingRay.Direction.dot(normal.Direction) * 2).minus(incomingRay.Direction);
       Ray reflectedRay = new Ray(offsetIntersection, direction);
       return reflectedRay;
    }

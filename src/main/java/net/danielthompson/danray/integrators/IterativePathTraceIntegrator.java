@@ -59,7 +59,7 @@ public class IterativePathTraceIntegrator extends AbstractIntegrator {
             refls[bounces] = objectMaterial.ReflectanceSpectrum;
 
             ray = new Ray(intersection.location, outgoingDirection);
-            ray.OffsetOriginOutwards(intersectionNormal);
+            ray.offsetOriginOutwards(intersectionNormal);
             spds[bounces + 1] = new SpectralPowerDistribution();
          }
       }

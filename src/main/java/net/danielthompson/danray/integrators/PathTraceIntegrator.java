@@ -109,10 +109,10 @@ public class PathTraceIntegrator extends AbstractIntegrator {
 
             Ray bounceRay = new Ray(intersection.location, outgoingDirection);
             if (leavingMaterial) {
-               //bounceRay.OffsetOriginOutwards(intersectionNormal);
+               //bounceRay.offsetOriginOutwards(intersectionNormal);
             }
             else {
-               //bounceRay.OffsetOriginInwards(intersectionNormal);
+               //bounceRay.offsetOriginInwards(intersectionNormal);
             }
 
             Sample nextSample = GetSample(bounceRay, depth + 1, indexOfRefraction);
@@ -159,7 +159,7 @@ public class PathTraceIntegrator extends AbstractIntegrator {
 //            // exiting
 //
 //            bounceRay = new Ray(previousIntersection.location, bounceRay.Direction);
-//            bounceRay.OffsetOriginOutwards(previousIntersection.normal);
+//            bounceRay.offsetOriginOutwards(previousIntersection.normal);
 //
 //            Sample bssrdfSample = GetSample(bounceRay, depth + 1, indexOfRefraction);
 //            SpectralPowerDistribution incomingSPD = bssrdfSample.SpectralPowerDistribution;

@@ -111,9 +111,9 @@ public class Sphere extends CSGShape {
 
       // convert T back to world space
       if (ObjectToWorld != null && ObjectToWorld.HasScale()) {
-         Point3 objectSpaceIntersectionPoint = objectSpaceRay.GetPointAtT(hits);
+         Point3 objectSpaceIntersectionPoint = objectSpaceRay.getPointAtT(hits);
          Point3 worldSpaceIntersectionPoint = ObjectToWorld.Apply(objectSpaceIntersectionPoint);
-         hits = worldSpaceRay.GetTAtPoint(worldSpaceIntersectionPoint);
+         hits = worldSpaceRay.getTAtPoint(worldSpaceIntersectionPoint);
       }
 
       worldSpaceRay.MinT = hits < worldSpaceRay.MinT ? hits : worldSpaceRay.MinT;
@@ -129,7 +129,7 @@ public class Sphere extends CSGShape {
          objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
       }
 
-      Point3 worldSpaceIntersectionPoint = worldSpaceRay.GetPointAtT(worldSpaceRay.MinT);
+      Point3 worldSpaceIntersectionPoint = worldSpaceRay.getPointAtT(worldSpaceRay.MinT);
       Point3 objectSpaceIntersectionPoint = worldSpaceIntersectionPoint;
 
       if (WorldToObject != null) {
@@ -196,9 +196,9 @@ public class Sphere extends CSGShape {
          worldSpaceRay.MinT = lowT;
 
          if (ObjectToWorld != null && ObjectToWorld.HasScale()) {
-            Point3 objectSpaceIntersectionPoint = objectSpaceRay.GetPointAtT(lowT);
+            Point3 objectSpaceIntersectionPoint = objectSpaceRay.getPointAtT(lowT);
             Point3 worldSpaceIntersectionPoint = ObjectToWorld.Apply(objectSpaceIntersectionPoint);
-            worldSpaceRay.MinT = worldSpaceRay.GetTAtPoint(worldSpaceIntersectionPoint);
+            worldSpaceRay.MinT = worldSpaceRay.getTAtPoint(worldSpaceIntersectionPoint);
          }
 
          Intersection intersection = GetHitInfo(worldSpaceRay);
@@ -213,9 +213,9 @@ public class Sphere extends CSGShape {
          worldSpaceRay.MinT = highT;
 
          if (ObjectToWorld != null && ObjectToWorld.HasScale()) {
-            Point3 objectSpaceIntersectionPoint = objectSpaceRay.GetPointAtT(highT);
+            Point3 objectSpaceIntersectionPoint = objectSpaceRay.getPointAtT(highT);
             Point3 worldSpaceIntersectionPoint = ObjectToWorld.Apply(objectSpaceIntersectionPoint);
-            worldSpaceRay.MinT = worldSpaceRay.GetTAtPoint(worldSpaceIntersectionPoint);
+            worldSpaceRay.MinT = worldSpaceRay.getTAtPoint(worldSpaceIntersectionPoint);
          }
 
          Intersection intersection = GetHitInfo(worldSpaceRay);

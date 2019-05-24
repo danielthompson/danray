@@ -109,7 +109,7 @@ public class IterativeMISPathTraceIntegrator extends AbstractIntegrator {
             refls[bounces] = objectMaterial.ReflectanceSpectrum;
 
             ray = new Ray(closestStateToRay.location, outgoingDirection);
-            ray.OffsetOriginForward(Constants.HalfEpsilon);
+            ray.offsetOriginForward(Constants.HalfEpsilon);
             spds[bounces + 1] = new SpectralPowerDistribution();
 
          }

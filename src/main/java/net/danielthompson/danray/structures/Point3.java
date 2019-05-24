@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * Represents a zero-dimensional point in space.
  */
-public class Point3 implements Cloneable {
+public class Point3 {
 
    public static AtomicLong instances = new AtomicLong();
 

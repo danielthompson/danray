@@ -86,7 +86,7 @@ public abstract class AbstractShape {
             intersection.normal.Normalize();
             intersection.tangentU.normalize();
             intersection.tangentV.normalize();
-            intersection.t = worldSpaceRay.GetTAtPoint(intersection.location);
+            intersection.t = worldSpaceRay.getTAtPoint(intersection.location);
          }
       }
    }

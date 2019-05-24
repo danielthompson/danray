@@ -9,6 +9,8 @@ import org.apache.commons.math3.util.FastMath;
 public class Transform {
    public Matrix4x4 _matrix, _inverse;
 
+   public static Transform identity = getIdentity();
+
    /**
     * Creates a new Transform with an identity matrix.
     */
@@ -49,7 +51,7 @@ public class Transform {
     * Returns a new Transform that is the inverse of this one.
     * @return
     */
-   public Transform Invert() {
+   public Transform invert() {
       Transform inversion = new Transform(_inverse, _matrix);
       return inversion;
    }
@@ -483,7 +485,5 @@ public class Transform {
    private static Transform getIdentity() {
       return new Transform(Matrix4x4.identity, Matrix4x4.identity);
    }
-
-   public static Transform identity = getIdentity();
 
 }

@@ -1928,9 +1928,8 @@ public class SceneBuilder {
 
    public static KDScene DiffuseAndSpecularSpheres(int x, int y) {
 
-      Point3 origin = new Point3(300, 300, 2500);
-      Vector3 direction = new Vector3(0, 0, -1);
-      Ray orientation = new Ray(origin, direction);
+//      Point3 origin = new Point3(300, 300, 2500);
+//      Vector3 direction = new Vector3(0, 0, -1);
 
       CameraSettings settings = new CameraSettings();
       settings.x = x;

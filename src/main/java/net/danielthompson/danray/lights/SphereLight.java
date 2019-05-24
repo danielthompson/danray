@@ -108,7 +108,7 @@ public class SphereLight extends AbstractLight {
          direction.scale(-1);
 
       Ray ray = new Ray(point, direction);
-      ray.OffsetOriginForward(.00001f);
+      ray.offsetOriginForward(.00001f);
 
       if (Sphere.ObjectToWorld != null)
          Sphere.ObjectToWorld.Apply(ray);

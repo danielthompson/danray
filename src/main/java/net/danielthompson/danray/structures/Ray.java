@@ -1,5 +1,7 @@
 package net.danielthompson.danray.structures;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 /**
  * DanRay
  * User: dthompson
@@ -7,6 +9,8 @@ package net.danielthompson.danray.structures;
  * Time: 1:49 PM
  */
 public class Ray {
+
+   public static AtomicLong instances = new AtomicLong();
 
    public Vector3 Direction; // 8 bytes
    public Point3 Origin; // 8 bytes
@@ -32,33 +36,38 @@ public class Ray {
     * @param direction The absolute direction of the vector (i.e. not relative to the origin). Will be normalized.
     */
    public Ray(Point3 origin, Vector3 direction) {
-      MinT = Float.MAX_VALUE;;
-
       Origin = origin;
 
       float oneOverLength = (float) (1.0f / Math.sqrt(direction.x * direction.x + direction.y * direction.y + direction.z * direction.z));
-      Direction = new Vector3(direction.x * oneOverLength, direction.y * oneOverLength, direction.z * oneOverLength);
+
+      Direction = direction;
+      Direction.x *= oneOverLength;
+      Direction.y *= oneOverLength;
+      Direction.z *= oneOverLength;
+
       DirectionInverse = new Vector3(1.0f / Direction.x, 1.0f / Direction.y, 1.0f / Direction.z);
+
+      instances.incrementAndGet();
    }
 
    public Ray(Point3 origin, float dx, float dy, float dz) {
-      MinT = Float.MAX_VALUE;;
-
       Origin = origin;
 
       float oneOverLength = (float) (1.0 / Math.sqrt(dx * dx + dy * dy + dz * dz));
       Direction = new Vector3(dx * oneOverLength, dy * oneOverLength, dz * oneOverLength);
       DirectionInverse = new Vector3(1.0f / Direction.x, 1.0f / Direction.y, 1.0f / Direction.z);
+
+      instances.incrementAndGet();
    }
 
-   public void OffsetOriginForward(float offset) {
+   public void offsetOriginForward(float offset) {
       Vector3 offsetV = Vector3.scale(Direction, offset);
-      Point3 newOrigin = Point3.plus(Origin, offsetV);
+      //Point3 newOrigin = Point3.plus(Origin, offsetV);
 
       Origin.plus(offsetV);
    }
 
-   public Point3 ScaleFromOrigin(float t) {
+   public Point3 scaleFromOrigin(float t) {
       float x = Origin.x + t * Direction.x;
       float y = Origin.y + t * Direction.y;
       float z = Origin.z + t * Direction.z;
@@ -66,33 +75,34 @@ public class Ray {
       return new Point3(x, y, z);
    }
 
-   public Vector3 Scale(float t) {
+   public Vector3 scale(float t) {
       return Vector3.scale(Direction, t);
    }
 
-   public Point3 GetPointAtT(float t) {
-
+   public Point3 getPointAtT(float t) {
       return Point3.plus(Origin, Vector3.scale(Direction, t));
    }
 
-   public float GetTAtPoint(Point3 p) {
-      float tX = -Float.MAX_VALUE;
-      float tY = -Float.MAX_VALUE;
-      float tZ = -Float.MAX_VALUE;
+   public float getTAtPoint(Point3 p) {
+      float temp;
 
-      if (Direction.x != 0) {
-         tX = (p.x - Origin.x) / Direction.x;
-         return tX;
+      float absX = Math.abs(Direction.x);
+      float absY = Math.abs(Direction.y);
+      float absZ = Math.abs(Direction.z);
+
+      if (absX >= absY && absX >= absZ) {
+         temp = (p.x - Origin.x) / Direction.x;
+         return temp;
       }
 
-      if (Direction.y != 0) {
-         tY = (p.y - Origin.y) / Direction.y;
-         return tY;
+      if (absY >= absX && absY >= absZ) {
+         temp = (p.y - Origin.y) / Direction.y;
+         return temp;
       }
 
-      if (Direction.z != 0) {
-         tZ = (p.z - Origin.z) / Direction.z;
-         return tZ;
+      if (absZ >= absX && absZ >= absY) {
+         temp = (p.z - Origin.z) / Direction.z;
+         return temp;
       }
 
       throw new IllegalStateException("can't compute point at t; ray's direction components are all zero");
@@ -112,16 +122,16 @@ public class Ray {
    }
 
    public String toString() {
-      return "Origin: " + Origin + ", Direction: " + Direction;
+      return "O: " + Origin + ", D: " + Direction;
    }
 
-   public void OffsetOriginOutwards(Normal intersectionNormal) {
+   public void offsetOriginOutwards(Normal intersectionNormal) {
       Origin.x += (intersectionNormal.x + Constants.Epsilon);
       Origin.y += (intersectionNormal.y + Constants.Epsilon);
       Origin.z += (intersectionNormal.z + Constants.Epsilon);
    }
 
-   public void OffsetOriginInwards(Normal intersectionNormal) {
+   public void offsetOriginInwards(Normal intersectionNormal) {
       Origin.x -= (intersectionNormal.x + Constants.DoubleEpsilon);
       Origin.y -= (intersectionNormal.y + Constants.DoubleEpsilon);
       Origin.z -= (intersectionNormal.z + Constants.DoubleEpsilon);

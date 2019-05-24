@@ -37,7 +37,7 @@
 //      // translation
 //
 //      t = Transform.Translate(new Vector(1, 1, 1));
-//      box = new Box(new Point(0, 0, 0), new Point(1, 1, 1), null, t, t.Invert());
+//      box = new Box(new Point(0, 0, 0), new Point(1, 1, 1), null, t, t.invert());
 //      expected = new BoundingBox(new Point(1, 1, 1), new Point(2, 2, 2));
 //
 //      list.add(new Object[] {box, expected});
@@ -45,19 +45,19 @@
 //      // scaling
 //
 //      t = Transform.scale(1, 1, 1);
-//      box = new Box(new Point(0, 0, 0), new Point(1, 1, 1), null, t, t.Invert());
+//      box = new Box(new Point(0, 0, 0), new Point(1, 1, 1), null, t, t.invert());
 //      expected = new BoundingBox(new Point(0, 0, 0), new Point(1, 1, 1));
 //
 //      list.add(new Object[] {box, expected});
 //
 //      t = Transform.scale(2, 1, 1);
-//      box = new Box(new Point(0, 0, 0), new Point(1, 1, 1), null, t, t.Invert());
+//      box = new Box(new Point(0, 0, 0), new Point(1, 1, 1), null, t, t.invert());
 //      expected = new BoundingBox(new Point(0, 0, 0), new Point(2, 1, 1));
 //
 //      list.add(new Object[] {box, expected});
 //
 //      t = Transform.scale(2, 1.5, -1);
-//      box = new Box(new Point(-1, -1, -1), new Point(1, 1, 1), null, t, t.Invert());
+//      box = new Box(new Point(-1, -1, -1), new Point(1, 1, 1), null, t, t.invert());
 //      expected = new BoundingBox(new Point(-2, -1.5, 1), new Point(2, 1.5, -1));
 //
 //      list.add(new Object[] {box, expected});
@@ -65,25 +65,25 @@
 //      // rotation
 //
 //      t = Transform.RotateX(90);
-//      box = new Box(new Point(-1, -1, -1), new Point(1, 1, 1), null, t, t.Invert());
+//      box = new Box(new Point(-1, -1, -1), new Point(1, 1, 1), null, t, t.invert());
 //      expected = new BoundingBox(new Point(-1, -1, -1), new Point(1, 1, 1));
 //
 //      list.add(new Object[] {box, expected});
 //
 //      t = Transform.RotateX(180);
-//      box = new Box(new Point(-1, -1, -1), new Point(1, 1, 1), null, t, t.Invert());
+//      box = new Box(new Point(-1, -1, -1), new Point(1, 1, 1), null, t, t.invert());
 //      expected = new BoundingBox(new Point(-1, -1, -1), new Point(1, 1, 1));
 //
 //      list.add(new Object[] {box, expected});
 //
 //      t = Transform.RotateX(270);
-//      box = new Box(new Point(-1, -1, -1), new Point(1, 1, 1), null, t, t.Invert());
+//      box = new Box(new Point(-1, -1, -1), new Point(1, 1, 1), null, t, t.invert());
 //      expected = new BoundingBox(new Point(-1, -1, -1), new Point(1, 1, 1));
 //
 //      list.add(new Object[] {box, expected});
 //
 //      t = Transform.RotateX(360);
-//      box = new Box(new Point(-1, -1, -1), new Point(1, 1, 1), null, t, t.Invert());
+//      box = new Box(new Point(-1, -1, -1), new Point(1, 1, 1), null, t, t.invert());
 //      expected = new BoundingBox(new Point(-1, -1, -1), new Point(1, 1, 1));
 //
 //      list.add(new Object[] {box, expected});
@@ -91,13 +91,13 @@
 //      float sqrt2 = Constants.Root2;
 //
 //      t = Transform.RotateX(45);
-//      box = new Box(new Point(-1, -1, -1), new Point(1, 1, 1), null, t, t.Invert());
+//      box = new Box(new Point(-1, -1, -1), new Point(1, 1, 1), null, t, t.invert());
 //      expected = new BoundingBox(new Point(-1, -sqrt2, -sqrt2), new Point(1, sqrt2, sqrt2));
 //
 //      list.add(new Object[] {box, expected});
 //
 //      t = Transform.RotateX(135);
-//      box = new Box(new Point(-1, -1, -1), new Point(1, 1, 1), null, t, t.Invert());
+//      box = new Box(new Point(-1, -1, -1), new Point(1, 1, 1), null, t, t.invert());
 //      expected = new BoundingBox(new Point(-1, -sqrt2, -sqrt2), new Point(1, sqrt2, sqrt2));
 //
 //      list.add(new Object[] {box, expected});
@@ -105,13 +105,13 @@
 //      // multiple rotations
 //
 //      t = Transform.RotateX(135).RotateX(135).RotateX(135);
-//      box = new Box(new Point(-1, -1, -1), new Point(1, 1, 1), null, t, t.Invert());
+//      box = new Box(new Point(-1, -1, -1), new Point(1, 1, 1), null, t, t.invert());
 //      expected = new BoundingBox(new Point(-1, -sqrt2, -sqrt2), new Point(1, sqrt2, sqrt2));
 //
 //      list.add(new Object[] {box, expected});
 //
 //      t = Transform.RotateX(45).RotateY(45);
-//      box = new Box(new Point(-1, -1, -1), new Point(1, 1, 1), null, t, t.Invert());
+//      box = new Box(new Point(-1, -1, -1), new Point(1, 1, 1), null, t, t.invert());
 //      expected = new BoundingBox(new Point(-sqrt2, -1, -sqrt2), new Point(sqrt2, 1, sqrt2));
 //
 //      list.add(new Object[] {box, expected});

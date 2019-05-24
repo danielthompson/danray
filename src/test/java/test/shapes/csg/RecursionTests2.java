@@ -99,7 +99,7 @@ public class RecursionTests2 {
 
    @Test
    public void location1() {
-      Point3 o = new Point3(7.5f, 0, 0.5f);
+      Point3 o = new Point3(8.5f, 0, 0.5f);
       Vector3 d = new Vector3(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
@@ -109,7 +109,7 @@ public class RecursionTests2 {
 
    @Test
    public void location2() {
-      Point3 o = new Point3(7.5f, 0, 1.5f);
+      Point3 o = new Point3(8.5f, 0, 1.5f);
       Vector3 d = new Vector3(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
@@ -124,7 +124,7 @@ public class RecursionTests2 {
 
    @Test
    public void normal2() {
-      Point3 o = new Point3(7.5f, 0, 1.5f);
+      Point3 o = new Point3(8.5f, 0, 1.5f);
       Vector3 d = new Vector3(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
@@ -137,7 +137,7 @@ public class RecursionTests2 {
 
    @Test
    public void location3() {
-      Point3 o = new Point3(7.5f, 0, 2.5f);
+      Point3 o = new Point3(8.5f, 0, 2.5f);
       Vector3 d = new Vector3(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
@@ -147,7 +147,7 @@ public class RecursionTests2 {
 
    @Test
    public void location4() {
-      Point3 o = new Point3(7.5f, 0, 4.5f);
+      Point3 o = new Point3(8.5f, 0, 4.5f);
       Vector3 d = new Vector3(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
@@ -220,14 +220,14 @@ public class RecursionTests2 {
 
    @Test
    public void normal8() {
-      Point3 o = new Point3(3.5f, 0, 6.5f);
-      Vector3 d = new Vector3(0, 0, -1);
+      Point3 o = new Point3(-3.5f, 0, 3.5f);
+      Vector3 d = new Vector3(1, 0, 0);
       Ray ray = new Ray(o, d);
 
       boolean hits = shape.Hits(ray);
       Intersection intersection = shape.GetHitInfo(ray);
 
-      Normal expectedNormal = new Normal(0, 0, 1);
+      Normal expectedNormal = new Normal(-1, 0, 0);
       Assert.assertEquals(intersection.normal, expectedNormal);
    }
 

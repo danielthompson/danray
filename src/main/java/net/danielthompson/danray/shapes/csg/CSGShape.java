@@ -169,9 +169,9 @@ public class CSGShape extends AbstractShape {
       float value = objectSpaceT;
 
       if (ObjectToWorld != null && ObjectToWorld.HasScale()) {
-         Point3 objectSpaceIntersectionPoint = objectSpaceRay.GetPointAtT(objectSpaceT);
+         Point3 objectSpaceIntersectionPoint = objectSpaceRay.getPointAtT(objectSpaceT);
          Point3 worldSpaceIntersectionPoint = ObjectToWorld.Apply(objectSpaceIntersectionPoint);
-         value = worldSpaceRay.GetTAtPoint(worldSpaceIntersectionPoint);
+         value = worldSpaceRay.getTAtPoint(worldSpaceIntersectionPoint);
       }
 
       return value;

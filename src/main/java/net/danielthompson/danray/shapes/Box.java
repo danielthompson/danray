@@ -81,13 +81,13 @@ public class Box extends CSGShape {
 
       if (intersection.hits) {
          if (ObjectToWorld != null && ObjectToWorld.HasScale()) {
-            Point3 objectSpaceFirstIntersectionPoint = objectSpaceRay.GetPointAtT(intersection.t);
+            Point3 objectSpaceFirstIntersectionPoint = objectSpaceRay.getPointAtT(intersection.t);
             Point3 worldSpaceFirstIntersectionPoint = ObjectToWorld.Apply(objectSpaceFirstIntersectionPoint);
-            minT = worldSpaceRay.GetTAtPoint(worldSpaceFirstIntersectionPoint);
+            minT = worldSpaceRay.getTAtPoint(worldSpaceFirstIntersectionPoint);
 
-            //Point objectSpaceSecondIntersectionPoint = objectSpaceRay.GetPointAtT(intersection.TMax);
+            //Point objectSpaceSecondIntersectionPoint = objectSpaceRay.getPointAtT(intersection.TMax);
             //Point worldSpaceSecondIntersectionPoint = ObjectToWorld.Apply(objectSpaceSecondIntersectionPoint);
-            //maxT = worldSpaceRay.GetTAtPoint(worldSpaceSecondIntersectionPoint);
+            //maxT = worldSpaceRay.getTAtPoint(worldSpaceSecondIntersectionPoint);
          }
 
          worldSpaceRay.MinT = intersection.hits && minT < worldSpaceRay.MinT ? minT : worldSpaceRay.MinT;
@@ -100,7 +100,7 @@ public class Box extends CSGShape {
    private void FillIntersectionData(Intersection intersection, Ray objectSpaceRay, Ray worldSpaceRay) {
       if (intersection.hits) {
          intersection.shape = this;
-         intersection.location = objectSpaceRay.GetPointAtT(intersection.t);
+         intersection.location = objectSpaceRay.getPointAtT(intersection.t);
 
          if (Constants.WithinEpsilon(intersection.location.x, 0) || Constants.WithinEpsilon(intersection.location.x, 1)) {
             intersection.u = intersection.location.y;
@@ -123,7 +123,7 @@ public class Box extends CSGShape {
          intersection.normal = Constants.WithinEpsilon(point2.z, intersection.location.z) ? new Normal(Constants.PositiveZ) : intersection.normal;
 
          if (intersection.normal == null) {
-//            intersection.location = objectSpaceRay.GetPointAtT(intersection.TMax);
+//            intersection.location = objectSpaceRay.getPointAtT(intersection.TMax);
 //
 //            intersection.normal = Constants.WithinEpsilon(point1.x, intersection.location.x) ? new normal(Constants.NegativeX) : intersection.normal;
 //            intersection.normal = Constants.WithinEpsilon(point1.y, intersection.location.y) ? new normal(Constants.NegativeY) : intersection.normal;

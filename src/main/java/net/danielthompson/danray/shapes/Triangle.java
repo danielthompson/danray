@@ -96,7 +96,7 @@ public class Triangle extends AbstractShape {
 
       if (t > 0 && u >= 0 && v >= 0 && u + v <= 1.0) {
          state.hits = true;
-         state.location = ray.ScaleFromOrigin(t);
+         state.location = ray.scaleFromOrigin(t);
          state.Drawable = drawable;
          state.T = t;
       }

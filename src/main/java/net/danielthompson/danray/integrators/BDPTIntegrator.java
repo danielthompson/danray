@@ -119,7 +119,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //            connectingDirection.normalize();
 //            Point connectingOrigin = eyePath.surfacePoint;
 //            Ray connectingRay = new Ray(connectingOrigin, connectingDirection);
-//            float maxT = connectingRay.GetTAtPoint(eyePath.surfacePoint);
+//            float maxT = connectingRay.getTAtPoint(eyePath.surfacePoint);
 //            Intersection potentialOccluder = scene.getNearestShapeBetween(connectingRay, 0, maxT);
 //
 //            // if nothing occludes, then we should proceed
@@ -221,7 +221,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 ////               return outgoing;
 //               if (brdfPDF > 0 ) {
 //                  Ray connectingRay = new Ray(lightVertex.surfacePoint, directionFromLightToPoint);
-//                  float maxT = connectingRay.GetTAtPoint(eyeVertex.surfacePoint);
+//                  float maxT = connectingRay.getTAtPoint(eyeVertex.surfacePoint);
 //                  Intersection potentialOccluder = scene.getNearestShapeBetween(connectingRay, 0, maxT);
 ////                  SpectralPowerDistribution red = RelativeSpectralPowerDistributionLibrary.Red.getSPD();
 ////                  SpectralPowerDistribution blue = RelativeSpectralPowerDistributionLibrary.Blue.getSPD();
@@ -275,7 +275,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 ////            connectingDirection.normalize();
 ////            Point connectingOrigin = lightPath.surfacePoint;
 ////            Ray connectingRay = new Ray(connectingOrigin, connectingDirection);
-////            float maxT = connectingRay.GetTAtPoint(eyeVertex.surfacePoint);
+////            float maxT = connectingRay.getTAtPoint(eyeVertex.surfacePoint);
 ////            Intersection potentialOccluder = scene.getNearestShapeBetween(connectingRay, 0, maxT);
 ////
 ////            // if nothing occludes, then we should proceed
@@ -346,7 +346,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //         Point intersectionPoint = closestStateToRay.location;
 //
 //         Ray lightRay = intersectionPoint.createVectorFrom(lightBouncePoint);
-//         lightRay.OffsetOriginForward(.01);
+//         lightRay.offsetOriginForward(.01);
 //         // check to see if the ray hits anything
 //
 //         Vector incomingDirection = lightRay.Direction;
@@ -391,7 +391,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //
 //         Ray lightRayFromCurrentRadiatableToClosestDrawable = surfacePoint.createVectorFrom(radiatableLocation);
 //
-//         lightRayFromCurrentRadiatableToClosestDrawable.OffsetOriginForward(.0001);
+//         lightRayFromCurrentRadiatableToClosestDrawable.offsetOriginForward(.0001);
 //
 //         // is it possible for the reflect to reflect light from this incoming direction to our pregenerated outgoing direction?
 //
@@ -464,7 +464,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //
 //         while (l.Inside(lightRay.Origin)) {
 //            // move the ray outside of the light, if it's inside
-//            lightRay.OffsetOriginForward(.5);
+//            lightRay.offsetOriginForward(.5);
 //         }
 //
 //         lightVertex = new LightVertex();

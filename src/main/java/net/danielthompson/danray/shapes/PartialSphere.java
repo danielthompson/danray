@@ -89,8 +89,8 @@ public class PartialSphere extends AbstractShape {
       float t0 = (-b + root) * oneOverTwoA;
       float t1 = (-b - root) * oneOverTwoA;
 
-      Point3 pt0 = objectSpaceRay.GetPointAtT(t0);
-      Point3 pt1 = objectSpaceRay.GetPointAtT(t1);
+      Point3 pt0 = objectSpaceRay.getPointAtT(t0);
+      Point3 pt1 = objectSpaceRay.getPointAtT(t1);
 
       float theta0 = (float)Math.atan2(pt0.z, pt0.x);
       float phi0 = (float)Math.acos(pt0.y);
@@ -157,9 +157,9 @@ public class PartialSphere extends AbstractShape {
 
       // convert T back to world space
       if (ObjectToWorld != null && ObjectToWorld.HasScale()) {
-         Point3 objectSpaceIntersectionPoint = objectSpaceRay.GetPointAtT(hits);
+         Point3 objectSpaceIntersectionPoint = objectSpaceRay.getPointAtT(hits);
          Point3 worldSpaceIntersectionPoint = ObjectToWorld.Apply(objectSpaceIntersectionPoint);
-         hits = worldSpaceRay.GetTAtPoint(worldSpaceIntersectionPoint);
+         hits = worldSpaceRay.getTAtPoint(worldSpaceIntersectionPoint);
       }
 
       worldSpaceRay.FlipNormals = flipNormals;
@@ -177,7 +177,7 @@ public class PartialSphere extends AbstractShape {
          objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
       }
 
-      Point3 worldSpaceIntersectionPoint = worldSpaceRay.GetPointAtT(worldSpaceRay.MinT);
+      Point3 worldSpaceIntersectionPoint = worldSpaceRay.getPointAtT(worldSpaceRay.MinT);
       Point3 objectSpaceIntersectionPoint = worldSpaceIntersectionPoint;
 
       if (WorldToObject != null) {
