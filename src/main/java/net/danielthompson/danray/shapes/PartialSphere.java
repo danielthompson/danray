@@ -188,7 +188,7 @@ public class PartialSphere extends AbstractShape {
       Normal objectSpaceNormal = new Normal(direction);
 
       if (worldSpaceRay.FlipNormals) {
-         objectSpaceNormal.Scale(-1f);
+         objectSpaceNormal.scale(-1f);
       }
 
       Intersection intersection = new Intersection();
@@ -197,7 +197,7 @@ public class PartialSphere extends AbstractShape {
       intersection.location = objectSpaceIntersectionPoint;
       intersection.normal = objectSpaceNormal;
       intersection.originInside = Inside(objectSpaceRay.Origin) || OnSurface(objectSpaceRay.Origin);
-      intersection.entering = objectSpaceNormal.Dot(objectSpaceRay.Direction) < 0;
+      intersection.entering = objectSpaceNormal.dot(objectSpaceRay.Direction) < 0;
 
       intersection.u = 0.5f + (float)Math.atan2(-objectSpaceNormal.z, -objectSpaceNormal.x) * Constants.OneOver2Pi;
       intersection.v = 0.5f - (float)Math.asin(-objectSpaceNormal.y) * Constants.OneOverPi;

@@ -176,8 +176,8 @@ public class Box extends CSGShape {
             }
          }
 
-         if (intersection.normal.Dot(objectSpaceRay.Direction) > 0)
-            intersection.normal.Scale(-1);
+         if (intersection.normal.dot(objectSpaceRay.Direction) > 0)
+            intersection.normal.scale(-1);
 
          CalculateTangents(intersection);
 

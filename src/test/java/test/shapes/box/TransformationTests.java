@@ -35,7 +35,7 @@ public class TransformationTests {
       Intersection state = box.GetHitInfo(ray);
 
       Normal expectedNormalDirection = new Normal(0, .5f, .5f);
-      expectedNormalDirection.Normalize();
+      expectedNormalDirection.normalize();
 
       Assert.assertTrue(hits);
 

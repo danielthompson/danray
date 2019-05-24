@@ -19,11 +19,11 @@ public class SpecularBTDF extends BTDF {
       float r = leavingIndexOfRefraction / enteringIndexOfRefraction;
 
       Normal tempNormal = new Normal(normal.x, normal.y, normal.z);
-      float c = Normal.Scale(tempNormal, -1).Dot(incoming);
+      float c = Normal.scale(tempNormal, -1).dot(incoming);
 
       if (c < 0) {
-         tempNormal.Scale(-1);
-         c = Normal.Scale(tempNormal, -1).Dot(incoming);
+         tempNormal.scale(-1);
+         c = Normal.scale(tempNormal, -1).dot(incoming);
       }
 
       Vector3 addend1 = Vector3.scale(incoming, r);
@@ -33,7 +33,7 @@ public class SpecularBTDF extends BTDF {
       float term3 = r * r;
       float term4 = 1 - term3 * term2;
       float term5 = term1 - (float)Math.sqrt(term4);
-      Normal addend2 = Normal.Scale(tempNormal, term5);
+      Normal addend2 = Normal.scale(tempNormal, term5);
 
       Vector3 refracted = new Vector3(addend1.x + addend2.x, addend1.y + addend2.y, addend1.z + addend2.z);
       return refracted;

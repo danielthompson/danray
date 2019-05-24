@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Created by daniel on 3/4/14.
@@ -79,7 +80,7 @@ public class TraceManager {
    private TracerOptions _tracerOptions;
    private final float _samplesInverse;
 
-   public int InitialRays;
+   public static final AtomicLong InitialRays = new AtomicLong();
 
 
    private AbstractScene _scene;

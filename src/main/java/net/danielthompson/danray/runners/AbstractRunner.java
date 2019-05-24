@@ -61,7 +61,7 @@ public abstract class AbstractRunner implements Runnable {
             Point2[] sampleLocations = Sampler.GetSamples(x, y, _samplesPerPixel);
             int numSamples = sampleLocations.length;
             Ray[] cameraRays = Scene.Camera.getRays(sampleLocations, numSamples);
-            Manager.InitialRays += cameraRays.length;
+            TraceManager.InitialRays.addAndGet(cameraRays.length);
             Sample[] samples = new Sample[cameraRays.length];
             for (int i = 0; i < cameraRays.length; i++) {
 

@@ -78,7 +78,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
             Ray lightToNearestShape = intersectionPoint.createVectorFrom(lightLocation);
 
-            float dot = closestStateToRay.normal.Dot(lightToNearestShape.Direction);
+            float dot = closestStateToRay.normal.dot(lightToNearestShape.Direction);
 
             if (dot < 0) {
 

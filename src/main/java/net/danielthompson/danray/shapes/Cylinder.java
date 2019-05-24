@@ -242,7 +242,7 @@ public class Cylinder extends AbstractShape {
             }
          }
 
-         state.normal.Normalize();
+         state.normal.normalize();
          state.shape = this;
       }
       return state;

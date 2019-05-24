@@ -83,7 +83,7 @@ public abstract class AbstractShape {
          intersection.tangentU = ObjectToWorld.Apply(intersection.tangentU);
          intersection.tangentV = ObjectToWorld.Apply(intersection.tangentV);
          if (ObjectToWorld.HasScale()) {
-            intersection.normal.Normalize();
+            intersection.normal.normalize();
             intersection.tangentU.normalize();
             intersection.tangentV.normalize();
             intersection.t = worldSpaceRay.getTAtPoint(intersection.location);

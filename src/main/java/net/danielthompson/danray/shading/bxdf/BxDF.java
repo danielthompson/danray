@@ -20,9 +20,9 @@ public abstract class BxDF {
 
    public Normal WorldToLocal(Intersection intersection, Normal n) {
       return new Normal(
-            n.Dot(intersection.tangentU),
-            n.Dot(intersection.normal),
-            n.Dot(intersection.tangentV)
+            n.dot(intersection.tangentU),
+            n.dot(intersection.normal),
+            n.dot(intersection.tangentV)
       );
    }
 

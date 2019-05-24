@@ -43,9 +43,9 @@ public class SpecularBRDF extends BRDF {
 
    @Override
    public Vector3 getVectorInPDF(Normal normal, Vector3 incoming, float leavingIndexOfRefraction, float enteringIndexOfRefraction) {
-      normal.Normalize();
+      normal.normalize();
       float factor = incoming.dot(normal) * 2;
-      Vector3 scaled = new Vector3(Normal.Scale(normal, factor));
+      Vector3 scaled = new Vector3(Normal.scale(normal, factor));
 
       //Vector outgoing = Vector.minus(incoming, scaled);
 

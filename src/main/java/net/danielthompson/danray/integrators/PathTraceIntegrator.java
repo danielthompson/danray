@@ -90,7 +90,7 @@ public class PathTraceIntegrator extends AbstractIntegrator {
             float enteringIndexOfRefraction = objectMaterial.IndexOfRefraction;
 
             if (bxdf.Transmission) {
-               leavingMaterial = intersectionNormal.Dot(incomingDirection) > 0;
+               leavingMaterial = intersectionNormal.dot(incomingDirection) > 0;
 
                if (leavingMaterial) {
                   enteringIndexOfRefraction = 1f;

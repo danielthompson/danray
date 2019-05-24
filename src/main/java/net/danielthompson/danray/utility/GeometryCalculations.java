@@ -5,6 +5,7 @@ import net.danielthompson.danray.structures.*;
 import org.apache.commons.math3.util.FastMath;
 
 import java.security.SecureRandom;
+import java.util.Random;
 import java.util.SplittableRandom;
 
 
@@ -28,10 +29,12 @@ public class GeometryCalculations {
    public static final Point3 randomPointOnSphere()
    {
       float x, y, z, d2;
+      Random random = secureRandom.get();
+
       do {
-         x = (float) secureRandom.get().nextGaussian();
-         y = (float) secureRandom.get().nextGaussian();
-         z = (float) secureRandom.get().nextGaussian();
+         x = (float) random.nextGaussian();
+         y = (float) random.nextGaussian();
+         z = (float) random.nextGaussian();
          d2 = x*x + y*y + z*z;
       } while (d2 <= Float.MIN_NORMAL);
       float s = (float) Math.sqrt(1.0 / d2);
@@ -41,10 +44,12 @@ public class GeometryCalculations {
    public static final Vector3 randomVectorOnSphere()
    {
       float x, y, z, d2;
+      Random random = secureRandom.get();
+
       do {
-         x = (float) secureRandom.get().nextGaussian();
-         y = (float) secureRandom.get().nextGaussian();
-         z = (float) secureRandom.get().nextGaussian();
+         x = (float) random.nextGaussian();
+         y = (float) random.nextGaussian();
+         z = (float) random.nextGaussian();
          d2 = x*x + y*y + z*z;
       } while (d2 <= Float.MIN_NORMAL);
       float s = (float) Math.sqrt(1.0 / d2);
@@ -57,7 +62,7 @@ public class GeometryCalculations {
       Normal normal = state.normal;
       Vector3 incomingDirection = incomingRay.Direction;
 
-      float angleRadians = (float) FastMath.acos(normal.Dot(incomingDirection));
+      float angleRadians = (float) FastMath.acos(normal.dot(incomingDirection));
 
       float angleDegress = (float) FastMath.toDegrees(angleRadians);
 
@@ -66,7 +71,7 @@ public class GeometryCalculations {
 
    public static float radiansBetween(Vector3 v, Normal n) {
       Vector3 nv = Vector3.normalize(v);
-      Normal nn = Normal.Normalize(n);
+      Normal nn = Normal.normalize(n);
 
       float angleRadians = (float) Math.acos(nv.dot(nn));
 
@@ -74,19 +79,9 @@ public class GeometryCalculations {
    }
 
    public static float GetCosineWeightedIncidencePercentage(Vector3 incomingDirection, Normal normal) {
-      float dot = normal.Dot(incomingDirection);
+      float dot = normal.dot(incomingDirection);
       dot = (dot < 0) ? -dot : 0;
       return dot;
-   }
-
-   public static float GetIncidencePercentage(Vector3 incomingDirection, Normal normal) {
-      float angleRadians = (float) FastMath.acos(normal.Dot(incomingDirection));
-      angleRadians -= Constants.PIOver2;
-
-      angleRadians *= Constants.IncidenceFactor;
-
-      return angleRadians;
-
    }
 
    public static float GetAngleOfIncidencePercentage(Ray incomingRay, Intersection state) {
@@ -95,44 +90,6 @@ public class GeometryCalculations {
       float AoIp = FastMath.abs(100 - (AoI * angleOfIncidencePercentageFactor));
 
       return AoIp;
-   }
-
-   public static Ray GetRefractedRay(Intersection state, Normal normal, Ray incomingRay, float oldIndexOfRefraction) {
-
-      normal.Normalize();
-
-      float n1 = oldIndexOfRefraction;
-      float n2 = state.shape.Material.IndexOfRefraction;
-      float nRatio = n1 / n2;
-
-      float cosTheta1 = -normal.Dot(incomingRay.Direction);
-      float cosTheta2 = (float) Math.sqrt(1 - nRatio * nRatio * (1 - (cosTheta1 * cosTheta1)));
-
-      Vector3 refractedDirection;
-
-      if (cosTheta1 > 0) {
-         refractedDirection = Vector3.plus(incomingRay.scale(nRatio), new Vector3(Normal.Scale(normal, nRatio * cosTheta1 - cosTheta2)));
-      }
-      else {
-         refractedDirection = Vector3.plus(incomingRay.scale(nRatio), new Vector3(Normal.Scale(normal, nRatio * cosTheta1 + cosTheta2)));
-      }
-
-      Point3 offsetIntersection = Point3.plus(state.location, Vector3.scale(refractedDirection, .0000001f));
-
-      return new Ray(offsetIntersection, refractedDirection);
-   }
-
-   public static Ray GetReflectedRay(Point3 intersectionPoint, Normal normal, Ray incomingRay) {
-      normal.Normalize();
-      float factor = incomingRay.Direction.dot(normal) * 2;
-      Vector3 scaled = new Vector3(Normal.Scale(normal, factor));
-      Vector3 direction = Vector3.minus(new Vector3(0, 0, 0), Vector3.minus(scaled, incomingRay.Direction));
-
-      Point3 offsetIntersection = Point3.plus(intersectionPoint, Vector3.scale(direction, Constants.Epsilon * 1000));
-
-      //Point direction = normal.scaleFromOrigin(incomingRay.Direction.dot(normal.Direction) * 2).minus(incomingRay.Direction);
-      Ray reflectedRay = new Ray(offsetIntersection, direction);
-      return reflectedRay;
    }
 
    public static float clamp(float var0, float var1, float var2) {

@@ -80,7 +80,7 @@ public class NormalTests {
 
       Normal normal = state.normal;
       Normal expectedNormal = new Normal(-1, -1, 0);
-      expectedNormal.Normalize();
+      expectedNormal.normalize();
 
 
       Assert.assertEquals(normal.x, expectedNormal.x, delta);
