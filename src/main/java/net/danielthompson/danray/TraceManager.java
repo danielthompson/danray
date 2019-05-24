@@ -503,6 +503,7 @@ public class TraceManager {
       Logger.Log(Logger.Level.Info, "Vector2s: \t\t\t" + rightJustify(format.format(Vector2.instances.get())));
       Logger.Log(Logger.Level.Info, "Point3s: \t\t\t" + rightJustify(format.format(Point3.instances.get())));
       Logger.Log(Logger.Level.Info, "Point2s: \t\t\t" + rightJustify(format.format(Point2.instances.get())));
+      Logger.Log(Logger.Level.Info, "Samples: \t\t\t" + rightJustify(format.format(Sample.instances.get())));
    }
 
    private static String rightJustify(String s) {

@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class Ray {
 
-   public static AtomicLong instances = new AtomicLong();
+   public static final AtomicLong instances = new AtomicLong();
 
    public Vector3 Direction; // 8 bytes
    public Point3 Origin; // 8 bytes

@@ -31,7 +31,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
    private Sample GetSample(Ray ray, int depth, float oldIndexOfRefraction, int x, int y) {
 
-      Sample sample = new Sample();
+      Sample sample = new Sample(x, y);
 
       if (x == 180 && y == 230) {
          int i = 0;
@@ -200,7 +200,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
          //float transparency = (float)objectMaterial._transparency;
 
 
-         Sample s = new Sample();
+         Sample s = new Sample(x, y);
          s.SpectralPowerDistribution = SpectralPowerDistribution.add(directSPD, reflectedSPD);
 
          return s;

@@ -25,7 +25,7 @@ public class TriangleFilterFilmTests {
    public void setUp() throws Exception {
       _bufferedImage = new BufferedImage(3, 3, TYPE_INT_RGB);
       _film = new TriangleFilterFilm(_bufferedImage);
-      _sample = new Sample();
+      _sample = new Sample(0, 0);
       _sample.SpectralPowerDistribution = new SpectralPowerDistribution();
       _sample.SpectralPowerDistribution.R = 1.0f;
       _sample.SpectralPowerDistribution.G = 1.0f;

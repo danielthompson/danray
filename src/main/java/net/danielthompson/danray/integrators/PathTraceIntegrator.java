@@ -32,7 +32,7 @@ public class PathTraceIntegrator extends AbstractIntegrator {
          if (_x == 320 && _y == 186) {
             return GetSample(ray, depth, 1.0f);
          }
-         Sample sample = new Sample();
+         Sample sample = new Sample(x, y);
          sample.SpectralPowerDistribution = new SpectralPowerDistribution(0, 0, 0);
          return sample;
       }
@@ -45,7 +45,7 @@ public class PathTraceIntegrator extends AbstractIntegrator {
    private Sample GetSample(Ray ray, int depth, float indexOfRefraction) {
 
       Logger.Log(Logger.Level.Debug, depth, ray);
-      Sample sample = new Sample();
+      Sample sample = new Sample(_x, _y);
       Intersection intersection = scene.getNearestShape(ray, _x, _y);
 
       if (intersection == null || !intersection.hits) {

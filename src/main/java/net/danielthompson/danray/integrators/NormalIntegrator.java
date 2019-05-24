@@ -15,9 +15,7 @@ public class NormalIntegrator extends AbstractIntegrator {
    public Sample GetSample(Ray ray, int depth, int x, int y) {
       Intersection intersection = scene.getNearestShape(ray, x, y);
 
-      Sample sample = new Sample();
-      sample.x = x;
-      sample.y = y;
+      Sample sample = new Sample(x, y);
       sample.SpectralPowerDistribution = new SpectralPowerDistribution();
 
       if (intersection != null && intersection.hits) {

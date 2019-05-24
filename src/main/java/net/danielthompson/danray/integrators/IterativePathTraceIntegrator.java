@@ -20,7 +20,7 @@ public class IterativePathTraceIntegrator extends AbstractIntegrator {
 
    public Sample GetSample(Ray ray, int depth, int x, int y) {
 
-      Sample sample = new Sample();
+      Sample sample = new Sample(x, y);
 
       float[] fs = new float[maxDepth];
       SpectralPowerDistribution[] spds = new SpectralPowerDistribution[maxDepth + 1];
