@@ -12,7 +12,7 @@ public class Vector2 {
    public float x;
    public float y;
 
-   public Vector2(float x, float y) {
+   public Vector2(final float x, final float y) {
       assert !Float.isNaN(x);
       assert !Float.isNaN(y);
 
@@ -21,21 +21,12 @@ public class Vector2 {
       instances.incrementAndGet();
    }
 
-   public Vector2(float[] xy) {
-      assert !Float.isNaN(xy[0]);
-      assert !Float.isNaN(xy[1]);
+   public Vector2(final Vector2 v) {
+      assert !Float.isNaN(v.x);
+      assert !Float.isNaN(v.y);
 
-      x = xy[0];
-      y = xy[1];
-      instances.incrementAndGet();
-   }
-
-   public Vector2(Normal n) {
-      assert !Float.isNaN(n.x);
-      assert !Float.isNaN(n.y);
-
-      x = n.x;
-      y = n.y;
+      x = v.x;
+      y = v.y;
       instances.incrementAndGet();
    }
 
@@ -51,7 +42,7 @@ public class Vector2 {
       if (!(obj instanceof Vector2))
          return false;
 
-      Vector2 rhs = (Vector2) obj;
+      final Vector2 rhs = (Vector2) obj;
 
       return (x == rhs.x && y == rhs.y);
    }
