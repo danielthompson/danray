@@ -52,9 +52,7 @@ public class SphereLight extends AbstractLight {
    @Override
    public Point3 getRandomPointOnSurface() {
 
-      float[] xyz = GeometryCalculations.randomPointOnSphere();
-
-      Point3 point = new Point3(xyz);
+      Point3 point = GeometryCalculations.randomPointOnSphere();
 
       point.scale(Sphere.Radius);
       point.plus(Sphere.Origin);
@@ -102,7 +100,7 @@ public class SphereLight extends AbstractLight {
 
       Vector3 v = new Vector3(point.x, point.y, point.z);
 
-      Vector3 direction = new Vector3(GeometryCalculations.randomPointOnSphere());
+      Vector3 direction = GeometryCalculations.randomVectorOnSphere();
 
       if (v.dot(direction) < 0)
          direction.scale(-1);

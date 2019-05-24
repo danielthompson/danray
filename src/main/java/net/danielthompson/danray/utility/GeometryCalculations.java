@@ -25,7 +25,7 @@ public class GeometryCalculations {
       }
    };
 
-   public static float[] randomPointOnSphere()
+   public static final Point3 randomPointOnSphere()
    {
       float x, y, z, d2;
       do {
@@ -35,7 +35,20 @@ public class GeometryCalculations {
          d2 = x*x + y*y + z*z;
       } while (d2 <= Float.MIN_NORMAL);
       float s = (float) Math.sqrt(1.0 / d2);
-      return new float[] {x*s, y*s, z*s};
+      return new Point3(x*s, y*s, z*s);
+   }
+
+   public static final Vector3 randomVectorOnSphere()
+   {
+      float x, y, z, d2;
+      do {
+         x = (float) secureRandom.get().nextGaussian();
+         y = (float) secureRandom.get().nextGaussian();
+         z = (float) secureRandom.get().nextGaussian();
+         d2 = x*x + y*y + z*z;
+      } while (d2 <= Float.MIN_NORMAL);
+      float s = (float) Math.sqrt(1.0 / d2);
+      return new Vector3(x*s, y*s, z*s);
    }
 
    private static float angleOfIncidencePercentageFactor = 10.f / 9.f;
