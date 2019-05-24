@@ -21,15 +21,6 @@ public class Point2 {
       instances.incrementAndGet();
    }
 
-   public Point2(float[] xy) {
-      assert !Float.isNaN(xy[0]);
-      assert !Float.isNaN(xy[1]);
-
-      this.x = xy[0];
-      this.y = xy[1];
-      instances.incrementAndGet();
-   }
-
    public Point2(Point2 p) {
       assert !Float.isNaN(p.x);
       assert !Float.isNaN(p.y);

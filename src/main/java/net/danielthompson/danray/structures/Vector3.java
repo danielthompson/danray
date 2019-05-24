@@ -9,13 +9,13 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class Vector3 {
 
-   public static AtomicLong instances = new AtomicLong();
+   public static final AtomicLong instances = new AtomicLong();
 
    public float x;
    public float y;
    public float z;
 
-   public Vector3(float x, float y, float z) {
+   public Vector3(final float x, final float y, final float z) {
       assert !Float.isNaN(x);
       assert !Float.isNaN(y);
       assert !Float.isNaN(z);
@@ -26,18 +26,7 @@ public class Vector3 {
       instances.incrementAndGet();
    }
 
-   public Vector3(float[] xyz) {
-      assert !Float.isNaN(xyz[0]);
-      assert !Float.isNaN(xyz[1]);
-      assert !Float.isNaN(xyz[2]);
-
-      x = xyz[0];
-      y = xyz[1];
-      z = xyz[2];
-      instances.incrementAndGet();
-   }
-
-   public Vector3(Normal n) {
+   public Vector3(final Normal n) {
       assert !Float.isNaN(n.x);
       assert !Float.isNaN(n.y);
       assert !Float.isNaN(n.z);
@@ -48,7 +37,7 @@ public class Vector3 {
       instances.incrementAndGet();
    }
 
-   public float getAxis(KDAxis axis) {
+   public float getAxis(final KDAxis axis) {
       switch (axis) {
          case X:
             return x;
@@ -59,59 +48,59 @@ public class Vector3 {
       }
    }
 
-   public Vector3 cross(Vector3 vector) {
+   public Vector3 cross(final Vector3 v) {
       return new Vector3(
-            y * vector.z - z * vector.y,
-            z * vector.x - x * vector.z,
-            x * vector.y - y * vector.x);
+            y * v.z - z * v.y,
+            z * v.x - x * v.z,
+            x * v.y - y * v.x);
    }
 
-   public Vector3 cross(Normal normal) {
+   public Vector3 cross(final Normal n) {
       return new Vector3(
-            y * normal.z - z * normal.y,
-            z * normal.x - x * normal.z,
-            x * normal.y - y * normal.x);
+            y * n.z - z * n.y,
+            z * n.x - x * n.z,
+            x * n.y - y * n.x);
    }
 
-   public float dot(Vector3 vector) {
-      return (x * vector.x + y * vector.y + z * vector.z);
+   public float dot(final Vector3 v) {
+      return (x * v.x + y * v.y + z * v.z);
    }
 
-   public float dot(Normal normal) {
-      return (x * normal.x + y * normal.y + z * normal.z);
+   public float dot(final Normal n) {
+      return (x * n.x + y * n.y + z * n.z);
    }
 
 
-   public static Vector3 scale(Vector3 vector, float t) {
-      return new Vector3(vector.x * t, vector.y * t, vector.z * t);
+   public static Vector3 scale(final Vector3 v, final float t) {
+      return new Vector3(v.x * t, v.y * t, v.z * t);
    }
 
-   public void scale(float t) {
+   public void scale(final float t) {
       x *= t;
       y *= t;
       z *= t;
    }
 
-   public static Vector3 plus(Vector3 vector1, Vector3 vector2) {
-      return new Vector3(vector1.x + vector2.x, vector1.y + vector2.y, vector1.z + vector2.z);
+   public static Vector3 plus(final Vector3 v0, final Vector3 v1) {
+      return new Vector3(v0.x + v1.x, v0.y + v1.y, v0.z + v1.z);
    }
 
-   public void plus(Vector3 vector) {
-      x += vector.x;
-      y += vector.y;
-      z += vector.z;
+   public void plus(final Vector3 v) {
+      x += v.x;
+      y += v.y;
+      z += v.z;
    }
 
-   public static Vector3 minus(Vector3 vector1, Vector3 vector2) {
-      return new Vector3(vector1.x - vector2.x, vector1.y - vector2.y, vector1.z - vector2.z);
+   public static Vector3 minus(final Vector3 v0, final Vector3 v1) {
+      return new Vector3(v0.x - v1.x, v0.y - v1.y, v0.z - v1.z);
    }
 
-   public static Vector3 minus(Point3 point, Vector3 vector) {
-      return new Vector3(point.x - vector.x, point.y - vector.y, point.z - vector.z);
+   public static Vector3 minus(final Point3 p, final Vector3 v) {
+      return new Vector3(p.x - v.x, p.y - v.y, p.z - v.z);
    }
 
-   public static Vector3 minus(Point3 point1, Point3 point2) {
-      return new Vector3(point1.x - point2.x, point1.y - point2.y, point1.z - point2.z);
+   public static Vector3 minus(final Point3 p0, final Point3 p1) {
+      return new Vector3(p0.x - p1.x, p0.y - p1.y, p0.z - p1.z);
    }
 
    public float length() {
@@ -121,44 +110,44 @@ public class Vector3 {
    public float lengthSquared() { return x * x + y * y + z * z; }
 
    public void normalize() {
-      float lengthMultiplier = 1.0f / length();
+      final float lengthMultiplier = 1.0f / length();
       scale(lengthMultiplier);
    }
 
-   public static Vector3 normalize(Vector3 vector) {
-      Vector3 v = new Vector3(vector.x, vector.y, vector.z);
-      v.normalize();
-      return v;
+   public static Vector3 normalize(final Vector3 v) {
+      Vector3 vector = new Vector3(v.x, v.y, v.z);
+      vector.normalize();
+      return vector;
    }
 
-   public static Vector3 lerp(Vector3 vector1, Vector3 vector2, float percentage) {
-      return Vector3.plus(vector1, Vector3.scale(Vector3.minus(vector2, vector1), percentage));
+   public static Vector3 lerp(final Vector3 v0, final Vector3 v1, final float t) {
+      return Vector3.plus(v0, Vector3.scale(Vector3.minus(v1, v0), t));
    }
 
-   public static Vector3 lerp(Vector3 v1, float w1, Vector3 v2, float w2) {
+   public static Vector3 lerp(final Vector3 v0, final float t0, final Vector3 v1, final float t1) {
 
-      float x = v1.x * w1 + v2.x * w2;
-      float y = v1.y * w1 + v2.y * w2;
-      float z = v1.z * w1 + v2.z * w2;
+      final float x = v0.x * t0 + v1.x * t1;
+      final float y = v0.y * t0 + v1.y * t1;
+      final float z = v0.z * t0 + v1.z * t1;
 
       Vector3 v = new Vector3(x, y, z);
       v.normalize();
       return v;
    }
 
-   public static Vector3 slerp(Vector3 v1, float w1, Vector3 v2, float w2) {
+   public static Vector3 slerp(final Vector3 v0, final float t0, final Vector3 v1, final float t1) {
 
-      float cosOmega = v1.dot(v2);
-      float omega = (float)Math.acos(cosOmega);
+      final float cosOmega = v0.dot(v1);
+      final float omega = (float)Math.acos(cosOmega);
 
-      float oneOverSinOmega = (float)Math.sin(omega);
+      final float oneOverSinOmega = (float)Math.sin(omega);
 
-      float ww1 = (float)Math.sin(w1 * omega) * oneOverSinOmega;
-      float ww2 = (float)Math.sin(w2 * omega) * oneOverSinOmega;
+      final float ww1 = (float)Math.sin(t0 * omega) * oneOverSinOmega;
+      final float ww2 = (float)Math.sin(t1 * omega) * oneOverSinOmega;
 
-      float x = v1.x * ww1 + v2.x * ww2;
-      float y = v1.y * ww1 + v2.y * ww2;
-      float z = v1.z * ww1 + v2.z * ww2;
+      final float x = v0.x * ww1 + v1.x * ww2;
+      final float y = v0.y * ww1 + v1.y * ww2;
+      final float z = v0.z * ww1 + v1.z * ww2;
 
       Vector3 v = new Vector3(x, y, z);
       v.normalize();
@@ -177,7 +166,7 @@ public class Vector3 {
       if (!(obj instanceof Vector3))
          return false;
 
-      Vector3 rhs = (Vector3) obj;
+      final Vector3 rhs = (Vector3) obj;
 
       return (x == rhs.x && y == rhs.y && z == rhs.z);
    }
