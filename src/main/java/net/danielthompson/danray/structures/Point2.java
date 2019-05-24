@@ -7,12 +7,12 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class Point2 {
 
-   public static AtomicLong instances = new AtomicLong();
+   public static final AtomicLong instances = new AtomicLong();
 
    public float x;
    public float y;
 
-   public Point2(float x, float y) {
+   public Point2(final float x, final float y) {
       assert !Float.isNaN(x);
       assert !Float.isNaN(y);
 
@@ -21,7 +21,7 @@ public class Point2 {
       instances.incrementAndGet();
    }
 
-   public Point2(Point2 p) {
+   public Point2(final Point2 p) {
       assert !Float.isNaN(p.x);
       assert !Float.isNaN(p.y);
 
@@ -42,7 +42,7 @@ public class Point2 {
       if (!(obj instanceof Point2))
          return false;
 
-      Point2 rhs = (Point2) obj;
+      final Point2 rhs = (Point2) obj;
 
       return (x == rhs.x && y == rhs.y);
    }

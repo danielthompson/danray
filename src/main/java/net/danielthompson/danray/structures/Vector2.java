@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class Vector2 {
 
-   public static AtomicLong instances = new AtomicLong();
+   public static final AtomicLong instances = new AtomicLong();
 
    public float x;
    public float y;
