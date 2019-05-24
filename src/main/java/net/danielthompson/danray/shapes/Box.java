@@ -74,7 +74,7 @@ public class Box extends CSGShape {
          objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
       }
 
-      Intersection intersection = BoundingBox.GetHitInfoNew(point1, point2, objectSpaceRay);
+      Intersection intersection = BoundingBox.getHitInfoNew(point1, point2, objectSpaceRay);
 
       float minT = intersection.t;
       //float maxT = intersection.TMax;
@@ -194,7 +194,7 @@ public class Box extends CSGShape {
          objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
       }
 
-      Intersection intersection = BoundingBox.GetHitInfoNew(point1, point2, objectSpaceRay);
+      Intersection intersection = BoundingBox.getHitInfoNew(point1, point2, objectSpaceRay);
 
 
       // TODO fix this garbage with this some boundary testing
@@ -215,7 +215,7 @@ public class Box extends CSGShape {
          objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
       }
 
-      List<Intersection> intersections = BoundingBox.GetBothHitInfo(point1, point2, objectSpaceRay);
+      List<Intersection> intersections = BoundingBox.getBothHitInfo(point1, point2, objectSpaceRay);
       for (Intersection intersection : intersections) {
          FillIntersectionData(intersection, objectSpaceRay, worldSpaceRay);
       }

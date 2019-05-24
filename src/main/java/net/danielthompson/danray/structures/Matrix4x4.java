@@ -29,7 +29,7 @@ public class Matrix4x4 {
       matrix[3][3] = 1;
    }
 
-   public Matrix4x4(float values[][]) {
+   public Matrix4x4(final float values[][]) {
       this();
 
       matrix[0][0] = values[0][0];
@@ -53,10 +53,10 @@ public class Matrix4x4 {
       matrix[3][3] = values[3][3];
    }
 
-   public Matrix4x4(float t00, float t01, float t02, float t03,
-                    float t10, float t11, float t12, float t13,
-                    float t20, float t21, float t22, float t23,
-                    float t30, float t31, float t32, float t33) {
+   public Matrix4x4(final float t00, final float t01, final float t02, final float t03,
+                    final float t10, final float t11, final float t12, final float t13,
+                    final float t20, final float t21, final float t22, final float t23,
+                    final float t30, final float t31, final float t32, final float t33) {
 
       this();
 
@@ -82,7 +82,7 @@ public class Matrix4x4 {
    }
 
    public double[] getRowMajor() {
-      double[] rowMajor = new double[16];
+      final double[] rowMajor = new double[16];
 
       for (int i = 0; i < 4; i++) {
          for (int j = 0; j < 4; j++) {
@@ -94,7 +94,7 @@ public class Matrix4x4 {
    }
 
    public double[] getColMajor() {
-      double[] colMajor = new double[16];
+      final double[] colMajor = new double[16];
 
       for (int i = 0; i < 4; i++) {
          for (int j = 0; j < 4; j++) {
@@ -105,7 +105,7 @@ public class Matrix4x4 {
       return colMajor;
    }
 
-   public Matrix4x4 Transpose() {
+   public Matrix4x4 transpose() {
       return new Matrix4x4(
             matrix[0][0], matrix[1][0], matrix[2][0], matrix[3][0],
             matrix[0][1], matrix[1][1], matrix[2][1], matrix[3][1],
@@ -113,7 +113,7 @@ public class Matrix4x4 {
             matrix[0][3], matrix[1][3], matrix[2][3], matrix[3][3]);
    }
 
-   public Matrix4x4 Inverse() {
+   public Matrix4x4 inverse() {
       int[] indxc = new int[4];
       int[] indxr = new int[4];
       int[] ipiv = { 0, 0, 0, 0 };
@@ -184,14 +184,14 @@ public class Matrix4x4 {
       return new Matrix4x4(minv);
    }
 
-   public void swap(int row1, int row2) {
-      float[] temp = matrix[row1];
+   public void swap(final int row1, final int row2) {
+      final float[] temp = matrix[row1];
       matrix[row1] = matrix[row2];
       matrix[row2] = temp;
    }
 
-   public Matrix4x4 Multiply(Matrix4x4 m) {
-      Matrix4x4 ret = new Matrix4x4();
+   public Matrix4x4 multiply(final Matrix4x4 m) {
+      final Matrix4x4 ret = new Matrix4x4();
 
       ret.matrix[0][0] = matrix[0][0] * m.matrix[0][0] + matrix[0][1] * m.matrix[1][0] + matrix[0][2] * m.matrix[2][0] + matrix[0][3] * m.matrix[3][0];
       ret.matrix[0][1] = matrix[0][0] * m.matrix[0][1] + matrix[0][1] * m.matrix[1][1] + matrix[0][2] * m.matrix[2][1] + matrix[0][3] * m.matrix[3][1];
@@ -224,7 +224,7 @@ public class Matrix4x4 {
       if (!(obj instanceof Matrix4x4))
          return false;
 
-      Matrix4x4 rhs = (Matrix4x4) obj;
+      final Matrix4x4 rhs = (Matrix4x4) obj;
 
       return (
             matrix[0][0] == rhs.matrix[0][0] &&

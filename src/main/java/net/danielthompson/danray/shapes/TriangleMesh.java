@@ -43,7 +43,7 @@ public class TriangleMesh extends AbstractShape {
    }
 
    public void SetOrigin(Point3 origin) {
-      _boundingBox.Translate(Point3.minus(origin, _origin));
+      _boundingBox.translate(Point3.minus(origin, _origin));
 
       _origin = origin;
       if (origin != null && origin.x != 0.0 && origin.y != 0.0 && origin.z != 0.0) {
@@ -100,7 +100,7 @@ public class TriangleMesh extends AbstractShape {
    }
 
    /*
-   public Ray GetNormal(Intersection state) {
+   public Ray GetNormal(intersection state) {
       return new Ray(state.Face.get(0), state.Face.get(0).cross(state.Face.get(1)));
    }
    */

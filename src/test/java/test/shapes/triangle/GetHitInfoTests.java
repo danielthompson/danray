@@ -1,7 +1,7 @@
 //package test.shapes.triangle;
 //
 //import net.danielthompson.danray.shapes.Triangle;
-//import net.danielthompson.danray.states.Intersection;
+//import net.danielthompson.danray.states.intersection;
 //import net.danielthompson.danray.structures.Point;
 //import net.danielthompson.danray.structures.Ray;
 //import net.danielthompson.danray.structures.Vector;
@@ -42,7 +42,7 @@
 //
 //      Ray incomingRay = new Ray(rayOrigin, rayDirection);
 //
-//      Intersection state = triangle.GetHitInfo(incomingRay);
+//      intersection state = triangle.getHitInfo(incomingRay);
 //
 //      Assert.assertTrue(state.hits);
 //
@@ -65,7 +65,7 @@
 //
 //      Ray incomingRay = new Ray(rayOrigin, rayDirection);
 //
-//      Intersection state = triangle.GetHitInfo(incomingRay);
+//      intersection state = triangle.getHitInfo(incomingRay);
 //
 //      Assert.assertTrue(state.hits);
 //
@@ -88,7 +88,7 @@
 //
 //      Ray incomingRay = new Ray(rayOrigin, rayDirection);
 //
-//      Intersection state = triangle.GetHitInfo(incomingRay);
+//      intersection state = triangle.getHitInfo(incomingRay);
 //
 //      Assert.assertTrue(state.hits);
 //
@@ -111,7 +111,7 @@
 //
 //      Ray incomingRay = new Ray(rayOrigin, rayDirection);
 //
-//      Intersection state = triangle.GetHitInfo(incomingRay);
+//      intersection state = triangle.getHitInfo(incomingRay);
 //
 //      Assert.assertFalse(state.hits);
 //   }

@@ -492,7 +492,7 @@ public class SceneBuilder {
       Transform[] inputTransforms = new Transform[]{
             bigTranslate,
             Transform.Translate(0, 180, 250),
-//            Transform.Translate(0, 0, 225),
+//            Transform.translate(0, 0, 225),
             Transform.RotateY(0),
             Transform.RotateX(-45)
 //            Transform.RotateX(-5)
@@ -549,7 +549,7 @@ public class SceneBuilder {
       Sphere rightShape = new Sphere(compositeTransforms, material);
 
       inputTransforms = new Transform[]{
-//            Transform.Translate(new Vector(0, -31.99f, 50f)),
+//            Transform.translate(new Vector(0, -31.99f, 50f)),
 //            Transform.RotateY(-75f),
 //            Transform.scale(20f),
             Transform.identity
@@ -657,7 +657,7 @@ public class SceneBuilder {
       inputTransforms = new Transform[]{
             Transform.Scale(2),
             Transform.Translate(new Vector3(-0.5f, -0.5f, -0.5f)),
-//            Transform.Translate(-50.0f, -32.0f, -25f),
+//            Transform.translate(-50.0f, -32.0f, -25f),
 //            Transform.RotateY(-45f),
 //            Transform.scale(20f),
 
@@ -673,7 +673,7 @@ public class SceneBuilder {
       material.Texture = new ConstantTexture(new ReflectanceSpectrum(Colors.Rainbow.Color4));
 
       inputTransforms = new Transform[]{
-            //Transform.Translate(1, 1, 1),
+            //Transform.translate(1, 1, 1),
             Transform.Scale(1.45f), // TODO wtf?
 
       };
@@ -718,7 +718,7 @@ public class SceneBuilder {
 
       inputTransforms = new Transform[]{
             //Transform.scale(2),
-            //Transform.Translate(new Vector(-0.5f, -0.5f, -0.5f))
+            //Transform.translate(new Vector(-0.5f, -0.5f, -0.5f))
       };
       compositeTransforms = Transform.composite(inputTransforms);
       Sphere leftShape2 = new Sphere(compositeTransforms, material);
@@ -729,7 +729,7 @@ public class SceneBuilder {
       material.Texture = new ConstantTexture(new ReflectanceSpectrum(Colors.Rainbow.Color6));
 
       inputTransforms = new Transform[]{
-            //Transform.Translate(0, 1, 1),
+            //Transform.translate(0, 1, 1),
             //Transform.scale(2f), // TODO wtf?
 
       };
@@ -1005,7 +1005,7 @@ public class SceneBuilder {
 //      lightSPD = new SpectralPowerDistribution(Firenze.Orange, 100000.0f);
 //
 //      inputTransforms = new Transform[2];
-//      inputTransforms[0] = Transform.Translate(new Vector(300, -3300, -1500));
+//      inputTransforms[0] = Transform.translate(new Vector(300, -3300, -1500));
 //      inputTransforms[1] = Transform.scale(100f, 100f, 100f);
 //
 //      compositeTransforms = Transform.composite(inputTransforms);
@@ -1022,7 +1022,7 @@ public class SceneBuilder {
 //      lightSPD = new SpectralPowerDistribution(Color.white, 100000.0f);
 //
 //      inputTransforms = new Transform[2];
-//      inputTransforms[0] = Transform.Translate(new Vector(300, -3300, -1500));
+//      inputTransforms[0] = Transform.translate(new Vector(300, -3300, -1500));
 //      inputTransforms[1] = Transform.scale(100f, 100f, 100f);
 //
 //      compositeTransforms = Transform.composite(inputTransforms);
@@ -1125,7 +1125,7 @@ public class SceneBuilder {
       inputTransforms[1] = Transform.Scale(600, 600, 1f);
       inputTransforms[2] = Transform.Translate(new Vector3(-0.5f, -0.5f, -0.5f));
 
-      //inputTransforms[1] = Transform.Translate(new Vector(-200f, -300f, -150));
+      //inputTransforms[1] = Transform.translate(new Vector(-200f, -300f, -150));
 
       compositeTransforms = Transform.composite(inputTransforms);
 

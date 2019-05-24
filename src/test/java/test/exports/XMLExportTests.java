@@ -55,7 +55,7 @@
 //   @Test
 //   public void testTransformExport() throws Exception {
 //
-//      final Transform object = Transform.Translate(new Vector(500, 200, 900));
+//      final Transform object = Transform.translate(new Vector(500, 200, 900));
 //
 //      File file = new File(_dir, "transform.xml");
 //
@@ -410,8 +410,8 @@
 //   @Test
 //   public void testAbstractShapeExport() throws Exception {
 //
-////      Transform t1 = Transform.Translate(new Vector(500, 200, 900));
-////      Transform t2 = Transform.Translate(new Vector(-500, -200, -900));
+////      Transform t1 = Transform.translate(new Vector(500, 200, 900));
+////      Transform t2 = Transform.translate(new Vector(-500, -200, -900));
 ////
 ////      final Material material = new Material();
 ////      material.reflect = new LambertianBRDF();
@@ -439,8 +439,8 @@
 //   @Test
 //   public void testCylinderExport() throws Exception {
 //
-////      Transform t1 = Transform.Translate(new Vector(500, 200, 900));
-////      Transform t2 = Transform.Translate(new Vector(-500, -200, -900));
+////      Transform t1 = Transform.translate(new Vector(500, 200, 900));
+////      Transform t2 = Transform.translate(new Vector(-500, -200, -900));
 ////
 ////      final Material material = new Material();
 ////      material.reflect = new LambertianBRDF();
@@ -468,8 +468,8 @@
 //   @Test
 //   public void testBoxExport() throws Exception {
 //
-////      Transform t1 = Transform.Translate(new Vector(500, 200, 900));
-////      Transform t2 = Transform.Translate(new Vector(-500, -200, -900));
+////      Transform t1 = Transform.translate(new Vector(500, 200, 900));
+////      Transform t2 = Transform.translate(new Vector(-500, -200, -900));
 ////
 ////      final Material material = new Material();
 ////      material.reflect = new LambertianBRDF();

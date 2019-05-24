@@ -30,12 +30,12 @@ public class CreationBenchmarks {
 //
 //
 //
-//      Intersection[] array = new Intersection[n];
+//      intersection[] array = new intersection[n];
 //
 //      final long startTime = System.currentTimeMillis();
 //
 //      for (int i = 0; i < n; i++) {
-//         array[i] = new Intersection();
+//         array[i] = new intersection();
 //      }
 //
 //      final long endTime = System.currentTimeMillis();

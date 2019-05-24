@@ -1,4 +1,4 @@
-package net.danielthompson.danray.presets;
+package net.danielthompson.danray.config;
 
 /**
  * Created by daniel on 1/17/15.

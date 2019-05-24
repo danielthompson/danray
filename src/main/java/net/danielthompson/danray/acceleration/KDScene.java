@@ -1,6 +1,6 @@
 package net.danielthompson.danray.acceleration;
 
-import net.danielthompson.danray.presets.TracerOptions;
+import net.danielthompson.danray.config.TracerOptions;
 import net.danielthompson.danray.shapes.*;
 import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.cameras.Camera;
@@ -124,14 +124,14 @@ public class KDScene extends AbstractScene {
          KDNode leftNode = node.LeftChild;
          KDNode rightNode = node.RightChild;
 
-         Intersection leftState = BoundingBox.GetHitInfoNew(getPoint1(leftNode), getPoint2(leftNode), ray);
-         Intersection rightState = BoundingBox.GetHitInfoNew(getPoint1(rightNode), getPoint2(rightNode), ray);
+         Intersection leftState = BoundingBox.getHitInfoNew(getPoint1(leftNode), getPoint2(leftNode), ray);
+         Intersection rightState = BoundingBox.getHitInfoNew(getPoint1(rightNode), getPoint2(rightNode), ray);
 
-         //Intersection leftState = BoundingBox.GetHitInfoNew(leftNode.BoundingBox.point1, leftNode.BoundingBox.point2, ray);
-         //Intersection rightState = BoundingBox.GetHitInfoNew(rightNode.BoundingBox.point1, rightNode.BoundingBox.point2, ray);
+         //intersection leftState = BoundingBox.getHitInfoNew(leftNode.BoundingBox.point1, leftNode.BoundingBox.point2, ray);
+         //intersection rightState = BoundingBox.getHitInfoNew(rightNode.BoundingBox.point1, rightNode.BoundingBox.point2, ray);
 
-         //Intersection leftState = leftNode.GetHitInfo(ray);
-         //Intersection rightState = rightNode.GetHitInfo(ray);
+         //intersection leftState = leftNode.getHitInfo(ray);
+         //intersection rightState = rightNode.getHitInfo(ray);
 
          /*
 

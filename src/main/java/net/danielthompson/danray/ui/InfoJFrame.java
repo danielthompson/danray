@@ -6,6 +6,7 @@
 package net.danielthompson.danray.ui;
 
 import net.danielthompson.danray.TraceManager;
+import net.danielthompson.danray.structures.Vector3;
 
 /**
 *
@@ -53,9 +54,9 @@ public class InfoJFrame extends javax.swing.JFrame {
       initComponents();
    }
 
-   private final int MOVEMENT_AMOUNT = 1;
+   private final float MOVEMENT_AMOUNT = 1;
 
-   private final int ROTATION_AMOUNT = 10;
+   private final float ROTATION_AMOUNT = 10;
 
    /**
    * This method is called from within the constructor to initialize the form.
@@ -715,79 +716,79 @@ public class InfoJFrame extends javax.swing.JFrame {
    }// </editor-fold>//GEN-END:initComponents
 
    private void originYMinusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_originYMinusButtonActionPerformed
-      _traceManager.moveOriginAlongAxis(0, -MOVEMENT_AMOUNT, 0);
+      _traceManager.moveOriginAlongAxis(new Vector3(0.0f, -MOVEMENT_AMOUNT, 0.0f));
    }//GEN-LAST:event_originYMinusButtonActionPerformed
 
    private void originZPlusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_originZPlusButtonActionPerformed
-      _traceManager.moveOriginAlongAxis(0, 0, MOVEMENT_AMOUNT);
+      _traceManager.moveOriginAlongAxis(new Vector3(0.0f, 0.0f, MOVEMENT_AMOUNT));
    }//GEN-LAST:event_originZPlusButtonActionPerformed
 
    private void originXPlusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_originXPlusButtonActionPerformed
-      _traceManager.moveOriginAlongAxis(MOVEMENT_AMOUNT, 0, 0);
+      _traceManager.moveOriginAlongAxis(new Vector3(MOVEMENT_AMOUNT, 0.0f, 0.0f));
    }//GEN-LAST:event_originXPlusButtonActionPerformed
 
    private void originXMinusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_originXMinusButtonActionPerformed
-      _traceManager.moveOriginAlongAxis(-MOVEMENT_AMOUNT, 0, 0);
+      _traceManager.moveOriginAlongAxis(new Vector3(-MOVEMENT_AMOUNT, 0.0f, 0.0f));
    }//GEN-LAST:event_originXMinusButtonActionPerformed
 
    private void originZMinusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_originZMinusButtonActionPerformed
-      _traceManager.moveOriginAlongAxis(0, 0, -MOVEMENT_AMOUNT);
+      _traceManager.moveOriginAlongAxis(new Vector3(0.0f, 0.0f, -MOVEMENT_AMOUNT));
    }//GEN-LAST:event_originZMinusButtonActionPerformed
 
    private void originYPlusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_originYPlusButtonActionPerformed
-      _traceManager.moveOriginAlongAxis(0, MOVEMENT_AMOUNT, 0);
+      _traceManager.moveOriginAlongAxis(new Vector3(0.0f, MOVEMENT_AMOUNT, 0.0f));
    }//GEN-LAST:event_originYPlusButtonActionPerformed
 
    private void originUpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_originUpButtonActionPerformed
-      _traceManager.moveOriginAlongOrientation(0, MOVEMENT_AMOUNT, 0);
+      _traceManager.moveOriginAlongOrientation(new Vector3(0.0f, MOVEMENT_AMOUNT, 0.0f));
    }//GEN-LAST:event_originUpButtonActionPerformed
 
    private void originForwardButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_originForwardButtonActionPerformed
-      _traceManager.moveOriginAlongOrientation(0, 0, -MOVEMENT_AMOUNT);
+      _traceManager.moveOriginAlongOrientation(new Vector3(0.0f, 0.0f, -MOVEMENT_AMOUNT));
    }//GEN-LAST:event_originForwardButtonActionPerformed
 
    private void originLeftButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_originLeftButtonActionPerformed
-      _traceManager.moveOriginAlongOrientation(-MOVEMENT_AMOUNT, 0, 0);
+      _traceManager.moveOriginAlongOrientation(new Vector3(-MOVEMENT_AMOUNT, 0.0f, 0.0f));
    }//GEN-LAST:event_originLeftButtonActionPerformed
 
    private void originRightButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_originRightButtonActionPerformed
-      _traceManager.moveOriginAlongOrientation(MOVEMENT_AMOUNT, 0, 0);
+      _traceManager.moveOriginAlongOrientation(new Vector3(MOVEMENT_AMOUNT, 0.0f, 0.0f));
    }//GEN-LAST:event_originRightButtonActionPerformed
 
    private void originBackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_originBackButtonActionPerformed
-      _traceManager.moveOriginAlongOrientation(0, 0, MOVEMENT_AMOUNT);
+      _traceManager.moveOriginAlongOrientation(new Vector3(0.0f, 0.0f, MOVEMENT_AMOUNT));
    }//GEN-LAST:event_originBackButtonActionPerformed
 
    private void originDownButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_originDownButtonActionPerformed
-      _traceManager.moveOriginAlongOrientation(0, -MOVEMENT_AMOUNT, 0);
+      _traceManager.moveOriginAlongOrientation(new Vector3(0.0f, MOVEMENT_AMOUNT, 0.0f));
    }//GEN-LAST:event_originDownButtonActionPerformed
 
    private void directionYPlusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_directionYPlusButtonActionPerformed
-      _traceManager.moveDirectionAlongAxis(0, ROTATION_AMOUNT, 0);
+      _traceManager.moveDirectionAlongAxis(new Vector3(0.0f, ROTATION_AMOUNT, 0.0f));
    }//GEN-LAST:event_directionYPlusButtonActionPerformed
 
    private void directionZMinusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_directionZMinusButtonActionPerformed
-      _traceManager.moveDirectionAlongAxis(0, 0, -ROTATION_AMOUNT);
+      _traceManager.moveDirectionAlongAxis(new Vector3(0.0f, 0.0f, -ROTATION_AMOUNT));
    }//GEN-LAST:event_directionZMinusButtonActionPerformed
 
    private void directionXMinusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_directionXMinusButtonActionPerformed
-      _traceManager.moveDirectionAlongAxis(-ROTATION_AMOUNT, 0, 0);
+      _traceManager.moveDirectionAlongAxis(new Vector3(-ROTATION_AMOUNT, 0.0f, 0.0f));
    }//GEN-LAST:event_directionXMinusButtonActionPerformed
 
    private void directionXPlusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_directionXPlusButtonActionPerformed
-      _traceManager.moveDirectionAlongAxis(ROTATION_AMOUNT, 0, 0);
+      _traceManager.moveDirectionAlongAxis(new Vector3(ROTATION_AMOUNT, 0.0f, 0.0f));
    }//GEN-LAST:event_directionXPlusButtonActionPerformed
 
    private void directionZPlusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_directionZPlusButtonActionPerformed
-      _traceManager.moveDirectionAlongAxis(0, 0, ROTATION_AMOUNT);
+      _traceManager.moveDirectionAlongAxis(new Vector3(0.0f, 0.0f, ROTATION_AMOUNT));
    }//GEN-LAST:event_directionZPlusButtonActionPerformed
 
    private void directionYMinusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_directionYMinusButtonActionPerformed
-      _traceManager.moveDirectionAlongAxis(0, -ROTATION_AMOUNT, 0);
+      _traceManager.moveDirectionAlongAxis(new Vector3(0.0f, -ROTATION_AMOUNT, 0.0f));
    }//GEN-LAST:event_directionYMinusButtonActionPerformed
 
    private void directionUpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_directionUpButtonActionPerformed
-      _traceManager.moveDirectionAlongOrientation(ROTATION_AMOUNT, 0, 0);
+      _traceManager.moveDirectionAlongOrientation(new Vector3(ROTATION_AMOUNT, 0.0f, 0.0f));
    }//GEN-LAST:event_directionUpButtonActionPerformed
 
    private void directionForwardButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_directionForwardButtonActionPerformed
@@ -795,11 +796,11 @@ public class InfoJFrame extends javax.swing.JFrame {
    }//GEN-LAST:event_directionForwardButtonActionPerformed
 
    private void directionLeftButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_directionLeftButtonActionPerformed
-      _traceManager.moveDirectionAlongOrientation(0, ROTATION_AMOUNT, 0);
+      _traceManager.moveDirectionAlongOrientation(new Vector3(0.0f, ROTATION_AMOUNT, 0.0f));
    }//GEN-LAST:event_directionLeftButtonActionPerformed
 
    private void directionRightButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_directionRightButtonActionPerformed
-      _traceManager.moveDirectionAlongOrientation(0, -ROTATION_AMOUNT, 0);
+      _traceManager.moveDirectionAlongOrientation(new Vector3(0.0f, -ROTATION_AMOUNT, 0.0f));
    }//GEN-LAST:event_directionRightButtonActionPerformed
 
    private void directionBackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_directionBackButtonActionPerformed
@@ -807,7 +808,7 @@ public class InfoJFrame extends javax.swing.JFrame {
    }//GEN-LAST:event_directionBackButtonActionPerformed
 
    private void directionDownButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_directionDownButtonActionPerformed
-      _traceManager.moveDirectionAlongOrientation(-ROTATION_AMOUNT, 0, 0);
+      _traceManager.moveDirectionAlongOrientation(new Vector3(-ROTATION_AMOUNT, 0.0f, 0.0f));
    }//GEN-LAST:event_directionDownButtonActionPerformed
 
    /**

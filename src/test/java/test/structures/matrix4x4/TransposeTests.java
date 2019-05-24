@@ -25,7 +25,7 @@ public class TransposeTests {
 
    @Test
    public void TestTranspose() {
-      Matrix4x4 transposed = matrix.Transpose();
+      Matrix4x4 transposed = matrix.transpose();
 
       Assert.assertEquals(transposed.matrix[0][0], matrix.matrix[0][0]);
       Assert.assertEquals(transposed.matrix[0][1], matrix.matrix[1][0]);
@@ -47,8 +47,8 @@ public class TransposeTests {
 
    @Test
    public void TestTransposeTwice() {
-      Matrix4x4 transposedOnce = matrix.Transpose();
-      Matrix4x4 transposedTwice = transposedOnce.Transpose();
+      Matrix4x4 transposedOnce = matrix.transpose();
+      Matrix4x4 transposedTwice = transposedOnce.transpose();
 
       Assert.assertEquals(matrix, transposedTwice);
 

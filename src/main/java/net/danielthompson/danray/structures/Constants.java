@@ -47,18 +47,18 @@ public class Constants {
    public final static Vector3 PositiveY = new Vector3(0, 1, 0);
    public final static Vector3 PositiveZ = new Vector3(0, 0, 1);
 
-   public static boolean WithinEpsilon(float number, float target) {
+   public static boolean WithinEpsilon(final float number, final float target) {
       return (number > target) ? (DoubleEpsilon + target >= number) : (DoubleEpsilon + number >= target);
    }
 
-   public static boolean WithinEpsilon(float number, float target, float epsilon) {
-      return (number > target) ? (2 * epsilon + target >= number) : (2 * epsilon + number >= target);
+   public static boolean WithinEpsilon(final float number, final float target, final float epsilon) {
+      return (number > target) ? (DoubleEpsilon + target >= number) : (DoubleEpsilon + number >= target);
    }
 
-   public static boolean WithinEpsilon(Point3 p1, Point3 p2) {
-      return (WithinEpsilon(p1.x, p2.x, Epsilon)
-             && WithinEpsilon(p1.y, p2.y, Epsilon)
-             && WithinEpsilon(p1.z, p2.z, Epsilon));
+   public static boolean WithinEpsilon(final Point3 p0, final Point3 p1) {
+      return (WithinEpsilon(p0.x, p1.x, Epsilon)
+             && WithinEpsilon(p0.y, p1.y, Epsilon)
+             && WithinEpsilon(p0.z, p1.z, Epsilon));
    }
 
 

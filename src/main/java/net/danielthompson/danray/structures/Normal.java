@@ -1,9 +1,14 @@
 package net.danielthompson.danray.structures;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 /**
- * Represents a vector that is perpendicular to a surface at some point. å
+ * Represents a vector that is perpendicular to a surface at some point.
  */
 public class Normal {
+
+   public static final AtomicLong instances = new AtomicLong();
+
    public float x;
    public float y;
    public float z;
@@ -16,6 +21,8 @@ public class Normal {
       this.x = x;
       this.y = y;
       this.z = z;
+
+      instances.incrementAndGet();
    }
 
    public Normal(final Vector3 n) {
@@ -26,6 +33,8 @@ public class Normal {
       x = n.x;
       y = n.y;
       z = n.z;
+
+      instances.incrementAndGet();
    }
 
    public Normal cross(final Vector3 v) {

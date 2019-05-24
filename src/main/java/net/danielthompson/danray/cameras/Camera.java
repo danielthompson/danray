@@ -7,14 +7,14 @@ import net.danielthompson.danray.structures.*;
  */
 public abstract class Camera {
 
-   public CameraSettings Settings;
+   public final CameraSettings Settings;
 
    private static final Vector3 DefaultDirection = new Vector3(0, 0, -1);
    static final Point3 DefaultOrigin = new Point3(0, 0, 0);
 
    public Transform cameraToWorld;
 
-   public Camera(CameraSettings settings, Transform cameraToWorld) {
+   public Camera(final CameraSettings settings, final Transform cameraToWorld) {
       Settings = settings;
       this.cameraToWorld = cameraToWorld;
    }
@@ -27,51 +27,47 @@ public abstract class Camera {
       return cameraToWorld.Apply(DefaultOrigin);
    }
 
-   public void setFrame(int frame) {
+   public void setFrame(final int frame) {
    }
 
    /**
     * Moves the camera origin by the specified vector.
     * @param delta
     */
-   public void moveOriginAlongAxis(Vector3 delta) {
+   public void moveOriginAlongAxis(final Vector3 delta) {
       Transform t = Transform.Translate(delta);
       cameraToWorld = t.Apply(cameraToWorld);
    }
 
-   public void moveOriginAlongOrientation(Vector3 delta) {
-      Transform t = Transform.Translate(delta);
+   public void moveOriginAlongOrientation(final Vector3 delta) {
+      final Transform t = Transform.Translate(delta);
       cameraToWorld = cameraToWorld.Apply(t);
    }
 
-   public void moveDirectionAlongOrientation(Vector3 delta) {
-      moveDirectionAlongOrientation(delta.x, delta.y, delta.z);
-   }
-
-   public void moveDirectionAlongOrientation(float x, float y, float z) {
-      Transform[] inputTransforms = new Transform[] {
-            Transform.RotateX(x),
-            Transform.RotateY(y),
-            Transform.RotateZ(z)
+   public void moveDirectionAlongOrientation(final Vector3 delta) {
+      final Transform[] inputTransforms = new Transform[] {
+            Transform.RotateX(delta.x),
+            Transform.RotateY(delta.y),
+            Transform.RotateZ(delta.z)
       };
-      Transform[] compositeTransforms = Transform.composite(inputTransforms);
+      final Transform[] compositeTransforms = Transform.composite(inputTransforms);
       cameraToWorld = cameraToWorld.Apply(compositeTransforms[0]);
    }
 
-   public void moveDirectionAlongAxis(float x, float y, float z) {
+   public void moveDirectionAlongAxis(final Vector3 delta) {
 
-      Transform[] inputTransforms = new Transform[] {
-            Transform.RotateX(x),
-            Transform.RotateY(y),
-            Transform.RotateZ(z)
+      final Transform[] inputTransforms = new Transform[] {
+            Transform.RotateX(delta.x),
+            Transform.RotateY(delta.y),
+            Transform.RotateZ(delta.z)
       };
-      Transform[] compositeTransforms = Transform.composite(inputTransforms);
+      final Transform[] compositeTransforms = Transform.composite(inputTransforms);
       cameraToWorld = compositeTransforms[0].Apply(cameraToWorld);
    }
 
-   public Ray[] getRays(Point2 pixel, int samples)
+   public Ray[] getRays(final Point2 pixel, final int samples)
    {
-      Ray[] rays = new Ray[samples];
+      final Ray[] rays = new Ray[samples];
 
       for (int i = 0; i < samples; i++) {
          rays[i] = getRay(pixel);
@@ -80,9 +76,9 @@ public abstract class Camera {
       return rays;
    }
 
-   public Ray[] getRays(Point2[] pixels, int samples) {
+   public Ray[] getRays(final Point2[] pixels, final int samples) {
 
-      Ray[] rays = new Ray[samples];
+      final Ray[] rays = new Ray[samples];
 
       for (int i = 0; i < samples; i++) {
          rays[i] = getRay(pixels[i]);

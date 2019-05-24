@@ -75,12 +75,12 @@ public class KDNode {
    }
 
    public boolean IsHitBy(Ray ray) {
-      return BoundingBox.Hits(ray);
+      return BoundingBox.hits(ray);
    }
 
    public Intersection getHitInfo(Ray ray) {
-      //return BoundingBox.GetHitInfo(ray);
-      return BoundingBox.GetHitInfoNew(BoundingBox.point1, BoundingBox.point2, ray);
+      //return BoundingBox.getHitInfo(ray);
+      return BoundingBox.getHitInfoNew(BoundingBox.point1, BoundingBox.point2, ray);
    }
 
    @Override

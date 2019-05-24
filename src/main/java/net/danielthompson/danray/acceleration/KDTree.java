@@ -130,7 +130,7 @@ public class KDTree {
                      if (lessThanBoundingBox == null)
                         lessThanBoundingBox = new BoundingBox(drawableBox);
                      else {
-                        BoundingBox.ExpandBoundingBox(lessThanBoundingBox, drawableBox);
+                        BoundingBox.expand(lessThanBoundingBox, drawableBox);
                      }
                      lessThanList.add(shape);
                   }
@@ -139,7 +139,7 @@ public class KDTree {
                      if (greaterThanBoundingBox == null)
                         greaterThanBoundingBox = new BoundingBox(drawableBox);
                      else {
-                        BoundingBox.ExpandBoundingBox(greaterThanBoundingBox, drawableBox);
+                        BoundingBox.expand(greaterThanBoundingBox, drawableBox);
                      }
                      greaterThanList.add(shape);
                   }
@@ -147,13 +147,13 @@ public class KDTree {
                      if (lessThanBoundingBox == null)
                         lessThanBoundingBox = new BoundingBox(drawableBox);
                      else {
-                        BoundingBox.ExpandBoundingBox(lessThanBoundingBox, drawableBox);
+                        BoundingBox.expand(lessThanBoundingBox, drawableBox);
                      }
 
                      if (greaterThanBoundingBox == null)
                         greaterThanBoundingBox = new BoundingBox(drawableBox);
                      else {
-                        BoundingBox.ExpandBoundingBox(greaterThanBoundingBox, drawableBox);
+                        BoundingBox.expand(greaterThanBoundingBox, drawableBox);
                      }
 
                      lessThanList.add(shape);

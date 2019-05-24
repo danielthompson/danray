@@ -19,7 +19,7 @@ public class TransformExporter {
       processMatrix(object._matrix, document, matrix);
       rootElement.appendChild(matrix);
 
-      Element inverse = document.createElement("Inverse");
+      Element inverse = document.createElement("inverse");
       processMatrix(object._inverse, document, inverse);
       rootElement.appendChild(inverse);
 

@@ -25,7 +25,7 @@ public class Transform {
     */
    public Transform(float[][] values) {
       _matrix = new Matrix4x4(values);
-      _inverse = _matrix.Inverse();
+      _inverse = _matrix.inverse();
    }
 
    /**
@@ -34,7 +34,7 @@ public class Transform {
     */
    public Transform(Matrix4x4 matrix) {
       _matrix = matrix;
-      _inverse = matrix.Inverse();
+      _inverse = matrix.inverse();
    }
 
    /**
@@ -167,7 +167,7 @@ public class Transform {
             0, sin_t, cos_t,  0,
             0,     0,     0,  1);
 
-      Matrix4x4 inverse = matrix.Transpose();
+      Matrix4x4 inverse = matrix.transpose();
 
       return new Transform(matrix, inverse);
    }
@@ -182,7 +182,7 @@ public class Transform {
             -sin_t, 0, cos_t, 0,
                  0, 0,     0, 1);
 
-      Matrix4x4 inverse = matrix.Transpose();
+      Matrix4x4 inverse = matrix.transpose();
 
       return new Transform(matrix, inverse);
    }
@@ -198,7 +198,7 @@ public class Transform {
                 0,      0, 1, 0,
                 0,      0, 0, 1);
 
-      Matrix4x4 inverse = matrix.Transpose();
+      Matrix4x4 inverse = matrix.transpose();
 
       return new Transform(matrix, inverse);
    }
@@ -236,7 +236,7 @@ public class Transform {
       m[3][3] = 1;
 
       Matrix4x4 matrix = new Matrix4x4(m);
-      Matrix4x4 inverse = matrix.Transpose();
+      Matrix4x4 inverse = matrix.transpose();
 
       return new Transform(matrix, inverse);
 
@@ -287,7 +287,7 @@ public class Transform {
       m[3][2] = 0;
 
       Matrix4x4 matrix = new Matrix4x4(m);
-      Matrix4x4 inverse = matrix.Inverse();
+      Matrix4x4 inverse = matrix.inverse();
 
       return new Transform(inverse, matrix);
    }
@@ -416,8 +416,8 @@ public class Transform {
    }
 
    public Transform Apply(Transform t) {
-      Matrix4x4 matrix = _matrix.Multiply(t._matrix);
-      Matrix4x4 inverse = t._inverse.Multiply(_inverse);
+      Matrix4x4 matrix = _matrix.multiply(t._matrix);
+      Matrix4x4 inverse = t._inverse.multiply(_inverse);
 
       return new Transform(matrix, inverse);
    }

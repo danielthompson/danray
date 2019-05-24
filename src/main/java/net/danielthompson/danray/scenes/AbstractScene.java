@@ -2,7 +2,7 @@ package net.danielthompson.danray.scenes;
 
 import net.danielthompson.danray.cameras.Camera;
 import net.danielthompson.danray.lights.AbstractLight;
-import net.danielthompson.danray.presets.TracerOptions;
+import net.danielthompson.danray.config.TracerOptions;
 
 import net.danielthompson.danray.scenes.skyboxes.AbstractSkybox;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;

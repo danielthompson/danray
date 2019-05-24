@@ -142,8 +142,8 @@ public class PathTraceIntegrator extends AbstractIntegrator {
 //
 //            Ray bounceRay = new Ray(intersection.location, outgoing);
 //            boolean hits = closestShape.hits(bounceRay);
-//            Intersection nextIntersection = closestShape.GetHitInfo(bounceRay);
-//            Intersection previousIntersection = nextIntersection;
+//            intersection nextIntersection = closestShape.getHitInfo(bounceRay);
+//            intersection previousIntersection = nextIntersection;
 //
 //            // TODO fix t comparisons
 //            while (hits && (nextIntersection.t < 0 || nextIntersection.t > 1)) {
@@ -154,7 +154,7 @@ public class PathTraceIntegrator extends AbstractIntegrator {
 //               bounceRay = new Ray(newOrigin, outgoing);
 //               hits = closestShape.hits(bounceRay);
 //               previousIntersection = nextIntersection;
-//               nextIntersection = closestShape.GetHitInfo(bounceRay);
+//               nextIntersection = closestShape.getHitInfo(bounceRay);
 //            }
 //            // exiting
 //

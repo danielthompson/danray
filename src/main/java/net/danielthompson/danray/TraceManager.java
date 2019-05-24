@@ -3,9 +3,9 @@ package net.danielthompson.danray;
 import net.danielthompson.danray.acceleration.KDScene;
 import net.danielthompson.danray.films.BoxFilterFilm;
 import net.danielthompson.danray.integrators.*;
-import net.danielthompson.danray.presets.LowQuality;
-import net.danielthompson.danray.presets.RenderQualityPreset;
-import net.danielthompson.danray.presets.TracerOptions;
+import net.danielthompson.danray.config.LowQuality;
+import net.danielthompson.danray.config.RenderQuality;
+import net.danielthompson.danray.config.TracerOptions;
 import net.danielthompson.danray.runners.BottomUpTileRunner;
 import net.danielthompson.danray.runners.PixelRunner;
 import net.danielthompson.danray.films.AbstractFilm;
@@ -25,7 +25,6 @@ import net.danielthompson.danray.utility.IOHelper;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,16 +40,6 @@ public class TraceManager {
    private MainCanvas _traceCanvas;
    private Graphics _traceGraphics;
    private Frame _traceFrame;
-
-   private float[][][] _tracePixelXYZ;
-
-   private float _minX;
-   private float _minY;
-   private float _minZ;
-
-   private float _maxX;
-   private float _maxY;
-   private float _maxZ;
 
    private BufferedImage _countImage;
    private ImageCanvas _countCanvas;
@@ -76,60 +65,52 @@ public class TraceManager {
 
    private IOHelper _ioHelper;
 
-   private RenderQualityPreset _qualityPreset;
+   private final RenderQuality renderQuality;
    private TracerOptions _tracerOptions;
    private final float _samplesInverse;
 
    public static final AtomicLong InitialRays = new AtomicLong();
 
-
    private AbstractScene _scene;
-
    private AbstractIntegrator _integrator;
-
    private AbstractSampler _sampler;
+   private AbstractFilm _film;
 
    private KDJFrame _kdFrame;
 
    private Date _renderStartTime;
-
    private volatile long _numRenderedPixels;
-
    private float _numPixelsDivisor;
-
    private long _numPixelsStep;
-
    private float _inverseKDNodeCount;
-
-   private AbstractFilm _film;
 
    /**
     * @param scene The scene to be rendered.
-    * @param renderQualityPreset
+    * @param renderQuality
     * @param tracerOptions
     */
-   public TraceManager(AbstractScene scene, RenderQualityPreset renderQualityPreset, TracerOptions tracerOptions) {
-      _qualityPreset = renderQualityPreset;
+   public TraceManager(final AbstractScene scene, final RenderQuality renderQuality, final TracerOptions tracerOptions) {
+      this.renderQuality = renderQuality;
       _tracerOptions = tracerOptions;
-      _samplesInverse = 1.0f / (renderQualityPreset.getSuperSamplesPerPixel() * renderQualityPreset.getSamplesPerPixel());
+      _samplesInverse = 1.0f / (renderQuality.superSamplesPerPixel * renderQuality.samplesPerPixel);
       _scene = scene;
-      _integrator = new PathTraceIntegrator(_scene, renderQualityPreset.getMaxDepth());
+      _integrator = new PathTraceIntegrator(_scene, renderQuality.maxDepth);
 
-      if (renderQualityPreset instanceof LowQuality && renderQualityPreset.getSamplesPerPixel() == 1)
-         _sampler = new CenterSampler(renderQualityPreset.getSamplesPerPixel());
+      if (renderQuality instanceof LowQuality && ((LowQuality) renderQuality).samplesPerPixel == 1)
+         _sampler = new CenterSampler(renderQuality.samplesPerPixel);
       else {
 //      _sampler = new RandomSampler(renderQualityPreset.getSamplesPerPixel());
-         _sampler = new GridSampler(renderQualityPreset.getSamplesPerPixel());
+         _sampler = new GridSampler(renderQuality.samplesPerPixel);
       }
-//      _integrator = new IterativePathTraceIntegrator(_scene, renderQualityPreset.getMaxDepth());
-//      _integrator = new IterativeMISPathTraceIntegrator(_scene, renderQualityPreset.getMaxDepth());
-//      _integrator = new WhittedIntegrator(_scene, renderQualityPreset.getMaxDepth());
+//      _integrator = new IterativePathTraceIntegrator(_scene, renderQualityPreset.maxDepth);
+//      _integrator = new IterativeMISPathTraceIntegrator(_scene, renderQualityPreset.maxDepth);
+//      _integrator = new WhittedIntegrator(_scene, renderQualityPreset.maxDepth);
 //      _integrator = new DepthIntegrator(_scene, 1);
 //      _integrator = new NormalIntegrator(_scene, 1);
 
       _timer = new Timer();
 
-      long numPixels = renderQualityPreset.getX() * renderQualityPreset.getY();
+      long numPixels = renderQuality.x * renderQuality.y;
       _numPixelsDivisor = 1.0f / numPixels;
       _ioHelper = new IOHelper();
       _numPixelsStep = numPixels / 100;
@@ -179,7 +160,7 @@ public class TraceManager {
 
             if (_tracerOptions.displayAllPaths) {
 
-               for (int k = 2; k <= _qualityPreset.getMaxDepth(); k++) {
+               for (int k = 2; k <= renderQuality.maxDepth; k++) {
                   //for (int s = 1; s <= k + 1; s++) {
                   //int k = 2;
                   int s = 1;
@@ -229,10 +210,10 @@ public class TraceManager {
          if (_glFrame == null) {
             _glFrame = new GLFrame(_scene);
 
-            Dimension canvasSize = new Dimension(new Dimension(_qualityPreset.getX(), _qualityPreset.getY() + 22));
+            Dimension canvasSize = new Dimension(new Dimension(renderQuality.x, renderQuality.y + 22));
 
             _glFrame.setSize(canvasSize);
-            _glFrame.setBounds(10, 0, _qualityPreset.getX(), _qualityPreset.getY() + 22);
+            _glFrame.setBounds(10, 0, renderQuality.x, renderQuality.y + 22);
             _glFrame.setVisible(true);
          }
 
@@ -245,7 +226,7 @@ public class TraceManager {
                Dimension frameSize = new Dimension(200, 500);
 
                _kdFrame.setSize(frameSize);
-               _kdFrame.setBounds(_qualityPreset.getX()  + 10, 0, frameSize.width, frameSize.height + 22);
+               _kdFrame.setBounds(renderQuality.x  + 10, 0, frameSize.width, frameSize.height + 22);
                _kdFrame.setVisible(true);
             }
          }
@@ -257,7 +238,7 @@ public class TraceManager {
             _heatFrame = new Frame("KD-tree Heatmap");
             _heatCanvas = new ImageCanvas();
             _heatFrame.add("Center", _heatCanvas);
-            _heatFrame.setSize(new Dimension(_qualityPreset.getX(), _qualityPreset.getY() + 22));
+            _heatFrame.setSize(new Dimension(renderQuality.x, renderQuality.y + 22));
             _heatFrame.setVisible(true);
          }
 
@@ -272,7 +253,7 @@ public class TraceManager {
             _countFrame = new Frame("Ray Density");
             _countCanvas = new ImageCanvas();
             _countFrame.add("Center", _countCanvas);
-            _countFrame.setSize(new Dimension(_qualityPreset.getX(), _qualityPreset.getY() + 22));
+            _countFrame.setSize(new Dimension(renderQuality.x, renderQuality.y + 22));
             _countFrame.setVisible(true);
          }
 
@@ -290,7 +271,7 @@ public class TraceManager {
 
             _traceFrame = new Frame("DanRay");
             _traceFrame.add("Center", _traceCanvas);
-            _traceFrame.setSize(new Dimension(_qualityPreset.getX(), _qualityPreset.getY() + 22));
+            _traceFrame.setSize(new Dimension(renderQuality.x, renderQuality.y + 22));
             _traceFrame.setVisible(true);
 
          }
@@ -334,16 +315,16 @@ public class TraceManager {
          _infoJFrame.setMouseLocation(x, y);
    }
 
-   public void setMouseClickXY(Point2 pixel) {
-      Ray[] cameraRays = _scene.Camera.getRays(pixel, 1);
+   public void setMouseClickXY(final Point2 pixel) {
+      final Ray[] cameraRays = _scene.Camera.getRays(pixel, 1);
 
-      Intersection state = _scene.getNearestShape(cameraRays[0], (int)pixel.x, (int)pixel.y);
+      final Intersection intersection = _scene.getNearestShape(cameraRays[0], (int)pixel.x, (int)pixel.y);
 
-      if (state != null) {
+      if (intersection != null) {
 
-         float xx = state.location.x;
-         float yy = state.location.y;
-         float zz = state.location.z;
+         float xx = intersection.location.x;
+         float yy = intersection.location.y;
+         float zz = intersection.location.z;
 
          if (_infoJFrame != null)
             _infoJFrame.setSceneLocation(xx, yy, zz);
@@ -353,23 +334,19 @@ public class TraceManager {
          if (_infoJFrame != null)
             _infoJFrame.setNoSceneLocation();
       }
-
-
    }
 
    public void SetupFrame(int s, int t) {
 
-      _countImage = new BufferedImage(_qualityPreset.getX(), _qualityPreset.getY(), BufferedImage.TYPE_INT_RGB);
-      _traceImage = new BufferedImage(_qualityPreset.getX(), _qualityPreset.getY(), BufferedImage.TYPE_INT_RGB);
-      _heatImage = new BufferedImage(_qualityPreset.getX(), _qualityPreset.getY(), BufferedImage.TYPE_INT_RGB);
+      _countImage = new BufferedImage(renderQuality.x, renderQuality.y, BufferedImage.TYPE_INT_RGB);
+      _traceImage = new BufferedImage(renderQuality.x, renderQuality.y, BufferedImage.TYPE_INT_RGB);
+      _heatImage = new BufferedImage(renderQuality.x, renderQuality.y, BufferedImage.TYPE_INT_RGB);
 
       _film = new BoxFilterFilm(_traceImage);
 //      _film = new TriangleFilterFilm(_traceImage);
 
-      _tracePixelXYZ = new float[_qualityPreset.getX()][_qualityPreset.getY()][3];
-
-      for (int i = 0; i < _qualityPreset.getX(); ++i)
-         for (int j = 0; j < _qualityPreset.getY(); ++j)
+      for (int i = 0; i < renderQuality.x; ++i)
+         for (int j = 0; j < renderQuality.y; ++j)
             _traceImage.setRGB(i, j, Color.gray.getRGB()); // Black Background
 
       if (_tracerOptions.showCountWindow) {
@@ -384,25 +361,23 @@ public class TraceManager {
          _heatCanvas.setImage(_heatImage);
       }
 
-      //this.Statistics = new Statistics[_qualityPreset.getX()][_qualityPreset.getY()];
-      for (int i = 0; i < _qualityPreset.getX(); i++) {
-         //this.Statistics[i] = new Statistics[_qualityPreset.getY()];
-         for (int j = 0; j < _qualityPreset.getY(); j++) {
+      //this.Statistics = new Statistics[renderQuality.x][renderQuality.y];
+      for (int i = 0; i < renderQuality.x; i++) {
+         //this.Statistics[i] = new Statistics[renderQuality.y];
+         for (int j = 0; j < renderQuality.y; j++) {
             //this.Statistics[i][j] = new Statistics();
          }
       }
 
-      _minX = _minY = _minZ = Float.MAX_VALUE;
-      _maxX = _maxY = _maxZ = -Float.MAX_VALUE;
 
       if (s >= 0 || t >= 0) {
          Logger.Log(Logger.Level.Info, "rendering with lightpath length s = [" + s +"] and eyepath length t = [" + t + "]");
       }
-      Logger.Log(Logger.Level.Info, "image is " + _qualityPreset.getX() + " x " + _qualityPreset.getY() );
-      Logger.Log(Logger.Level.Info, "pixel threshold: " + _qualityPreset.getConvergenceTerminationThreshold());
-      Logger.Log(Logger.Level.Info, "samples: " + _qualityPreset.getSamplesPerPixel() + "; super samples: " + _qualityPreset.getSuperSamplesPerPixel());
-      Logger.Log(Logger.Level.Info, "max depth: " + _qualityPreset.getMaxDepth());
-      Logger.Log(Logger.Level.Info, "depth of field: " + (_qualityPreset.getUseDepthOfField() ? "yes" : "no"));
+      Logger.Log(Logger.Level.Info, "image is " + renderQuality.x + " x " + renderQuality.y );
+      Logger.Log(Logger.Level.Info, "pixel threshold: " + renderQuality.convergenceTerminationThreshold);
+      Logger.Log(Logger.Level.Info, "samples: " + renderQuality.samplesPerPixel + "; super samples: " + renderQuality.superSamplesPerPixel);
+      Logger.Log(Logger.Level.Info, "max depth: " + renderQuality.maxDepth);
+      Logger.Log(Logger.Level.Info, "depth of field: " + (renderQuality.depthOfField ? "yes" : "no"));
 
    }
 
@@ -417,9 +392,7 @@ public class TraceManager {
 
       _scene.Camera.setFrame(frame);
 
-
-
-      Runnable runner = new BottomUpTileRunner(this, _integrator, _scene, _qualityPreset, _film, _sampler, frame);
+      Runnable runner = new BottomUpTileRunner(this, _integrator, _scene, renderQuality, _film, _sampler, frame);
 
       /*
       if (s >= 0 || t >= 0) {
@@ -454,28 +427,6 @@ public class TraceManager {
       Main.Finished = true;
    }
 
-   public void SetPixelXYZ(int[] pixel, float[] xyzBlendSoFar) {
-      _tracePixelXYZ[pixel[0]][pixel[1]][0] = xyzBlendSoFar[0];
-      _tracePixelXYZ[pixel[0]][pixel[1]][1] = xyzBlendSoFar[1];
-      _tracePixelXYZ[pixel[0]][pixel[1]][2] = xyzBlendSoFar[2];
-
-      if (xyzBlendSoFar[0] > _maxX)
-         _maxX = xyzBlendSoFar[0];
-      else if (xyzBlendSoFar[0] < _minX)
-         _minX = xyzBlendSoFar[0];
-
-      if (xyzBlendSoFar[1] > _maxY)
-         _maxY = xyzBlendSoFar[1];
-      else if (xyzBlendSoFar[1] < _minY)
-         _minY = xyzBlendSoFar[1];
-
-      if (xyzBlendSoFar[2] > _maxZ)
-         _maxZ = xyzBlendSoFar[2];
-      else if (xyzBlendSoFar[2] < _minZ)
-         _minZ = xyzBlendSoFar[2];
-
-   }
-
    private void Log(int frame, int s, int t) {
       Date end = new Date();
       long milliseconds = end.getTime() - _renderStartTime.getTime();
@@ -493,7 +444,7 @@ public class TraceManager {
       NumberFormat format = NumberFormat.getNumberInstance();
       format.setGroupingUsed(true);
 
-      int pixels = _qualityPreset.getX() * _qualityPreset.getY();
+      int pixels = renderQuality.x * renderQuality.y;
       Logger.Log(Logger.Level.Info, "Pixels: \t\t\t" + rightJustify(format.format(pixels)));
 
       long fillRate = (long)(pixels * 1000 / (float)milliseconds);
@@ -504,6 +455,7 @@ public class TraceManager {
       Logger.Log(Logger.Level.Info, "Vector2s: \t\t\t" + rightJustify(format.format(Vector2.instances.get())));
       Logger.Log(Logger.Level.Info, "Point3s: \t\t\t" + rightJustify(format.format(Point3.instances.get())));
       Logger.Log(Logger.Level.Info, "Point2s: \t\t\t" + rightJustify(format.format(Point2.instances.get())));
+      Logger.Log(Logger.Level.Info, "Normals: \t\t\t" + rightJustify(format.format(Normal.instances.get())));
       Logger.Log(Logger.Level.Info, "Samples: \t\t\t" + rightJustify(format.format(Sample.instances.get())));
    }
 
@@ -529,7 +481,7 @@ public class TraceManager {
 
 
    public void Trace(int[] pixel) {
-      PixelRunner runner = new PixelRunner(this, _integrator, _scene, _qualityPreset, _film, _sampler, 0);
+      PixelRunner runner = new PixelRunner(this, _integrator, _scene, renderQuality, _film, _sampler, 0);
       Logger.Log(Logger.Level.Info, "Tracing single pixel " + pixel[0] + " x " + pixel[1]);
       runner.trace(pixel[0], pixel[1]);
    }
@@ -558,8 +510,6 @@ public class TraceManager {
 
          Logger.Log(Logger.Level.Info, "Rendered " + percent + "%" );
       }
-
-
    }
 
    public void SetPixelSPD(int[] pixel, FullSpectralPowerDistribution spd) {
@@ -597,25 +547,23 @@ public class TraceManager {
       //System.exit(0);
    }
 
-   public void moveOriginAlongAxis(int x, int y, int z) {
-      Vector3 delta = new Vector3(x, y, z);
-      _scene.Camera.moveOriginAlongAxis(delta);
+   public void moveOriginAlongAxis(final Vector3 v) {
+      _scene.Camera.moveOriginAlongAxis(v);
       Render();
    }
 
-   public void moveOriginAlongOrientation(int x, int y, int z) {
-      Vector3 delta = new Vector3(x, y, z);
-      _scene.Camera.moveOriginAlongOrientation(delta);
+   public void moveOriginAlongOrientation(final Vector3 v) {
+      _scene.Camera.moveOriginAlongOrientation(v);
       Render();
    }
 
-   public void moveDirectionAlongAxis(float x, float y, float z) {
-      _scene.Camera.moveDirectionAlongAxis(x, y, z);
+   public void moveDirectionAlongAxis(final Vector3 v) {
+      _scene.Camera.moveDirectionAlongAxis(v);
       Render();
    }
 
-   public void moveDirectionAlongOrientation(float x, float y, float z) {
-      _scene.Camera.moveDirectionAlongOrientation(x, y, z);
+   public void moveDirectionAlongOrientation(final Vector3 v) {
+      _scene.Camera.moveDirectionAlongOrientation(v);
       Render();
    }
 }

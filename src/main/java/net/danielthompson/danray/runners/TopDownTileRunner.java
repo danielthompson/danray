@@ -1,7 +1,7 @@
 package net.danielthompson.danray.runners;
 
 import net.danielthompson.danray.TraceManager;
-import net.danielthompson.danray.presets.RenderQualityPreset;
+import net.danielthompson.danray.config.RenderQuality;
 import net.danielthompson.danray.integrators.AbstractIntegrator;
 import net.danielthompson.danray.films.AbstractFilm;
 import net.danielthompson.danray.samplers.AbstractSampler;
@@ -21,7 +21,7 @@ public class TopDownTileRunner extends AbstractTileRunner {
    public TopDownTileRunner(TraceManager manager,
                             AbstractIntegrator tracer,
                             AbstractScene scene,
-                            RenderQualityPreset qualityPreset,
+                            RenderQuality qualityPreset,
                             AbstractFilm film,
                             AbstractSampler sampler,
                             int frame) {

@@ -2,7 +2,7 @@ package net.danielthompson.danray.runners;
 
 import net.danielthompson.danray.Logger;
 import net.danielthompson.danray.TraceManager;
-import net.danielthompson.danray.presets.RenderQualityPreset;
+import net.danielthompson.danray.config.RenderQuality;
 import net.danielthompson.danray.integrators.AbstractIntegrator;
 import net.danielthompson.danray.films.AbstractFilm;
 import net.danielthompson.danray.samplers.AbstractSampler;
@@ -30,7 +30,7 @@ public abstract class AbstractRunner implements Runnable {
    AbstractRunner(TraceManager traceManager,
                   AbstractIntegrator integrator,
                   AbstractScene scene,
-                  RenderQualityPreset qualityPreset,
+                  RenderQuality qualityPreset,
                   AbstractFilm film,
                   AbstractSampler sampler,
                   int frame) {
@@ -40,8 +40,8 @@ public abstract class AbstractRunner implements Runnable {
       Frame = frame;
       Film = film;
       Sampler = sampler;
-      _samplesPerPixel = qualityPreset.getSamplesPerPixel();
-      _superSamplesPerPixel = qualityPreset.getSuperSamplesPerPixel();
+      _samplesPerPixel = qualityPreset.samplesPerPixel;
+      _superSamplesPerPixel = qualityPreset.superSamplesPerPixel;
    }
 
    @Override
@@ -58,22 +58,17 @@ public abstract class AbstractRunner implements Runnable {
          int heatCount = 0;
 
          do {
-            Point2[] sampleLocations = Sampler.GetSamples(x, y, _samplesPerPixel);
-            int numSamples = sampleLocations.length;
-            Ray[] cameraRays = Scene.Camera.getRays(sampleLocations, numSamples);
+            final Point2[] sampleLocations = Sampler.GetSamples(x, y, _samplesPerPixel);
+            final int numSamples = sampleLocations.length;
+            final Ray[] cameraRays = Scene.Camera.getRays(sampleLocations, numSamples);
             TraceManager.InitialRays.addAndGet(cameraRays.length);
-            Sample[] samples = new Sample[cameraRays.length];
+            final Sample[] samples = new Sample[cameraRays.length];
             for (int i = 0; i < cameraRays.length; i++) {
-
                samples[i] = Integrator.GetSample(cameraRays[i], 1, x, y);
-//               samples[i].x = sampleLocations[i].x;
-//               samples[i].y = sampleLocations[i].y;
                heatCount += samples[i].KDHeatCount;
-               //Manager.Statistics[x][y].Add(samples[i].Statistics);
             }
             Film.AddSamples(x, y, samples);
             reachedSamples += numSamples;
-
             iterations++;
          }
          while (!Film.AboveThreshhold() && iterations < _superSamplesPerPixel);

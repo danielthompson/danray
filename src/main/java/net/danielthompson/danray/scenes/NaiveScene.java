@@ -1,7 +1,7 @@
 package net.danielthompson.danray.scenes;
 
 import net.danielthompson.danray.cameras.Camera;
-import net.danielthompson.danray.presets.TracerOptions;
+import net.danielthompson.danray.config.TracerOptions;
 import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.Ray;
 

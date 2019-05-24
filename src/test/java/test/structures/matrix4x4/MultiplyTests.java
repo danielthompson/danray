@@ -49,7 +49,7 @@ public class MultiplyTests {
    @Test(dataProvider = "MultiplyDataProvider")
    public void TestMultiply(Matrix4x4 m1, Matrix4x4 m2, Matrix4x4 expected) {
 
-      Matrix4x4 actual = m1.Multiply(m2);
+      Matrix4x4 actual = m1.multiply(m2);
 
       Assert.assertNotNull(actual);
       Assert.assertEquals(expected, actual);

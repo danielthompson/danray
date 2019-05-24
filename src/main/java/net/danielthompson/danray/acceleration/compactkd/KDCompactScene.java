@@ -1,7 +1,7 @@
 package net.danielthompson.danray.acceleration.compactkd;
 
 import net.danielthompson.danray.cameras.Camera;
-import net.danielthompson.danray.presets.TracerOptions;
+import net.danielthompson.danray.config.TracerOptions;
 import net.danielthompson.danray.scenes.AbstractScene;
 import net.danielthompson.danray.shapes.AbstractShape;
 import net.danielthompson.danray.states.Intersection;

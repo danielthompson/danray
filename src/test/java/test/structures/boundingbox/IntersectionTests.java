@@ -32,7 +32,7 @@ public class IntersectionTests {
       Ray ray = new Ray(origin, direction);
 
       // act
-      Intersection state = box.GetHitInfo(ray);
+      Intersection state = box.getHitInfo(ray);
 
       // assert
       Assert.assertNotNull(state, "intersection state shouldn't be null");

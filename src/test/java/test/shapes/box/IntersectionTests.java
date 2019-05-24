@@ -88,7 +88,7 @@ public class IntersectionTests {
       Point3 expectedIntersectionPoint = new Point3(2, 1, 2);
       Normal expectedNormalDirection = new Normal(0, 0, 1);
 
-      Assert.assertNotNull(state, "Intersection shouldn't be null");
+      Assert.assertNotNull(state, "intersection shouldn't be null");
       Assert.assertTrue(state.hits, "Should hit");
       Assert.assertNotNull(state.location, "location shouldn't be null if hits...");
       AssertHelper.assertEquals(state.location, expectedIntersectionPoint);

@@ -1,9 +1,7 @@
 package net.danielthompson.danray;
 
-import net.danielthompson.danray.presets.*;
+import net.danielthompson.danray.config.*;
 import net.danielthompson.danray.scenes.AbstractScene;
-
-import java.io.IOException;
 
 /**
  * DanRay
@@ -13,9 +11,9 @@ import java.io.IOException;
  */
 public class Main {
 
-   private static final RenderQualityPreset _preset = new LowQuality();
-//   private static final RenderQualityPreset _preset = new MediumQuality();
-//   private static final RenderQualityPreset _preset = new HighQuality();
+   private static final RenderQuality lowQuality = new LowQuality();
+   private static final RenderQuality mediumQuality = new MediumQuality();
+   private static final RenderQuality highQuality = new HighQuality();
 
    public static boolean Finished = false;
 
@@ -25,13 +23,17 @@ public class Main {
 
       AbstractScene scene;
 
-      //scene = SceneBuilder.Default(_preset.getX(), _preset.getY());
-      scene = SceneBuilder.NumericalStabilityTest(_preset.getX(), _preset.getY());
+      RenderQuality quality = lowQuality;
+//      RenderQuality quality = mediumQuality;
+//      RenderQuality quality = highQuality;
 
-      TracerOptions options = parseArgs(args);
+      //scene = SceneBuilder.Default(_preset.x, _preset.y);
+      scene = SceneBuilder.NumericalStabilityTest(quality.x, quality.y);
+
+      final TracerOptions options = parseArgs(args);
       //options.numThreads = 1;
 
-      traceManager = new TraceManager(scene, _preset, options);
+      traceManager = new TraceManager(scene, quality, options);
       traceManager.Compile();
       traceManager.Render();
       traceManager.Finish();
@@ -41,7 +43,7 @@ public class Main {
       traceManager.Trace(pixel);
    }
 
-   private static TracerOptions parseArgs(String[] args) {
+   private static TracerOptions parseArgs(final String[] args) {
       TracerOptions options = new TracerOptions();
 
       for (int i = 0; i < args.length; i++) {

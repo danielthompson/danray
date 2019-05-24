@@ -48,7 +48,7 @@ public class InversionTests {
 
    @Test
    public void TestInversionNotNull() {
-      Matrix4x4 inversion = m.Inverse();
+      Matrix4x4 inversion = m.inverse();
 
       Assert.assertNotNull(inversion);
    }

@@ -36,7 +36,7 @@
 //
 //      // translation
 //
-//      t = Transform.Translate(new Vector(1, 1, 1));
+//      t = Transform.translate(new Vector(1, 1, 1));
 //      box = new Box(new Point(0, 0, 0), new Point(1, 1, 1), null, t, t.invert());
 //      expected = new BoundingBox(new Point(1, 1, 1), new Point(2, 2, 2));
 //
