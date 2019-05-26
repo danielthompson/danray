@@ -21,7 +21,7 @@ public class Cylinder extends AbstractShape {
       WorldToObject = worldToObject;
       ObjectToWorld = objectToWorld;
 
-      RecalculateWorldBoundingBox();
+      recalculateWorldBoundingBox();
    }
 
    public Cylinder(Transform[] transforms, Material material) {
@@ -29,7 +29,7 @@ public class Cylinder extends AbstractShape {
    }
 
    @Override
-   public void RecalculateWorldBoundingBox() {
+   public void recalculateWorldBoundingBox() {
       WorldBoundingBox = new BoundingBox(new Point3(-Radius, 0, -Radius), new Point3(Radius, Height, Radius));
       if (ObjectToWorld != null) {
          WorldBoundingBox = ObjectToWorld.apply(WorldBoundingBox);
@@ -37,7 +37,7 @@ public class Cylinder extends AbstractShape {
    }
 
    @Override
-   public Intersection GetHitInfo(Ray worldSpaceRay) {
+   public Intersection intersect(Ray worldSpaceRay) {
       Ray objectSpaceRay = worldSpaceRay;
 
       if (WorldToObject != null) {

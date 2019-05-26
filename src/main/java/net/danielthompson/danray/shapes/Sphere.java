@@ -36,10 +36,10 @@ public class Sphere extends CSGShape {
       super(objectToWorld, worldToObject);
       this.Material = material;
       Radius = 1;
-      RecalculateWorldBoundingBox();
+      recalculateWorldBoundingBox();
    }
 
-   public void RecalculateWorldBoundingBox() {
+   public void recalculateWorldBoundingBox() {
 
       final float p1x = Origin.x - Radius;
       final float p1y = Origin.y - Radius;
@@ -59,7 +59,7 @@ public class Sphere extends CSGShape {
    }
 
    @Override
-   public boolean Hits(final Ray worldSpaceRay) {
+   public boolean hits(final Ray worldSpaceRay) {
       Ray objectSpaceRay = worldSpaceRay;
 
       if (WorldToObject != null) {
@@ -124,7 +124,7 @@ public class Sphere extends CSGShape {
    }
 
    @Override
-   public Intersection GetHitInfo(final Ray worldSpaceRay) {
+   public Intersection intersect(final Ray worldSpaceRay) {
 
       Ray objectSpaceRay = worldSpaceRay;
 
@@ -156,9 +156,9 @@ public class Sphere extends CSGShape {
       intersection.u = 0.5f + (float)Math.atan2(-objectSpaceNormal.z, -objectSpaceNormal.x) * Constants.OneOver2Pi;
       intersection.v = 0.5f - (float)Math.asin(-objectSpaceNormal.y) * Constants.OneOverPi;
 
-      CalculateTangents(intersection);
+      calculateTangents(intersection);
 
-      ToWorldSpace(intersection, worldSpaceRay);
+      toWorldSpace(intersection, worldSpaceRay);
 
       return intersection;
    }
@@ -204,7 +204,7 @@ public class Sphere extends CSGShape {
             worldSpaceRay.MinT = worldSpaceRay.getTAtPoint(worldSpaceIntersectionPoint);
          }
 
-         Intersection intersection = GetHitInfo(worldSpaceRay);
+         Intersection intersection = intersect(worldSpaceRay);
 
          intersection.t = worldSpaceRay.MinT;
 
@@ -221,7 +221,7 @@ public class Sphere extends CSGShape {
             worldSpaceRay.MinT = worldSpaceRay.getTAtPoint(worldSpaceIntersectionPoint);
          }
 
-         final Intersection intersection = GetHitInfo(worldSpaceRay);
+         final Intersection intersection = intersect(worldSpaceRay);
          intersection.t = worldSpaceRay.MinT;
          intersections.add(intersection);
       }

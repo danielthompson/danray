@@ -67,14 +67,14 @@ public class HitTests {
 
       Box box = new Box(compositeTransform, null);
 
-      box.RecalculateWorldBoundingBox();
+      box.recalculateWorldBoundingBox();
 
       Point3 origin = new Point3(5, 5, 5);
       Vector3 direction = new Vector3(-1, -1, -1);
 
       Ray ray = new Ray(origin, direction);
 
-      boolean hits = box.Hits(ray);
+      boolean hits = box.hits(ray);
 
       Assert.assertTrue(hits);
    }
@@ -89,14 +89,14 @@ public class HitTests {
 
       Box box = new Box(compositeTransform, null);
 
-      box.RecalculateWorldBoundingBox();
+      box.recalculateWorldBoundingBox();
 
       Point3 origin = new Point3(5, 5, 5);
       Vector3 direction = new Vector3(-1, -1, -1);
 
       Ray ray = new Ray(origin, direction);
 
-      boolean hits = box.Hits(ray);
+      boolean hits = box.hits(ray);
 
       Assert.assertTrue(hits);
    }

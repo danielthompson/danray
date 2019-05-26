@@ -30,9 +30,9 @@ public class TransformationTests {
 
       Ray ray = new Ray(origin, direction);
 
-      boolean hits = box.Hits(ray);
+      boolean hits = box.hits(ray);
 
-      Intersection state = box.GetHitInfo(ray);
+      Intersection state = box.intersect(ray);
 
       Normal expectedNormalDirection = new Normal(0, .5f, .5f);
       expectedNormalDirection.normalize();
@@ -58,8 +58,8 @@ public class TransformationTests {
 
       Ray ray = new Ray(origin, direction);
 
-      boolean hits = box.Hits(ray);
-      Intersection state = box.GetHitInfo(ray);
+      boolean hits = box.hits(ray);
+      Intersection state = box.intersect(ray);
 
       Point3 expectedIntersectionPoint = new Point3(1, 1, 2);
       Normal expectedNormalDirection = new Normal(0, 0, 1);
@@ -85,8 +85,8 @@ public class TransformationTests {
 
       Ray ray = new Ray(origin, direction);
 
-      boolean hits = box.Hits(ray);
-      Intersection state = box.GetHitInfo(ray);
+      boolean hits = box.hits(ray);
+      Intersection state = box.intersect(ray);
 
       Point3 expectedIntersectionPoint = new Point3(2, 1, 2);
       Normal expectedNormalDirection = new Normal(0, 0, 1);
@@ -114,8 +114,8 @@ public class TransformationTests {
 
       Ray ray = new Ray(origin, direction);
 
-      boolean hits = box.Hits(ray);
-      Intersection state = box.GetHitInfo(ray);
+      boolean hits = box.hits(ray);
+      Intersection state = box.intersect(ray);
 
       Point3 expectedIntersectionPoint = new Point3(2, 1, 2);
       Normal expectedNormalDirection = new Normal(0, 0, 1);

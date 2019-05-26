@@ -27,21 +27,21 @@ public abstract class AbstractScene {
    public List<AbstractLight> Lights;
    public List<AbstractShape> Shapes;
 
-   public AbstractScene(Camera camera) {
+   public AbstractScene(final Camera camera) {
       Camera = camera;
       Shapes = new ArrayList<>();
       Lights = new ArrayList<>();
    }
 
-   public void addShape(AbstractShape shape) {
+   public void addShape(final AbstractShape shape) {
       Shapes.add(shape);
    }
 
-   public void addLight(AbstractLight light) {
+   public void addLight(final AbstractLight light) {
       Lights.add(light);
    }
 
-   public SpectralPowerDistribution getEnvironmentColor(Vector3 v) {
+   public SpectralPowerDistribution getEnvironmentColor(final Vector3 v) {
       if (Skybox == null) {
          return new SpectralPowerDistribution(Color.BLACK);
       }
@@ -52,14 +52,14 @@ public abstract class AbstractScene {
 
    public abstract Intersection getNearestShape(Ray ray, int x, int y);
 
-   public Intersection getNearestShapeIteratively(List<AbstractShape> shapes, Ray ray) {
+   public Intersection getNearestShapeIteratively(final List<AbstractShape> shapes, final Ray ray) {
       int nearestShapeIndex = -1;
       float closestT = ray.MinT;
       boolean test = false;
 
       for (int i = 0; i < shapes.size(); i++) {
          AbstractShape shape = shapes.get(i);
-         boolean hits = shape.Hits(ray);
+         boolean hits = shape.hits(ray);
          test = (hits && ray.MinT >= Constants.Epsilon && ray.MinT < closestT);
          nearestShapeIndex = test ? i : nearestShapeIndex;
          closestT = test ? ray.MinT : closestT;
@@ -68,30 +68,27 @@ public abstract class AbstractScene {
       Intersection closestIntersection = null;
 
       if (nearestShapeIndex >= 0) {
-         closestIntersection = shapes.get(nearestShapeIndex).GetHitInfo(ray);
+         closestIntersection = shapes.get(nearestShapeIndex).intersect(ray);
          // flip the normal if the ray is approaching from the other side
          if (closestIntersection.normal.dot(ray.Direction) > 0)
             closestIntersection.normal.scale(-1);
          if (closestIntersection != null && Float.isNaN(closestIntersection.location.x)) {
             // wtf?
-            closestIntersection = shapes.get(nearestShapeIndex).GetHitInfo(ray);
+            closestIntersection = shapes.get(nearestShapeIndex).intersect(ray);
          }
       }
-
-
-
 
       return closestIntersection;
    }
 
-   public String compile(TracerOptions _tracerOptions) {
+   public String compile(final TracerOptions _tracerOptions) {
       for (AbstractShape shape : Shapes) {
          if (shape.ObjectToWorld == null) {
             shape.ObjectToWorld = Transform.identity;
             shape.WorldToObject = Transform.identity;
          }
 
-         shape.RecalculateWorldBoundingBox();
+         shape.recalculateWorldBoundingBox();
       }
       return "Bounding boxes recalculated.\r\n";
    }

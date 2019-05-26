@@ -30,7 +30,7 @@ public class GetBoundingBoxTests {
       Sphere sphere = new Sphere();
       sphere.Origin = new Point3(0, 0, 0);
       sphere.Radius = 10;
-      sphere.RecalculateWorldBoundingBox();
+      sphere.recalculateWorldBoundingBox();
 
       BoundingBox actualBoundingBox = sphere.WorldBoundingBox;
 
@@ -46,7 +46,7 @@ public class GetBoundingBoxTests {
       Sphere sphere = new Sphere();
       sphere.Origin = new Point3(1, 1, 1);
       sphere.Radius = 10;
-      sphere.RecalculateWorldBoundingBox();
+      sphere.recalculateWorldBoundingBox();
 
       BoundingBox actualBoundingBox = sphere.WorldBoundingBox;
 

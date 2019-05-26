@@ -38,7 +38,7 @@ public class HitTests {
       Sphere sphere = new Sphere();
       Ray ray = new Ray(origin, direction);
 
-      boolean actualHits = sphere.Hits(ray);
+      boolean actualHits = sphere.hits(ray);
 
       String text = "Vector shouldn't hit sphere";
       if (hits) {

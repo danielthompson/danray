@@ -28,7 +28,7 @@ public class IntersectionTests {
 
       Ray ray = new Ray(origin, direction);
 
-      Intersection state = cylinder.GetHitInfo(ray);
+      Intersection state = cylinder.intersect(ray);
 
       Assert.assertFalse(state.hits, "Shouldn't hit");
    }
@@ -47,7 +47,7 @@ public class IntersectionTests {
 
       Ray ray = new Ray(origin, direction);
 
-      Intersection state = cylinder.GetHitInfo(ray);
+      Intersection state = cylinder.intersect(ray);
 
       Point3 expectedIntersectionPoint = new Point3(0, 1, 0);
       Normal expectedNormalDirection = new Normal(0, 1, 0);
@@ -72,7 +72,7 @@ public class IntersectionTests {
 
       Ray ray = new Ray(origin, direction);
 
-      Intersection state = cylinder.GetHitInfo(ray);
+      Intersection state = cylinder.intersect(ray);
 
       Point3 expectedIntersectionPoint = new Point3(0, 0, 0);
       Normal expectedNormalDirection = new Normal(0, -1, 0);
@@ -97,7 +97,7 @@ public class IntersectionTests {
 
       Ray ray = new Ray(origin, direction);
 
-      Intersection state = cylinder.GetHitInfo(ray);
+      Intersection state = cylinder.intersect(ray);
 
       Point3 expectedIntersectionPoint = new Point3(0, 0, 0);
       Normal expectedNormalDirection = new Normal(0, -1, 0);
@@ -122,7 +122,7 @@ public class IntersectionTests {
 
       Ray ray = new Ray(origin, direction);
 
-      Intersection state = cylinder.GetHitInfo(ray);
+      Intersection state = cylinder.intersect(ray);
 
       Point3 expectedIntersectionPoint = new Point3(0, 1, 0);
       Normal expectedNormalDirection = new Normal(0, 1, 0);
@@ -147,7 +147,7 @@ public class IntersectionTests {
 
       Ray ray = new Ray(origin, direction);
 
-      Intersection state = cylinder.GetHitInfo(ray);
+      Intersection state = cylinder.intersect(ray);
 
       Assert.assertFalse(state.hits, "Shouldn't hit");
    }
@@ -166,7 +166,7 @@ public class IntersectionTests {
 
       Ray ray = new Ray(origin, direction);
 
-      Intersection state = cylinder.GetHitInfo(ray);
+      Intersection state = cylinder.intersect(ray);
 
       Point3 expectedIntersectionPoint = new Point3(0, .5f, -1);
       Normal expectedNormalDirection = new Normal(0, 0, -1);
@@ -191,7 +191,7 @@ public class IntersectionTests {
 
       Ray ray = new Ray(origin, direction);
 
-      Intersection state = cylinder.GetHitInfo(ray);
+      Intersection state = cylinder.intersect(ray);
 
       Point3 expectedIntersectionPoint = new Point3(1, .5f, 0);
       Normal expectedNormalDirection = new Normal(1, 0, 0);
@@ -216,7 +216,7 @@ public class IntersectionTests {
 
       Ray ray = new Ray(origin, direction);
 
-      Intersection state = cylinder.GetHitInfo(ray);
+      Intersection state = cylinder.intersect(ray);
 
       Point3 expectedIntersectionPoint = new Point3(1, .5f, 0);
       Normal expectedNormalDirection = new Normal(1, 0, 0);
@@ -241,7 +241,7 @@ public class IntersectionTests {
 
       Ray ray = new Ray(origin, direction);
 
-      Intersection state = cylinder.GetHitInfo(ray);
+      Intersection state = cylinder.intersect(ray);
 
       Point3 expectedIntersectionPoint = new Point3(0, 1, 0);
       Normal expectedNormalDirection = new Normal(0, 1, 0);
@@ -267,7 +267,7 @@ public class IntersectionTests {
 
       Ray ray = new Ray(origin, direction);
 
-      Intersection state = cylinder.GetHitInfo(ray);
+      Intersection state = cylinder.intersect(ray);
 
       Point3 expectedIntersectionPoint = new Point3(0, 0, 0);
       Normal expectedNormalDirection = new Normal(0, -1, 0);

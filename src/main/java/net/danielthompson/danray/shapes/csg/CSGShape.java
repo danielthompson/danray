@@ -50,7 +50,7 @@ public class CSGShape extends AbstractShape {
       super(objectToWorld, worldToObject, null);
    }
 
-   public boolean Hits(Ray worldSpaceRay) {
+   public boolean hits(Ray worldSpaceRay) {
 
 //      float worldT = worldSpaceRay.MinT;
 //      if (!WorldBoundingBox.hits(worldSpaceRay)) {
@@ -178,7 +178,7 @@ public class CSGShape extends AbstractShape {
    }
 
    @Override
-   public Intersection GetHitInfo(Ray worldSpaceRay) {
+   public Intersection intersect(Ray worldSpaceRay) {
       Ray objectSpaceRay = worldSpaceRay;
 
       if (WorldToObject != null) {
@@ -231,7 +231,7 @@ public class CSGShape extends AbstractShape {
          switch (Operation) {
             case Union: {
                if (nextIntersection.hits) {
-                  ToWorldSpace(nextIntersection, worldSpaceRay);
+                  toWorldSpace(nextIntersection, worldSpaceRay);
 
                   return nextIntersection;
                }
@@ -244,7 +244,7 @@ public class CSGShape extends AbstractShape {
                // if hp is on left and we're outside right, return it
                if (nextIntersection == leftIntersection && !rightInside)
                {
-                  ToWorldSpace(nextIntersection, worldSpaceRay);
+                  toWorldSpace(nextIntersection, worldSpaceRay);
                   return nextIntersection;
                }
 
@@ -253,7 +253,7 @@ public class CSGShape extends AbstractShape {
                // if hp is on right and we're inside left, flip normal and return it
                if (nextIntersection == rightIntersection && leftInside /*&& !rightInside*/)
                {
-                  ToWorldSpace(nextIntersection, worldSpaceRay);
+                  toWorldSpace(nextIntersection, worldSpaceRay);
                   //nextIntersection.normal.scale(-1);
                   return nextIntersection;
                }
@@ -266,7 +266,7 @@ public class CSGShape extends AbstractShape {
                // if hp is on left and we're inside right, return it
                if (nextIntersection == leftIntersection && rightInside)
                {
-                  ToWorldSpace(nextIntersection, worldSpaceRay);
+                  toWorldSpace(nextIntersection, worldSpaceRay);
                   return nextIntersection;
                }
 
@@ -275,7 +275,7 @@ public class CSGShape extends AbstractShape {
                // if hp is on right and we're inside left, return it
                if (nextIntersection == rightIntersection && leftInside)
                {
-                  ToWorldSpace(nextIntersection, worldSpaceRay);
+                  toWorldSpace(nextIntersection, worldSpaceRay);
                   return nextIntersection;
                }
                continue;
@@ -285,7 +285,7 @@ public class CSGShape extends AbstractShape {
    }
 
    @Override
-   public void RecalculateWorldBoundingBox() {
+   public void recalculateWorldBoundingBox() {
       BoundingBox left = LeftShape.WorldBoundingBox;
       BoundingBox right = RightShape.WorldBoundingBox;
 
@@ -359,7 +359,7 @@ public class CSGShape extends AbstractShape {
          switch (Operation) {
             case Union: {
                if (nextIntersection.hits) {
-                  ToWorldSpace(nextIntersection, worldSpaceRay);
+                  toWorldSpace(nextIntersection, worldSpaceRay);
                   intersections.add(nextIntersection);
                }
                continue;
@@ -371,7 +371,7 @@ public class CSGShape extends AbstractShape {
                // if hp is on left and we're outside right, return it
                if (nextIntersection == leftIntersection && !rightInside)
                {
-                  ToWorldSpace(nextIntersection, worldSpaceRay);
+                  toWorldSpace(nextIntersection, worldSpaceRay);
                   intersections.add(nextIntersection);
                }
 
@@ -380,7 +380,7 @@ public class CSGShape extends AbstractShape {
                // if hp is on right and we're inside left, flip normal and return it
                if (nextIntersection == rightIntersection && leftInside /*&& !rightInside*/)
                {
-                  ToWorldSpace(nextIntersection, worldSpaceRay);
+                  toWorldSpace(nextIntersection, worldSpaceRay);
                   //nextIntersection.normal.scale(-1);
                   intersections.add(nextIntersection);
                }
@@ -393,7 +393,7 @@ public class CSGShape extends AbstractShape {
                // if hp is on left and we're inside right, return it
                if (nextIntersection == leftIntersection && rightInside)
                {
-                  ToWorldSpace(nextIntersection, worldSpaceRay);
+                  toWorldSpace(nextIntersection, worldSpaceRay);
                   intersections.add(nextIntersection);
                }
 
@@ -402,7 +402,7 @@ public class CSGShape extends AbstractShape {
                // if hp is on right and we're inside left, return it
                if (nextIntersection == rightIntersection && leftInside)
                {
-                  ToWorldSpace(nextIntersection, worldSpaceRay);
+                  toWorldSpace(nextIntersection, worldSpaceRay);
                   intersections.add(nextIntersection);
                }
                continue;

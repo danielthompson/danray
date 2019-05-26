@@ -52,7 +52,7 @@ public class PointLight extends AbstractLight {
 
 
    @Override
-   public void RecalculateWorldBoundingBox() {
+   public void recalculateWorldBoundingBox() {
       WorldBoundingBox = new BoundingBox(Location, Location);
    }
 

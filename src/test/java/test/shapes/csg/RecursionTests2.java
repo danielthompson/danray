@@ -103,7 +103,7 @@ public class RecursionTests2 {
       Vector3 d = new Vector3(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
-      boolean hits = shape.Hits(ray);
+      boolean hits = shape.hits(ray);
       Assert.assertFalse(hits);
    }
 
@@ -113,10 +113,10 @@ public class RecursionTests2 {
       Vector3 d = new Vector3(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
-      boolean hits = shape.Hits(ray);
+      boolean hits = shape.hits(ray);
       Assert.assertTrue(hits);
 
-      Intersection intersection = shape.GetHitInfo(ray);
+      Intersection intersection = shape.intersect(ray);
 
       Point3 expectedPoint = new Point3(4f, 0, 1.5f);
       Assert.assertEquals(intersection.location, expectedPoint);
@@ -128,8 +128,8 @@ public class RecursionTests2 {
       Vector3 d = new Vector3(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
-      boolean hits = shape.Hits(ray);
-      Intersection intersection = shape.GetHitInfo(ray);
+      boolean hits = shape.hits(ray);
+      Intersection intersection = shape.intersect(ray);
 
       Normal expectedNormal = new Normal(1, 0, 0);
       Assert.assertEquals(intersection.normal, expectedNormal);
@@ -141,7 +141,7 @@ public class RecursionTests2 {
       Vector3 d = new Vector3(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
-      boolean hits = shape.Hits(ray);
+      boolean hits = shape.hits(ray);
       Assert.assertFalse(hits);
    }
 
@@ -151,7 +151,7 @@ public class RecursionTests2 {
       Vector3 d = new Vector3(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
-      boolean hits = shape.Hits(ray);
+      boolean hits = shape.hits(ray);
       Assert.assertFalse(hits);
    }
 
@@ -161,7 +161,7 @@ public class RecursionTests2 {
       Vector3 d = new Vector3(0, 0, -1);
       Ray ray = new Ray(o, d);
 
-      boolean hits = shape.Hits(ray);
+      boolean hits = shape.hits(ray);
       Assert.assertFalse(hits);
    }
 
@@ -171,7 +171,7 @@ public class RecursionTests2 {
       Vector3 d = new Vector3(0, 0, -1);
       Ray ray = new Ray(o, d);
 
-      boolean hits = shape.Hits(ray);
+      boolean hits = shape.hits(ray);
       Assert.assertFalse(hits);
    }
 
@@ -181,10 +181,10 @@ public class RecursionTests2 {
       Vector3 d = new Vector3(0, 0, -1);
       Ray ray = new Ray(o, d);
 
-      boolean hits = shape.Hits(ray);
+      boolean hits = shape.hits(ray);
       Assert.assertTrue(hits);
 
-      Intersection intersection = shape.GetHitInfo(ray);
+      Intersection intersection = shape.intersect(ray);
 
       Point3 expectedPoint = new Point3(3.5f, 0, 4f);
       Assert.assertEquals(intersection.location, expectedPoint);
@@ -196,8 +196,8 @@ public class RecursionTests2 {
       Vector3 d = new Vector3(0, 0, -1);
       Ray ray = new Ray(o, d);
 
-      boolean hits = shape.Hits(ray);
-      Intersection intersection = shape.GetHitInfo(ray);
+      boolean hits = shape.hits(ray);
+      Intersection intersection = shape.intersect(ray);
 
       Normal expectedNormal = new Normal(0, 0, 1);
       Assert.assertEquals(intersection.normal, expectedNormal);
@@ -209,10 +209,10 @@ public class RecursionTests2 {
       Vector3 d = new Vector3(1, 0, 0);
       Ray ray = new Ray(o, d);
 
-      boolean hits = shape.Hits(ray);
+      boolean hits = shape.hits(ray);
       Assert.assertTrue(hits);
 
-      Intersection intersection = shape.GetHitInfo(ray);
+      Intersection intersection = shape.intersect(ray);
 
       Point3 expectedPoint = new Point3(1.0f, 0, 3.5f);
       Assert.assertEquals(intersection.location, expectedPoint);
@@ -224,8 +224,8 @@ public class RecursionTests2 {
       Vector3 d = new Vector3(1, 0, 0);
       Ray ray = new Ray(o, d);
 
-      boolean hits = shape.Hits(ray);
-      Intersection intersection = shape.GetHitInfo(ray);
+      boolean hits = shape.hits(ray);
+      Intersection intersection = shape.intersect(ray);
 
       Normal expectedNormal = new Normal(-1, 0, 0);
       Assert.assertEquals(intersection.normal, expectedNormal);
@@ -237,7 +237,7 @@ public class RecursionTests2 {
       Vector3 d = new Vector3(0, 0, -1);
       Ray ray = new Ray(o, d);
 
-      boolean hits = shape.Hits(ray);
+      boolean hits = shape.hits(ray);
       Assert.assertFalse(hits);
    }
 
@@ -247,10 +247,10 @@ public class RecursionTests2 {
       Vector3 d = new Vector3(-1f, 0, -1f);
       Ray ray = new Ray(o, d);
 
-      boolean hits = shape.Hits(ray);
+      boolean hits = shape.hits(ray);
       Assert.assertTrue(hits);
 
-      Intersection intersection = shape.GetHitInfo(ray);
+      Intersection intersection = shape.intersect(ray);
 
       Point3 expectedPoint = new Point3(3.5f, 0, 2f);
       Assert.assertEquals(intersection.location, expectedPoint);
@@ -262,8 +262,8 @@ public class RecursionTests2 {
       Vector3 d = new Vector3(-1f, 0, -1f);
       Ray ray = new Ray(o, d);
 
-      boolean hits = shape.Hits(ray);
-      Intersection intersection = shape.GetHitInfo(ray);
+      boolean hits = shape.hits(ray);
+      Intersection intersection = shape.intersect(ray);
 
       Normal expectedNormal = new Normal(0, 0, 1);
       Assert.assertEquals(intersection.normal, expectedNormal);

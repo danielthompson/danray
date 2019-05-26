@@ -35,7 +35,7 @@ public class PartialSphere extends AbstractShape {
          ObjectToWorld = transforms[0];
          WorldToObject = transforms[1];
       }
-      RecalculateWorldBoundingBox();
+      recalculateWorldBoundingBox();
 
       if (Math.abs(theta) > Constants.PI)
          throw new IllegalArgumentException("Theta must be between -π and π");
@@ -45,7 +45,7 @@ public class PartialSphere extends AbstractShape {
       Phi = phi;
    }
 
-   public void RecalculateWorldBoundingBox() {
+   public void recalculateWorldBoundingBox() {
 
       float p1x = Origin.x - Radius;
       float p1y = Origin.y - Radius;
@@ -65,7 +65,7 @@ public class PartialSphere extends AbstractShape {
    }
 
    @Override
-   public boolean Hits(Ray worldSpaceRay) {
+   public boolean hits(Ray worldSpaceRay) {
       Ray objectSpaceRay = worldSpaceRay;
 
       if (WorldToObject != null) {
@@ -169,7 +169,7 @@ public class PartialSphere extends AbstractShape {
    }
 
    @Override
-   public Intersection GetHitInfo(Ray worldSpaceRay) {
+   public Intersection intersect(Ray worldSpaceRay) {
 
       Ray objectSpaceRay = worldSpaceRay;
 
@@ -202,9 +202,9 @@ public class PartialSphere extends AbstractShape {
       intersection.u = 0.5f + (float)Math.atan2(-objectSpaceNormal.z, -objectSpaceNormal.x) * Constants.OneOver2Pi;
       intersection.v = 0.5f - (float)Math.asin(-objectSpaceNormal.y) * Constants.OneOverPi;
 
-      CalculateTangents(intersection);
+      calculateTangents(intersection);
 
-      ToWorldSpace(intersection, worldSpaceRay);
+      toWorldSpace(intersection, worldSpaceRay);
 
       return intersection;
    }

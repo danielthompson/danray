@@ -65,7 +65,7 @@ public class Triangle extends AbstractShape {
    }
 
    @Override
-   public Intersection GetHitInfo(Ray ray) {
+   public Intersection intersect(Ray ray) {
       return GetHitInfo(this, ray, _vertex0, _vertex1, _vertex2);
    }
 
@@ -75,7 +75,7 @@ public class Triangle extends AbstractShape {
    }
 
    @Override
-   public boolean Hits(Ray worldSpaceRay) {
+   public boolean hits(Ray worldSpaceRay) {
       throw new java.lang.UnsupportedOperationException();
    }
 
@@ -112,7 +112,7 @@ public class Triangle extends AbstractShape {
    }
 
    @Override
-   public void RecalculateWorldBoundingBox() {
+   public void recalculateWorldBoundingBox() {
 
    }
 

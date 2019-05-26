@@ -48,8 +48,8 @@ public class ShapeLight extends AbstractLight {
    }
 
    @Override
-   public void RecalculateWorldBoundingBox() {
-      Shape.RecalculateWorldBoundingBox();
+   public void recalculateWorldBoundingBox() {
+      Shape.recalculateWorldBoundingBox();
       WorldBoundingBox = Shape.WorldBoundingBox;
    }
 

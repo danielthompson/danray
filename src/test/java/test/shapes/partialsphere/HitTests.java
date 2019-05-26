@@ -25,7 +25,7 @@ public class HitTests {
       Vector3 Direction = new Vector3(1, 0, 0);
       Ray ray = new Ray(Origin, Direction);
 
-      boolean hits = sphere.Hits(ray);
+      boolean hits = sphere.hits(ray);
 
       Assert.assertFalse(hits, "Vector shouldn't hit partial sphere.");
    }
@@ -38,7 +38,7 @@ public class HitTests {
       Vector3 Direction = new Vector3(1, 0, 0);
       Ray ray = new Ray(Origin, Direction);
 
-      boolean hits = sphere.Hits(ray);
+      boolean hits = sphere.hits(ray);
 
       Assert.assertTrue(hits, "Vector should hit partial sphere.");
    }
@@ -51,7 +51,7 @@ public class HitTests {
       Vector3 Direction = new Vector3(0, -1, 0);
       Ray ray = new Ray(Origin, Direction);
 
-      boolean hits = sphere.Hits(ray);
+      boolean hits = sphere.hits(ray);
       Assert.assertTrue(hits, "Vector should hit partial sphere.");
    }
 
@@ -63,7 +63,7 @@ public class HitTests {
       Vector3 Direction = new Vector3(0, -1, 0);
       Ray ray = new Ray(Origin, Direction);
 
-      boolean hits = sphere.Hits(ray);
+      boolean hits = sphere.hits(ray);
 
       Assert.assertFalse(hits, "Vector should not hit partial sphere.");
    }
@@ -76,7 +76,7 @@ public class HitTests {
       Vector3 Direction = new Vector3(0, -1, 0);
       Ray ray = new Ray(Origin, Direction);
 
-      boolean hits = sphere.Hits(ray);
+      boolean hits = sphere.hits(ray);
 
       Assert.assertTrue(hits, "Vector should hit partial sphere.");
    }
@@ -89,7 +89,7 @@ public class HitTests {
       Vector3 Direction = new Vector3(0, -1, 0);
       Ray ray = new Ray(Origin, Direction);
 
-      boolean hits = sphere.Hits(ray);
+      boolean hits = sphere.hits(ray);
 
       Assert.assertTrue(hits, "Vector should hit partial sphere.");
    }
@@ -102,7 +102,7 @@ public class HitTests {
       Vector3 Direction = new Vector3(0, -1, 0);
       Ray ray = new Ray(Origin, Direction);
 
-      boolean hits = sphere.Hits(ray);
+      boolean hits = sphere.hits(ray);
       Assert.assertFalse(hits, "Vector should not hit partial sphere.");
    }
 
@@ -114,7 +114,7 @@ public class HitTests {
       Vector3 Direction = new Vector3(0, -1, 0);
       Ray ray = new Ray(Origin, Direction);
 
-      boolean hits = sphere.Hits(ray);
+      boolean hits = sphere.hits(ray);
 
       Assert.assertFalse(hits, "Vector should not hit partial sphere.");
    }
@@ -127,7 +127,7 @@ public class HitTests {
       Vector3 Direction = new Vector3(0, -1, 0);
       Ray ray = new Ray(Origin, Direction);
 
-      boolean hits = sphere.Hits(ray);
+      boolean hits = sphere.hits(ray);
 
       Assert.assertTrue(hits, "Vector should hit partial sphere.");
    }
@@ -140,7 +140,7 @@ public class HitTests {
       Vector3 Direction = new Vector3(0, -1, 0);
       Ray ray = new Ray(Origin, Direction);
 
-      boolean hits = sphere.Hits(ray);
+      boolean hits = sphere.hits(ray);
 
       Assert.assertTrue(hits, "Vector should hit partial sphere.");
    }
@@ -153,7 +153,7 @@ public class HitTests {
       Vector3 Direction = new Vector3(0, 0, -1);
       Ray ray = new Ray(Origin, Direction);
 
-      boolean hits = sphere.Hits(ray);
+      boolean hits = sphere.hits(ray);
 
       Assert.assertTrue(hits, "Vector should hit partial sphere.");
    }

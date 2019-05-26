@@ -21,7 +21,7 @@ public class Box extends CSGShape {
       ObjectToWorld = objectToWorld;
       WorldToObject = worldToObject;
 
-      RecalculateWorldBoundingBox();
+      recalculateWorldBoundingBox();
    }
 
    public Box(final Transform[] transforms, final Material material) {
@@ -40,7 +40,7 @@ public class Box extends CSGShape {
    }
 
    @Override
-   public void RecalculateWorldBoundingBox() {
+   public void recalculateWorldBoundingBox() {
       WorldBoundingBox = new BoundingBox(point1, point2);
 
       if (ObjectToWorld != null) {
@@ -67,7 +67,7 @@ public class Box extends CSGShape {
    }
 
    @Override
-   public boolean Hits(final Ray worldSpaceRay) {
+   public boolean hits(final Ray worldSpaceRay) {
       Ray objectSpaceRay = worldSpaceRay;
 
       if (WorldToObject != null) {
@@ -177,13 +177,13 @@ public class Box extends CSGShape {
          if (intersection.normal.dot(objectSpaceRay.Direction) > 0)
             intersection.normal.scale(-1);
 
-         CalculateTangents(intersection);
-         ToWorldSpace(intersection, worldSpaceRay);
+         calculateTangents(intersection);
+         toWorldSpace(intersection, worldSpaceRay);
       }
    }
 
    @Override
-   public Intersection GetHitInfo(final Ray worldSpaceRay) {
+   public Intersection intersect(final Ray worldSpaceRay) {
       Ray objectSpaceRay = worldSpaceRay;
       if (WorldToObject != null) {
          objectSpaceRay = WorldToObject.apply(worldSpaceRay);

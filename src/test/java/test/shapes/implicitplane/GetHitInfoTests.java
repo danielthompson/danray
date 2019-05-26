@@ -38,7 +38,7 @@ public class GetHitInfoTests {
 
       Ray ray = new Ray(vectorOrigin, vectorDirection);
 
-      Intersection state = plane.GetHitInfo(ray);
+      Intersection state = plane.intersect(ray);
 
       Point3 expectedHitPoint = new Point3(2, 0, 2);
 
@@ -59,7 +59,7 @@ public class GetHitInfoTests {
 
       Ray ray = new Ray(vectorOrigin, vectorDirection);
 
-      Intersection state = plane.GetHitInfo(ray);
+      Intersection state = plane.intersect(ray);
 
       Point3 expectedHitPoint = new Point3(500, 500, 0);
 
@@ -80,7 +80,7 @@ public class GetHitInfoTests {
 
       Ray ray = new Ray(vectorOrigin, vectorDirection);
 
-      Intersection state = plane.GetHitInfo(ray);
+      Intersection state = plane.intersect(ray);
 
       Point3 expectedHitPoint = new Point3(500, 500, -499);
 
@@ -101,7 +101,7 @@ public class GetHitInfoTests {
 
       Ray ray = new Ray(vectorOrigin, vectorDirection);
 
-      Intersection state = plane.GetHitInfo(ray);
+      Intersection state = plane.intersect(ray);
 
       //Point expectedHitPoint = new Point(500, 500, -499);
 
@@ -121,7 +121,7 @@ public class GetHitInfoTests {
 
       Ray ray = new Ray(vectorOrigin, vectorDirection);
 
-      Intersection state = plane.GetHitInfo(ray);
+      Intersection state = plane.intersect(ray);
 
       //Point expectedHitPoint = new Point(500, 500, -499);
 
@@ -140,7 +140,7 @@ public class GetHitInfoTests {
 
       Ray ray = new Ray(vectorOrigin, vectorDirection);
 
-      Intersection state = plane.GetHitInfo(ray);
+      Intersection state = plane.intersect(ray);
 
       //Point expectedHitPoint = new Point(500, 500, -499);
 

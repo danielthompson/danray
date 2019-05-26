@@ -5,7 +5,6 @@ import net.danielthompson.danray.acceleration.KDAxis;
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
-import org.lwjgl.system.CallbackI;
 
 import java.util.List;
 
@@ -44,9 +43,9 @@ public abstract class AbstractShape {
       this.WorldToObject = worldToObject;
    }
 
-   public abstract void RecalculateWorldBoundingBox();
+   public abstract void recalculateWorldBoundingBox();
 
-   public boolean Hits(final Ray worldSpaceRay) {
+   public boolean hits(final Ray worldSpaceRay) {
       throw new java.lang.UnsupportedOperationException();
    }
 
@@ -56,17 +55,17 @@ public abstract class AbstractShape {
     * @param ray
     * @return
     */
-   public Intersection GetHitInfo(final Ray ray) {
+   public Intersection intersect(final Ray ray) {
       return null;
    }
 
    public abstract List<Intersection> GetAllHitPoints(final Ray ray);
 
-   public List<Intersection> getAllHitInfos(final Ray ray) {
+   public List<Intersection> intersectAll(final Ray ray) {
       return null;
    }
 
-   protected void CalculateTangents(final Intersection intersection) {
+   protected void calculateTangents(final Intersection intersection) {
       // TODO fix such that tangentU and tangentV are actually in du & dv directions (once texture mapping is implemented)
 
       final Vector3 v1 = Constants.PositiveX.cross(intersection.normal);
@@ -77,7 +76,7 @@ public abstract class AbstractShape {
       intersection.tangentU = intersection.tangentV.cross(intersection.normal);
    }
 
-   Point3 OffsetRayOrigin(final Point3 p, final Vector3 pError, final Normal n) {
+   Point3 offsetRayOrigin(final Point3 p, final Vector3 pError, final Normal n) {
       final float d = pError.dot(n.abs());
       final Vector3 offset = new Vector3(n);
       offset.scale(d);
@@ -102,7 +101,7 @@ public abstract class AbstractShape {
       return po;
    }
 
-   protected void ToWorldSpace(final Intersection intersection, final Ray worldSpaceRay) {
+   protected void toWorldSpace(final Intersection intersection, final Ray worldSpaceRay) {
       if (ObjectToWorld != null) {
          //intersection.location = ObjectToWorld.apply(intersection.location);
          ObjectToWorld.applyInPlace(intersection.normal);
@@ -116,7 +115,7 @@ public abstract class AbstractShape {
          }
          final Vector3 error = new Vector3(0, 0, 0);
          ObjectToWorld.applyInPlace(intersection.location, error);
-         intersection.location = OffsetRayOrigin(intersection.location, error, intersection.normal);
+         intersection.location = offsetRayOrigin(intersection.location, error, intersection.normal);
 
          if (ObjectToWorld.hasScale()) {
             intersection.t = worldSpaceRay.getTAtPoint(intersection.location);

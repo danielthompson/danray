@@ -24,20 +24,20 @@ public class SphereLight extends AbstractLight {
    }
 
    @Override
-   public void RecalculateWorldBoundingBox() {
-      Sphere.RecalculateWorldBoundingBox();
+   public void recalculateWorldBoundingBox() {
+      Sphere.recalculateWorldBoundingBox();
       WorldBoundingBox = Sphere.WorldBoundingBox;
 
    }
 
    @Override
-   public boolean Hits(Ray ray) {
-      return Sphere.Hits(ray);
+   public boolean hits(Ray ray) {
+      return Sphere.hits(ray);
    }
 
    @Override
-   public Intersection GetHitInfo(Ray ray) {
-      Intersection state = Sphere.GetHitInfo(ray);
+   public Intersection intersect(Ray ray) {
+      Intersection state = Sphere.intersect(ray);
       if (state != null && state.shape == Sphere)
          state.shape = this;
       return state;

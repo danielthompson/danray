@@ -53,7 +53,7 @@ public class DifferenceTests {
       Vector3 direction = new Vector3(1, 0, 1);
       Ray ray = new Ray(origin, direction);
 
-      boolean hits = shape.Hits(ray);
+      boolean hits = shape.hits(ray);
 
       Assert.assertFalse(hits);
    }
@@ -64,7 +64,7 @@ public class DifferenceTests {
       Vector3 direction = new Vector3(1, 0, 1);
       Ray ray = new Ray(origin, direction);
 
-      boolean hits = shape.Hits(ray);
+      boolean hits = shape.hits(ray);
 
       Assert.assertFalse(hits);
    }
@@ -75,7 +75,7 @@ public class DifferenceTests {
       Vector3 direction = new Vector3(2, 0, 5);
       Ray ray = new Ray(origin, direction);
 
-      boolean hits = shape.Hits(ray);
+      boolean hits = shape.hits(ray);
       Assert.assertTrue(hits);
    }
 
@@ -85,9 +85,9 @@ public class DifferenceTests {
       Vector3 direction = new Vector3(2, 0, 5);
       Ray ray = new Ray(origin, direction);
 
-      boolean hits = shape.Hits(ray);
+      boolean hits = shape.hits(ray);
 
-      Intersection intersection = shape.GetHitInfo(ray);
+      Intersection intersection = shape.intersect(ray);
 
 
       Assert.assertNotNull(intersection);
@@ -100,9 +100,9 @@ public class DifferenceTests {
       Vector3 direction = new Vector3(2, 0, 5);
       Ray ray = new Ray(origin, direction);
 
-      boolean hits = shape.Hits(ray);
+      boolean hits = shape.hits(ray);
 
-      Intersection intersection = shape.GetHitInfo(ray);
+      Intersection intersection = shape.intersect(ray);
 
       Normal expectedNormal = new Normal(0, 0, -1);
 
@@ -116,9 +116,9 @@ public class DifferenceTests {
       Vector3 direction = new Vector3(2, 0, 5);
       Ray ray = new Ray(origin, direction);
 
-      boolean hits = shape.Hits(ray);
+      boolean hits = shape.hits(ray);
 
-      Intersection intersection = shape.GetHitInfo(ray);
+      Intersection intersection = shape.intersect(ray);
 
       Point3 expectedHitPoint = new Point3(1.6f, 0, 2);
 
@@ -132,8 +132,8 @@ public class DifferenceTests {
       Vector3 d = new Vector3(0, 0, -1);
       Ray ray = new Ray(o, d);
 
-      boolean hits = shape.Hits(ray);
-      Intersection intersection = shape.GetHitInfo(ray);
+      boolean hits = shape.hits(ray);
+      Intersection intersection = shape.intersect(ray);
 
       Normal expectedNormal = new Normal(0, 0, 1);
       Assert.assertEquals(intersection.normal, expectedNormal);
@@ -145,8 +145,8 @@ public class DifferenceTests {
       Vector3 d = new Vector3(0, 0, 1);
       Ray ray = new Ray(o, d);
 
-      boolean hits = shape.Hits(ray);
-      Intersection intersection = shape.GetHitInfo(ray);
+      boolean hits = shape.hits(ray);
+      Intersection intersection = shape.intersect(ray);
 
       Normal expectedNormal = new Normal(0, 0, -1);
       Assert.assertEquals(intersection.normal, expectedNormal);
@@ -158,8 +158,8 @@ public class DifferenceTests {
       Vector3 d = new Vector3(0, 0, -1);
       Ray ray = new Ray(o, d);
 
-      boolean hits = shape.Hits(ray);
-      Intersection intersection = shape.GetHitInfo(ray);
+      boolean hits = shape.hits(ray);
+      Intersection intersection = shape.intersect(ray);
 
       Point3 expectedPoint = new Point3(0.5f, 0, 3);
       Assert.assertEquals(intersection.location, expectedPoint);
@@ -171,8 +171,8 @@ public class DifferenceTests {
       Vector3 d = new Vector3(0, 0, 1);
       Ray ray = new Ray(o, d);
 
-      boolean hits = shape.Hits(ray);
-      Intersection intersection = shape.GetHitInfo(ray);
+      boolean hits = shape.hits(ray);
+      Intersection intersection = shape.intersect(ray);
 
       Point3 expectedPoint = new Point3(0.5f, 0, 1);
       Assert.assertEquals(intersection.location, expectedPoint);
@@ -184,8 +184,8 @@ public class DifferenceTests {
       Vector3 d = new Vector3(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
-      boolean hits = shape.Hits(ray);
-      Intersection intersection = shape.GetHitInfo(ray);
+      boolean hits = shape.hits(ray);
+      Intersection intersection = shape.intersect(ray);
 
       Point3 expectedPoint = new Point3(1f, 0, 1.5f);
       Assert.assertEquals(intersection.location, expectedPoint);
@@ -197,8 +197,8 @@ public class DifferenceTests {
       Vector3 d = new Vector3(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
-      boolean hits = shape.Hits(ray);
-      Intersection intersection = shape.GetHitInfo(ray);
+      boolean hits = shape.hits(ray);
+      Intersection intersection = shape.intersect(ray);
 
       Normal expectedNormal = new Normal(1, 0, 0);
       Assert.assertEquals(intersection.normal, expectedNormal);
@@ -210,8 +210,8 @@ public class DifferenceTests {
       Vector3 d = new Vector3(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
-      boolean hits = shape.Hits(ray);
-      Intersection intersection = shape.GetHitInfo(ray);
+      boolean hits = shape.hits(ray);
+      Intersection intersection = shape.intersect(ray);
 
       Point3 expectedPoint = new Point3(1f, 0, 1.5f);
       Assert.assertEquals(intersection.location, expectedPoint);
@@ -223,8 +223,8 @@ public class DifferenceTests {
       Vector3 d = new Vector3(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
-      boolean hits = shape.Hits(ray);
-      Intersection intersection = shape.GetHitInfo(ray);
+      boolean hits = shape.hits(ray);
+      Intersection intersection = shape.intersect(ray);
 
       Normal expectedNormal = new Normal(1, 0, 0);
       Assert.assertEquals(intersection.normal, expectedNormal);
@@ -236,7 +236,7 @@ public class DifferenceTests {
       Vector3 d = new Vector3(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
-      boolean hits = shape.Hits(ray);
+      boolean hits = shape.hits(ray);
       Assert.assertFalse(hits);
    }
 
@@ -246,7 +246,7 @@ public class DifferenceTests {
       Vector3 d = new Vector3(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
-      boolean hits = shape.Hits(ray);
+      boolean hits = shape.hits(ray);
       Assert.assertFalse(hits);
    }
 
@@ -256,8 +256,8 @@ public class DifferenceTests {
       Vector3 d = new Vector3(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
-      boolean hits = shape.Hits(ray);
-      Intersection intersection = shape.GetHitInfo(ray);
+      boolean hits = shape.hits(ray);
+      Intersection intersection = shape.intersect(ray);
 
       Point3 expectedPoint = new Point3(1f, 0, 1.5f);
       Assert.assertEquals(intersection.location, expectedPoint);
@@ -269,8 +269,8 @@ public class DifferenceTests {
       Vector3 d = new Vector3(-1, 0, 0);
       Ray ray = new Ray(o, d);
 
-      boolean hits = shape.Hits(ray);
-      Intersection intersection = shape.GetHitInfo(ray);
+      boolean hits = shape.hits(ray);
+      Intersection intersection = shape.intersect(ray);
 
       Normal expectedNormal = new Normal(1, 0, 0);
       Assert.assertEquals(intersection.normal, expectedNormal);

@@ -71,7 +71,7 @@ public class TriangleMesh extends AbstractShape {
    }
 
    @Override
-   public Intersection GetHitInfo(Ray ray) {
+   public Intersection intersect(Ray ray) {
 
       Intersection closestStateToRay = new Intersection();
       closestStateToRay.hits = false;
@@ -95,7 +95,7 @@ public class TriangleMesh extends AbstractShape {
    }
 
    @Override
-   public boolean Hits(Ray worldSpaceRay) {
+   public boolean hits(Ray worldSpaceRay) {
       throw new java.lang.UnsupportedOperationException();
    }
 
@@ -141,7 +141,7 @@ public class TriangleMesh extends AbstractShape {
    }
 
    @Override
-   public void RecalculateWorldBoundingBox() {
+   public void recalculateWorldBoundingBox() {
 
    }
 

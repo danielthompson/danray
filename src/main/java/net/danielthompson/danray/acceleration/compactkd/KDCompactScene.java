@@ -36,7 +36,7 @@ public class KDCompactScene extends AbstractScene {
    private Intersection GetClosestDrawableInNode(KDCompactNode node, Ray ray) {
       Intersection closestStateToRay = null;
       for (AbstractShape shape : node.Shapes) {
-         Intersection state = shape.GetHitInfo(ray);
+         Intersection state = shape.intersect(ray);
 
          if (state.hits && (closestStateToRay == null || state.t < closestStateToRay.t)) {
             closestStateToRay = state;

@@ -27,11 +27,11 @@ public class InterpolatedShape extends AbstractShape {
 
    public InterpolatedShape(Transform objectToWorld, Transform worldToObject, Material material) {
       super(objectToWorld, worldToObject, material);
-      RecalculateWorldBoundingBox();
+      recalculateWorldBoundingBox();
    }
 
    @Override
-   public void RecalculateWorldBoundingBox() {
+   public void recalculateWorldBoundingBox() {
 
    }
 

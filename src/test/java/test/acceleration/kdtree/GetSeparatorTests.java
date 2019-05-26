@@ -61,14 +61,14 @@
 //      Sphere sphere = new Sphere();
 //      sphere.Origin = new Point(1, 1, 0);
 //      sphere.Radius = 1;
-//      sphere.RecalculateWorldBoundingBox();
+//      sphere.recalculateWorldBoundingBox();
 //
 //      list.add(sphere);
 //
 //      Sphere sphere2 = new Sphere();
 //      sphere2.Origin = new Point(4, 4, 0);
 //      sphere2.Radius = 1;
-//      sphere2.RecalculateWorldBoundingBox();
+//      sphere2.recalculateWorldBoundingBox();
 //
 //      list.add(sphere2);
 //

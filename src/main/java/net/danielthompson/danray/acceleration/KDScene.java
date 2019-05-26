@@ -50,7 +50,7 @@ public class KDScene extends AbstractScene {
    private Intersection GetClosestDrawableToRay(List<AbstractShape> shapes, Ray ray) {
       Intersection closestStateToRay = null;
       for (AbstractShape shape : shapes) {
-         Intersection state = shape.GetHitInfo(ray);
+         Intersection state = shape.intersect(ray);
 
          if (state.hits) {
             if (closestStateToRay == null) {

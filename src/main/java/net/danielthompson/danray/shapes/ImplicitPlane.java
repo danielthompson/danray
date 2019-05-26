@@ -22,11 +22,11 @@ public class ImplicitPlane extends AbstractShape {
       super(material);
       this.Origin = origin;
       this.Normal = normal;
-      RecalculateWorldBoundingBox();
+      recalculateWorldBoundingBox();
    }
 
    @Override
-   public void RecalculateWorldBoundingBox() {
+   public void recalculateWorldBoundingBox() {
       WorldBoundingBox = new BoundingBox(
             new Point3(-Float.MAX_VALUE, -Float.MAX_VALUE, -Float.MAX_VALUE),
             new Point3(Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE)
@@ -34,7 +34,7 @@ public class ImplicitPlane extends AbstractShape {
    }
 
    @Override
-   public Intersection GetHitInfo(Ray ray) {
+   public Intersection intersect(Ray ray) {
       float numerator = (Point3.minus(Origin, ray.Origin)).dot(Normal);
       float denominator = ray.Direction.dot(Normal);
 
