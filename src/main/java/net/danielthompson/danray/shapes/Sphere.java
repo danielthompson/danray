@@ -24,15 +24,15 @@ public class Sphere extends CSGShape {
       this(null, null, null);
    }
 
-   public Sphere(Material material) {
+   public Sphere(final Material material) {
       this(null, null, material);
    }
 
-   public Sphere(Transform[] transforms, Material material) {
+   public Sphere(final Transform[] transforms, final Material material) {
       this(transforms[0], transforms[1], material);
    }
 
-   public Sphere(Transform objectToWorld, Transform worldToObject, Material material) {
+   public Sphere(final Transform objectToWorld, final Transform worldToObject, final Material material) {
       super(objectToWorld, worldToObject);
       this.Material = material;
       Radius = 1;
@@ -41,14 +41,14 @@ public class Sphere extends CSGShape {
 
    public void RecalculateWorldBoundingBox() {
 
-      float p1x = Origin.x - Radius;
-      float p1y = Origin.y - Radius;
-      float p1z = Origin.z - Radius;
+      final float p1x = Origin.x - Radius;
+      final float p1y = Origin.y - Radius;
+      final float p1z = Origin.z - Radius;
       Point3 p1 = new Point3(p1x, p1y, p1z);
 
-      float p2x = Origin.x + Radius;
-      float p2y = Origin.y + Radius;
-      float p2z = Origin.z + Radius;
+      final float p2x = Origin.x + Radius;
+      final float p2y = Origin.y + Radius;
+      final float p2z = Origin.z + Radius;
       Point3 p2 = new Point3(p2x, p2y, p2z);
 
       WorldBoundingBox = new BoundingBox(p1, p2);
@@ -59,29 +59,29 @@ public class Sphere extends CSGShape {
    }
 
    @Override
-   public boolean Hits(Ray worldSpaceRay) {
+   public boolean Hits(final Ray worldSpaceRay) {
       Ray objectSpaceRay = worldSpaceRay;
 
       if (WorldToObject != null) {
          objectSpaceRay = WorldToObject.apply(worldSpaceRay);
       }
 
-      Vector3 v = Point3.minus(objectSpaceRay.Origin, Origin);
+      final Vector3 v = Point3.minus(objectSpaceRay.Origin, Origin);
 
-      float a = objectSpaceRay.Direction.dot(objectSpaceRay.Direction);
-      float b = 2 * (objectSpaceRay.Direction.dot(v));
-      float c = v.dot(v) - (Radius * Radius);
+      final float a = objectSpaceRay.Direction.dot(objectSpaceRay.Direction);
+      final float b = 2 * (objectSpaceRay.Direction.dot(v));
+      final float c = v.dot(v) - (Radius * Radius);
 
-      float discriminant = (b * b) - (4 * a * c);
+      final float discriminant = (b * b) - (4 * a * c);
 
       if (discriminant < 0) {
          return false;
       }
 
-      float root = (float) Math.sqrt(discriminant);
-      float oneOverTwoA = .5f / a;
-      float t0 = (-b + root) * oneOverTwoA;
-      float t1 = (-b - root) * oneOverTwoA;
+      final float root = (float) Math.sqrt(discriminant);
+      final float oneOverTwoA = .5f / a;
+      final float t0 = (-b + root) * oneOverTwoA;
+      final float t1 = (-b - root) * oneOverTwoA;
 
       float hits;
 
@@ -111,9 +111,12 @@ public class Sphere extends CSGShape {
 
       // convert T back to world space
       if (ObjectToWorld != null && ObjectToWorld.hasScale()) {
-         Point3 objectSpaceIntersectionPoint = objectSpaceRay.getPointAtT(hits);
-         Point3 worldSpaceIntersectionPoint = ObjectToWorld.apply(objectSpaceIntersectionPoint);
-         hits = worldSpaceRay.getTAtPoint(worldSpaceIntersectionPoint);
+         // object space
+         Point3 intersectionPoint = objectSpaceRay.getPointAtT(hits);
+
+         // worls space
+         ObjectToWorld.applyInPlace(intersectionPoint);
+         hits = worldSpaceRay.getTAtPoint(intersectionPoint);
       }
 
       worldSpaceRay.MinT = hits < worldSpaceRay.MinT ? hits : worldSpaceRay.MinT;
@@ -121,7 +124,7 @@ public class Sphere extends CSGShape {
    }
 
    @Override
-   public Intersection GetHitInfo(Ray worldSpaceRay) {
+   public Intersection GetHitInfo(final Ray worldSpaceRay) {
 
       Ray objectSpaceRay = worldSpaceRay;
 
@@ -161,7 +164,7 @@ public class Sphere extends CSGShape {
    }
 
    @Override
-   public List<Intersection> GetAllHitPoints(Ray worldSpaceRay) {
+   public List<Intersection> GetAllHitPoints(final Ray worldSpaceRay) {
 
       List<Intersection> intersections = new ArrayList<>();
       Ray objectSpaceRay = worldSpaceRay;
@@ -218,7 +221,7 @@ public class Sphere extends CSGShape {
             worldSpaceRay.MinT = worldSpaceRay.getTAtPoint(worldSpaceIntersectionPoint);
          }
 
-         Intersection intersection = GetHitInfo(worldSpaceRay);
+         final Intersection intersection = GetHitInfo(worldSpaceRay);
          intersection.t = worldSpaceRay.MinT;
          intersections.add(intersection);
       }
@@ -227,31 +230,27 @@ public class Sphere extends CSGShape {
    }
 
    @Override
-   public float GetMedian(KDAxis axis) {
+   public float GetMedian(final KDAxis axis) {
       return Origin.getAxis(axis);
    }
 
    @Override
-   public boolean Inside(Point3 worldSpacePoint) {
+   public boolean Inside(final Point3 worldSpacePoint) {
       Point3 objectSpacePoint = worldSpacePoint;
 
       if (WorldToObject != null) {
          objectSpacePoint = WorldToObject.apply(worldSpacePoint);
       }
 
-      float dist = objectSpacePoint.squaredDistanceBetween(Origin);
-      float r2 = Radius * Radius;
+      final float dist = objectSpacePoint.squaredDistanceBetween(Origin);
+      final float r2 = Radius * Radius;
 
-      boolean value = dist < r2 - Constants.DoubleEpsilon * 2f;
-      //value = !value && Constants.WithinEpsilon(r2, dist);
-
-//
-//      return value;
+      final boolean value = dist < r2 - Constants.DoubleEpsilon * 2f;
 
       return value;
    }
 
-   public boolean OnSurface(Point3 point) {
+   public boolean OnSurface(final Point3 point) {
       float difference = Radius * Radius - point.squaredDistanceBetween(Origin);
       return Constants.WithinEpsilon(difference, 0);
    }
@@ -264,7 +263,7 @@ public class Sphere extends CSGShape {
       if (!(obj instanceof Sphere))
          return false;
 
-      Sphere rhs = (Sphere) obj;
+      final Sphere rhs = (Sphere) obj;
 
       return !(Material != null && rhs.Material == null) && !(Material == null && rhs.Material != null) && (Origin.equals(rhs.Origin) && Radius == rhs.Radius && (Material == null || Material.equals(rhs.Material)));
 
