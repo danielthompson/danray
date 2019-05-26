@@ -30,15 +30,15 @@ public abstract class AbstractShape {
    BoundingEdge[] yBoundingEdges;
    BoundingEdge[] zBoundingEdges;
 
-   protected AbstractShape(Material material) {
+   protected AbstractShape(final Material material) {
       this(null, null, material);
    }
 
-   protected AbstractShape(Transform[] transforms, Material material) {
+   protected AbstractShape(final Transform[] transforms, final Material material) {
       this(transforms[0], transforms[1], material);
    }
 
-   protected AbstractShape(Transform objectToWorld, Transform worldToObject, Material material) {
+   protected AbstractShape(final Transform objectToWorld, final Transform worldToObject, final Material material) {
       this.Material = material;
       this.ObjectToWorld = objectToWorld;
       this.WorldToObject = worldToObject;
@@ -46,7 +46,7 @@ public abstract class AbstractShape {
 
    public abstract void RecalculateWorldBoundingBox();
 
-   public boolean Hits(Ray worldSpaceRay) {
+   public boolean Hits(final Ray worldSpaceRay) {
       throw new java.lang.UnsupportedOperationException();
    }
 
@@ -56,21 +56,21 @@ public abstract class AbstractShape {
     * @param ray
     * @return
     */
-   public Intersection GetHitInfo(Ray ray) {
+   public Intersection GetHitInfo(final Ray ray) {
       return null;
    }
 
-   public abstract List<Intersection> GetAllHitPoints(Ray ray);
+   public abstract List<Intersection> GetAllHitPoints(final Ray ray);
 
-   public List<Intersection> getAllHitInfos(Ray ray) {
+   public List<Intersection> getAllHitInfos(final Ray ray) {
       return null;
    }
 
-   protected void CalculateTangents(Intersection intersection) {
+   protected void CalculateTangents(final Intersection intersection) {
       // TODO fix such that tangentU and tangentV are actually in du & dv directions (once texture mapping is implemented)
 
-      Vector3 v1 = Constants.PositiveX.cross(intersection.normal);
-      Vector3 v2 = Constants.PositiveY.cross(intersection.normal);
+      final Vector3 v1 = Constants.PositiveX.cross(intersection.normal);
+      final Vector3 v2 = Constants.PositiveY.cross(intersection.normal);
 
       intersection.tangentU = (v1.lengthSquared() > v2.lengthSquared()) ? v1 : v2;
       intersection.tangentV = intersection.tangentU.cross(intersection.normal);
@@ -78,11 +78,11 @@ public abstract class AbstractShape {
    }
 
    Point3 OffsetRayOrigin(final Point3 p, final Vector3 pError, final Normal n) {
-      float d = pError.dot(n.abs());
-      Vector3 offset = new Vector3(n);
+      final float d = pError.dot(n.abs());
+      final Vector3 offset = new Vector3(n);
       offset.scale(d);
 
-      Point3 po = Point3.plus(p, offset);
+      final Point3 po = Point3.plus(p, offset);
 
       if (offset.x > 0)
          po.x = Math.nextUp(po.x);
@@ -102,7 +102,7 @@ public abstract class AbstractShape {
       return po;
    }
 
-   protected void ToWorldSpace(Intersection intersection, Ray worldSpaceRay) {
+   protected void ToWorldSpace(final Intersection intersection, final Ray worldSpaceRay) {
       if (ObjectToWorld != null) {
          //intersection.location = ObjectToWorld.apply(intersection.location);
          ObjectToWorld.applyInPlace(intersection.normal);
@@ -125,30 +125,15 @@ public abstract class AbstractShape {
       }
    }
 
-//   protected void ToWorldSpace(Intersection intersection, Ray worldSpaceRay) {
-//      if (ObjectToWorld != null) {
-//         intersection.location = ObjectToWorld.apply(intersection.location);
-//         intersection.normal = ObjectToWorld.apply(intersection.normal);
-//         intersection.tangentU = ObjectToWorld.apply(intersection.tangentU);
-//         intersection.tangentV = ObjectToWorld.apply(intersection.tangentV);
-//         if (ObjectToWorld.hasScale()) {
-//            intersection.normal.normalize();
-//            intersection.tangentU.normalize();
-//            intersection.tangentV.normalize();
-//            intersection.t = worldSpaceRay.getTAtPoint(intersection.location);
-//         }
-//      }
-//   }
-
-   public void SetInCurrentKDNode(boolean value) {
+   public void SetInCurrentKDNode(final boolean value) {
       InCurrentKDNode = value;
    }
 
-   public float GetMedian(KDAxis axis) {
+   public float GetMedian(final KDAxis axis) {
       return 0;
    }
 
-   public BoundingEdge[] GetBoundingEdges(KDAxis axis) {
+   public BoundingEdge[] GetBoundingEdges(final KDAxis axis) {
       switch (axis) {
          case X:
             return xBoundingEdges;
@@ -161,7 +146,7 @@ public abstract class AbstractShape {
       return null;
    }
 
-   public void SetBoundingEdges(BoundingEdge[] edges, KDAxis axis) {
+   public void SetBoundingEdges(final BoundingEdge[] edges, final KDAxis axis) {
       switch (axis) {
          case X:
             xBoundingEdges = edges;

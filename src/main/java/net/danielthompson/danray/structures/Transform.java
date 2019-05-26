@@ -1,6 +1,5 @@
 package net.danielthompson.danray.structures;
 
-import net.danielthompson.danray.utility.FloatUtils;
 import org.apache.commons.math3.util.FastMath;
 
 /**

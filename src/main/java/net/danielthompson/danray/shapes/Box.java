@@ -16,7 +16,7 @@ public class Box extends CSGShape {
    public final static Point3 point1 = new Point3(0, 0, 0);
    public final static Point3 point2 = new Point3(1, 1, 1);
 
-   public Box(Transform objectToWorld, Transform worldToObject, Material material) {
+   public Box(final Transform objectToWorld, final Transform worldToObject, final Material material) {
       super(material);
       ObjectToWorld = objectToWorld;
       WorldToObject = worldToObject;
@@ -24,17 +24,17 @@ public class Box extends CSGShape {
       RecalculateWorldBoundingBox();
    }
 
-   public Box(Transform[] transforms, Material material) {
+   public Box(final Transform[] transforms, final Material material) {
       this(transforms[0], transforms[1], material);
    }
 
-   public Box(Point3 p1, Point3 p2, Material material)
+   public Box(final Point3 p1, final Point3 p2, final Material material)
    {
       super(material);
       throw new UnsupportedOperationException();
    }
 
-   public Box(Point3 p1, Point3 p2, Material material, Transform objectToWorld, Transform worldToObject) {
+   public Box(final Point3 p1, final Point3 p2, final Material material, final Transform objectToWorld, final Transform worldToObject) {
       super(material);
       throw new UnsupportedOperationException();
    }
@@ -49,7 +49,7 @@ public class Box extends CSGShape {
    }
 
    @Override
-   public boolean Inside(Point3 worldSpacePoint) {
+   public boolean Inside(final Point3 worldSpacePoint) {
       Point3 objectSpacePoint = worldSpacePoint;
 
       if (WorldToObject != null) {
@@ -67,33 +67,35 @@ public class Box extends CSGShape {
    }
 
    @Override
-   public boolean Hits(Ray worldSpaceRay) {
+   public boolean Hits(final Ray worldSpaceRay) {
       Ray objectSpaceRay = worldSpaceRay;
 
       if (WorldToObject != null) {
          objectSpaceRay = WorldToObject.apply(worldSpaceRay);
       }
 
-      Intersection intersection = BoundingBox.getHitInfo(point1, point2, objectSpaceRay);
+      final Intersection intersection = BoundingBox.getHitInfo(point1, point2, objectSpaceRay);
 
       float minT = intersection.t;
       //float maxT = intersection.TMax;
 
       if (intersection.hits) {
          if (ObjectToWorld != null && ObjectToWorld.hasScale()) {
-            Point3 objectSpaceIntersection = objectSpaceRay.getPointAtT(intersection.t);
-            Point3 worldSpaceIntersection = ObjectToWorld.apply(objectSpaceIntersection);
-            minT = worldSpaceRay.getTAtPoint(worldSpaceIntersection);
+
+            // object space
+            final Point3 intersectionPoint = objectSpaceRay.getPointAtT(intersection.t);
+
+            // world space
+            ObjectToWorld.applyInPlace(intersectionPoint);
+            minT = worldSpaceRay.getTAtPoint(intersectionPoint);
          }
 
          worldSpaceRay.MinT = intersection.hits && minT < worldSpaceRay.MinT ? minT : worldSpaceRay.MinT;
-         //worldSpaceRay.MaxT = intersection.hits && maxT < worldSpaceRay.MaxT? maxT : worldSpaceRay.MaxT;
       }
-
       return intersection.hits;
    }
 
-   private void FillIntersectionData(Intersection intersection, Ray objectSpaceRay, Ray worldSpaceRay) {
+   private void FillIntersectionData(final Intersection intersection, final Ray objectSpaceRay, final Ray worldSpaceRay) {
       if (intersection.hits) {
          intersection.shape = this;
          intersection.location = objectSpaceRay.getPointAtT(intersection.t);
@@ -175,36 +177,31 @@ public class Box extends CSGShape {
          if (intersection.normal.dot(objectSpaceRay.Direction) > 0)
             intersection.normal.scale(-1);
 
-         //float error = 10000000;
-
-         //intersection.location = OffsetRayOrigin(intersection.location, new Vector3(error, error, error), intersection.normal, objectSpaceRay.Direction);
-
          CalculateTangents(intersection);
-
          ToWorldSpace(intersection, worldSpaceRay);
       }
    }
 
    @Override
-   public Intersection GetHitInfo(Ray worldSpaceRay) {
+   public Intersection GetHitInfo(final Ray worldSpaceRay) {
       Ray objectSpaceRay = worldSpaceRay;
       if (WorldToObject != null) {
          objectSpaceRay = WorldToObject.apply(worldSpaceRay);
       }
 
-      Intersection intersection = BoundingBox.getHitInfo(point1, point2, objectSpaceRay);
+      final Intersection intersection = BoundingBox.getHitInfo(point1, point2, objectSpaceRay);
       FillIntersectionData(intersection, objectSpaceRay, worldSpaceRay);
       return intersection;
    }
 
    @Override
-   public List<Intersection> GetAllHitPoints(Ray worldSpaceRay) {
+   public List<Intersection> GetAllHitPoints(final Ray worldSpaceRay) {
       Ray objectSpaceRay = worldSpaceRay;
       if (WorldToObject != null) {
          objectSpaceRay = WorldToObject.apply(worldSpaceRay);
       }
 
-      List<Intersection> intersections = BoundingBox.getBothHitInfo(point1, point2, objectSpaceRay);
+      final List<Intersection> intersections = BoundingBox.getBothHitInfo(point1, point2, objectSpaceRay);
       for (Intersection intersection : intersections) {
          FillIntersectionData(intersection, objectSpaceRay, worldSpaceRay);
       }
@@ -214,30 +211,5 @@ public class Box extends CSGShape {
 
    public String toString() {
       return ID + "";
-   }
-
-   public Point3[] getWorldPoints() {
-
-      Point3[] points = new Point3[8];
-
-      points[0] = new Point3(0, 0, 0);
-      points[1] = new Point3(0, 0, 1);
-      points[2] = new Point3(0, 1, 0);
-      points[3] = new Point3(0, 1, 1);
-      points[4] = new Point3(1, 0, 0);
-      points[5] = new Point3(1, 0, 1);
-      points[6] = new Point3(1, 1, 0);
-      points[7] = new Point3(1, 1, 1);
-
-      ObjectToWorld.applyInPlace(points[0]);
-      ObjectToWorld.applyInPlace(points[1]);
-      ObjectToWorld.applyInPlace(points[2]);
-      ObjectToWorld.applyInPlace(points[3]);
-      ObjectToWorld.applyInPlace(points[4]);
-      ObjectToWorld.applyInPlace(points[5]);
-      ObjectToWorld.applyInPlace(points[6]);
-      ObjectToWorld.applyInPlace(points[7]);
-
-      return points;
    }
 }
