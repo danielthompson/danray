@@ -31,19 +31,19 @@ public class ApplyToRayTests {
       return new Object[][] {
             {
                   new Ray(new Point3(0, 0, 0), new Vector3(1, 1, 1)),
-                  Transform.Scale(1, 1, 1),
+                  Transform.scale(1, 1, 1),
                   new Ray(new Point3(0, 0, 0), new Vector3(1, 1, 1)) },
             {
                   new Ray(new Point3(0, 0, 0), new Vector3(1, 1, 1)),
-                  Transform.Scale(-1, -1, -1),
+                  Transform.scale(-1, -1, -1),
                   new Ray(new Point3(0, 0, 0), new Vector3(-1, -1, -1)) },
             {
                   new Ray(new Point3(2, 2, 2), new Vector3(1, 1, 1)),
-                  Transform.Scale(1, 1, 1),
+                  Transform.scale(1, 1, 1),
                   new Ray(new Point3(2, 2, 2), new Vector3(1, 1, 1)) },
             {
                   new Ray(new Point3(2, 2, 2), new Vector3(5, 5, 5)),
-                  Transform.Scale(-1, 5, 1),
+                  Transform.scale(-1, 5, 1),
                   new Ray(new Point3(-2, 10, 2), new Vector3(-5, 25, 5)) },
       };
    }
@@ -51,7 +51,7 @@ public class ApplyToRayTests {
    @Test(dataProvider = "ScaleDataProvider")
    public void TestApplyScale(Ray originalRay, Transform transform, Ray expected) {
 
-      Ray actual = transform.Apply(originalRay);
+      Ray actual = transform.apply(originalRay);
 
       Assert.assertNotNull(actual);
       AssertHelper.assertEquals(actual, expected);

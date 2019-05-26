@@ -48,7 +48,7 @@ public class ScalingTests {
 
    @Test
    public void TestScaleNotNull() {
-      Transform translation = Transform.Scale(-5, -5, -5);
+      Transform translation = Transform.scale(-5, -5, -5);
 
       Assert.assertNotNull(translation);
 

@@ -23,7 +23,7 @@ public class Transform {
     * Creates a new Transform with the given values. Calculates the inverse.
     * @param values
     */
-   public Transform(float[][] values) {
+   public Transform(final float[][] values) {
       _matrix = new Matrix4x4(values);
       _inverse = _matrix.inverse();
    }
@@ -32,7 +32,7 @@ public class Transform {
     * Creates a new Transform with the given matrix. Calculates the inverse.
     * @param matrix
     */
-   public Transform(Matrix4x4 matrix) {
+   public Transform(final Matrix4x4 matrix) {
       _matrix = matrix;
       _inverse = matrix.inverse();
    }
@@ -42,7 +42,7 @@ public class Transform {
     * @param matrix
     * @param inverse
     */
-   public Transform(Matrix4x4 matrix, Matrix4x4 inverse) {
+   public Transform(final Matrix4x4 matrix, final Matrix4x4 inverse) {
       _matrix = matrix;
       _inverse = inverse;
    }
@@ -52,7 +52,7 @@ public class Transform {
     * @return
     */
    public Transform invert() {
-      Transform inversion = new Transform(_inverse, _matrix);
+      final Transform inversion = new Transform(_inverse, _matrix);
       return inversion;
    }
 
@@ -64,7 +64,7 @@ public class Transform {
       if (!(obj instanceof Matrix4x4))
          return false;
 
-      Transform rhs = (Transform) obj;
+      final Transform rhs = (Transform) obj;
 
       return (_matrix.equals(rhs._matrix) && _inverse.equals(rhs._inverse));
    }
@@ -99,22 +99,22 @@ public class Transform {
    /**
     * Returns a new Transform that represents a translation by the given Vector.
     * Should affect points but not vectors (implemented via homogenous coordinates with
-    * Vectors getting the 4th coord = 0.
+    * Vectors getting the 4th coord = 0).
     * @param delta
     * @return
     */
-   public static Transform Translate(Vector3 delta) {
-      return Translate(delta.x, delta.y, delta.z);
+   public static Transform translate(final Vector3 delta) {
+      return translate(delta.x, delta.y, delta.z);
    }
 
-   public static Transform Translate(float x, float y, float z) {
-      Matrix4x4 matrix = new Matrix4x4(
+   public static Transform translate(final float x, final float y, final float z) {
+      final Matrix4x4 matrix = new Matrix4x4(
             1, 0, 0, x,
             0, 1, 0, y,
             0, 0, 1, z,
             0, 0, 0, 1);
 
-      Matrix4x4 inverse = new Matrix4x4(
+      final Matrix4x4 inverse = new Matrix4x4(
             1, 0, 0, -x,
             0, 1, 0, -y,
             0, 0, 1, -z,
@@ -125,90 +125,94 @@ public class Transform {
       return transform;
    }
 
-   public static Transform Scale(float n) {
-      return Scale(n, n, n);
+   public static Transform scale(final float t) {
+      return scale(t, t, t);
    }
 
-   public static Transform Scale(float x, float y, float z) {
-      Matrix4x4 matrix = new Matrix4x4(
-            x, 0, 0, 0,
-            0, y, 0, 0,
-            0, 0, z, 0,
+   public static Transform scale(final float tx, final float ty, final float tz) {
+      final Matrix4x4 matrix = new Matrix4x4(
+            tx, 0, 0, 0,
+            0, ty, 0, 0,
+            0, 0, tz, 0,
             0, 0, 0, 1);
 
-      Matrix4x4 inverse = new Matrix4x4(
-            1.f/x, 0,    0,    0,
-            0,    1.f/y, 0,    0,
-            0,    0,    1.f/z, 0,
+      final Matrix4x4 inverse = new Matrix4x4(
+            1.f/tx, 0,    0,    0,
+            0,    1.f/ty, 0,    0,
+            0,    0,    1.f/tz, 0,
             0,    0,    0,    1);
 
-      Transform transform = new Transform(matrix, inverse);
+      final Transform transform = new Transform(matrix, inverse);
 
       return transform;
    }
 
-   public boolean HasScale() {
-      float lengthX = Apply(new Vector3(1, 0, 0)).lengthSquared();
-      float lengthY = Apply(new Vector3(0, 1, 0)).lengthSquared();
-      float lengthZ = Apply(new Vector3(0, 0, 1)).lengthSquared();
+   public boolean hasScale() {
+      final float lengthX = apply(new Vector3(1, 0, 0)).lengthSquared();
+      final float lengthY = apply(new Vector3(0, 1, 0)).lengthSquared();
+      float lengthZ = apply(new Vector3(0, 0, 1)).lengthSquared();
 
       return (lengthX < .999 || lengthX > 1.001
          || lengthY < .999 || lengthY > 1.001
          || lengthZ < .999 || lengthZ > 1.001);
    }
 
-   public static Transform RotateX(float angle) {
-      float sin_t = (float) FastMath.sin(FastMath.toRadians(angle));
-      float cos_t = (float) FastMath.cos(FastMath.toRadians(angle));
+   public static Transform rotateX(final float angle) {
 
-      Matrix4x4 matrix = new Matrix4x4(
+      final float radians = (float)FastMath.toRadians(angle);
+      final float sin_t = (float) FastMath.sin(radians);
+      final float cos_t = (float) FastMath.cos(radians);
+
+      final Matrix4x4 matrix = new Matrix4x4(
             1,     0,      0, 0,
             0, cos_t, -sin_t, 0,
             0, sin_t, cos_t,  0,
             0,     0,     0,  1);
 
-      Matrix4x4 inverse = matrix.transpose();
+      final Matrix4x4 inverse = matrix.transpose();
 
       return new Transform(matrix, inverse);
    }
 
-   public static Transform RotateY(float angle) {
-      float sin_t = (float) FastMath.sin(FastMath.toRadians(angle));
-      float cos_t = (float) FastMath.cos(FastMath.toRadians(angle));
+   public static Transform rotateY(final float angle) {
+      final float radians = (float)FastMath.toRadians(angle);
+      final float sin_t = (float) FastMath.sin(radians);
+      final float cos_t = (float) FastMath.cos(radians);
 
-      Matrix4x4 matrix = new Matrix4x4(
+      final Matrix4x4 matrix = new Matrix4x4(
              cos_t, 0, sin_t, 0,
-                 0, 1,     0, 0,
+            0, 1, 0, 0,
             -sin_t, 0, cos_t, 0,
-                 0, 0,     0, 1);
+            0, 0, 0, 1);
 
-      Matrix4x4 inverse = matrix.transpose();
+      final Matrix4x4 inverse = matrix.transpose();
 
       return new Transform(matrix, inverse);
    }
 
+   public static Transform rotateZ(final float angle) {
+      final float radians = (float)FastMath.toRadians(angle);
+      final float sin_t = (float) FastMath.sin(radians);
+      final float cos_t = (float) FastMath.cos(radians);
 
-   public static Transform RotateZ(float angle) {
-      float sin_t = (float) FastMath.sin(FastMath.toRadians(angle));
-      float cos_t = (float) FastMath.cos(FastMath.toRadians(angle));
-
-      Matrix4x4 matrix = new Matrix4x4(
+      final Matrix4x4 matrix = new Matrix4x4(
             cos_t, -sin_t, 0, 0,
             sin_t,  cos_t, 0, 0,
-                0,      0, 1, 0,
-                0,      0, 0, 1);
+            0, 0, 1, 0,
+            0, 0, 0, 1);
 
-      Matrix4x4 inverse = matrix.transpose();
+      final Matrix4x4 inverse = matrix.transpose();
 
       return new Transform(matrix, inverse);
    }
 
-   public static Transform Rotate(float angle, Vector3 axis) {
-      Vector3 a = Vector3.normalize(axis);
-      float s = (float) FastMath.sin(FastMath.toRadians(angle));
-      float c = (float) FastMath.cos(FastMath.toRadians(angle));
+   public static Transform rotate(final float angle, final Vector3 axis) {
+      final Vector3 a = Vector3.normalize(axis);
+      final float radians = (float)FastMath.toRadians(angle);
+      final float s = (float) FastMath.sin(radians);
+      final float c = (float) FastMath.cos(radians);
       
-      float[][] m = new float[4][4];
+      final float[][] m = new float[4][4];
 
       m[0] = new float[4];
       m[1] = new float[4];
@@ -235,15 +239,14 @@ public class Transform {
       m[3][2] = 0;
       m[3][3] = 1;
 
-      Matrix4x4 matrix = new Matrix4x4(m);
-      Matrix4x4 inverse = matrix.transpose();
+      final Matrix4x4 matrix = new Matrix4x4(m);
+      final Matrix4x4 inverse = matrix.transpose();
 
       return new Transform(matrix, inverse);
-
    }
    
-   public static Transform LookAt(Point3 position, Point3 toLookAt, Vector3 up) {
-      float[][] m = new float[4][4];
+   public static Transform lookAt(final Point3 position, final Point3 toLookAt, final Vector3 up) {
+      final float[][] m = new float[4][4];
 
       m[0] = new float[4];
       m[1] = new float[4];
@@ -255,21 +258,21 @@ public class Transform {
       m[2][3] = position.z;
       m[3][3] = 1;
 
-      Vector3 dir = Vector3.minus(position, toLookAt);
+      final Vector3 dir = Vector3.minus(position, toLookAt);
       dir.normalize();
 
       up.normalize();
-      Vector3 left = up.cross(dir);
+      final Vector3 left = up.cross(dir);
 
       if (left.length() == 0) {
          throw new IllegalArgumentException("up vector (" + up.x + ", " + up.y + ", " + up.z + ") and viewing direction " +
-               "(" + dir.x + ", " + dir.y + ", " + dir.z + ") passed to LookAt are pointing in the same direction.  Using " +
+               "(" + dir.x + ", " + dir.y + ", " + dir.z + ") passed to lookAt are pointing in the same direction.  Using " +
                "the identity transformation.");
       }
 
       left.normalize();
 
-      Vector3 newUp = dir.cross(left);
+      final Vector3 newUp = dir.cross(left);
 
       m[0][0] = left.x;
       m[1][0] = left.y;
@@ -286,23 +289,22 @@ public class Transform {
       m[2][2] = dir.z;
       m[3][2] = 0;
 
-      Matrix4x4 matrix = new Matrix4x4(m);
-      Matrix4x4 inverse = matrix.inverse();
+      final Matrix4x4 matrix = new Matrix4x4(m);
+      final Matrix4x4 inverse = matrix.inverse();
 
       return new Transform(inverse, matrix);
    }
 
-   public void ApplyInPlace(Point3 p) {
+   public void applyInPlace(final Point3 p) {
+      final float x = p.x;
+      final float y = p.y;
+      final float z = p.z;
 
-      float x = p.x;
-      float y = p.y;
-      float z = p.z;
+      final float newX = x * _matrix.matrix[0][0] + y * _matrix.matrix[0][1] + z * _matrix.matrix[0][2] + _matrix.matrix[0][3];
+      final float newY = x * _matrix.matrix[1][0] + y * _matrix.matrix[1][1] + z * _matrix.matrix[1][2] + _matrix.matrix[1][3];
+      final float newZ = x * _matrix.matrix[2][0] + y * _matrix.matrix[2][1] + z * _matrix.matrix[2][2] + _matrix.matrix[2][3];
 
-      float newX = x * _matrix.matrix[0][0] + y * _matrix.matrix[0][1] + z * _matrix.matrix[0][2] + _matrix.matrix[0][3];
-      float newY = x * _matrix.matrix[1][0] + y * _matrix.matrix[1][1] + z * _matrix.matrix[1][2] + _matrix.matrix[1][3];
-      float newZ = x * _matrix.matrix[2][0] + y * _matrix.matrix[2][1] + z * _matrix.matrix[2][2] + _matrix.matrix[2][3];
-
-      float w = x * _matrix.matrix[3][0] + y * _matrix.matrix[3][1] + z * _matrix.matrix[3][2] + _matrix.matrix[3][3];
+      final float w = x * _matrix.matrix[3][0] + y * _matrix.matrix[3][1] + z * _matrix.matrix[3][2] + _matrix.matrix[3][3];
 
       if (w == 1) {
          p.x = newX;
@@ -317,113 +319,109 @@ public class Transform {
       }
    }
 
-   public Point3 Apply(Point3 p) {
+   public Point3 apply(final Point3 p) {
+      final float x = p.x;
+      final float y = p.y;
+      final float z = p.z;
 
-      float x = p.x;
-      float y = p.y;
-      float z = p.z;
+      final float newX = x * _matrix.matrix[0][0] + y * _matrix.matrix[0][1] + z * _matrix.matrix[0][2] + _matrix.matrix[0][3];
+      final float newY = x * _matrix.matrix[1][0] + y * _matrix.matrix[1][1] + z * _matrix.matrix[1][2] + _matrix.matrix[1][3];
+      final float newZ = x * _matrix.matrix[2][0] + y * _matrix.matrix[2][1] + z * _matrix.matrix[2][2] + _matrix.matrix[2][3];
 
-      float newX = x * _matrix.matrix[0][0] + y * _matrix.matrix[0][1] + z * _matrix.matrix[0][2] + _matrix.matrix[0][3];
-      float newY = x * _matrix.matrix[1][0] + y * _matrix.matrix[1][1] + z * _matrix.matrix[1][2] + _matrix.matrix[1][3];
-      float newZ = x * _matrix.matrix[2][0] + y * _matrix.matrix[2][1] + z * _matrix.matrix[2][2] + _matrix.matrix[2][3];
-
-      float w = x * _matrix.matrix[3][0] + y * _matrix.matrix[3][1] + z * _matrix.matrix[3][2] + _matrix.matrix[3][3];
+      final float w = x * _matrix.matrix[3][0] + y * _matrix.matrix[3][1] + z * _matrix.matrix[3][2] + _matrix.matrix[3][3];
 
       if (w == 1)
          return new Point3(newX, newY, newZ);
       else {
-         float divisor = 1.f / w;
+         final float divisor = 1.f / w;
          return new Point3(newX * divisor, newY * divisor, newZ * divisor);
       }
    }
 
-   public Point3 Apply(Point3 p, Vector3 error) {
+   public Point3 apply(final Point3 p, final Vector3 error) {
+      final float x = p.x;
+      final float y = p.y;
+      final float z = p.z;
 
-      float x = p.x;
-      float y = p.y;
-      float z = p.z;
+      final float newX = x * _matrix.matrix[0][0] + y * _matrix.matrix[0][1] + z * _matrix.matrix[0][2] + _matrix.matrix[0][3];
+      final float newY = x * _matrix.matrix[1][0] + y * _matrix.matrix[1][1] + z * _matrix.matrix[1][2] + _matrix.matrix[1][3];
+      final float newZ = x * _matrix.matrix[2][0] + y * _matrix.matrix[2][1] + z * _matrix.matrix[2][2] + _matrix.matrix[2][3];
 
-      float newX = x * _matrix.matrix[0][0] + y * _matrix.matrix[0][1] + z * _matrix.matrix[0][2] + _matrix.matrix[0][3];
-      float newY = x * _matrix.matrix[1][0] + y * _matrix.matrix[1][1] + z * _matrix.matrix[1][2] + _matrix.matrix[1][3];
-      float newZ = x * _matrix.matrix[2][0] + y * _matrix.matrix[2][1] + z * _matrix.matrix[2][2] + _matrix.matrix[2][3];
+      final float w = x * _matrix.matrix[3][0] + y * _matrix.matrix[3][1] + z * _matrix.matrix[3][2] + _matrix.matrix[3][3];
 
-      float w = x * _matrix.matrix[3][0] + y * _matrix.matrix[3][1] + z * _matrix.matrix[3][2] + _matrix.matrix[3][3];
-
-      float xAbsSum = (Math.abs(_matrix.matrix[0][0] * x) + Math.abs(_matrix.matrix[0][1] * y) +
+      final float xAbsSum = (Math.abs(_matrix.matrix[0][0] * x) + Math.abs(_matrix.matrix[0][1] * y) +
             Math.abs(_matrix.matrix[0][2] * z) + Math.abs(_matrix.matrix[0][3]));
-      float yAbsSum = (Math.abs(_matrix.matrix[1][0] * x) + Math.abs(_matrix.matrix[1][1] * y) +
+      final float yAbsSum = (Math.abs(_matrix.matrix[1][0] * x) + Math.abs(_matrix.matrix[1][1] * y) +
             Math.abs(_matrix.matrix[1][2] * z) + Math.abs(_matrix.matrix[1][3]));
-      float zAbsSum = (Math.abs(_matrix.matrix[2][0] * x) + Math.abs(_matrix.matrix[2][1] * y) +
+      final float zAbsSum = (Math.abs(_matrix.matrix[2][0] * x) + Math.abs(_matrix.matrix[2][1] * y) +
             Math.abs(_matrix.matrix[2][2] * z) + Math.abs(_matrix.matrix[2][3]));
 
-      error.x = xAbsSum * FloatUtils.gamma(3);
-      error.y = yAbsSum * FloatUtils.gamma(3);;
-      error.z = zAbsSum * FloatUtils.gamma(3);;
+      error.x = xAbsSum * Constants.Gamma3;
+      error.y = yAbsSum * Constants.Gamma3;
+      error.z = zAbsSum * Constants.Gamma3;
 
       if (w == 1)
          return new Point3(newX, newY, newZ);
       else {
-         float divisor = 1.f / w;
+         final float divisor = 1.f / w;
          return new Point3(newX * divisor, newY * divisor, newZ * divisor);
       }
    }
 
-   public void ApplyInPlace(Vector3 v) {
-      float newX = v.x * _matrix.matrix[0][0] + v.y * _matrix.matrix[0][1] + v.z * _matrix.matrix[0][2];
-      float newY = v.x * _matrix.matrix[1][0] + v.y * _matrix.matrix[1][1] + v.z * _matrix.matrix[1][2];
-      float newZ = v.x * _matrix.matrix[2][0] + v.y * _matrix.matrix[2][1] + v.z * _matrix.matrix[2][2];
+   public void applyInPlace(final Vector3 v) {
+      final float newX = v.x * _matrix.matrix[0][0] + v.y * _matrix.matrix[0][1] + v.z * _matrix.matrix[0][2];
+      final float newY = v.x * _matrix.matrix[1][0] + v.y * _matrix.matrix[1][1] + v.z * _matrix.matrix[1][2];
+      final float newZ = v.x * _matrix.matrix[2][0] + v.y * _matrix.matrix[2][1] + v.z * _matrix.matrix[2][2];
 
       v.x = newX;
       v.y = newY;
       v.z = newZ;
    }
 
-   public Vector3 Apply(Vector3 v) {
-      float newX = v.x * _matrix.matrix[0][0] + v.y * _matrix.matrix[0][1] + v.z * _matrix.matrix[0][2];
-      float newY = v.x * _matrix.matrix[1][0] + v.y * _matrix.matrix[1][1] + v.z * _matrix.matrix[1][2];
-      float newZ = v.x * _matrix.matrix[2][0] + v.y * _matrix.matrix[2][1] + v.z * _matrix.matrix[2][2];
+   public Vector3 apply(final Vector3 v) {
+      final float newX = v.x * _matrix.matrix[0][0] + v.y * _matrix.matrix[0][1] + v.z * _matrix.matrix[0][2];
+      final float newY = v.x * _matrix.matrix[1][0] + v.y * _matrix.matrix[1][1] + v.z * _matrix.matrix[1][2];
+      final float newZ = v.x * _matrix.matrix[2][0] + v.y * _matrix.matrix[2][1] + v.z * _matrix.matrix[2][2];
 
       return new Vector3(newX, newY, newZ);
    }
 
-   public void ApplyInPlace(Normal n) {
-      float newX = n.x * _matrix.matrix[0][0] + n.y * _matrix.matrix[0][1] + n.z * _matrix.matrix[0][2];
-      float newY = n.x * _matrix.matrix[1][0] + n.y * _matrix.matrix[1][1] + n.z * _matrix.matrix[1][2];
-      float newZ = n.x * _matrix.matrix[2][0] + n.y * _matrix.matrix[2][1] + n.z * _matrix.matrix[2][2];
+   public void applyInPlace(final Normal n) {
+      final float newX = n.x * _matrix.matrix[0][0] + n.y * _matrix.matrix[0][1] + n.z * _matrix.matrix[0][2];
+      final float newY = n.x * _matrix.matrix[1][0] + n.y * _matrix.matrix[1][1] + n.z * _matrix.matrix[1][2];
+      final float newZ = n.x * _matrix.matrix[2][0] + n.y * _matrix.matrix[2][1] + n.z * _matrix.matrix[2][2];
 
       n.x = newX;
       n.y = newY;
       n.z = newZ;
    }
 
-   public Normal Apply(Normal n) {
-
-      float newX = n.x * _inverse.matrix[0][0] + n.y * _inverse.matrix[1][0] + n.z * _inverse.matrix[2][0];
-      float newY = n.x * _inverse.matrix[0][1] + n.y * _inverse.matrix[1][1] + n.z * _inverse.matrix[2][1];
-      float newZ = n.x * _inverse.matrix[0][2] + n.y * _inverse.matrix[1][2] + n.z * _inverse.matrix[2][2];
+   public Normal apply(final Normal n) {
+      final float newX = n.x * _inverse.matrix[0][0] + n.y * _inverse.matrix[1][0] + n.z * _inverse.matrix[2][0];
+      final float newY = n.x * _inverse.matrix[0][1] + n.y * _inverse.matrix[1][1] + n.z * _inverse.matrix[2][1];
+      final float newZ = n.x * _inverse.matrix[0][2] + n.y * _inverse.matrix[1][2] + n.z * _inverse.matrix[2][2];
 
       return new Normal(newX, newY, newZ);
    }
 
-   public void ApplyInPlace(Ray r) {
-      ApplyInPlace(r.Origin);
-      ApplyInPlace(r.Direction);
+   public void applyInPlace(final Ray r) {
+      applyInPlace(r.Origin);
+      applyInPlace(r.Direction);
    }
 
-   public Ray Apply(Ray r) {
-
-      return new Ray(Apply(r.Origin), Apply(r.Direction));
+   public Ray apply(final Ray r) {
+      return new Ray(apply(r.Origin), apply(r.Direction));
    }
 
-   public Transform Apply(Transform t) {
-      Matrix4x4 matrix = _matrix.multiply(t._matrix);
-      Matrix4x4 inverse = t._inverse.multiply(_inverse);
+   public Transform apply(final Transform t) {
+      final Matrix4x4 matrix = _matrix.multiply(t._matrix);
+      final Matrix4x4 inverse = t._inverse.multiply(_inverse);
 
       return new Transform(matrix, inverse);
    }
 
    public boolean SwapsHandedness() {
-      float det = (_matrix.matrix[0][0] * _matrix.matrix[1][1] + _matrix.matrix[2][2] +
+      final float det = (_matrix.matrix[0][0] * _matrix.matrix[1][1] + _matrix.matrix[2][2] +
             _matrix.matrix[0][1] * _matrix.matrix[1][2] + _matrix.matrix[2][0] +
             _matrix.matrix[0][2] * _matrix.matrix[1][0] + _matrix.matrix[2][1]) -
             (_matrix.matrix[0][2] * _matrix.matrix[1][1] + _matrix.matrix[2][0] +
@@ -433,28 +431,28 @@ public class Transform {
 
    }
 
-   public BoundingBox Apply(BoundingBox b) {
-      Point3 p1 = new Point3(b.point1.x, b.point1.y, b.point1.z);
-      ApplyInPlace(p1);
+   public BoundingBox apply(final BoundingBox b) {
+      final Point3 p1 = new Point3(b.point1.x, b.point1.y, b.point1.z);
+      applyInPlace(p1);
 
-      Point3 p2 = new Point3(b.point1.x, b.point1.y, b.point2.z);
-      ApplyInPlace(p2);
+      final Point3 p2 = new Point3(b.point1.x, b.point1.y, b.point2.z);
+      applyInPlace(p2);
 
       BoundingBox transformed = new BoundingBox(p1, p2);
 
-      Point3 p3 = Apply(new Point3(b.point1.x, b.point2.y, b.point1.z));
+      final Point3 p3 = apply(new Point3(b.point1.x, b.point2.y, b.point1.z));
 
       transformed = BoundingBox.GetBoundingBox(transformed, p3);
 
-      Point3 p4 = Apply(new Point3(b.point1.x, b.point2.y, b.point2.z));
+      final Point3 p4 = apply(new Point3(b.point1.x, b.point2.y, b.point2.z));
       transformed = BoundingBox.GetBoundingBox(transformed, p4);
-      Point3 p5 = Apply(new Point3(b.point2.x, b.point1.y, b.point1.z));
+      final Point3 p5 = apply(new Point3(b.point2.x, b.point1.y, b.point1.z));
       transformed = BoundingBox.GetBoundingBox(transformed, p5);
-      Point3 p6 = Apply(new Point3(b.point2.x, b.point1.y, b.point2.z));
+      final Point3 p6 = apply(new Point3(b.point2.x, b.point1.y, b.point2.z));
       transformed = BoundingBox.GetBoundingBox(transformed, p6);
-      Point3 p7 = Apply(new Point3(b.point2.x, b.point2.y, b.point1.z));
+      final Point3 p7 = apply(new Point3(b.point2.x, b.point2.y, b.point1.z));
       transformed = BoundingBox.GetBoundingBox(transformed, p7);
-      Point3 p8 = Apply(new Point3(b.point2.x, b.point2.y, b.point2.z));
+      final Point3 p8 = apply(new Point3(b.point2.x, b.point2.y, b.point2.z));
       transformed = BoundingBox.GetBoundingBox(transformed, p8);
 
       return transformed;
@@ -466,18 +464,18 @@ public class Transform {
     * @param list
     * @return
     */
-   public static Transform[] composite(java.util.List<Transform> list) {
+   public static Transform[] composite(final java.util.List<Transform> list) {
       return composite(list.toArray(new Transform[list.size()]));
    }
 
-   public static Transform[] composite(Transform... transforms) {
+   public static Transform[] composite(final Transform... transforms) {
       Transform objectToWorld = new Transform();
 
       for (int i = 0; i < transforms.length; i++) {
-         objectToWorld = objectToWorld.Apply(transforms[i]);
+         objectToWorld = objectToWorld.apply(transforms[i]);
       }
 
-      Transform worldToObject = new Transform(objectToWorld._inverse, objectToWorld._matrix);
+      final Transform worldToObject = new Transform(objectToWorld._inverse, objectToWorld._matrix);
 
       return new Transform[] {objectToWorld, worldToObject};
    }
@@ -485,5 +483,4 @@ public class Transform {
    private static Transform getIdentity() {
       return new Transform(Matrix4x4.identity, Matrix4x4.identity);
    }
-
 }

@@ -25,11 +25,11 @@ public class ApplyToVector3Tests {
 
    @Test
    public void TestApplyTranslation() {
-      Transform t = Transform.Translate(new Vector3(1, 1, 1));
+      Transform t = Transform.translate(new Vector3(1, 1, 1));
 
       Vector3 originalVector = new Vector3(5, 5, 5);
 
-      Vector3 actualNewVector = t.Apply(originalVector);
+      Vector3 actualNewVector = t.apply(originalVector);
       Vector3 expectedNewVector = new Vector3(5, 5, 5);
 
       Assert.assertNotNull("transformed vector should not be null", actualNewVector);
@@ -39,17 +39,17 @@ public class ApplyToVector3Tests {
    @DataProvider(name = "ScaleDataProvider")
    public Object[][] ScaleDataProvider() {
       return new Object[][] {
-            { Transform.Scale(1, 1, 1), new Vector3(0, 0, 0), new Vector3(0, 0, 0) },
-            { Transform.Scale(1, 1, 1), new Vector3(1, 1, 1), new Vector3(1, 1, 1) },
-            { Transform.Scale(2, 1, 1), new Vector3(1, 1, 1), new Vector3(2, 1, 1) },
-            { Transform.Scale(0, 1, 1), new Vector3(1, 1, 1), new Vector3(0, 1, 1) },
+            { Transform.scale(1, 1, 1), new Vector3(0, 0, 0), new Vector3(0, 0, 0) },
+            { Transform.scale(1, 1, 1), new Vector3(1, 1, 1), new Vector3(1, 1, 1) },
+            { Transform.scale(2, 1, 1), new Vector3(1, 1, 1), new Vector3(2, 1, 1) },
+            { Transform.scale(0, 1, 1), new Vector3(1, 1, 1), new Vector3(0, 1, 1) },
       };
    }
 
    @Test(dataProvider = "ScaleDataProvider")
    public void TestApplyScale(Transform transform, Vector3 originalVector, Vector3 expectedNewVector) {
 
-      Vector3 actualNewVector = transform.Apply(originalVector);
+      Vector3 actualNewVector = transform.apply(originalVector);
 
       Assert.assertNotNull(actualNewVector);
       Assert.assertEquals(expectedNewVector, actualNewVector);

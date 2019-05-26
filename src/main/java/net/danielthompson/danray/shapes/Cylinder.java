@@ -32,7 +32,7 @@ public class Cylinder extends AbstractShape {
    public void RecalculateWorldBoundingBox() {
       WorldBoundingBox = new BoundingBox(new Point3(-Radius, 0, -Radius), new Point3(Radius, Height, Radius));
       if (ObjectToWorld != null) {
-         WorldBoundingBox = ObjectToWorld.Apply(WorldBoundingBox);
+         WorldBoundingBox = ObjectToWorld.apply(WorldBoundingBox);
       }
    }
 
@@ -41,7 +41,7 @@ public class Cylinder extends AbstractShape {
       Ray objectSpaceRay = worldSpaceRay;
 
       if (WorldToObject != null) {
-         objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
+         objectSpaceRay = WorldToObject.apply(worldSpaceRay);
       }
 
       Intersection state = new Intersection();
@@ -235,9 +235,9 @@ public class Cylinder extends AbstractShape {
 
          // other stuff
          if (ObjectToWorld != null) {
-            state.location = ObjectToWorld.Apply(state.location);
-            state.normal = ObjectToWorld.Apply(state.normal);
-            if (ObjectToWorld.HasScale()) {
+            state.location = ObjectToWorld.apply(state.location);
+            state.normal = ObjectToWorld.apply(state.normal);
+            if (ObjectToWorld.hasScale()) {
                state.t = worldSpaceRay.getTAtPoint(state.location);
             }
          }

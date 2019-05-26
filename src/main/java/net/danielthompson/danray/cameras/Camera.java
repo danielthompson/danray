@@ -20,11 +20,11 @@ public abstract class Camera {
    }
 
    public Vector3 getDirection() {
-      return cameraToWorld.Apply(DefaultDirection);
+      return cameraToWorld.apply(DefaultDirection);
    }
 
    public Point3 getOrigin() {
-      return cameraToWorld.Apply(DefaultOrigin);
+      return cameraToWorld.apply(DefaultOrigin);
    }
 
    public void setFrame(final int frame) {
@@ -35,34 +35,34 @@ public abstract class Camera {
     * @param delta
     */
    public void moveOriginAlongAxis(final Vector3 delta) {
-      Transform t = Transform.Translate(delta);
-      cameraToWorld = t.Apply(cameraToWorld);
+      Transform t = Transform.translate(delta);
+      cameraToWorld = t.apply(cameraToWorld);
    }
 
    public void moveOriginAlongOrientation(final Vector3 delta) {
-      final Transform t = Transform.Translate(delta);
-      cameraToWorld = cameraToWorld.Apply(t);
+      final Transform t = Transform.translate(delta);
+      cameraToWorld = cameraToWorld.apply(t);
    }
 
    public void moveDirectionAlongOrientation(final Vector3 delta) {
       final Transform[] inputTransforms = new Transform[] {
-            Transform.RotateX(delta.x),
-            Transform.RotateY(delta.y),
-            Transform.RotateZ(delta.z)
+            Transform.rotateX(delta.x),
+            Transform.rotateY(delta.y),
+            Transform.rotateZ(delta.z)
       };
       final Transform[] compositeTransforms = Transform.composite(inputTransforms);
-      cameraToWorld = cameraToWorld.Apply(compositeTransforms[0]);
+      cameraToWorld = cameraToWorld.apply(compositeTransforms[0]);
    }
 
    public void moveDirectionAlongAxis(final Vector3 delta) {
 
       final Transform[] inputTransforms = new Transform[] {
-            Transform.RotateX(delta.x),
-            Transform.RotateY(delta.y),
-            Transform.RotateZ(delta.z)
+            Transform.rotateX(delta.x),
+            Transform.rotateY(delta.y),
+            Transform.rotateZ(delta.z)
       };
       final Transform[] compositeTransforms = Transform.composite(inputTransforms);
-      cameraToWorld = compositeTransforms[0].Apply(cameraToWorld);
+      cameraToWorld = compositeTransforms[0].apply(cameraToWorld);
    }
 
    public Ray[] getRays(final Point2 pixel, final int samples)

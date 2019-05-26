@@ -5,6 +5,7 @@ import net.danielthompson.danray.acceleration.KDAxis;
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
+import org.lwjgl.system.CallbackI;
 
 import java.util.List;
 
@@ -76,20 +77,69 @@ public abstract class AbstractShape {
       intersection.tangentU = intersection.tangentV.cross(intersection.normal);
    }
 
+   Point3 OffsetRayOrigin(final Point3 p, final Vector3 pError, final Normal n, final Vector3 w) {
+      float d = pError.dot(n.abs());
+      Vector3 offset = new Vector3(n);
+      offset.scale(d);
+//      if (w.dot(n) < 0)
+//         offset.scale(-1.0f);
+      Point3 po = Point3.plus(p, offset);
+
+      if (offset.x > 0)
+         po.x = Math.nextUp(po.x);
+      else if (offset.x < 0)
+         po.x = Math.nextDown(po.x);
+
+      if (offset.y > 0)
+         po.y = Math.nextUp(po.y);
+      else if (offset.y < 0)
+         po.y = Math.nextDown(po.y);
+
+      if (offset.z > 0)
+         po.z = Math.nextUp(po.z);
+      else if (offset.z < 0)
+         po.z = Math.nextDown(po.z);
+
+      return po;
+   }
+
    protected void ToWorldSpace(Intersection intersection, Ray worldSpaceRay) {
       if (ObjectToWorld != null) {
-         intersection.location = ObjectToWorld.Apply(intersection.location);
-         intersection.normal = ObjectToWorld.Apply(intersection.normal);
-         intersection.tangentU = ObjectToWorld.Apply(intersection.tangentU);
-         intersection.tangentV = ObjectToWorld.Apply(intersection.tangentV);
-         if (ObjectToWorld.HasScale()) {
+         //intersection.location = ObjectToWorld.apply(intersection.location);
+         intersection.normal = ObjectToWorld.apply(intersection.normal);
+         intersection.tangentU = ObjectToWorld.apply(intersection.tangentU);
+         intersection.tangentV = ObjectToWorld.apply(intersection.tangentV);
+         if (ObjectToWorld.hasScale()) {
             intersection.normal.normalize();
             intersection.tangentU.normalize();
             intersection.tangentV.normalize();
+            //intersection.t = worldSpaceRay.getTAtPoint(intersection.location);
+         }
+         Vector3 error = new Vector3(0, 0, 0);
+         intersection.location = ObjectToWorld.apply(intersection.location, error);
+         intersection.location = OffsetRayOrigin(intersection.location, error, intersection.normal, worldSpaceRay.Direction);
+
+         if (ObjectToWorld.hasScale()) {
             intersection.t = worldSpaceRay.getTAtPoint(intersection.location);
          }
+
       }
    }
+
+//   protected void ToWorldSpace(Intersection intersection, Ray worldSpaceRay) {
+//      if (ObjectToWorld != null) {
+//         intersection.location = ObjectToWorld.apply(intersection.location);
+//         intersection.normal = ObjectToWorld.apply(intersection.normal);
+//         intersection.tangentU = ObjectToWorld.apply(intersection.tangentU);
+//         intersection.tangentV = ObjectToWorld.apply(intersection.tangentV);
+//         if (ObjectToWorld.hasScale()) {
+//            intersection.normal.normalize();
+//            intersection.tangentU.normalize();
+//            intersection.tangentV.normalize();
+//            intersection.t = worldSpaceRay.getTAtPoint(intersection.location);
+//         }
+//      }
+//   }
 
    public void SetInCurrentKDNode(boolean value) {
       InCurrentKDNode = value;

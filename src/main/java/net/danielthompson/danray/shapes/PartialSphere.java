@@ -60,7 +60,7 @@ public class PartialSphere extends AbstractShape {
       WorldBoundingBox = new BoundingBox(p1, p2);
 
       if (ObjectToWorld != null) {
-         WorldBoundingBox = ObjectToWorld.Apply(WorldBoundingBox);
+         WorldBoundingBox = ObjectToWorld.apply(WorldBoundingBox);
       }
    }
 
@@ -69,7 +69,7 @@ public class PartialSphere extends AbstractShape {
       Ray objectSpaceRay = worldSpaceRay;
 
       if (WorldToObject != null) {
-         objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
+         objectSpaceRay = WorldToObject.apply(worldSpaceRay);
       }
 
       Vector3 v = Point3.minus(objectSpaceRay.Origin, Origin);
@@ -156,9 +156,9 @@ public class PartialSphere extends AbstractShape {
          return false;
 
       // convert T back to world space
-      if (ObjectToWorld != null && ObjectToWorld.HasScale()) {
+      if (ObjectToWorld != null && ObjectToWorld.hasScale()) {
          Point3 objectSpaceIntersectionPoint = objectSpaceRay.getPointAtT(hits);
-         Point3 worldSpaceIntersectionPoint = ObjectToWorld.Apply(objectSpaceIntersectionPoint);
+         Point3 worldSpaceIntersectionPoint = ObjectToWorld.apply(objectSpaceIntersectionPoint);
          hits = worldSpaceRay.getTAtPoint(worldSpaceIntersectionPoint);
       }
 
@@ -174,14 +174,14 @@ public class PartialSphere extends AbstractShape {
       Ray objectSpaceRay = worldSpaceRay;
 
       if (WorldToObject != null) {
-         objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
+         objectSpaceRay = WorldToObject.apply(worldSpaceRay);
       }
 
       Point3 worldSpaceIntersectionPoint = worldSpaceRay.getPointAtT(worldSpaceRay.MinT);
       Point3 objectSpaceIntersectionPoint = worldSpaceIntersectionPoint;
 
       if (WorldToObject != null) {
-         objectSpaceIntersectionPoint = WorldToObject.Apply(worldSpaceIntersectionPoint);
+         objectSpaceIntersectionPoint = WorldToObject.apply(worldSpaceIntersectionPoint);
       }
 
       Vector3 direction = Point3.minus(objectSpaceIntersectionPoint, Origin);

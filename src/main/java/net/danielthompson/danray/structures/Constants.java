@@ -1,5 +1,7 @@
 package net.danielthompson.danray.structures;
 
+import net.danielthompson.danray.utility.FloatUtils;
+
 /**
  * DanRay
  * User: dthompson
@@ -18,6 +20,16 @@ public class Constants {
    //public static final float Epsilon = .0000000001006;
 
    public static final float NOHIT = -1.0f;
+
+   public static final float Gamma1 = FloatUtils.gamma(1);
+   public static final float Gamma2 = FloatUtils.gamma(2);
+   public static final float Gamma3 = FloatUtils.gamma(3);
+   public static final float Gamma4 = FloatUtils.gamma(4);
+   public static final float Gamma5 = FloatUtils.gamma(5);
+   public static final float Gamma6 = FloatUtils.gamma(6);
+   public static final float Gamma7 = FloatUtils.gamma(7);
+   public static final float Gamma8 = FloatUtils.gamma(8);
+   public static final float Gamma9 = FloatUtils.gamma(9);
 
    public static final float PI = (float) Math.PI;
    public static final float OneOverPi = (float) (1.0 / Math.PI);

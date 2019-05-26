@@ -54,7 +54,7 @@ public class Sphere extends CSGShape {
       WorldBoundingBox = new BoundingBox(p1, p2);
 
       if (ObjectToWorld != null) {
-         WorldBoundingBox = ObjectToWorld.Apply(WorldBoundingBox);
+         WorldBoundingBox = ObjectToWorld.apply(WorldBoundingBox);
       }
    }
 
@@ -63,7 +63,7 @@ public class Sphere extends CSGShape {
       Ray objectSpaceRay = worldSpaceRay;
 
       if (WorldToObject != null) {
-         objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
+         objectSpaceRay = WorldToObject.apply(worldSpaceRay);
       }
 
       Vector3 v = Point3.minus(objectSpaceRay.Origin, Origin);
@@ -110,9 +110,9 @@ public class Sphere extends CSGShape {
          return false;
 
       // convert T back to world space
-      if (ObjectToWorld != null && ObjectToWorld.HasScale()) {
+      if (ObjectToWorld != null && ObjectToWorld.hasScale()) {
          Point3 objectSpaceIntersectionPoint = objectSpaceRay.getPointAtT(hits);
-         Point3 worldSpaceIntersectionPoint = ObjectToWorld.Apply(objectSpaceIntersectionPoint);
+         Point3 worldSpaceIntersectionPoint = ObjectToWorld.apply(objectSpaceIntersectionPoint);
          hits = worldSpaceRay.getTAtPoint(worldSpaceIntersectionPoint);
       }
 
@@ -126,14 +126,14 @@ public class Sphere extends CSGShape {
       Ray objectSpaceRay = worldSpaceRay;
 
       if (WorldToObject != null) {
-         objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
+         objectSpaceRay = WorldToObject.apply(worldSpaceRay);
       }
 
       Point3 worldSpaceIntersectionPoint = worldSpaceRay.getPointAtT(worldSpaceRay.MinT);
       Point3 objectSpaceIntersectionPoint = worldSpaceIntersectionPoint;
 
       if (WorldToObject != null) {
-         objectSpaceIntersectionPoint = WorldToObject.Apply(worldSpaceIntersectionPoint);
+         objectSpaceIntersectionPoint = WorldToObject.apply(worldSpaceIntersectionPoint);
       }
 
       Vector3 direction = Point3.minus(objectSpaceIntersectionPoint, Origin);
@@ -167,7 +167,7 @@ public class Sphere extends CSGShape {
       Ray objectSpaceRay = worldSpaceRay;
 
       if (WorldToObject != null) {
-         objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
+         objectSpaceRay = WorldToObject.apply(worldSpaceRay);
       }
 
       Vector3 v = Point3.minus(objectSpaceRay.Origin, Origin);
@@ -195,9 +195,9 @@ public class Sphere extends CSGShape {
 
          worldSpaceRay.MinT = lowT;
 
-         if (ObjectToWorld != null && ObjectToWorld.HasScale()) {
+         if (ObjectToWorld != null && ObjectToWorld.hasScale()) {
             Point3 objectSpaceIntersectionPoint = objectSpaceRay.getPointAtT(lowT);
-            Point3 worldSpaceIntersectionPoint = ObjectToWorld.Apply(objectSpaceIntersectionPoint);
+            Point3 worldSpaceIntersectionPoint = ObjectToWorld.apply(objectSpaceIntersectionPoint);
             worldSpaceRay.MinT = worldSpaceRay.getTAtPoint(worldSpaceIntersectionPoint);
          }
 
@@ -212,9 +212,9 @@ public class Sphere extends CSGShape {
          // t1 hits in front of the origin
          worldSpaceRay.MinT = highT;
 
-         if (ObjectToWorld != null && ObjectToWorld.HasScale()) {
+         if (ObjectToWorld != null && ObjectToWorld.hasScale()) {
             Point3 objectSpaceIntersectionPoint = objectSpaceRay.getPointAtT(highT);
-            Point3 worldSpaceIntersectionPoint = ObjectToWorld.Apply(objectSpaceIntersectionPoint);
+            Point3 worldSpaceIntersectionPoint = ObjectToWorld.apply(objectSpaceIntersectionPoint);
             worldSpaceRay.MinT = worldSpaceRay.getTAtPoint(worldSpaceIntersectionPoint);
          }
 
@@ -236,7 +236,7 @@ public class Sphere extends CSGShape {
       Point3 objectSpacePoint = worldSpacePoint;
 
       if (WorldToObject != null) {
-         objectSpacePoint = WorldToObject.Apply(worldSpacePoint);
+         objectSpacePoint = WorldToObject.apply(worldSpacePoint);
       }
 
       float dist = objectSpacePoint.squaredDistanceBetween(Origin);

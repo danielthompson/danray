@@ -58,7 +58,7 @@ public class SphereLight extends AbstractLight {
       point.plus(Sphere.Origin);
 
       if (Sphere.ObjectToWorld != null) {
-         point = Sphere.ObjectToWorld.Apply(point);
+         point = Sphere.ObjectToWorld.apply(point);
       }
 
       return point;
@@ -80,12 +80,12 @@ public class SphereLight extends AbstractLight {
    @Override
    public Point3 getRandomPointOnSideOf(Point3 point) {
       if (Sphere.WorldToObject != null)
-         point = Sphere.WorldToObject.Apply(point);
+         point = Sphere.WorldToObject.apply(point);
 
       Vector3 directionToPoint = Vector3.minus(point, Sphere.Origin);
 
       if (Sphere.ObjectToWorld != null)
-         directionToPoint = Sphere.ObjectToWorld.Apply(directionToPoint);
+         directionToPoint = Sphere.ObjectToWorld.apply(directionToPoint);
 
       Point3 result = getRandomPointOnSideOf(directionToPoint);
       return result;
@@ -109,7 +109,7 @@ public class SphereLight extends AbstractLight {
       ray.offsetOriginForward(.00001f);
 
       if (Sphere.ObjectToWorld != null)
-         Sphere.ObjectToWorld.Apply(ray);
+         Sphere.ObjectToWorld.apply(ray);
       return ray;
    }
 
@@ -120,7 +120,7 @@ public class SphereLight extends AbstractLight {
       Point3 origin = new Point3(Sphere.Origin);
 
       if (Sphere.ObjectToWorld != null)
-         origin = Sphere.ObjectToWorld.Apply(origin);
+         origin = Sphere.ObjectToWorld.apply(origin);
 
       float sqrDist = (float) point.squaredDistanceBetween(origin);
 

@@ -124,11 +124,11 @@ public class KDScene extends AbstractScene {
          KDNode leftNode = node.LeftChild;
          KDNode rightNode = node.RightChild;
 
-         Intersection leftState = BoundingBox.getHitInfoNew(getPoint1(leftNode), getPoint2(leftNode), ray);
-         Intersection rightState = BoundingBox.getHitInfoNew(getPoint1(rightNode), getPoint2(rightNode), ray);
+         Intersection leftState = BoundingBox.getHitInfo(getPoint1(leftNode), getPoint2(leftNode), ray);
+         Intersection rightState = BoundingBox.getHitInfo(getPoint1(rightNode), getPoint2(rightNode), ray);
 
-         //intersection leftState = BoundingBox.getHitInfoNew(leftNode.BoundingBox.point1, leftNode.BoundingBox.point2, ray);
-         //intersection rightState = BoundingBox.getHitInfoNew(rightNode.BoundingBox.point1, rightNode.BoundingBox.point2, ray);
+         //intersection leftState = BoundingBox.getHitInfo(leftNode.BoundingBox.point1, leftNode.BoundingBox.point2, ray);
+         //intersection rightState = BoundingBox.getHitInfo(rightNode.BoundingBox.point1, rightNode.BoundingBox.point2, ray);
 
          //intersection leftState = leftNode.getHitInfo(ray);
          //intersection rightState = rightNode.getHitInfo(ray);

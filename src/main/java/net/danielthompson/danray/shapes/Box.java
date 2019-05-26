@@ -44,7 +44,7 @@ public class Box extends CSGShape {
       WorldBoundingBox = new BoundingBox(point1, point2);
 
       if (ObjectToWorld != null) {
-         WorldBoundingBox = ObjectToWorld.Apply(WorldBoundingBox);
+         WorldBoundingBox = ObjectToWorld.apply(WorldBoundingBox);
       }
    }
 
@@ -53,7 +53,7 @@ public class Box extends CSGShape {
       Point3 objectSpacePoint = worldSpacePoint;
 
       if (WorldToObject != null) {
-         objectSpacePoint = WorldToObject.Apply(worldSpacePoint);
+         objectSpacePoint = WorldToObject.apply(worldSpacePoint);
       }
 
       return (
@@ -71,23 +71,19 @@ public class Box extends CSGShape {
       Ray objectSpaceRay = worldSpaceRay;
 
       if (WorldToObject != null) {
-         objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
+         objectSpaceRay = WorldToObject.apply(worldSpaceRay);
       }
 
-      Intersection intersection = BoundingBox.getHitInfoNew(point1, point2, objectSpaceRay);
+      Intersection intersection = BoundingBox.getHitInfo(point1, point2, objectSpaceRay);
 
       float minT = intersection.t;
       //float maxT = intersection.TMax;
 
       if (intersection.hits) {
-         if (ObjectToWorld != null && ObjectToWorld.HasScale()) {
-            Point3 objectSpaceFirstIntersectionPoint = objectSpaceRay.getPointAtT(intersection.t);
-            Point3 worldSpaceFirstIntersectionPoint = ObjectToWorld.Apply(objectSpaceFirstIntersectionPoint);
-            minT = worldSpaceRay.getTAtPoint(worldSpaceFirstIntersectionPoint);
-
-            //Point objectSpaceSecondIntersectionPoint = objectSpaceRay.getPointAtT(intersection.TMax);
-            //Point worldSpaceSecondIntersectionPoint = ObjectToWorld.Apply(objectSpaceSecondIntersectionPoint);
-            //maxT = worldSpaceRay.getTAtPoint(worldSpaceSecondIntersectionPoint);
+         if (ObjectToWorld != null && ObjectToWorld.hasScale()) {
+            Point3 objectSpaceIntersection = objectSpaceRay.getPointAtT(intersection.t);
+            Point3 worldSpaceIntersection = ObjectToWorld.apply(objectSpaceIntersection);
+            minT = worldSpaceRay.getTAtPoint(worldSpaceIntersection);
          }
 
          worldSpaceRay.MinT = intersection.hits && minT < worldSpaceRay.MinT ? minT : worldSpaceRay.MinT;
@@ -179,6 +175,10 @@ public class Box extends CSGShape {
          if (intersection.normal.dot(objectSpaceRay.Direction) > 0)
             intersection.normal.scale(-1);
 
+         //float error = 10000000;
+
+         //intersection.location = OffsetRayOrigin(intersection.location, new Vector3(error, error, error), intersection.normal, objectSpaceRay.Direction);
+
          CalculateTangents(intersection);
 
          ToWorldSpace(intersection, worldSpaceRay);
@@ -187,32 +187,21 @@ public class Box extends CSGShape {
 
    @Override
    public Intersection GetHitInfo(Ray worldSpaceRay) {
-
       Ray objectSpaceRay = worldSpaceRay;
-
       if (WorldToObject != null) {
-         objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
+         objectSpaceRay = WorldToObject.apply(worldSpaceRay);
       }
 
-      Intersection intersection = BoundingBox.getHitInfoNew(point1, point2, objectSpaceRay);
-
-
-      // TODO fix this garbage with this some boundary testing
-
+      Intersection intersection = BoundingBox.getHitInfo(point1, point2, objectSpaceRay);
       FillIntersectionData(intersection, objectSpaceRay, worldSpaceRay);
-
-
-
       return intersection;
    }
 
    @Override
    public List<Intersection> GetAllHitPoints(Ray worldSpaceRay) {
-
       Ray objectSpaceRay = worldSpaceRay;
-
       if (WorldToObject != null) {
-         objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
+         objectSpaceRay = WorldToObject.apply(worldSpaceRay);
       }
 
       List<Intersection> intersections = BoundingBox.getBothHitInfo(point1, point2, objectSpaceRay);
@@ -240,16 +229,15 @@ public class Box extends CSGShape {
       points[6] = new Point3(1, 1, 0);
       points[7] = new Point3(1, 1, 1);
 
-      ObjectToWorld.ApplyInPlace(points[0]);
-      ObjectToWorld.ApplyInPlace(points[1]);
-      ObjectToWorld.ApplyInPlace(points[2]);
-      ObjectToWorld.ApplyInPlace(points[3]);
-      ObjectToWorld.ApplyInPlace(points[4]);
-      ObjectToWorld.ApplyInPlace(points[5]);
-      ObjectToWorld.ApplyInPlace(points[6]);
-      ObjectToWorld.ApplyInPlace(points[7]);
+      ObjectToWorld.applyInPlace(points[0]);
+      ObjectToWorld.applyInPlace(points[1]);
+      ObjectToWorld.applyInPlace(points[2]);
+      ObjectToWorld.applyInPlace(points[3]);
+      ObjectToWorld.applyInPlace(points[4]);
+      ObjectToWorld.applyInPlace(points[5]);
+      ObjectToWorld.applyInPlace(points[6]);
+      ObjectToWorld.applyInPlace(points[7]);
 
       return points;
    }
-
 }

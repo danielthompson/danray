@@ -20,7 +20,7 @@ public class IntersectionTests {
       Material material = null;
 
       Transform[] transforms = new Transform[1];
-      transforms[0] = Transform.Scale(2.0f);
+      transforms[0] = Transform.scale(2.0f);
       Transform compositeTransform[] = Transform.composite(transforms);
 
       Box box = new Box(compositeTransform, material);
@@ -48,7 +48,7 @@ public class IntersectionTests {
       Material material = null;
 
       Transform[] transforms = new Transform[1];
-      transforms[0] = Transform.Scale(2.0f);
+      transforms[0] = Transform.scale(2.0f);
       Transform compositeTransform[] = Transform.composite(transforms);
 
       Box box = new Box(compositeTransform, material);
@@ -73,7 +73,7 @@ public class IntersectionTests {
       Material material = null;
 
       Transform[] transforms = new Transform[1];
-      transforms[0] = Transform.Scale(2.0f);
+      transforms[0] = Transform.scale(2.0f);
       Transform compositeTransform[] = Transform.composite(transforms);
 
       Box box = new Box(compositeTransform, material);
@@ -101,7 +101,7 @@ public class IntersectionTests {
       Material material = null;
 
       Transform[] transforms = new Transform[1];
-      transforms[0] = Transform.Scale(2.0f);
+      transforms[0] = Transform.scale(2.0f);
       Transform compositeTransform[] = Transform.composite(transforms);
 
       Box box = new Box(compositeTransform, material);

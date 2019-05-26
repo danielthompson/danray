@@ -126,77 +126,10 @@ public class BoundingBox {
    }
 
    public Intersection getHitInfo(final Ray ray) {
-      return BoundingBox.getHitInfoNew(point1, point2, ray);
+      return BoundingBox.getHitInfo(point1, point2, ray);
    }
 
-   // orig
-   public static Intersection getHitInfoOld(final Point3 p0, final Point3 p1, final Ray ray) {
-      float maxBoundFarT = Float.MAX_VALUE;
-      float minBoundNearT = 0;
-
-      final Intersection intersection = new Intersection();
-      intersection.hits = true;
-
-      // x
-      float tNear = (p0.x - ray.Origin.x) * ray.DirectionInverse.x;
-      float tFar = (p1.x - ray.Origin.x) * ray.DirectionInverse.x;
-
-      if (tNear > tFar) {
-         final float swap = tNear;
-         tNear = tFar;
-         tFar = swap;
-      }
-
-      minBoundNearT = (tNear > minBoundNearT) ? tNear : minBoundNearT;
-      maxBoundFarT = (tFar < maxBoundFarT) ? tFar : maxBoundFarT;
-      if (minBoundNearT > maxBoundFarT) {
-         intersection.hits = false;
-         return intersection;
-      }
-      intersection.t = minBoundNearT;
-      //state.TMax = maxBoundFarT;
-
-      tNear = (p0.y - ray.Origin.y) * ray.DirectionInverse.y;
-      tFar = (p1.y - ray.Origin.y) * ray.DirectionInverse.y;
-      if (tNear > tFar) {
-         final float swap = tNear;
-         tNear = tFar;
-         tFar = swap;
-      }
-
-      minBoundNearT = (tNear > minBoundNearT) ? tNear : minBoundNearT;
-      maxBoundFarT = (tFar < maxBoundFarT) ? tFar : maxBoundFarT;
-      if (minBoundNearT > maxBoundFarT) {
-         intersection.hits = false;
-         return intersection;
-      }
-
-      intersection.t = minBoundNearT;
-      //state.TMax = maxBoundFarT;
-
-      //rayInverse = ray.DirectionInverse.z;
-      tNear = (p0.z - ray.Origin.z) * ray.DirectionInverse.z;
-      tFar = (p1.z - ray.Origin.z) * ray.DirectionInverse.z;
-      if (tNear > tFar) {
-         final float swap = tNear;
-         tNear = tFar;
-         tFar = swap;
-      }
-
-      minBoundNearT = (tNear > minBoundNearT) ? tNear : minBoundNearT;
-      maxBoundFarT = (tFar < maxBoundFarT) ? tFar : maxBoundFarT;
-      if (minBoundNearT > maxBoundFarT) {
-         intersection.hits = false;
-         return intersection;
-      }
-
-      intersection.t = minBoundNearT;
-      //state.TMax = maxBoundFarT;
-
-      return intersection;
-   }
-
-   public static Intersection getHitInfoNew(final Point3 p0, final Point3 p1, final Ray r) {
+   public static Intersection getHitInfo(final Point3 p0, final Point3 p1, final Ray r) {
       float maxBoundFarT = Float.MAX_VALUE;
       float minBoundNearT = 0;
 
@@ -211,7 +144,7 @@ public class BoundingBox {
       tNear = tNear > tFar ? tFar : tNear;
       tFar = swap > tFar ? swap : tFar;
 
-      tFar *= 1 + 2 * FloatUtils.gamma(3);
+      tFar *= 1 + 2 * Constants.Gamma3;
 
       minBoundNearT = (tNear > minBoundNearT) ? tNear : minBoundNearT;
       maxBoundFarT = (tFar < maxBoundFarT) ? tFar : maxBoundFarT;
@@ -231,7 +164,7 @@ public class BoundingBox {
       tNear = tNear > tFar ? tFar : tNear;
       tFar = swap > tFar ? swap : tFar;
 
-      tFar *= 1 + 2 * FloatUtils.gamma(3);
+      tFar *= 1 + 2 * Constants.Gamma3;
 
       minBoundNearT = (tNear > minBoundNearT) ? tNear : minBoundNearT;
       maxBoundFarT = (tFar < maxBoundFarT) ? tFar : maxBoundFarT;
@@ -252,7 +185,7 @@ public class BoundingBox {
       tNear = tNear > tFar ? tFar : tNear;
       tFar = swap > tFar ? swap : tFar;
 
-      tFar *= 1 + 2 * FloatUtils.gamma(3);
+      tFar *= 1 + 2 * Constants.Gamma3;
 
       minBoundNearT = (tNear > minBoundNearT) ? tNear : minBoundNearT;
       maxBoundFarT = (tFar < maxBoundFarT) ? tFar : maxBoundFarT;
@@ -336,7 +269,7 @@ public class BoundingBox {
    public boolean hits(final Ray r) {
       return (r.Origin.x >= point1.x && r.Origin.x <= point2.x
             && r.Origin.y >= point1.y && r.Origin.y <= point2.y
-            && r.Origin.z >= point1.z && r.Origin.z <= point2.z) || BoundingBox.getHitInfoOld(point1, point2, r).hits;
+            && r.Origin.z >= point1.z && r.Origin.z <= point2.z) || BoundingBox.getHitInfo(point1, point2, r).hits;
    }
 
    public void translate(final Vector3 v) {

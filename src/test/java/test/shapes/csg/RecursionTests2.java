@@ -26,18 +26,18 @@ public class RecursionTests2 {
 
       {
          inputTransforms = new Transform[]{
-               Transform.Translate(new Vector3(0, 0, 1)),
-               Transform.Scale(4),
-               Transform.Translate(0, -0.5f, 0)
+               Transform.translate(new Vector3(0, 0, 1)),
+               Transform.scale(4),
+               Transform.translate(0, -0.5f, 0)
          };
          compositeTransforms = Transform.composite(inputTransforms);
 
          Box left = new Box(compositeTransforms, null);
 
          inputTransforms = new Transform[]{
-               Transform.Translate(new Vector3(1, 0, 0)),
-               Transform.Scale(4),
-               Transform.Translate(0, -0.5f, 0)
+               Transform.translate(new Vector3(1, 0, 0)),
+               Transform.scale(4),
+               Transform.translate(0, -0.5f, 0)
          };
          compositeTransforms = Transform.composite(inputTransforms);
 
@@ -58,18 +58,18 @@ public class RecursionTests2 {
 
       {
          inputTransforms = new Transform[]{
-               Transform.Translate(new Vector3(-1, 0, 2)),
-               Transform.Scale(7, 1, 1),
-               Transform.Translate(0, -0.5f, 0)
+               Transform.translate(new Vector3(-1, 0, 2)),
+               Transform.scale(7, 1, 1),
+               Transform.translate(0, -0.5f, 0)
          };
          compositeTransforms = Transform.composite(inputTransforms);
 
          Box left = new Box(compositeTransforms, null);
 
          inputTransforms = new Transform[]{
-               Transform.Translate(new Vector3(2, 0, -1)),
-               Transform.Scale(1, 1, 7),
-               Transform.Translate(0, -0.5f, 0)
+               Transform.translate(new Vector3(2, 0, -1)),
+               Transform.scale(1, 1, 7),
+               Transform.translate(0, -0.5f, 0)
          };
          compositeTransforms = Transform.composite(inputTransforms);
 

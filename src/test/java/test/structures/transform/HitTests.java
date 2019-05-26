@@ -32,19 +32,19 @@ public class HitTests {
       return new Object[][] {
             {
                   new Ray(new Point3(0, 0, 0), new Vector3(1, 1, 1)),
-                  Transform.Scale(1, 1, 1),
+                  Transform.scale(1, 1, 1),
                   new Ray(new Point3(0, 0, 0), new Vector3(1, 1, 1)) },
             {
                   new Ray(new Point3(0, 0, 0), new Vector3(1, 1, 1)),
-                  Transform.Scale(-1, -1, -1),
+                  Transform.scale(-1, -1, -1),
                   new Ray(new Point3(0, 0, 0), new Vector3(-1, -1, -1)) },
             {
                   new Ray(new Point3(2, 2, 2), new Vector3(1, 1, 1)),
-                  Transform.Scale(1, 1, 1),
+                  Transform.scale(1, 1, 1),
                   new Ray(new Point3(2, 2, 2), new Vector3(1, 1, 1)) },
             {
                   new Ray(new Point3(2, 2, 2), new Vector3(5, 5, 5)),
-                  Transform.Scale(-1, 5, 1),
+                  Transform.scale(-1, 5, 1),
                   new Ray(new Point3(-2, 10, 2), new Vector3(-5, 25, 5)) },
       };
    }
@@ -52,7 +52,7 @@ public class HitTests {
    @Test(dataProvider = "ScaleDataProvider")
    public void TestApplyScale(Ray originalRay, Transform transform, Ray expectedNewRay) {
 
-      Ray actualNewRay = transform.Apply(originalRay);
+      Ray actualNewRay = transform.apply(originalRay);
 
       Assert.assertNotNull(actualNewRay);
       AssertHelper.assertEquals(expectedNewRay, actualNewRay);
@@ -61,8 +61,8 @@ public class HitTests {
    @Test
    public void TestHitBox1() {
       Transform[] transforms = new Transform[2];
-      transforms[0] = Transform.Translate(new Vector3(-1.0f, -1.0f, -1.0f));
-      transforms[1] = Transform.Scale(2.0f, 1.0f, 1.0f);
+      transforms[0] = Transform.translate(new Vector3(-1.0f, -1.0f, -1.0f));
+      transforms[1] = Transform.scale(2.0f, 1.0f, 1.0f);
       Transform compositeTransform[] = Transform.composite(transforms);
 
       Box box = new Box(compositeTransform, null);
@@ -83,8 +83,8 @@ public class HitTests {
    public void TestHitBox2() {
 
       Transform[] transforms = new Transform[2];
-      transforms[0] = Transform.Translate(new Vector3(-1.0f, -1.0f, -1.0f));
-      transforms[1] = Transform.Scale(4.0f, 2.0f, 2.0f);
+      transforms[0] = Transform.translate(new Vector3(-1.0f, -1.0f, -1.0f));
+      transforms[1] = Transform.scale(4.0f, 2.0f, 2.0f);
       Transform compositeTransform[] = Transform.composite(transforms);
 
       Box box = new Box(compositeTransform, null);

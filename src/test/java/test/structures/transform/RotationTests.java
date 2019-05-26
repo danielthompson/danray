@@ -49,28 +49,28 @@ public class RotationTests {
 
    @Test
    public void TestRotateXNotNull() {
-      Transform translation = Transform.RotateX(-5);
+      Transform translation = Transform.rotateX(-5);
 
       Assert.assertNotNull(translation);
    }
 
    @Test
    public void TestRotateYNotNull() {
-      Transform translation = Transform.RotateY(-5);
+      Transform translation = Transform.rotateY(-5);
 
       Assert.assertNotNull(translation);
    }
 
    @Test
    public void TestRotateZNotNull() {
-      Transform translation = Transform.RotateZ(-5);
+      Transform translation = Transform.rotateZ(-5);
 
       Assert.assertNotNull(translation);
    }
 
    @Test
    public void TestRotateNotNull() {
-      Transform translation = Transform.Rotate(5, new Vector3(-1, -1, -1));
+      Transform translation = Transform.rotate(5, new Vector3(-1, -1, -1));
 
       Assert.assertNotNull(translation);
    }

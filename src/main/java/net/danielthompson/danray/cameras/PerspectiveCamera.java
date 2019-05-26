@@ -41,7 +41,7 @@ public class PerspectiveCamera extends Camera {
 
       Ray cameraSpaceRay = new Ray(DefaultOrigin, pixelCameraX, pixelCameraY, -1.0f);
 
-      Ray worldSpaceRay = cameraToWorld.Apply(cameraSpaceRay);
+      Ray worldSpaceRay = cameraToWorld.apply(cameraSpaceRay);
 
       return worldSpaceRay;
    }

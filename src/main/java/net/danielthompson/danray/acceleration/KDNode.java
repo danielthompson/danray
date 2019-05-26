@@ -80,7 +80,7 @@ public class KDNode {
 
    public Intersection getHitInfo(Ray ray) {
       //return BoundingBox.getHitInfo(ray);
-      return BoundingBox.getHitInfoNew(BoundingBox.point1, BoundingBox.point2, ray);
+      return BoundingBox.getHitInfo(BoundingBox.point1, BoundingBox.point2, ray);
    }
 
    @Override

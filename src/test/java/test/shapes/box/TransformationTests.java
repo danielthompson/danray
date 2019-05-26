@@ -19,8 +19,8 @@ public class TransformationTests {
       Material material = null;
 
       Transform[] inputTransforms = new Transform[2];
-      inputTransforms[0] = Transform.RotateX(45);
-      inputTransforms[1] = Transform.Translate(new Vector3(-.5f, -.5f, -.5f));
+      inputTransforms[0] = Transform.rotateX(45);
+      inputTransforms[1] = Transform.translate(new Vector3(-.5f, -.5f, -.5f));
       Transform compositeTransform[] = Transform.composite(inputTransforms);
 
       Box box = new Box(compositeTransform, material);
@@ -43,12 +43,12 @@ public class TransformationTests {
    }
 
    @Test
-   public void shouldHit2() throws Exception {
+   public void shouldHit2() {
 
       Material material = null;
 
       Transform[] transforms = new Transform[1];
-      transforms[0] = Transform.Scale(2.0f);
+      transforms[0] = Transform.scale(2.0f);
       Transform compositeTransform[] = Transform.composite(transforms);
 
       Box box = new Box(compositeTransform, material);
@@ -65,8 +65,8 @@ public class TransformationTests {
       Normal expectedNormalDirection = new Normal(0, 0, 1);
 
       Assert.assertTrue(hits, "Should hit");
-      AssertHelper.assertEquals(state.location, expectedIntersectionPoint);
-      AssertHelper.assertEquals(state.normal, expectedNormalDirection);
+      Assert.assertEquals(state.location, expectedIntersectionPoint);
+      Assert.assertEquals(state.normal, expectedNormalDirection);
    }
 
    @Test
@@ -75,7 +75,7 @@ public class TransformationTests {
       Material material = null;
 
       Transform[] transforms = new Transform[1];
-      transforms[0] = Transform.Scale(2.0f);
+      transforms[0] = Transform.scale(2.0f);
       Transform compositeTransform[] = Transform.composite(transforms);
 
       Box box = new Box(compositeTransform, material);
@@ -104,7 +104,7 @@ public class TransformationTests {
       Material material = null;
 
       Transform[] transforms = new Transform[1];
-      transforms[0] = Transform.Scale(2.0f);
+      transforms[0] = Transform.scale(2.0f);
       Transform compositeTransform[] = Transform.composite(transforms);
 
       Box box = new Box(compositeTransform, material);

@@ -38,7 +38,7 @@ public class TraverseSmallTreeTests {
       // sphere 1
 
       inputTransforms = new Transform[1];
-      inputTransforms[0] = Transform.Translate(new Vector3(-1, 5, 0));
+      inputTransforms[0] = Transform.translate(new Vector3(-1, 5, 0));
       compositeTransforms = Transform.composite(inputTransforms);
 
       sphere1 = new Sphere(compositeTransforms, null);
@@ -47,7 +47,7 @@ public class TraverseSmallTreeTests {
       // sphere 1
 
       inputTransforms = new Transform[1];
-      inputTransforms[0] = Transform.Translate(new Vector3(-1, 13, 0));
+      inputTransforms[0] = Transform.translate(new Vector3(-1, 13, 0));
       compositeTransforms = Transform.composite(inputTransforms);
 
       sphere2 = new Sphere(compositeTransforms, null);
@@ -56,7 +56,7 @@ public class TraverseSmallTreeTests {
       // sphere 3
 
       inputTransforms = new Transform[1];
-      inputTransforms[0] = Transform.Translate(new Vector3(6, 10, 0));
+      inputTransforms[0] = Transform.translate(new Vector3(6, 10, 0));
       compositeTransforms = Transform.composite(inputTransforms);
 
       sphere3 = new Sphere(compositeTransforms, null);
@@ -65,7 +65,7 @@ public class TraverseSmallTreeTests {
       // sphere 3
 
       inputTransforms = new Transform[1];
-      inputTransforms[0] = Transform.Translate(new Vector3(6, 7, 0));
+      inputTransforms[0] = Transform.translate(new Vector3(6, 7, 0));
       compositeTransforms = Transform.composite(inputTransforms);
 
       sphere4 = new Sphere(compositeTransforms, null);

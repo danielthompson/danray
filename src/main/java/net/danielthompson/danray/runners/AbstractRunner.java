@@ -50,7 +50,7 @@ public abstract class AbstractRunner implements Runnable {
    /**
     * Traces and outputs the given pixel.
     */
-   public void trace(int x, int y) {
+   public void trace(final int x, final int y) {
 
       try {
          int iterations = 0;

@@ -69,6 +69,10 @@ public class Normal {
       z *= t;
    }
 
+   public Normal abs() {
+      return new Normal(Math.abs(x), Math.abs(y), Math.abs(z));
+   }
+
    public float dot(final Vector3 v) {
       return (x * v.x + y * v.y + z * v.z);
    }

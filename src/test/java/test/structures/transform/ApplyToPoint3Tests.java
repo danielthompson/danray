@@ -26,11 +26,11 @@ public class ApplyToPoint3Tests {
 
    @Test
    public void TestApplyTranslation() {
-      Transform t = Transform.Translate(new Vector3(1, 1, 1));
+      Transform t = Transform.translate(new Vector3(1, 1, 1));
 
       Point3 originalPoint = new Point3(0, 0, 0);
 
-      Point3 actualNewPoint = t.Apply(originalPoint);
+      Point3 actualNewPoint = t.apply(originalPoint);
       Point3 expectedNewPoint = new Point3(1, 1, 1);
 
       Assert.assertNotNull(actualNewPoint);
@@ -41,17 +41,17 @@ public class ApplyToPoint3Tests {
    @DataProvider(name = "ScaleDataProvider")
    public Object[][] ScaleDataProvider() {
       return new Object[][] {
-            { Transform.Scale(1, 1, 1), new Point3(0, 0, 0), new Point3(0, 0, 0) },
-            { Transform.Scale(2, 1, 1), new Point3(0, 0, 0), new Point3(0, 0, 0) },
-            { Transform.Scale(2, 1, 1), new Point3(1, 1, 1), new Point3(2, 1, 1) },
-            { Transform.Scale(0, 0, 0), new Point3(1, 1, 1), new Point3(0, 0, 0) },
+            { Transform.scale(1, 1, 1), new Point3(0, 0, 0), new Point3(0, 0, 0) },
+            { Transform.scale(2, 1, 1), new Point3(0, 0, 0), new Point3(0, 0, 0) },
+            { Transform.scale(2, 1, 1), new Point3(1, 1, 1), new Point3(2, 1, 1) },
+            { Transform.scale(0, 0, 0), new Point3(1, 1, 1), new Point3(0, 0, 0) },
       };
    }
 
    @Test(dataProvider = "ScaleDataProvider")
    public void TestApplyScale(Transform transform, Point3 originalPoint, Point3 expectedNewPoint) {
 
-      Point3 actualNewPoint = transform.Apply(originalPoint);
+      Point3 actualNewPoint = transform.apply(originalPoint);
 
       Assert.assertNotNull(actualNewPoint);
       Assert.assertEquals(expectedNewPoint, actualNewPoint);

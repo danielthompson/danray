@@ -49,7 +49,7 @@ public class TranslationTests {
 
    @Test
    public void TestTranslationNotNull() {
-      Transform translation = Transform.Translate(new Vector3(-5, -5, -5));
+      Transform translation = Transform.translate(new Vector3(-5, -5, -5));
 
       Assert.assertNotNull(translation);
 

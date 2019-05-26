@@ -50,7 +50,7 @@ public class LookAtTests {
 
    @Test
    public void TestLookAtNotNull() {
-      Transform translation = Transform.LookAt(new Point3(1, 1, 1), new Point3(2, 2, 2), new Vector3(0, 0, 1));
+      Transform translation = Transform.lookAt(new Point3(1, 1, 1), new Point3(2, 2, 2), new Vector3(0, 0, 1));
 
       Assert.assertNotNull(translation);
 

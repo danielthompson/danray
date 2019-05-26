@@ -20,7 +20,7 @@ public class CSGShape extends AbstractShape {
    public boolean Inside(Point3 worldSpacePoint) {
       Point3 localSpacePoint = worldSpacePoint;
       if (WorldToObject != null) {
-         localSpacePoint = WorldToObject.Apply(worldSpacePoint);
+         localSpacePoint = WorldToObject.apply(worldSpacePoint);
       }
 
       boolean leftInside = LeftShape.Inside(localSpacePoint);
@@ -62,7 +62,7 @@ public class CSGShape extends AbstractShape {
       Ray objectSpaceRay = worldSpaceRay;
 
       if (WorldToObject != null) {
-         objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
+         objectSpaceRay = WorldToObject.apply(worldSpaceRay);
       }
 
 
@@ -168,9 +168,9 @@ public class CSGShape extends AbstractShape {
    private float GetWorldSpaceT(Ray worldSpaceRay, Ray objectSpaceRay, float objectSpaceT) {
       float value = objectSpaceT;
 
-      if (ObjectToWorld != null && ObjectToWorld.HasScale()) {
+      if (ObjectToWorld != null && ObjectToWorld.hasScale()) {
          Point3 objectSpaceIntersectionPoint = objectSpaceRay.getPointAtT(objectSpaceT);
-         Point3 worldSpaceIntersectionPoint = ObjectToWorld.Apply(objectSpaceIntersectionPoint);
+         Point3 worldSpaceIntersectionPoint = ObjectToWorld.apply(objectSpaceIntersectionPoint);
          value = worldSpaceRay.getTAtPoint(worldSpaceIntersectionPoint);
       }
 
@@ -182,7 +182,7 @@ public class CSGShape extends AbstractShape {
       Ray objectSpaceRay = worldSpaceRay;
 
       if (WorldToObject != null) {
-         objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
+         objectSpaceRay = WorldToObject.apply(worldSpaceRay);
       }
 
       // get all hitpoints - in order
@@ -308,7 +308,7 @@ public class CSGShape extends AbstractShape {
       Ray objectSpaceRay = worldSpaceRay;
 
       if (WorldToObject != null) {
-         objectSpaceRay = WorldToObject.Apply(worldSpaceRay);
+         objectSpaceRay = WorldToObject.apply(worldSpaceRay);
       }
 
       // get all hitpoints - in order
