@@ -39,10 +39,12 @@ public class PerspectiveCamera extends Camera {
       float pixelCameraX = ((pixel.x + 0.5f) * TwoOverWidth - 1.0f) * aspectTimesTanFovOver2;
       float pixelCameraY = (1.0f - (pixel.y + 0.5f) * TwoOverHeight) * tanFOVOver2;
 
-      Ray cameraSpaceRay = new Ray(DefaultOrigin, pixelCameraX, pixelCameraY, -1.0f);
+      // world space
+      Ray ray = new Ray(new Point3(DefaultOrigin), pixelCameraX, pixelCameraY, -1.0f);
 
-      Ray worldSpaceRay = cameraToWorld.apply(cameraSpaceRay);
+      // camera space
+      cameraToWorld.applyInPlace(ray);
 
-      return worldSpaceRay;
+      return ray;
    }
 }

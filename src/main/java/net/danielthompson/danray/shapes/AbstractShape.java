@@ -77,12 +77,11 @@ public abstract class AbstractShape {
       intersection.tangentU = intersection.tangentV.cross(intersection.normal);
    }
 
-   Point3 OffsetRayOrigin(final Point3 p, final Vector3 pError, final Normal n, final Vector3 w) {
+   Point3 OffsetRayOrigin(final Point3 p, final Vector3 pError, final Normal n) {
       float d = pError.dot(n.abs());
       Vector3 offset = new Vector3(n);
       offset.scale(d);
-//      if (w.dot(n) < 0)
-//         offset.scale(-1.0f);
+
       Point3 po = Point3.plus(p, offset);
 
       if (offset.x > 0)
@@ -106,18 +105,18 @@ public abstract class AbstractShape {
    protected void ToWorldSpace(Intersection intersection, Ray worldSpaceRay) {
       if (ObjectToWorld != null) {
          //intersection.location = ObjectToWorld.apply(intersection.location);
-         intersection.normal = ObjectToWorld.apply(intersection.normal);
-         intersection.tangentU = ObjectToWorld.apply(intersection.tangentU);
-         intersection.tangentV = ObjectToWorld.apply(intersection.tangentV);
+         ObjectToWorld.applyInPlace(intersection.normal);
+         ObjectToWorld.applyInPlace(intersection.tangentU);
+         ObjectToWorld.applyInPlace(intersection.tangentV);
          if (ObjectToWorld.hasScale()) {
             intersection.normal.normalize();
             intersection.tangentU.normalize();
             intersection.tangentV.normalize();
             //intersection.t = worldSpaceRay.getTAtPoint(intersection.location);
          }
-         Vector3 error = new Vector3(0, 0, 0);
-         intersection.location = ObjectToWorld.apply(intersection.location, error);
-         intersection.location = OffsetRayOrigin(intersection.location, error, intersection.normal, worldSpaceRay.Direction);
+         final Vector3 error = new Vector3(0, 0, 0);
+         ObjectToWorld.applyInPlace(intersection.location, error);
+         intersection.location = OffsetRayOrigin(intersection.location, error, intersection.normal);
 
          if (ObjectToWorld.hasScale()) {
             intersection.t = worldSpaceRay.getTAtPoint(intersection.location);

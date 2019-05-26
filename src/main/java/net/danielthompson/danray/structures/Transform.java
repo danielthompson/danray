@@ -368,6 +368,40 @@ public class Transform {
       }
    }
 
+   public void applyInPlace(final Point3 p, final Vector3 error) {
+      final float x = p.x;
+      final float y = p.y;
+      final float z = p.z;
+
+      final float newX = x * _matrix.matrix[0][0] + y * _matrix.matrix[0][1] + z * _matrix.matrix[0][2] + _matrix.matrix[0][3];
+      final float newY = x * _matrix.matrix[1][0] + y * _matrix.matrix[1][1] + z * _matrix.matrix[1][2] + _matrix.matrix[1][3];
+      final float newZ = x * _matrix.matrix[2][0] + y * _matrix.matrix[2][1] + z * _matrix.matrix[2][2] + _matrix.matrix[2][3];
+
+      final float w = x * _matrix.matrix[3][0] + y * _matrix.matrix[3][1] + z * _matrix.matrix[3][2] + _matrix.matrix[3][3];
+
+      final float xAbsSum = (Math.abs(_matrix.matrix[0][0] * x) + Math.abs(_matrix.matrix[0][1] * y) +
+            Math.abs(_matrix.matrix[0][2] * z) + Math.abs(_matrix.matrix[0][3]));
+      final float yAbsSum = (Math.abs(_matrix.matrix[1][0] * x) + Math.abs(_matrix.matrix[1][1] * y) +
+            Math.abs(_matrix.matrix[1][2] * z) + Math.abs(_matrix.matrix[1][3]));
+      final float zAbsSum = (Math.abs(_matrix.matrix[2][0] * x) + Math.abs(_matrix.matrix[2][1] * y) +
+            Math.abs(_matrix.matrix[2][2] * z) + Math.abs(_matrix.matrix[2][3]));
+
+      error.x = xAbsSum * Constants.Gamma3;
+      error.y = yAbsSum * Constants.Gamma3;
+      error.z = zAbsSum * Constants.Gamma3;
+
+      p.x = newX;
+      p.y = newY;
+      p.z = newZ;
+
+      if (w != 1) {
+         final float divisor = 1.f / w;
+         p.x *= divisor;
+         p.y *= divisor;
+         p.z *= divisor;
+      }
+   }
+
    public void applyInPlace(final Vector3 v) {
       final float newX = v.x * _matrix.matrix[0][0] + v.y * _matrix.matrix[0][1] + v.z * _matrix.matrix[0][2];
       final float newY = v.x * _matrix.matrix[1][0] + v.y * _matrix.matrix[1][1] + v.z * _matrix.matrix[1][2];
