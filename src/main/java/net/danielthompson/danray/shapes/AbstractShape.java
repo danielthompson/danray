@@ -59,11 +59,7 @@ public abstract class AbstractShape {
       return null;
    }
 
-   public abstract List<Intersection> GetAllHitPoints(final Ray ray);
-
-   public List<Intersection> intersectAll(final Ray ray) {
-      return null;
-   }
+   public abstract List<Intersection> intersectAll(final Ray ray);
 
    protected void calculateTangents(final Intersection intersection) {
       // TODO fix such that tangentU and tangentV are actually in du & dv directions (once texture mapping is implemented)
@@ -111,16 +107,10 @@ public abstract class AbstractShape {
             intersection.normal.normalize();
             intersection.tangentU.normalize();
             intersection.tangentV.normalize();
-            //intersection.t = worldSpaceRay.getTAtPoint(intersection.location);
          }
          final Vector3 error = new Vector3(0, 0, 0);
          ObjectToWorld.applyInPlace(intersection.location, error);
          intersection.location = offsetRayOrigin(intersection.location, error, intersection.normal);
-
-         if (ObjectToWorld.hasScale()) {
-            intersection.t = worldSpaceRay.getTAtPoint(intersection.location);
-         }
-
       }
    }
 

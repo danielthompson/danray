@@ -20,11 +20,6 @@ public class NaiveScene extends AbstractScene {
 
    @Override
    public Intersection getNearestShape(Ray ray, int x, int y) {
-      if (x == 180 && y == 230) {
-         x++;
-         x--;
-      }
-
       return getNearestShapeIteratively(Shapes, ray);
    }
 

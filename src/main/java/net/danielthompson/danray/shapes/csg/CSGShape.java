@@ -68,8 +68,8 @@ public class CSGShape extends AbstractShape {
 
 
       // get all hitpoints - in order
-      List<Intersection> leftHitPoints = LeftShape.GetAllHitPoints(objectSpaceRay);
-      List<Intersection> rightHitPoints = RightShape.GetAllHitPoints(objectSpaceRay);
+      List<Intersection> leftHitPoints = LeftShape.intersectAll(objectSpaceRay);
+      List<Intersection> rightHitPoints = RightShape.intersectAll(objectSpaceRay);
 
       int leftIndex = 0;
       int rightIndex = 0;
@@ -186,8 +186,8 @@ public class CSGShape extends AbstractShape {
       }
 
       // get all hitpoints - in order
-      List<Intersection> leftHitPoints = LeftShape.GetAllHitPoints(objectSpaceRay);
-      List<Intersection> rightHitPoints = RightShape.GetAllHitPoints(objectSpaceRay);
+      List<Intersection> leftHitPoints = LeftShape.intersectAll(objectSpaceRay);
+      List<Intersection> rightHitPoints = RightShape.intersectAll(objectSpaceRay);
 
       int leftIndex = 0;
       int rightIndex = 0;
@@ -304,7 +304,7 @@ public class CSGShape extends AbstractShape {
    }
 
    @Override
-   public List<Intersection> GetAllHitPoints(Ray worldSpaceRay) {
+   public List<Intersection> intersectAll(Ray worldSpaceRay) {
       Ray objectSpaceRay = worldSpaceRay;
 
       if (WorldToObject != null) {
@@ -312,8 +312,8 @@ public class CSGShape extends AbstractShape {
       }
 
       // get all hitpoints - in order
-      List<Intersection> leftHitPoints = LeftShape.GetAllHitPoints(objectSpaceRay);
-      List<Intersection> rightHitPoints = RightShape.GetAllHitPoints(objectSpaceRay);
+      List<Intersection> leftHitPoints = LeftShape.intersectAll(objectSpaceRay);
+      List<Intersection> rightHitPoints = RightShape.intersectAll(objectSpaceRay);
 
       List<Intersection> intersections = new ArrayList<>();
 

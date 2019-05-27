@@ -40,7 +40,7 @@ public class Sphere extends CSGShape {
    }
 
    public void recalculateWorldBoundingBox() {
-
+      // TODO refactor this to be done in world space from the start
       final float p1x = Origin.x - Radius;
       final float p1y = Origin.y - Radius;
       final float p1z = Origin.z - Radius;
@@ -109,16 +109,6 @@ public class Sphere extends CSGShape {
       if (hits < Constants.Epsilon)
          return false;
 
-      // convert T back to world space
-      if (ObjectToWorld != null && ObjectToWorld.hasScale()) {
-         // object space
-         Point3 intersectionPoint = objectSpaceRay.getPointAtT(hits);
-
-         // worls space
-         ObjectToWorld.applyInPlace(intersectionPoint);
-         hits = worldSpaceRay.getTAtPoint(intersectionPoint);
-      }
-
       worldSpaceRay.MinT = hits < worldSpaceRay.MinT ? hits : worldSpaceRay.MinT;
       return true;
    }
@@ -132,15 +122,17 @@ public class Sphere extends CSGShape {
          objectSpaceRay = WorldToObject.apply(worldSpaceRay);
       }
 
-      Point3 worldSpaceIntersectionPoint = worldSpaceRay.getPointAtT(worldSpaceRay.MinT);
-      Point3 objectSpaceIntersectionPoint = worldSpaceIntersectionPoint;
-
-      if (WorldToObject != null) {
-         objectSpaceIntersectionPoint = WorldToObject.apply(worldSpaceIntersectionPoint);
-      }
+      Point3 objectSpaceIntersectionPoint = objectSpaceRay.getPointAtT(worldSpaceRay.MinT);
 
       Vector3 direction = Point3.minus(objectSpaceIntersectionPoint, Origin);
       Normal objectSpaceNormal = new Normal(direction);
+
+      float actualRadius = direction.length();
+      float reprojectionFactor = Radius / actualRadius;
+      reprojectionFactor = Math.nextUp(reprojectionFactor);
+      objectSpaceIntersectionPoint.x *= reprojectionFactor;
+      objectSpaceIntersectionPoint.y *= reprojectionFactor;
+      objectSpaceIntersectionPoint.z *= reprojectionFactor;
 
       Intersection intersection = new Intersection();
       intersection.hits = true;
@@ -164,7 +156,7 @@ public class Sphere extends CSGShape {
    }
 
    @Override
-   public List<Intersection> GetAllHitPoints(final Ray worldSpaceRay) {
+   public List<Intersection> intersectAll(final Ray worldSpaceRay) {
 
       List<Intersection> intersections = new ArrayList<>();
       Ray objectSpaceRay = worldSpaceRay;

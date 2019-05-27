@@ -36,14 +36,15 @@ public class Ray {
     * @param direction The absolute direction of the vector (i.e. not relative to the origin). Will be normalized.
     */
    public Ray(final Point3 origin, final Vector3 direction) {
+      assert !Float.isNaN(origin.x);
+      assert !Float.isNaN(origin.y);
+      assert !Float.isNaN(origin.z);
       Origin = origin;
 
-      final float oneOverLength = (float) (1.0f / Math.sqrt(direction.x * direction.x + direction.y * direction.y + direction.z * direction.z));
-
+      assert !Float.isNaN(direction.x);
+      assert !Float.isNaN(direction.y);
+      assert !Float.isNaN(direction.z);
       Direction = direction;
-      Direction.x *= oneOverLength;
-      Direction.y *= oneOverLength;
-      Direction.z *= oneOverLength;
 
       DirectionInverse = new Vector3(1.0f / Direction.x, 1.0f / Direction.y, 1.0f / Direction.z);
 
@@ -51,19 +52,29 @@ public class Ray {
    }
 
    public Ray(final Point3 origin, final float dx, final float dy, final float dz) {
+      assert !Float.isNaN(origin.x);
+      assert !Float.isNaN(origin.y);
+      assert !Float.isNaN(origin.z);
       Origin = origin;
 
-      final float oneOverLength = (float) (1.0 / Math.sqrt(dx * dx + dy * dy + dz * dz));
-      Direction = new Vector3(dx * oneOverLength, dy * oneOverLength, dz * oneOverLength);
-      DirectionInverse = new Vector3(1.0f / Direction.x, 1.0f / Direction.y, 1.0f / Direction.z);
+      assert !Float.isNaN(dx);
+      assert !Float.isNaN(dy);
+      assert !Float.isNaN(dz);
+      Direction = new Vector3(dx, dy, dz);
+      DirectionInverse = new Vector3(1.0f / dx, 1.0f / dy, 1.0f / dz);
 
       instances.incrementAndGet();
    }
 
+   public void normalize() {
+      Direction.normalize();
+      DirectionInverse.x = 1.0f / Direction.x;
+      DirectionInverse.y = 1.0f / Direction.y;
+      DirectionInverse.z = 1.0f / Direction.z;
+   }
+
    public void offsetOriginForward(final float offset) {
       final Vector3 offsetV = Vector3.scale(Direction, offset);
-      //Point3 newOrigin = Point3.plus(Origin, offsetV);
-
       Origin.plus(offsetV);
    }
 
@@ -80,6 +91,11 @@ public class Ray {
    }
 
    public Point3 getPointAtT(final float t) {
+      return Point3.plus(Origin, Vector3.scale(Direction, t));
+   }
+
+   // TODO this need to return error as well
+   public Point3 getPointAtT(final float t, final Vector3 error) {
       return Point3.plus(Origin, Vector3.scale(Direction, t));
    }
 

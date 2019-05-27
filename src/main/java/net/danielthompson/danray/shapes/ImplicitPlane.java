@@ -62,7 +62,7 @@ public class ImplicitPlane extends AbstractShape {
    }
 
    @Override
-   public List<Intersection> GetAllHitPoints(Ray ray) {
+   public List<Intersection> intersectAll(Ray ray) {
       return null;
    }
 

@@ -44,6 +44,7 @@ public class PerspectiveCamera extends Camera {
 
       // camera space
       cameraToWorld.applyInPlace(ray);
+      ray.normalize();
 
       return ray;
    }

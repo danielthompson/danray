@@ -75,23 +75,9 @@ public class Box extends CSGShape {
       }
 
       final Intersection intersection = BoundingBox.getHitInfo(point1, point2, objectSpaceRay);
+      if (intersection.hits)
+         worldSpaceRay.MinT = intersection.t;
 
-      float minT = intersection.t;
-      //float maxT = intersection.TMax;
-
-      if (intersection.hits) {
-         if (ObjectToWorld != null && ObjectToWorld.hasScale()) {
-
-            // object space
-            final Point3 intersectionPoint = objectSpaceRay.getPointAtT(intersection.t);
-
-            // world space
-            ObjectToWorld.applyInPlace(intersectionPoint);
-            minT = worldSpaceRay.getTAtPoint(intersectionPoint);
-         }
-
-         worldSpaceRay.MinT = intersection.hits && minT < worldSpaceRay.MinT ? minT : worldSpaceRay.MinT;
-      }
       return intersection.hits;
    }
 
@@ -99,6 +85,11 @@ public class Box extends CSGShape {
       if (intersection.hits) {
          intersection.shape = this;
          intersection.location = objectSpaceRay.getPointAtT(intersection.t);
+
+         // fix location
+
+         //if (inter)
+
 
          if (Constants.WithinEpsilon(intersection.location.x, 0) || Constants.WithinEpsilon(intersection.location.x, 1)) {
             intersection.u = intersection.location.y;
@@ -195,7 +186,7 @@ public class Box extends CSGShape {
    }
 
    @Override
-   public List<Intersection> GetAllHitPoints(final Ray worldSpaceRay) {
+   public List<Intersection> intersectAll(final Ray worldSpaceRay) {
       Ray objectSpaceRay = worldSpaceRay;
       if (WorldToObject != null) {
          objectSpaceRay = WorldToObject.apply(worldSpaceRay);

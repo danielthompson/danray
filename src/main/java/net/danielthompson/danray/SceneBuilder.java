@@ -435,7 +435,7 @@ public class SceneBuilder {
       settings.y = y;
       settings.fov = 90f;
 
-      float bigNum = 1f;
+      float bigNum = 0;
 
       Transform bigTranslate = Transform.translate(bigNum, bigNum, bigNum);
 
@@ -472,7 +472,21 @@ public class SceneBuilder {
       };
       compositeTransforms = Transform.composite(inputTransforms);
 
-      scene.addShape(new Box(compositeTransforms, material));
+      Box box = new Box(compositeTransforms, material);
+
+      inputTransforms = new Transform[]{
+            bigTranslate,
+            Transform.translate(0, 25, -100),
+            //Transform.rotateZ(10f),
+            Transform.scale(200f)
+      };
+      compositeTransforms = Transform.composite(inputTransforms);
+
+      Sphere sphere = new Sphere(compositeTransforms, material);
+
+      scene.addShape(sphere);
+      scene.addShape(box);
+
       scene.Skybox = new ColorSkybox(Color.WHITE);
 
       return scene;

@@ -44,7 +44,7 @@ public class SphereLight extends AbstractLight {
    }
 
    @Override
-   public List<Intersection> GetAllHitPoints(Ray ray) {
+   public List<Intersection> intersectAll(Ray ray) {
       return null;
    }
 
