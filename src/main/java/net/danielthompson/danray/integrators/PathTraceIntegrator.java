@@ -19,33 +19,31 @@ public class PathTraceIntegrator extends AbstractIntegrator {
    private int _x;
    private int _y;
 
-   public PathTraceIntegrator(AbstractScene scene, int maxDepth) {
+   public PathTraceIntegrator(final AbstractScene scene, final int maxDepth) {
       super(scene, maxDepth);
    }
 
-   public Sample GetSample(Ray ray, int depth, int x, int y) {
+   public Sample getSample(final Ray ray, final int depth, final int x, final int y) {
       _x = x;
       _y = y;
 
       if (false) {
-//         if ((_x > 318 && _x < 322) && (_y > 30 && _y < 34)) {
-         if (_x == 286 && _y == 170) {
-            return GetSample(ray, depth, 1.0f);
+         if (_x == 314 && _y == 274) {
+            return getSample(ray, depth, 1.0f);
          }
          Sample sample = new Sample(x, y);
          sample.SpectralPowerDistribution = new SpectralPowerDistribution(0, 0, 0);
          return sample;
       }
       else {
-         return GetSample(ray, depth, 1.0f);
+         return getSample(ray, depth, 1.0f);
       }
-
    }
 
-   private Sample GetSample(Ray ray, int depth, float indexOfRefraction) {
+   private Sample getSample(final Ray ray, final int depth, final float indexOfRefraction) {
 
       Logger.Log(Logger.Level.Debug, depth, ray);
-      Sample sample = new Sample(_x, _y);
+      final Sample sample = new Sample(_x, _y);
       Intersection intersection = scene.getNearestShape(ray, _x, _y);
 
       if (intersection == null || !intersection.hits) {
@@ -108,6 +106,7 @@ public class PathTraceIntegrator extends AbstractIntegrator {
 //            }
 
             Ray bounceRay = new Ray(intersection.location, outgoingDirection);
+            bounceRay.transmissive = bxdf.Transmission;
             if (leavingMaterial) {
                //bounceRay.offsetOriginOutwards(intersectionNormal);
             }
@@ -115,7 +114,7 @@ public class PathTraceIntegrator extends AbstractIntegrator {
                //bounceRay.offsetOriginInwards(intersectionNormal);
             }
 
-            Sample nextSample = GetSample(bounceRay, depth + 1, indexOfRefraction);
+            Sample nextSample = getSample(bounceRay, depth + 1, indexOfRefraction);
             SpectralPowerDistribution nextSPD = nextSample.SpectralPowerDistribution;
             nextSPD = SpectralPowerDistribution.scale(nextSPD, scalePercentage);
 
@@ -130,47 +129,6 @@ public class PathTraceIntegrator extends AbstractIntegrator {
             filteredSPD.scale(weight);
             sample.SpectralPowerDistribution.add(filteredSPD);
          }
-//         if (objectMaterial.BSSRDF != null) {
-//
-//            float transmittance = objectMaterial.BSSRDF.Transmittance;
-//
-//            // initial vector needs to be within 90 degrees of the inverted normal
-//            Vector outgoing = objectMaterial.BSSRDF.GetVector();
-//
-//            if (outgoing.dot(intersectionNormal) > 0)
-//               outgoing.scale(-1);
-//
-//            Ray bounceRay = new Ray(intersection.location, outgoing);
-//            boolean hits = closestShape.hits(bounceRay);
-//            intersection nextIntersection = closestShape.getHitInfo(bounceRay);
-//            intersection previousIntersection = nextIntersection;
-//
-//            // TODO fix t comparisons
-//            while (hits && (nextIntersection.t < 0 || nextIntersection.t > 1)) {
-//               // bounce it again, sam
-//               transmittance *= objectMaterial.BSSRDF.Transmittance;
-//               outgoing = objectMaterial.BSSRDF.GetVector();
-//               Point newOrigin = objectMaterial.BSSRDF.GetNextPoint(previousIntersection.location, outgoing);
-//               bounceRay = new Ray(newOrigin, outgoing);
-//               hits = closestShape.hits(bounceRay);
-//               previousIntersection = nextIntersection;
-//               nextIntersection = closestShape.getHitInfo(bounceRay);
-//            }
-//            // exiting
-//
-//            bounceRay = new Ray(previousIntersection.location, bounceRay.Direction);
-//            bounceRay.offsetOriginOutwards(previousIntersection.normal);
-//
-//            Sample bssrdfSample = GetSample(bounceRay, depth + 1, indexOfRefraction);
-//            SpectralPowerDistribution incomingSPD = bssrdfSample.SpectralPowerDistribution;
-//            incomingSPD = SpectralPowerDistribution.scale(incomingSPD, transmittance);
-//
-//            // compute the interaction of the incoming SPD with the object's SRC
-//            ReflectanceSpectrum reflectanceSpectrum = objectMaterial.ReflectanceSpectrum;
-//            SpectralPowerDistribution reflectedSPD = incomingSPD.reflectOff(reflectanceSpectrum);
-//            reflectedSPD.scale(objectMaterial.BSSRDFweight);
-//            sample.SpectralPowerDistribution.add(reflectedSPD);
-//         }
          return sample;
       }
    }

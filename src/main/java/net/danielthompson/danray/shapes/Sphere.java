@@ -129,7 +129,7 @@ public class Sphere extends CSGShape {
 
       float actualRadius = direction.length();
       float reprojectionFactor = Radius / actualRadius;
-      reprojectionFactor = Math.nextUp(reprojectionFactor);
+      reprojectionFactor *= 1 + Constants.Gamma5;
       objectSpaceIntersectionPoint.x *= reprojectionFactor;
       objectSpaceIntersectionPoint.y *= reprojectionFactor;
       objectSpaceIntersectionPoint.z *= reprojectionFactor;

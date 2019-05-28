@@ -433,7 +433,7 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.x = x;
       settings.y = y;
-      settings.fov = 90f;
+      settings.fov = 45f;
 
       float bigNum = 0;
 
@@ -441,7 +441,7 @@ public class SceneBuilder {
 
       Transform[] inputTransforms = new Transform[]{
             bigTranslate,
-            Transform.translate(0, 10, 250),
+            Transform.translate(0, 50, 250),
             //Transform.rotateX(-45)
       };
       Transform[] compositeTransforms = Transform.composite(inputTransforms);
@@ -449,40 +449,47 @@ public class SceneBuilder {
 
       AbstractScene scene = new NaiveScene(camera);
 
-      Material material = new Material();
-//      material.reflect = new GlossyBRDF(0.85f);
+      Material material1 = new Material();
+      material1.BxDFs.add(LambertianBRDF);
+      material1.Weights.add(1.0f);
 
-      material.BxDFs.add(SpecularBRDF);
-      material.Weights.add(1.0f);
+      Material material2 = new Material();
+      material2.BxDFs.add(SpecularBRDF);
+      material2.Weights.add(1.0f);
 
-      CheckerboardTexture texture = new CheckerboardTexture();
-      texture.UScale = 32;
-      texture.VScale = 32;
-      texture.Odd = new ReflectanceSpectrum(new Color(0.8f, 0.8f, 0.75f));
-      texture.Even = new ReflectanceSpectrum(new Color(0.9f, 0.9f, 0.85f));
-      material.Texture = texture;
+      CheckerboardTexture texture1 = new CheckerboardTexture();
+      texture1.UScale = 32;
+      texture1.VScale = 32;
+      texture1.Odd = new ReflectanceSpectrum(new Color(0.8f, 0.8f, 0.75f));
+      texture1.Even = new ReflectanceSpectrum(new Color(0.9f, 0.9f, 0.85f));
+      material1.Texture = texture1;
+
+      CheckerboardTexture texture2 = new CheckerboardTexture();
+      texture2.UScale = 32;
+      texture2.VScale = 32;
+      texture2.Odd = new ReflectanceSpectrum(new Color(0.8f, 0.8f, 0.75f));
+      texture2.Even = new ReflectanceSpectrum(new Color(0.9f, 0.9f, 0.85f));
+      material2.Texture = texture2;
 
       inputTransforms = new Transform[]{
             bigTranslate,
-            //Transform.translate(new Vector3(0, 0f, 0f)),
-            //Transform.rotateZ(10f),
             Transform.rotateY(45f),
             Transform.scale(1000f, 1f, 1000f),
             Transform.translate(new Vector3(-0.5f, -0.5f, -0.5f))
       };
       compositeTransforms = Transform.composite(inputTransforms);
 
-      Box box = new Box(compositeTransforms, material);
+      Box box = new Box(compositeTransforms, material1);
 
       inputTransforms = new Transform[]{
             bigTranslate,
-            Transform.translate(0, 25, -100),
+            Transform.translate(0, 101, -100),
             //Transform.rotateZ(10f),
-            Transform.scale(200f)
+            Transform.scale(100f)
       };
       compositeTransforms = Transform.composite(inputTransforms);
 
-      Sphere sphere = new Sphere(compositeTransforms, material);
+      Sphere sphere = new Sphere(compositeTransforms, material2);
 
       scene.addShape(sphere);
       scene.addShape(box);

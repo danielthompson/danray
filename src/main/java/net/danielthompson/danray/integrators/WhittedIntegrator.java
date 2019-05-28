@@ -25,7 +25,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
    }
 
    @Override
-   public Sample GetSample(Ray ray, int depth, int x, int y) {
+   public Sample getSample(Ray ray, int depth, int x, int y) {
       return GetSample(ray, depth, _airIndexOfRefraction, x, y);
    }
 
@@ -181,7 +181,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
          else if (objectMaterial.getReflectivity() > 0) {
             Ray reflectedRay = GeometryCalculations.GetReflectedRay(closestStateToRay.location, closestStateToRay.normal, ray);
 
-            reflectedColor = GetSample(reflectedRay, depth, oldIndexOfRefraction);
+            reflectedColor = getSample(reflectedRay, depth, oldIndexOfRefraction);
 
             // refracted color
 
@@ -194,7 +194,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
          if (objectMaterial.getTransparency() > 0) {
 
             Ray refractedRay = GeometryCalculations.GetRefractedRay(closestStateToRay, closestStateToRay.normal, ray, oldIndexOfRefraction);
-            refractedSample = GetSample(refractedRay, depth, closestStateToRay.Drawable.GetMaterial().getIndexOfRefraction());
+            refractedSample = getSample(refractedRay, depth, closestStateToRay.Drawable.GetMaterial().getIndexOfRefraction());
          }
 */
          //float transparency = (float)objectMaterial._transparency;

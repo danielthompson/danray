@@ -65,6 +65,8 @@ public abstract class AbstractScene {
          closestT = test ? ray.MinT : closestT;
       }
 
+      ray.MinT = closestT;
+
       Intersection closestIntersection = null;
 
       if (nearestShapeIndex >= 0) {

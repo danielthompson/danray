@@ -12,7 +12,7 @@ public class NormalIntegrator extends AbstractIntegrator {
    }
 
    @Override
-   public Sample GetSample(Ray ray, int depth, int x, int y) {
+   public Sample getSample(Ray ray, int depth, int x, int y) {
       Intersection intersection = scene.getNearestShape(ray, x, y);
 
       Sample sample = new Sample(x, y);

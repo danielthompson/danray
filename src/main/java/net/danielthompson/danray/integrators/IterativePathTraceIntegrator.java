@@ -18,7 +18,7 @@ public class IterativePathTraceIntegrator extends AbstractIntegrator {
       super(scene, maxDepth);
    }
 
-   public Sample GetSample(Ray ray, int depth, int x, int y) {
+   public Sample getSample(Ray ray, int depth, int x, int y) {
 
       Sample sample = new Sample(x, y);
 
