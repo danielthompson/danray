@@ -9,7 +9,7 @@ public class CheckerboardTexture extends AbstractTexture {
    public ReflectanceSpectrum Even;
 
    @Override
-   public ReflectanceSpectrum Evaluate(float u, float v) {
+   public ReflectanceSpectrum Evaluate(final float u, final float v) {
       int u1 = (int)(Math.floor(UScale * u)) % 2;
       int v1 = (int)(Math.floor(VScale * v)) % 2;
 

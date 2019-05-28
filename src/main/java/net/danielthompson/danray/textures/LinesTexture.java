@@ -10,7 +10,7 @@ public class LinesTexture extends AbstractTexture {
    public ReflectanceSpectrum Background;
 
    @Override
-   public ReflectanceSpectrum Evaluate(float u, float v) {
+   public ReflectanceSpectrum Evaluate(final float u, final float v) {
       float u1 = UScale * u % 1.0f;
       float v1 = VScale * v % 1.0f;
 

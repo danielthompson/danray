@@ -11,7 +11,7 @@ public class ConstantTexture extends AbstractTexture {
    }
 
    @Override
-   public ReflectanceSpectrum Evaluate(float u, float v) {
+   public ReflectanceSpectrum Evaluate(final float u, final float v) {
       return ReflectanceSpectrum;
    }
 }
