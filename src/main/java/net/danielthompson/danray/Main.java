@@ -27,8 +27,8 @@ public class Main {
 //      RenderQuality quality = mediumQuality;
 //      RenderQuality quality = highQuality;
 
-//      scene = SceneBuilder.Default(quality.x, quality.y);
-      scene = SceneBuilder.NumericalStabilityTest(quality.x, quality.y);
+      scene = SceneBuilder.Default(quality.x, quality.y);
+//      scene = SceneBuilder.NumericalStabilityTest(quality.x, quality.y);
 
       final TracerOptions options = parseArgs(args);
       //options.numThreads = 1;

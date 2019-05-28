@@ -516,10 +516,8 @@ public class SceneBuilder {
       Transform[] inputTransforms = new Transform[]{
             bigTranslate,
             Transform.translate(0, 180, 250),
-//            Transform.translate(0, 0, 225),
             Transform.rotateY(0),
             Transform.rotateX(-45)
-//            Transform.rotateX(-5)
       };
 
       Transform[] compositeTransforms = Transform.composite(inputTransforms);
@@ -536,21 +534,10 @@ public class SceneBuilder {
 
       // front CSG object
 
-      //BxDF brdf = new LambertianBRDF();
-
       material = new Material();
-      material.IndexOfRefraction = 1.25f;
-      material.BxDFs.add(new SpecularBTDF());
-      material.Weights.add(0.5f);
-      material.BxDFs.add(new SpecularBRDF());
-      material.Weights.add(0.5f);
-//      material.BxDFs.add(new LambertianBRDF());
-//      material.Weights.add(0.10f);
-//      material.BxDFs.add(new SpecularBTDF());
-//      material.Weights.add(0.5f);
-////
-//      material.Texture = new ConstantTexture(new ReflectanceSpectrum(Colors.Rainbow.Color1));
-      material.Texture = new ConstantTexture(new ReflectanceSpectrum(Color.WHITE));
+      material.BxDFs.add(LambertianBRDF);
+      material.Weights.add(1.0f);
+      material.Texture = texture;
 
       inputTransforms = new Transform[]{
             Transform.scale(2),
@@ -719,8 +706,8 @@ public class SceneBuilder {
       //scene.addShape(csgshape);
 
       material = new Material();
-      material.BxDFs.add(SpecularBTDF);
-      material.IndexOfRefraction = 1.5f;
+      material.BxDFs.add(LambertianBRDF);
+      //material.IndexOfRefraction = 1.5f;
       material.Weights.add(1.0f);
       material.Texture = new ConstantTexture(new ReflectanceSpectrum(Colors.Rainbow.Color5));
 
@@ -797,35 +784,7 @@ public class SceneBuilder {
             Transform.translate(new Vector3(-0.5f, -0.5f, -0.5f))
       };
       compositeTransforms = Transform.composite(inputTransforms);
-
       scene.addShape(new Box(compositeTransforms, material));
-
-      // white light
-
-      material = new Material();
-
-      material.BxDFs.add(LambertianBRDF);
-      material.Weights.add(1.0f);
-
-      //material.BRDF = SpecularBRDF;
-      material.ReflectanceSpectrum = new ReflectanceSpectrum(Color.WHITE);
-
-      SpectralPowerDistribution lightSPD = new SpectralPowerDistribution(Color.white, 50.0f);
-
-      inputTransforms = new Transform[]{
-            Transform.translate(new Vector3(-50, 100, -75)),
-            Transform.scale(25)
-      };
-
-      compositeTransforms = Transform.composite(inputTransforms);
-
-      Sphere sphere = new Sphere(compositeTransforms, material);
-
-      AbstractLight light = new SphereLight(sphere, lightSPD);
-
-      //scene.Shapes.add(light);
-      //scene.Lights.add(light);
-
       // skybox
 
       //scene.Skybox = new RGBSkybox();
