@@ -435,7 +435,10 @@ public class SceneBuilder {
       settings.y = y;
       settings.fov = 45f;
 
-      float bigNum = 0;
+
+      long longBigNum = 1;
+      //longBigNum <<= 29;
+      float bigNum = longBigNum;
 
       Transform bigTranslate = Transform.translate(bigNum, bigNum, bigNum);
 
