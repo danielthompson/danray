@@ -19,7 +19,7 @@ public abstract class AbstractFilm {
    public int Width;
    public int Height;
 
-   public AbstractFilm(BufferedImage image) {
+   public AbstractFilm(final BufferedImage image) {
       Image = image;
       Width = image.getWidth();
       Height = image.getHeight();
@@ -27,7 +27,7 @@ public abstract class AbstractFilm {
       Samples = new Spectrum[image.getWidth()][image.getHeight()];
    }
 
-   protected void AddSampleToPixel(int x, int y, Sample sample, float weight) {
+   protected void AddSampleToPixel(final int x, final int y, final Sample sample, final float weight) {
 
       if (Samples[x][y] == null)
          Samples[x][y] = new Spectrum();
@@ -42,7 +42,7 @@ public abstract class AbstractFilm {
 
       Weights[x][y] += weight;
 
-      float multiplier = 1.0f / Weights[x][y];
+      final float multiplier = 1.0f / Weights[x][y];
 
       float finalR = Samples[x][y].R * multiplier;
       float finalG = Samples[x][y].G * multiplier;
@@ -68,7 +68,7 @@ public abstract class AbstractFilm {
 //      Color c = new Color(clampedR, clampedG, clampedB);
 
       try {
-         Color c = new Color(r, g, b);
+         final Color c = new Color(r, g, b);
          Image.setRGB(x, y, c.getRGB());
       }
       catch (IllegalArgumentException e) {

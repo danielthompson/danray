@@ -28,7 +28,7 @@ public class PathTraceIntegrator extends AbstractIntegrator {
       _y = y;
 
       if (false) {
-         if (_x == 314 && _y == 274) {
+         if (_x == 320 && _y == 240) {
             return getSample(ray, depth, 1.0f);
          }
          Sample sample = new Sample(x, y);
@@ -84,15 +84,28 @@ public class PathTraceIntegrator extends AbstractIntegrator {
             BxDF bxdf = objectMaterial.BxDFs.get(i);
             float weight = objectMaterial.Weights.get(i);
 
+            boolean adjustOutwards = false;
+
             boolean leavingMaterial = true;
             float enteringIndexOfRefraction = objectMaterial.IndexOfRefraction;
 
             if (bxdf.Transmission) {
                leavingMaterial = intersectionNormal.dot(incomingDirection) > 0;
+               //adjustOutwards = false;
 
                if (leavingMaterial) {
                   enteringIndexOfRefraction = 1f;
+                  adjustOutwards = true;
                }
+            }
+
+            // TODO adjust intersection point based on error, transmissive, and normal
+            if (adjustOutwards) {
+               intersection.location = intersection.shape.offsetRayOrigin(intersection.location, intersection.error, intersectionNormal);
+            }
+            else {
+               Normal n = Normal.scale(intersectionNormal, -1);
+               intersection.location = intersection.shape.offsetRayOrigin(intersection.location, intersection.error, n);
             }
 
             Vector3 outgoingDirection = bxdf.getVectorInPDF(intersection, incomingDirection, indexOfRefraction, enteringIndexOfRefraction);
@@ -101,18 +114,9 @@ public class PathTraceIntegrator extends AbstractIntegrator {
             if (!bxdf.Delta) {
                scalePercentage = bxdf.f(incomingDirection, intersectionNormal, outgoingDirection);
             }
-//            if (leavingMaterial && outgoingDirection.dot(intersectionNormal) < 0) {
-//               //outgoingDirection.scale(-1);
-//            }
 
             Ray bounceRay = new Ray(intersection.location, outgoingDirection);
-            bounceRay.transmissive = bxdf.Transmission;
-            if (leavingMaterial) {
-               //bounceRay.offsetOriginOutwards(intersectionNormal);
-            }
-            else {
-               //bounceRay.offsetOriginInwards(intersectionNormal);
-            }
+            bounceRay.transmissive = adjustOutwards;
 
             Sample nextSample = getSample(bounceRay, depth + 1, indexOfRefraction);
             SpectralPowerDistribution nextSPD = nextSample.SpectralPowerDistribution;

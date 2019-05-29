@@ -7,24 +7,9 @@ import net.danielthompson.danray.structures.Point3;
  */
 public class CircleAperture extends Aperture {
 
-   public CircleAperture(float size) {
+   public CircleAperture(final float size) {
       Size = size;
    }
-
-   /*
-   @Override
-   public Point GetOriginPoint() {
-      float x = (Math.random() * 2.0 - 1.0);
-
-      float y = (Math.random() * 2.0 - 1.0) * Math.sqrt(1.0 - x * x);
-
-      x *= _size;
-      y *= _size;
-
-      float z = 0.0f;
-
-      return new Point(x, y, z);
-   }*/
 
    @Override
    public Point3 GetOriginPoint() {
@@ -42,7 +27,7 @@ public class CircleAperture extends Aperture {
 
       x *= Size * .5;
       y *= Size * .5;
-      float z = 0.0f;
+      final float z = 0.0f;
 
       return new Point3(x, y, z);
    }

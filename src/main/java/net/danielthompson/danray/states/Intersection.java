@@ -21,6 +21,11 @@ public class Intersection {
    public Point3 location;
 
    /**
+    * Accumulated error in the location
+    */
+   public Vector3 error;
+
+   /**
     * World-space t-value where the ray first intersects the boundary of the shape.
     * If t = 0, the ray's origin is on the boundary of the shape.
     * If t > 0, the origin could be inside or outside the shape.

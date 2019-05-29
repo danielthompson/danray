@@ -72,7 +72,7 @@ public abstract class AbstractShape {
       intersection.tangentU = intersection.tangentV.cross(intersection.normal);
    }
 
-   Point3 offsetRayOrigin(final Point3 p, final Vector3 pError, final Normal n) {
+   public Point3 offsetRayOrigin(final Point3 p, final Vector3 pError, final Normal n) {
       final float d = pError.dot(n.abs());
       final Vector3 offset = new Vector3(n);
       offset.scale(d);
@@ -110,7 +110,8 @@ public abstract class AbstractShape {
          }
          final Vector3 error = new Vector3(0, 0, 0);
          ObjectToWorld.applyInPlace(intersection.location, error);
-         intersection.location = offsetRayOrigin(intersection.location, error, intersection.normal);
+         intersection.error.plus(error);
+         //intersection.location = offsetRayOrigin(intersection.location, error, intersection.normal);
       }
    }
 

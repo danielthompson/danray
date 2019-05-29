@@ -7,18 +7,18 @@ import net.danielthompson.danray.structures.*;
  */
 public class PerspectiveCamera extends Camera {
 
-   private float OneOverWidth;
-   private float OneOverHeight;
+   private final float OneOverWidth;
+   private final float OneOverHeight;
 
-   private float TwoOverWidth;
-   private float TwoOverHeight;
+   private final float TwoOverWidth;
+   private final float TwoOverHeight;
 
-   private float aspectRatio;
-   private float tanFOVOver2;
+   private final float aspectRatio;
+   private final float tanFOVOver2;
 
-   private float aspectTimesTanFovOver2;
+   private final float aspectTimesTanFovOver2;
 
-   public PerspectiveCamera(CameraSettings settings, Transform cameraToWorld) {
+   public PerspectiveCamera(final CameraSettings settings, final Transform cameraToWorld) {
       super(settings, cameraToWorld);
 
       OneOverWidth = 1.0f / (float)Settings.x;
@@ -36,11 +36,11 @@ public class PerspectiveCamera extends Camera {
    @Override
    public Ray getRay(Point2 pixel) {
 
-      float pixelCameraX = ((pixel.x + 0.5f) * TwoOverWidth - 1.0f) * aspectTimesTanFovOver2;
-      float pixelCameraY = (1.0f - (pixel.y + 0.5f) * TwoOverHeight) * tanFOVOver2;
+      final float pixelCameraX = ((pixel.x + 0.5f) * TwoOverWidth - 1.0f) * aspectTimesTanFovOver2;
+      final float pixelCameraY = (1.0f - (pixel.y + 0.5f) * TwoOverHeight) * tanFOVOver2;
 
       // world space
-      Ray ray = new Ray(new Point3(DefaultOrigin), pixelCameraX, pixelCameraY, -1.0f);
+      final Ray ray = new Ray(new Point3(DefaultOrigin), pixelCameraX, pixelCameraY, -1.0f);
 
       // camera space
       cameraToWorld.applyInPlace(ray);

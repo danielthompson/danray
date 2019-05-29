@@ -124,12 +124,15 @@ public class Sphere extends CSGShape {
 
       Point3 objectSpaceIntersectionPoint = objectSpaceRay.getPointAtT(worldSpaceRay.MinT);
 
+      Vector3 error = new Vector3(Math.abs(objectSpaceIntersectionPoint.x), Math.abs(objectSpaceIntersectionPoint.y), Math.abs(objectSpaceIntersectionPoint.z));
+      error.scale(Constants.Gamma5);
+
       Vector3 direction = Point3.minus(objectSpaceIntersectionPoint, Origin);
       Normal objectSpaceNormal = new Normal(direction);
 
       float actualRadius = direction.length();
       float reprojectionFactor = Radius / actualRadius;
-      reprojectionFactor *= 1 + Constants.Gamma5;
+
       objectSpaceIntersectionPoint.x *= reprojectionFactor;
       objectSpaceIntersectionPoint.y *= reprojectionFactor;
       objectSpaceIntersectionPoint.z *= reprojectionFactor;
@@ -138,12 +141,10 @@ public class Sphere extends CSGShape {
       intersection.hits = true;
       intersection.shape = this;
       intersection.location = objectSpaceIntersectionPoint;
+      intersection.error = error;
       intersection.normal = objectSpaceNormal;
       intersection.originInside = Inside(objectSpaceRay.Origin) || OnSurface(objectSpaceRay.Origin);
       intersection.entering = objectSpaceNormal.dot(objectSpaceRay.Direction) < 0;
-
-//      if (intersection.normal.dot(objectSpaceRay.Direction) > 0)
-//         intersection.normal.scale(-1);
 
       intersection.u = 0.5f + (float)Math.atan2(-objectSpaceNormal.z, -objectSpaceNormal.x) * Constants.OneOver2Pi;
       intersection.v = 0.5f - (float)Math.asin(-objectSpaceNormal.y) * Constants.OneOverPi;

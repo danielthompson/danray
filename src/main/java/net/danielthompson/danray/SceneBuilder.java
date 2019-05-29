@@ -13,6 +13,7 @@ import net.danielthompson.danray.scenes.AbstractScene;
 import net.danielthompson.danray.scenes.NaiveScene;
 import net.danielthompson.danray.scenes.skyboxes.ColorSkybox;
 import net.danielthompson.danray.scenes.skyboxes.CubeMappedSkybox;
+import net.danielthompson.danray.scenes.skyboxes.RGBSkybox;
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.shading.ReflectanceSpectrum;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
@@ -435,7 +436,6 @@ public class SceneBuilder {
       settings.y = y;
       settings.fov = 45f;
 
-
       long longBigNum = 1;
       //longBigNum <<= 29;
       float bigNum = longBigNum;
@@ -498,6 +498,90 @@ public class SceneBuilder {
       scene.addShape(box);
 
       scene.Skybox = new ColorSkybox(Color.WHITE);
+
+      return scene;
+   }
+
+   public static AbstractScene NumericalStabilityTest2(int x, int y) {
+      CameraSettings settings = new CameraSettings();
+      settings.x = x;
+      settings.y = y;
+      settings.fov = 45f;
+
+      Transform[] inputTransforms = new Transform[]{
+            Transform.translate(0, 0, 50),
+      };
+      Transform[] compositeTransforms = Transform.composite(inputTransforms);
+      Camera camera = new PerspectiveCamera(settings, compositeTransforms[0]);
+
+      AbstractScene scene = new NaiveScene(camera);
+
+      Material material1 = new Material();
+      material1.BxDFs.add(SpecularBTDF);
+      material1.IndexOfRefraction = 1.0f;
+      material1.Weights.add(1.0f);
+
+      Material material2 = new Material();
+      material2.BxDFs.add(SpecularBTDF);
+      material2.IndexOfRefraction = 1.5f;
+      material2.Weights.add(1.0f);
+
+      CheckerboardTexture texture1 = new CheckerboardTexture();
+      texture1.UScale = 32;
+      texture1.VScale = 32;
+      texture1.Odd = new ReflectanceSpectrum(new Color(0.8f, 0.8f, 0.75f));
+      texture1.Even = new ReflectanceSpectrum(new Color(0.9f, 0.9f, 0.85f));
+      material1.Texture = texture1;
+
+      CheckerboardTexture texture2 = new CheckerboardTexture();
+      texture2.UScale = 32;
+      texture2.VScale = 32;
+      texture2.Odd = new ReflectanceSpectrum(new Color(0.8f, 0.8f, 0.75f));
+      texture2.Even = new ReflectanceSpectrum(new Color(0.9f, 0.9f, 0.85f));
+      material2.Texture = texture2;
+
+      {
+         inputTransforms = new Transform[]{
+               Transform.translate(-0.5f, 0, 0)
+         };
+         compositeTransforms = Transform.composite(inputTransforms);
+
+         Sphere leftShape = new Sphere(compositeTransforms, material1);
+
+         inputTransforms = new Transform[]{
+               Transform.translate(0.5f, 0, 0)
+         };
+         compositeTransforms = Transform.composite(inputTransforms);
+
+         Sphere rightShape = new Sphere(compositeTransforms, material1);
+
+         inputTransforms = new Transform[]{
+               Transform.translate(0, 0, 0),
+               Transform.scale(20f)
+         };
+         compositeTransforms = Transform.composite(inputTransforms);
+
+         CSGShape csgShape = new CSGShape(compositeTransforms);
+         csgShape.Operation = CSGOperation.Union;
+         csgShape.LeftShape = leftShape;
+         csgShape.RightShape = rightShape;
+         //scene.addShape(csgShape);
+      }
+
+      {
+         inputTransforms = new Transform[]{
+               Transform.scale(20)
+         };
+         compositeTransforms = Transform.composite(inputTransforms);
+
+         //material1.Texture = new ConstantTexture(Color.white);
+         material1.IndexOfRefraction = 1.5f;
+
+         Sphere sphere = new Sphere(compositeTransforms, material1);
+         scene.addShape(sphere);
+      }
+
+      scene.Skybox = new RGBSkybox();
 
       return scene;
    }
