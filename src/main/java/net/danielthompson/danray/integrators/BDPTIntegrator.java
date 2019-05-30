@@ -462,7 +462,7 @@ public class BDPTIntegrator extends AbstractIntegrator {
 //         Ray lightRay = radiatable.getRandomRayInPDF();
 //         SpectralSphereLight l = (SpectralSphereLight) radiatable;
 //
-//         while (l.Inside(lightRay.Origin)) {
+//         while (l.inside(lightRay.Origin)) {
 //            // move the ray outside of the light, if it's inside
 //            lightRay.offsetOriginForward(.5);
 //         }

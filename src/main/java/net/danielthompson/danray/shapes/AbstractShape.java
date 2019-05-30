@@ -97,7 +97,7 @@ public abstract class AbstractShape {
       return po;
    }
 
-   protected void toWorldSpace(final Intersection intersection, final Ray worldSpaceRay) {
+   protected void toWorldSpace(final Intersection intersection) {
       if (ObjectToWorld != null) {
          //intersection.location = ObjectToWorld.apply(intersection.location);
          ObjectToWorld.applyInPlace(intersection.normal);

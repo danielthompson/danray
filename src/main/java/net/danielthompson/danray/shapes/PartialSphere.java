@@ -204,7 +204,7 @@ public class PartialSphere extends AbstractShape {
 
       calculateTangents(intersection);
 
-      toWorldSpace(intersection, worldSpaceRay);
+      toWorldSpace(intersection);
 
       return intersection;
    }

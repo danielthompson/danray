@@ -22,7 +22,7 @@ public class InsideTests {
          for (float j = 0; j < sphere.Radius / 2; j += .03) {
             for (float k = 0; k < sphere.Radius / 2; k += .03) {
                Point3 point = new Point3(i, j, k);
-               Assert.assertTrue(sphere.Inside(point), "Point " + point + " is inside sphere.");
+               Assert.assertTrue(sphere.inside(point), "Point " + point + " is inside sphere.");
             }
          }
       }
@@ -36,6 +36,6 @@ public class InsideTests {
 
       Point3 point = new Point3(2, 0, 0);
 
-      Assert.assertFalse(sphere.Inside(point), "Point is outside sphere.");
+      Assert.assertFalse(sphere.inside(point), "Point is outside sphere.");
    }
 }

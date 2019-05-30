@@ -49,7 +49,7 @@ public class Box extends CSGShape {
    }
 
    @Override
-   public boolean Inside(final Point3 worldSpacePoint) {
+   public boolean inside(final Point3 worldSpacePoint) {
       Point3 objectSpacePoint = worldSpacePoint;
 
       if (WorldToObject != null) {
@@ -169,7 +169,7 @@ public class Box extends CSGShape {
             intersection.normal.scale(-1);
 
          calculateTangents(intersection);
-         toWorldSpace(intersection, worldSpaceRay);
+         toWorldSpace(intersection);
       }
    }
 

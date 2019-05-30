@@ -17,14 +17,14 @@ public class CSGShape extends AbstractShape {
    public CSGShape LeftShape;
    public CSGShape RightShape;
 
-   public boolean Inside(Point3 worldSpacePoint) {
+   public boolean inside(final Point3 worldSpacePoint) {
       Point3 localSpacePoint = worldSpacePoint;
       if (WorldToObject != null) {
          localSpacePoint = WorldToObject.apply(worldSpacePoint);
       }
 
-      boolean leftInside = LeftShape.Inside(localSpacePoint);
-      boolean rightInside = RightShape.Inside(localSpacePoint);
+      final boolean leftInside = LeftShape.inside(localSpacePoint);
+      final boolean rightInside = RightShape.inside(localSpacePoint);
 
       switch (Operation) {
          case Union:
@@ -38,38 +38,28 @@ public class CSGShape extends AbstractShape {
       return false;
    }
 
-   public CSGShape(Material material) {
+   public CSGShape(final Material material) {
       super(material);
    }
 
-   public CSGShape(Transform[] transforms) {
+   public CSGShape(final Transform[] transforms) {
       super(transforms, null);
    }
 
-   public CSGShape(Transform objectToWorld, Transform worldToObject) {
+   public CSGShape(final Transform objectToWorld, final Transform worldToObject) {
       super(objectToWorld, worldToObject, null);
    }
 
-   public boolean hits(Ray worldSpaceRay) {
-
-//      float worldT = worldSpaceRay.MinT;
-//      if (!WorldBoundingBox.hits(worldSpaceRay)) {
-//         worldSpaceRay.MinT = worldT;
-//         return false;
-//      }
-//      worldSpaceRay.MinT = worldT;
-
+   public boolean hits(final Ray worldSpaceRay) {
       Ray objectSpaceRay = worldSpaceRay;
 
       if (WorldToObject != null) {
          objectSpaceRay = WorldToObject.apply(worldSpaceRay);
       }
 
-
-
       // get all hitpoints - in order
-      List<Intersection> leftHitPoints = LeftShape.intersectAll(objectSpaceRay);
-      List<Intersection> rightHitPoints = RightShape.intersectAll(objectSpaceRay);
+      final List<Intersection> leftHitPoints = LeftShape.intersectAll(objectSpaceRay);
+      final List<Intersection> rightHitPoints = RightShape.intersectAll(objectSpaceRay);
 
       int leftIndex = 0;
       int rightIndex = 0;
@@ -112,85 +102,72 @@ public class CSGShape extends AbstractShape {
          // foreach hitpoint
          switch (Operation) {
             case Union: {
-               boolean rightInside = RightShape.Inside(nextIntersection.location);
+               final boolean rightInside = RightShape.inside(nextIntersection.location);
 
                // if hp is on left and we're outside right, return it
                if (nextIntersection == leftIntersection && !rightInside)
                {
-                  worldSpaceRay.MinT = GetWorldSpaceT(worldSpaceRay, objectSpaceRay, nextIntersection.t);
+                  worldSpaceRay.MinT = nextIntersection.t;
                   return true;
                }
 
-               boolean leftInside = LeftShape.Inside(nextIntersection.location);
+               final boolean leftInside = LeftShape.inside(nextIntersection.location);
 
                // if hp is on right and we're inside left, fliip normal and return it
                if (nextIntersection == rightIntersection && !leftInside /*&& !rightInside*/)
                {
-                  worldSpaceRay.MinT = GetWorldSpaceT(worldSpaceRay, objectSpaceRay, nextIntersection.t);
+                  worldSpaceRay.MinT = nextIntersection.t;
                   return true;
                }
                continue;
             }
             case Difference: {
 
-               boolean rightInside = RightShape.Inside(nextIntersection.location);
+               final boolean rightInside = RightShape.inside(nextIntersection.location);
 
                // if hp is on left and we're outside right, return it
                if (nextIntersection == leftIntersection && !rightInside)
                {
-                  worldSpaceRay.MinT = GetWorldSpaceT(worldSpaceRay, objectSpaceRay, nextIntersection.t);
+                  worldSpaceRay.MinT = nextIntersection.t;
                   return true;
                }
 
-               boolean leftInside = LeftShape.Inside(nextIntersection.location);
+               final boolean leftInside = LeftShape.inside(nextIntersection.location);
 
                // if hp is on right and we're inside left, fliip normal and return it
                if (nextIntersection == rightIntersection && leftInside /*&& !rightInside*/)
                {
-                  worldSpaceRay.MinT = GetWorldSpaceT(worldSpaceRay, objectSpaceRay, nextIntersection.t);
+                  worldSpaceRay.MinT = nextIntersection.t;
                   return true;
                }
                continue;
             }
             case Intersection: {
 
-               boolean rightInside = RightShape.Inside(nextIntersection.location);
+               final boolean rightInside = RightShape.inside(nextIntersection.location);
 
                // if hp is on left and we're inside right, return it
                if (nextIntersection == leftIntersection && rightInside)
                {
-                  worldSpaceRay.MinT = GetWorldSpaceT(worldSpaceRay, objectSpaceRay, nextIntersection.t);
+                  worldSpaceRay.MinT = nextIntersection.t;
                   return true;
                }
 
-               boolean leftInside = LeftShape.Inside(nextIntersection.location);
+               final boolean leftInside = LeftShape.inside(nextIntersection.location);
 
                // if hp is on right and we're inside left, return it
                if (nextIntersection == rightIntersection && leftInside)
                {
-                  worldSpaceRay.MinT = GetWorldSpaceT(worldSpaceRay, objectSpaceRay, nextIntersection.t);
+                  worldSpaceRay.MinT = nextIntersection.t;
                   return true;
                }
-               continue;
             }
          }
       }
    }
 
-   private float GetWorldSpaceT(Ray worldSpaceRay, Ray objectSpaceRay, float objectSpaceT) {
-      float value = objectSpaceT;
-
-      if (ObjectToWorld != null && ObjectToWorld.hasScale()) {
-         Point3 objectSpaceIntersectionPoint = objectSpaceRay.getPointAtT(objectSpaceT);
-         Point3 worldSpaceIntersectionPoint = ObjectToWorld.apply(objectSpaceIntersectionPoint);
-         value = worldSpaceRay.getTAtPoint(worldSpaceIntersectionPoint);
-      }
-
-      return value;
-   }
-
    @Override
-   public Intersection intersect(Ray worldSpaceRay) {
+   public Intersection intersect(final Ray worldSpaceRay) {
       Ray objectSpaceRay = worldSpaceRay;
 
       if (WorldToObject != null) {
@@ -198,14 +175,13 @@ public class CSGShape extends AbstractShape {
       }
 
       // get all hitpoints - in order
-      List<Intersection> leftHitPoints = LeftShape.intersectAll(objectSpaceRay);
-      List<Intersection> rightHitPoints = RightShape.intersectAll(objectSpaceRay);
+      final List<Intersection> leftHitPoints = LeftShape.intersectAll(objectSpaceRay);
+      final List<Intersection> rightHitPoints = RightShape.intersectAll(objectSpaceRay);
 
       int leftIndex = 0;
       int rightIndex = 0;
 
       while (true) {
-
          Intersection nextIntersection = null;
          Intersection leftIntersection = null;
          Intersection rightIntersection = null;
@@ -242,21 +218,21 @@ public class CSGShape extends AbstractShape {
          // foreach hitpoint
          switch (Operation) {
             case Union: {
-               boolean rightInside = RightShape.Inside(nextIntersection.location);
+               final boolean rightInside = RightShape.inside(nextIntersection.location);
 
                // if hp is on left and we're outside right, return it
                if (nextIntersection == leftIntersection && !rightInside)
                {
-                  toWorldSpace(nextIntersection, worldSpaceRay);
+                  toWorldSpace(nextIntersection);
                   return nextIntersection;
                }
 
-               boolean leftInside = LeftShape.Inside(nextIntersection.location);
+               final boolean leftInside = LeftShape.inside(nextIntersection.location);
 
-               // if hp is on right and we're inside left, flip normal and return it
-               if (nextIntersection == rightIntersection && !leftInside /*&& !rightInside*/)
+               // if hp is on right and we're ont inside left
+               if (nextIntersection == rightIntersection && !leftInside)
                {
-                  toWorldSpace(nextIntersection, worldSpaceRay);
+                  toWorldSpace(nextIntersection);
                   //nextIntersection.normal.scale(-1);
                   return nextIntersection;
                }
@@ -264,21 +240,21 @@ public class CSGShape extends AbstractShape {
             }
             case Difference: {
 
-               boolean rightInside = RightShape.Inside(nextIntersection.location);
+               final boolean rightInside = RightShape.inside(nextIntersection.location);
 
                // if hp is on left and we're outside right, return it
                if (nextIntersection == leftIntersection && !rightInside)
                {
-                  toWorldSpace(nextIntersection, worldSpaceRay);
+                  toWorldSpace(nextIntersection);
                   return nextIntersection;
                }
 
-               boolean leftInside = LeftShape.Inside(nextIntersection.location);
+               final boolean leftInside = LeftShape.inside(nextIntersection.location);
 
-               // if hp is on right and we're inside left, flip normal and return it
-               if (nextIntersection == rightIntersection && leftInside /*&& !rightInside*/)
+               // if hp is on right and we're inside left
+               if (nextIntersection == rightIntersection && leftInside)
                {
-                  toWorldSpace(nextIntersection, worldSpaceRay);
+                  toWorldSpace(nextIntersection);
                   //nextIntersection.normal.scale(-1);
                   return nextIntersection;
                }
@@ -286,21 +262,21 @@ public class CSGShape extends AbstractShape {
             }
             case Intersection: {
 
-               boolean rightInside = RightShape.Inside(nextIntersection.location);
+               final boolean rightInside = RightShape.inside(nextIntersection.location);
 
                // if hp is on left and we're inside right, return it
                if (nextIntersection == leftIntersection && rightInside)
                {
-                  toWorldSpace(nextIntersection, worldSpaceRay);
+                  toWorldSpace(nextIntersection);
                   return nextIntersection;
                }
 
-               boolean leftInside = LeftShape.Inside(nextIntersection.location);
+               final boolean leftInside = LeftShape.inside(nextIntersection.location);
 
                // if hp is on right and we're inside left, return it
                if (nextIntersection == rightIntersection && leftInside)
                {
-                  toWorldSpace(nextIntersection, worldSpaceRay);
+                  toWorldSpace(nextIntersection);
                   return nextIntersection;
                }
                continue;
@@ -329,7 +305,7 @@ public class CSGShape extends AbstractShape {
    }
 
    @Override
-   public List<Intersection> intersectAll(Ray worldSpaceRay) {
+   public List<Intersection> intersectAll(final Ray worldSpaceRay) {
       Ray objectSpaceRay = worldSpaceRay;
 
       if (WorldToObject != null) {
@@ -337,10 +313,10 @@ public class CSGShape extends AbstractShape {
       }
 
       // get all hitpoints - in order
-      List<Intersection> leftHitPoints = LeftShape.intersectAll(objectSpaceRay);
-      List<Intersection> rightHitPoints = RightShape.intersectAll(objectSpaceRay);
+      final List<Intersection> leftHitPoints = LeftShape.intersectAll(objectSpaceRay);
+      final List<Intersection> rightHitPoints = RightShape.intersectAll(objectSpaceRay);
 
-      List<Intersection> intersections = new ArrayList<>();
+      final List<Intersection> intersections = new ArrayList<>();
 
       int leftIndex = 0;
       int rightIndex = 0;
@@ -383,64 +359,63 @@ public class CSGShape extends AbstractShape {
          // foreach hitpoint
          switch (Operation) {
             case Union: {
-               boolean rightInside = RightShape.Inside(nextIntersection.location);
+               final boolean rightInside = RightShape.inside(nextIntersection.location);
 
                // if hp is on left and we're outside right, return it
                if (nextIntersection == leftIntersection && !rightInside)
                {
-                  toWorldSpace(nextIntersection, worldSpaceRay);
+                  toWorldSpace(nextIntersection);
                   intersections.add(nextIntersection);
                }
 
-               boolean leftInside = LeftShape.Inside(nextIntersection.location);
+               final boolean leftInside = LeftShape.inside(nextIntersection.location);
 
-               // if hp is on right and we're inside left, flip normal and return it
-               if (nextIntersection == rightIntersection && !leftInside /*&& !rightInside*/)
+               // if hp is on right and we're not inside left
+               if (nextIntersection == rightIntersection && !leftInside)
                {
-                  toWorldSpace(nextIntersection, worldSpaceRay);
+                  toWorldSpace(nextIntersection);
                   intersections.add(nextIntersection);
                }
                continue;
             }
             case Difference: {
 
-               boolean rightInside = RightShape.Inside(nextIntersection.location);
+               final boolean rightInside = RightShape.inside(nextIntersection.location);
 
                // if hp is on left and we're outside right, return it
                if (nextIntersection == leftIntersection && !rightInside)
                {
-                  toWorldSpace(nextIntersection, worldSpaceRay);
+                  toWorldSpace(nextIntersection);
                   intersections.add(nextIntersection);
                }
 
-               boolean leftInside = LeftShape.Inside(nextIntersection.location);
+               final boolean leftInside = LeftShape.inside(nextIntersection.location);
 
-               // if hp is on right and we're inside left, flip normal and return it
-               if (nextIntersection == rightIntersection && leftInside /*&& !rightInside*/)
+               // if hp is on right and we're inside left, return it
+               if (nextIntersection == rightIntersection && leftInside)
                {
-                  toWorldSpace(nextIntersection, worldSpaceRay);
-                  //nextIntersection.normal.scale(-1);
+                  toWorldSpace(nextIntersection);
                   intersections.add(nextIntersection);
                }
                continue;
             }
             case Intersection: {
 
-               boolean rightInside = RightShape.Inside(nextIntersection.location);
+               final boolean rightInside = RightShape.inside(nextIntersection.location);
 
                // if hp is on left and we're inside right, return it
                if (nextIntersection == leftIntersection && rightInside)
                {
-                  toWorldSpace(nextIntersection, worldSpaceRay);
+                  toWorldSpace(nextIntersection);
                   intersections.add(nextIntersection);
                }
 
-               boolean leftInside = LeftShape.Inside(nextIntersection.location);
+               final boolean leftInside = LeftShape.inside(nextIntersection.location);
 
                // if hp is on right and we're inside left, return it
                if (nextIntersection == rightIntersection && leftInside)
                {
-                  toWorldSpace(nextIntersection, worldSpaceRay);
+                  toWorldSpace(nextIntersection);
                   intersections.add(nextIntersection);
                }
                continue;
