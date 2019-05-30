@@ -518,7 +518,7 @@ public class SceneBuilder {
 
       Material material1 = new Material();
       material1.BxDFs.add(SpecularBTDF);
-      material1.IndexOfRefraction = 1.0f;
+      material1.IndexOfRefraction = 1.5f;
       material1.Weights.add(1.0f);
 
       Material material2 = new Material();
@@ -557,7 +557,8 @@ public class SceneBuilder {
 
          inputTransforms = new Transform[]{
                Transform.translate(0, 0, 0),
-               Transform.scale(20f)
+               Transform.scale(15f),
+               Transform.rotateY(20)
          };
          compositeTransforms = Transform.composite(inputTransforms);
 
@@ -565,7 +566,10 @@ public class SceneBuilder {
          csgShape.Operation = CSGOperation.Union;
          csgShape.LeftShape = leftShape;
          csgShape.RightShape = rightShape;
-         //scene.addShape(csgShape);
+         scene.addShape(csgShape);
+
+         material1.Texture = new ConstantTexture(Color.white);
+         material2.Texture = new ConstantTexture(Color.white);
       }
 
       {
@@ -578,7 +582,7 @@ public class SceneBuilder {
          material1.IndexOfRefraction = 1.5f;
 
          Sphere sphere = new Sphere(compositeTransforms, material1);
-         scene.addShape(sphere);
+         //scene.addShape(sphere);
       }
 
       scene.Skybox = new RGBSkybox();

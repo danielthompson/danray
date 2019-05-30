@@ -8,7 +8,7 @@ public class LowQuality extends RenderQuality {
       x = 640;
       y = 480;
       maxDepth = 5;
-      samplesPerPixel = 1;
+      samplesPerPixel = 4;
       superSamplesPerPixel = 0;
       depthOfField = false;
       convergenceTerminationThreshold = .8f;

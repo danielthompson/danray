@@ -31,7 +31,7 @@ public class Main {
 //      scene = SceneBuilder.NumericalStabilityTest(quality.x, quality.y);
 
       final TracerOptions options = parseArgs(args);
-      options.numThreads = 1;
+      //options.numThreads = 1;
 
       traceManager = new TraceManager(scene, quality, options);
       traceManager.Compile();

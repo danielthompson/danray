@@ -112,7 +112,19 @@ public class CSGShape extends AbstractShape {
          // foreach hitpoint
          switch (Operation) {
             case Union: {
-               if (nextIntersection.hits)
+               boolean rightInside = RightShape.Inside(nextIntersection.location);
+
+               // if hp is on left and we're outside right, return it
+               if (nextIntersection == leftIntersection && !rightInside)
+               {
+                  worldSpaceRay.MinT = GetWorldSpaceT(worldSpaceRay, objectSpaceRay, nextIntersection.t);
+                  return true;
+               }
+
+               boolean leftInside = LeftShape.Inside(nextIntersection.location);
+
+               // if hp is on right and we're inside left, fliip normal and return it
+               if (nextIntersection == rightIntersection && !leftInside /*&& !rightInside*/)
                {
                   worldSpaceRay.MinT = GetWorldSpaceT(worldSpaceRay, objectSpaceRay, nextIntersection.t);
                   return true;
@@ -230,9 +242,22 @@ public class CSGShape extends AbstractShape {
          // foreach hitpoint
          switch (Operation) {
             case Union: {
-               if (nextIntersection.hits) {
-                  toWorldSpace(nextIntersection, worldSpaceRay);
+               boolean rightInside = RightShape.Inside(nextIntersection.location);
 
+               // if hp is on left and we're outside right, return it
+               if (nextIntersection == leftIntersection && !rightInside)
+               {
+                  toWorldSpace(nextIntersection, worldSpaceRay);
+                  return nextIntersection;
+               }
+
+               boolean leftInside = LeftShape.Inside(nextIntersection.location);
+
+               // if hp is on right and we're inside left, flip normal and return it
+               if (nextIntersection == rightIntersection && !leftInside /*&& !rightInside*/)
+               {
+                  toWorldSpace(nextIntersection, worldSpaceRay);
+                  //nextIntersection.normal.scale(-1);
                   return nextIntersection;
                }
                continue;
@@ -358,7 +383,20 @@ public class CSGShape extends AbstractShape {
          // foreach hitpoint
          switch (Operation) {
             case Union: {
-               if (nextIntersection.hits) {
+               boolean rightInside = RightShape.Inside(nextIntersection.location);
+
+               // if hp is on left and we're outside right, return it
+               if (nextIntersection == leftIntersection && !rightInside)
+               {
+                  toWorldSpace(nextIntersection, worldSpaceRay);
+                  intersections.add(nextIntersection);
+               }
+
+               boolean leftInside = LeftShape.Inside(nextIntersection.location);
+
+               // if hp is on right and we're inside left, flip normal and return it
+               if (nextIntersection == rightIntersection && !leftInside /*&& !rightInside*/)
+               {
                   toWorldSpace(nextIntersection, worldSpaceRay);
                   intersections.add(nextIntersection);
                }

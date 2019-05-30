@@ -18,7 +18,7 @@ public class LambertianBTDF extends BTDF {
 
    @Override
    public float f(Vector3 incoming, Normal normal, Vector3 outgoing) {
-         return Constants.OneOverPi;
+         return 1;
    }
 
    @Override
