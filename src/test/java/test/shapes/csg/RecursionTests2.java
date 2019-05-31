@@ -9,6 +9,7 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import test.AssertHelper;
 
 public class RecursionTests2 {
 
@@ -253,7 +254,8 @@ public class RecursionTests2 {
       Intersection intersection = shape.intersect(ray);
 
       Point3 expectedPoint = new Point3(3.5f, 0, 2f);
-      Assert.assertEquals(intersection.location, expectedPoint);
+      //Assert.assertEquals(intersection.location, e);
+      AssertHelper.assertEquals(intersection.location, expectedPoint);
    }
 
    @Test

@@ -23,7 +23,7 @@ public class Intersection {
    /**
     * Accumulated error in the location
     */
-   public Vector3 error;
+   public Vector3 error = new Vector3(0, 0, 0);
 
    /**
     * World-space t-value where the ray first intersects the boundary of the shape.
