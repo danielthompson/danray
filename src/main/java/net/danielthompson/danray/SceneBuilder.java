@@ -542,23 +542,25 @@ public class SceneBuilder {
 
       {
          inputTransforms = new Transform[]{
-               Transform.translate(-0.5f, 0, 0)
+               Transform.translate(-0.5f, 0, 0),
          };
          compositeTransforms = Transform.composite(inputTransforms);
 
          Sphere leftShape = new Sphere(compositeTransforms, material1);
 
          inputTransforms = new Transform[]{
-               Transform.translate(0.5f, 0, 0)
+               Transform.translate(0.5f, 0, 0),
          };
          compositeTransforms = Transform.composite(inputTransforms);
 
          Sphere rightShape = new Sphere(compositeTransforms, material1);
 
+
+
          inputTransforms = new Transform[]{
                Transform.translate(0, 0, 0),
                Transform.scale(15f),
-               Transform.rotateY(20)
+               Transform.rotateY(75)
          };
          compositeTransforms = Transform.composite(inputTransforms);
 
@@ -570,19 +572,6 @@ public class SceneBuilder {
 
          material1.Texture = new ConstantTexture(Color.white);
          material2.Texture = new ConstantTexture(Color.white);
-      }
-
-      {
-         inputTransforms = new Transform[]{
-               Transform.scale(20)
-         };
-         compositeTransforms = Transform.composite(inputTransforms);
-
-         //material1.Texture = new ConstantTexture(Color.white);
-         material1.IndexOfRefraction = 1.5f;
-
-         Sphere sphere = new Sphere(compositeTransforms, material1);
-         //scene.addShape(sphere);
       }
 
       scene.Skybox = new RGBSkybox();
