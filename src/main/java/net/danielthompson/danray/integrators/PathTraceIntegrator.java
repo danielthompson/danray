@@ -86,12 +86,11 @@ public class PathTraceIntegrator extends AbstractIntegrator {
 
             boolean adjustOutwards = false;
 
-            boolean leavingMaterial = true;
+            boolean leavingMaterial;
             float enteringIndexOfRefraction = objectMaterial.IndexOfRefraction;
 
             if (bxdf.Transmission) {
                leavingMaterial = intersectionNormal.dot(incomingDirection) > 0;
-               //adjustOutwards = false;
 
                if (leavingMaterial) {
                   enteringIndexOfRefraction = 1f;
@@ -116,7 +115,6 @@ public class PathTraceIntegrator extends AbstractIntegrator {
             }
 
             Ray bounceRay = new Ray(intersection.location, outgoingDirection);
-            bounceRay.transmissive = adjustOutwards;
 
             Sample nextSample = getSample(bounceRay, depth + 1, indexOfRefraction);
             SpectralPowerDistribution nextSPD = nextSample.SpectralPowerDistribution;

@@ -18,11 +18,6 @@ public class Ray {
    public boolean FlipNormals = false;
 
    /**
-    * Whether this ray was spawned as a transmitted or reflected ray. Defaults to false (i.e. reflected).
-    */
-   public boolean transmissive = false;
-
-   /**
     * The t-value for the closest intersection found so far.
     * Should be set only by shape hit() routines.
     */

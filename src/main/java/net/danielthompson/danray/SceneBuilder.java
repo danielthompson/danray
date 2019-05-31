@@ -560,7 +560,7 @@ public class SceneBuilder {
          inputTransforms = new Transform[]{
                Transform.translate(0, 0, 0),
                Transform.scale(15f),
-               Transform.rotateY(75)
+               Transform.rotateY(-45)
          };
          compositeTransforms = Transform.composite(inputTransforms);
 

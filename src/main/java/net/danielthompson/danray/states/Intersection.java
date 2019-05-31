@@ -34,12 +34,6 @@ public class Intersection {
    public float t;
 
    /**
-    * If true, the ray's origin is inside or on the shape boundary.
-    * If false, the ray's origin is outside the shape boundary.
-    */
-   public boolean originInside;
-
-   /**
     * If true, the ray's direction is in the opposite hemisphere as the normal at the intersection point,
     * or equivalently, the direction is toward the shape interior or is on the shape's boundary.
     * If false, the ray's direction is in the same hemisphere as the normal at the intersection point,
@@ -57,7 +51,6 @@ public class Intersection {
     * The shape that the ray hits. Null if the ray doesn't hit any shape.
     */
    public AbstractShape shape;
-   //public List<Point3> Face;
 
    /**
     * The world-space normal vector at the intersection point.

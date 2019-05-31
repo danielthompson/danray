@@ -143,7 +143,6 @@ public class Sphere extends CSGShape {
       intersection.location = objectSpaceIntersectionPoint;
       intersection.error = error;
       intersection.normal = objectSpaceNormal;
-      intersection.originInside = inside(objectSpaceRay.Origin) || OnSurface(objectSpaceRay.Origin);
       intersection.entering = objectSpaceNormal.dot(objectSpaceRay.Direction) < 0;
 
       intersection.u = 0.5f + (float)Math.atan2(-objectSpaceNormal.z, -objectSpaceNormal.x) * Constants.OneOver2Pi;

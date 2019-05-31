@@ -56,19 +56,6 @@ public class GeometryCalculations {
       return new Vector3(x*s, y*s, z*s);
    }
 
-   private static float angleOfIncidencePercentageFactor = 10.f / 9.f;
-
-   public static float GetAngleOfIncidence(Ray incomingRay, Intersection state) {
-      Normal normal = state.normal;
-      Vector3 incomingDirection = incomingRay.Direction;
-
-      float angleRadians = (float) FastMath.acos(normal.dot(incomingDirection));
-
-      float angleDegress = (float) FastMath.toDegrees(angleRadians);
-
-      return 180 - angleDegress;
-   }
-
    public static float radiansBetween(Vector3 v, Normal n) {
       Vector3 nv = Vector3.normalize(v);
       Normal nn = Normal.normalize(n);
@@ -82,14 +69,6 @@ public class GeometryCalculations {
       float dot = normal.dot(incomingDirection);
       dot = (dot < 0) ? -dot : 0;
       return dot;
-   }
-
-   public static float GetAngleOfIncidencePercentage(Ray incomingRay, Intersection state) {
-      float AoI = GeometryCalculations.GetAngleOfIncidence(incomingRay, state);
-
-      float AoIp = FastMath.abs(100 - (AoI * angleOfIncidencePercentageFactor));
-
-      return AoIp;
    }
 
    public static float clamp(float var0, float var1, float var2) {
