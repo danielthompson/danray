@@ -34,14 +34,6 @@ public class Intersection {
    public float t;
 
    /**
-    * If true, the ray's direction is in the opposite hemisphere as the normal at the intersection point,
-    * or equivalently, the direction is toward the shape interior or is on the shape's boundary.
-    * If false, the ray's direction is in the same hemisphere as the normal at the intersection point,
-    * or equivalently, the direction is towards the shape exterior.
-    */
-   public boolean entering;
-
-   /**
     * If true, the ray hits the shape.
     * If false, the ray doesn't hit the shape.
     */

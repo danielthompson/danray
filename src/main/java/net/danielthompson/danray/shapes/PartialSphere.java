@@ -196,7 +196,6 @@ public class PartialSphere extends AbstractShape {
       intersection.shape = this;
       intersection.location = objectSpaceIntersectionPoint;
       intersection.normal = objectSpaceNormal;
-      intersection.entering = objectSpaceNormal.dot(objectSpaceRay.Direction) < 0;
 
       intersection.u = 0.5f + (float)Math.atan2(-objectSpaceNormal.z, -objectSpaceNormal.x) * Constants.OneOver2Pi;
       intersection.v = 0.5f - (float)Math.asin(-objectSpaceNormal.y) * Constants.OneOverPi;

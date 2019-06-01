@@ -195,7 +195,7 @@ public class BoundingBox {
          return intersection;
       }
 
-      intersection.t = minBoundNearT;
+      intersection.t = minBoundNearT <= 0 ? maxBoundFarT : minBoundNearT;
       //intersection.TMax = maxBoundFarT;
 
       return intersection;

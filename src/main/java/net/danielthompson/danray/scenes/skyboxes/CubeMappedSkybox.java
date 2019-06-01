@@ -27,21 +27,21 @@ public class CubeMappedSkybox extends AbstractSkybox {
    public Box Skybox;
 
    public CubeMappedSkybox(BufferedImage image) {
-      if (SkyBoxImage != null) {
-         Skybox = new Box(Transform.identity, Transform.identity,null);
+      SkyBoxImage = image;
+      Skybox = new Box(Transform.identity, Transform.identity,null);
 
-         int width = SkyBoxImage.getWidth();
-         int height = SkyBoxImage.getHeight();
+      int width = SkyBoxImage.getWidth();
+      int height = SkyBoxImage.getHeight();
 
-         int tileSize = width / 4;
+      int tileSize = width / 4;
 
-         SkyBoxNegX = SkyBoxImage.getSubimage(0, tileSize, tileSize, tileSize);
-         SkyBoxNegY = SkyBoxImage.getSubimage(tileSize, tileSize * 2, tileSize, tileSize);
-         SkyBoxNegZ = SkyBoxImage.getSubimage(tileSize, tileSize, tileSize, tileSize);
-         SkyBoxPosX = SkyBoxImage.getSubimage(tileSize * 2, tileSize, tileSize, tileSize);
-         SkyBoxPosY = SkyBoxImage.getSubimage(tileSize, 0, tileSize, tileSize);
-         SkyBoxPosZ = SkyBoxImage.getSubimage(tileSize * 3, tileSize, tileSize, tileSize);
-      }
+      SkyBoxNegX = SkyBoxImage.getSubimage(0, tileSize, tileSize, tileSize);
+      SkyBoxNegY = SkyBoxImage.getSubimage(tileSize, tileSize * 2, tileSize, tileSize);
+      SkyBoxNegZ = SkyBoxImage.getSubimage(tileSize, tileSize, tileSize, tileSize);
+      SkyBoxPosX = SkyBoxImage.getSubimage(tileSize * 2, tileSize, tileSize, tileSize);
+      SkyBoxPosY = SkyBoxImage.getSubimage(tileSize, 0, tileSize, tileSize);
+      SkyBoxPosZ = SkyBoxImage.getSubimage(tileSize * 3, tileSize, tileSize, tileSize);
+
    }
 
    @Override

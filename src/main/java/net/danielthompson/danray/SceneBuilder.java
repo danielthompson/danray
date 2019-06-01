@@ -555,8 +555,6 @@ public class SceneBuilder {
 
          Sphere rightShape = new Sphere(compositeTransforms, material1);
 
-
-
          inputTransforms = new Transform[]{
                Transform.translate(0, 0, 0),
                Transform.scale(15f),
@@ -574,7 +572,8 @@ public class SceneBuilder {
          material2.Texture = new ConstantTexture(Color.white);
       }
 
-      scene.Skybox = new RGBSkybox();
+      //scene.Skybox = new RGBSkybox();
+      scene.Skybox = new CubeMappedSkybox(Skyboxes.Load(Skyboxes.Desert1));
 
       return scene;
    }

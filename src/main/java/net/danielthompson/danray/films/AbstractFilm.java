@@ -76,7 +76,7 @@ public abstract class AbstractFilm {
       }
    }
 
-   protected float clamp(float var0, float var1, float var2) {
+   protected float clamp(final float var0, final float var1, final float var2) {
       return var1 < var0 ? var0 : (var1 > var2 ? var2 : var1);
    }
 
