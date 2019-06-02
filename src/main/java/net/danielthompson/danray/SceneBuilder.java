@@ -506,7 +506,7 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.x = x;
       settings.y = y;
-      settings.fov = 45f;
+      settings.fov = 50f;
 
       Transform[] inputTransforms = new Transform[]{
             Transform.translate(0, 0, 50),
@@ -518,12 +518,12 @@ public class SceneBuilder {
 
       Material material1 = new Material();
       material1.BxDFs.add(SpecularBTDF);
-      material1.IndexOfRefraction = 1.5f;
+      material1.IndexOfRefraction = 2f;
       material1.Weights.add(1.0f);
 
       Material material2 = new Material();
       material2.BxDFs.add(SpecularBTDF);
-      material2.IndexOfRefraction = 1.5f;
+      material2.IndexOfRefraction = 2f;
       material2.Weights.add(1.0f);
 
       CheckerboardTexture texture1 = new CheckerboardTexture();
@@ -542,14 +542,14 @@ public class SceneBuilder {
 
       {
          inputTransforms = new Transform[]{
-               Transform.translate(-0.5f, 0, 0),
+               Transform.translate(-0.01f, 0, 0),
          };
          compositeTransforms = Transform.composite(inputTransforms);
 
          Sphere leftShape = new Sphere(compositeTransforms, material1);
 
          inputTransforms = new Transform[]{
-               Transform.translate(0.5f, 0, 0),
+               Transform.translate(0.01f, 0, 0),
          };
          compositeTransforms = Transform.composite(inputTransforms);
 
@@ -558,7 +558,7 @@ public class SceneBuilder {
          inputTransforms = new Transform[]{
                Transform.translate(0, 0, 0),
                Transform.scale(15f),
-               Transform.rotateY(-45)
+               //Transform.rotateY(-45)
          };
          compositeTransforms = Transform.composite(inputTransforms);
 

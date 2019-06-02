@@ -5,6 +5,7 @@ import net.danielthompson.danray.shapes.Box;
 import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.structures.Point3;
+import net.danielthompson.danray.utility.GeometryCalculations;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -51,9 +52,9 @@ public class CubeMappedSkybox extends AbstractSkybox {
          return NaNColor;
       }
 
-      Ray r = new Ray(SkyBoxPoint, direction);
+      final Ray r = new Ray(SkyBoxPoint, direction);
 
-      Intersection state = Skybox.intersect(r);
+      final Intersection state = Skybox.intersect(r);
 
       Point3 p = state.location;
 
@@ -107,7 +108,7 @@ public class CubeMappedSkybox extends AbstractSkybox {
       u = (u == width) ? u - 1 : u;
       v = (v == height) ? v - 1 : v;
 
-      Color c = BoxFilterSkybox(texture, u, v);
+      Color c = triangleFilterSkybox(texture, u, v);
 
       SpectralPowerDistribution spd = new SpectralPowerDistribution(c);
 
@@ -120,17 +121,37 @@ public class CubeMappedSkybox extends AbstractSkybox {
       return c;
    }
 
-   private Color TriangleFilterSkybox(BufferedImage texture, float u, float v) {
-      int x, y;
-      float weight;
+   private Color triangleFilterSkybox(final BufferedImage texture, float u, float v) {
+      float r = 0, g = 0, b = 0;
 
-      // top left
+      final float uLeftDistance = u - (int)u;
+      final float uRightDistance = 1.0f - uLeftDistance;
+      final float vTopDistance = v - (int)v;
+      final float vBottomDistance = 1.0f - vTopDistance;
 
-      float squaredDistanceTopLeft =
-            x = (int)Math.floor(u + 0.5);
-      y = (int)Math.floor(v + 0.5);
+      Color leftTop = new Color(texture.getRGB((int)u, (int)v));
+      Color leftBottom = new Color(texture.getRGB((int)u, (int)v + 1));
+      Color rightTop = new Color(texture.getRGB((int)u + 1, (int)v));
+      Color rightBottom = new Color(texture.getRGB((int)u + 1, (int)v + 1));
 
+      r += leftTop.getRed() * Constants.OneOver255f * uRightDistance * vBottomDistance;
+      g += leftTop.getGreen() * Constants.OneOver255f * uRightDistance * vBottomDistance;
+      b += leftTop.getBlue() * Constants.OneOver255f * uRightDistance * vBottomDistance;
 
-      return null;
+      r += leftBottom.getRed() * Constants.OneOver255f * uRightDistance * vTopDistance;
+      g += leftBottom.getGreen() * Constants.OneOver255f * uRightDistance * vTopDistance;
+      b += leftBottom.getBlue() * Constants.OneOver255f * uRightDistance * vTopDistance;
+
+      r += rightTop.getRed() * Constants.OneOver255f * uLeftDistance * vBottomDistance;
+      g += rightTop.getGreen() * Constants.OneOver255f * uLeftDistance * vBottomDistance;
+      b += rightTop.getBlue() * Constants.OneOver255f * uLeftDistance * vBottomDistance;
+
+      r += rightBottom.getRed() * Constants.OneOver255f * uLeftDistance * vTopDistance;
+      g += rightBottom.getGreen() * Constants.OneOver255f * uLeftDistance * vTopDistance;
+      b += rightBottom.getBlue() * Constants.OneOver255f * uLeftDistance * vTopDistance;
+
+      Color c = new Color(r, g, b);
+
+      return c;
    }
 }
