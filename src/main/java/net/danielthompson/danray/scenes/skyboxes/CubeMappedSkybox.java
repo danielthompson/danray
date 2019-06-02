@@ -5,64 +5,63 @@ import net.danielthompson.danray.shapes.Box;
 import net.danielthompson.danray.states.Intersection;
 import net.danielthompson.danray.structures.*;
 import net.danielthompson.danray.structures.Point3;
-import net.danielthompson.danray.utility.GeometryCalculations;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class CubeMappedSkybox extends AbstractSkybox {
 
-   public SpectralPowerDistribution NaNColor = new SpectralPowerDistribution(Color.magenta);
+   private final SpectralPowerDistribution nanColor = new SpectralPowerDistribution(Color.magenta);
 
-   public BufferedImage SkyBoxImage;
+   private final BufferedImage negX;
+   private final BufferedImage negY;
+   private final BufferedImage negZ;
+   private final BufferedImage posX;
+   private final BufferedImage posY;
+   private final BufferedImage posZ;
 
-   public BufferedImage SkyBoxNegX;
-   public BufferedImage SkyBoxNegY;
-   public BufferedImage SkyBoxNegZ;
-   public BufferedImage SkyBoxPosX;
-   public BufferedImage SkyBoxPosY;
-   public BufferedImage SkyBoxPosZ;
+   private final Point3 center = new Point3(0.5f, 0.5f, 0.5f);
 
-   public Point3 SkyBoxPoint = new Point3(0.5f, 0.5f, 0.5f);
+   private final Box box;
 
-   public Box Skybox;
+   public CubeMappedSkybox(final BufferedImage image) {
+      box = new Box(Transform.identity, Transform.identity,null);
 
-   public CubeMappedSkybox(BufferedImage image) {
-      SkyBoxImage = image;
-      Skybox = new Box(Transform.identity, Transform.identity,null);
-
-      int width = SkyBoxImage.getWidth();
-      int height = SkyBoxImage.getHeight();
+      final int width = image.getWidth();
+      int height = image.getHeight();
 
       int tileSize = width / 4;
 
-      SkyBoxNegX = SkyBoxImage.getSubimage(0, tileSize, tileSize, tileSize);
-      SkyBoxNegY = SkyBoxImage.getSubimage(tileSize, tileSize * 2, tileSize, tileSize);
-      SkyBoxNegZ = SkyBoxImage.getSubimage(tileSize, tileSize, tileSize, tileSize);
-      SkyBoxPosX = SkyBoxImage.getSubimage(tileSize * 2, tileSize, tileSize, tileSize);
-      SkyBoxPosY = SkyBoxImage.getSubimage(tileSize, 0, tileSize, tileSize);
-      SkyBoxPosZ = SkyBoxImage.getSubimage(tileSize * 3, tileSize, tileSize, tileSize);
-
+      // assumes cubemap is tiled like
+      //    +Y
+      // -X -Z +X +Z
+      //    -Y
+      negX = image.getSubimage(0, tileSize, tileSize, tileSize);
+      negY = image.getSubimage(tileSize, tileSize * 2, tileSize, tileSize);
+      negZ = image.getSubimage(tileSize, tileSize, tileSize, tileSize);
+      posX = image.getSubimage(tileSize * 2, tileSize, tileSize, tileSize);
+      posY = image.getSubimage(tileSize, 0, tileSize, tileSize);
+      posZ = image.getSubimage(tileSize * 3, tileSize, tileSize, tileSize);
    }
 
    @Override
    public SpectralPowerDistribution getSkyBoxSPD(Vector3 direction) {
 
       if (Float.isNaN(direction.x)) {
-         return NaNColor;
+         return nanColor;
       }
 
-      final Ray r = new Ray(SkyBoxPoint, direction);
+      final Ray r = new Ray(center, direction);
 
-      final Intersection state = Skybox.intersect(r);
+      final Intersection state = box.intersect(r);
 
       Point3 p = state.location;
 
       float u = 0.0f;
       float v = 0.0f;
 
-      float width = SkyBoxNegX.getWidth();
-      float height = SkyBoxNegX.getHeight();
+      float width = negX.getWidth();
+      float height = negX.getHeight();
 
       BufferedImage texture = null;
 
@@ -70,58 +69,74 @@ public class CubeMappedSkybox extends AbstractSkybox {
 
       // left wall
 
-      texture = Constants.WithinEpsilon(p.x, 0) ? SkyBoxNegX : texture;
+      texture = Constants.WithinEpsilon(p.x, 0) ? negX : texture;
       u = Constants.WithinEpsilon(p.x, 0) ? width - width * p.z : u;
       v = Constants.WithinEpsilon(p.x, 0) ? height - (height * p.y) : v;
 
       // back wall
 
-      texture = Constants.WithinEpsilon(p.z, 0) ? SkyBoxNegZ : texture;
+      texture = Constants.WithinEpsilon(p.z, 0) ? negZ : texture;
       u = Constants.WithinEpsilon(p.z, 0) ? width * p.x : u;
       v = Constants.WithinEpsilon(p.z, 0) ? height - (height * p.y) : v;
 //      y = Constants.WithinEpsilon(p.z, 0) ? .33f * height * (2 - p.y) : y;
 
       // right wall
 
-      texture = Constants.WithinEpsilon(p.x, 1) ? SkyBoxPosX : texture;
+      texture = Constants.WithinEpsilon(p.x, 1) ? posX : texture;
       u = Constants.WithinEpsilon(p.x, 1) ? width * p.z : u;
       v = Constants.WithinEpsilon(p.x, 1) ? height - (height * p.y) : v;
 
       // front wall
 
-      texture = Constants.WithinEpsilon(p.z, 1) ? SkyBoxPosZ : texture;
+      texture = Constants.WithinEpsilon(p.z, 1) ? posZ : texture;
       u = Constants.WithinEpsilon(p.z, 1) ? (width - width * p.x) : u;
       v = Constants.WithinEpsilon(p.z, 1) ? height - (height * p.y) : v;
 
       // top wall
 
-      texture = Constants.WithinEpsilon(p.y, 1) ? SkyBoxPosY : texture;
+      texture = Constants.WithinEpsilon(p.y, 1) ? posY : texture;
       u = Constants.WithinEpsilon(p.y, 1) ? width * p.x : u;
       v = Constants.WithinEpsilon(p.y, 1) ? height - height * p.z : v;
 
       // bottom wall
 
-      texture = Constants.WithinEpsilon(p.y, 0) ? SkyBoxNegY : texture;
+      texture = Constants.WithinEpsilon(p.y, 0) ? negY : texture;
       u = Constants.WithinEpsilon(p.y, 0) ? width * p.x : u;
       v = Constants.WithinEpsilon(p.y, 0) ? height * p.z : v;
 
       u = (u == width) ? u - 1 : u;
       v = (v == height) ? v - 1 : v;
 
-      Color c = triangleFilterSkybox(texture, u, v);
+      final Color c = lerp2(texture, u, v);
 
-      SpectralPowerDistribution spd = new SpectralPowerDistribution(c);
+      final SpectralPowerDistribution spd = new SpectralPowerDistribution(c);
 
       return spd;
    }
 
-   private Color BoxFilterSkybox(BufferedImage texture, float u, float v) {
+   /**
+    * Returns the color of the top-left texel for (u, v).
+    * @param texture
+    * @param u
+    * @param v
+    * @return
+    */
+   private Color nearestNeighbor(BufferedImage texture, float u, float v) {
       int rgb = texture.getRGB((int)u, (int)v);
       Color c = new Color(rgb);
       return c;
    }
 
-   private Color triangleFilterSkybox(final BufferedImage texture, float u, float v) {
+   /**
+    * Returns the average of the 4 texel values nearest to (u, v), weighted by distance
+    * @param texture
+    * @param u
+    * @param v
+    * @return
+    */
+   private Color lerp2(final BufferedImage texture, float u, float v) {
+      // TODO 1. needs to properly handle u/v values on texture boundaries
+      // TODO 2. needs to properly handle u/v exactly on a texel (i.e. (1.0f, 1.0f) should not lerp)
       float r = 0, g = 0, b = 0;
 
       final float uLeftDistance = u - (int)u;

@@ -880,7 +880,7 @@ public class SceneBuilder {
 
       scene.Skybox = new ColorSkybox(Color.WHITE);
 //      scene.Skybox = new SteppedGradientSkybox(colors, locations);
-//      scene.SkyBoxImage = Skyboxes.Load(Skyboxes.Desert1);
+//      scene.image = Skyboxes.Load(Skyboxes.Desert1);
 
       return scene;
    }
