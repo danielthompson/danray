@@ -46,7 +46,7 @@ public abstract class AbstractScene {
          return new SpectralPowerDistribution(Color.BLACK);
       }
       else {
-         return Skybox.getSkyBoxSPD(v);
+         return Skybox.getSPD(v);
       }
    }
 

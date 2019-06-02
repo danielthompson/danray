@@ -36,7 +36,7 @@ public class IterativeMISPathTraceIntegrator extends AbstractIntegrator {
          Intersection closestStateToRay = scene.getNearestShape(ray, x, y);
          if (closestStateToRay == null || !closestStateToRay.hits) {
 
-            spds[bounces].add(scene.Skybox.getSkyBoxSPD(ray.Direction));
+            spds[bounces].add(scene.Skybox.getSPD(ray.Direction));
             break;
          }
 

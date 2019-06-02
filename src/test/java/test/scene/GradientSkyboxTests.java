@@ -14,6 +14,6 @@ public class GradientSkyboxTests {
 
       Vector3 v = new Vector3(0, -1, 0);
 
-      SpectralPowerDistribution spd = skybox.getSkyBoxSPD(v);
+      SpectralPowerDistribution spd = skybox.getSPD(v);
    }
 }

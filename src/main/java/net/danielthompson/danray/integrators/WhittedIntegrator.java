@@ -43,7 +43,7 @@ public class WhittedIntegrator extends AbstractIntegrator {
 
          if (closestStateToRay != null)
             sample.KDHeatCount = closestStateToRay.KDHeatCount;
-         sample.SpectralPowerDistribution = scene.Skybox.getSkyBoxSPD(ray.Direction);
+         sample.SpectralPowerDistribution = scene.Skybox.getSPD(ray.Direction);
          return sample;
       }
 

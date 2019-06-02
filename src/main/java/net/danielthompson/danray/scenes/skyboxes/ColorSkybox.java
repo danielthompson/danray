@@ -18,7 +18,7 @@ public class ColorSkybox extends AbstractSkybox {
    }
 
    @Override
-   public SpectralPowerDistribution getSkyBoxSPD(Vector3 direction) {
+   public SpectralPowerDistribution getSPD(Vector3 direction) {
       return _spd;
    }
 }

@@ -5,7 +5,7 @@ import net.danielthompson.danray.structures.Vector3;
 
 public class RGBSkybox extends AbstractSkybox {
    @Override
-   public SpectralPowerDistribution getSkyBoxSPD(Vector3 direction) {
+   public SpectralPowerDistribution getSPD(Vector3 direction) {
 
       float factor = 1.0f;
 

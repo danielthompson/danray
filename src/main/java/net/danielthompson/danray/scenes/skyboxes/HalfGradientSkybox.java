@@ -23,7 +23,7 @@ public class HalfGradientSkybox extends AbstractSkybox {
    }
 
    @Override
-   public SpectralPowerDistribution getSkyBoxSPD(Vector3 direction) {
+   public SpectralPowerDistribution getSPD(Vector3 direction) {
       // uses mathematics convention:
       // r = radial distance (if we assume direction is normalized, which we do, this is 1)
       // θ (theta) = azimuthal angle - angle in x-z plane
