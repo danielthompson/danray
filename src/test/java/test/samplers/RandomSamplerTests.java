@@ -2,7 +2,6 @@ package test.samplers;
 
 import net.danielthompson.danray.samplers.AbstractSampler;
 import net.danielthompson.danray.samplers.RandomSampler;
-import net.danielthompson.danray.samplers.StratifiedRandomSampler;
 import net.danielthompson.danray.structures.Point2;
 import org.testng.Assert;
 import org.testng.annotations.Test;
