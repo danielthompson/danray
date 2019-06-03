@@ -55,7 +55,7 @@ public class SquareApertureTests {
       Frame frame = new Frame("DanRay: Square aperture");
       frame.add("Center", canvas);
       frame.setSize(new Dimension(X, Y + 22));
-      frame.setVisible(true);
+      //frame.setVisible(true);
 
       int max = 0;
 
@@ -82,12 +82,12 @@ public class SquareApertureTests {
          }
       }
 
-      try {
-         ImageIO.write(image, "png", new File("aperture.png"));
-      }
-      catch (IOException e) {
-         System.out.println("Couldn't save aperture picture");
-      }
+//      try {
+//         ImageIO.write(image, "png", new File("aperture.png"));
+//      }
+//      catch (IOException e) {
+//         System.out.println("Couldn't save aperture picture");
+//      }
 
    }
 }
