@@ -7,6 +7,7 @@ import org.apache.commons.math3.util.FastMath;
 import java.security.SecureRandom;
 import java.util.Random;
 import java.util.SplittableRandom;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 /**
@@ -28,6 +29,7 @@ public class GeometryCalculations {
 
    public static final Point3 randomPointOnSphere()
    {
+
       float x, y, z, d2;
       Random random = secureRandom.get();
 

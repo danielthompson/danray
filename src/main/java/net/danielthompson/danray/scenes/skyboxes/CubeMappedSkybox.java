@@ -1,6 +1,5 @@
 package net.danielthompson.danray.scenes.skyboxes;
 
-import net.danielthompson.danray.Logger;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
 import net.danielthompson.danray.shapes.Box;
 import net.danielthompson.danray.states.Intersection;
@@ -28,8 +27,8 @@ public class CubeMappedSkybox extends AbstractSkybox {
    private final int tileHeight;
    private final int tileWidth;
 
-   public CubeMappedSkybox(final BufferedImage image) {
-      box = new Box(Transform.identity, Transform.identity,null);
+   public CubeMappedSkybox(final BufferedImage image, Transform[] transforms) {
+      box = new Box(transforms,null);
 
       tileWidth = image.getWidth() / 4;
       tileHeight = image.getHeight() / 3;
@@ -46,9 +45,12 @@ public class CubeMappedSkybox extends AbstractSkybox {
       posZ = image.getSubimage(tileWidth * 3, tileWidth, tileWidth, tileWidth);
    }
 
+   public CubeMappedSkybox(final BufferedImage image) {
+      this(image, new Transform[] { Transform.identity, Transform.identity});
+   }
+
    @Override
    public SpectralPowerDistribution getSPD(final Vector3 direction) {
-
       if (Float.isNaN(direction.x)) {
          return nanColor;
       }
@@ -58,14 +60,12 @@ public class CubeMappedSkybox extends AbstractSkybox {
       box.hits(r);
       final Intersection state = box.intersect(r);
 
-      final Point3 p = state.location;
+      final Point3 p = box.WorldToObject.apply(state.location);
 
       float u = 0.0f;
       float v = 0.0f;
 
       BufferedImage texture = null;
-
-      //float tileSize = width * .25f;
 
       // left wall
 
@@ -138,15 +138,18 @@ public class CubeMappedSkybox extends AbstractSkybox {
       // TODO 2. needs to properly handle u/v exactly on a texel (i.e. (1.0f, 1.0f) should not lerp)
       float r = 0, g = 0, b = 0;
 
-      final float uLeftDistance = u - (int)u;
+      int uFloor = (int)u;
+      int vFloor = (int)v;
+
+      final float uLeftDistance = u - uFloor;
       final float uRightDistance = 1.0f - uLeftDistance;
-      final float vTopDistance = v - (int)v;
+      final float vTopDistance = v - vFloor;
       final float vBottomDistance = 1.0f - vTopDistance;
 
-      final Color leftTop = new Color(texture.getRGB((int)u, (int)v));
-      final Color leftBottom = new Color(texture.getRGB((int)u, (int)v + 1));
-      final Color rightTop = new Color(texture.getRGB((int)u + 1, (int)v));
-      final Color rightBottom = new Color(texture.getRGB((int)u + 1, (int)v + 1));
+      final Color leftTop = new Color(texture.getRGB(uFloor, vFloor));
+      final Color leftBottom = new Color(texture.getRGB(uFloor, vFloor + 1));
+      final Color rightTop = new Color(texture.getRGB(uFloor + 1, vFloor));
+      final Color rightBottom = new Color(texture.getRGB(uFloor + 1, vFloor + 1));
 
       float factor = Constants.OneOver255f * uRightDistance * vBottomDistance;
 
@@ -186,7 +189,7 @@ public class CubeMappedSkybox extends AbstractSkybox {
          b = 1.0f;
       }
 
-      final Color c = new Color(r, g, b);;
+      final Color c = new Color(r, g, b);
 
       return c;
    }

@@ -572,9 +572,15 @@ public class SceneBuilder {
          material2.Texture = new ConstantTexture(Color.white);
       }
 
-      //scene.Skybox = new RGBSkybox();
-      scene.Skybox = new CubeMappedSkybox(Skyboxes.Load(Skyboxes.Desert1));
+      { // skybox
 
+         inputTransforms = new Transform[]{
+               Transform.rotateY(45),
+         };
+         compositeTransforms = Transform.composite(inputTransforms);
+         scene.Skybox = new CubeMappedSkybox(Skyboxes.Load(Skyboxes.Desert1), compositeTransforms);
+
+      }
       return scene;
    }
 

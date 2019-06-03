@@ -9,7 +9,7 @@ public abstract class AbstractSampler {
 
    public int SamplesPerPixel;
 
-   public AbstractSampler(int samplesPerPixel) {
+   public AbstractSampler(final int samplesPerPixel) {
       SamplesPerPixel = samplesPerPixel;
    }
 

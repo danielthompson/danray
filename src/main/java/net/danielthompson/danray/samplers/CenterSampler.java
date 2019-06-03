@@ -7,16 +7,16 @@ import net.danielthompson.danray.structures.Point2;
  */
 public class CenterSampler extends AbstractSampler {
 
-   public CenterSampler(int samplesPerPixel) {
+   public CenterSampler(final int samplesPerPixel) {
       super(samplesPerPixel);
    }
 
    @Override
-   public Point2[] GetSamples(int x, int y, int n) {
-      Point2[] pixels = new Point2[n];
+   public Point2[] GetSamples(final int x, final int y, final int n) {
+      final Point2[] pixels = new Point2[n];
 
-      float xf = x + 0.5f;
-      float yf = y + 0.5f;
+      final float xf = x + 0.5f;
+      final float yf = y + 0.5f;
 
       for (int i = 0; i < n; i++) {
          pixels[i] = new Point2(xf, yf);

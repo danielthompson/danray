@@ -10,16 +10,15 @@ import java.util.SplittableRandom;
  */
 public class RandomSampler extends AbstractSampler {
 
-   public RandomSampler(int samplesPerPixel) {
+   public RandomSampler(final int samplesPerPixel) {
       super(samplesPerPixel);
    }
 
    @Override
-   public Point2[] GetSamples(int x, int y, int n) {
-      Point2[] pixels = new Point2[n];
+   public Point2[] GetSamples(final int x, final int y, final int n) {
+      final Point2[] pixels = new Point2[n];
 
-      SplittableRandom random = GeometryCalculations.splitRandom.get();
-
+      final SplittableRandom random = GeometryCalculations.splitRandom.get();
       for (int i = 0; i < n; i++) {
          pixels[i] = new Point2((float) (x + random.nextDouble()), (float) (y + random.nextDouble()));
       }
