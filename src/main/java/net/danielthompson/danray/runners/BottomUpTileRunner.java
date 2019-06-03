@@ -28,32 +28,12 @@ public class BottomUpTileRunner extends AbstractTileRunner {
 
    @Override
    public void run() {
-
-      boolean light = true;
-      boolean dark = true;
-
       try {
 
          while (true) {
             Tile tile = Tiles.pop();
-
-            //Logger.Log("Popped tile at " + tile.minx + " / " + tile.miny );
-
             for (int y = tile.maxy - 1; y >= tile.miny; y--) {
                for (int x = tile.minx; x < tile.maxx; x++) {
-//                  if (x == 119) {
-////                     if (y == 315 && light) {
-////                        Logger.Log("bright");
-////                        light = false;
-////                        trace(x, y);
-////                     }
-//                     if (y == 311 && dark) {
-//                        Logger.Log("dark");
-//                        dark = false;
-//                        trace(x, y);
-//                     }
-//
-//                  }
                   trace(x, y);
                }
             }

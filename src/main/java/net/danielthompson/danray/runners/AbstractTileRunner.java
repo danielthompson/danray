@@ -43,13 +43,17 @@ public abstract class AbstractTileRunner extends AbstractRunner {
 
       for (int yTile = 0; yTile < _numYTiles; yTile++) {
          boolean lastYTile = (yTile == _numYTiles - 1);
+         final int miny = yTile * _yTileWidth;
          for (int xTile = 0; xTile < _numXTiles; xTile++) {
-            boolean lastXTile = (xTile == _numXTiles - 1);
-            Tile tile = new Tile();
-            tile.minx = xTile * _xTileWidth;
-            tile.maxx = tile.minx + (lastXTile ? _xLastTileWidth : _xTileWidth);
-            tile.miny = yTile * _yTileWidth;
-            tile.maxy = tile.miny + (lastYTile ? _yLastTileWidth : _yTileWidth);
+            final boolean lastXTile = (xTile == _numXTiles - 1);
+            final int minx = xTile * _xTileWidth;
+            final Tile tile = new Tile(
+                  minx,
+                  miny,
+                  minx + (lastXTile ? _xLastTileWidth : _xTileWidth),
+                  miny + (lastYTile ? _yLastTileWidth : _yTileWidth)
+            );
+
             Tiles.push(tile);
          }
       }
