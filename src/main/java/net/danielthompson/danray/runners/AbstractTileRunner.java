@@ -59,21 +59,21 @@ public abstract class AbstractTileRunner extends AbstractRunner {
       }
    }
 
-   protected int getXLastTileWidth() {
+   private int getXLastTileWidth() {
       int n = _x % _xTileWidth;
       if (n == 0)
          n = _xTileWidth;
       return n;
    }
 
-   protected int getYLastTileWidth() {
+   private int getYLastTileWidth() {
       int n = _y % _yTileWidth;
       if (n == 0)
          n = _yTileWidth;
       return n;
    }
 
-   protected int getXTiles() {
+   private int getXTiles() {
       if (_x % _xTileWidth > 0)
          return (_x / _xTileWidth) + 1;
 
@@ -81,7 +81,7 @@ public abstract class AbstractTileRunner extends AbstractRunner {
          return (_x / _xTileWidth);
    }
 
-   protected int getYTiles() {
+   private int getYTiles() {
       if (_y % _yTileWidth > 0)
          return (_y / _yTileWidth) + 1;
 

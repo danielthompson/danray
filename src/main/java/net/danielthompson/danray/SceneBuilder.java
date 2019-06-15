@@ -13,7 +13,6 @@ import net.danielthompson.danray.scenes.AbstractScene;
 import net.danielthompson.danray.scenes.NaiveScene;
 import net.danielthompson.danray.scenes.skyboxes.ColorSkybox;
 import net.danielthompson.danray.scenes.skyboxes.CubeMappedSkybox;
-import net.danielthompson.danray.scenes.skyboxes.RGBSkybox;
 import net.danielthompson.danray.shading.Material;
 import net.danielthompson.danray.shading.ReflectanceSpectrum;
 import net.danielthompson.danray.shading.SpectralPowerDistribution;
@@ -169,6 +168,9 @@ public class SceneBuilder {
 
    public static class Skyboxes {
       public static String Desert2 = "images/cubemap/desert 2.png";
+      public static String PrimaryColors4x3 = "images/cubemap/primarycolors-4x3.png";
+      public static String PrimaryColors8x6 = "images/cubemap/primarycolors-8x6.png";
+      public static String PrimaryColors12x9 = "images/cubemap/primarycolors-12x9.png";
       public static String Desert2Captions = "images/cubemap/desert 2 - captions.png";
       public static String Garden = "images/cubemap/garden.png";
       public static String Desert1 = "images/cubemap/desert1.jpg";
@@ -506,10 +508,14 @@ public class SceneBuilder {
       CameraSettings settings = new CameraSettings();
       settings.x = x;
       settings.y = y;
-      settings.fov = 50f;
+      settings.fov = 100f;
 
       Transform[] inputTransforms = new Transform[]{
             Transform.translate(0, 0, 50),
+//            Transform.rotateX(-45),
+            //Transform.rotateY(-45),
+            Transform.identity
+
       };
       Transform[] compositeTransforms = Transform.composite(inputTransforms);
       Camera camera = new PerspectiveCamera(settings, compositeTransforms[0]);
@@ -518,12 +524,12 @@ public class SceneBuilder {
 
       Material material1 = new Material();
       material1.BxDFs.add(SpecularBTDF);
-      material1.IndexOfRefraction = 2f;
+      material1.IndexOfRefraction = 1.5f;
       material1.Weights.add(1.0f);
 
       Material material2 = new Material();
       material2.BxDFs.add(SpecularBTDF);
-      material2.IndexOfRefraction = 2f;
+      material2.IndexOfRefraction = 1.5f;
       material2.Weights.add(1.0f);
 
       CheckerboardTexture texture1 = new CheckerboardTexture();
@@ -575,10 +581,12 @@ public class SceneBuilder {
       { // skybox
 
          inputTransforms = new Transform[]{
-               Transform.rotateY(45),
+               //Transform.rotateX(45),
+               //Transform.rotateY(45),
+               Transform.identity
          };
          compositeTransforms = Transform.composite(inputTransforms);
-         scene.Skybox = new CubeMappedSkybox(Skyboxes.Load(Skyboxes.Desert1), compositeTransforms);
+         scene.Skybox = new CubeMappedSkybox(Skyboxes.Load(Skyboxes.Desert1), compositeTransforms, 1);
 
       }
       return scene;
